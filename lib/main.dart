@@ -46,7 +46,7 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Image.asset("assets/images/enyecontrols.png", height: 30),
+        title: Image.asset("images/logo/enyecontrols.png", height: 30),
         actions: [
           IconButton(
             icon: const Icon(Icons.add_shopping_cart),
