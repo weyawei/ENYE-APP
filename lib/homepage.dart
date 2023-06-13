@@ -36,7 +36,7 @@ class _HomePageState extends State<HomePage> {
             gap: 8,
             tabs: const [
               GButton(icon: Icons.home, text: 'Home',),
-              GButton(icon: Icons.settings, text: 'Systems1',),
+              GButton(icon: Icons.settings, text: 'Systems',),
               GButton(icon: Icons.hvac, text: 'Projects',),
               GButton(icon: Icons.contacts, text: 'About',),
               GButton(icon: Icons.payment
