@@ -15,7 +15,7 @@ class _HomePageState extends State<HomePage> {
       backgroundColor: Colors.orange.shade50,
 
       appBar: AppBar(
-        title: Image.asset("assets/images/enyecontrols.png", height: 30),
+        title: Image.asset("enyecontrols.png", height: 30),
         backgroundColor: Colors.orange[600],
         leading: Container(
           padding: EdgeInsets.all(10),
