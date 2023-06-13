@@ -162,6 +162,7 @@ class _HomeState extends State<Home> {
                   autoPlay: true,
                   aspectRatio: 2.0,
                   enlargeCenterPage: true,
+                  height: 300,
                 ),
                   items: ['images/images_2/pic1.jpg',
                     'images/images_2/pic2.jpg',
@@ -178,11 +179,13 @@ class _HomeState extends State<Home> {
                   builder : (BuildContext context){
                     return Container(
                     width: MediaQuery.of(context).size.width,
+                    height: 200,
                     margin: const EdgeInsets.symmetric(horizontal: 5.0),
 
                       child: Column(
                         children: [
-                          Image.asset(i),
+                          Image.asset(i, height: 200,),
+
                           const SizedBox(height: 10,),
                           if(i=='images/images_2/pic1.jpg')
                              Text(projects[0], style: const TextStyle(fontWeight: FontWeight.normal),),
