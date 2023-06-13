@@ -12,7 +12,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
         title: 'Enye App',
         themeMode: ThemeMode.system,
         home: Home()
@@ -22,9 +22,14 @@ class MyApp extends StatelessWidget {
 }
 
 
-class Home extends StatelessWidget {
-   Home({super.key});
+class Home extends StatefulWidget {
+   const Home({super.key});
 
+  @override
+  State<Home> createState() => _HomeState();
+}
+
+class _HomeState extends State<Home> {
   var projects = [' Phrases',
     'The ENYE Phrases',
     'The ENYE Water By-pass system',
@@ -41,7 +46,7 @@ class Home extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Home"),
+        title: const Text("Home Page"),
         actions: [
           IconButton(
             icon: const Icon(Icons.add_shopping_cart),
