@@ -15,7 +15,6 @@ class ContactsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return const Scaffold(
       appBar: CustomAppBar(title: 'Contact Us',),
-      bottomNavigationBar: CustomNavBar(),
     );
   }
 }

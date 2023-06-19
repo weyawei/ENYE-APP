@@ -15,7 +15,6 @@ class ProjectsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return const Scaffold(
       appBar: CustomAppBar(title: 'Projects'),
-      bottomNavigationBar: CustomNavBar(),
     );
   }
 }
