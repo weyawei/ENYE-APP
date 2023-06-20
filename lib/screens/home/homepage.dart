@@ -3,6 +3,8 @@ import 'package:enye_app/widget/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 
+import '../../widget/custom_drawer.dart';
+
 class HomePage extends StatelessWidget {
   static const String routeName = '/home';
 
@@ -16,7 +18,8 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(title: 'E N Y E C O N T R O L S',),
+      appBar: CustomAppBar(title: '', imagePath: 'assets/logo/enyecontrols.png',),
+      drawer: CustomDrawer(),
       body: Container(
         child: TextButton(
           onPressed: (){

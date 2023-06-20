@@ -36,26 +36,26 @@ class CustomNavBar extends StatelessWidget {
         PersistentBottomNavBarItem(
           icon: Icon(Dashboardicon.home_nav),
           title: ("Home"),
-          activeColorPrimary: Colors.deepOrange,
-          inactiveColorPrimary: Colors.deepOrange[100],
+          activeColorPrimary: Colors.white,
+          inactiveColorPrimary: Colors.deepOrange,
         ),
         PersistentBottomNavBarItem(
           icon: Icon(Dashboardicon.systems_nav),
           title: ("Systems"),
-          activeColorPrimary: Colors.deepOrange,
-          inactiveColorPrimary: Colors.deepOrange[100],
+          activeColorPrimary: Colors.white,
+          inactiveColorPrimary: Colors.deepOrange,
         ),
         PersistentBottomNavBarItem(
           icon: Icon(Dashboardicon.projects_nav),
           title: ("Projects"),
-          activeColorPrimary: Colors.deepOrange,
-          inactiveColorPrimary: Colors.deepOrange[100],
+          activeColorPrimary: Colors.white,
+          inactiveColorPrimary: Colors.deepOrange,
         ),
         PersistentBottomNavBarItem(
           icon: Icon(Dashboardicon.contact_us_nav),
           title: ("Contacts"),
-          activeColorPrimary: Colors.deepOrange,
-          inactiveColorPrimary: Colors.deepOrange[100],
+          activeColorPrimary: Colors.white,
+          inactiveColorPrimary: Colors.deepOrange,
         ),
       ];
     }
@@ -70,22 +70,21 @@ class CustomNavBar extends StatelessWidget {
       screens: _buildScreens(),
       items: _navBarsItems(),
       confineInSafeArea: true,
-      backgroundColor: Colors.white, // Default is Colors.white.
+      backgroundColor: Colors.black54, // Default is Colors.white.
       handleAndroidBackButtonPress: true, // Default is true.
       resizeToAvoidBottomInset: true, // This needs to be true if you want to move up the screen when keyboard appears. Default is true.
       stateManagement: true, // Default is true.
       hideNavigationBarWhenKeyboardShows: true, // Recommended to set 'resizeToAvoidBottomInset' as true while using this argument. Default is true.
-      decoration: NavBarDecoration(
-        borderRadius: BorderRadius.circular(10.0),
+      decoration: const NavBarDecoration(
         colorBehindNavBar: Colors.white,
       ),
       popAllScreensOnTapOfSelectedTab: true,
       popActionScreens: PopActionScreensType.all,
-      itemAnimationProperties: ItemAnimationProperties( // Navigation Bar's items animation properties.
+      itemAnimationProperties: const ItemAnimationProperties( // Navigation Bar's items animation properties.
         duration: Duration(milliseconds: 200),
         curve: Curves.ease,
       ),
-      screenTransitionAnimation: ScreenTransitionAnimation( // Screen transition animation on change of selected tab.
+      screenTransitionAnimation: const ScreenTransitionAnimation( // Screen transition animation on change of selected tab.
         animateTabTransition: true,
         curve: Curves.ease,
         duration: Duration(milliseconds: 200),
