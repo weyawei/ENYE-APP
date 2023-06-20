@@ -11,7 +11,7 @@ class projCategories {
 }
 
 final List<projCategories> projCategoriesList = [
-  projCategories(category: 'ALL', images: 'assets/icons/proj_buildings.png', title: 'BUILDINGS'),
+  projCategories(category: 'ALL', images: 'assets/icons/select-all.png', title: 'ALL'),
   projCategories(category: '1', images: 'assets/icons/proj_buildings.png', title: 'BUILDINGS'),
   projCategories(category: '2', images: 'assets/icons/proj_hospital.png', title: 'HOSPITALS'),
   projCategories(category: '3', images: 'assets/icons/proj_condo.png', title: 'CONDOMINIUM'),
