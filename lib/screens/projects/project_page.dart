@@ -19,7 +19,7 @@ class ProjectsPage extends StatefulWidget {
 }
 
 class _ProjectsPageState extends State<ProjectsPage> {
-  String selectedCategory = '1';
+  String selectedCategory = 'ALL';
 
   List<Projects> filteredProjects = [];
 
@@ -164,7 +164,7 @@ class _ProjectsPageState extends State<ProjectsPage> {
   }
 
   void filterProjects() {
-    if (selectedCategory == '1') {
+    if (selectedCategory == 'ALL') {
       filteredProjects = projectList;
     } else {
       filteredProjects =
