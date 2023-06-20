@@ -63,6 +63,7 @@ class _ProjectsPageState extends State<ProjectsPage> {
                         icon: Image.asset("${projCategoriesList[index].images}", color: Colors.deepOrange.shade400, height: 50, width: 50,), // Replace with your desired icon
                         label: Text("${projCategoriesList[index].title}"),
                       );
+
                       /*Container(
                       decoration: BoxDecoration(
                         border: Border(
