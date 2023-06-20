@@ -1,7 +1,10 @@
 import 'package:enye_app/widget/widgets.dart';
 import 'package:flutter/material.dart';
 
-class ProjectsPage extends StatelessWidget {
+import 'categ_projects.dart';
+import 'list_projects.dart';
+
+class ProjectsPage extends StatefulWidget {
   static const String routeName = '/projects';
 
   static Route route(){
@@ -11,30 +14,21 @@ class ProjectsPage extends StatelessWidget {
     );
   }
 
-  final List <Map<String, dynamic>> gridProjCategories = [
-    {"proCateg": "1", "title": "BUILDINGS", "images": "assets/icons/proj_buildings.png"},
-    {"proCateg": "2", "title": "HOSPITALS", "images": "assets/icons/proj_hospital.png"},
-    {"proCateg": "3", "title": "CONDOMINIUM", "images": "assets/icons/proj_condo.png"},
-    {"proCateg": "4", "title": "HOTEL & RESORT", "images": "assets/icons/proj_resort.png"},
-    {"proCateg": "5", "title": "INDUSTRIES", "images": "assets/icons/proj_airport.png"},
-    {"proCateg": "6", "title": "MALLS", "images": "assets/icons/proj_mall.png"},
-    {"proCateg": "7", "title": "SCHOOL & LEARNING CENTERS", "images": "assets/icons/proj_school.png"}
-  ];
+  @override
+  State<ProjectsPage> createState() => _ProjectsPageState();
+}
 
-  List <Map<String, dynamic>> gridProjects = [
-    {"title": "1 Nito Tower", "images": "https://enyecontrols.com/ec_cpanel/images/projects/1622619484.jpg", "proCateg": "1"},
-    {"title": "8912 Aseana", "images": "https://enyecontrols.com/ec_cpanel/images/projects/1622620662.jpg", "proCateg": "1"},
-    {"title": "Alveo Financial Tower", "images": "https://enyecontrols.com/ec_cpanel/images/projects/1622620397.png", "proCateg": "1"},
-    {"title": "Alveo High Park", "images": "https://enyecontrols.com/ec_cpanel/images/projects/1622620529.jpg", "proCateg": "1"},
-    {"title": "Ayala Land Vermosa BLDG.", "images": "https://enyecontrols.com/ec_cpanel/images/projects/1622687669.jpg", "proCateg": "1"},
-    {"title": "Ayala Triangle Gardens", "images": "https://enyecontrols.com/ec_cpanel/images/projects/1622620781.jpg", "proCateg": "1"},
-    {"title": "BA Lepanto Building", "images": "https://enyecontrols.com/ec_cpanel/images/projects/1622621124.jpg", "proCateg": "1"},
-    {"title": "BDO Tower", "images": "https://enyecontrols.com/ec_cpanel/images/projects/1622621376.jpg", "proCateg": "1"}
-  ];
+class _ProjectsPageState extends State<ProjectsPage> {
+  String selectedCategory = '1';
 
-  List <Map<String, dynamic>> filteredProjects = [];
+  List<Projects> filteredProjects = [];
 
-  
+  void initState() {
+    super.initState();
+    // Initially, show all products
+    filteredProjects = projectList;
+  }
+
   @override
   Widget build(BuildContext context) {
 
@@ -56,9 +50,20 @@ class ProjectsPage extends StatelessWidget {
                     crossAxisCount: 1,
                     mainAxisExtent: 115,
                   ),
-                  itemCount: gridProjCategories.length,
+                  itemCount: projCategoriesList.length,
                   itemBuilder: (context, index){
-                    return Container(
+                    return
+                      TextButton.icon(
+                        onPressed: () {
+                          setState(() {
+                            selectedCategory = projCategoriesList[index].category;
+                            filterProjects();
+                          });
+                        },
+                        icon: Image.asset("${projCategoriesList[index].images}", color: Colors.deepOrange.shade400, height: 50, width: 50,), // Replace with your desired icon
+                        label: Text("${projCategoriesList[index].title}"),
+                      );
+                      /*Container(
                       decoration: BoxDecoration(
                         border: Border(
                           right: BorderSide(color: Colors.deepOrange.shade100, width: 1.0,),
@@ -78,12 +83,14 @@ class ProjectsPage extends StatelessWidget {
                                   maxLines: 1,
                                   overflow: TextOverflow.ellipsis,
                                 ),
-                                onPressed: (){},
+                                onPressed: (){
+                                  filteredProjects;
+                                },
                             ),
                           )
                         ],
                       )
-                    );
+                    );*/
                   },
                 ),
               ),
@@ -99,9 +106,8 @@ class ProjectsPage extends StatelessWidget {
                   mainAxisSpacing: 12.0,
                   mainAxisExtent: 270,
                 ),
-                itemCount: gridProjects.length,
+                itemCount: filteredProjects.length,
                 itemBuilder: (context, index){
-                  final projects = gridProjects.elementAt(index)['proCateg'];
 
                   return Container(
                     decoration: BoxDecoration(
@@ -114,7 +120,7 @@ class ProjectsPage extends StatelessWidget {
                             child: Container(
                               height: 270,
                               decoration: BoxDecoration(
-                                image: DecorationImage(image: NetworkImage("${gridProjects.elementAt(index)['images']}"), fit: BoxFit.cover),
+                                image: DecorationImage(image: NetworkImage("${filteredProjects[index].images}"), fit: BoxFit.cover),
                               ),
 
                               child: Container(
@@ -137,7 +143,7 @@ class ProjectsPage extends StatelessWidget {
                                       ),
                                     ),
                                     child: Text(
-                                      "${gridProjects.elementAt(index)['title']}",
+                                      "${filteredProjects[index].title}",
                                       style: TextStyle(fontSize: 16.0, color: Colors.white, fontWeight: FontWeight.bold),
                                     ),
                                   ),
@@ -155,5 +161,14 @@ class ProjectsPage extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  void filterProjects() {
+    if (selectedCategory == '1') {
+      filteredProjects = projectList;
+    } else {
+      filteredProjects =
+          projectList.where((projectList) => projectList.category == selectedCategory).toList();
+    }
   }
 }
