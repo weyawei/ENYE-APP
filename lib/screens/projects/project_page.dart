@@ -1,8 +1,7 @@
+import 'package:enye_app/screens/screens.dart';
 import 'package:enye_app/widget/widgets.dart';
 import 'package:flutter/material.dart';
-
-import 'categ_projects.dart';
-import 'list_projects.dart';
+import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 
 class ProjectsPage extends StatefulWidget {
   static const String routeName = '/projects';
@@ -22,6 +21,8 @@ class _ProjectsPageState extends State<ProjectsPage> {
   String selectedCategory = 'ALL';
 
   List<Projects> filteredProjects = [];
+
+  get projects => null;
 
   void initState() {
     super.initState();
@@ -110,51 +111,65 @@ class _ProjectsPageState extends State<ProjectsPage> {
                 itemCount: filteredProjects.length,
                 itemBuilder: (context, index){
 
-                  return Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(12.0),
-                      color: Colors.orange[200],
-                    ), //no function??nasasapawan ng pictures
-                    child: Column(
-                      children: [
-                        ClipRRect(borderRadius: BorderRadius.circular(12.0),
-                            child: Container(
-                              height: 270,
-                              decoration: BoxDecoration(
-                                image: DecorationImage(image: NetworkImage("${filteredProjects[index].images}"), fit: BoxFit.cover),
-                              ),
-
+                  return GestureDetector(
+                    onTap: (){
+                      setState(() {
+                        PersistentNavBarNavigator.pushNewScreenWithRouteSettings(
+                          context,
+                          settings: RouteSettings(name: detailedProjPage.routeName, arguments: filteredProjects),
+                          screen: detailedProjPage(projects: filteredProjects as Projects,),
+                          withNavBar: true,
+                          pageTransitionAnimation: PageTransitionAnimation.cupertino,
+                        );
+                      });
+                    },
+                    child: Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(12.0),
+                        color: Colors.orange[200],
+                      ), //no function??nasasapawan ng pictures
+                      child: Column(
+                        children: [
+                          ClipRRect(borderRadius: BorderRadius.circular(12.0),
                               child: Container(
+                                height: 270,
                                 decoration: BoxDecoration(
-                                  gradient: LinearGradient(
-                                    colors: [Colors.blue.withOpacity(0.2), Colors.deepOrange.shade100.withOpacity(0.3)],
-                                    stops: [0.0, 1],
-                                    begin: Alignment.topCenter,
-                                  ),
+                                  image: DecorationImage(image: NetworkImage("${filteredProjects[index].images}"), fit: BoxFit.cover),
                                 ),
-                                child: Align(
-                                  alignment: Alignment.centerLeft,
-                                  child: Container(
-                                    width: 150,
-                                    margin: EdgeInsets.only(top: 50.0),
-                                    padding: EdgeInsets.all(16.0),
-                                    decoration: BoxDecoration(
-                                      gradient: LinearGradient(
-                                        colors: [Colors.deepOrange.shade300, Colors.deepOrange.withOpacity(0)],
+
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    gradient: LinearGradient(
+                                      colors: [Colors.blue.withOpacity(0.2), Colors.deepOrange.shade100.withOpacity(0.3)],
+                                      stops: [0.0, 1],
+                                      begin: Alignment.topCenter,
+                                    ),
+                                  ),
+                                  child: Align(
+                                    alignment: Alignment.centerLeft,
+                                    child: Container(
+                                      width: 150,
+                                      margin: EdgeInsets.only(top: 50.0),
+                                      padding: EdgeInsets.all(16.0),
+                                      decoration: BoxDecoration(
+                                        gradient: LinearGradient(
+                                          colors: [Colors.deepOrange.shade300, Colors.deepOrange.withOpacity(0)],
+                                        ),
+                                      ),
+                                      child: Text(
+                                        "${filteredProjects[index].title}",
+                                        style: TextStyle(fontSize: 16.0, color: Colors.white, fontWeight: FontWeight.bold),
                                       ),
                                     ),
-                                    child: Text(
-                                      "${filteredProjects[index].title}",
-                                      style: TextStyle(fontSize: 16.0, color: Colors.white, fontWeight: FontWeight.bold),
-                                    ),
                                   ),
                                 ),
                               ),
-                            ),
-                        ),
-                      ],
+                          ),
+                        ],
+                      ),
                     ),
                   );
+
                 },
               ),
             ],
