@@ -1,5 +1,9 @@
+import 'package:enye_app/widget/custom_drawer.dart';
 import 'package:enye_app/widget/widgets.dart';
 import 'package:flutter/material.dart';
+
+import '../projects/project_page.dart';
+import '../systems/system_page.dart';
 
 class ContactsPage extends StatelessWidget {
   static const String routeName = '/contacts';
@@ -14,7 +18,9 @@ class ContactsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const Scaffold(
-      appBar: CustomAppBar(title: 'Contact Us',),
+      appBar: CustomAppBar(title: 'Contact Us', imagePath: '',),
+      drawer: CustomDrawer(),
+
     );
   }
 }

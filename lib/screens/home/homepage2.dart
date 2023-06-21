@@ -16,7 +16,7 @@ class SecondScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(title: 'E N Y E C O N T R O L S  2',),
+      appBar: CustomAppBar(title: '', imagePath: 'assets/logo/enyecontrols.png',),
       body: Container(
         child: TextButton(
             onPressed: (){
