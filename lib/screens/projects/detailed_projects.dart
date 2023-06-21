@@ -7,8 +7,8 @@ class detailedProjPage extends StatelessWidget {
 
   static Route route(){
     return MaterialPageRoute(
-        settings: RouteSettings(name: routeName),
-        builder: (context) => detailedProjPage(),
+      settings: RouteSettings(name: routeName),
+      builder: (context) => detailedProjPage(),
     );
   }
 
@@ -24,7 +24,7 @@ class detailedProjPage extends StatelessWidget {
 
     return Scaffold(
       extendBody: true,
-      appBar: CustomAppBar(title: 'ENYE CONTROLS'),
+      appBar: CustomAppBar(title: 'ENYE CONTROLS', imagePath: 'assets/logo/enyecontrols.png',),
       body: Container(
         decoration: BoxDecoration(
           image: DecorationImage(image: NetworkImage("${detailedProjects[0].images}"), fit: BoxFit.cover),
@@ -107,11 +107,11 @@ class detailedProjPage extends StatelessWidget {
                     child: Text(
                       "${detailedProjects[0].description2}",
                       style: TextStyle(
-                          fontSize: 14.0,
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                          wordSpacing: 2.0,
-                          letterSpacing: 0.5,
+                        fontSize: 14.0,
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                        wordSpacing: 2.0,
+                        letterSpacing: 0.5,
                       ),
                       textAlign: TextAlign.right,
                     ),
