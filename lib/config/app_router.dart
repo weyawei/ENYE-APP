@@ -21,7 +21,7 @@ class AppRouter{
       case ProjectsPage.routeName:
         return ProjectsPage.route();
       case detailedProjPage.routeName:
-        return detailedProjPage.route(projects: settings.arguments as Projects);
+        return detailedProjPage.route();
       case ContactsPage.routeName:
         return ContactsPage.route();
 

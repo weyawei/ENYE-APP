@@ -22,8 +22,6 @@ class _ProjectsPageState extends State<ProjectsPage> {
 
   List<Projects> filteredProjects = [];
 
-  get projects => null;
-
   void initState() {
     super.initState();
     // Initially, show all products
@@ -116,8 +114,8 @@ class _ProjectsPageState extends State<ProjectsPage> {
                       setState(() {
                         PersistentNavBarNavigator.pushNewScreenWithRouteSettings(
                           context,
-                          settings: RouteSettings(name: detailedProjPage.routeName, arguments: filteredProjects),
-                          screen: detailedProjPage(projects: filteredProjects as Projects,),
+                          settings: RouteSettings(name: detailedProjPage.routeName, arguments: {'projId': filteredProjects[index].proj_id}),
+                          screen: detailedProjPage(),
                           withNavBar: true,
                           pageTransitionAnimation: PageTransitionAnimation.cupertino,
                         );

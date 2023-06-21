@@ -38,6 +38,7 @@ dependencies:
   carousel_slider:
   curved_navigation_bar: ^1.0.3
   persistent_bottom_nav_bar: ^5.0.2
+  outlined_text: ^1.0.1
 
 dev_dependencies:
   flutter_test:
