@@ -20,6 +20,8 @@ class AppRouter{
         return SystemsPage.route();
       case ProjectsPage.routeName:
         return ProjectsPage.route();
+      case detailedProjPage.routeName:
+        return detailedProjPage.route();
       case ContactsPage.routeName:
         return ContactsPage.route();
 
