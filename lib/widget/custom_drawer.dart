@@ -38,23 +38,24 @@ class CustomDrawer extends StatelessWidget {
               title: const Text("Home"),
               onTap: () {
                 //   Navigator.push(context, MaterialPageRoute(builder: (context)=> NavBar(),));
-
-                Navigator.pop(context);
+ 
               },
             ),
             ListTile(
               leading: const Icon(Icons.account_box),
               title: const Text("Account"),
-              onTap: () {
-                Navigator.pop(context);
-              },
+ 
+ 
+              onTap: () {},
+ 
             ),
             ListTile(
               leading: const Icon(Icons.contact_emergency),
               title: const Text("Contact Us"),
-              onTap: () {
-                Navigator.pop(context);
-              },
+ 
+ 
+              onTap: () {},
+ 
             ),
             const Padding(
               padding: EdgeInsets.all(14.0),
@@ -64,29 +65,36 @@ class CustomDrawer extends StatelessWidget {
               leading: const Icon(Icons.account_balance_outlined),
               title: const Text("Systems"),
               onTap: () {
-                Navigator.pop(context);
+ 
+                
+ 
               },
             ),
             ListTile(
               leading: const Icon(Icons.air),
               title: const Text("Projects"),
               onTap: () {
-                Navigator.pop(context);
+ 
+ 
+                
+ 
               },
             ),
             ListTile(
               leading: const Icon(Icons.label),
               title: const Text("About"),
-              onTap: () {
-                Navigator.pop(context);
-              },
+   
+              
+ 
+              onTap: () {},
+ 
             ),
             ListTile(
               leading: const Icon(Icons.power_settings_new),
               title: const Text("Log Out"),
-              onTap: () {
-                Navigator.pop(context);
-              },
+ 
+              onTap: () {},
+ 
             ),
           ],
         ),
