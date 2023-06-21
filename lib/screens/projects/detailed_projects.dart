@@ -24,7 +24,7 @@ class detailedProjPage extends StatelessWidget {
 
     return Scaffold(
       extendBody: true,
-      appBar: CustomAppBar(title: 'ENYE CONTROLS', imagePath: '',),
+      appBar: CustomAppBar(title: 'ENYE CONTROLS', imagePath: 'assets/logo/enyecontrols.png',),
       body: Container(
         decoration: BoxDecoration(
           image: DecorationImage(image: NetworkImage("${detailedProjects[0].images}"), fit: BoxFit.cover),
