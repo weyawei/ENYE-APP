@@ -38,30 +38,44 @@ class _ProjectsPageState extends State<ProjectsPage> {
         child: Padding(padding: EdgeInsets.all(12.0),
           child: Column(
             children: [
+
               //project categories
               Container(
-                height: 115,
-                padding: const EdgeInsets.symmetric(horizontal: 6.0, vertical: 16.0),
+                height: 110,
+                width: MediaQuery.of(context).size.width * 1,
                 child: GridView.builder(
                   scrollDirection: Axis.horizontal,
                   shrinkWrap: true,
                   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 1,
-                    mainAxisExtent: 115,
+                    crossAxisSpacing: 12.0,
+                    mainAxisSpacing: 12.0,
+                    mainAxisExtent: 120,
                   ),
                   itemCount: projCategoriesList.length,
                   itemBuilder: (context, index){
                     return
-                      TextButton.icon(
-                        onPressed: () {
-                          setState(() {
-                            selectedCategory = projCategoriesList[index].category;
-                            filterProjects();
-                          });
-                        },
-                        icon: Image.asset("${projCategoriesList[index].images}", color: Colors.deepOrange.shade400, height: 50, width: 50,), // Replace with your desired icon
-                        label: Text("${projCategoriesList[index].title}"),
-                      );
+                        TextButton(
+                          onPressed: () {
+                            setState(() {
+                              selectedCategory = projCategoriesList[index].category;
+                              filterProjects();
+                            });
+                          },
+                          child: Column(
+                            children: [
+                              Image.asset("${projCategoriesList[index].images}",
+                                color: Colors.deepOrange.shade400,
+                                height: 55,
+                                width: 55,
+                                alignment: Alignment.center,),
+
+                              Text("${projCategoriesList[index].title}",
+                                textAlign: TextAlign.center,
+                                maxLines: 2,),
+                            ],
+                          ),
+                        );
 
                     /*Container(
                       decoration: BoxDecoration(
