@@ -71,6 +71,7 @@ class _ProjectsPageState extends State<ProjectsPage> {
                                 alignment: Alignment.center,),
 
                               Text("${projCategoriesList[index].title}",
+                                style: TextStyle(fontWeight: FontWeight.bold),
                                 textAlign: TextAlign.center,
                                 maxLines: 2,),
                             ],

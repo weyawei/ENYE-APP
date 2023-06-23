@@ -14,7 +14,8 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'E N Y E C O N T R O L S',
       theme: ThemeData(
-          primarySwatch: Colors.orange
+          primarySwatch: Colors.orange,
+          fontFamily: 'Raleway',
       ),
       onGenerateRoute: AppRouter.onGenerateRoute,
       initialRoute: '/',

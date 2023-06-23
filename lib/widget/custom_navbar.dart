@@ -38,24 +38,28 @@ class CustomNavBar extends StatelessWidget {
           title: ("Home"),
           activeColorPrimary: Colors.white,
           inactiveColorPrimary: Colors.white70,
+          textStyle: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
         ),
         PersistentBottomNavBarItem(
           icon: Icon(Dashboardicon.systems_nav),
           title: ("Systems"),
           activeColorPrimary: Colors.white,
           inactiveColorPrimary: Colors.white70,
+          textStyle: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
         ),
         PersistentBottomNavBarItem(
           icon: Icon(Dashboardicon.projects_nav),
           title: ("Projects"),
           activeColorPrimary: Colors.white,
           inactiveColorPrimary: Colors.white70,
+          textStyle: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
         ),
         PersistentBottomNavBarItem(
           icon: Icon(Dashboardicon.contact_us_nav),
           title: ("Contacts"),
           activeColorPrimary: Colors.white,
           inactiveColorPrimary: Colors.white70,
+          textStyle: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
         ),
       ];
     }

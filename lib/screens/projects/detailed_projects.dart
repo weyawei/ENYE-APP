@@ -66,7 +66,7 @@ class detailedProjPage extends StatelessWidget {
                 alignment: Alignment.topLeft,
                 child: Container(
                   width: MediaQuery.of(context).size.width * 1,
-                  padding: EdgeInsets.all(16.0),
+                  padding: EdgeInsets.all(17.0),
                   decoration: BoxDecoration(
                     gradient: LinearGradient(
                       begin: Alignment.centerRight,
@@ -77,7 +77,7 @@ class detailedProjPage extends StatelessWidget {
                   child: Text(
                     "${detailedProjects[0].description1}",
                     style: TextStyle(
-                      fontSize: 16.0,
+                      fontSize: 18.0,
                       color: Colors.white,
                       fontWeight: FontWeight.w500,
                       wordSpacing: 2.0,
@@ -107,7 +107,7 @@ class detailedProjPage extends StatelessWidget {
                     child: Text(
                       "${detailedProjects[0].description2}",
                       style: TextStyle(
-                        fontSize: 14.0,
+                        fontSize: 15.0,
                         color: Colors.white,
                         fontWeight: FontWeight.bold,
                         wordSpacing: 2.0,
