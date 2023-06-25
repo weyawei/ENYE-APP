@@ -1,3 +1,4 @@
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:enye_app/screens/screens.dart';
 import 'package:enye_app/widget/widgets.dart';
 import 'package:flutter/material.dart';
@@ -15,26 +16,52 @@ class HomePage extends StatelessWidget {
     );
   }
 
+  final List<String> imgList = [
+    'assets/homepage/pix1.png',
+    'assets/homepage/pix2.png',
+    'assets/homepage/pix3.png',
+    'assets/homepage/pix4.png',
+    'assets/homepage/pix5.png',
+    'assets/homepage/pix6.png',
+    'assets/homepage/pix6.2.png',
+    'assets/homepage/pix6.3.png',
+    'assets/homepage/pix7.png',
+    'assets/homepage/pix8.png',
+    'assets/homepage/pix9.png',
+    'assets/homepage/pix10.png',
+    'assets/homepage/pix11.png',
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CustomAppBar(title: '', imagePath: 'assets/logo/enyecontrols.png',),
       drawer: CustomDrawer(),
-      body: Container(
-        child: TextButton(
-          onPressed: (){
-            PersistentNavBarNavigator.pushNewScreenWithRouteSettings(
-              context,
-              settings: RouteSettings(name: SecondScreen.routeName),
-              screen: SecondScreen(),
-              withNavBar: true,
-              pageTransitionAnimation: PageTransitionAnimation.cupertino,
-            );
-
-          },
-          child: Icon(Icons.arrow_forward, color: Colors.deepOrange,)
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            CarouselSlider(
+                items: imgList.map((item) => Container(
+                  margin: const EdgeInsets.all(.5),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(15),
+                    child: Image.asset(
+                      item,
+                      fit: BoxFit.fill,
+                    ),
+                  ),
+                )).toList(),
+                options: CarouselOptions(
+                  height: 470,
+                  autoPlay: true,
+                  aspectRatio: 2.0,
+                  enlargeCenterPage: true,
+                  enlargeStrategy: CenterPageEnlargeStrategy.height,
+                ),
+            ),
+          ],
         ),
-      ),
+      )
     );
   }
 }
