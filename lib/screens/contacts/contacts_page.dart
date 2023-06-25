@@ -28,7 +28,7 @@ class ContactsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CustomAppBar(title: 'Contact Us', imagePath: '',),
-      drawer: CustomDrawer(),
+      /*drawer: CustomDrawer(),*/
       body: Container(
         decoration: const BoxDecoration(
           image: DecorationImage(image: AssetImage("assets/backgrounds/wallpaper-contacts.png"), fit: BoxFit.fill),

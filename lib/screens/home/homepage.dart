@@ -36,7 +36,7 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CustomAppBar(title: '', imagePath: 'assets/logo/enyecontrols.png',),
-      drawer: CustomDrawer(),
+      /*drawer: CustomDrawer(),*/
       body: SingleChildScrollView(
         child: Column(
           children: [

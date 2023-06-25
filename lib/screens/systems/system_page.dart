@@ -20,7 +20,7 @@ class SystemsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CustomAppBar(title: 'Systems', imagePath: '',),
-      drawer: CustomDrawer(),
+      /*drawer: CustomDrawer(),*/
       body: CustomScrollView(
           slivers: [
       const SliverAppBar(
