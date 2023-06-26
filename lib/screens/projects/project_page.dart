@@ -33,7 +33,7 @@ class _ProjectsPageState extends State<ProjectsPage> {
 
     return Scaffold(
       extendBody: true,
-      appBar: CustomAppBar(title: 'Projects'),
+      appBar: CustomAppBar(title: 'Projects', imagePath: '',),
       body: SingleChildScrollView(
         child: Padding(padding: EdgeInsets.all(12.0),
           child: Column(

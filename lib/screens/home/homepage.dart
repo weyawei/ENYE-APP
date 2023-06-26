@@ -21,20 +21,11 @@ class HomePage extends StatelessWidget {
       appBar: CustomAppBar(title: '', imagePath: 'assets/logo/enyecontrols.png',),
       drawer: CustomDrawer(),
       body: Container(
-        child: TextButton(
-          onPressed: (){
-            PersistentNavBarNavigator.pushNewScreenWithRouteSettings(
-              context,
-              settings: RouteSettings(name: SecondScreen.routeName),
-              screen: SecondScreen(),
-              withNavBar: true,
-              pageTransitionAnimation: PageTransitionAnimation.cupertino,
-            );
-
-          },
-          child: Icon(Icons.arrow_forward, color: Colors.deepOrange,)
+        decoration: BoxDecoration(
+            image: DecorationImage(image: AssetImage("assets/logo/qt.jpg"), fit: BoxFit.fill)
         ),
-      ),
+
+        ),
     );
   }
 }
