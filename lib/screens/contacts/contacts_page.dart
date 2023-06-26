@@ -1,4 +1,3 @@
-import 'package:enye_app/socialmedia_icons.dart';
 import 'package:enye_app/widget/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
@@ -567,47 +566,9 @@ class ContactsPage extends StatelessWidget {
                 ],
               ),
 
-              Positioned(child: Stack(
-                children: <Widget> [
-                  CircularButton(
-                      color: Colors.deepOrange,
-                      height: 200,
-                      width: 200,
-                      icon: const ImageIcon(AssetImage("assets/icons/social-media.png")),
-                      onClick: (){
-
-                      }
-                  ),
-                ],
-              )),
             ],
           ),
         ),
-      ),
-    );
-  }
-}
-
-class CircularButton extends StatelessWidget {
-
-  final double width;
-  final double height;
-  final Color color;
-  final ImageIcon icon;
-  final Function onClick;
-
-  CircularButton({super.key, required this.color, required this.height, required this.width, required this.icon, required this.onClick});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(color: color, shape: BoxShape.circle),
-      width: width,
-      height: height,
-      child: IconButton(
-        icon: icon,
-        enableFeedback: true,
-        onPressed: (){},
       ),
     );
   }
