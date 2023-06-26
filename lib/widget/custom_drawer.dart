@@ -1,10 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../screens/projects/project_page.dart';
-import '../screens/systems/system_page.dart';
-import 'custom_appbar.dart';
-
-
 class CustomDrawer extends StatelessWidget {
 
   const CustomDrawer({super.key});

@@ -37,25 +37,29 @@ class CustomNavBar extends StatelessWidget {
           icon: Icon(Dashboardicon.home_nav),
           title: ("Home"),
           activeColorPrimary: Colors.white,
-          inactiveColorPrimary: Colors.deepOrange,
+          inactiveColorPrimary: Colors.white70,
+          textStyle: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
         ),
         PersistentBottomNavBarItem(
           icon: Icon(Dashboardicon.systems_nav),
           title: ("Systems"),
           activeColorPrimary: Colors.white,
-          inactiveColorPrimary: Colors.deepOrange,
+          inactiveColorPrimary: Colors.white70,
+          textStyle: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
         ),
         PersistentBottomNavBarItem(
           icon: Icon(Dashboardicon.projects_nav),
           title: ("Projects"),
           activeColorPrimary: Colors.white,
-          inactiveColorPrimary: Colors.deepOrange,
+          inactiveColorPrimary: Colors.white70,
+          textStyle: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
         ),
         PersistentBottomNavBarItem(
           icon: Icon(Dashboardicon.contact_us_nav),
           title: ("Contacts"),
           activeColorPrimary: Colors.white,
-          inactiveColorPrimary: Colors.deepOrange,
+          inactiveColorPrimary: Colors.white70,
+          textStyle: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
         ),
       ];
     }
@@ -70,7 +74,7 @@ class CustomNavBar extends StatelessWidget {
       screens: _buildScreens(),
       items: _navBarsItems(),
       confineInSafeArea: true,
-      backgroundColor: Colors.black54, // Default is Colors.white.
+      backgroundColor: Colors.deepOrange, // Default is Colors.white.
       handleAndroidBackButtonPress: true, // Default is true.
       resizeToAvoidBottomInset: true, // This needs to be true if you want to move up the screen when keyboard appears. Default is true.
       stateManagement: true, // Default is true.
