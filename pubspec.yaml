@@ -39,6 +39,7 @@ dependencies:
   curved_navigation_bar: ^1.0.3
   persistent_bottom_nav_bar: ^5.0.2
   url_launcher: ^6.1.11
+  smooth_page_indicator: ^1.1.0
 
 dev_dependencies:
   flutter_test:
@@ -89,6 +90,10 @@ flutter:
     - family: Dashboardicon
       fonts:
         - asset: assets/fonts/Dashboardicon.ttf
+
+    - family: Socialmedia
+      fonts:
+        - asset: assets/fonts/Socialmedia.ttf
 
     - family: Raleway
       fonts:
