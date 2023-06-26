@@ -55,28 +55,28 @@ class _ProjectsPageState extends State<ProjectsPage> {
                   itemCount: projCategoriesList.length,
                   itemBuilder: (context, index){
                     return
-                        TextButton(
-                          onPressed: () {
-                            setState(() {
-                              selectedCategory = projCategoriesList[index].category;
-                              filterProjects();
-                            });
-                          },
-                          child: Column(
-                            children: [
-                              Image.asset("${projCategoriesList[index].images}",
-                                color: Colors.deepOrange.shade400,
-                                height: 55,
-                                width: 55,
-                                alignment: Alignment.center,),
+                      TextButton(
+                        onPressed: () {
+                          setState(() {
+                            selectedCategory = projCategoriesList[index].category;
+                            filterProjects();
+                          });
+                        },
+                        child: Column(
+                          children: [
+                            Image.asset("${projCategoriesList[index].images}",
+                              color: Colors.deepOrange.shade400,
+                              height: 55,
+                              width: 55,
+                              alignment: Alignment.center,),
 
-                              Text("${projCategoriesList[index].title}",
-                                style: TextStyle(fontWeight: FontWeight.bold),
-                                textAlign: TextAlign.center,
-                                maxLines: 2,),
-                            ],
-                          ),
-                        );
+                            Text("${projCategoriesList[index].title}",
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                              textAlign: TextAlign.center,
+                              maxLines: 2,),
+                          ],
+                        ),
+                      );
 
                     /*Container(
                       decoration: BoxDecoration(
