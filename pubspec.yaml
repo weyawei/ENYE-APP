@@ -91,10 +91,6 @@ flutter:
       fonts:
         - asset: assets/fonts/Dashboardicon.ttf
 
-    - family: Socialmedia
-      fonts:
-        - asset: assets/fonts/Socialmedia.ttf
-
     - family: Raleway
       fonts:
         - asset: assets/fonts/Raleway-Regular.ttf

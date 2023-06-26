@@ -571,9 +571,9 @@ class ContactsPage extends StatelessWidget {
                 children: <Widget> [
                   CircularButton(
                       color: Colors.deepOrange,
-                      height: 60,
-                      width: 60,
-                      icon: Icon(Socialmedia.social_media),
+                      height: 200,
+                      width: 200,
+                      icon: const ImageIcon(AssetImage("assets/icons/social-media.png")),
                       onClick: (){
 
                       }
@@ -593,7 +593,7 @@ class CircularButton extends StatelessWidget {
   final double width;
   final double height;
   final Color color;
-  final Icon icon;
+  final ImageIcon icon;
   final Function onClick;
 
   CircularButton({super.key, required this.color, required this.height, required this.width, required this.icon, required this.onClick});
@@ -607,9 +607,7 @@ class CircularButton extends StatelessWidget {
       child: IconButton(
         icon: icon,
         enableFeedback: true,
-        onPressed: (){
-
-        },
+        onPressed: (){},
       ),
     );
   }
