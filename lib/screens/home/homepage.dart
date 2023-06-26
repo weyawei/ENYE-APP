@@ -3,7 +3,6 @@ import 'package:enye_app/screens/screens.dart';
 import 'package:enye_app/widget/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 import '../../widget/custom_drawer.dart';
 
@@ -60,21 +59,6 @@ class HomePage extends StatelessWidget {
                   enlargeStrategy: CenterPageEnlargeStrategy.height,
                 ),
             ),
-           /* ElevatedButton(
-                onPressed: () async {
-                final Uri url = Uri(
-                  scheme: 'https',
-                  path: "https://m.me/RJay.FranciaON",
-                );
-                if( await canLaunchUrl(url)){
-                await launchUrl(url);
-                }else {
-               print('show dialog: cannot launch this url');
-                }
-               },
-              style: ElevatedButton.styleFrom(backgroundColor: Colors.deepOrange),
-              child: const Text('SMS'),
-            ),*/
           ],
         ),
       )
