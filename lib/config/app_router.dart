@@ -6,6 +6,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
+import '../screens/products/category_model.dart';
 import '../widget/custom_navbar.dart';
 
 class AppRouter{
@@ -30,7 +31,8 @@ class AppRouter{
       case ProductPage.routeName:
         return ProductPage.route();
       case CatalogScreen.routeName:
-        return CatalogScreen.route(category: settings.arguments as Category);
+        return CatalogScreen.route(category: settings.arguments as Category1);
+
 
       default: 
         return _errorRoute();
