@@ -1,4 +1,5 @@
 import 'package:enye_app/screens/home/homepage.dart';
+import 'package:enye_app/screens/products/products1.dart';
 import 'package:enye_app/screens/screens.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -24,6 +25,8 @@ class AppRouter{
         return detailedProjPage.route();
       case ContactsPage.routeName:
         return ContactsPage.route();
+      case ProductPage.routeName:
+        return ProductPage.route();
 
       default: 
         return _errorRoute();

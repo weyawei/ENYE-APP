@@ -1,3 +1,4 @@
+import 'package:enye_app/screens/products/products1.dart';
 import 'package:enye_app/screens/screens.dart';
 import 'package:flutter/material.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
@@ -27,7 +28,8 @@ class CustomNavBar extends StatelessWidget {
         HomePage(),
         SystemsPage(),
         ProjectsPage(),
-        ContactsPage()
+        ContactsPage(),
+        ProductPage()
       ];
     }
 
@@ -57,6 +59,13 @@ class CustomNavBar extends StatelessWidget {
         PersistentBottomNavBarItem(
           icon: Icon(Dashboardicon.contact_us_nav),
           title: ("Contacts"),
+          activeColorPrimary: Colors.white,
+          inactiveColorPrimary: Colors.white70,
+          textStyle: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+        ),
+        PersistentBottomNavBarItem(
+          icon: Icon(Dashboardicon.products_nav),
+          title: ("Products"),
           activeColorPrimary: Colors.white,
           inactiveColorPrimary: Colors.white70,
           textStyle: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
