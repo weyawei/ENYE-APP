@@ -1,7 +1,9 @@
+import 'package:enye_app/screens/catalog/catalog_screen.dart';
 import 'package:enye_app/screens/home/homepage.dart';
 import 'package:enye_app/screens/products/products1.dart';
 import 'package:enye_app/screens/screens.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import '../widget/custom_navbar.dart';
@@ -27,6 +29,8 @@ class AppRouter{
         return ContactsPage.route();
       case ProductPage.routeName:
         return ProductPage.route();
+      case CatalogScreen.routeName:
+        return CatalogScreen.route(category: settings.arguments as Category);
 
       default: 
         return _errorRoute();
