@@ -31,7 +31,7 @@ class AppRouter{
       case ProductPage.routeName:
         return ProductPage.route();
       case CatalogScreen.routeName:
-        return CatalogScreen.route(category: settings.arguments as Category1);
+        return CatalogScreen.route();
 
 
       default: 

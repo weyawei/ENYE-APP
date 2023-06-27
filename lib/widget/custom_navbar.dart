@@ -64,7 +64,7 @@ class CustomNavBar extends StatelessWidget {
           textStyle: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
         ),
         PersistentBottomNavBarItem(
-          icon: Icon(Dashboardicon.products_nav),
+          icon: Icon(Icons.shop),
           title: ("Products"),
           activeColorPrimary: Colors.white,
           inactiveColorPrimary: Colors.white70,

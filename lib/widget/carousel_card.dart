@@ -2,6 +2,7 @@
 import 'package:enye_app/screens/catalog/catalog_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 
 import '../screens/products/category_model.dart';
 
@@ -19,10 +20,15 @@ class _CarouselCardState extends State<CarouselCard> {
     return InkWell(
       onTap: (){
         setState(() {
-          Navigator.of(context, rootNavigator: true).pushNamed(
-            CatalogScreen.routeName,
-            arguments: widget.category,
-          );
+          setState(() {
+            PersistentNavBarNavigator.pushNewScreenWithRouteSettings(
+              context,
+              settings: RouteSettings(name: CatalogScreen.routeName, arguments: {'categoryId': widget.category.categoryId}),
+              screen: CatalogScreen(),
+              withNavBar: true,
+              pageTransitionAnimation: PageTransitionAnimation.cupertino,
+            );
+          });
         });
         /*Navigator.pushNamed(context,
           CatalogScreen.routeName,

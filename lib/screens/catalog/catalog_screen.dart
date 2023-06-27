@@ -10,20 +10,27 @@ import '../products/category_model.dart';
 class CatalogScreen extends StatelessWidget {
   static const String routeName = '/catalog';
 
-  static Route route({required Category1 category}){
+  static Route route(){
     return MaterialPageRoute(
         settings: RouteSettings(name: routeName),
-        builder: (_) => CatalogScreen(category: category),
+        builder: (_) => CatalogScreen(),
     );
   }
-  final Category1 category;
-  const CatalogScreen({required this.category});
+  const CatalogScreen();
 
   @override
   Widget build(BuildContext context) {
+    final filteredCategories = ModalRoute.of(context)?.settings?.arguments as Map<String, String>; //list pansamantala
+    final projId = filteredCategories['categoryId'].toString(); //fetch category id from carousel_card through arguments
+
+    List<Category1> categories = [];
+
+    //detailedProjects = projectList.where((projectList) => projectList.proj_id == projId).toList();
+
     return Scaffold(
-      appBar: CustomAppBar(title: 'Catalog', imagePath: '',),
-      body: Container(),
+      appBar: CustomAppBar(title: 'Catalog $projId', imagePath: '',),
+      body: Container(
+      ),
     );
   }
 }
