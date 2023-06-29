@@ -3,6 +3,7 @@ import 'package:equatable/equatable.dart';
 class Product extends Equatable{
   final String name;
   final String category;
+  final String subcategory;
   final String imageUrl;
   final double price;
   final bool isRecommended;
@@ -11,6 +12,7 @@ class Product extends Equatable{
   const Product ({
     required this.name,
     required this.category,
+    required this.subcategory,
     required this.imageUrl,
     required this.price,
     required this.isPopular,
@@ -21,28 +23,58 @@ class Product extends Equatable{
 
 
   @override
-  List<Object?> get props => [name, category, imageUrl, price, isRecommended, isPopular];
+  List<Object?> get props => [name, category, subcategory, imageUrl, price, isRecommended, isPopular];
 
   static List<Product> products = [
     Product(
         name: 'Accesories',
         category: 'Accesories',
+        subcategory: 'Vector1',
         imageUrl: 'assets/products_category/categ1.png',
         price: 24.12,
         isRecommended: true,
         isPopular: true,
     ),
     Product(
+      name: 'Accesories2',
+      category: 'Accesories',
+      subcategory: 'Vector',
+      imageUrl: 'assets/products_category/categ1.png',
+      price: 24.12,
+      isRecommended: true,
+      isPopular: true,
+    ),
+    Product(
+      name: 'Accesories3',
+      category: 'Accesories',
+      subcategory: 'Vector1',
+      imageUrl: 'assets/products_category/categ1.png',
+      price: 24.12,
+      isRecommended: true,
+      isPopular: true,
+    ),
+    Product(
         name: 'Air Release Valve',
         category: 'Air Release Valve',
+        subcategory: 'Vector1',
         imageUrl: 'assets/products_category/categ2.png',
         price: 24.12,
         isRecommended: false,
         isPopular: true,
     ),
     Product(
+      name: 'Air Release Valve1',
+      category: 'Air Release Valve',
+      subcategory: 'Vector2',
+      imageUrl: 'assets/products_category/categ2.png',
+      price: 24.12,
+      isRecommended: false,
+      isPopular: true,
+    ),
+    Product(
         name: 'Automatic Control Valve',
         category: 'Automatic Control Valve',
+        subcategory: 'Vector2',
         imageUrl: 'assets/products_category/categ3.png',
         price: 24.12,
         isRecommended: false,
@@ -51,6 +83,7 @@ class Product extends Equatable{
     Product(
         name: 'Backflow Preventer',
         category: 'Backflow Preventer',
+        subcategory: 'Vector2',
         imageUrl: 'assets/products_category/categ4.png',
         price: 24.12,
         isRecommended: true,
@@ -59,6 +92,7 @@ class Product extends Equatable{
     Product(
         name: 'Balancing Valves',
         category: 'Balancing Valves',
+        subcategory: 'Vector',
         imageUrl: 'assets/products_category/categ5.png',
         price: 24.12,
         isRecommended: false,
@@ -67,6 +101,7 @@ class Product extends Equatable{
     Product(
         name: 'Ball Valves',
         category: 'Ball Valves',
+        subcategory: 'Vector3',
         imageUrl: 'assets/products_category/categ6.png',
         price: 24.12,
         isRecommended: true,
@@ -75,6 +110,7 @@ class Product extends Equatable{
     Product(
         name: 'Check Valve',
         category: 'Check Valve',
+        subcategory: 'Vector3',
         imageUrl: 'assets/products_category/categ7.png',
         price: 24.12,
         isRecommended: true,
@@ -83,6 +119,7 @@ class Product extends Equatable{
     Product(
         name: 'Concentric Butterfly Valve',
         category: 'Concentric Butterfly Valve',
+        subcategory: 'Vector3',
         imageUrl: 'assets/products_category/categ8.png',
         price: 24.12,
         isRecommended: true,
@@ -91,6 +128,7 @@ class Product extends Equatable{
     Product(
         name: 'Controller',
         category: 'Controller',
+        subcategory: 'Vector4',
         imageUrl: 'assets/products_category/categ9.png',
         price: 24.12,
         isRecommended: true,
@@ -99,6 +137,7 @@ class Product extends Equatable{
     Product(
         name: 'Ecentric Butterfly Valves',
         category: 'Ecentric Butterfly Valves',
+        subcategory: 'Vector4',
         imageUrl: 'assets/products_category/categ10.png',
         price: 24.12,
         isRecommended: true,
@@ -107,6 +146,7 @@ class Product extends Equatable{
     Product(
         name: 'Enye Controls Motorized Valves and Actuators',
         category: 'Enye Controls Motorized Valves and Actuators',
+        subcategory: 'Vector4',
         imageUrl: 'assets/products_category/categ11.png',
         price: 24.12,
         isRecommended: false,
@@ -115,6 +155,7 @@ class Product extends Equatable{
     Product(
         name: 'Flexible Joint',
         category: 'Flexible Joint',
+        subcategory: 'Vector',
         imageUrl: 'assets/products_category/categ12.png',
         price: 24.12,
         isRecommended: true,
@@ -123,6 +164,7 @@ class Product extends Equatable{
     Product(
         name: 'Gate Valve',
         category: 'Gate Valve',
+        subcategory: 'Vector4',
         imageUrl: 'assets/products_category/categ13.png',
         price: 24.12,
         isRecommended: false,
@@ -131,6 +173,7 @@ class Product extends Equatable{
     Product(
         name: 'Globe Valve',
         category: 'Globe Valve',
+        subcategory: 'Vector1',
         imageUrl: 'assets/products_category/categ14.png',
         price: 24.12,
         isRecommended: true,
@@ -139,6 +182,7 @@ class Product extends Equatable{
     Product(
         name: 'Flanger Valve',
         category: 'Flanger Valve',
+        subcategory: 'Vector2',
         imageUrl: 'assets/products_category/categ15.png',
         price: 24.12,
         isRecommended: true,
@@ -147,6 +191,7 @@ class Product extends Equatable{
     Product(
         name: 'Softwares',
         category: 'Softwares',
+        subcategory: 'Vector',
         imageUrl: 'assets/products_category/categ17.png',
         price: 24.12,
         isRecommended: true,
@@ -155,6 +200,7 @@ class Product extends Equatable{
     Product(
         name: 'Strainer',
         category: 'Strainer',
+        subcategory: 'Vector3',
         imageUrl: 'assets/products_category/categ18.png',
         price: 24.12,
         isRecommended: true,
@@ -163,6 +209,7 @@ class Product extends Equatable{
     Product(
         name: 'Test Equipments',
         category: 'Test Equipments',
+        subcategory: 'Vector2',
         imageUrl: 'assets/products_category/categ19.png',
         price: 24.12,
         isRecommended: false,
@@ -171,6 +218,7 @@ class Product extends Equatable{
     Product(
         name: 'Variable Frequency Drive',
         category: 'Variable Frequency Drive',
+        subcategory: 'Vector',
         imageUrl: 'assets/products_category/categ20.png',
         price: 24.12,
         isRecommended: true,
@@ -179,6 +227,7 @@ class Product extends Equatable{
     Product(
         name: 'Water Meter',
         category: 'Water Meter',
+        subcategory: 'Vector4',
         imageUrl: 'assets/products_category/categ21.png',
         price: 24.12,
         isRecommended: true,

@@ -23,7 +23,7 @@ class _CarouselCardState extends State<CarouselCard> {
           setState(() {
             PersistentNavBarNavigator.pushNewScreenWithRouteSettings(
               context,
-              settings: RouteSettings(name: CatalogScreen.routeName, arguments: {'categoryId': widget.category.categoryId}),
+              settings: RouteSettings(name: CatalogScreen.routeName, arguments: {'name': widget.category.name}),
               screen: CatalogScreen(),
               withNavBar: true,
               pageTransitionAnimation: PageTransitionAnimation.cupertino,
