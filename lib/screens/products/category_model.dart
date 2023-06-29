@@ -90,7 +90,7 @@ static List<Category1> categories = [
       imageUrl: 'assets/products_category/categ14.png'),
   Category1(
       categoryId: '15',
-      name: 'Flanger Valve',
+      name: 'Plunger Valve',
       subcategory: 'Vector4',
       imageUrl: 'assets/products_category/categ15.png'),
   Category1(

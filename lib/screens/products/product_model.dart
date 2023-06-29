@@ -29,7 +29,7 @@ class Product extends Equatable{
     Product(
         name: 'Accesories',
         category: 'Accesories',
-        subcategory: 'Vector1',
+        subcategory: 'Vector Accesories',
         imageUrl: 'assets/products_category/categ1.png',
         price: 24.12,
         isRecommended: true,
@@ -38,7 +38,7 @@ class Product extends Equatable{
     Product(
       name: 'Accesories2',
       category: 'Accesories',
-      subcategory: 'Vector',
+      subcategory: 'Plug and Plugin Terminal',
       imageUrl: 'assets/products_category/categ1.png',
       price: 24.12,
       isRecommended: true,
@@ -47,7 +47,7 @@ class Product extends Equatable{
     Product(
       name: 'Accesories3',
       category: 'Accesories',
-      subcategory: 'Vector1',
+      subcategory: 'Other Accessories',
       imageUrl: 'assets/products_category/categ1.png',
       price: 24.12,
       isRecommended: true,
@@ -56,7 +56,7 @@ class Product extends Equatable{
     Product(
         name: 'Air Release Valve',
         category: 'Air Release Valve',
-        subcategory: 'Vector1',
+        subcategory: 'Air Release Valve',
         imageUrl: 'assets/products_category/categ2.png',
         price: 24.12,
         isRecommended: false,
@@ -65,7 +65,7 @@ class Product extends Equatable{
     Product(
       name: 'Air Release Valve1',
       category: 'Air Release Valve',
-      subcategory: 'Vector2',
+      subcategory: 'Brass Air Release Valve',
       imageUrl: 'assets/products_category/categ2.png',
       price: 24.12,
       isRecommended: false,
@@ -74,11 +74,20 @@ class Product extends Equatable{
     Product(
         name: 'Automatic Control Valve',
         category: 'Automatic Control Valve',
-        subcategory: 'Vector2',
+        subcategory: 'Pressure Reducing Valve',
         imageUrl: 'assets/products_category/categ3.png',
         price: 24.12,
         isRecommended: false,
         isPopular: false,
+    ),
+    Product(
+      name: 'Automatic Control Valve1',
+      category: 'Automatic Control Valve',
+      subcategory: 'Pressure Reducing Valve',
+      imageUrl: 'assets/products_category/categ3.png',
+      price: 24.12,
+      isRecommended: false,
+      isPopular: false,
     ),
     Product(
         name: 'Backflow Preventer',
@@ -180,8 +189,8 @@ class Product extends Equatable{
         isPopular: false,
     ),
     Product(
-        name: 'Flanger Valve',
-        category: 'Flanger Valve',
+        name: 'Plunger Valve',
+        category: 'Plunger Valve',
         subcategory: 'Vector2',
         imageUrl: 'assets/products_category/categ15.png',
         price: 24.12,

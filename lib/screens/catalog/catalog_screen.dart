@@ -22,15 +22,15 @@ class CatalogScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final filteredCategories = ModalRoute.of(context)?.settings?.arguments as Map<String, String>; //list pansamantala
-    final projId = filteredCategories['name'].toString(); //fetch name from carousel_card through arguments
+    final CategName = filteredCategories['name'].toString(); //fetch name from carousel_card through arguments
     final subCat = filteredCategories['subcategory'].toString();
 
     List<Category1> categories = [];
 
     //detailedProjects = projectList.where((projectList) => projectList.proj_id == projId).toList();
-    final List<Product> categoryProducts = Product.products.where((product) => product.category == projId).toList();
+    final List<Product> categoryProducts = Product.products.where((product) => product.subcategory == subCat).toList();
     return Scaffold(
-      appBar: CustomAppBar(title: '$projId', imagePath: '',),
+      appBar: CustomAppBar(title: '$subCat', imagePath: '',),
       body: GridView.builder(
         padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 16.0),
           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(

@@ -4,18 +4,18 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 
-import '../screens/products/category_model.dart';
-import '../screens/products/subcategory_screen.dart';
 
-class CarouselCard extends StatefulWidget {
+import 'category_model.dart';
+
+class SubCard extends StatefulWidget {
   final Category1 category;
-  const CarouselCard({required this.category,});
+  const SubCard({required this.category,});
 
   @override
-  State<CarouselCard> createState() => _CarouselCardState();
+  State<SubCard> createState() => _SubCardState();
 }
 
-class _CarouselCardState extends State<CarouselCard> {
+class _SubCardState extends State<SubCard> {
   @override
   Widget build(BuildContext context) {
     return InkWell(
@@ -24,8 +24,8 @@ class _CarouselCardState extends State<CarouselCard> {
           setState(() {
             PersistentNavBarNavigator.pushNewScreenWithRouteSettings(
               context,
-              settings: RouteSettings(name: SubCategoryScreen.routeName, arguments: {'name': widget.category.name}),
-              screen: SubCategoryScreen(),
+              settings: RouteSettings(name: CatalogScreen.routeName, arguments: {'name': widget.category.name}),
+              screen: CatalogScreen(),
               withNavBar: true,
               pageTransitionAnimation: PageTransitionAnimation.cupertino,
             );
