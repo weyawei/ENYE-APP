@@ -861,7 +861,7 @@ class Product extends Equatable{
       subcategory: 'Rubber Expansion Joint',
       imageUrl: 'assets/products_category/categ12.png',
       price: 24.12,
-      isRecommended: true,
+      isRecommended: false,
       isPopular: false,
     ),
     Product(
@@ -870,7 +870,7 @@ class Product extends Equatable{
       subcategory: 'L-120 Series SS Expansion Joint',
       imageUrl: 'assets/products_category/categ12.png',
       price: 24.12,
-      isRecommended: true,
+      isRecommended: false,
       isPopular: false,
     ),
 
@@ -882,7 +882,7 @@ class Product extends Equatable{
         imageUrl: 'assets/products_category/categ13.png',
         price: 24.12,
         isRecommended: false,
-        isPopular: true,
+        isPopular: false,
     ),
     Product(
       name: 'BLGV Series Lead Free Brass Gate Valve',
@@ -891,7 +891,7 @@ class Product extends Equatable{
       imageUrl: 'assets/products_category/categ13.png',
       price: 24.12,
       isRecommended: false,
-      isPopular: true,
+      isPopular: false,
     ),
     Product(
       name: 'BRGV Series Bronze Gate Valve',
@@ -900,7 +900,7 @@ class Product extends Equatable{
       imageUrl: 'assets/products_category/categ13.png',
       price: 24.12,
       isRecommended: false,
-      isPopular: true,
+      isPopular: false,
     ),
     Product(
       name: 'BAGB Series Brass Lockable Gate Valve',
@@ -909,7 +909,7 @@ class Product extends Equatable{
       imageUrl: 'assets/products_category/categ13.png',
       price: 24.12,
       isRecommended: false,
-      isPopular: true,
+      isPopular: false,
     ),
     Product(
       name: 'BLGB Series Brass Lockable Lead Free Gate Valve',
@@ -918,7 +918,7 @@ class Product extends Equatable{
       imageUrl: 'assets/products_category/categ13.png',
       price: 24.12,
       isRecommended: false,
-      isPopular: true,
+      isPopular: false,
     ),
     Product(
       name: 'RVLX Series Lockable NRS Gate Valve',
@@ -927,7 +927,7 @@ class Product extends Equatable{
       imageUrl: 'assets/products_category/categ13.png',
       price: 24.12,
       isRecommended: false,
-      isPopular: true,
+      isPopular: false,
     ),
     Product(
       name: 'BAGS Series Extension Length Gate Valve',
@@ -936,7 +936,7 @@ class Product extends Equatable{
       imageUrl: 'assets/products_category/categ13.png',
       price: 24.12,
       isRecommended: false,
-      isPopular: true,
+      isPopular: false,
     ),
     Product(
       name: 'RVHX Series NRS Gate Valve PN16 Flanged Resilient Seated BS5163 Type',
@@ -945,7 +945,7 @@ class Product extends Equatable{
       imageUrl: 'assets/products_category/categ13.png',
       price: 24.12,
       isRecommended: false,
-      isPopular: true,
+      isPopular: false,
     ),
     Product(
       name: 'RVHX F4 Series NRS Gate Valve PN16 Flanged Resilent Seated DIN3202 F4 type',
@@ -963,7 +963,7 @@ class Product extends Equatable{
       imageUrl: 'assets/products_category/categ13.png',
       price: 24.12,
       isRecommended: false,
-      isPopular: true,
+      isPopular: false,
     ),
     Product(
       name: 'RVCX Series Stem Cap Gate Valve',
@@ -972,7 +972,7 @@ class Product extends Equatable{
       imageUrl: 'assets/products_category/categ13.png',
       price: 24.12,
       isRecommended: false,
-      isPopular: true,
+      isPopular: false,
     ),
     Product(
       name: 'RVGZ Series Spigot Gate Valve',
@@ -990,7 +990,7 @@ class Product extends Equatable{
       imageUrl: 'assets/products_category/categ13.png',
       price: 24.12,
       isRecommended: false,
-      isPopular: true,
+      isPopular: false,
     ),
 
 
@@ -1011,7 +1011,7 @@ class Product extends Equatable{
       subcategory: 'Broze Globe Valve',
       imageUrl: 'assets/products_category/categ14.png',
       price: 24.12,
-      isRecommended: true,
+      isRecommended: false,
       isPopular: false,
     ),
 
@@ -1044,7 +1044,7 @@ class Product extends Equatable{
       subcategory: 'Software and Utilities',
       imageUrl: 'assets/products_category/categ17.png',
       price: 24.12,
-      isRecommended: true,
+      isRecommended: false,
       isPopular: false,
     ),
 
@@ -1056,8 +1056,8 @@ class Product extends Equatable{
         subcategory: 'Y Strainers',
         imageUrl: 'assets/products_category/categ18.png',
         price: 24.12,
-        isRecommended: true,
-        isPopular: true,
+        isRecommended: false,
+        isPopular: false,
     ),
     Product(
       name: 'BRYS Series Bronze Y Strainers',
@@ -1065,8 +1065,8 @@ class Product extends Equatable{
       subcategory: 'Vector3',
       imageUrl: 'Y Strainers',
       price: 24.12,
-      isRecommended: true,
-      isPopular: true,
+      isRecommended: false,
+      isPopular: false,
     ),
     Product(
       name: 'YSTF Series Y Strainer',
@@ -1075,7 +1075,7 @@ class Product extends Equatable{
       imageUrl: 'assets/products_category/categ18.png',
       price: 24.12,
       isRecommended: true,
-      isPopular: true,
+      isPopular: false,
     ),
     Product(
       name: 'YSAX Suction Diffuser',
@@ -1083,7 +1083,7 @@ class Product extends Equatable{
       subcategory: 'Suction Diffuser',
       imageUrl: 'assets/products_category/categ18.png',
       price: 24.12,
-      isRecommended: true,
+      isRecommended: false,
       isPopular: true,
     ),
     Product(
@@ -1092,8 +1092,8 @@ class Product extends Equatable{
       subcategory: 'Basket Strainers',
       imageUrl: 'assets/products_category/categ18.png',
       price: 24.12,
-      isRecommended: true,
-      isPopular: true,
+      isRecommended: false,
+      isPopular: false,
     ),
 
 
@@ -1567,7 +1567,7 @@ class Product extends Equatable{
         subcategory: 'F510 Variable Frequency Drive',
         imageUrl: 'assets/products_category/categ20.png',
         price: 24.12,
-        isRecommended: true,
+        isRecommended: false,
         isPopular: true,
     ),
 
@@ -1587,7 +1587,7 @@ class Product extends Equatable{
       subcategory: 'Water Meter',
       imageUrl: 'assets/products_category/categ21.png',
       price: 24.12,
-      isRecommended: true,
+      isRecommended: false,
       isPopular: false,
     ),
     Product(

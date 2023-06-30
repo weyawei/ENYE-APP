@@ -26,7 +26,121 @@ final Product product;
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CustomAppBar(title: product.name, imagePath: '',),
-      body: ProductCarouselCard(product: product),
+      body: ListView(
+          children:[
+            ProductCarouselCard(product: product),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20.0),
+              child: Stack(
+                children: [
+                  Container(
+                    width: MediaQuery.of(context).size.width,
+                    height: 60,
+                    alignment: Alignment.bottomCenter,
+                    color: Colors.black.withAlpha(50),
+                  ),
+                  Container(
+                    margin: const EdgeInsets.all(5.0),
+                    width: MediaQuery.of(context).size.width -10,
+                    height: 50,
+                    alignment: Alignment.bottomLeft,
+                    color: Colors.black,
+                    child: Center(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                       //   Text(product.name, style: Theme.of(context).textTheme.labelLarge!.copyWith(color: Colors.white)),
+                        //  Text('₱${product.price}',style: Theme.of(context).textTheme.labelLarge!.copyWith(color: Colors.white)),
+                          Text('PRODUCT CATALOG', style: Theme.of(context).textTheme.headlineSmall!.copyWith(color: Colors.white)),
+                        ],
+
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Padding(padding: const EdgeInsets.all(5.0)),
+            Text('MODEL :',style: Theme.of(context).textTheme.headlineSmall,),
+            ExpansionTile(
+              initiallyExpanded: false,
+              title: Text('AEX-SMP-BAC', style: Theme.of(context).textTheme.labelMedium!.copyWith(color: Colors.black)),
+              children: [
+                ListTile(
+                  title: Column(
+                    crossAxisAlignment:  CrossAxisAlignment.start,
+                    children: [
+                      Text('Size:  HMI/Server/Controller Atrius solution builder license included', style: Theme.of(context).textTheme.labelMedium,),
+                      Text('Size:  ₱47,218.12', style: Theme.of(context).textTheme.labelMedium,),
+                    ],
+                  ),
+                )
+              ],
+            ),
+            ExpansionTile(
+              initiallyExpanded: false,
+              title: Text('AEX-SMP-MOD', style: Theme.of(context).textTheme.labelMedium!.copyWith(color: Colors.black)),
+              children: [
+                ListTile(
+                  title: Column(
+                    crossAxisAlignment:  CrossAxisAlignment.start,
+                    children: [
+                      Text('Size:  HMI/Server/Controller Atrius Solution Builder License included', style: Theme.of(context).textTheme.labelMedium,),
+                      Text('Size:  ₱47,218.12', style: Theme.of(context).textTheme.labelMedium,),
+                    ],
+                  ),
+                )
+              ],
+            ),
+            ExpansionTile(
+              initiallyExpanded: false,
+              title: Text('FXL-Dongle', style: Theme.of(context).textTheme.labelMedium!.copyWith(color: Colors.black)),
+              children: [
+                ListTile(
+                  title: Column(
+                    crossAxisAlignment:  CrossAxisAlignment.start,
+                    children: [
+                      Text('Size:  BACnet MS/TP communication add-on for GSM-2000-SMP', style: Theme.of(context).textTheme.labelMedium,),
+                      Text('Size:  ₱242,824.24', style: Theme.of(context).textTheme.labelMedium,),
+                    ],
+                  ),
+                )
+              ],
+            ),
+            ExpansionTile(
+              initiallyExpanded: false,
+              title: Text('GSM-100-DSA', style: Theme.of(context).textTheme.labelMedium!.copyWith(color: Colors.black)),
+              children: [
+                ListTile(
+                  title: Column(
+                    crossAxisAlignment:  CrossAxisAlignment.start,
+                    children: [
+                      Text('Size:  Basic license fee for Atrius Solution builder', style: Theme.of(context).textTheme.labelMedium,),
+                      Text('Size:  ₱91,235.02', style: Theme.of(context).textTheme.labelMedium,),
+                    ],
+                  ),
+                )
+              ],
+            ),
+            ExpansionTile(
+              initiallyExpanded: false,
+              title: Text('GSM-1000-BMX', style: Theme.of(context).textTheme.labelMedium!.copyWith(color: Colors.black)),
+              children: [
+                ListTile(
+                  title: Column(
+                    crossAxisAlignment:  CrossAxisAlignment.start,
+                    children: [
+                      Text('Size:  MODBUS communication add-on for GSM-2000-SMP', style: Theme.of(context).textTheme.labelMedium,),
+                      Text('Size:  ₱277,458.23', style: Theme.of(context).textTheme.labelMedium,),
+                    ],
+                  ),
+                )
+              ],
+            ),
+
+
+          ],
+      ),
     );
   }
 }

@@ -54,20 +54,30 @@ class ProductCard extends StatelessWidget {
                   children: [
                     Expanded(
                       flex: 3,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(product.name, style: Theme.of(context).textTheme.labelMedium!.copyWith(color: Colors.white),),
-                          Text( '\₱${Product.products[0].price}',
-                            style: Theme.of(context).textTheme.labelMedium!.copyWith(color: Colors.white),),
-                        ],
+                      child: SingleChildScrollView(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(product.name, style: Theme.of(context).textTheme.labelMedium!.copyWith(color: Colors.white),),
+                           // Text( '\₱${Product.products[0].price}',
+                           //   style: Theme.of(context).textTheme.labelMedium!.copyWith(color: Colors.white),),
+                          ],
+                        ),
                       ),
                     ),
                     Expanded(
-                      child: IconButton(icon: Icon(Icons.add_circle, color: Colors.white,
+                      child: IconButton(icon: Icon(Icons.ads_click_sharp, color: Colors.white,
                       ),
-                        onPressed: () {},
+                        onPressed: () {
+                          PersistentNavBarNavigator.pushNewScreenWithRouteSettings(
+                            context,
+                            settings: RouteSettings(name: ProductScreen.routeName, arguments: {'product': product}),
+                            screen: ProductScreen(product: product),
+                            withNavBar: true,
+                            pageTransitionAnimation: PageTransitionAnimation.cupertino,
+                          );
+                        },
                       ),
                     ),
                   ],
