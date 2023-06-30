@@ -1,8 +1,11 @@
 
 
 import 'package:enye_app/screens/products/product_model.dart';
+import 'package:enye_app/widget/CarouselCardProduct.dart';
+import 'package:enye_app/widget/carousel_card.dart';
 import 'package:enye_app/widget/custom_appbar.dart';
 import 'package:enye_app/widget/custom_navbar.dart';
+import 'package:enye_app/widget/product_carousel.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -23,6 +26,7 @@ final Product product;
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CustomAppBar(title: product.name, imagePath: '',),
+      body: ProductCarouselCard(product: product),
     );
   }
 }
