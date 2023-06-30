@@ -7,6 +7,8 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import '../screens/products/category_model.dart';
+import '../screens/products/product_model.dart';
+import '../screens/products/product_screen.dart';
 import '../widget/custom_navbar.dart';
 
 class AppRouter{
@@ -32,6 +34,8 @@ class AppRouter{
         return ProductPage.route();
       case CatalogScreen.routeName:
         return CatalogScreen.route();
+      case ProductScreen.routeName:
+        return ProductScreen.route(product: settings.arguments as Product);
 
 
       default: 

@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:enye_app/widget/widgets.dart';
+import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 
 import '../products/category_model.dart';
 import '../products/product_model.dart';
@@ -38,10 +39,21 @@ class CatalogScreen extends StatelessWidget {
           itemCount: categoryProducts.length,
           itemBuilder: (BuildContext context, int index) {
             return Center(
-              child: ProductCard(
-                product: categoryProducts[index],
-                widthFactor: 2.2,
+              child: InkWell(
+                onTap: (){
+                  PersistentNavBarNavigator.pushNewScreenWithRouteSettings(
+                    context,
+                    settings: RouteSettings(name: CatalogScreen.routeName, arguments: {'subcategory': categoryProducts}),
+                    screen: CatalogScreen(),
+                    withNavBar: true,
+                    pageTransitionAnimation: PageTransitionAnimation.cupertino,
+                  );
+                },
+                child: ProductCard(
+                  product: categoryProducts[index],
+                  widthFactor: 2.2,
     ),
+              ),
             );
     }
 
