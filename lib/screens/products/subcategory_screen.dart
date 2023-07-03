@@ -36,13 +36,13 @@ class SubCategoryScreen extends StatelessWidget {
         body: GridView.builder(
             padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 16.0),
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2, childAspectRatio: 1.15),
+                crossAxisCount: 1, childAspectRatio: 1.60),
             itemCount: categoryProducts.length,
             itemBuilder: (BuildContext context, int index) {
               return Center(
                 child: SubCategoryCard(
                   subcategory: categoryProducts[index],
-                  widthFactor: 2.2,
+                  widthFactor: 1.1,
                 ),
               );
             }

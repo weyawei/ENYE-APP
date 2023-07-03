@@ -22,7 +22,7 @@ class SubCategory extends Equatable{
         imageUrl: 'assets/products_category/categ1.png'),
     SubCategory(
         category: 'Accesories',
-        subcategory: 'Plug and Plugin Terminal',
+        subcategory: 'Plugs and Plugin Terminal',
         imageUrl: 'assets/products_category/categ1.png'),
     SubCategory(
         category: 'Accesories',
