@@ -3,6 +3,7 @@
 import 'package:equatable/equatable.dart';
 
 class ProductInfo extends Equatable{
+  final String subcategory;
   final String name;
   final String model;
   final String size;
@@ -10,6 +11,7 @@ class ProductInfo extends Equatable{
 
 
   const ProductInfo({
+    required this.subcategory,
     required this.name,
     required this.model,
     required this.size,
@@ -17,26 +19,44 @@ class ProductInfo extends Equatable{
 });
 
   @override
-  List<Object?> get props => [model, size, price];
+  List<Object?> get props => [subcategory, name, model, size, price];
   static List<ProductInfo> info = [
     ProductInfo(
+      subcategory: 'Vector Accesories',
       name: 'Gateways',
-    model: '1',
-    size: 'Descriptions',
-    price: '10',
+    model: 'AEX-SMP-BAC',
+    size: 'HMI/Server/Controller Atrius solution builder license included',
+    price: '47,218.12',
     ),
     ProductInfo(
+      subcategory: 'Vector Accesories',
       name: 'Gateways',
-      model: '2',
-      size: 'Descriptions1',
-      price: '101',
+      model: 'AEX-SMP-MOD',
+      size: 'HMI/Server/Controller Atrius Solution Builder License included   ',
+      price: '47,218.12',
     ),
     ProductInfo(
-      name: 'Gateways',
-      model: '3',
-      size: 'Descriptions2',
-      price: '102',
+      subcategory: 'Air Release Valve',
+      name: 'AVMX series Air Release Valve',
+      model: '1x',
+      size: 'Descriptions',
+      price: '1012',
     ),
+    ProductInfo(
+      subcategory: 'Air Release Valve',
+      name: 'AVMX series Air Release Valve',
+      model: '2x',
+      size: 'Descriptions',
+      price: '1025',
+    ),
+    ProductInfo(
+      subcategory: 'Air Release Valve',
+      name: 'AVRX Series Air Release Valve',
+      model: '3x',
+      size: 'Descriptions',
+      price: '1033',
+    ),
+
 
 
   ];

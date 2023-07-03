@@ -1,6 +1,7 @@
 
 
 import 'package:enye_app/screens/products/product_model.dart';
+import 'package:enye_app/screens/products/productinfo_model.dart';
 import 'package:enye_app/widget/CarouselCardProduct.dart';
 import 'package:enye_app/widget/carousel_card.dart';
 import 'package:enye_app/widget/custom_appbar.dart';
@@ -24,6 +25,7 @@ final Product product;
   const ProductScreen({required this.product});
   @override
   Widget build(BuildContext context) {
+    final filteredInfo = ProductInfo.info.where((info) => info.subcategory == product.subcategory && info.name == product.name);
     return Scaffold(
       appBar: CustomAppBar(title: product.name, imagePath: '',),
       body: ListView(
@@ -62,22 +64,23 @@ final Product product;
             ),
             Padding(padding: const EdgeInsets.all(5.0)),
             Text('MODEL :',style: Theme.of(context).textTheme.headlineSmall,),
+            for (var info in filteredInfo)
             ExpansionTile(
               initiallyExpanded: false,
-              title: Text('AEX-SMP-BAC', style: Theme.of(context).textTheme.labelMedium!.copyWith(color: Colors.black)),
+              title: Text(' ${info.model}', style: Theme.of(context).textTheme.labelMedium!.copyWith(color: Colors.black)),
               children: [
                 ListTile(
                   title: Column(
                     crossAxisAlignment:  CrossAxisAlignment.start,
                     children: [
-                      Text('Size:  HMI/Server/Controller Atrius solution builder license included', style: Theme.of(context).textTheme.labelMedium,),
-                      Text('Size:  ₱47,218.12', style: Theme.of(context).textTheme.labelMedium,),
+                      Text('Descriptions:   ${info.size}', style: Theme.of(context).textTheme.labelMedium,),
+                      Text('Price:   ₱${info.price}', style: Theme.of(context).textTheme.labelMedium,),
                     ],
                   ),
                 )
               ],
             ),
-            ExpansionTile(
+            /*ExpansionTile(
               initiallyExpanded: false,
               title: Text('AEX-SMP-MOD', style: Theme.of(context).textTheme.labelMedium!.copyWith(color: Colors.black)),
               children: [
@@ -136,7 +139,7 @@ final Product product;
                   ),
                 )
               ],
-            ),
+            ),*/
 
 
           ],
