@@ -201,7 +201,7 @@ class SubCategory extends Equatable{
 
     SubCategory(
         category: 'Flexible Joint',
-        subcategory: 'Rubble Flexible Joint',
+        subcategory: 'Rubber Flexible Joint',
         imageUrl: 'assets/products_category/categ12.png'),
     SubCategory(
         category: 'Flexible Joint',

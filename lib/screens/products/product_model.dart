@@ -339,7 +339,7 @@ class Product extends Equatable{
       name: 'BRVB Series Spring Load Check Valve',
       category: 'Check Valve',
       subcategory: 'Spring Load Check Valve',
-      imageUrl: 'assets/producs_image/check/spring/spring.jpg',
+      imageUrl: 'assets/producs_image/check/spring/spring1.png',
       price: 24.12,
       isRecommended: true,
       isPopular: true,
@@ -469,7 +469,7 @@ class Product extends Equatable{
     Product(
         name: 'Innotech OMNI',
         category: 'Controller',
-        subcategory: 'Oni BEMS Controllers',
+        subcategory: 'Omni BEMS Controllers',
         imageUrl: 'assets/producs_image/controller/omni/omni1.jpg',
         price: 24.12,
         isRecommended: true,
@@ -478,7 +478,7 @@ class Product extends Equatable{
     Product(
       name: 'Omni Compact',
       category: 'Controller',
-      subcategory: 'Oni BEMS Controllers',
+      subcategory: 'Omni BEMS Controllers',
       imageUrl: 'assets/producs_image/controller/omni/omni2.jpg',
       price: 24.12,
       isRecommended: true,
@@ -487,7 +487,7 @@ class Product extends Equatable{
     Product(
       name: 'Omni U10',
       category: 'Controller',
-      subcategory: 'Oni BEMS Controllers',
+      subcategory: 'Omni BEMS Controllers',
       imageUrl: 'assets/producs_image/controller/omni/omni3.jpg',
       price: 24.12,
       isRecommended: true,
@@ -515,7 +515,7 @@ class Product extends Equatable{
       name: 'Fan Coil Controller with Modbus RTU',
       category: 'Controller',
       subcategory: 'Intelligent Controller',
-      imageUrl: 'assets/producs_image/controller/intelligent/intelligent2.jpgg',
+      imageUrl: 'assets/producs_image/controller/intelligent/intelligent2.jpg',
       price: 24.12,
       isRecommended: true,
       isPopular: false,
@@ -781,7 +781,7 @@ class Product extends Equatable{
     Product(
       name: 'EVCB 7000 SERIES CHARACTERIZED DISC BALL VALVE',
       category: 'Enye Controls Motorized Valves and Actuators',
-      subcategory: 'CHARACTERIZED DISC BALL VALVE',
+      subcategory: 'Characteized Disc Ball Valve',
       imageUrl: 'assets/producs_image/actuators/characterized/characterized1.jpg',
       price: 24.12,
       isRecommended: false,
@@ -790,7 +790,7 @@ class Product extends Equatable{
     Product(
       name: 'EVCB 9000 SERIES CHARACTERIZED DISC BALL VALVE',
       category: 'Enye Controls Motorized Valves and Actuators',
-      subcategory: 'CHARACTERIZED DISC BALL VALVE',
+      subcategory: 'Characteized Disc Ball Valve',
       imageUrl: 'assets/producs_image/actuators/characterized/characterized1.jpg',
       price: 24.12,
       isRecommended: false,
@@ -799,7 +799,7 @@ class Product extends Equatable{
     Product(
       name: 'ECMB SERIES MOTORIZED FAN COIL VALVE',
       category: 'Enye Controls Motorized Valves and Actuators',
-      subcategory: 'MOTORIZED FAN COIL VALVE',
+      subcategory: 'Motorized Fan Coil Valve',
       imageUrl: 'assets/producs_image/actuators/motorized/motorized1.jpg',
       price: 24.12,
       isRecommended: false,
@@ -848,7 +848,7 @@ class Product extends Equatable{
     Product(
       name: 'L-120 Series SS Expansion Joint',
       category: 'Flexible Joint',
-      subcategory: 'L-120 Series SS Expansion Joint',
+      subcategory: 'SS Expansion Joint',
       imageUrl: 'assets/producs_image/flexible/rubber/rubber2.jpg',
       price: 24.12,
       isRecommended: false,

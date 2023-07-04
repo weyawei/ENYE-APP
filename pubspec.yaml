@@ -109,6 +109,7 @@ flutter:
     - assets/producs_image/actuators/butterfly/
     - assets/producs_image/actuators/characterized/
     - assets/producs_image/actuators/damper/
+    - assets/producs_image/actuators/motorized/
     - assets/producs_image/actuators/electronic/
     - assets/producs_image/actuators/fire/
     - assets/producs_image/actuators/spring/
