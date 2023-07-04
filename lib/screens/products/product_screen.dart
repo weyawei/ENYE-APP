@@ -46,7 +46,7 @@ final Product product;
                     width: MediaQuery.of(context).size.width -10,
                     height: 50,
                     alignment: Alignment.bottomLeft,
-                    color: Colors.deepOrange,
+                    color: Colors.black54,
                     child: Center(
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,

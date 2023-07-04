@@ -273,7 +273,7 @@ class Product extends Equatable{
     Product(
         name: 'BABV Series Brass Ball Valves',
         category: 'Ball Valves',
-        subcategory: 'Brass Ball Valves',
+        subcategory: 'Brass Ball Valve',
         imageUrl: 'assets/producs_image/ball/brass/ball1.jpg',
         price: 24.12,
         isRecommended: true,
@@ -282,7 +282,7 @@ class Product extends Equatable{
     Product(
       name: 'BLBV Series Lead Free Brass Ball Valve',
       category: 'Ball Valves',
-      subcategory: 'Brass Ball Valves',
+      subcategory: 'Brass Ball Valve',
       imageUrl: 'assets/producs_image/ball/brass/ball2.jpg',
       price: 24.12,
       isRecommended: true,
@@ -291,7 +291,7 @@ class Product extends Equatable{
     Product(
       name: 'BRBV Series Bronze Ball Valves',
       category: 'Ball Valves',
-      subcategory: 'Bronze Ball Valves',
+      subcategory: 'Bronze Ball Valve',
       imageUrl: 'assets/producs_image/ball/bronze/bronze1.jpg',
       price: 24.12,
       isRecommended: true,
@@ -300,7 +300,7 @@ class Product extends Equatable{
     Product(
       name: 'BABH Series Long Neck Ball Valve',
       category: 'Ball Valves',
-      subcategory: 'Long Neck Ball Valves',
+      subcategory: 'Long Neck Ball Valve',
       imageUrl: 'assets/producs_image/ball/long/long1.jpg',
       price: 24.12,
       isRecommended: true,
@@ -359,7 +359,7 @@ class Product extends Equatable{
     Product(
         name: 'BWLX Series Wafer Butterfly Valve Wafer Concentric Disc',
         category: 'Concentric Butterfly Valve',
-        subcategory: 'Wafer Butterfly Valve ',
+        subcategory: 'Wafer Butterfly Valve',
         imageUrl: 'assets/producs_image/concentric/wafer/wafer1.jpg',
         price: 24.12,
         isRecommended: true,
@@ -368,7 +368,7 @@ class Product extends Equatable{
     Product(
       name: 'BWGX Series Wafer Butterfly Valve Wafer Concentric Disc',
       category: 'Concentric Butterfly Valve',
-      subcategory: 'Wafer Butterfly Valve ',
+      subcategory: 'Wafer Butterfly Valve',
       imageUrl: 'assets/producs_image/concentric/wafer/wafer2.jpg',
       price: 24.12,
       isRecommended: true,
@@ -377,7 +377,7 @@ class Product extends Equatable{
     Product(
       name: 'BWGE Series Wafer Butterfly Valve (Epoxy Coated Disc)',
       category: 'Concentric Butterfly Valve',
-      subcategory: 'Wafer Butterfly Valve ',
+      subcategory: 'Wafer Butterfly Valve',
       imageUrl: 'assets/producs_image/concentric/wafer/wafer3.jpg',
       price: 24.12,
       isRecommended: true,
@@ -682,7 +682,7 @@ class Product extends Equatable{
     Product(
       name: 'Torque 3 Nm - ECFA Series Spring Return Damper Actuator',
       category: 'Enye Controls Motorized Valves and Actuators',
-      subcategory: 'Series Spring Return Damper Actuator',
+      subcategory: 'Spring Return Damper Actuator',
       imageUrl: 'assets/producs_image/actuators/spring/spring2.jpg',
       price: 24.12,
       isRecommended: false,
@@ -691,7 +691,7 @@ class Product extends Equatable{
     Product(
       name: 'Torque 8 Nm - ECFA Series Spring Return Damper Actuator',
       category: 'Enye Controls Motorized Valves and Actuators',
-      subcategory: 'Series Spring Return Damper Actuator',
+      subcategory: 'Spring Return Damper Actuator',
       imageUrl: 'assets/producs_image/actuators/spring/spring3.jpg',
       price: 24.12,
       isRecommended: false,
@@ -700,7 +700,7 @@ class Product extends Equatable{
     Product(
       name: 'Torque 20 Nm - ECFA Series Spring Return Damper Actuator',
       category: 'Enye Controls Motorized Valves and Actuators',
-      subcategory: 'Series Spring Return Damper Actuator',
+      subcategory: 'Spring Return Damper Actuator',
       imageUrl: 'assets/producs_image/actuators/spring/spring4.jpg',
       price: 24.12,
       isRecommended: false,
@@ -709,7 +709,7 @@ class Product extends Equatable{
     Product(
       name: 'Torque 5 Nm - EECM Series Electronic Return Damper Actuator',
       category: 'Enye Controls Motorized Valves and Actuators',
-      subcategory: 'Electronic Return Damper Actuator',
+      subcategory: 'Electronic Damper Actuator',
       imageUrl: 'assets/producs_image/actuators/electronic/electronic1.jpg',
       price: 24.12,
       isRecommended: false,
@@ -718,7 +718,7 @@ class Product extends Equatable{
     Product(
       name: 'Torque 10 Nm - EECM Series Electronic Return Damper Actuator',
       category: 'Enye Controls Motorized Valves and Actuators',
-      subcategory: 'Electronic Return Damper Actuator',
+      subcategory: 'Electronic Damper Actuator',
       imageUrl: 'assets/producs_image/actuators/electronic/electronic2.jpg',
       price: 24.12,
       isRecommended: false,
@@ -727,7 +727,7 @@ class Product extends Equatable{
     Product(
       name: 'Torque 20 Nm - EECM Series Electronic Return Damper Actuator',
       category: 'Enye Controls Motorized Valves and Actuators',
-      subcategory: 'Electronic Return Damper Actuator',
+      subcategory: 'Electronic Damper Actuator',
       imageUrl: 'assets/producs_image/actuators/electronic/electronic1.jpg',
       price: 24.12,
       isRecommended: false,
@@ -989,7 +989,7 @@ class Product extends Equatable{
     Product(
       name: 'BRGL Series Bronze Globe Valves',
       category: 'Globe Valve',
-      subcategory: 'Broze Globe Valve',
+      subcategory: 'Bronze Globe Valve',
       imageUrl: 'assets/producs_image/globe/bronze/bronze.jpg',
       price: 24.12,
       isRecommended: false,
@@ -1013,7 +1013,7 @@ class Product extends Equatable{
     Product(
         name: 'Genesis II Software',
         category: 'Softwares',
-        subcategory: 'Software and Utilities',
+        subcategory: 'Softwares and Utilities',
         imageUrl: 'assets/producs_image/softwares/softwares/softwares1.jpg',
         price: 24.12,
         isRecommended: true,
@@ -1022,7 +1022,7 @@ class Product extends Equatable{
     Product(
       name: 'Magellan Software',
       category: 'Softwares',
-      subcategory: 'Software and Utilities',
+      subcategory: 'Softwares and Utilities',
       imageUrl: 'assets/producs_image/softwares/softwares/softwares2.jpg',
       price: 24.12,
       isRecommended: false,
@@ -1034,7 +1034,7 @@ class Product extends Equatable{
     Product(
         name: 'BAYS Series Brass Y-Strainers',
         category: 'Strainer',
-        subcategory: 'Y Strainers',
+        subcategory: 'Y Strainer',
         imageUrl: 'assets/producs_image/strainers/ystrainer/strainer1.jpg',
         price: 24.12,
         isRecommended: false,
@@ -1043,7 +1043,7 @@ class Product extends Equatable{
     Product(
       name: 'BRYS Series Bronze Y Strainers',
       category: 'Strainer',
-      subcategory: 'Vector3',
+      subcategory: 'Y Strainer',
       imageUrl: 'assets/producs_image/strainers/ystrainer/strainer2.jpg',
       price: 24.12,
       isRecommended: false,
@@ -1226,7 +1226,7 @@ class Product extends Equatable{
     Product(
       name: 'Current / Voltage Signal Generator',
       category: 'Test Equipments',
-      subcategory: 'Signal Generator',
+      subcategory: 'Signal Generators',
       imageUrl: 'assets/producs_image/test/signal/signal1.jpg',
       price: 24.12,
       isRecommended: false,

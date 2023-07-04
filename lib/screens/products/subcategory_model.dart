@@ -129,21 +129,21 @@ class SubCategory extends Equatable{
         imageUrl: 'assets/products_category/categ8.png'),
     SubCategory(
         category: 'Concentric Butterfly Valve',
-        subcategory: 'Fire Protections Signal FeedBack Butterfly Valve',
+        subcategory: 'Fire Protection Signal Feedback Butterfly Valve',
         imageUrl: 'assets/products_category/categ8.png'),
 
 
     SubCategory(
         category: 'Controller',
-        subcategory: 'Omni BEMS Controller',
+        subcategory: 'Omni BEMS Controllers',
         imageUrl: 'assets/products_category/categ9.png'),
     SubCategory(
         category: 'Controller',
-        subcategory: 'Universal',
+        subcategory: 'Universal Programmable Controller',
         imageUrl: 'assets/products_category/categ9.png'),
     SubCategory(
         category: 'Controller',
-        subcategory: 'Intelligent',
+        subcategory: 'Intelligent Controller',
         imageUrl: 'assets/products_category/categ9.png'),
 
 
@@ -259,7 +259,7 @@ class SubCategory extends Equatable{
 
     SubCategory(
         category: 'Plunger Valve',
-        subcategory: 'Plunger valve',
+        subcategory: 'Plunger Valve',
         imageUrl: 'assets/products_category/categ15.png'),
 
 
@@ -279,13 +279,13 @@ class SubCategory extends Equatable{
         imageUrl: 'assets/products_category/categ18.png'),
     SubCategory(
         category: 'Strainer',
-        subcategory: 'Basket Strainer',
+        subcategory: 'Basket Strainers',
         imageUrl: 'assets/products_category/categ18.png'),
 
 
     SubCategory(
         category: 'Test Equipments',
-        subcategory: 'Thermo-Animometer',
+        subcategory: 'Thermo-Anemometer',
         imageUrl: 'assets/products_category/categ19.png'),
     SubCategory(
         category: 'Test Equipments',
@@ -333,7 +333,7 @@ class SubCategory extends Equatable{
         imageUrl: 'assets/products_category/categ19.png'),
     SubCategory(
         category: 'Test Equipments',
-        subcategory: 'Pilot Tube',
+        subcategory: 'Pitot Tube',
         imageUrl: 'assets/products_category/categ19.png'),
     SubCategory(
         category: 'Test Equipments',
@@ -349,7 +349,7 @@ class SubCategory extends Equatable{
         imageUrl: 'assets/products_category/categ19.png'),
     SubCategory(
         category: 'Test Equipments',
-        subcategory: 'Windmeter',
+        subcategory: 'Wind Meter',
         imageUrl: 'assets/products_category/categ19.png'),
 
 
