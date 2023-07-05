@@ -76,3 +76,61 @@ class _CarouselCardState extends State<CarouselCard> {
     );
   }
 }
+
+class CarouselCard1 extends StatefulWidget {
+  final Category1 category;
+  const CarouselCard1({required this.category,});
+
+  @override
+  State<CarouselCard1> createState() => _CarouselCard1State();
+}
+
+class _CarouselCard1State extends State<CarouselCard1> {
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: (){
+        setState(() {
+          setState(() {
+            PersistentNavBarNavigator.pushNewScreenWithRouteSettings(
+              context,
+              settings: RouteSettings(name: SubCategoryScreen.routeName, arguments: {'name': widget.category.name}),
+              screen: SubCategoryScreen(),
+              withNavBar: true,
+              pageTransitionAnimation: PageTransitionAnimation.cupertino,
+            );
+          });
+        });
+        /*Navigator.pushNamed(context,
+          CatalogScreen.routeName,
+          arguments: widget.category,
+        );*/
+      },
+      child: Container(
+        margin: EdgeInsets.symmetric(horizontal: 2.0, vertical: 2.0),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(5.0),
+          color: Colors.grey.withOpacity(0.2),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            Icon(
+              Icons.category,
+              size: 30,
+              color: Colors.black,
+            ),
+            SizedBox(height: 8.0, width: 15,),
+            Text(
+              widget.category.name,
+              style: Theme.of(context).textTheme.labelMedium?.copyWith(
+                color: Colors.black,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
