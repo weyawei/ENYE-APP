@@ -17,101 +17,102 @@ class SubCategoryCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      scrollDirection: Axis.horizontal,
-      child: Row(
-        children: [
-          Stack(
-            children: [
-              Container(
-                width: MediaQuery.of(context).size.width / widthFactor,
-                height: 200.0,
-                child: Image.asset(
-                  subcategory.imageUrl,
-                  fit: BoxFit.cover,
+    return InkWell(
+      onTap: () {
+        PersistentNavBarNavigator.pushNewScreenWithRouteSettings(
+          context,
+          settings: RouteSettings(
+            name: CatalogScreen.routeName,
+            arguments: {
+              'subcategory': subcategory.subcategory
+            },
+          ),
+          screen: CatalogScreen(),
+          withNavBar: true,
+          pageTransitionAnimation:
+          PageTransitionAnimation.cupertino,
+        );
+      },
+        child: Stack(
+              children: [
+                Container(
+                  width: MediaQuery.of(context).size.width / widthFactor,
+                  height: 200.0,
+
                 ),
-              ),
-              Positioned(
-                top: 60,
-                child: Container(
-                  width: MediaQuery.of(context).size.width,
-                  height: 112,
-                  decoration: BoxDecoration(
-                    color: Colors.black.withAlpha(50),
+                Positioned(
+                  top: 60,
+                  child: Container(
+                    width: MediaQuery.of(context).size.width,
+                    height: 112,
+                    decoration: BoxDecoration(
+                      color: Colors.black.withAlpha(50),
+                    ),
                   ),
                 ),
-              ),
-              Positioned(
-                top: 65,
-                left: 5,
-                child: Container(
-                  width: MediaQuery.of(context).size.width / widthFactor -10,
-                  height: 100,
-                  decoration: BoxDecoration(
-                    color: Colors.black,
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(5.0),
-                    child: SingleChildScrollView(
-                      child: Row(
-                        children: [
-                          Expanded(
-                            flex: 2,
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  subcategory.subcategory,
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .headlineSmall!
-                                      .copyWith(color: Colors.white),
-                                ),
-                                Text(
-                                  'Click the Arrow to View Products',
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .labelSmall!
-                                      .copyWith(color: Colors.white),
-                                ),
-                              ],
-                            ),
-                          ),
-                          Expanded(
-                            child: IconButton(
-                              icon: Icon(
-                                Icons.arrow_forward,
-                                color: Colors.white,
-                                size: 40,
-                              ),
-                              onPressed: () {
-                                PersistentNavBarNavigator.pushNewScreenWithRouteSettings(
-                                  context,
-                                  settings: RouteSettings(
-                                    name: CatalogScreen.routeName,
-                                    arguments: {
-                                      'subcategory': subcategory.subcategory
-                                    },
+                Positioned(
+                  top: 65,
+                  left: 5,
+                  child: Container(
+                    width: MediaQuery.of(context).size.width / widthFactor -10,
+                    height: 100,
+                    decoration: BoxDecoration(
+                      color: Colors.black,
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(5.0),
+                      child: SingleChildScrollView(
+                        child: Row(
+                          children: [
+                            Expanded(
+                              flex: 2,
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    subcategory.subcategory,
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .headlineSmall!
+                                        .copyWith(color: Colors.white),
                                   ),
-                                  screen: CatalogScreen(),
-                                  withNavBar: true,
-                                  pageTransitionAnimation:
-                                  PageTransitionAnimation.cupertino,
-                                );
-                              },
+                                ],
+                              ),
                             ),
-                          ),
-                        ],
+                            Expanded(
+                              child: IconButton(
+                                icon: Icon(
+                                  Icons.arrow_forward,
+                                  color: Colors.white,
+                                  size: 40,
+                                ),
+                                onPressed: () {
+                                  PersistentNavBarNavigator.pushNewScreenWithRouteSettings(
+                                    context,
+                                    settings: RouteSettings(
+                                      name: CatalogScreen.routeName,
+                                      arguments: {
+                                        'subcategory': subcategory.subcategory
+                                      },
+                                    ),
+                                    screen: CatalogScreen(),
+                                    withNavBar: true,
+                                    pageTransitionAnimation:
+                                    PageTransitionAnimation.cupertino,
+                                  );
+                                },
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ),
                 ),
-              ),
-            ],
-          ),
-        ],
-      ),
+              ],
+            ),
+
     );
   }
 }

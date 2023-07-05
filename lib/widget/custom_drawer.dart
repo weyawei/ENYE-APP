@@ -129,21 +129,21 @@ class CustomDrawer1 extends StatelessWidget {
               ),
             ),
           ),
-    ExpansionTile(
-    initiallyExpanded: true,
-    title: Text(
-    'CATEGORIES',
-    style: Theme.of(context).textTheme.headlineSmall!.copyWith(color: Colors.black),
-    ),
-    children: [
-          GridView.builder(
-            shrinkWrap: true,
-            physics: NeverScrollableScrollPhysics(),
-            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 1, // Adjust the number of columns as needed
-              crossAxisSpacing: 4,
-              mainAxisSpacing: 4,
-              childAspectRatio: 9.8, // Adjust the aspect ratio as needed
+           ExpansionTile(
+              initiallyExpanded: false,
+              title: Text(
+               'CATEGORIES',
+               style: Theme.of(context).textTheme.headlineSmall!.copyWith(color: Colors.black),
+             ),
+                 children: [
+             GridView.builder(
+                 shrinkWrap: true,
+                  physics: NeverScrollableScrollPhysics(),
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 1, // Adjust the number of columns as needed
+                  crossAxisSpacing: 4,
+                  mainAxisSpacing: 4,
+                  childAspectRatio: 9.8, // Adjust the aspect ratio as needed
             ),
             itemCount: Category1.categories.length,
             itemBuilder: (context, index) {

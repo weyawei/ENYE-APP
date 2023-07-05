@@ -33,21 +33,17 @@ class SubCategoryScreen extends StatelessWidget {
     final List<SubCategory> categoryProducts = SubCategory.categories.where((product) => product.category == CategName).toList();
     return Scaffold(
         appBar: CustomAppBar(title: '$CategName', imagePath: '',),
-        body: GridView.builder(
-            padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 16.0),
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 1, childAspectRatio: 1.60),
-            itemCount: categoryProducts.length,
-            itemBuilder: (BuildContext context, int index) {
-              return Center(
-                child: SubCategoryCard(
-                  subcategory: categoryProducts[index],
-                  widthFactor: 1.1,
-                ),
-              );
-            }
 
-        )
+        body: ListView.builder(
+          padding: const EdgeInsets.all(5.0),
+          itemCount: categoryProducts.length,
+          itemBuilder: (BuildContext context, int index) {
+            return SubCategoryCard(
+              subcategory: categoryProducts[index],
+              widthFactor: 1.0,
+            );
+          },
+        ),
     );
   }
 }
