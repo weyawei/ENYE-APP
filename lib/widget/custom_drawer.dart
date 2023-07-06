@@ -132,8 +132,8 @@ class CustomDrawer1 extends StatelessWidget {
            ExpansionTile(
               initiallyExpanded: false,
               title: Text(
-               'CATEGORIES',
-               style: Theme.of(context).textTheme.headlineSmall!.copyWith(color: Colors.black),
+               'PRODUCT CATEGORIES',
+               style: Theme.of(context).textTheme.labelLarge!.copyWith(color: Colors.black),
              ),
                  children: [
              GridView.builder(

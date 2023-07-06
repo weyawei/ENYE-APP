@@ -37,7 +37,7 @@ class SubCategoryCard extends StatelessWidget {
               children: [
                 Container(
                   width: MediaQuery.of(context).size.width / widthFactor,
-                  height: 80.0,
+                  height: 60.0,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10.0),
                     border: Border.all(
@@ -50,7 +50,7 @@ class SubCategoryCard extends StatelessWidget {
 
                 ),
                 Padding(
-                  padding: const EdgeInsets.all(20.0),
+                  padding: const EdgeInsets.all(10.0),
                   child: SingleChildScrollView(
                     child: Row(
                       children: [
@@ -64,7 +64,7 @@ class SubCategoryCard extends StatelessWidget {
                                 subcategory.subcategory,
                                 style: Theme.of(context)
                                     .textTheme
-                                    .headlineSmall!
+                                    .labelLarge!
                                     .copyWith(color: Colors.black),
                               ),
                             ],

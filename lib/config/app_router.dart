@@ -22,6 +22,8 @@ class AppRouter{
         return HomePage.route();
       case SecondScreen.routeName:
         return SecondScreen.route();
+      case SplashScreen.routeName:
+        return SplashScreen.route();
       case SystemsPage.routeName:
         return SystemsPage.route();
       case ProjectsPage.routeName:

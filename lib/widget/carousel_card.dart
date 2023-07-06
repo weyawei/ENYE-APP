@@ -116,8 +116,8 @@ class _CarouselCard1State extends State<CarouselCard1> {
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Icon(
-              Icons.category,
-              size: 30,
+              Icons.circle,
+              size: 10,
               color: Colors.black,
             ),
             SizedBox(height: 8.0, width: 15,),

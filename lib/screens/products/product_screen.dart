@@ -9,6 +9,7 @@ import 'package:enye_app/widget/custom_navbar.dart';
 import 'package:enye_app/widget/product_carousel.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:photo_view/photo_view.dart';
 
 class ProductScreen extends StatelessWidget {
 
@@ -32,28 +33,28 @@ final Product product;
           children:[
             ProductCarouselCard(product: product),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20.0),
+              padding: const EdgeInsets.symmetric(horizontal: 10.0),
               child: Stack(
                 children: [
                   Container(
                     width: MediaQuery.of(context).size.width,
                     height: 60,
                     alignment: Alignment.bottomCenter,
-                    color: Colors.black.withAlpha(50),
+                    color: Colors.black.withAlpha(30),
                   ),
                   Container(
-                    margin: const EdgeInsets.all(5.0),
-                    width: MediaQuery.of(context).size.width -10,
-                    height: 50,
+                    margin: const EdgeInsets.all(13.0),
+                    width: MediaQuery.of(context).size.width ,
+
                     alignment: Alignment.bottomLeft,
-                    color: Colors.black54,
+
                     child: Center(
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                        //   Text(product.name, style: Theme.of(context).textTheme.labelLarge!.copyWith(color: Colors.white)),
                         //  Text('₱${product.price}',style: Theme.of(context).textTheme.labelLarge!.copyWith(color: Colors.white)),
-                          Text('PRODUCT CATALOG', style: Theme.of(context).textTheme.headlineSmall!.copyWith(color: Colors.white)),
+                          Text('PRODUCT CATALOG', style: Theme.of(context).textTheme.titleLarge!.copyWith(color: Colors.black)),
                         ],
 
                       ),
@@ -63,11 +64,11 @@ final Product product;
               ),
             ),
             Padding(padding: const EdgeInsets.all(5.0)),
-            Text('MODEL :',style: Theme.of(context).textTheme.headlineSmall,),
+            Text('MODEL :',style: Theme.of(context).textTheme.labelLarge,),
             for (var info in filteredInfo)
             ExpansionTile(
               initiallyExpanded: false,
-              title: Text(' ${info.model}', style: Theme.of(context).textTheme.labelMedium!.copyWith(color: Colors.black)),
+              title: Text(' ${info.model}', style: Theme.of(context).textTheme.labelMedium!.copyWith(color: Colors.black, fontWeight: FontWeight.bold)),
               children: [
                 ListTile(
                   title: Column(
@@ -75,6 +76,21 @@ final Product product;
                     children: [
                       Text('Descriptions:   ${info.size}', style: Theme.of(context).textTheme.labelMedium,),
                       Text('Price:   ₱${info.price}', style: Theme.of(context).textTheme.labelMedium,),
+                      Center(
+
+                          child: GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (_) => ImageZoomScreen(),
+                                ),
+                              );
+                            },
+                            child: Image.asset('assets/logo/header.jpg', width: 100, height: 100,),
+
+                          ),
+                      ),
                     ],
                   ),
                 )
@@ -143,6 +159,27 @@ final Product product;
 
 
           ],
+      ),
+    );
+  }
+}
+class ImageZoomScreen extends StatelessWidget {
+  const ImageZoomScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: GestureDetector(
+        onTap: () {
+      Navigator.pop(context);
+       },
+        child: Center(
+          child: Container(
+            child: PhotoView(
+              imageProvider: AssetImage('assets/logo/header.jpg'),
+            ),
+          ),
+        ),
       ),
     );
   }

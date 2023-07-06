@@ -34,16 +34,33 @@ class SubCategoryScreen extends StatelessWidget {
     return Scaffold(
         appBar: CustomAppBar(title: '$CategName', imagePath: '',),
 
-        body: ListView.builder(
-          padding: const EdgeInsets.all(5.0),
-          itemCount: categoryProducts.length,
-          itemBuilder: (BuildContext context, int index) {
-            return SubCategoryCard(
+        body: Column(
+            children: [
+            Padding(
+            padding: const EdgeInsets.all(16.0),
+              child: Text(
+              'Type of ${CategName}'.toUpperCase(),
+               style: TextStyle(
+                 fontSize: 15,
+                   fontWeight: FontWeight.bold,
+
+         ),
+        ),
+      ),
+         Expanded(
+             child: ListView.builder(
+                padding: const EdgeInsets.all(5.0),
+                itemCount: categoryProducts.length,
+                 itemBuilder: (BuildContext context, int index) {
+                 return SubCategoryCard(
               subcategory: categoryProducts[index],
               widthFactor: 1.0,
             );
           },
         ),
+    ),
+    ],
+    ),
     );
   }
 }

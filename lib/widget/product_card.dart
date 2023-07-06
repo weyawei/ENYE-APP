@@ -46,7 +46,7 @@ class ProductCard extends StatelessWidget {
             left: 5,
             child: Container(width: MediaQuery.of(context).size.width /2.5- 10,
               height: 70,
-              decoration: BoxDecoration(color: Colors.black,
+              decoration: BoxDecoration(color: Colors.black.withAlpha(90),
               ),
               child: Padding(
                 padding: const EdgeInsets.all(5.0),
