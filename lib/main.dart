@@ -18,7 +18,7 @@ class MyApp extends StatelessWidget {
           fontFamily: 'Raleway',
       ),
       onGenerateRoute: AppRouter.onGenerateRoute,
-      initialRoute: '/',
+      initialRoute: SplashScreen.routeName,
     );
   }
 }

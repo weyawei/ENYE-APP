@@ -2,21 +2,39 @@
 import 'package:enye_app/screens/catalog/catalog_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 
 import '../screens/products/category_model.dart';
+import '../screens/products/subcategory_screen.dart';
 
-class CarouselCard extends StatelessWidget {
+class CarouselCard extends StatefulWidget {
   final Category1 category;
   const CarouselCard({required this.category,});
 
   @override
+  State<CarouselCard> createState() => _CarouselCardState();
+}
+
+class _CarouselCardState extends State<CarouselCard> {
+  @override
   Widget build(BuildContext context) {
     return InkWell(
       onTap: (){
-        Navigator.pushNamed(context,
+        setState(() {
+          setState(() {
+            PersistentNavBarNavigator.pushNewScreenWithRouteSettings(
+              context,
+              settings: RouteSettings(name: SubCategoryScreen.routeName, arguments: {'name': widget.category.name}),
+              screen: SubCategoryScreen(),
+              withNavBar: true,
+              pageTransitionAnimation: PageTransitionAnimation.cupertino,
+            );
+          });
+        });
+        /*Navigator.pushNamed(context,
           CatalogScreen.routeName,
-          arguments: category,
-        );
+          arguments: widget.category,
+        );*/
       },
       child: Container(
         margin: EdgeInsets.symmetric(horizontal: 5.0, vertical: 20),
@@ -24,7 +42,7 @@ class CarouselCard extends StatelessWidget {
           borderRadius: BorderRadius.all(Radius.circular(5.0)),
           child: Stack(
             children: <Widget>[
-              Image.asset(category.imageUrl, fit: BoxFit.cover, width: 1000.0),
+              Image.asset(widget.category.imageUrl, fit: BoxFit.cover, width: 1000.0),
               Positioned(
                 bottom: 0.0,
                 left: 0.0,
@@ -43,7 +61,7 @@ class CarouselCard extends StatelessWidget {
                   padding:
                   EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
                   child: Text(
-                    category.name,
+                    widget.category.name,
                     style: Theme.of(context).textTheme.headlineMedium?.copyWith(
                       color: Colors.white,
 
@@ -53,6 +71,64 @@ class CarouselCard extends StatelessWidget {
               ),
             ],
           ),
+        ),
+      ),
+    );
+  }
+}
+
+class CarouselCard1 extends StatefulWidget {
+  final Category1 category;
+  const CarouselCard1({required this.category,});
+
+  @override
+  State<CarouselCard1> createState() => _CarouselCard1State();
+}
+
+class _CarouselCard1State extends State<CarouselCard1> {
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: (){
+        setState(() {
+          setState(() {
+            PersistentNavBarNavigator.pushNewScreenWithRouteSettings(
+              context,
+              settings: RouteSettings(name: SubCategoryScreen.routeName, arguments: {'name': widget.category.name}),
+              screen: SubCategoryScreen(),
+              withNavBar: true,
+              pageTransitionAnimation: PageTransitionAnimation.cupertino,
+            );
+          });
+        });
+        /*Navigator.pushNamed(context,
+          CatalogScreen.routeName,
+          arguments: widget.category,
+        );*/
+      },
+      child: Container(
+        margin: EdgeInsets.symmetric(horizontal: 2.0, vertical: 2.0),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(5.0),
+          color: Colors.grey.withOpacity(0.2),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            Icon(
+              Icons.circle,
+              size: 10,
+              color: Colors.black,
+            ),
+            SizedBox(height: 8.0, width: 15,),
+            Text(
+              widget.category.name,
+              style: Theme.of(context).textTheme.labelMedium?.copyWith(
+                color: Colors.black,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ],
         ),
       ),
     );

@@ -27,9 +27,10 @@ class CustomNavBar extends StatelessWidget {
       return [
         HomePage(),
         SystemsPage(),
+        ProductPage(),
         ProjectsPage(),
         ContactsPage(),
-        ProductPage()
+
       ];
     }
 
@@ -50,6 +51,13 @@ class CustomNavBar extends StatelessWidget {
           textStyle: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
         ),
         PersistentBottomNavBarItem(
+          icon: Icon(Icons.shopping_cart),
+          title: ("Products"),
+          activeColorPrimary: Colors.white,
+          inactiveColorPrimary: Colors.white70,
+          textStyle: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+        ),
+        PersistentBottomNavBarItem(
           icon: Icon(Dashboardicon.projects_nav),
           title: ("Projects"),
           activeColorPrimary: Colors.white,
@@ -63,13 +71,7 @@ class CustomNavBar extends StatelessWidget {
           inactiveColorPrimary: Colors.white70,
           textStyle: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
         ),
-        PersistentBottomNavBarItem(
-          icon: Icon(Dashboardicon.products_nav),
-          title: ("Products"),
-          activeColorPrimary: Colors.white,
-          inactiveColorPrimary: Colors.white70,
-          textStyle: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
-        ),
+
       ];
     }
 
@@ -102,7 +104,7 @@ class CustomNavBar extends StatelessWidget {
         curve: Curves.ease,
         duration: Duration(milliseconds: 200),
       ),
-      navBarStyle: NavBarStyle.style1, // Choose the nav bar style with this property.
+      navBarStyle: NavBarStyle.style4, // Choose the nav bar style with this property.
     );
 
       BottomAppBar(
