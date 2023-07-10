@@ -2,6 +2,9 @@ import 'package:enye_app/config/app_router.dart';
 import 'package:enye_app/screens/screens.dart';
 import 'package:flutter/material.dart';
 
+
+final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();   // for splash screen back button
+
 void main() {
   runApp(const MyApp());
 }
@@ -17,6 +20,7 @@ class MyApp extends StatelessWidget {
           primarySwatch: Colors.orange,
           fontFamily: 'Raleway',
       ),
+      navigatorKey: navigatorKey,
       onGenerateRoute: AppRouter.onGenerateRoute,
       initialRoute: SplashScreen.routeName,
     );
