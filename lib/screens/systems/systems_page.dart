@@ -69,12 +69,12 @@ class _systemsPageState extends State<systemsPage> {
                     return InkWell(
                       onTap: () {
                         // Handle the onTap event here
-                        /*Navigator.push(
+                        Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => DetailScreen(itemData: itemData),
+                            builder: (context) => detailedSysPage(systems: _systems[index]),
                           ),
-                        );*/
+                        );
                       },
                       child: Container(
                         height: 55,
