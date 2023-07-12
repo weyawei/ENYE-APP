@@ -12,6 +12,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:enye_app/widget/widgets.dart';
+import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import '../../widget/product_card.dart';
 import '../../widget/section_title.dart';
 import 'category_model.dart';
@@ -207,11 +208,23 @@ class _ProductPageState extends State<ProductPage> {
                   itemCount: searchResults.length,
                   itemBuilder: (context, index) {
                     final product = searchResults[index];
+                    GridView.builder(
+                    padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 16.0),
+                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2, childAspectRatio: 1.15),
+                    itemCount: categoryProducts.length,
+                    itemBuilder: (BuildContext context, int index) {
                     return InkWell(
                       onTap: () {
                         // Handle the click event for the searched product
                         // For example, you can navigate to a product details page
-                        CatalogScreen();
+                        PersistentNavBarNavigator.pushNewScreenWithRouteSettings(
+                          context,
+                          settings: RouteSettings(name: CatalogScreen.routeName, arguments: {'subcategory': categoryProducts}),
+                          screen: CatalogScreen(),
+                          withNavBar: true,
+                          pageTransitionAnimation: PageTransitionAnimation.cupertino,
+                        );
                       },
                       child: ListTile(
                         title: Text(product.name),
