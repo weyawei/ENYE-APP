@@ -78,3 +78,4 @@ class CatalogScreen extends StatelessWidget {
     );
   }
 }
+
