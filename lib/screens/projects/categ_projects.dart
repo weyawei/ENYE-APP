@@ -1,13 +1,21 @@
 class projCategories {
-  final String category;
-  final String title;
-  final String images;
+  String category;
+  String title;
+  String images;
 
   projCategories({
     required this.category,
     required this.title,
     required this.images,
   });
+
+  factory projCategories.fromJson(Map<String, dynamic> json) {
+    return projCategories(
+      category: json['projCateg_id'] as String,
+      title: json['projCateg_name'] as String,
+      images: json['projCateg_image'] as String,
+    );
+  }
 }
 
 final List<projCategories> projCategoriesList = [
