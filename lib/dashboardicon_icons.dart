@@ -25,4 +25,5 @@ class Dashboardicon {
   static const IconData contact_us_nav = IconData(0xe801, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData home_nav = IconData(0xe802, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData systems_nav = IconData(0xe803, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData products_nav = IconData(0xe804, fontFamily: _kFontFam, fontPackage: _kFontPkg);
 }

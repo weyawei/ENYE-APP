@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../screens/projects/project_page.dart';
-import '../screens/systems/system_page.dart';
-import 'custom_appbar.dart';
-
+import '../screens/products/category_model.dart';
+import 'carousel_card.dart';
 
 class CustomDrawer extends StatelessWidget {
 
@@ -38,23 +36,24 @@ class CustomDrawer extends StatelessWidget {
               title: const Text("Home"),
               onTap: () {
                 //   Navigator.push(context, MaterialPageRoute(builder: (context)=> NavBar(),));
-
-                Navigator.pop(context);
+ 
               },
             ),
             ListTile(
               leading: const Icon(Icons.account_box),
               title: const Text("Account"),
-              onTap: () {
-                Navigator.pop(context);
-              },
+ 
+ 
+              onTap: () {},
+ 
             ),
             ListTile(
               leading: const Icon(Icons.contact_emergency),
               title: const Text("Contact Us"),
-              onTap: () {
-                Navigator.pop(context);
-              },
+ 
+ 
+              onTap: () {},
+ 
             ),
             const Padding(
               padding: EdgeInsets.all(14.0),
@@ -64,32 +63,98 @@ class CustomDrawer extends StatelessWidget {
               leading: const Icon(Icons.account_balance_outlined),
               title: const Text("Systems"),
               onTap: () {
-                Navigator.pop(context);
+ 
+                
+ 
               },
             ),
             ListTile(
               leading: const Icon(Icons.air),
               title: const Text("Projects"),
               onTap: () {
-                Navigator.pop(context);
+ 
+ 
+                
+ 
               },
             ),
             ListTile(
               leading: const Icon(Icons.label),
               title: const Text("About"),
-              onTap: () {
-                Navigator.pop(context);
-              },
+   
+              
+ 
+              onTap: () {},
+ 
             ),
             ListTile(
               leading: const Icon(Icons.power_settings_new),
               title: const Text("Log Out"),
-              onTap: () {
-                Navigator.pop(context);
-              },
+ 
+              onTap: () {},
+ 
             ),
           ],
         ),
       );
+  }
+}
+
+
+class CustomDrawer1 extends StatelessWidget {
+
+  const CustomDrawer1({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Drawer(
+      child: ListView(
+        children: [
+          DrawerHeader(
+            padding: const EdgeInsets.all(0),
+            child: Container(
+              //color: Colors.deepOrange,
+              alignment: Alignment.bottomLeft,
+              decoration: const BoxDecoration(
+                  color: Colors.white,
+                  //   borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                  image: DecorationImage(
+                      image: AssetImage("assets/images_1/wallpaper.jpg"), fit: BoxFit.cover)),
+              child: const Text(
+                "Hi",
+                style: TextStyle(
+                    fontSize: 13,
+                    fontWeight: FontWeight.normal,
+                    color: Colors.white),
+              ),
+            ),
+          ),
+           ExpansionTile(
+              initiallyExpanded: true,
+              title: Text(
+               'PRODUCT CATEGORIES',
+               style: Theme.of(context).textTheme.labelLarge!.copyWith(color: Colors.black),
+             ),
+                 children: [
+             GridView.builder(
+                 shrinkWrap: true,
+                  physics: NeverScrollableScrollPhysics(),
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 1, // Adjust the number of columns as needed
+                  crossAxisSpacing: 4,
+                  mainAxisSpacing: 4,
+                  childAspectRatio: 9.8, // Adjust the aspect ratio as needed
+            ),
+            itemCount: Category1.categories.length,
+            itemBuilder: (context, index) {
+              final category = Category1.categories[index];
+              return CarouselCard1(category: category);
+            },
+          ),
+        ],
+      ),
+    ],
+      ),
+    );
   }
 }

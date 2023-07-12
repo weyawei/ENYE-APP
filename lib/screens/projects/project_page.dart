@@ -38,32 +38,47 @@ class _ProjectsPageState extends State<ProjectsPage> {
         child: Padding(padding: EdgeInsets.all(12.0),
           child: Column(
             children: [
+
               //project categories
               Container(
-                height: 115,
-                padding: const EdgeInsets.symmetric(horizontal: 6.0, vertical: 16.0),
+                height: 110,
+                width: MediaQuery.of(context).size.width * 1,
                 child: GridView.builder(
                   scrollDirection: Axis.horizontal,
                   shrinkWrap: true,
                   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 1,
-                    mainAxisExtent: 115,
+                    crossAxisSpacing: 12.0,
+                    mainAxisSpacing: 12.0,
+                    mainAxisExtent: 120,
                   ),
                   itemCount: projCategoriesList.length,
                   itemBuilder: (context, index){
                     return
-                      TextButton.icon(
+                      TextButton(
                         onPressed: () {
                           setState(() {
                             selectedCategory = projCategoriesList[index].category;
                             filterProjects();
                           });
                         },
-                        icon: Image.asset("${projCategoriesList[index].images}", color: Colors.deepOrange.shade400, height: 50, width: 50,), // Replace with your desired icon
-                        label: Text("${projCategoriesList[index].title}"),
+                        child: Column(
+                          children: [
+                            Image.asset("${projCategoriesList[index].images}",
+                              color: Colors.deepOrange.shade400,
+                              height: 55,
+                              width: 55,
+                              alignment: Alignment.center,),
+
+                            Text("${projCategoriesList[index].title}",
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                              textAlign: TextAlign.center,
+                              maxLines: 2,),
+                          ],
+                        ),
                       );
 
-                      /*Container(
+                    /*Container(
                       decoration: BoxDecoration(
                         border: Border(
                           right: BorderSide(color: Colors.deepOrange.shade100, width: 1.0,),
@@ -129,39 +144,39 @@ class _ProjectsPageState extends State<ProjectsPage> {
                       child: Column(
                         children: [
                           ClipRRect(borderRadius: BorderRadius.circular(12.0),
-                              child: Container(
-                                height: 270,
-                                decoration: BoxDecoration(
-                                  image: DecorationImage(image: NetworkImage("${filteredProjects[index].images}"), fit: BoxFit.cover),
-                                ),
+                            child: Container(
+                              height: 270,
+                              decoration: BoxDecoration(
+                                image: DecorationImage(image: NetworkImage("${filteredProjects[index].images}"), fit: BoxFit.cover),
+                              ),
 
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                    gradient: LinearGradient(
-                                      colors: [Colors.blue.withOpacity(0.2), Colors.deepOrange.shade100.withOpacity(0.3)],
-                                      stops: [0.0, 1],
-                                      begin: Alignment.topCenter,
-                                    ),
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  gradient: LinearGradient(
+                                    colors: [Colors.blue.withOpacity(0.2), Colors.deepOrange.shade100.withOpacity(0.3)],
+                                    stops: [0.0, 1],
+                                    begin: Alignment.topCenter,
                                   ),
-                                  child: Align(
-                                    alignment: Alignment.centerLeft,
-                                    child: Container(
-                                      width: 150,
-                                      margin: EdgeInsets.only(top: 50.0),
-                                      padding: EdgeInsets.all(16.0),
-                                      decoration: BoxDecoration(
-                                        gradient: LinearGradient(
-                                          colors: [Colors.deepOrange.shade300, Colors.deepOrange.withOpacity(0)],
-                                        ),
+                                ),
+                                child: Align(
+                                  alignment: Alignment.centerLeft,
+                                  child: Container(
+                                    width: 150,
+                                    margin: EdgeInsets.only(top: 50.0),
+                                    padding: EdgeInsets.all(16.0),
+                                    decoration: BoxDecoration(
+                                      gradient: LinearGradient(
+                                        colors: [Colors.deepOrange.shade300, Colors.deepOrange.withOpacity(0)],
                                       ),
-                                      child: Text(
-                                        "${filteredProjects[index].title}",
-                                        style: TextStyle(fontSize: 16.0, color: Colors.white, fontWeight: FontWeight.bold),
-                                      ),
+                                    ),
+                                    child: Text(
+                                      "${filteredProjects[index].title}",
+                                      style: TextStyle(fontSize: 16.0, color: Colors.white, fontWeight: FontWeight.bold),
                                     ),
                                   ),
                                 ),
                               ),
+                            ),
                           ),
                         ],
                       ),

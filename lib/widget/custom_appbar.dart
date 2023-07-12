@@ -29,7 +29,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget{
       title: appBarTitle,
       iconTheme: IconThemeData(color: Colors.white),
       actions: [
-        IconButton(onPressed: () {}, icon: Icon(Icons.favorite))
+        /*IconButton(onPressed: () {}, icon: Icon(Icons.favorite))*/
       ],
     );
   }

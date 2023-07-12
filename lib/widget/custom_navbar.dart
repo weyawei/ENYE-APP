@@ -1,13 +1,14 @@
+import 'package:enye_app/screens/products/products1.dart';
 import 'package:enye_app/screens/screens.dart';
 import 'package:flutter/material.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 
 import '../dashboardicon_icons.dart';
 
-class CustomNavBar extends StatefulWidget {
-  @override
-  _CustomNavBarState createState() => _CustomNavBarState();
+class CustomNavBar extends StatelessWidget {
+
   static const String routeName = '/';
+
   static Route route(){
     return MaterialPageRoute(
         settings: RouteSettings(name: routeName),
@@ -15,14 +16,9 @@ class CustomNavBar extends StatefulWidget {
     );
   }
 
-}
-
-class _CustomNavBarState extends State<CustomNavBar> {
-
-
-  int _selectedPageIndex = 0;
-
-
+  const CustomNavBar({
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -30,62 +26,54 @@ class _CustomNavBarState extends State<CustomNavBar> {
     List<Widget> _buildScreens() {
       return [
         HomePage(),
-        SystemsPage(),
+        SystemsPage1(),
+        ProductPage(),
         ProjectsPage(),
-        ContactsPage()
+        ContactsPage(),
+
       ];
     }
-    void _selectPage(int index) {
-      setState(() {
-        _selectedPageIndex = index;
-      });
-    }
+
     List<PersistentBottomNavBarItem> _navBarsItems() {
       return [
         PersistentBottomNavBarItem(
           icon: Icon(Dashboardicon.home_nav),
           title: ("Home"),
-          activeColorPrimary: Colors.deepOrange,
-          inactiveColorPrimary: Colors.grey,
+          activeColorPrimary: Colors.white,
+          inactiveColorPrimary: Colors.white70,
+          textStyle: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
         ),
         PersistentBottomNavBarItem(
           icon: Icon(Dashboardicon.systems_nav),
           title: ("Systems"),
-          activeColorPrimary: Colors.deepOrange,
-          inactiveColorPrimary: Colors.grey,
+          activeColorPrimary: Colors.white,
+          inactiveColorPrimary: Colors.white70,
+          textStyle: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+        ),
+        PersistentBottomNavBarItem(
+          icon: Icon(Icons.shopping_cart),
+          title: ("Products"),
+          activeColorPrimary: Colors.white,
+          inactiveColorPrimary: Colors.white70,
+          textStyle: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
         ),
         PersistentBottomNavBarItem(
           icon: Icon(Dashboardicon.projects_nav),
           title: ("Projects"),
-          activeColorPrimary: Colors.deepOrange,
-          inactiveColorPrimary: Colors.grey,
+          activeColorPrimary: Colors.white,
+          inactiveColorPrimary: Colors.white70,
+          textStyle: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
         ),
         PersistentBottomNavBarItem(
           icon: Icon(Dashboardicon.contact_us_nav),
           title: ("Contacts"),
-          activeColorPrimary: Colors.deepOrange,
-          inactiveColorPrimary: Colors.grey,
+          activeColorPrimary: Colors.white,
+          inactiveColorPrimary: Colors.white70,
+          textStyle: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
         ),
+
       ];
     }
-
-
-    List<Widget> _drawerItems = [
-      // Define your app drawer items here
-      ListTile(
-        title: Text('Page 1'),
-        onTap: () => _selectPage(0),
-      ),
-      ListTile(
-        title: Text('Page 2'),
-        onTap: () => _selectPage(1),
-      ),
-      ListTile(
-        title: Text('Page 3'),
-        onTap: () => _selectPage(2),
-      ),
-    ];
-
 
     PersistentTabController _controller;
 
@@ -97,12 +85,13 @@ class _CustomNavBarState extends State<CustomNavBar> {
       screens: _buildScreens(),
       items: _navBarsItems(),
       confineInSafeArea: true,
+      backgroundColor: Colors.deepOrange, // Default is Colors.white.
       handleAndroidBackButtonPress: true, // Default is true.
       resizeToAvoidBottomInset: true, // This needs to be true if you want to move up the screen when keyboard appears. Default is true.
       stateManagement: true, // Default is true.
       hideNavigationBarWhenKeyboardShows: true, // Recommended to set 'resizeToAvoidBottomInset' as true while using this argument. Default is true.
       decoration: const NavBarDecoration(
-
+        colorBehindNavBar: Colors.white,
       ),
       popAllScreensOnTapOfSelectedTab: true,
       popActionScreens: PopActionScreensType.all,
@@ -115,7 +104,7 @@ class _CustomNavBarState extends State<CustomNavBar> {
         curve: Curves.ease,
         duration: Duration(milliseconds: 200),
       ),
-      navBarStyle: NavBarStyle.style1, // Choose the nav bar style with this property.
+      navBarStyle: NavBarStyle.style4, // Choose the nav bar style with this property.
     );
 
       BottomAppBar(

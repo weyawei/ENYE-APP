@@ -8,3 +8,4 @@ export 'projects/detailed_projects.dart';
 
 export 'systems/system_page.dart';
 export 'contacts/contacts_page.dart';
+export '/splash/splash_screen.dart';
