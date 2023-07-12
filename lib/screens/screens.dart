@@ -5,6 +5,7 @@ export 'projects/project_page.dart';
 export 'projects/list_projects.dart';
 export 'projects/categ_projects.dart';
 export 'projects/detailed_projects.dart';
+export 'projects/projectsvc.dart';
 
 export 'systems/system_page.dart';
 
