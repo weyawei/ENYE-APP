@@ -180,6 +180,10 @@ class _ProductPageState extends State<ProductPage> {
   }
   @override
   Widget build(BuildContext context) {
+    final filteredCategories = ModalRoute.of(context)?.settings?.arguments as Map<String, String>;
+    final subCat = filteredCategories['subcategory'].toString();
+    final List<Product> categoryProducts = Product.products.where((product) => product.subcategory == subCat).toList();
+
     return Scaffold(
       appBar: CustomAppBar(title: 'PRODUCTS', imagePath: ''),
       drawer: CustomDrawer1(),
@@ -209,30 +213,37 @@ class _ProductPageState extends State<ProductPage> {
                   itemBuilder: (context, index) {
                     final product = searchResults[index];
                     GridView.builder(
-                    padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 16.0),
-                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2, childAspectRatio: 1.15),
-                    itemCount: categoryProducts.length,
-                    itemBuilder: (BuildContext context, int index) {
-                    return InkWell(
-                      onTap: () {
-                        // Handle the click event for the searched product
-                        // For example, you can navigate to a product details page
-                        PersistentNavBarNavigator.pushNewScreenWithRouteSettings(
-                          context,
-                          settings: RouteSettings(name: CatalogScreen.routeName, arguments: {'subcategory': categoryProducts}),
-                          screen: CatalogScreen(),
-                          withNavBar: true,
-                          pageTransitionAnimation: PageTransitionAnimation.cupertino,
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 8.0, vertical: 16.0),
+                      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 2, childAspectRatio: 1.15),
+                      itemCount: categoryProducts.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        return InkWell(
+                          onTap: () {
+                            // Handle the click event for the searched product
+                            // For example, you can navigate to a product details page
+                            PersistentNavBarNavigator
+                                .pushNewScreenWithRouteSettings(
+                              context,
+                              settings: RouteSettings(
+                                  name: CatalogScreen.routeName,
+                                  arguments: {'subcategory': categoryProducts}),
+                              screen: CatalogScreen(),
+                              withNavBar: true,
+                              pageTransitionAnimation: PageTransitionAnimation
+                                  .cupertino,
+                            );
+                          },
+                          child: ListTile(
+                            title: Text(product.name),
+                            // Add additional widgets or customize the display of each product
+                          ),
                         );
                       },
-                      child: ListTile(
-                        title: Text(product.name),
-                        // Add additional widgets or customize the display of each product
-                      ),
                     );
-                  },
-                ),
+                  }
+              ),
               ),
 
             if (!searchPerformed && searchResults.isEmpty)
