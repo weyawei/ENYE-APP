@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'E N Y E C O N T R O L S',
       theme: ThemeData(
-          primarySwatch: Colors.orange,
+          primarySwatch: Colors.deepOrange,
           fontFamily: 'Raleway',
       ),
       navigatorKey: navigatorKey, // splash screen preventing to go back

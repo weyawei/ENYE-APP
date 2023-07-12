@@ -9,6 +9,60 @@ import '../projects/project_page.dart';
 class SystemsPage extends StatelessWidget {
   static const String routeName = '/systems';
 
+  List<String> imageUrls = [
+    'assets/images_1/pix1.png',
+    'assets/images_1/pix2.png',
+    'assets/images_1/pix3.png',
+    'assets/images_1/pix4.png',
+    'assets/images_1/pix5.png',
+    'assets/images_1/pix6.png',
+    'assets/images_1/pix6.2.png',
+    'assets/images_1/pix6.3.png',
+    'assets/images_1/pix7.png',
+    'assets/images_1/pix8.png',
+    'assets/images_1/pix9.png',
+    'assets/images_1/pix10.png',
+    'assets/images_1/pix11.png',
+    // Add more image URLs here
+  ];
+
+
+  List<String> routes = [
+    SystemScreen1.routeName,
+    SystemScreen2.routeName,
+    SystemScreen3.routeName,
+    SystemScreen4.routeName,
+    SystemScreen5.routeName,
+    SystemScreen6.routeName,
+    SystemScreen66.routeName,
+    SystemScreen666.routeName,
+    SystemScreen7.routeName,
+    SystemScreen8.routeName,
+    SystemScreen9.routeName,
+    SystemScreen10.routeName,
+    SystemScreen11.routeName,
+
+    // Add more routes here
+  ];
+
+  List<Widget> screens = [
+    SystemScreen1(),
+    SystemScreen2(),
+    SystemScreen3(),
+    SystemScreen4(),
+    SystemScreen5(),
+    SystemScreen6(),
+    SystemScreen66(),
+    SystemScreen666(),
+    SystemScreen7(),
+    SystemScreen8(),
+    SystemScreen9(),
+    SystemScreen10(),
+    SystemScreen11(),
+
+    // Add more screen classes here
+  ];
+
   static Route route(){
     return MaterialPageRoute(
         settings: RouteSettings(name: routeName),
@@ -52,7 +106,41 @@ class SystemsPage extends StatelessWidget {
         centerTitle: true,
       ),
        ),
-            SliverToBoxAdapter(
+            SliverList(
+              delegate: SliverChildBuilderDelegate(
+                    (context, index) {
+                  return GestureDetector(
+                    onTap: () {
+                      PersistentNavBarNavigator.pushNewScreenWithRouteSettings(
+                        context,
+                        settings: RouteSettings(name: routes[index]),
+                        screen: screens[index],
+                        withNavBar: true,
+                        pageTransitionAnimation: PageTransitionAnimation.cupertino,
+                      );
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.all(15.0),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(20),
+                        child: Container(
+                          height: 400,
+                          color: Colors.deepOrange,
+                          margin: EdgeInsets.all(15.0),
+                          child: Image.asset(
+                            imageUrls[index],
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                      ),
+                    ),
+                  );
+                },
+                childCount: imageUrls.length,
+              ),
+            ),
+
+            /* SliverToBoxAdapter(
               child: GestureDetector(
                 onTap: (){
                   PersistentNavBarNavigator.pushNewScreenWithRouteSettings(
@@ -80,7 +168,6 @@ class SystemsPage extends StatelessWidget {
                 ),
               ),
             ),
-
             SliverToBoxAdapter(
               child: GestureDetector(
                 onTap: (){
@@ -416,7 +503,7 @@ class SystemsPage extends StatelessWidget {
                   ),
                 ),
               ),
-            ),
+            ),*/
 
       ],
       ),
