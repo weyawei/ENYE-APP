@@ -116,16 +116,18 @@ class _CarouselCard1State extends State<CarouselCard1> {
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Icon(
-              Icons.circle,
+              Icons.label_important_outlined,
               size: 10,
               color: Colors.black,
             ),
-            SizedBox(height: 8.0, width: 15,),
-            Text(
-              widget.category.name,
-              style: Theme.of(context).textTheme.labelMedium?.copyWith(
-                color: Colors.black,
-                fontWeight: FontWeight.bold,
+            SizedBox(height: 15.0, width: 15,),
+            Flexible(
+              child: Text(
+                widget.category.name,
+                style: Theme.of(context).textTheme.labelLarge?.copyWith(
+                  color: Colors.black,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ),
           ],

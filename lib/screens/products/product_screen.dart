@@ -71,18 +71,18 @@ final Product product;
               ),
             ),
             Padding(padding: const EdgeInsets.all(5.0)),
-            Text('INFORMATION :',style: Theme.of(context).textTheme.labelLarge,),
+            Text('INFORMATION :',style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),),
             for (var info in filteredInfo)
             ExpansionTile(
-              initiallyExpanded: false,
-              title: Text(info.model, style: Theme.of(context).textTheme.labelMedium!.copyWith(color: Colors.black, fontWeight: FontWeight.bold)),
+              initiallyExpanded: true,
+              title: Text(info.model, style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold)),
               children: [
                 ListTile(
                   title: Column(
                     crossAxisAlignment:  CrossAxisAlignment.start,
                     children: [
-                      Text(' ${info.size}', style: Theme.of(context).textTheme.labelMedium,),
-                      Text('${info.price}', style: Theme.of(context).textTheme.labelMedium,),
+                      Text(' ${info.size}', style: TextStyle(fontSize: 11),),
+                      Text('${info.price}', style: TextStyle(fontSize: 11),),
                       if (info.imageUrl.isNotEmpty)
                       Center(
                           child: GestureDetector(
@@ -111,10 +111,9 @@ final Product product;
                             );
                           },
 
-                          child: Image.asset('${info.imageUrl}', width: 100, height: 100,),
+                          child: Icon(Icons.picture_as_pdf),),
 
                         ),
-                      ),
                     ],
                   ),
                 )

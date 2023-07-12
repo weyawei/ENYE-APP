@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
           primarySwatch: Colors.orange,
           fontFamily: 'Raleway',
       ),
-      navigatorKey: navigatorKey,
+      navigatorKey: navigatorKey, // splash screen preventing to go back
       onGenerateRoute: AppRouter.onGenerateRoute,
       initialRoute: SplashScreen.routeName,
     );

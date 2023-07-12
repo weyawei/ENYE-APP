@@ -130,7 +130,7 @@ class CustomDrawer1 extends StatelessWidget {
             ),
           ),
            ExpansionTile(
-              initiallyExpanded: false,
+              initiallyExpanded: true,
               title: Text(
                'PRODUCT CATEGORIES',
                style: Theme.of(context).textTheme.labelLarge!.copyWith(color: Colors.black),

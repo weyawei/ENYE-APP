@@ -1,6 +1,10 @@
 
+import 'dart:async';
+
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:enye_app/screens/catalog/catalog_screen.dart';
 import 'package:enye_app/screens/products/model.dart';
+import 'package:enye_app/screens/products/productinfo_model.dart';
 import 'package:enye_app/widget/custom_appbar.dart';
 import 'package:enye_app/widget/custom_navbar.dart';
 import 'package:enye_app/widget/product_carousel.dart';
@@ -13,6 +17,7 @@ import '../../widget/section_title.dart';
 import 'category_model.dart';
 
 
+/*
 class ProductPage extends StatelessWidget {
   static const String routeName = '/products';
 
@@ -47,7 +52,8 @@ class ProductPage extends StatelessWidget {
           ),
          ),
            // SectionTitle(title: 'CATEGORIES'),
-           /* Container(
+           */
+/* Container(
 
               height: MediaQuery.of(context).size.height * 0.3,
               child: GridView.builder(
@@ -61,8 +67,10 @@ class ProductPage extends StatelessWidget {
                   return CarouselCard1(category: category);
                 },
               ),
-            ),*/
-            /*ExpansionTile(
+            ),*//*
+
+            */
+/*ExpansionTile(
               initiallyExpanded: false,
               title: Text(
                 'CATEGORIES',
@@ -85,15 +93,177 @@ class ProductPage extends StatelessWidget {
                   },
                 ),
               ],
-            ),*/
+            ),*//*
+
             SectionTitle(title: 'RECOMMENDED'),
             //Product Carousel
-            /*ProductCard(product: Product.products[0],),*/
+            */
+/*ProductCard(product: Product.products[0],),*//*
+
             ProductCarousel(products: Product.products.where((product) => product.isRecommended).toList()),
             SectionTitle(title: 'MOST POPULAR'),
             //Product Carousel
-            /*ProductCard(product: Product.products[0],),*/
+            */
+/*ProductCard(product: Product.products[0],),*//*
+
             ProductCarousel(products: Product.products.where((product) => product.isPopular).toList()),
+          ],
+        ),
+      ),
+    );
+  }
+}
+*/
+
+class ProductPage extends StatefulWidget {
+  static const String routeName = '/products';
+
+  static Route route() {
+    return MaterialPageRoute(
+        settings: RouteSettings(name: routeName),
+        builder: (_) => ProductPage());
+  }
+
+  ProductPage({Key? key});
+
+  @override
+  _ProductPageState createState() => _ProductPageState();
+}
+
+class _ProductPageState extends State<ProductPage> {
+  late List<Product> allProducts;
+  List<Product> searchResults = [];
+  List<Product> displayedProducts = []; // Initialize as an empty list
+  TextEditingController searchController = TextEditingController();
+  int visibleProductCount = 10; // Number of products initially visible
+  int increment = 10; // Number of products to load at a time
+  bool searchPerformed = false;
+
+  @override
+  void initState() {
+    super.initState();
+    allProducts = Product.products;
+    displayedProducts = allProducts.sublist(0, visibleProductCount);
+  }
+
+  void loadMoreProducts() {
+    int endIndex = visibleProductCount + increment;
+    if (endIndex > allProducts.length) {
+      endIndex = allProducts.length;
+    }
+    setState(() {
+      displayedProducts = allProducts.sublist(0, endIndex);
+      visibleProductCount = endIndex;
+    });
+  }
+
+  void filterProducts(String searchText) {
+    if (searchText.isEmpty) {
+      setState(() {
+        searchResults = []; // Clear the search results
+        searchPerformed = false;
+      });
+    } else {
+      final filteredProducts = allProducts
+          .where((product) =>
+          product.name.toLowerCase().contains(searchText.toLowerCase()))
+          .toList();
+      setState(() {
+        searchResults = filteredProducts;
+        searchPerformed = true;
+      });
+    }
+    if (!searchPerformed) {
+      searchResults = []; // Clear the search results when search is not performed
+    }
+  }
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: CustomAppBar(title: 'PRODUCTS', imagePath: ''),
+      drawer: CustomDrawer1(),
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: TextField(
+                controller: searchController,
+                decoration: InputDecoration(
+                  labelText: 'Search',
+                  prefixIcon: Icon(Icons.search),
+                ),
+                onChanged: (value) {
+                  filterProducts(value);
+                },
+              ),
+            ),
+            if (searchPerformed && searchResults.isNotEmpty)
+              Visibility(
+                visible: searchResults.isNotEmpty,
+                child: ListView.builder(
+                  shrinkWrap: true,
+                  physics: NeverScrollableScrollPhysics(),
+                  itemCount: searchResults.length,
+                  itemBuilder: (context, index) {
+                    final product = searchResults[index];
+                    return InkWell(
+                      onTap: () {
+                        // Handle the click event for the searched product
+                        // For example, you can navigate to a product details page
+                        CatalogScreen();
+                      },
+                      child: ListTile(
+                        title: Text(product.name),
+                        // Add additional widgets or customize the display of each product
+                      ),
+                    );
+                  },
+                ),
+              ),
+
+            if (!searchPerformed && searchResults.isEmpty)
+              Visibility(
+                visible: displayedProducts.isNotEmpty,
+                child: ListView.builder(
+                  shrinkWrap: true,
+                  physics: NeverScrollableScrollPhysics(),
+                  itemCount: displayedProducts.length,
+                  itemBuilder: (context, index) {
+                    final product = displayedProducts[index];
+                    if (index == displayedProducts.length - 1) {
+                      if (displayedProducts.length < allProducts.length) {
+                        WidgetsBinding.instance!.addPostFrameCallback((_) {
+                          loadMoreProducts();
+                        });
+                      }
+                    }
+                  },
+                ),
+              ),
+            Container(
+              child: CarouselSlider(
+                options: CarouselOptions(
+                  autoPlay: true,
+                  aspectRatio: 1.5,
+                  viewportFraction: 0.9,
+                  enlargeCenterPage: true,
+                  enlargeStrategy: CenterPageEnlargeStrategy.height,
+                ),
+                items: Category1.categories
+                    .map((category) => CarouselCard(category: category))
+                    .toList(),
+              ),
+            ),
+            SectionTitle(title: 'RECOMMENDED'),
+            ProductCarousel(
+              products: Product.products.where((product) => product.isRecommended).toList(),
+            ),
+            SectionTitle(title: 'MOST POPULAR'),
+            ProductCarousel(
+              products: Product.products.where((product) => product.isPopular).toList(),
+            ),
+
           ],
         ),
       ),
