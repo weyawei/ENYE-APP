@@ -85,7 +85,7 @@ class _detailedSysPageState extends State<detailedSysPage> {
   }
 
   _getSysTechSpecs(){
-    systemService.getSysTechSpecs(widget.systems.id).then((SystemsTechSpecs){
+    systemService.getSysTechSpecs(widget.systems.sys_tech_id).then((SystemsTechSpecs){
       setState(() {
         _sysTechSpecs = SystemsTechSpecs;
       });
@@ -190,7 +190,7 @@ class _detailedSysPageState extends State<detailedSysPage> {
                 children: [
                   Container(
                     decoration: BoxDecoration(
-                      image: DecorationImage(image: NetworkImage("${API.sysTechImg + SystemsTechSpecs.image}", scale: 1.8), alignment: Alignment.topRight),
+                      image: DecorationImage(image: NetworkImage("${API.sysTechImg + SystemsTechSpecs.image}", scale: 2.5), alignment: Alignment.topRight),
                     ),
                     child: Container(
                       decoration: BoxDecoration(
@@ -207,13 +207,16 @@ class _detailedSysPageState extends State<detailedSysPage> {
                           gradient: LinearGradient(
                             begin: Alignment.centerLeft,
                             end: Alignment.centerRight,
-                            colors: [Colors.deepOrange.shade200, Colors.deepOrange.withOpacity(0.1)],
+                            colors: [Colors.deepOrange.shade300, Colors.deepOrange.withOpacity(0.1)],
                           ),
                         ),
-                        child: Text(
-                          "${SystemsTechSpecs.features}",
-                          style: TextStyle(fontSize: 14.0, color: Colors.white, fontWeight: FontWeight.w900, letterSpacing: 1),
-                          textAlign: TextAlign.left,
+                        child: Container(
+                          padding: EdgeInsets.only(right: 70.0),
+                          child: Text(
+                            "${SystemsTechSpecs.features}",
+                            style: TextStyle(fontSize: 14.0, color: Colors.white, fontWeight: FontWeight.w900, letterSpacing: 1),
+                            textAlign: TextAlign.left,
+                          ),
                         ),
                       ),
                     ),
