@@ -73,12 +73,13 @@ class _detailedSysPageState extends State<detailedSysPage> {
   }
 
   List<SystemsTechSpecs>? _sysTechSpecs;
+  List<SystemsDetail>? _sysDetails;
 
   @override
   void initState(){
     super.initState();
-    _sysTechSpecs = [];
     _getSysTechSpecs();
+    _getSysDetails();
   }
 
   _getSysTechSpecs(){
@@ -87,6 +88,15 @@ class _detailedSysPageState extends State<detailedSysPage> {
         _sysTechSpecs = SystemsTechSpecs;
       });
       print("Length ${SystemsTechSpecs.length}");
+    });
+  }
+
+  _getSysDetails(){
+    systemService.getSysDetails(widget.systems.id).then((SystemsDetail){
+      setState(() {
+        _sysDetails = SystemsDetail;
+      });
+      print("Length ${SystemsDetail.length}");
     });
   }
 
@@ -110,67 +120,80 @@ class _detailedSysPageState extends State<detailedSysPage> {
 
       widget.systems.description == null || widget.systems.description.isEmpty
         ? Container()
-        : Container(
-        padding: EdgeInsets.symmetric(horizontal: 40.0),
-        child: Column(
-          children: [
-            SizedBox(height: 20,),
-            Text("System Description", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24, color: Colors.deepOrange),),
+        : SingleChildScrollView(
+          child: Container(
+          padding: EdgeInsets.symmetric(horizontal: 40.0),
+          child: Column(
+            children: [
+              SizedBox(height: 20,),
+              Text("System Description", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24, color: Colors.deepOrange),),
 
-            SizedBox(height: 20,),
-            Text(widget.systems.description, maxLines: null, textAlign: TextAlign.justify,
-              style: TextStyle(fontSize: 15, fontStyle: FontStyle.italic, letterSpacing: 1),),
-          ],
+              SizedBox(height: 20,),
+              Text(widget.systems.description, maxLines: null, textAlign: TextAlign.justify,
+                style: TextStyle(fontSize: 15, fontStyle: FontStyle.italic, letterSpacing: 1),),
+            ],
+          ),
+      ),
+        ),
+
+      _sysDetails == null
+        ? Container()
+        : SingleChildScrollView(
+        child: Container(
+          child: Column(
+            children: _sysDetails!.map((SystemsDetail) => Text(SystemsDetail.title)).toList(),
+          ),
         ),
       ),
 
-      SingleChildScrollView(
-        child: Container(
-          child: Column(
-            children: _sysTechSpecs!.map((SystemsTechSpecs) => ExpansionTile(
-              title: Text(
-                SystemsTechSpecs.title,
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              children: [
-                Container(
-                  decoration: BoxDecoration(
-                    image: DecorationImage(image: NetworkImage("${API.sysTechImg + SystemsTechSpecs.image}", scale: 1.8), alignment: Alignment.topRight),
+      if(_sysTechSpecs != null)
+        SingleChildScrollView(
+          child: Container(
+            child: Column(
+              children: _sysTechSpecs!.map((SystemsTechSpecs) => ExpansionTile(
+                title: Text(
+                  SystemsTechSpecs.title,
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
                   ),
-                  child: Container(
+                ),
+                children: [
+                  Container(
                     decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        colors: [Colors.blue.withOpacity(0.2), Colors.deepOrange.shade100.withOpacity(0.1)],
-                        stops: [0.0, 1],
-                        begin: Alignment.topCenter,
-                      ),
+                      image: DecorationImage(image: NetworkImage("${API.sysTechImg + SystemsTechSpecs.image}", scale: 1.8), alignment: Alignment.topRight),
                     ),
                     child: Container(
-                      width: MediaQuery.of(context).size.width * 1,
-                      padding: EdgeInsets.all(16.0),
                       decoration: BoxDecoration(
                         gradient: LinearGradient(
-                          begin: Alignment.centerLeft,
-                          end: Alignment.centerRight,
-                          colors: [Colors.deepOrange.shade300, Colors.deepOrange.withOpacity(0.1)],
+                          colors: [Colors.blue.withOpacity(0.2), Colors.deepOrange.shade100.withOpacity(0.1)],
+                          stops: [0.0, 1],
+                          begin: Alignment.topCenter,
                         ),
                       ),
-                      child: Text(
-                        "${SystemsTechSpecs.features}",
-                        style: TextStyle(fontSize: 14.0, color: Colors.white, fontWeight: FontWeight.w900),
-                        textAlign: TextAlign.left,
+                      child: Container(
+                        width: MediaQuery.of(context).size.width * 1,
+                        padding: EdgeInsets.all(16.0),
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                            begin: Alignment.centerLeft,
+                            end: Alignment.centerRight,
+                            colors: [Colors.deepOrange.shade200, Colors.deepOrange.withOpacity(0.1)],
+                          ),
+                        ),
+                        child: Text(
+                          "${SystemsTechSpecs.features}",
+                          style: TextStyle(fontSize: 14.0, color: Colors.white, fontWeight: FontWeight.w900, letterSpacing: 1),
+                          textAlign: TextAlign.left,
+                        ),
                       ),
                     ),
                   ),
-                ),
-              ],
-            )).toList(),
+                ],
+              )).toList(),
+            ),
           ),
         ),
-      )
     ];
 
     return Scaffold(
