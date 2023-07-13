@@ -1,6 +1,8 @@
 
 
 import 'package:equatable/equatable.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
 class Category1 extends Equatable{
   final String categoryId;
@@ -14,6 +16,51 @@ class Category1 extends Equatable{
     required this.subcategory,
     required this.imageUrl,
 });
+  IconData get customIcon {
+    switch (name) {
+      case 'Accesories':
+        return MyCustomIcons.accessories; // Replace with your custom icon data
+      case 'Air Release Valve':
+        return MyCustomIcons.airReleaseValve;
+      case 'Automatic Control Valve':
+        return MyCustomIcons.automaticControlValve;
+      case 'Backflow Preventer':
+        return MyCustomIcons.backflowPreventer;
+      case 'Balancing Valves':
+        return MyCustomIcons.balancingValves;
+      case 'Ball Valves':
+        return MyCustomIcons.ballValves;
+      case 'Check Valve':
+        return MyCustomIcons.checkValve;
+      case 'Concentric Butterfly Valve':
+        return MyCustomIcons.concentricButterflyValve;
+      case 'Enye Controls Motorized Valves and Actuators':
+        return MyCustomIcons.enyeControlsMotorizedValvesandActuators;
+      case 'Flexible Joint':
+        return MyCustomIcons.flexibleJoint;
+      case 'Gate Valve':
+        return MyCustomIcons.gateValve;
+      case 'Globe Valve':
+        return MyCustomIcons.globeValve;
+      case 'Plunger Valve':
+        return MyCustomIcons.plungerValve;
+      case 'Softwares':
+        return MyCustomIcons.softwares;
+      case 'Strainers':
+        return MyCustomIcons.strainer;
+      case 'Test Equipments':
+        return MyCustomIcons.testEquipments;
+      case 'Variable Frequency Drive':
+        return MyCustomIcons.variableFrequencyDrive;
+      case 'Water Meter':
+        return MyCustomIcons.waterMeter;
+
+    // Add more cases for other category names and their corresponding custom icons
+      default:
+        return Icons.category; // Default icon for unknown category names
+    }
+  }
+
   @override
   List<Object?> get props =>  [name, subcategory, imageUrl];
 
@@ -120,4 +167,31 @@ static List<Category1> categories = [
       imageUrl: 'assets/products_category/categ21.png'),
 
 ];
+}
+
+class MyCustomIcons {
+  MyCustomIcons._();
+
+  static const _kFontFam = 'MyCustomIcons';
+
+  static const IconData accessories = IconData(0xe001, fontFamily: _kFontFam);
+  static const IconData airReleaseValve = IconData(0xe002, fontFamily: _kFontFam);
+  static const IconData automaticControlValve = IconData(0xe003, fontFamily: _kFontFam);
+  static const IconData backflowPreventer = IconData(0xe003, fontFamily: _kFontFam);
+  static const IconData balancingValves = IconData(0xe003, fontFamily: _kFontFam);
+  static const IconData ballValves = IconData(0xe003, fontFamily: _kFontFam);
+  static const IconData checkValve = IconData(0xe003, fontFamily: _kFontFam);
+  static const IconData concentricButterflyValve = IconData(0xe003, fontFamily: _kFontFam);
+  static const IconData enyeControlsMotorizedValvesandActuators = IconData(0xe003, fontFamily: _kFontFam);
+  static const IconData flexibleJoint = IconData(0xe003, fontFamily: _kFontFam);
+  static const IconData gateValve = IconData(0xe003, fontFamily: _kFontFam);
+  static const IconData globeValve = IconData(0xe003, fontFamily: _kFontFam);
+  static const IconData plungerValve = IconData(0xe003, fontFamily: _kFontFam);
+  static const IconData softwares = IconData(0xe003, fontFamily: _kFontFam);
+  static const IconData strainer = IconData(0xe003, fontFamily: _kFontFam);
+  static const IconData testEquipments = IconData(0xe003, fontFamily: _kFontFam);
+  static const IconData variableFrequencyDrive = IconData(0xe003, fontFamily: _kFontFam);
+  static const IconData waterMeter = IconData(0xe003, fontFamily: _kFontFam);
+
+// Define more custom icons as needed
 }

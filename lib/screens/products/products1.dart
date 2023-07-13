@@ -147,6 +147,7 @@ class _ProductPageState extends State<ProductPage> {
     super.initState();
     allProducts = Product.products;
     displayedProducts = allProducts.sublist(0, visibleProductCount);
+    searchFocusNode = FocusNode();
   }
 
   void loadMoreProducts() {
@@ -180,18 +181,43 @@ class _ProductPageState extends State<ProductPage> {
       searchResults = []; // Clear the search results when search is not performed
     }
   }
+  late FocusNode searchFocusNode;
+
+
+  @override
+  void dispose() {
+    searchFocusNode.dispose();
+    super.dispose();
+  }
+
+  void handleSearchTap() {
+    setState(() {
+      searchFocusNode.requestFocus();
+    });
+  }
+
+  void handleScreenTap() {
+    if (searchFocusNode.hasFocus) {
+      setState(() {
+        searchFocusNode.unfocus();
+      });
+    }
+  }
   @override
   Widget build(BuildContext context) {
 
-    return Scaffold(
-      appBar: CustomAppBar(title: 'PRODUCTS', imagePath: ''),
-      drawer: CustomDrawer1(),
-      body: SingleChildScrollView(
+    return GestureDetector(
+        onTap: handleScreenTap,
+        child: Scaffold(
+           appBar: CustomAppBar(title: 'PRODUCTS', imagePath: ''),
+              drawer: CustomDrawer1(),
+              body: SingleChildScrollView(
         child: Column(
           children: [
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: TextField(
+                focusNode: searchFocusNode,
                 controller: searchController,
                 decoration: InputDecoration(
                   labelText: 'Search name of products',
@@ -272,10 +298,26 @@ class _ProductPageState extends State<ProductPage> {
                     .toList(),
               ),
             ),
+
             SectionTitle(title: 'RECOMMENDED'),
-            ProductCarousel(
-              products: Product.products.where((product) => product.isRecommended).toList(),
+            Container(
+
+              height: MediaQuery.of(context).size.height * 0.3,
+              child: GridView.builder(
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2  ,
+                  childAspectRatio: 4.8,
+                ),
+                itemCount: 10,
+                itemBuilder: (context, index) {
+                  final category = Category1.categories[index];
+                  return CarouselCard2(category: category);
+                },
+              ),
             ),
+            /*ProductCarousel(
+              products: Product.products.where((product) => product.isRecommended).toList(),
+            ),*/
             SectionTitle(title: 'MOST POPULAR'),
             ProductCarousel(
               products: Product.products.where((product) => product.isPopular).toList(),
@@ -284,6 +326,7 @@ class _ProductPageState extends State<ProductPage> {
           ],
         ),
       ),
+        )
     );
   }
 }
