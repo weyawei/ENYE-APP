@@ -72,8 +72,107 @@ class _detailedSysPageState extends State<detailedSysPage> {
 
   }
 
+  List<SystemsTechSpecs>? _sysTechSpecs;
+
+  @override
+  void initState(){
+    super.initState();
+    _sysTechSpecs = [];
+    _getSysTechSpecs();
+  }
+
+  _getSysTechSpecs(){
+    systemService.getSysTechSpecs(widget.systems.id).then((SystemsTechSpecs){
+      setState(() {
+        _sysTechSpecs = SystemsTechSpecs;
+      });
+      print("Length ${SystemsTechSpecs.length}");
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
+    final List<Widget> _pages = <Widget> [
+      Container(
+        decoration: BoxDecoration(
+          image: DecorationImage(image: NetworkImage("${API.systemsImg + widget.systems.image}"), fit: BoxFit.fill),
+        ),
+        child: Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              colors: [Colors.blue.withOpacity(0.4), Colors.deepOrange.shade100.withOpacity(0.3)],
+              stops: [0.0, 1],
+              begin: Alignment.topCenter,
+            ),
+          ),
+        ),
+      ),
+
+      widget.systems.description == null || widget.systems.description.isEmpty
+        ? Container()
+        : Container(
+        padding: EdgeInsets.symmetric(horizontal: 40.0),
+        child: Column(
+          children: [
+            SizedBox(height: 20,),
+            Text("System Description", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24, color: Colors.deepOrange),),
+
+            SizedBox(height: 20,),
+            Text(widget.systems.description, maxLines: null, textAlign: TextAlign.justify,
+              style: TextStyle(fontSize: 15, fontStyle: FontStyle.italic, letterSpacing: 1),),
+          ],
+        ),
+      ),
+
+      SingleChildScrollView(
+        child: Container(
+          child: Column(
+            children: _sysTechSpecs!.map((SystemsTechSpecs) => ExpansionTile(
+              title: Text(
+                SystemsTechSpecs.title,
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              children: [
+                Container(
+                  decoration: BoxDecoration(
+                    image: DecorationImage(image: NetworkImage("${API.sysTechImg + SystemsTechSpecs.image}", scale: 1.8), alignment: Alignment.topRight),
+                  ),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        colors: [Colors.blue.withOpacity(0.2), Colors.deepOrange.shade100.withOpacity(0.1)],
+                        stops: [0.0, 1],
+                        begin: Alignment.topCenter,
+                      ),
+                    ),
+                    child: Container(
+                      width: MediaQuery.of(context).size.width * 1,
+                      padding: EdgeInsets.all(16.0),
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          begin: Alignment.centerLeft,
+                          end: Alignment.centerRight,
+                          colors: [Colors.deepOrange.shade300, Colors.deepOrange.withOpacity(0.1)],
+                        ),
+                      ),
+                      child: Text(
+                        "${SystemsTechSpecs.features}",
+                        style: TextStyle(fontSize: 14.0, color: Colors.white, fontWeight: FontWeight.w900),
+                        textAlign: TextAlign.left,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            )).toList(),
+          ),
+        ),
+      )
+    ];
+
     return Scaffold(
       appBar: CustomAppBar(title: 'Systems', imagePath: 'assets/logo/enyecontrols.png',),
       /*drawer: CustomDrawer(),*/
@@ -82,25 +181,7 @@ class _detailedSysPageState extends State<detailedSysPage> {
           PageView(
             controller: _pageController,
             scrollDirection: Axis.vertical,
-            children: [
-              Container(
-                decoration: BoxDecoration(
-                  image: DecorationImage(image: NetworkImage("${API.systemsImg + widget.systems.image}"), fit: BoxFit.fill),
-                ),
-                child: Container(
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      colors: [Colors.blue.withOpacity(0.4), Colors.deepOrange.shade100.withOpacity(0.3)],
-                      stops: [0.0, 1],
-                      begin: Alignment.topCenter,
-                    ),
-                  ),
-                ),
-              ),
-
-              Container(),
-              Container(),
-            ],
+            children: _pages,
           ),
 
           //dot controller of pageview
@@ -113,7 +194,7 @@ class _detailedSysPageState extends State<detailedSysPage> {
                 child: SmoothPageIndicator(
                   axisDirection: Axis.vertical,
                   controller: _pageController,
-                  count: 3,
+                  count: _pages.length,
                   effect: ExpandingDotsEffect(dotColor: Colors.orange, activeDotColor: Colors.deepOrange),
                   onDotClicked: (index) => _pageController.animateToPage(
                     index,
