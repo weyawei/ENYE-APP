@@ -177,21 +177,21 @@ class MyCustomIcons {
   static const IconData accessories = IconData(0xe001, fontFamily: _kFontFam);
   static const IconData airReleaseValve = IconData(0xe002, fontFamily: _kFontFam);
   static const IconData automaticControlValve = IconData(0xe003, fontFamily: _kFontFam);
-  static const IconData backflowPreventer = IconData(0xe003, fontFamily: _kFontFam);
-  static const IconData balancingValves = IconData(0xe003, fontFamily: _kFontFam);
-  static const IconData ballValves = IconData(0xe003, fontFamily: _kFontFam);
-  static const IconData checkValve = IconData(0xe003, fontFamily: _kFontFam);
-  static const IconData concentricButterflyValve = IconData(0xe003, fontFamily: _kFontFam);
-  static const IconData enyeControlsMotorizedValvesandActuators = IconData(0xe003, fontFamily: _kFontFam);
-  static const IconData flexibleJoint = IconData(0xe003, fontFamily: _kFontFam);
-  static const IconData gateValve = IconData(0xe003, fontFamily: _kFontFam);
-  static const IconData globeValve = IconData(0xe003, fontFamily: _kFontFam);
-  static const IconData plungerValve = IconData(0xe003, fontFamily: _kFontFam);
-  static const IconData softwares = IconData(0xe003, fontFamily: _kFontFam);
-  static const IconData strainer = IconData(0xe003, fontFamily: _kFontFam);
-  static const IconData testEquipments = IconData(0xe003, fontFamily: _kFontFam);
-  static const IconData variableFrequencyDrive = IconData(0xe003, fontFamily: _kFontFam);
-  static const IconData waterMeter = IconData(0xe003, fontFamily: _kFontFam);
+  static const IconData backflowPreventer = IconData(0xe004, fontFamily: _kFontFam);
+  static const IconData balancingValves = IconData(0xe005, fontFamily: _kFontFam);
+  static const IconData ballValves = IconData(0xe006, fontFamily: _kFontFam);
+  static const IconData checkValve = IconData(0xe007, fontFamily: _kFontFam);
+  static const IconData concentricButterflyValve = IconData(0xe008, fontFamily: _kFontFam);
+  static const IconData enyeControlsMotorizedValvesandActuators = IconData(0xe009, fontFamily: _kFontFam);
+  static const IconData flexibleJoint = IconData(0xe010, fontFamily: _kFontFam);
+  static const IconData gateValve = IconData(0xe011, fontFamily: _kFontFam);
+  static const IconData globeValve = IconData(0xe012, fontFamily: _kFontFam);
+  static const IconData plungerValve = IconData(0xe013, fontFamily: _kFontFam);
+  static const IconData softwares = IconData(0xe014, fontFamily: _kFontFam);
+  static const IconData strainer = IconData(0xe015, fontFamily: _kFontFam);
+  static const IconData testEquipments = IconData(0xe016, fontFamily: _kFontFam);
+  static const IconData variableFrequencyDrive = IconData(0xe017, fontFamily: _kFontFam);
+  static const IconData waterMeter = IconData(0xe0, fontFamily: _kFontFam);
 
 // Define more custom icons as needed
 }

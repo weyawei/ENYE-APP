@@ -136,9 +136,8 @@ class _detailedSysPageState extends State<detailedSysPage> {
       ),
         ),
 
-      _sysDetails == null
-        ? Container()
-        : SingleChildScrollView(
+      if (_sysDetails != null && _sysDetails!.isNotEmpty)
+        SingleChildScrollView(
         child: Container(
           child: Column(
             children: _sysDetails!.map((SystemsDetail) => Text(SystemsDetail.title)).toList(),
@@ -146,7 +145,7 @@ class _detailedSysPageState extends State<detailedSysPage> {
         ),
       ),
 
-      if(_sysTechSpecs != null)
+      if (_sysTechSpecs != null && _sysTechSpecs!.isNotEmpty)
         SingleChildScrollView(
           child: Container(
             child: Column(

@@ -176,7 +176,7 @@ class _CarouselCard2State extends State<CarouselCard2> {
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Icon(
-              Icons.temple_buddhist,
+              MyCustomIcons.accessories,
               size: 50,
               color: Colors.black,
             ),
