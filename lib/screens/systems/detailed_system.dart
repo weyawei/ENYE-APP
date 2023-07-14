@@ -100,9 +100,6 @@ class _detailedSysPageState extends State<detailedSysPage> {
     });
   }
 
-
-
-
   @override
   Widget build(BuildContext context) {
     final List<Widget> _pages = <Widget> [
