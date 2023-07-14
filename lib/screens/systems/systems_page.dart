@@ -16,6 +16,9 @@ class _systemsPageState extends State<systemsPage> {
 
   late List<Systems> _systems;
 
+  List<Systems> filteredSystemList = [];
+  String searchText = '';
+
   @override
   void initState(){
     super.initState();
@@ -30,6 +33,14 @@ class _systemsPageState extends State<systemsPage> {
       });
       print("Length ${Systems.length}");
     });
+  }
+
+  void filterItemDataList() {
+    filteredSystemList = _systems.where((Systems) {
+      final title = Systems.title.toLowerCase();
+      final searchQuery = searchText.toLowerCase();
+      return title.contains(searchQuery);
+    }).toList();
   }
 
   @override
@@ -54,8 +65,8 @@ class _systemsPageState extends State<systemsPage> {
                 ),
                 onChanged: (value) {
                   setState(() {
-                    //searchText = value;
-                    //filterItemDataList();
+                    searchText = value;
+                    filterItemDataList();
                   });
                 },
               ),
@@ -64,15 +75,16 @@ class _systemsPageState extends State<systemsPage> {
               ListView.builder(
                   primary: false,
                   shrinkWrap: true,
-                  itemCount: _systems.length,
+                  itemCount: searchText.isEmpty ? _systems.length : filteredSystemList.length,
                   itemBuilder: (context, index) {
+                    filteredSystemList = searchText.isEmpty ? _systems : filteredSystemList;
                     return InkWell(
                       onTap: () {
                         // Handle the onTap event here
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => detailedSysPage(systems: _systems[index]),
+                            builder: (context) => detailedSysPage(systems: filteredSystemList[index]),
                           ),
                         );
                       },
@@ -99,7 +111,7 @@ class _systemsPageState extends State<systemsPage> {
                           children: [
                             Expanded(
                               child: Text(
-                                " ${_systems[index].title}",
+                                " ${filteredSystemList[index].title}",
                                 style: TextStyle(
                                   fontSize: 12,
                                   fontWeight: FontWeight.bold,
