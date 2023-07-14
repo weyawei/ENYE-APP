@@ -13,8 +13,10 @@ class systemsPage extends StatefulWidget {
 class _systemsPageState extends State<systemsPage> {
   double screenHeight = 0;
   double screenWidth = 0;
+  String searchText = '';
 
   late List<Systems> _systems;
+  List<Systems> _filteredSystems = [];
 
   @override
   void initState(){
@@ -30,6 +32,14 @@ class _systemsPageState extends State<systemsPage> {
       });
       print("Length ${Systems.length}");
     });
+  }
+
+  void filterSystemsList() {
+    _filteredSystems = _systems.where((Systems) {
+      final title = Systems.title.toLowerCase();
+      final searchQuery = searchText.toLowerCase();
+      return title.contains(searchQuery);
+    }).toList();
   }
 
   @override
@@ -54,8 +64,8 @@ class _systemsPageState extends State<systemsPage> {
                 ),
                 onChanged: (value) {
                   setState(() {
-                    //searchText = value;
-                    //filterItemDataList();
+                    searchText = value;
+                    filterSystemsList();
                   });
                 },
               ),
@@ -64,15 +74,16 @@ class _systemsPageState extends State<systemsPage> {
               ListView.builder(
                   primary: false,
                   shrinkWrap: true,
-                  itemCount: _systems.length,
+                  itemCount: searchText.isEmpty ? _systems.length : _filteredSystems.length,
                   itemBuilder: (context, index) {
+                    _filteredSystems = searchText.isEmpty ? _systems : _filteredSystems;
                     return InkWell(
                       onTap: () {
                         // Handle the onTap event here
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => detailedSysPage(systems: _systems[index]),
+                            builder: (context) => detailedSysPage(systems: _filteredSystems[index]),
                           ),
                         );
                       },
@@ -99,7 +110,7 @@ class _systemsPageState extends State<systemsPage> {
                           children: [
                             Expanded(
                               child: Text(
-                                " ${_systems[index].title}",
+                                " ${_filteredSystems[index].title}",
                                 style: TextStyle(
                                   fontSize: 12,
                                   fontWeight: FontWeight.bold,
