@@ -12,7 +12,7 @@ import '../screens.dart';
 class detailedProjPage extends StatefulWidget {
   static const String routeName = '/detailedproj';
 
-  static Route route({required Projects projects}){
+  Route route(){
     return MaterialPageRoute(
       settings: RouteSettings(name: routeName),
       builder: (context) => detailedProjPage(projects: projects,),
@@ -184,8 +184,8 @@ class _detailedProjPageState extends State<detailedProjPage> {
                     padding: const EdgeInsets.only(top: 20, left: 60),
                     child:
                     widget.projects.projCatalogs == null ||  widget.projects.projCatalogs.isEmpty
-                    ? Container()
-                    : Row(
+                        ? Container()
+                        : Row(
                       children: [
                         Lottie.network("https://assets3.lottiefiles.com/packages/lf20_Sz5T65.json", height: 50,),
                         _progress != null

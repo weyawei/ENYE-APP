@@ -40,20 +40,20 @@ class projectSVC {
   }
 
   static Future <List<Projects>> getProjects() async {
-      var map = Map<String, dynamic>();
-      map['action'] = GET_ALL_PROJECTS;
+    var map = Map<String, dynamic>();
+    map['action'] = GET_ALL_PROJECTS;
 
-      //get all data of categories
-      final res = await http.post(Uri.parse(API.projects), body: map); //passing value to result
-      print('getProjects Response: ${res.body}');
+    //get all data of categories
+    final res = await http.post(Uri.parse(API.projects), body: map); //passing value to result
+    print('getProjects Response: ${res.body}');
 
-      if(res.statusCode == 200){
-        List<Projects> list = parseResponse(res.body);
-        return list;
-      } else {
-        throw Exception('Failed to retrieve Project');
-        //return List<Categories>();
-      }
+    if(res.statusCode == 200){
+      List<Projects> list = parseResponse(res.body);
+      return list;
+    } else {
+      throw Exception('Failed to retrieve Project');
+      //return List<Categories>();
+    }
   }
 
   static List<Projects> parseResponse(String responseBody){

@@ -1,7 +1,11 @@
 import 'dart:async';
 
+import 'package:enye_app/widget/custom_navbar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+
+import '../main.dart';
+import '../screens/home/homepage.dart';
 
 class SplashScreen extends StatelessWidget {
   static const String routeName = '/splash';
@@ -16,7 +20,12 @@ class SplashScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Timer(Duration(seconds: 2),() => Navigator.pushNamed(context, '/'));
+    Timer(Duration(seconds: 2),() => Navigator.of(navigatorKey.currentContext!).pushReplacement(
+      MaterialPageRoute(
+        builder: (context) => CustomNavBar(),
+      ),
+    ),
+    );
     return Scaffold(
         body: Column(
           mainAxisAlignment: MainAxisAlignment.center,

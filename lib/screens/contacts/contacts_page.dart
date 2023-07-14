@@ -48,6 +48,7 @@ class ContactsPage extends StatelessWidget {
             children: [
               PageView(
                 controller: _pageController,
+                scrollDirection: Axis.vertical,
                 children: [
 
                   //QUEZON CITY OFFICE DATA

@@ -8,6 +8,8 @@ class ProductInfo extends Equatable{
   final String model;
   final String size;
   final String price;
+  final String imageUrl;
+  final String pdfUrl;
 
 
   const ProductInfo({
@@ -15,18 +17,21 @@ class ProductInfo extends Equatable{
     required this.name,
     required this.model,
     required this.size,
-    required this.price
+    required this.price,
+    required this.imageUrl,
+    required this.pdfUrl,
 });
 
   @override
-  List<Object?> get props => [subcategory, name, model, size, price];
+  List<Object?> get props => [subcategory, name, model, size, price, imageUrl, pdfUrl];
   static List<ProductInfo> info = [
-    ProductInfo(
+/*    ProductInfo(
       subcategory: 'Vector Accesories',
       name: 'Gateways',
     model: 'AEX-SMP-BAC',
     size: 'HMI/Server/Controller Atrius solution builder license included',
     price: '47,218.12',
+      imageUrl: 'assets/logo/enyecontrols.png',
     ),
     ProductInfo(
       subcategory: 'Vector Accesories',
@@ -34,6 +39,7 @@ class ProductInfo extends Equatable{
       model: 'AEX-SMP-MOD',
       size: 'HMI/Server/Controller Atrius Solution Builder License included',
       price: '47,218.12',
+      imageUrl: '',
     ),
     ProductInfo(
       subcategory: 'Vector Accesories',
@@ -41,6 +47,7 @@ class ProductInfo extends Equatable{
       model: 'FXL-Dongle',
       size: 'BACnet MS/TP communication add-on for GSM-2000-SMP',
       price: '242,824.24',
+      imageUrl: '',
     ),
     ProductInfo(
       subcategory: 'Vector Accesories',
@@ -48,6 +55,7 @@ class ProductInfo extends Equatable{
       model: 'GSM-100-DSA',
       size: 'Basic license fee for Atrius Solution builder',
       price: '91,235.02',
+      imageUrl: '',
     ),
     ProductInfo(
       subcategory: 'Vector Accesories',
@@ -55,6 +63,7 @@ class ProductInfo extends Equatable{
       model: 'GSM-1000-BMX',
       size: 'MODBUS communication add-on for GSM-2000-SMP',
       price: '277,458.23',
+      imageUrl: '',
     ),
     ProductInfo(
       subcategory: 'Vector Accesories',
@@ -62,6 +71,7 @@ class ProductInfo extends Equatable{
       model: 'GSM-1000-DSA',
       size: 'Basic license fee for Atrius Solution builder',
       price: '258,830.39',
+      imageUrl: '',
     ),
     ProductInfo(
       subcategory: 'Vector Accesories',
@@ -69,6 +79,7 @@ class ProductInfo extends Equatable{
       model: 'GSM-1500-DSA',
       size: 'Basic license fee for Atrius Solution builder',
       price: '314,713.91',
+      imageUrl: '',
     ),
     ProductInfo(
       subcategory: 'Vector Accesories',
@@ -76,6 +87,7 @@ class ProductInfo extends Equatable{
       model: 'GSM-2000-SMP V2.0',
       size: 'HMI/Server/Controller Atrius Solution Builder License not included',
       price: '205,678.95',
+      imageUrl: '',
     ),
     ProductInfo(
       subcategory: 'Vector Accesories',
@@ -83,6 +95,7 @@ class ProductInfo extends Equatable{
       model: 'GSM-DSA',
       size: 'HMI/Server/Controller Atrius solution builder license included',
       price: '35,379.10',
+      imageUrl: '',
     ),
     ProductInfo(
       subcategory: 'Vector Accesories',
@@ -90,6 +103,7 @@ class ProductInfo extends Equatable{
       model: 'Kiosk/engineering',
       size: 'Annual maintenance fee type M',
       price: '55,855.92',
+      imageUrl: '',
     ),
     ProductInfo(
       subcategory: 'Vector Accesories',
@@ -97,6 +111,7 @@ class ProductInfo extends Equatable{
       model: 'Large',
       size: 'basic license fee for Atrius Solution builder',
       price: '1,117,284.04',
+      imageUrl: '',
     ),
     ProductInfo(
       subcategory: 'Vector Accesories',
@@ -104,6 +119,7 @@ class ProductInfo extends Equatable{
       model: 'Large',
       size: 'Annual maintenance fee type L',
       price: '167,595.37',
+      imageUrl: '',
     ),
     ProductInfo(
       subcategory: 'Vector Accesories',
@@ -111,6 +127,7 @@ class ProductInfo extends Equatable{
       model: 'Medium',
       size: 'Basic license fee for Atrius Solution builder',
       price: '558,642.02',
+      imageUrl: '',
     ),
     ProductInfo(
       subcategory: 'Vector Accesories',
@@ -118,6 +135,7 @@ class ProductInfo extends Equatable{
       model: 'Medium',
       size: 'Basic license fee for Atrius Solution builder',
       price: '83,783.88',
+      imageUrl: '',
     ),
     ProductInfo(
       subcategory: 'Vector Accesories',
@@ -125,6 +143,7 @@ class ProductInfo extends Equatable{
       model: 'Small',
       size: 'Basic license fee for Atrius Solution builder',
       price: '558,642.02',
+      imageUrl: '',
     ),
     ProductInfo(
       subcategory: 'Vector Accesories',
@@ -132,6 +151,7 @@ class ProductInfo extends Equatable{
       model: 'Small',
       size: 'Annual maintenance fee type M',
       price: '83,783.88',
+      imageUrl: '',
     ),
     ProductInfo(
       subcategory: 'Vector Accesories',
@@ -139,6 +159,7 @@ class ProductInfo extends Equatable{
       model: 'X-Large',
       size: 'Basic license fee for Atrius Solution builder',
       price: '2,234,568.09',
+      imageUrl: '',
     ),
     ProductInfo(
       subcategory: 'Vector Accesories',
@@ -146,6 +167,7 @@ class ProductInfo extends Equatable{
       model: 'X-Large',
       size: 'Annual maintenance fee type XL',
       price: '335,190.73',
+      imageUrl: '',
     ),
 
 
@@ -155,6 +177,7 @@ class ProductInfo extends Equatable{
       model: 'SP1',
       size: 'Sensor Adaptor Plates Box of 10 for SENW20 Series',
       price: '6,791.57',
+      imageUrl: '',
     ),
     ProductInfo(
       subcategory: 'Vector Accesories',
@@ -162,6 +185,7 @@ class ProductInfo extends Equatable{
       model: 'SP2',
       size: 'Sensor Adaptor Plates Box of 10 for innTOUCH/SENW50/HTW Series',
       price: '6,791.57',
+      imageUrl: '',
     ),
     ProductInfo(
       subcategory: 'Vector Accesories',
@@ -169,6 +193,7 @@ class ProductInfo extends Equatable{
       model: 'TLBM7',
       size: 'PASStec TouchLBM 7.0" Widescreen, 800x480 pixel (16:9), 350 cd/m2 Ethernet, Power 24V AC/DC, RS485, 197(w)x137(h)x63(d)',
       price: '357,723.52',
+      imageUrl: '',
     ),
     ProductInfo(
       subcategory: 'Vector Accesories',
@@ -176,6 +201,7 @@ class ProductInfo extends Equatable{
       model: 'USB Flashtool',
       size: 'Flashtool for Innotech Product Firmware Upgrades',
       price: '49,674.24',
+      imageUrl: '',
     ),
 
 
@@ -187,6 +213,7 @@ class ProductInfo extends Equatable{
       model: '1x',
       size: 'Descriptions',
       price: '00.00',
+      imageUrl: '',
     ),
     ProductInfo(
       subcategory: 'Air Release Valve',
@@ -194,6 +221,7 @@ class ProductInfo extends Equatable{
       model: '2x',
       size: 'Descriptions',
       price: '00.00',
+      imageUrl: '',
     ),
     ProductInfo(
       subcategory: 'Brass Air Release Valve',
@@ -201,6 +229,7 @@ class ProductInfo extends Equatable{
       model: '1x',
       size: 'Descriptions',
       price: '00.00',
+      imageUrl: '',
     ),
 
 
@@ -210,6 +239,7 @@ class ProductInfo extends Equatable{
       model: '1x',
       size: 'Descriptions',
       price: '00.00',
+      imageUrl: '',
     ),
 
     ProductInfo(
@@ -218,6 +248,7 @@ class ProductInfo extends Equatable{
       model: '1x',
       size: 'Descriptions',
       price: '00.00',
+      imageUrl: '',
     ),
 
     ProductInfo(
@@ -226,6 +257,7 @@ class ProductInfo extends Equatable{
       model: '1x',
       size: 'Descriptions',
       price: '00.00',
+      imageUrl: '',
     ),
 
     ProductInfo(
@@ -234,6 +266,7 @@ class ProductInfo extends Equatable{
       model: '1x',
       size: 'Descriptions',
       price: '00.00',
+      imageUrl: '',
     ),
 
     ProductInfo(
@@ -242,6 +275,7 @@ class ProductInfo extends Equatable{
       model: '1x',
       size: 'Descriptions',
       price: '00.00',
+      imageUrl: '',
     ),
 
     ProductInfo(
@@ -250,6 +284,7 @@ class ProductInfo extends Equatable{
       model: '1x',
       size: 'Descriptions',
       price: '00.00',
+      imageUrl: '',
     ),
 
     ProductInfo(
@@ -258,6 +293,7 @@ class ProductInfo extends Equatable{
       model: '1x',
       size: 'Descriptions',
       price: '00.00',
+      imageUrl: '',
     ),
 
     ProductInfo(
@@ -266,6 +302,7 @@ class ProductInfo extends Equatable{
       model: '1x',
       size: 'Descriptions',
       price: '00.00',
+      imageUrl: '',
     ),
 
     ProductInfo(
@@ -274,6 +311,7 @@ class ProductInfo extends Equatable{
       model: '1x',
       size: 'Descriptions',
       price: '00.00',
+      imageUrl: '',
     ),
 
     ProductInfo(
@@ -282,6 +320,7 @@ class ProductInfo extends Equatable{
       model: '1x',
       size: 'Descriptions',
       price: '00.00',
+      imageUrl: '',
     ),
 
     ProductInfo(
@@ -290,6 +329,7 @@ class ProductInfo extends Equatable{
       model: '1x',
       size: 'Descriptions',
       price: '00.00',
+      imageUrl: '',
     ),
 
     ProductInfo(
@@ -298,6 +338,7 @@ class ProductInfo extends Equatable{
       model: '1x',
       size: 'Descriptions',
       price: '00.00',
+      imageUrl: '',
     ),
 
     ProductInfo(
@@ -306,6 +347,7 @@ class ProductInfo extends Equatable{
       model: '1x',
       size: 'Descriptions',
       price: '00.00',
+      imageUrl: '',
     ),
     ProductInfo(
       subcategory: 'Brass Ball Valve',
@@ -313,6 +355,7 @@ class ProductInfo extends Equatable{
       model: '1x',
       size: 'Descriptions',
       price: '00.00',
+      imageUrl: '',
     ),
     ProductInfo(
       subcategory: 'Bronze Ball Valve',
@@ -320,6 +363,7 @@ class ProductInfo extends Equatable{
       model: '1x',
       size: 'Descriptions',
       price: '00.00',
+      imageUrl: '',
     ),
     ProductInfo(
       subcategory: 'Long Neck Ball Valve',
@@ -327,6 +371,7 @@ class ProductInfo extends Equatable{
       model: '1x',
       size: 'Descriptions',
       price: '00.00',
+      imageUrl: '',
     ),
     ProductInfo(
       subcategory: 'Swing Check Valve',
@@ -334,6 +379,7 @@ class ProductInfo extends Equatable{
       model: '1x',
       size: 'Descriptions',
       price: '00.00',
+      imageUrl: '',
     ),
     ProductInfo(
       subcategory: 'Swing Check Valve',
@@ -341,6 +387,7 @@ class ProductInfo extends Equatable{
       model: '1x',
       size: 'Descriptions',
       price: '00.00',
+      imageUrl: '',
     ),
     ProductInfo(
       subcategory: 'Swing Check Valve',
@@ -348,6 +395,7 @@ class ProductInfo extends Equatable{
       model: '1x',
       size: 'Descriptions',
       price: '00.00',
+      imageUrl: '',
     ),
     ProductInfo(
       subcategory: 'Spring Load Check Valve',
@@ -355,6 +403,7 @@ class ProductInfo extends Equatable{
       model: '1x',
       size: 'Descriptions',
       price: '00.00',
+      imageUrl: '',
     ),
     ProductInfo(
       subcategory: 'Dual Plates Check Valve',
@@ -362,6 +411,7 @@ class ProductInfo extends Equatable{
       model: '1x',
       size: 'Descriptions',
       price: '00.00',
+      imageUrl: '',
     ),
     ProductInfo(
       subcategory: 'Wafer Butterfly Valve',
@@ -369,6 +419,7 @@ class ProductInfo extends Equatable{
       model: '1x',
       size: 'Descriptions',
       price: '00.00',
+      imageUrl: '',
     ),
     ProductInfo(
       subcategory: 'Wafer Butterfly Valve',
@@ -376,6 +427,7 @@ class ProductInfo extends Equatable{
       model: '1x',
       size: 'Descriptions',
       price: '00.00',
+      imageUrl: '',
     ),
     ProductInfo(
       subcategory: 'Wafer Butterfly Valve',
@@ -383,6 +435,7 @@ class ProductInfo extends Equatable{
       model: '1x',
       size: 'Descriptions',
       price: '00.00',
+      imageUrl: '',
     ),
     ProductInfo(
       subcategory: 'Electric Actuator Butterfly Valve',
@@ -390,6 +443,7 @@ class ProductInfo extends Equatable{
       model: '1x',
       size: 'Descriptions',
       price: '00.00',
+      imageUrl: '',
     ),
     ProductInfo(
       subcategory: 'Electric Actuator Butterfly Valve',
@@ -397,6 +451,7 @@ class ProductInfo extends Equatable{
       model: '1x',
       size: 'Descriptions',
       price: '00.00',
+      imageUrl: '',
     ),
     ProductInfo(
       subcategory: 'Electric Actuator Butterfly Valve',
@@ -404,6 +459,7 @@ class ProductInfo extends Equatable{
       model: '1x',
       size: 'Descriptions',
       price: '00.00',
+      imageUrl: '',
     ),
     ProductInfo(
       subcategory: 'Lug Butterfly Valve',
@@ -411,6 +467,7 @@ class ProductInfo extends Equatable{
       model: '1x',
       size: 'Descriptions',
       price: '00.00',
+      imageUrl: '',
     ),
     ProductInfo(
       subcategory: 'Lug Butterfly Valve',
@@ -418,6 +475,7 @@ class ProductInfo extends Equatable{
       model: '1x',
       size: 'Descriptions',
       price: '00.00',
+      imageUrl: '',
     ),
     ProductInfo(
       subcategory: 'Flanged Concentric Disc',
@@ -425,6 +483,7 @@ class ProductInfo extends Equatable{
       model: '1x',
       size: 'Descriptions',
       price: '00.00',
+      imageUrl: '',
     ),
     ProductInfo(
       subcategory: 'Flanged Concentric Type',
@@ -432,6 +491,7 @@ class ProductInfo extends Equatable{
       model: '1x',
       size: 'Descriptions',
       price: '00.00',
+      imageUrl: '',
     ),
     ProductInfo(
       subcategory: 'Flanged Concentric Type',
@@ -439,6 +499,7 @@ class ProductInfo extends Equatable{
       model: '1x',
       size: 'Descriptions',
       price: '00.00',
+      imageUrl: '',
     ),
     ProductInfo(
       subcategory: 'Fire Protection Signal Feedback Butterfly Valve',
@@ -446,6 +507,7 @@ class ProductInfo extends Equatable{
       model: '1x',
       size: 'Descriptions',
       price: '00.00',
+      imageUrl: '',
     ),
     ProductInfo(
       subcategory: 'Omni BEMS Controllers',
@@ -453,6 +515,7 @@ class ProductInfo extends Equatable{
       model: '1x',
       size: 'Descriptions',
       price: '00.00',
+      imageUrl: '',
     ),
     ProductInfo(
       subcategory: 'Omni BEMS Controllers',
@@ -460,20 +523,42 @@ class ProductInfo extends Equatable{
       model: '1x',
       size: 'Descriptions',
       price: '00.00',
+      imageUrl: '',
+    ),*/
+    ProductInfo(
+      subcategory: 'Omni BEMS Controllers',
+      name: 'Omni U10',
+      model: 'Model',
+      size: '',
+      price: 'OMC40: 40 Programmable Points OMC40D: OMC40 with Display \nOMC20: 20 Programmable Points OMC20D: OMC20 with Display \nOMC14: 14 Programmable Points OMC14D: OMC14 with Display',
+      imageUrl: '',
+      pdfUrl: '',
     ),
     ProductInfo(
       subcategory: 'Omni BEMS Controllers',
       name: 'Omni U10',
-      model: '1x',
-      size: 'Descriptions',
-      price: '00.00',
+      model: 'Features',
+      size: '• 40, 20 or 14 Point (UI/O) models with the ability to use any point as an input or output, allowing greater flexibility\n• Expandable via Omni Remote Expansion Modules\n• UI/O update rates up to 500Hz (2ms)\n• Individual UI/O LEDs for status indication and fault diagnostics\n• Compatible with existing Innotech controller networks\n• Optional customisable HMI with click-wheel navigation\n• Colour coded pluggable terminals for easy identification\n• Ethernet, RS-485 and USB communications\n• Communication LEDs for all interfaces\n• Protocol routing/conversion capability\n• Battery backed Real Time Clock\n• Easily programmed with Innotech Focus so ware\n• Feature rich multi-platform Web server\n• Polarity independent AC or DC Power Supply\n• Dedicated Innotech Smart Sensor (ISS) communications\n• Expansion port for additional protocol/communications (selected models only)\n• User replaceable log data memory via MicroSD\n• Reporting of controller and programmable point self-diagnostics',
+      price: '',
+      imageUrl: '',
+      pdfUrl: '',
     ),
     ProductInfo(
+      subcategory: 'Omni BEMS Controllers',
+      name: 'Omni U10',
+      model: 'Omni Controller Dimensions & Parts Identification',
+      size: '',
+      price: '',
+      imageUrl: 'assets/producs_image/controller/omni/omni1a.jpg',
+      pdfUrl: 'assets/producs_image/controller/omni/OMINI U10.pdf',
+    ),
+   /* ProductInfo(
       subcategory: 'Universal Programmable Controller',
       name: 'Universal Programmable Controller',
       model: '1x',
       size: 'Descriptions',
       price: '00.00',
+      imageUrl: '',
     ),
     ProductInfo(
       subcategory: 'Intelligent Controller',
@@ -481,6 +566,7 @@ class ProductInfo extends Equatable{
       model: '1x',
       size: 'Descriptions',
       price: '00.00',
+      imageUrl: '',
     ),
     ProductInfo(
       subcategory: 'Intelligent Controller',
@@ -488,6 +574,7 @@ class ProductInfo extends Equatable{
       model: '1x',
       size: 'Descriptions',
       price: '00.00',
+      imageUrl: '',
     ),
     ProductInfo(
       subcategory: 'Intelligent Controller',
@@ -495,6 +582,7 @@ class ProductInfo extends Equatable{
       model: '1x',
       size: 'Descriptions',
       price: '00.00',
+      imageUrl: '',
     ),
     ProductInfo(
       subcategory: 'Butterfly Valve',
@@ -502,6 +590,7 @@ class ProductInfo extends Equatable{
       model: '1x',
       size: 'Descriptions',
       price: '00.00',
+      imageUrl: '',
     ),
     ProductInfo(
       subcategory: 'Motorized Butterfly Valve',
@@ -509,6 +598,7 @@ class ProductInfo extends Equatable{
       model: '1x',
       size: 'Descriptions',
       price: '00.00',
+      imageUrl: '',
     ),
     ProductInfo(
       subcategory: 'Pneumatic Butterfly Valve',
@@ -516,6 +606,7 @@ class ProductInfo extends Equatable{
       model: '1x',
       size: 'Descriptions',
       price: '00.00',
+      imageUrl: '',
     ),
     ProductInfo(
       subcategory: 'Damper Actuator',
@@ -523,6 +614,7 @@ class ProductInfo extends Equatable{
       model: '1x',
       size: 'Descriptions',
       price: '00.00',
+      imageUrl: '',
     ),
     ProductInfo(
       subcategory: 'Damper Actuator',
@@ -530,6 +622,7 @@ class ProductInfo extends Equatable{
       model: '1x',
       size: 'Descriptions',
       price: '00.00',
+      imageUrl: '',
     ),
     ProductInfo(
       subcategory: 'Damper Actuator',
@@ -537,6 +630,7 @@ class ProductInfo extends Equatable{
       model: '1x',
       size: 'Descriptions',
       price: '00.00',
+      imageUrl: '',
     ),
     ProductInfo(
       subcategory: 'Damper Actuator',
@@ -544,6 +638,7 @@ class ProductInfo extends Equatable{
       model: '1x',
       size: 'Descriptions',
       price: '00.00',
+      imageUrl: '',
     ),
     ProductInfo(
       subcategory: 'Damper Actuator',
@@ -551,6 +646,7 @@ class ProductInfo extends Equatable{
       model: '1x',
       size: 'Descriptions',
       price: '00.00',
+      imageUrl: '',
     ),
     ProductInfo(
       subcategory: 'Damper Actuator',
@@ -558,6 +654,7 @@ class ProductInfo extends Equatable{
       model: '1x',
       size: 'Descriptions',
       price: '00.00',
+      imageUrl: '',
     ),
     ProductInfo(
       subcategory: 'Damper Actuator',
@@ -565,6 +662,7 @@ class ProductInfo extends Equatable{
       model: '1x',
       size: 'Descriptions',
       price: '00.00',
+      imageUrl: '',
     ),
     ProductInfo(
       subcategory: 'Damper Actuator',
@@ -572,6 +670,7 @@ class ProductInfo extends Equatable{
       model: '1x',
       size: 'Descriptions',
       price: '00.00',
+      imageUrl: '',
     ),
     ProductInfo(
       subcategory: 'Damper Actuator',
@@ -579,6 +678,7 @@ class ProductInfo extends Equatable{
       model: '1x',
       size: 'Descriptions',
       price: '00.00',
+      imageUrl: '',
     ),
     ProductInfo(
       subcategory: 'Damper Actuator',
@@ -586,6 +686,7 @@ class ProductInfo extends Equatable{
       model: '1x',
       size: 'Descriptions',
       price: '00.00',
+      imageUrl: '',
     ),
     ProductInfo(
       subcategory: 'Damper Actuator',
@@ -593,6 +694,7 @@ class ProductInfo extends Equatable{
       model: '1x',
       size: 'Descriptions',
       price: '00.00',
+      imageUrl: '',
     ),
     ProductInfo(
       subcategory: 'Damper Actuator',
@@ -600,6 +702,7 @@ class ProductInfo extends Equatable{
       model: '1x',
       size: 'Descriptions',
       price: '00.00',
+      imageUrl: '',
     ),
     ProductInfo(
       subcategory: 'Spring Return Damper Actuator',
@@ -607,6 +710,7 @@ class ProductInfo extends Equatable{
       model: '1x',
       size: 'Descriptions',
       price: '00.00',
+      imageUrl: '',
     ),
     ProductInfo(
       subcategory: 'Spring Return Damper Actuator',
@@ -614,6 +718,7 @@ class ProductInfo extends Equatable{
       model: '1x',
       size: 'Descriptions',
       price: '00.00',
+      imageUrl: '',
     ),
     ProductInfo(
       subcategory: 'Spring Return Damper Actuator',
@@ -621,6 +726,7 @@ class ProductInfo extends Equatable{
       model: '1x',
       size: 'Descriptions',
       price: '00.00',
+      imageUrl: '',
     ),
     ProductInfo(
       subcategory: 'Spring Return Damper Actuator',
@@ -628,6 +734,7 @@ class ProductInfo extends Equatable{
       model: '1x',
       size: 'Descriptions',
       price: '00.00',
+      imageUrl: '',
     ),
     ProductInfo(
       subcategory: 'Electronic Damper Actuator',
@@ -635,6 +742,7 @@ class ProductInfo extends Equatable{
       model: '1x',
       size: 'Descriptions',
       price: '00.00',
+      imageUrl: '',
     ),
     ProductInfo(
       subcategory: 'Electronic Damper Actuator',
@@ -642,6 +750,7 @@ class ProductInfo extends Equatable{
       model: '1x',
       size: 'Descriptions',
       price: '00.00',
+      imageUrl: '',
     ),
     ProductInfo(
       subcategory: 'Electronic Damper Actuator',
@@ -649,6 +758,7 @@ class ProductInfo extends Equatable{
       model: '1x',
       size: 'Descriptions',
       price: '00.00',
+      imageUrl: '',
     ),
     ProductInfo(
       subcategory: 'Ball Valve Actuator',
@@ -656,6 +766,7 @@ class ProductInfo extends Equatable{
       model: '1x',
       size: 'Descriptions',
       price: '00.00',
+      imageUrl: '',
     ),
     ProductInfo(
       subcategory: 'Ball Valve Actuator',
@@ -663,6 +774,7 @@ class ProductInfo extends Equatable{
       model: '1x',
       size: 'Descriptions',
       price: '00.00',
+      imageUrl: '',
     ),
     ProductInfo(
       subcategory: 'Ball Valve Actuator',
@@ -670,6 +782,7 @@ class ProductInfo extends Equatable{
       model: '1x',
       size: 'Descriptions',
       price: '00.00',
+      imageUrl: '',
     ),
     ProductInfo(
       subcategory: 'Ball Valve Actuator',
@@ -677,6 +790,7 @@ class ProductInfo extends Equatable{
       model: '1x',
       size: 'Descriptions',
       price: '00.00',
+      imageUrl: '',
     ),
     ProductInfo(
       subcategory: 'Characteized Disc Ball Valve',
@@ -684,6 +798,7 @@ class ProductInfo extends Equatable{
       model: '1x',
       size: 'Descriptions',
       price: '00.00',
+      imageUrl: '',
     ),
     ProductInfo(
       subcategory: 'Characteized Disc Ball Valve',
@@ -691,6 +806,7 @@ class ProductInfo extends Equatable{
       model: '1x',
       size: 'Descriptions',
       price: '00.00',
+      imageUrl: '',
     ),
     ProductInfo(
       subcategory: 'Motorized Fan Coil Valve',
@@ -698,6 +814,7 @@ class ProductInfo extends Equatable{
       model: '1x',
       size: 'Descriptions',
       price: '00.00',
+      imageUrl: '',
     ),
     ProductInfo(
       subcategory: 'Butterfly Valve',
@@ -705,6 +822,8 @@ class ProductInfo extends Equatable{
       model: '1x',
       size: 'Descriptions',
       price: '00.00',
+      imageUrl: '',
+
     ),
     ProductInfo(
       subcategory: 'Butterfly Valve',
@@ -712,6 +831,8 @@ class ProductInfo extends Equatable{
       model: '1x',
       size: 'Descriptions',
       price: '00.00',
+      imageUrl: '',
+
     ),
     ProductInfo(
       subcategory: 'Rubber Flexible Joint',
@@ -719,6 +840,7 @@ class ProductInfo extends Equatable{
       model: '1x',
       size: 'Descriptions',
       price: '00.00',
+      imageUrl: '',
     ),
     ProductInfo(
       subcategory: 'Rubber Flexible Joint',
@@ -726,6 +848,7 @@ class ProductInfo extends Equatable{
       model: '1x',
       size: 'Descriptions',
       price: '00.00',
+      imageUrl: '',
     ),
     ProductInfo(
       subcategory: 'SS Expansion Joint',
@@ -733,6 +856,7 @@ class ProductInfo extends Equatable{
       model: '1x',
       size: 'Descriptions',
       price: '00.00',
+      imageUrl: '',
     ),
     ProductInfo(
       subcategory: 'Brass Gate Valve',
@@ -740,6 +864,7 @@ class ProductInfo extends Equatable{
       model: '1x',
       size: 'Descriptions',
       price: '00.00',
+      imageUrl: '',
     ),
     ProductInfo(
       subcategory: 'Brass Gate Valve',
@@ -747,6 +872,7 @@ class ProductInfo extends Equatable{
       model: '1x',
       size: 'Descriptions',
       price: '00.00',
+      imageUrl: '',
     ),
     ProductInfo(
       subcategory: 'Bronze Gate Valve',
@@ -754,6 +880,7 @@ class ProductInfo extends Equatable{
       model: '1x',
       size: 'Descriptions',
       price: '00.00',
+      imageUrl: '',
     ),
     ProductInfo(
       subcategory: 'Lockable Gate Valve',
@@ -761,6 +888,7 @@ class ProductInfo extends Equatable{
       model: '1x',
       size: 'Descriptions',
       price: '00.00',
+      imageUrl: '',
     ),
     ProductInfo(
       subcategory: 'Lockable Gate Valve',
@@ -768,6 +896,7 @@ class ProductInfo extends Equatable{
       model: '1x',
       size: 'Descriptions',
       price: '00.00',
+      imageUrl: '',
     ),
     ProductInfo(
       subcategory: 'Lockable Gate Valve',
@@ -775,6 +904,8 @@ class ProductInfo extends Equatable{
       model: '1x',
       size: 'Descriptions',
       price: '00.00',
+      imageUrl: '',
+
     ),
     ProductInfo(
       subcategory: 'Extension Length Gate Valve',
@@ -782,6 +913,8 @@ class ProductInfo extends Equatable{
       model: '1x',
       size: 'Descriptions',
       price: '00.00',
+      imageUrl: '',
+
     ),
     ProductInfo(
       subcategory: 'PN16 Flanged Resilient Seated Gate Valve',
@@ -789,6 +922,7 @@ class ProductInfo extends Equatable{
       model: '1x',
       size: 'Descriptions',
       price: '00.00',
+      imageUrl: '',
     ),
     ProductInfo(
       subcategory: 'PN16 Flanged Resilient Seated Gate Valve',
@@ -796,6 +930,8 @@ class ProductInfo extends Equatable{
       model: '1x',
       size: 'Descriptions',
       price: '00.00',
+      imageUrl: '',
+
     ),
     ProductInfo(
       subcategory: 'PN16 Flanged Resilient Seated Gate Valve',
@@ -803,6 +939,7 @@ class ProductInfo extends Equatable{
       model: '1x',
       size: 'Descriptions',
       price: '00.00',
+      imageUrl: '',
     ),
     ProductInfo(
       subcategory: 'Stem Cap Gate Valve',
@@ -810,6 +947,8 @@ class ProductInfo extends Equatable{
       model: '1x',
       size: 'Descriptions',
       price: '00.00',
+      imageUrl: '',
+
     ),
     ProductInfo(
       subcategory: 'Spigot Gate Valve',
@@ -817,6 +956,7 @@ class ProductInfo extends Equatable{
       model: '1x',
       size: 'Descriptions',
       price: '00.00',
+      imageUrl: '',
     ),
     ProductInfo(
       subcategory: 'Fire Protection Signal Feedback Gate Valve',
@@ -824,6 +964,7 @@ class ProductInfo extends Equatable{
       model: '1x',
       size: 'Descriptions',
       price: '00.00',
+      imageUrl: '',
     ),
     ProductInfo(
       subcategory: 'Brass Globe Valve',
@@ -831,6 +972,7 @@ class ProductInfo extends Equatable{
       model: '1x',
       size: 'Descriptions',
       price: '00.00',
+      imageUrl: '',
     ),
     ProductInfo(
       subcategory: 'Bronze Globe Valve',
@@ -838,6 +980,7 @@ class ProductInfo extends Equatable{
       model: '1x',
       size: 'Descriptions',
       price: '00.00',
+      imageUrl: '',
     ),
     ProductInfo(
       subcategory: 'Plunger Valve',
@@ -845,6 +988,7 @@ class ProductInfo extends Equatable{
       model: '1x',
       size: 'Descriptions',
       price: '00.00',
+      imageUrl: '',
     ),
     ProductInfo(
       subcategory: 'Softwares and Utilities',
@@ -852,6 +996,7 @@ class ProductInfo extends Equatable{
       model: '1x',
       size: 'Descriptions',
       price: '00.00',
+      imageUrl: '',
     ),
     ProductInfo(
       subcategory: 'Softwares and Utilities',
@@ -859,6 +1004,7 @@ class ProductInfo extends Equatable{
       model: '1x',
       size: 'Descriptions',
       price: '00.00',
+      imageUrl: '',
     ),
     ProductInfo(
       subcategory: 'Y Strainers',
@@ -866,6 +1012,7 @@ class ProductInfo extends Equatable{
       model: '1x',
       size: 'Descriptions',
       price: '00.00',
+      imageUrl: '',
     ),
     ProductInfo(
       subcategory: 'Y Strainers',
@@ -873,6 +1020,7 @@ class ProductInfo extends Equatable{
       model: '1x',
       size: 'Descriptions',
       price: '00.00',
+      imageUrl: '',
     ),
     ProductInfo(
       subcategory: 'Y Strainers',
@@ -880,6 +1028,8 @@ class ProductInfo extends Equatable{
       model: '1x',
       size: 'Descriptions',
       price: '00.00',
+      imageUrl: '',
+
     ),
     ProductInfo(
       subcategory: 'Suction Diffuser',
@@ -887,6 +1037,7 @@ class ProductInfo extends Equatable{
       model: '1x',
       size: 'Descriptions',
       price: '00.00',
+      imageUrl: '',
     ),
     ProductInfo(
       subcategory: 'Basket Strainers',
@@ -894,6 +1045,7 @@ class ProductInfo extends Equatable{
       model: '1x',
       size: 'Descriptions',
       price: '00.00',
+      imageUrl: '',
     ),
     ProductInfo(
       subcategory: 'Thermo-Anemometer',
@@ -901,6 +1053,7 @@ class ProductInfo extends Equatable{
       model: '1x',
       size: 'Descriptions',
       price: '00.00',
+      imageUrl: '',
     ),
     ProductInfo(
       subcategory: 'Thermo-Anemometer',
@@ -908,6 +1061,7 @@ class ProductInfo extends Equatable{
       model: '1x',
       size: 'Descriptions',
       price: '00.00',
+      imageUrl: '',
     ),
     ProductInfo(
       subcategory: 'Thermo-Anemometer',
@@ -915,6 +1069,7 @@ class ProductInfo extends Equatable{
       model: '1x',
       size: 'Descriptions',
       price: '00.00',
+      imageUrl: '',
     ),
     ProductInfo(
       subcategory: 'Thermo-Anemometer',
@@ -922,6 +1077,7 @@ class ProductInfo extends Equatable{
       model: '1x',
       size: 'Descriptions',
       price: '00.00',
+      imageUrl: '',
     ),
     ProductInfo(
       subcategory: 'Air Meter',
@@ -929,6 +1085,7 @@ class ProductInfo extends Equatable{
       model: '1x',
       size: 'Descriptions',
       price: '00.00',
+      imageUrl: '',
     ),
     ProductInfo(
       subcategory: 'Air Meter',
@@ -936,6 +1093,7 @@ class ProductInfo extends Equatable{
       model: '1x',
       size: 'Descriptions',
       price: '00.00',
+      imageUrl: '',
     ),
     ProductInfo(
       subcategory: 'Air Meter',
@@ -943,6 +1101,7 @@ class ProductInfo extends Equatable{
       model: '1x',
       size: 'Descriptions',
       price: '00.00',
+      imageUrl: '',
     ),
     ProductInfo(
       subcategory: 'Air Meter',
@@ -950,6 +1109,7 @@ class ProductInfo extends Equatable{
       model: '1x',
       size: 'Descriptions',
       price: '00.00',
+      imageUrl: '',
     ),
     ProductInfo(
       subcategory: 'Air Meter',
@@ -957,6 +1117,7 @@ class ProductInfo extends Equatable{
       model: '1x',
       size: 'Descriptions',
       price: '00.00',
+      imageUrl: '',
     ),
     ProductInfo(
       subcategory: 'Test Kits',
@@ -964,6 +1125,7 @@ class ProductInfo extends Equatable{
       model: '1x',
       size: 'Descriptions',
       price: '00.00',
+      imageUrl: '',
     ),
     ProductInfo(
       subcategory: 'Test Kits',
@@ -971,6 +1133,7 @@ class ProductInfo extends Equatable{
       model: '1x',
       size: 'Descriptions',
       price: '00.00',
+      imageUrl: '',
     ),
     ProductInfo(
       subcategory: 'Test Kits',
@@ -978,6 +1141,7 @@ class ProductInfo extends Equatable{
       model: '1x',
       size: 'Descriptions',
       price: '00.00',
+      imageUrl: '',
     ),
     ProductInfo(
       subcategory: 'Test Kits',
@@ -985,6 +1149,7 @@ class ProductInfo extends Equatable{
       model: '1x',
       size: 'Descriptions',
       price: '00.00',
+      imageUrl: '',
     ),
     ProductInfo(
       subcategory: 'Test Kits',
@@ -992,6 +1157,7 @@ class ProductInfo extends Equatable{
       model: '1x',
       size: 'Descriptions',
       price: '00.00',
+      imageUrl: '',
     ),
     ProductInfo(
       subcategory: 'Thermo-Hygrometer',
@@ -999,6 +1165,7 @@ class ProductInfo extends Equatable{
       model: '1x',
       size: 'Descriptions',
       price: '00.00',
+      imageUrl: '',
     ),
     ProductInfo(
       subcategory: 'Thermo-Hygrometer',
@@ -1006,6 +1173,7 @@ class ProductInfo extends Equatable{
       model: '1x',
       size: 'Descriptions',
       price: '00.00',
+      imageUrl: '',
     ),
     ProductInfo(
       subcategory: 'Signal Generators',
@@ -1013,6 +1181,7 @@ class ProductInfo extends Equatable{
       model: '1x',
       size: 'Descriptions',
       price: '00.00',
+      imageUrl: '',
     ),
     ProductInfo(
       subcategory: 'Signal Generator',
@@ -1020,6 +1189,7 @@ class ProductInfo extends Equatable{
       model: '1x',
       size: 'Descriptions',
       price: '00.00',
+      imageUrl: '',
     ),
     ProductInfo(
       subcategory: 'Data Logger',
@@ -1027,6 +1197,8 @@ class ProductInfo extends Equatable{
       model: '1x',
       size: 'Descriptions',
       price: '00.00',
+      imageUrl: '',
+
     ),
     ProductInfo(
       subcategory: 'Data Logger',
@@ -1034,6 +1206,7 @@ class ProductInfo extends Equatable{
       model: '1x',
       size: 'Descriptions',
       price: '00.00',
+      imageUrl: '',
     ),
     ProductInfo(
       subcategory: 'Data Logger',
@@ -1041,6 +1214,7 @@ class ProductInfo extends Equatable{
       model: '1x',
       size: 'Descriptions',
       price: '00.00',
+      imageUrl: '',
     ),
     ProductInfo(
       subcategory: 'Data Logger',
@@ -1048,6 +1222,7 @@ class ProductInfo extends Equatable{
       model: '1x',
       size: 'Descriptions',
       price: '00.00',
+      imageUrl: '',
     ),
     ProductInfo(
       subcategory: 'Data Logger',
@@ -1055,6 +1230,7 @@ class ProductInfo extends Equatable{
       model: '1x',
       size: 'Descriptions',
       price: '00.00',
+      imageUrl: '',
     ),
     ProductInfo(
       subcategory: 'Data Logger',
@@ -1062,6 +1238,7 @@ class ProductInfo extends Equatable{
       model: '1x',
       size: 'Descriptions',
       price: '00.00',
+      imageUrl: '',
     ),
     ProductInfo(
       subcategory: 'Pump',
@@ -1069,6 +1246,7 @@ class ProductInfo extends Equatable{
       model: '1x',
       size: 'Descriptions',
       price: '00.00',
+      imageUrl: '',
     ),
     ProductInfo(
       subcategory: 'Pump',
@@ -1076,6 +1254,7 @@ class ProductInfo extends Equatable{
       model: '1x',
       size: 'Descriptions',
       price: '00.00',
+      imageUrl: '',
     ),
     ProductInfo(
       subcategory: 'Pump',
@@ -1083,6 +1262,7 @@ class ProductInfo extends Equatable{
       model: '1x',
       size: 'Descriptions',
       price: '00.00',
+      imageUrl: '',
     ),
     ProductInfo(
       subcategory: 'Pump',
@@ -1090,6 +1270,7 @@ class ProductInfo extends Equatable{
       model: '1x',
       size: 'Descriptions',
       price: '00.00',
+      imageUrl: '',
     ),
     ProductInfo(
       subcategory: 'Pump',
@@ -1097,6 +1278,7 @@ class ProductInfo extends Equatable{
       model: '1x',
       size: 'Descriptions',
       price: '00.00',
+      imageUrl: '',
     ),
     ProductInfo(
       subcategory: 'Pump',
@@ -1104,6 +1286,7 @@ class ProductInfo extends Equatable{
       model: '1x',
       size: 'Descriptions',
       price: '00.00',
+      imageUrl: '',
     ),
     ProductInfo(
       subcategory: 'Aspirator Bulb',
@@ -1111,6 +1294,7 @@ class ProductInfo extends Equatable{
       model: '1x',
       size: 'Descriptions',
       price: '00.00',
+      imageUrl: '',
     ),
     ProductInfo(
       subcategory: 'Anemometer',
@@ -1118,6 +1302,7 @@ class ProductInfo extends Equatable{
       model: '1x',
       size: 'Descriptions',
       price: '00.00',
+      imageUrl: '',
     ),
     ProductInfo(
       subcategory: 'Anemometer',
@@ -1125,6 +1310,7 @@ class ProductInfo extends Equatable{
       model: '1x',
       size: 'Descriptions',
       price: '00.00',
+      imageUrl: '',
     ),
     ProductInfo(
       subcategory: 'Manometer',
@@ -1132,6 +1318,7 @@ class ProductInfo extends Equatable{
       model: '1x',
       size: 'Descriptions',
       price: '00.00',
+      imageUrl: '',
     ),
     ProductInfo(
       subcategory: 'Manometer',
@@ -1139,6 +1326,7 @@ class ProductInfo extends Equatable{
       model: '1x',
       size: 'Descriptions',
       price: '00.00',
+      imageUrl: '',
     ),
     ProductInfo(
       subcategory: 'Manometer',
@@ -1146,6 +1334,7 @@ class ProductInfo extends Equatable{
       model: '1x',
       size: 'Descriptions',
       price: '00.00',
+      imageUrl: '',
     ),
     ProductInfo(
       subcategory: 'Manometer',
@@ -1153,6 +1342,7 @@ class ProductInfo extends Equatable{
       model: '1x',
       size: 'Descriptions',
       price: '00.00',
+      imageUrl: '',
     ),
     ProductInfo(
       subcategory: 'Manometer',
@@ -1160,6 +1350,7 @@ class ProductInfo extends Equatable{
       model: '1x',
       size: 'Descriptions',
       price: '00.00',
+      imageUrl: '',
     ),
     ProductInfo(
       subcategory: 'Manometer',
@@ -1167,6 +1358,7 @@ class ProductInfo extends Equatable{
       model: '1x',
       size: 'Descriptions',
       price: '00.00',
+      imageUrl: '',
     ),
     ProductInfo(
       subcategory: 'Manometer',
@@ -1174,6 +1366,7 @@ class ProductInfo extends Equatable{
       model: '1x',
       size: 'Descriptions',
       price: '00.00',
+      imageUrl: '',
     ),
     ProductInfo(
       subcategory: 'Manometer',
@@ -1181,6 +1374,7 @@ class ProductInfo extends Equatable{
       model: '1x',
       size: 'Descriptions',
       price: '00.00',
+      imageUrl: '',
     ),
     ProductInfo(
       subcategory: 'Manometer',
@@ -1188,6 +1382,7 @@ class ProductInfo extends Equatable{
       model: '1x',
       size: 'Descriptions',
       price: '00.00',
+      imageUrl: '',
     ),
     ProductInfo(
       subcategory: 'Manometer',
@@ -1195,6 +1390,7 @@ class ProductInfo extends Equatable{
       model: '1x',
       size: 'Descriptions',
       price: '00.00',
+      imageUrl: '',
     ),
     ProductInfo(
       subcategory: 'Manometer',
@@ -1202,6 +1398,7 @@ class ProductInfo extends Equatable{
       model: '1x',
       size: 'Descriptions',
       price: '00.00',
+      imageUrl: '',
     ),
     ProductInfo(
       subcategory: 'Manometer',
@@ -1209,6 +1406,7 @@ class ProductInfo extends Equatable{
       model: '1x',
       size: 'Descriptions',
       price: '00.00',
+      imageUrl: '',
     ),
     ProductInfo(
       subcategory: 'Pressure Module',
@@ -1216,6 +1414,7 @@ class ProductInfo extends Equatable{
       model: '1x',
       size: 'Descriptions',
       price: '00.00',
+      imageUrl: '',
     ),
     ProductInfo(
       subcategory: 'Thermometer',
@@ -1223,6 +1422,7 @@ class ProductInfo extends Equatable{
       model: '1x',
       size: 'Descriptions',
       price: '00.00',
+      imageUrl: '',
     ),
     ProductInfo(
       subcategory: 'Pitot Tube',
@@ -1230,6 +1430,7 @@ class ProductInfo extends Equatable{
       model: '1x',
       size: 'Descriptions',
       price: '00.00',
+      imageUrl: '',
     ),
     ProductInfo(
       subcategory: 'Pitot Tube',
@@ -1237,6 +1438,7 @@ class ProductInfo extends Equatable{
       model: '1x',
       size: 'Descriptions',
       price: '00.00',
+      imageUrl: '',
     ),
     ProductInfo(
       subcategory: 'Pitot Tube',
@@ -1244,6 +1446,7 @@ class ProductInfo extends Equatable{
       model: '1x',
       size: 'Descriptions',
       price: '00.00',
+      imageUrl: '',
     ),
     ProductInfo(
       subcategory: 'Pitot Tube',
@@ -1251,6 +1454,7 @@ class ProductInfo extends Equatable{
       model: '1x',
       size: 'Descriptions',
       price: '00.00',
+      imageUrl: '',
     ),
     ProductInfo(
       subcategory: 'Pitot Tube',
@@ -1258,6 +1462,7 @@ class ProductInfo extends Equatable{
       model: '1x',
       size: 'Descriptions',
       price: '00.00',
+      imageUrl: '',
     ),
     ProductInfo(
       subcategory: 'Tachometer',
@@ -1265,6 +1470,7 @@ class ProductInfo extends Equatable{
       model: '1x',
       size: 'Descriptions',
       price: '00.00',
+      imageUrl: '',
     ),
     ProductInfo(
       subcategory: 'Balancing Instrument',
@@ -1272,6 +1478,7 @@ class ProductInfo extends Equatable{
       model: '1x',
       size: 'Descriptions',
       price: '00.00',
+      imageUrl: '',
     ),
     ProductInfo(
       subcategory: 'Wind Meter',
@@ -1279,6 +1486,7 @@ class ProductInfo extends Equatable{
       model: '1x',
       size: 'Descriptions',
       price: '00.00',
+      imageUrl: '',
     ),
     ProductInfo(
       subcategory: 'Wind Meter',
@@ -1286,6 +1494,7 @@ class ProductInfo extends Equatable{
       model: '1x',
       size: 'Descriptions',
       price: '00.00',
+      imageUrl: '',
     ),
     ProductInfo(
       subcategory: 'Wind Meter',
@@ -1293,6 +1502,7 @@ class ProductInfo extends Equatable{
       model: '1x',
       size: 'Descriptions',
       price: '00.00',
+      imageUrl: '',
     ),
     ProductInfo(
       subcategory: 'F510 Variable Frequency Drive',
@@ -1300,6 +1510,7 @@ class ProductInfo extends Equatable{
       model: '1x',
       size: 'Descriptions',
       price: '00.00',
+      imageUrl: '',
     ),
     ProductInfo(
       subcategory: 'Water Meter',
@@ -1307,6 +1518,7 @@ class ProductInfo extends Equatable{
       model: '1x',
       size: 'Descriptions',
       price: '00.00',
+      imageUrl: '',
     ),
     ProductInfo(
       subcategory: 'Water Meter',
@@ -1314,6 +1526,7 @@ class ProductInfo extends Equatable{
       model: '1x',
       size: 'Descriptions',
       price: '00.00',
+      imageUrl: '',
     ),
     ProductInfo(
       subcategory: 'Water Meter',
@@ -1321,9 +1534,10 @@ class ProductInfo extends Equatable{
       model: '1x',
       size: 'Descriptions',
       price: '00.00',
+      imageUrl: '',
     ),
 
-
+*/
 
 
 

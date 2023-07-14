@@ -116,16 +116,125 @@ class _CarouselCard1State extends State<CarouselCard1> {
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Icon(
-              Icons.circle,
+              Icons.label_important_outlined,
               size: 10,
               color: Colors.black,
             ),
-            SizedBox(height: 8.0, width: 15,),
-            Text(
-              widget.category.name,
-              style: Theme.of(context).textTheme.labelMedium?.copyWith(
-                color: Colors.black,
-                fontWeight: FontWeight.bold,
+            SizedBox(height: 15.0, width: 15,),
+            Flexible(
+              child: Text(
+                widget.category.name,
+                style: Theme.of(context).textTheme.labelLarge?.copyWith(
+                  color: Colors.black,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class CarouselCard2 extends StatefulWidget {
+  final Category1 category;
+  const CarouselCard2({required this.category,});
+
+  @override
+  State<CarouselCard2> createState() => _CarouselCard2State();
+}
+
+class _CarouselCard2State extends State<CarouselCard2> {
+  String _getIconPath() {
+    switch (widget.category.name) {
+      case 'Accesories':
+        return 'assets/icons/icon_product_categ/plug.png';
+      case 'Air Release Valve':
+        return 'assets/icons/icon_product_categ/valve1.png';
+      case 'Automatic Control Valve':
+        return 'assets/icons/icon_product_categ/controller.png';
+      case 'Backflow Preventer':
+        return 'assets/icons/icon_product_categ/valve1.png';
+      case 'Balancing Valves':
+        return 'assets/icons/icon_product_categ/valve2.png';
+      case 'Ball Valves':
+        return 'assets/icons/icon_product_categ/valve3.png';
+      case 'Check Valve':
+        return 'assets/icons/icon_product_categ/valve4.png';
+      case 'Concentric Butterfly Valve':
+        return 'assets/icons/icon_product_categ/valve.png';
+      case 'Enye Controls Motorized Valves and Actuators':
+        return 'assets/icons/icon_product_categ/valve.png';
+      case 'Flexible Joint':
+        return 'assets/icons/icon_product_categ/valve1.png';
+      case 'Gate Valve':
+        return 'assets/icons/icon_product_categ/valve2.png';
+      case 'Globe Valve':
+        return 'assets/icons/icon_product_categ/valve3.png';
+      case 'Plunger Valve':
+        return 'assets/icons/icon_product_categ/valve4.png';
+      case 'Softwares':
+        return 'assets/icons/icon_product_categ/controller.png';
+      case 'Strainers':
+        return 'assets/icons/icon_product_categ/plug.png';
+      case 'Test Equipments':
+        return 'assets/icons/icon_product_categ/plug.png';
+      case 'Variable Frequency Drive':
+        return 'assets/icons/icon_product_categ/valve1.png';
+      case 'Water Meter':
+        return 'assets/icons/icon_product_categ/valve2.png';
+    // Add more cases for other category names and their corresponding icon paths
+      default:
+        return 'assets/icons/icon_product_categ/valve.png';
+    }
+  }
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: (){
+        setState(() {
+          setState(() {
+            PersistentNavBarNavigator.pushNewScreenWithRouteSettings(
+              context,
+              settings: RouteSettings(name: SubCategoryScreen.routeName, arguments: {'name': widget.category.name}),
+              screen: SubCategoryScreen(),
+              withNavBar: true,
+              pageTransitionAnimation: PageTransitionAnimation.cupertino,
+            );
+          });
+        });
+        /*Navigator.pushNamed(context,
+          CatalogScreen.routeName,
+          arguments: widget.category,
+        );*/
+      },
+
+      child: Container(
+        padding: EdgeInsets.symmetric(horizontal: 10.0),
+        margin: EdgeInsets.symmetric(horizontal: 2.0, vertical: 2.0),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(5.0),
+
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Image.asset(
+              _getIconPath(),
+              height: 50,
+              width: 50,
+            ),
+           // SizedBox(height: 15.0, width: 15,),
+           Flexible(
+              child: Text(
+                textAlign: TextAlign.center,
+                widget.category.name,
+                style: TextStyle(
+                  fontSize: 9,
+                  color: Colors.black,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ),
           ],

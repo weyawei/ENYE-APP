@@ -26,10 +26,10 @@ class AppRouter{
         return SplashScreen.route();
       case SystemsPage.routeName:
         return SystemsPage.route();
+      case SystemsPage.routeName:
+        return SystemsPage.route();
       case ProjectsPage.routeName:
         return ProjectsPage.route();
-      case detailedProjPage.routeName:
-        return detailedProjPage.route(projects: settings.arguments as Projects);
       case ContactsPage.routeName:
         return ContactsPage.route();
       case ProductPage.routeName:
