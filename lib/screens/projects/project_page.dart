@@ -21,7 +21,8 @@ class ProjectsPage extends StatefulWidget {
 
 class _ProjectsPageState extends State<ProjectsPage> {
   String? selectedCategory;
-
+  PageController _pageController = PageController(initialPage: 0);
+  int _currentPageIndex = 0;
   List<projCategories> _projCategories = [];
   late List<Projects> _projects;
   List<Projects> _filteredProjects = [];
@@ -51,6 +52,23 @@ class _ProjectsPageState extends State<ProjectsPage> {
       print("Length ${Projects.length}");
     });
   }
+  void _goToPreviousPage() {
+    if (_currentPageIndex > 0) {
+      _pageController.previousPage(
+        duration: Duration(milliseconds: 300),
+        curve: Curves.easeInOut,
+      );
+    }
+  }
+
+  void _goToNextPage() {
+    if (_currentPageIndex < (_projCategories.length / 2).ceil() - 1) {
+      _pageController.nextPage(
+        duration: Duration(milliseconds: 300),
+        curve: Curves.easeInOut,
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -70,72 +88,113 @@ class _ProjectsPageState extends State<ProjectsPage> {
                   width: MediaQuery.of(context).size.width * 1,
                      child: Stack(
                      children: [
-                       PageView.builder(
-                           scrollDirection: Axis.horizontal,
-                          itemCount: _projCategories.length,
-                             itemBuilder: (context, index) {
-                      return GridView.builder(
-                        scrollDirection: Axis.horizontal,
-                        shrinkWrap: true,
-                        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 1,
-                          crossAxisSpacing: 12.0,
-                          mainAxisSpacing: 12.0,
-                          mainAxisExtent: 120,
-                        ),
-                        itemCount: _projCategories.length,
-                        itemBuilder: (context, index){
-                          return
-                            TextButton(
-                              onPressed: () {
-                                setState(() {
-                                  selectedCategory = _projCategories[index].category;
-                                  filterProjects();
-                                });
-                              },
-                              child: Column(
-                                children: [
-                                  Image.network("${API.projCategImage + _projCategories[index].images}",
-                                    color: Colors.deepOrange.shade400,
-                                    height: 55,
-                                    width: 55,
-                                    alignment: Alignment.center,),
-
-                                  Text("${_projCategories[index].title}",
-                                    style: TextStyle(fontWeight: FontWeight.bold),
-                                    textAlign: TextAlign.center,
-                                    maxLines: 2,),
-                                ],
-                              ),
-                            );
-                        },
-                      );
-                             },
-                       ),
-
-                      Positioned(
-                        left: 5.0,
-                        top: 20.0,
-                        child: IconButton(
-                          onPressed: () {
-                            // Swipe to the previous page
-                          },
-                          icon: Icon(Icons.arrow_back),
+                       PageView(
+                         controller: _pageController,
+                         scrollDirection: Axis.horizontal,
+                         children: List.generate(
+                           (_projCategories.length ).ceil(),
+                               (pageIndex) {
+                             return GridView.builder(
+                               padding: EdgeInsets.symmetric(horizontal: 55.0),
+                               scrollDirection: Axis.horizontal,
+                               shrinkWrap: true,
+                               gridDelegate:
+                               const SliverGridDelegateWithFixedCrossAxisCount(
+                                 crossAxisCount: 1,
+                                 crossAxisSpacing: 12.0,
+                                 mainAxisSpacing: 12.0,
+                                 mainAxisExtent: 120,
+                               ),
+                               itemCount: _projCategories.length,
+                               itemBuilder: (context, index) {
+                                 int actualIndex = pageIndex * 2 + index;
+                                 if (actualIndex >= _projCategories.length) {
+                                   return SizedBox.shrink();
+                                 }
+                                 return TextButton(
+                                   onPressed: () {
+                                    setState(() {
+                                    selectedCategory = _projCategories[index].category;
+                                    filterProjects();
+                                       // Perform your desired action here
+                                     });
+                                   },
+                                   child: Column(
+                                     children: [
+                                       Image.network(
+                                         "${API.projCategImage + _projCategories[actualIndex].images}",
+                                         color: Colors.deepOrange.shade400,
+                                         height: 55,
+                                         width: 45,
+                                         alignment: Alignment.center,
+                                       ),
+                                       Text(
+                                         "${_projCategories[actualIndex].title}",
+                                         style: TextStyle(
+                                           fontSize: 11,
+                                           fontWeight: FontWeight.bold,
+                                         ),
+                                         textAlign: TextAlign.center,
+                                         maxLines: 2,
+                                       ),
+                                     ],
+                                   ),
+                                 );
+                               },
+                             );
+                           },
+                         ),
+                       onPageChanged: (index) {
+                         setState(() {
+                           _currentPageIndex = index;
+                         });
+                       },
+                     ),
+                  Positioned(
+                    left: 5.0,
+                    top: 20.0,
+                    child: ClipOval(
+                      child: Material(
+                        color: Colors.red, // Set the background color of the icon
+                        child: InkWell(
+                          onTap: _goToPreviousPage,
+                          child: SizedBox(
+                            width: 40.0,
+                            height: 40.0,
+                            child: Icon(
+                              Icons.arrow_back,
+                              color: Colors.white, // Set the color of the icon
+                            ),
+                          ),
                         ),
                       ),
-                      Positioned(
-                        right: 5.0,
-                        top: 20.0,
-                        child: IconButton(
-                          onPressed: () {
-                            // Swipe to the next page
-                          },
-                          icon: Icon(Icons.arrow_forward),
-                        ),
-                      ),
-                    ],
+                    ),
                   ),
+                  Positioned(
+                    right: 5.0,
+                    top: 20.0,
+                    child: ClipOval(
+                      child: Material(
+                        color: Colors.red, // Set the background color of the icon
+                        child: InkWell(
+                          onTap: _goToNextPage,
+                          child: SizedBox(
+                            width: 40.0,
+                            height: 40.0,
+                            child: Icon(
+                              Icons.arrow_forward,
+                              color: Colors.white, // Set the color of the icon
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+
+                     ],
+                     ),
                 ),
+
 
                 //project items
                 _filteredProjects.isEmpty
