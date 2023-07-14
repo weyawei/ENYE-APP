@@ -48,7 +48,7 @@ class ContactsPage extends StatelessWidget {
             children: [
               PageView(
                 controller: _pageController,
-                scrollDirection: Axis.vertical,
+                scrollDirection: Axis.horizontal,
                 children: [
 
                   //QUEZON CITY OFFICE DATA
@@ -61,7 +61,7 @@ class ContactsPage extends StatelessWidget {
                           Align(
                             alignment: Alignment.center,
                             child: Container(
-                              margin: EdgeInsets.only(top: 20.0),
+                              margin: EdgeInsets.only(top: 10.0),
                               child: Text(
                                 'Quezon City Office',
                                 style: TextStyle(fontSize: 32, color: Colors.white),
@@ -73,7 +73,7 @@ class ContactsPage extends StatelessWidget {
                           Align(
                             alignment: Alignment.topLeft,
                             child: Container(
-                              margin: EdgeInsets.only(top: 30.0, left: 20.0),
+                              margin: EdgeInsets.only(top: 5.0, left: 20.0),
                               child: TextButton(
                                 child: const Text.rich(
                                   TextSpan(
@@ -86,7 +86,7 @@ class ContactsPage extends StatelessWidget {
                                       ),
                                       TextSpan(
                                         text: '1, 82 Scout Ojeda St., Brgy. Obrero Diliman, Quezon City. 1103 Philippines',
-                                        style: TextStyle(color: Colors.white, fontSize: 18.0, letterSpacing: 1.0, overflow: TextOverflow.visible,),
+                                        style: TextStyle(color: Colors.white, fontSize: 13.0, letterSpacing: 1.0, overflow: TextOverflow.visible,),
                                       ),
                                     ],
                                   ),
@@ -126,7 +126,7 @@ class ContactsPage extends StatelessWidget {
                                 label: Text('enyecontrols@enyecontrols.com',
                                   style: TextStyle(
                                     color: Colors.black54,
-                                    fontSize: 16.0,
+                                    fontSize: 13.0,
                                     letterSpacing: 1.0,
                                     fontWeight: FontWeight.bold,
                                     overflow: TextOverflow.visible,),
@@ -142,7 +142,7 @@ class ContactsPage extends StatelessWidget {
                                 textAlign: TextAlign.left,
                                 style: TextStyle(
                                   color: Colors.black54,
-                                  fontSize: 16.0,
+                                  fontSize: 13.0,
                                   letterSpacing: 1.0,
                                   fontWeight: FontWeight.bold,
                                   overflow: TextOverflow.visible,
@@ -163,7 +163,7 @@ class ContactsPage extends StatelessWidget {
                                     label: const Text('+639 7616-5949',
                                       style: TextStyle(
                                         color: Colors.black54,
-                                        fontSize: 16.0,
+                                        fontSize: 13.0,
                                         letterSpacing: 1.0,
                                         fontWeight: FontWeight.bold,
                                         overflow: TextOverflow.visible,),
@@ -182,7 +182,7 @@ class ContactsPage extends StatelessWidget {
                                     child: const Text('(02) 8352-3250',
                                       style: TextStyle(
                                         color: Colors.black54,
-                                        fontSize: 16.0,
+                                        fontSize: 13.0,
                                         letterSpacing: 1.0,
                                         fontWeight: FontWeight.bold,
                                         overflow: TextOverflow.visible,),
@@ -201,7 +201,7 @@ class ContactsPage extends StatelessWidget {
                                 textAlign: TextAlign.left,
                                 style: TextStyle(
                                   color: Colors.black54,
-                                  fontSize: 16.0,
+                                  fontSize: 13.0,
                                   letterSpacing: 1.0,
                                   fontWeight: FontWeight.bold,
                                   overflow: TextOverflow.visible,
@@ -222,7 +222,7 @@ class ContactsPage extends StatelessWidget {
                                     label: const Text('+639 7219-4163',
                                       style: TextStyle(
                                         color: Colors.black54,
-                                        fontSize: 16.0,
+                                        fontSize: 13.0,
                                         letterSpacing: 1.0,
                                         fontWeight: FontWeight.bold,
                                         overflow: TextOverflow.visible,),
@@ -241,7 +241,7 @@ class ContactsPage extends StatelessWidget {
                                     child: const Text('(02) 8352-3250',
                                       style: TextStyle(
                                         color: Colors.black54,
-                                        fontSize: 16.0,
+                                        fontSize: 13.0,
                                         letterSpacing: 1.0,
                                         fontWeight: FontWeight.bold,
                                         overflow: TextOverflow.visible,),
@@ -260,7 +260,7 @@ class ContactsPage extends StatelessWidget {
                                 textAlign: TextAlign.left,
                                 style: TextStyle(
                                   color: Colors.black54,
-                                  fontSize: 16.0,
+                                  fontSize: 13.0,
                                   letterSpacing: 1.0,
                                   fontWeight: FontWeight.bold,
                                   overflow: TextOverflow.visible,
@@ -281,7 +281,7 @@ class ContactsPage extends StatelessWidget {
                                     label: const Text('+639 7218-5329',
                                       style: TextStyle(
                                         color: Colors.black54,
-                                        fontSize: 16.0,
+                                        fontSize: 13.0,
                                         letterSpacing: 1.0,
                                         fontWeight: FontWeight.bold,
                                         overflow: TextOverflow.visible,),
@@ -300,7 +300,7 @@ class ContactsPage extends StatelessWidget {
                                     child: const Text('(02) 8352-3250',
                                       style: TextStyle(
                                         color: Colors.black54,
-                                        fontSize: 16.0,
+                                        fontSize: 13.0,
                                         letterSpacing: 1.0,
                                         fontWeight: FontWeight.bold,
                                         overflow: TextOverflow.visible,),
@@ -351,7 +351,7 @@ class ContactsPage extends StatelessWidget {
                                     ),
                                     TextSpan(
                                       text: '  Lofice 2, Lot 5, Blk 7, Phase 2 Sta. Lucia Town Square Consolacion, Cebu 6001 Philippines',
-                                      style: TextStyle(color: Colors.white, fontSize: 18.0, letterSpacing: 1.0, overflow: TextOverflow.visible,),
+                                      style: TextStyle(color: Colors.white, fontSize: 13.0, letterSpacing: 1.0, overflow: TextOverflow.visible,),
                                     ),
                                   ],
                                 ),
@@ -392,7 +392,7 @@ class ContactsPage extends StatelessWidget {
                               label: Text('pearlguevarra.enyecontrols@gmail.com',
                                 style: TextStyle(
                                   color: Colors.black54,
-                                  fontSize: 16.0,
+                                  fontSize: 13.0,
                                   letterSpacing: 1.0,
                                   fontWeight: FontWeight.bold,
                                   overflow: TextOverflow.visible,),
@@ -417,7 +417,7 @@ class ContactsPage extends StatelessWidget {
                               label: const Text('(+032) 423-1759',
                                 style: TextStyle(
                                   color: Colors.black54,
-                                  fontSize: 16.0,
+                                  fontSize: 13.0,
                                   letterSpacing: 1.0,
                                   fontWeight: FontWeight.bold,
                                   overflow: TextOverflow.visible,),
@@ -464,7 +464,7 @@ class ContactsPage extends StatelessWidget {
                                     ),
                                     TextSpan(
                                       text: 'Lofice 3, Lot 6, Blk 17, Pacita Ave Pacita Complex, San Vicente San Pedro, Laguna 4023 Philippines',
-                                      style: TextStyle(color: Colors.white, fontSize: 18.0, letterSpacing: 1.0, overflow: TextOverflow.visible,),
+                                      style: TextStyle(color: Colors.white, fontSize: 13.0, letterSpacing: 1.0, overflow: TextOverflow.visible,),
                                     ),
                                   ],
                                 ),
@@ -505,7 +505,7 @@ class ContactsPage extends StatelessWidget {
                               label: Text('janice.capinpin@enyecontrols.com',
                                 style: TextStyle(
                                   color: Colors.black54,
-                                  fontSize: 16.0,
+                                  fontSize: 13.0,
                                   letterSpacing: 1.0,
                                   fontWeight: FontWeight.bold,
                                   overflow: TextOverflow.visible,),
@@ -530,7 +530,7 @@ class ContactsPage extends StatelessWidget {
                               label: const Text('(+63) 917 138-7049',
                                 style: TextStyle(
                                   color: Colors.black54,
-                                  fontSize: 16.0,
+                                  fontSize: 13.0,
                                   letterSpacing: 1.0,
                                   fontWeight: FontWeight.bold,
                                   overflow: TextOverflow.visible,),

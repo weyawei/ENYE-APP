@@ -13,11 +13,10 @@ class systemsPage extends StatefulWidget {
 class _systemsPageState extends State<systemsPage> {
   double screenHeight = 0;
   double screenWidth = 0;
+  String searchText = '';
 
   late List<Systems> _systems;
-
-  List<Systems> filteredSystemList = [];
-  String searchText = '';
+  List<Systems> _filteredSystems = [];
 
   @override
   void initState(){
@@ -35,8 +34,8 @@ class _systemsPageState extends State<systemsPage> {
     });
   }
 
-  void filterItemDataList() {
-    filteredSystemList = _systems.where((Systems) {
+  void filterSystemsList() {
+    _filteredSystems = _systems.where((Systems) {
       final title = Systems.title.toLowerCase();
       final searchQuery = searchText.toLowerCase();
       return title.contains(searchQuery);
@@ -66,7 +65,7 @@ class _systemsPageState extends State<systemsPage> {
                 onChanged: (value) {
                   setState(() {
                     searchText = value;
-                    filterItemDataList();
+                    filterSystemsList();
                   });
                 },
               ),
@@ -75,16 +74,16 @@ class _systemsPageState extends State<systemsPage> {
               ListView.builder(
                   primary: false,
                   shrinkWrap: true,
-                  itemCount: searchText.isEmpty ? _systems.length : filteredSystemList.length,
+                  itemCount: searchText.isEmpty ? _systems.length : _filteredSystems.length,
                   itemBuilder: (context, index) {
-                    filteredSystemList = searchText.isEmpty ? _systems : filteredSystemList;
+                    _filteredSystems = searchText.isEmpty ? _systems : _filteredSystems;
                     return InkWell(
                       onTap: () {
                         // Handle the onTap event here
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => detailedSysPage(systems: filteredSystemList[index]),
+                            builder: (context) => detailedSysPage(systems: _filteredSystems[index]),
                           ),
                         );
                       },
@@ -111,7 +110,7 @@ class _systemsPageState extends State<systemsPage> {
                           children: [
                             Expanded(
                               child: Text(
-                                " ${filteredSystemList[index].title}",
+                                " ${_filteredSystems[index].title}",
                                 style: TextStyle(
                                   fontSize: 12,
                                   fontWeight: FontWeight.bold,
