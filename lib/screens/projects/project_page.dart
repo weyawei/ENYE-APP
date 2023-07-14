@@ -68,41 +68,72 @@ class _ProjectsPageState extends State<ProjectsPage> {
                 Container(
                   height: 110,
                   width: MediaQuery.of(context).size.width * 1,
-                  child: GridView.builder(
-                    scrollDirection: Axis.horizontal,
-                    shrinkWrap: true,
-                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 1,
-                      crossAxisSpacing: 12.0,
-                      mainAxisSpacing: 12.0,
-                      mainAxisExtent: 120,
-                    ),
-                    itemCount: _projCategories.length,
-                    itemBuilder: (context, index){
-                      return
-                        TextButton(
-                          onPressed: () {
-                            setState(() {
-                              selectedCategory = _projCategories[index].category;
-                              filterProjects();
-                            });
-                          },
-                          child: Column(
-                            children: [
-                              Image.network("${API.projCategImage + _projCategories[index].images}",
-                                color: Colors.deepOrange.shade400,
-                                height: 55,
-                                width: 55,
-                                alignment: Alignment.center,),
+                     child: Stack(
+                     children: [
+                       PageView.builder(
+                           scrollDirection: Axis.horizontal,
+                          itemCount: _projCategories.length,
+                             itemBuilder: (context, index) {
+                      return GridView.builder(
+                        scrollDirection: Axis.horizontal,
+                        shrinkWrap: true,
+                        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 1,
+                          crossAxisSpacing: 12.0,
+                          mainAxisSpacing: 12.0,
+                          mainAxisExtent: 120,
+                        ),
+                        itemCount: _projCategories.length,
+                        itemBuilder: (context, index){
+                          return
+                            TextButton(
+                              onPressed: () {
+                                setState(() {
+                                  selectedCategory = _projCategories[index].category;
+                                  filterProjects();
+                                });
+                              },
+                              child: Column(
+                                children: [
+                                  Image.network("${API.projCategImage + _projCategories[index].images}",
+                                    color: Colors.deepOrange.shade400,
+                                    height: 55,
+                                    width: 55,
+                                    alignment: Alignment.center,),
 
-                              Text("${_projCategories[index].title}",
-                                style: TextStyle(fontWeight: FontWeight.bold),
-                                textAlign: TextAlign.center,
-                                maxLines: 2,),
-                            ],
-                          ),
-                        );
-                    },
+                                  Text("${_projCategories[index].title}",
+                                    style: TextStyle(fontWeight: FontWeight.bold),
+                                    textAlign: TextAlign.center,
+                                    maxLines: 2,),
+                                ],
+                              ),
+                            );
+                        },
+                      );
+                             },
+                       ),
+
+                      Positioned(
+                        left: 5.0,
+                        top: 20.0,
+                        child: IconButton(
+                          onPressed: () {
+                            // Swipe to the previous page
+                          },
+                          icon: Icon(Icons.arrow_back),
+                        ),
+                      ),
+                      Positioned(
+                        right: 5.0,
+                        top: 20.0,
+                        child: IconButton(
+                          onPressed: () {
+                            // Swipe to the next page
+                          },
+                          icon: Icon(Icons.arrow_forward),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
 

@@ -1,5 +1,6 @@
 
 import 'dart:async';
+import 'dart:math';
 
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:enye_app/screens/catalog/catalog_screen.dart';
@@ -299,21 +300,51 @@ class _ProductPageState extends State<ProductPage> {
               ),
             ),
 
-            SectionTitle(title: 'RECOMMENDED'),
-            Container(
+            SectionTitle(title: 'CATEGORIES',),
 
-              height: MediaQuery.of(context).size.height * 0.3,
-              child: GridView.builder(
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2  ,
-                  childAspectRatio: 4.8,
+            Column(
+              children: [
+                Container(
+                  padding: EdgeInsets.symmetric(horizontal: 15.0),
+                  height: MediaQuery.of(context).size.height * 0.3,
+                  child: GridView.builder(
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 4  ,
+                      childAspectRatio: 0.8,
+                    ),
+                    itemCount: 8,
+                    itemBuilder: (context, index) {
+                      final randomIndex = Random().nextInt(Category1.categories.length);
+                      final category = Category1.categories[randomIndex];
+                      return CarouselCard2(category: category);
+
+                    },
+                  ),
+
                 ),
-                itemCount: 10,
-                itemBuilder: (context, index) {
-                  final category = Category1.categories[index];
-                  return CarouselCard2(category: category);
-                },
-              ),
+
+                InkWell(
+                  onTap: () {
+                    // Navigate to a new screen
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => CustomDrawer1(), // Replace with your desired screen
+                      ),
+                    );
+                  },
+                  child: Text(
+                    'View All Categories',
+                    style: TextStyle(
+                      fontSize: 15,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.blue,
+
+                    ),
+                  ),
+                ),
+              ],
+
             ),
             /*ProductCarousel(
               products: Product.products.where((product) => product.isRecommended).toList(),

@@ -81,6 +81,7 @@ flutter:
     - assets/images_2/
     - assets/logo/
     - assets/icons/
+    - assets/icons/icon_product_categ/
     - assets/homepage/
     - assets/products_category/
     - assets/producs_image/accessories/vector/

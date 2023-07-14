@@ -30,7 +30,6 @@ class _detailedSysPageState extends State<detailedSysPage> {
 
 
   PageController _pageController = new PageController();
-  ScrollController _scrollController = new ScrollController();
 
   double? _progress;
 
@@ -79,13 +78,12 @@ class _detailedSysPageState extends State<detailedSysPage> {
   @override
   void initState(){
     super.initState();
-    _scrollController.addListener(_scrollListener);
     _getSysTechSpecs();
     _getSysDetails();
   }
 
   _getSysTechSpecs(){
-    systemService.getSysTechSpecs(widget.systems.sys_tech_id).then((SystemsTechSpecs){
+    systemService.getSysTechSpecs(widget.systems.id).then((SystemsTechSpecs){
       setState(() {
         _sysTechSpecs = SystemsTechSpecs;
       });
@@ -102,81 +100,53 @@ class _detailedSysPageState extends State<detailedSysPage> {
     });
   }
 
-  List<Widget> _pages(){
-    return [
-      if (widget.systems.image != null && widget.systems.image.isNotEmpty)
-        Container(
+  @override
+  Widget build(BuildContext context) {
+    final List<Widget> _pages = <Widget> [
+      Container(
+        decoration: BoxDecoration(
+          image: DecorationImage(image: NetworkImage("${API.systemsImg + widget.systems.image}"), fit: BoxFit.fill),
+        ),
+        child: Container(
           decoration: BoxDecoration(
-            image: DecorationImage(image: NetworkImage("${API.systemsImg + widget.systems.image}"), fit: BoxFit.fill),
-          ),
-          child: Container(
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                colors: [Colors.blue.withOpacity(0.4), Colors.deepOrange.shade100.withOpacity(0.3)],
-                stops: [0.0, 1],
-                begin: Alignment.topCenter,
-              ),
+            gradient: LinearGradient(
+              colors: [Colors.blue.withOpacity(0.4), Colors.deepOrange.shade100.withOpacity(0.3)],
+              stops: [0.0, 1],
+              begin: Alignment.topCenter,
             ),
           ),
         ),
+      ),
 
-      if (widget.systems.description != null && widget.systems.description.isNotEmpty)
-        Center(
+      widget.systems.description == null || widget.systems.description.isEmpty
+        ? Container()
+        : SingleChildScrollView(
           child: Container(
-            padding: EdgeInsets.symmetric(horizontal: 40.0),
-            child: SingleChildScrollView(
-              controller: _scrollController,
-              child: Column(
-                children: [
-                  SizedBox(height: 20,),
-                  Text("System Description", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24, color: Colors.deepOrange),),
+          padding: EdgeInsets.symmetric(horizontal: 40.0),
+          child: Column(
+            children: [
+              SizedBox(height: 20,),
+              Text("System Description", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24, color: Colors.deepOrange),),
 
-                  SizedBox(height: 20,),
-                  Text(widget.systems.description, maxLines: null, textAlign: TextAlign.justify,
-                    style: TextStyle(fontSize: 16, fontStyle: FontStyle.italic, letterSpacing: 1),),
-                ],
-              ),
-            ),
+              SizedBox(height: 20,),
+              Text(widget.systems.description, maxLines: null, textAlign: TextAlign.justify,
+                style: TextStyle(fontSize: 15, fontStyle: FontStyle.italic, letterSpacing: 1),),
+            ],
           ),
+      ),
         ),
 
       if (_sysDetails != null && _sysDetails!.isNotEmpty)
-        Center(
-          child: Container(
-            padding: EdgeInsets.symmetric(horizontal: 40.0),
-            child: SingleChildScrollView(
-              controller: _scrollController,
-              child: Column(
-                children: _sysDetails!.map((SystemsDetail) =>
-                  Column(
-                    children: [
-                      SizedBox(height: 20,),
-                      if (SystemsDetail.title != null && SystemsDetail.title!.isNotEmpty)
-                        Text(SystemsDetail.title, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24, color: Colors.deepOrange),),
-
-                      SizedBox(height: 20,),
-                      if (SystemsDetail.description != null && SystemsDetail.description!.isNotEmpty)
-                        Text(SystemsDetail.description, maxLines: null, textAlign: TextAlign.justify,
-                          style: TextStyle(fontSize: 16, fontStyle: FontStyle.italic, letterSpacing: 1),),
-
-                      SizedBox(height: 20,),
-                      if (SystemsDetail.image != null && SystemsDetail.image!.isNotEmpty)
-                        Container(
-                          decoration: BoxDecoration(
-                            image: DecorationImage(image: NetworkImage("${API.sysDetailsImg + SystemsDetail.image}"), fit: BoxFit.fill),
-                          ),
-                        )
-                    ],
-                  )
-                ).toList(),
-              ),
-            ),
+        SingleChildScrollView(
+        child: Container(
+          child: Column(
+            children: _sysDetails!.map((SystemsDetail) => Text(SystemsDetail.title)).toList(),
           ),
         ),
+      ),
 
       if (_sysTechSpecs != null && _sysTechSpecs!.isNotEmpty)
         SingleChildScrollView(
-          controller: _scrollController,
           child: Container(
             child: Column(
               children: _sysTechSpecs!.map((SystemsTechSpecs) => ExpansionTile(
@@ -190,7 +160,7 @@ class _detailedSysPageState extends State<detailedSysPage> {
                 children: [
                   Container(
                     decoration: BoxDecoration(
-                      image: DecorationImage(image: NetworkImage("${API.sysTechImg + SystemsTechSpecs.image}", scale: 2.5), alignment: Alignment.topRight),
+                      image: DecorationImage(image: NetworkImage("${API.sysTechImg + SystemsTechSpecs.image}", scale: 1.8), alignment: Alignment.topRight),
                     ),
                     child: Container(
                       decoration: BoxDecoration(
@@ -207,16 +177,13 @@ class _detailedSysPageState extends State<detailedSysPage> {
                           gradient: LinearGradient(
                             begin: Alignment.centerLeft,
                             end: Alignment.centerRight,
-                            colors: [Colors.deepOrange.shade300, Colors.deepOrange.withOpacity(0.1)],
+                            colors: [Colors.deepOrange.shade200, Colors.deepOrange.withOpacity(0.1)],
                           ),
                         ),
-                        child: Container(
-                          padding: EdgeInsets.only(right: 70.0),
-                          child: Text(
-                            "${SystemsTechSpecs.features}",
-                            style: TextStyle(fontSize: 14.0, color: Colors.white, fontWeight: FontWeight.w900, letterSpacing: 1),
-                            textAlign: TextAlign.left,
-                          ),
+                        child: Text(
+                          "${SystemsTechSpecs.features}",
+                          style: TextStyle(fontSize: 14.0, color: Colors.white, fontWeight: FontWeight.w900, letterSpacing: 1),
+                          textAlign: TextAlign.left,
                         ),
                       ),
                     ),
@@ -227,40 +194,6 @@ class _detailedSysPageState extends State<detailedSysPage> {
           ),
         ),
     ];
-  }
-
-  void _scrollListener() {
-    if (_scrollController.position.atEdge &&
-        _scrollController.position.pixels != 0) {
-      // Scrolled to the end of the SingleChildScrollView
-      // Move to the next page in the PageView
-      int nextPage = _pageController.page!.round() + 1;
-      if (nextPage < _pages().length) {
-        _pageController.animateToPage(
-          nextPage,
-          duration: const Duration(milliseconds: 7000),
-          curve: Curves.ease,
-        );
-      }
-    }
-    if (_scrollController.position.atEdge &&
-        _scrollController.position.pixels == 0) {
-      // Scrolled to the end of the SingleChildScrollView
-      // Move to the next page in the PageView
-      int previousPage = _pageController.page!.round() - 1;
-      if (previousPage >= 0) {
-        _pageController.animateToPage(
-          previousPage,
-          duration: const Duration(milliseconds: 1000),
-          curve: Curves.ease,
-        );
-      }
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-
 
     return Scaffold(
       appBar: CustomAppBar(title: 'Systems', imagePath: 'assets/logo/enyecontrols.png',),
@@ -270,7 +203,7 @@ class _detailedSysPageState extends State<detailedSysPage> {
           PageView(
             controller: _pageController,
             scrollDirection: Axis.vertical,
-            children: _pages(),
+            children: _pages,
           ),
 
           //dot controller of pageview
@@ -283,7 +216,7 @@ class _detailedSysPageState extends State<detailedSysPage> {
                 child: SmoothPageIndicator(
                   axisDirection: Axis.vertical,
                   controller: _pageController,
-                  count: _pages().length,
+                  count: _pages.length,
                   effect: ExpandingDotsEffect(dotColor: Colors.orange, activeDotColor: Colors.deepOrange),
                   onDotClicked: (index) => _pageController.animateToPage(
                     index,
