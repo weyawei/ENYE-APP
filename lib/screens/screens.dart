@@ -16,5 +16,7 @@ export 'systems/systemsvc.dart';
 export 'systems/systems_page.dart';
 export 'systems/detailed_system.dart';
 
+export 'product/product_page.dart';
+
 export 'contacts/contacts_page.dart';
 export '/splash/splash_screen.dart';
