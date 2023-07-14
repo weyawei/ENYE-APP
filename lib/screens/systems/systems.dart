@@ -1,4 +1,3 @@
-//values na meron si categories
 class Systems {
   String id;
   String title;

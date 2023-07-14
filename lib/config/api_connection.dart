@@ -16,4 +16,8 @@ class API {
   static const sysTechImg = "$hostConnect/enye/systems/systems_tech_img/";
   static const systemsImg = "$hostConnect/enye/systems/systems_img/";
   static const systems = "$hostConnect/enye/systems/systems.php";
+
+  //projects
+  static const prodCategIcon = "$hostConnect/enye/products/product_category_icon/";
+  static const products = "$hostConnect/enye/products/products.php";
 }
