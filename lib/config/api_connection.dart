@@ -19,5 +19,6 @@ class API {
 
   //projects
   static const prodCategIcon = "$hostConnect/enye/products/product_category_icon/";
+  static const prodImg = "$hostConnect/enye/products/products_img/";
   static const products = "$hostConnect/enye/products/products.php";
 }

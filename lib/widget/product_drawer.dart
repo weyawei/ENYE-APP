@@ -43,197 +43,98 @@ class _productDrawerState extends State<productDrawer> {
 
   int _currentExpandedTileIndex = -1;
 
-  void _handleTileTap(int index) {
-    setState(() {
-      if (_currentExpandedTileIndex == index) {
-        _currentExpandedTileIndex = -1; // Close the currently open tile
-      } else {
-        _currentExpandedTileIndex = index; // Open the selected tile
-      }
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return Drawer(
-      child: ListView(
+      child: Column(
         children: [
           DrawerHeader(
             padding: const EdgeInsets.all(0),
             child: Container(
               //color: Colors.deepOrange,
-              alignment: Alignment.bottomLeft,
               decoration: const BoxDecoration(
                   color: Colors.white,
                   //   borderRadius: BorderRadius.all(Radius.circular(10.0)),
                   image: DecorationImage(
-                      image: AssetImage("assets/images_1/wallpaper.jpg"), fit: BoxFit.cover)),
-              child: const Text(
-                "Hi",
-                style: TextStyle(
-                    fontSize: 13,
-                    fontWeight: FontWeight.normal,
-                    color: Colors.white),
+                      image: AssetImage("assets/images_1/wallpaper.jpg"), fit: BoxFit.cover)
               ),
             ),
           ),
 
-          SizedBox(height: 10,),
-          /*ListView.builder(
-            itemCount: _prodCategory.length,
-            itemBuilder: (context, index){
-              return ExpansionTile(
-                onExpansionChanged: (expanded) {
-                  if (expanded) {
-                    _handleTileTap(index);
-                  }
-                },
-                title: Text(
-                  _prodCategory[index].name,
-                  style: TextStyle(
-                    fontSize: 15,
-                    fontWeight: FontWeight.bold,
+          Expanded(
+            child: ListView.builder(
+              itemCount: _prodCategory.length,
+              itemBuilder: (context, index){
+                return ExpansionTile(
+                  key: Key(_currentExpandedTileIndex.toString()),
+                  initiallyExpanded: index == _currentExpandedTileIndex,
+                  onExpansionChanged: ((newState) {
+                    if (newState)
+                      setState(() {
+                        _currentExpandedTileIndex = index;
+                      });
+                    else
+                      setState(() {
+                        _currentExpandedTileIndex = -1;
+                      });
+                  }),
+                  title: Text(
+                    _prodCategory[index].name,
+                    style: TextStyle(
+                      fontSize: 15,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
-                ),
-                children: _prodSubCategory.where(
-                        (productSubCategory) => productSubCategory.category_id == _prodCategory[index].id).map((productSubCategory) =>
-                    InkWell(
-                      onTap: (){
-                        *//*setState(() {
-                        PersistentNavBarNavigator.pushNewScreenWithRouteSettings(
-                          context,
-                          settings: RouteSettings(name: SubCategoryScreen.routeName, arguments: {'name': widget.category.name}),
-                          screen: SubCategoryScreen(),
-                          withNavBar: true,
-                          pageTransitionAnimation: PageTransitionAnimation.cupertino,
-                        );
-                      });*//*
-                        *//*Navigator.pushNamed(context,
-              CatalogScreen.routeName,
-              arguments: widget.category,
-            );*//*
-                      },
-                      child: Container(
-                        padding: EdgeInsets.only(left: 25.0, top: 20.0, bottom: 20.0),
-                        decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                            begin: Alignment.centerRight,
-                            end: Alignment.centerLeft,
-                            colors: [Colors.deepOrange.shade100, Colors.deepOrange.withOpacity(0.1)],
-                          ),
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Icon(
-                              Icons.label_important_outlined,
-                              size: 15,
-                              color: Colors.deepOrange.shade400,
+                  children: _prodSubCategory.where(
+                          (productSubCategory) => productSubCategory.category_id == _prodCategory[index].id).map((productSubCategory) =>
+                      InkWell(
+                        onTap: (){
+                          /*setState(() {
+                          PersistentNavBarNavigator.pushNewScreenWithRouteSettings(
+                            context,
+                            settings: RouteSettings(name: SubCategoryScreen.routeName, arguments: {'name': widget.category.name}),
+                            screen: SubCategoryScreen(),
+                            withNavBar: true,
+                            pageTransitionAnimation: PageTransitionAnimation.cupertino,
+                          );
+                        });*/
+                        },
+                        child: Container(
+                          padding: EdgeInsets.only(left: 25.0, top: 20.0, bottom: 20.0),
+                          decoration: BoxDecoration(
+                            gradient: LinearGradient(
+                              begin: Alignment.centerRight,
+                              end: Alignment.centerLeft,
+                              colors: [Colors.deepOrange.shade100, Colors.deepOrange.withOpacity(0.1)],
                             ),
-                            SizedBox(width: 10,),
-                            Flexible(
-                              child: Text(
-                                productSubCategory.name,
-                                style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                                  color: Colors.black54,
-                                  fontWeight: FontWeight.bold,
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Icon(
+                                Icons.label_important_outlined,
+                                size: 15,
+                                color: Colors.deepOrange.shade400,
+                              ),
+                              SizedBox(width: 10,),
+                              Flexible(
+                                child: Text(
+                                  productSubCategory.name,
+                                  style: Theme.of(context).textTheme.labelLarge?.copyWith(
+                                    color: Colors.black54,
+                                    fontWeight: FontWeight.bold,
+                                  ),
                                 ),
                               ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    )
-                ).toList(),
-              );
-            }
-          ),*/
-          Column(
-            children: _prodCategory.map((productCategory) => ExpansionTile(
-              title: Text(
-                productCategory.name,
-                style: TextStyle(
-                  fontSize: 15,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              children: _prodSubCategory.where(
-                (productSubCategory) => productSubCategory.category_id == productCategory.id).map((productSubCategory) =>
-                  InkWell(
-                    onTap: (){
-                      /*setState(() {
-                        PersistentNavBarNavigator.pushNewScreenWithRouteSettings(
-                          context,
-                          settings: RouteSettings(name: SubCategoryScreen.routeName, arguments: {'name': widget.category.name}),
-                          screen: SubCategoryScreen(),
-                          withNavBar: true,
-                          pageTransitionAnimation: PageTransitionAnimation.cupertino,
-                        );
-                      });*/
-                      /*Navigator.pushNamed(context,
-              CatalogScreen.routeName,
-              arguments: widget.category,
-            );*/
-                    },
-                    child: Container(
-                      padding: EdgeInsets.only(left: 25.0, top: 20.0, bottom: 20.0),
-                      decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                          begin: Alignment.centerRight,
-                          end: Alignment.centerLeft,
-                          colors: [Colors.deepOrange.shade100, Colors.deepOrange.withOpacity(0.1)],
-                        ),
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Icon(
-                            Icons.label_important_outlined,
-                            size: 15,
-                            color: Colors.deepOrange.shade400,
+                            ],
                           ),
-                          SizedBox(width: 10,),
-                          Flexible(
-                            child: Text(
-                              productSubCategory.name,
-                              style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                                color: Colors.black54,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  )
-                ).toList(),
-            )).toList(),
-          )
-
-          /*ExpansionTile(
-            initiallyExpanded: true,
-            title: Text(
-              'ALL PRODUCT CATEGORIES',
-              style: Theme.of(context).textTheme.labelLarge!.copyWith(color: Colors.black),
+                        ),
+                      )
+                  ).toList(),
+                );
+              }
             ),
-            children: [
-              GridView.builder(
-                shrinkWrap: true,
-                physics: NeverScrollableScrollPhysics(),
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 1, // Adjust the number of columns as needed
-                  crossAxisSpacing: 4,
-                  mainAxisSpacing: 4,
-                  childAspectRatio: 9.8, // Adjust the aspect ratio as needed
-                ),
-                itemCount: Category1.categories.length,
-                itemBuilder: (context, index) {
-                  final category = Category1.categories[index];
-                  return CarouselCard1(category: category);
-                },
-              ),
-            ],
-          ),*/
+          ),
         ],
       ),
     );

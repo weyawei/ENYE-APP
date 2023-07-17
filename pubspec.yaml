@@ -190,6 +190,11 @@ flutter:
         - asset: assets/fonts/Raleway-Italic.ttf
           style: italic
 
+    - family: Rowdies
+      fonts:
+        - asset: assets/fonts/Rowdies-Regular.ttf
+        - asset: assets/fonts/Rowdies-Bold.ttf
+
   #       - asset: fonts/Schyler-Italic.ttf
   #         style: italic
   #   - family: Trajan Pro

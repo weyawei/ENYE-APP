@@ -17,9 +17,15 @@ export 'systems/systems_page.dart';
 export 'systems/detailed_system.dart';
 
 export 'product/product_page.dart';
+export 'product/list_products.dart';
+export 'product/detailed_product.dart';
 export 'product/productsvc.dart';
 export 'product/product_category.dart';
 export 'product/product_subcategory.dart';
+export 'product/product.dart';
+
+export 'product/cards/category_carousel.dart';
+export 'product/cards/product_carousel.dart';
 
 
 export 'contacts/contacts_page.dart';
