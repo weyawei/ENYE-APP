@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import '../config/api_connection.dart';
 import '../screens/screens.dart';
 
@@ -89,15 +90,15 @@ class _productDrawerState extends State<productDrawer> {
                           (productSubCategory) => productSubCategory.category_id == _prodCategory[index].id).map((productSubCategory) =>
                       InkWell(
                         onTap: (){
-                          /*setState(() {
-                          PersistentNavBarNavigator.pushNewScreenWithRouteSettings(
-                            context,
-                            settings: RouteSettings(name: SubCategoryScreen.routeName, arguments: {'name': widget.category.name}),
-                            screen: SubCategoryScreen(),
-                            withNavBar: true,
-                            pageTransitionAnimation: PageTransitionAnimation.cupertino,
-                          );
-                        });*/
+                          setState(() {
+                            PersistentNavBarNavigator.pushNewScreenWithRouteSettings(
+                              context,
+                              settings: RouteSettings(name: listProductsPage.routeName),
+                              screen: listProductsPage(prodSubCat: productSubCategory,),
+                              withNavBar: true,
+                              pageTransitionAnimation: PageTransitionAnimation.cupertino,
+                            );
+                          });
                         },
                         child: Container(
                           padding: EdgeInsets.only(left: 25.0, top: 20.0, bottom: 20.0),

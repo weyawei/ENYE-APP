@@ -195,6 +195,10 @@ flutter:
         - asset: assets/fonts/Rowdies-Regular.ttf
         - asset: assets/fonts/Rowdies-Bold.ttf
 
+    - family: DancingScript
+      fonts:
+        - asset: assets/fonts/DancingScript-Regular.ttf
+
   #       - asset: fonts/Schyler-Italic.ttf
   #         style: italic
   #   - family: Trajan Pro

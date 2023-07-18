@@ -207,35 +207,41 @@ class _productsPageState extends State<productsPage> {
               ),
             ),
 
-            Column(
-              children: [
-                Container(
-                  height: MediaQuery.of(context).size.height * 0.28,
-                  child: GridView.builder(
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 4  ,
-                      childAspectRatio: 0.8,
-                    ),
-                    itemCount: 8,
-                    itemBuilder: (context, index) {
-                      final randomIndex = Random().nextInt(Category1.categories.length);
-                      final category = Category1.categories[randomIndex];
-                      return CarouselCard2(category: category);
-                    },
-                  ),
-                ),
-              ],
+            GridView.builder(
+              padding: EdgeInsets.symmetric(horizontal: 6.0, vertical: 8.0),
+              physics: const NeverScrollableScrollPhysics(),
+              shrinkWrap: true,
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 4,
+                childAspectRatio: 0.8,
+                crossAxisSpacing: 6.0,
+                mainAxisSpacing: 6.0,
+              ),
+              /*gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 4  ,
+                childAspectRatio: 0.8,
+              ),*/
+              itemCount: 8,
+              itemBuilder: (context, index) {
+                final randomIndex = Random().nextInt(Category1.categories.length);
+                final category = Category1.categories[randomIndex];
+                return CarouselCard2(category: category);
+              },
             ),
 
             Container(
               margin: EdgeInsets.all(6),
-              decoration: BoxDecoration(color: Colors.deepOrange.shade200, borderRadius: BorderRadius.circular(15)),
-              height: MediaQuery.of(context).size.height * 0.3,
+              decoration: BoxDecoration(color: Colors.orange.shade50.withOpacity(0.7), borderRadius: BorderRadius.circular(15)),
               child: Column(
                 children: [
                   SizedBox(height: 20,),
-                  Center(
-                    child: Text("MOST POPULAR", style: TextStyle(fontFamily: 'Rowdies', fontSize: 32, color: Colors.white),),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text("most", style: TextStyle(fontFamily: 'DancingScript', fontStyle: FontStyle.italic, letterSpacing: 2.5, fontWeight: FontWeight.w900, fontSize: 36, color: Colors.deepOrange.shade300,),),
+                      SizedBox(width: 13,),
+                      Text("POPULAR", style: TextStyle(fontFamily: 'Rowdies', fontStyle: FontStyle.italic, fontSize: 32, color: Colors.deepOrange,),),
+                    ],
                   ),
 
                   SizedBox(height: 20,),
