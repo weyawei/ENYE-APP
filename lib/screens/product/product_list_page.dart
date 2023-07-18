@@ -43,23 +43,21 @@ class _listProductsPageState extends State<listProductsPage> {
         appBar: CustomAppBar(title: '', imagePath: 'assets/logo/enyecontrols.png',),
         body: Column(
           children: [
-            Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Text(
-                'Type of ${widget.prodSubCat.name}'.toUpperCase(),
-                style: TextStyle(
-                  fontSize: 15,
-                  fontWeight: FontWeight.bold,
-
-                ),
+            SizedBox(height: 25,),
+            Text(
+              'Type of ${widget.prodSubCat.name}'.toUpperCase(),
+              style: TextStyle(
+                fontSize: 16,
+                fontFamily: 'Rowdies',
+                color: Colors.deepOrange,
               ),
             ),
 
-            SizedBox(height: 20,),
+            SizedBox(height: 15,),
             productCarousel(
               products: _products.where((product) =>
-                product.category_id == widget.prodSubCat.category_id &&
-                product.subCategory_id == widget.prodSubCat.id
+              product.category_id == widget.prodSubCat.category_id &&
+                  product.subCategory_id == widget.prodSubCat.id
               ).toList(),
             ),
           ],

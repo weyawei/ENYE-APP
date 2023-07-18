@@ -2,7 +2,9 @@ import 'dart:math';
 
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 
+import '../../config/api_connection.dart';
 import '../../widget/widgets.dart';
 import '../products/category_model.dart';
 import '../products/product_model.dart';
@@ -35,7 +37,6 @@ class _productsPageState extends State<productsPage> {
 
   @override
   void initState() {
-    super.initState();
     allProducts = Product.products;
     displayedProducts = allProducts.sublist(0, visibleProductCount);
     searchFocusNode = FocusNode();
@@ -223,9 +224,52 @@ class _productsPageState extends State<productsPage> {
               ),*/
               itemCount: 8,
               itemBuilder: (context, index) {
-                final randomIndex = Random().nextInt(Category1.categories.length);
-                final category = Category1.categories[randomIndex];
-                return CarouselCard2(category: category);
+                var randomIndex = Random(DateTime.now().millisecondsSinceEpoch).nextInt(_prodCategory.length);
+                var category = _prodCategory[randomIndex];
+                return InkWell(
+                  onTap: (){
+                    setState(() {
+                      PersistentNavBarNavigator.pushNewScreenWithRouteSettings(
+                        context,
+                        settings: RouteSettings(name: subCatProductPage.routeName),
+                        screen: subCatProductPage(category: category),
+                        withNavBar: true,
+                        pageTransitionAnimation: PageTransitionAnimation.cupertino,
+                      );
+                    });
+                  },
+
+                  child: Container(
+                    padding: EdgeInsets.symmetric(horizontal: 10.0),
+                    margin: EdgeInsets.symmetric(horizontal: 2.0, vertical: 2.0),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(5.0),
+
+                    ),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Image.network(
+                          "${API.prodCategIcon + category.icon}",
+                          height: 50,
+                          width: 50,
+                        ),
+                        // SizedBox(height: 15.0, width: 15,),
+                        Flexible(
+                          child: Text(
+                            textAlign: TextAlign.center,
+                            category.name,
+                            style: TextStyle(
+                              fontSize: 9,
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                );
               },
             ),
 

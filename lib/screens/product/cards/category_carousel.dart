@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 
 import '../../../config/api_connection.dart';
@@ -13,7 +15,7 @@ class categoryCarousel extends StatefulWidget {
 
 class _categoryCarouselState extends State<categoryCarousel> {
   List<product> _products = [];
-  
+
   void initState() {
     _getProducts();
   }
@@ -29,6 +31,10 @@ class _categoryCarouselState extends State<categoryCarousel> {
 
   @override
   Widget build(BuildContext context) {
+    _products = _products.where((product) => product.category_id == widget.productcategory.id).toList();
+
+    var randomIndex = Random().nextInt(_products.length);
+
     return InkWell(
       onTap: (){
         setState(() {
@@ -55,7 +61,7 @@ class _categoryCarouselState extends State<categoryCarousel> {
             children: <Widget>[
               Image.network(
                 //"${API.prodCategIcon + widget.productcategory.icon}",
-                "${API.prodImg + _products.where((product) => product.category_id == widget.productcategory.id).elementAt(0).image}",
+                "${API.prodImg + _products[randomIndex].image}",
                 fit: BoxFit.fill, width: 1000.0),
               Positioned(
                 bottom: 0.0,
