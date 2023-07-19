@@ -19,13 +19,14 @@ export 'systems/detailed_system.dart';
 export 'product/product_page.dart';
 export 'product/product_subcategory_page.dart';
 export 'product/product_list_page.dart';
-export 'product/detailed_product.dart';
+export 'product/detailed_product_page.dart';
+
 export 'product/productsvc.dart';
 export 'product/product_category.dart';
 export 'product/product_subcategory.dart';
 export 'product/product.dart';
+export 'product/detailed_product.dart';
 
-export 'product/cards/category_carousel.dart';
 export 'product/cards/product_carousel.dart';
 export 'product/cards/subcategory_carousel.dart';
 

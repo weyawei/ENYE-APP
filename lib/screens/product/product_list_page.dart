@@ -51,6 +51,7 @@ class _listProductsPageState extends State<listProductsPage> {
                 fontFamily: 'Rowdies',
                 color: Colors.deepOrange,
               ),
+              textAlign: TextAlign.center,
             ),
 
             SizedBox(height: 15,),

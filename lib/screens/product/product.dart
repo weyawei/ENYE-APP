@@ -7,6 +7,7 @@ class product {
   String subCategory_id;
   String isPopular;
   String image;
+  String catalogs_pdf;
 
   product({
     required this.id,
@@ -16,6 +17,7 @@ class product {
     required this.subCategory_id,
     required this.isPopular,
     required this.image,
+    required this.catalogs_pdf,
   });
 
   factory product.fromJson(Map<String, dynamic> json) {
@@ -27,6 +29,7 @@ class product {
       subCategory_id: json['subCategory_id'] as String,
       isPopular: json['isPopular'] as String,
       image: json['image'] as String,
+      catalogs_pdf: json['catalogs_pdf'] as String,
     );
   }
 }

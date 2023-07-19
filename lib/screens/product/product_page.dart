@@ -117,6 +117,7 @@ class _productsPageState extends State<productsPage> {
 
   @override
   Widget build(BuildContext context) {
+    _prodCategory.shuffle();
 
     return Scaffold(
       appBar: CustomAppBar(title: 'PRODUCTS', imagePath: 'assets/logo/enyecontrols.png'),
@@ -124,7 +125,7 @@ class _productsPageState extends State<productsPage> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            Padding(
+            /*Padding(
               padding: const EdgeInsets.all(8.0),
               child: TextField(
                 focusNode: searchFocusNode,
@@ -150,7 +151,7 @@ class _productsPageState extends State<productsPage> {
                       return Center(
                           child: InkWell(
                             onTap: () {
-                              /*PersistentNavBarNavigator
+                              *//*PersistentNavBarNavigator
                                   .pushNewScreenWithRouteSettings(
                                 context,
                                 settings: RouteSettings(
@@ -160,7 +161,7 @@ class _productsPageState extends State<productsPage> {
                                 withNavBar: true,
                                 pageTransitionAnimation: PageTransitionAnimation
                                     .cupertino,
-                              );*/
+                              );*//*
                               // ProductCarouselCard(product: categoryProducts[index]);
                             },
 
@@ -193,7 +194,7 @@ class _productsPageState extends State<productsPage> {
                     }
                   },
                 ),
-              ),
+              ),*/
 
             Container(
               child: CarouselSlider(
@@ -204,7 +205,61 @@ class _productsPageState extends State<productsPage> {
                   enlargeCenterPage: true,
                   enlargeStrategy: CenterPageEnlargeStrategy.height,
                 ),
-                items: _prodCategory.where((productCategory) => productCategory.published == "Yes").map((productCategory) => categoryCarousel(productcategory: productCategory)).toList(),
+                items: _prodCategory.where((productCategory) => productCategory.published == "Yes").map((productCategory) =>
+                  InkWell(
+                    onTap: (){
+                      setState(() {
+                        PersistentNavBarNavigator.pushNewScreenWithRouteSettings(
+                          context,
+                          settings: RouteSettings(name: subCatProductPage.routeName),
+                          screen: subCatProductPage(category: productCategory),
+                          withNavBar: true,
+                          pageTransitionAnimation: PageTransitionAnimation.cupertino,
+                        );
+                      });
+                    },
+                    child: Container(
+                      margin: EdgeInsets.symmetric(horizontal: 5.0, vertical: 20),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.all(Radius.circular(5.0)),
+                        child: Stack(
+                          children: <Widget>[
+                            Image.network(
+                              //"${API.prodCategIcon + widget.productcategory.icon}",
+                                "${API.prodImg + _products.where((product) => product.category_id == productCategory.id).elementAt(0).image}",
+                                fit: BoxFit.fill, width: 1000.0),
+                            Positioned(
+                              bottom: 0.0,
+                              left: 0.0,
+                              right: 0.0,
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  gradient: LinearGradient(
+                                    colors: [
+                                      Color.fromARGB(200, 0, 0, 0),
+                                      Color.fromARGB(0, 0, 0, 0),
+                                    ],
+                                    begin: Alignment.bottomCenter,
+                                    end: Alignment.topCenter,
+                                  ),
+                                ),
+                                padding:
+                                EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
+                                child: Text(
+                                  productCategory.name,
+                                  style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                                    color: Colors.white,
+
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  )
+                ).toList(),
               ),
             ),
 
@@ -224,52 +279,57 @@ class _productsPageState extends State<productsPage> {
               ),*/
               itemCount: 8,
               itemBuilder: (context, index) {
-                var randomIndex = Random(DateTime.now().millisecondsSinceEpoch).nextInt(_prodCategory.length);
-                var category = _prodCategory[randomIndex];
-                return InkWell(
-                  onTap: (){
-                    setState(() {
-                      PersistentNavBarNavigator.pushNewScreenWithRouteSettings(
-                        context,
-                        settings: RouteSettings(name: subCatProductPage.routeName),
-                        screen: subCatProductPage(category: category),
-                        withNavBar: true,
-                        pageTransitionAnimation: PageTransitionAnimation.cupertino,
-                      );
-                    });
-                  },
+                if (index < _prodCategory.length) {
+                  return InkWell(
+                    onTap: () {
+                      setState(() {
+                        PersistentNavBarNavigator
+                            .pushNewScreenWithRouteSettings(
+                          context,
+                          settings: RouteSettings(
+                              name: subCatProductPage.routeName),
+                          screen: subCatProductPage(
+                              category: _prodCategory[index]),
+                          withNavBar: true,
+                          pageTransitionAnimation: PageTransitionAnimation
+                              .cupertino,
+                        );
+                      });
+                    },
 
-                  child: Container(
-                    padding: EdgeInsets.symmetric(horizontal: 10.0),
-                    margin: EdgeInsets.symmetric(horizontal: 2.0, vertical: 2.0),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(5.0),
+                    child: Container(
+                      padding: EdgeInsets.symmetric(horizontal: 10.0),
+                      margin: EdgeInsets.symmetric(
+                          horizontal: 2.0, vertical: 2.0),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(5.0),
 
-                    ),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Image.network(
-                          "${API.prodCategIcon + category.icon}",
-                          height: 50,
-                          width: 50,
-                        ),
-                        // SizedBox(height: 15.0, width: 15,),
-                        Flexible(
-                          child: Text(
-                            textAlign: TextAlign.center,
-                            category.name,
-                            style: TextStyle(
-                              fontSize: 9,
-                              color: Colors.black,
-                              fontWeight: FontWeight.bold,
+                      ),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Image.network(
+                            "${API.prodCategIcon + _prodCategory[index].icon}",
+                            height: 50,
+                            width: 50,
+                          ),
+                          // SizedBox(height: 15.0, width: 15,),
+                          Flexible(
+                            child: Text(
+                              textAlign: TextAlign.center,
+                              _prodCategory[index].name,
+                              style: TextStyle(
+                                fontSize: 9,
+                                color: Colors.black,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
-                  ),
-                );
+                  );
+                }
               },
             ),
 
