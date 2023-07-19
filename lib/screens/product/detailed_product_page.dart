@@ -55,8 +55,8 @@ class _detailedProductPageState extends State<detailedProductPage> {
         ),
         onReceiveProgress: (recivedBytes, totalBytes) {
           setState(() {
-            _progress = recivedBytes / totalBytes;
-            if (_progress == 1.0){
+            _progress = (recivedBytes / totalBytes) * 100;
+            if (_progress == 100){
               _progress = null;
             }
           });
@@ -344,13 +344,46 @@ class _detailedProductPageState extends State<detailedProductPage> {
             filename: "${widget.products.catalogs_pdf}",
           ),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            _progress != null
-                ? const CircularProgressIndicator(color: Colors.white,)
-                : Icon(Icons.remove_red_eye),
-            Text("PDF", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 11),),
-          ]
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              _progress != null
+                  ? Column(
+                children: <Widget>[
+                  SizedBox(
+                    height: 40,
+                    child: Stack(
+                      children: <Widget>[
+                        Container(
+                          width: 40,
+                          height: 40,
+                          child:
+                          const CircularProgressIndicator(
+                            color: Colors.white,
+                          ),
+                        ),
+                        Positioned(
+                            bottom: 0,
+                            left: 0,
+                            right: 0,
+                            top: 15,
+                            child: Text(
+                              "${_progress?.toInt().toString()} %",
+                              textAlign:
+                              TextAlign.center,
+                              style: TextStyle(
+                                fontSize: 11,
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            )),
+                      ],
+                    ),
+                  ),
+                ],
+              )
+                  : Icon(Icons.remove_red_eye),
+              Text("PDF", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 11),),
+            ]
         )
       )
     );
