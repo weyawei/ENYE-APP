@@ -50,11 +50,18 @@ dependencies:
   smooth_page_indicator: ^1.1.0
   equatable: ^2.0.5
   lottie: ^2.4.0
+  flutter_staggered_grid_view: ^0.6.2
 
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  flutter_launcher_icons: ^0.13.1
+
+flutter_launcher_icons:
+  android: true
+  ios: true
+  image_path: "assets/icons/enye.png"
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
@@ -183,6 +190,15 @@ flutter:
         - asset: assets/fonts/Raleway-Regular.ttf
         - asset: assets/fonts/Raleway-Italic.ttf
           style: italic
+
+    - family: Rowdies
+      fonts:
+        - asset: assets/fonts/Rowdies-Regular.ttf
+        - asset: assets/fonts/Rowdies-Bold.ttf
+
+    - family: DancingScript
+      fonts:
+        - asset: assets/fonts/DancingScript-Regular.ttf
 
   #       - asset: fonts/Schyler-Italic.ttf
   #         style: italic

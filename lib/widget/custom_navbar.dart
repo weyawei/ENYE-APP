@@ -27,7 +27,7 @@ class CustomNavBar extends StatelessWidget {
       return [
         HomePage(),
         systemsPage(),
-        ProductPage(),
+        productsPage(),
         ProjectsPage(),
         ContactsPage(),
 
