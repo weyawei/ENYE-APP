@@ -25,7 +25,7 @@ class CustomNavBar extends StatelessWidget {
 
     List<Widget> _buildScreens() {
       return [
-        HomePage(),
+        homePage(),
         systemsPage(),
         productsPage(),
         ProjectsPage(),
