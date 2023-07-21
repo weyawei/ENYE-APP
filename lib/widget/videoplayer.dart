@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:chewie/chewie.dart';
 import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
+import 'package:visibility_detector/visibility_detector.dart';
 
 class videoPlayerView extends StatefulWidget {
   const videoPlayerView({
@@ -54,21 +55,31 @@ class _videoPlayerViewState extends State<videoPlayerView> {
   }
 
   //to avoid memory use
-  /*@override
+  @override
   void dispose(){
     _videoPlayerController.dispose();
     _chewieController.dispose();
     super.dispose();
-  }*/
+  }
 
   @override
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 20.0),
-      child: AspectRatio(
-        aspectRatio: 16/9,
-        child: Chewie(
-          controller: _chewieController,
+      child: VisibilityDetector(
+        key: Key('video-visibility-key'),
+        onVisibilityChanged: (visibilityInfo) {
+          if (visibilityInfo.visibleFraction == 0.0) {
+            _videoPlayerController.pause();
+          } else {
+            _videoPlayerController.play();
+          }
+        },
+        child: AspectRatio(
+          aspectRatio: 16/9,
+          child: Chewie(
+            controller: _chewieController,
+          ),
         ),
       ),
     );

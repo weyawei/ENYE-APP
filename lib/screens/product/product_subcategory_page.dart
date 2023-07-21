@@ -60,10 +60,10 @@ class _subCatProductPageState extends State<subCatProductPage> {
             child: Text(
               'Type of ${widget.category.name}'.toUpperCase(),
               style: TextStyle(
-                fontSize: 15,
-                fontWeight: FontWeight.bold,
-
+                fontSize: 14,
+                fontFamily: 'Rowdies',
               ),
+              textAlign: TextAlign.center,
             ),
           ),
           Expanded(

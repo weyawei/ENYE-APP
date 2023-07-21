@@ -9,9 +9,11 @@ import 'package:lottie/lottie.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:video_player/video_player.dart';
+import 'package:visibility_detector/visibility_detector.dart';
 
 import '../../config/api_connection.dart';
 import '../../widget/widgets.dart';
+import '../screens.dart';
 
 class homePage extends StatefulWidget {
   static const String routeName = '/home';
@@ -51,14 +53,8 @@ class _homePageState extends State<homePage>{
 
   PageController _pageController = new PageController();
 
-  double getRadiansFromDegree (double degree){
-    double unitRadian = 57.295779513;
-    return degree / unitRadian;
-  }
-
-  late AnimationController animationController;
-  late Animation degOneTranslationAnimation;
-  late Animation rotationAnimation;
+  //late showing of text
+  bool showAnim = false;
 
   void _launchURL (String url) async{
     try {
@@ -72,8 +68,17 @@ class _homePageState extends State<homePage>{
     }
   }
 
+  void _delaySome () {
+    Future.delayed(Duration(milliseconds: 3000), () {
+      setState((){
+        showAnim = true;
+      });
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       appBar: CustomAppBar(title: '', imagePath: 'assets/logo/enyecontrols.png',),
       body: ListView(
@@ -145,7 +150,7 @@ class _homePageState extends State<homePage>{
                                               type = true;
                                             });
                                           },
-                                          animatedTexts: [ TyperAnimatedText(dashboardText1[index], curve: Curves.easeIn, speed: Duration(milliseconds: 80)), ],
+                                          animatedTexts: [ TyperAnimatedText(dashboardText1[index], curve: Curves.easeIn, speed: Duration(milliseconds: 150)), ],
                                         ),
                                       ),
                                     ),
@@ -163,7 +168,7 @@ class _homePageState extends State<homePage>{
                                         ),
                                         child: AnimatedTextKit(
                                           onFinished: (){
-                                            type = false;
+                                              type = false;
                                           },
                                           isRepeatingAnimation: false,
                                           repeatForever: false,
@@ -205,11 +210,12 @@ class _homePageState extends State<homePage>{
                     SizedBox(height: 75,),
                     Text(
                       "Who We Are",
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontSize: 36.0,
                         fontFamily: 'Rowdies',
                         fontWeight: FontWeight.bold,
                         letterSpacing: 1,
+                        color: Colors.deepOrange.shade600
                       ),
                     ),
 
@@ -262,11 +268,11 @@ class _homePageState extends State<homePage>{
                     Text(
                       "Our Mission & Vision",
                       style: TextStyle(
-                        fontSize: 34.0,
-                        fontFamily: 'Rowdies',
-                        fontWeight: FontWeight.bold,
-                        letterSpacing: 1,
-                        color: Colors.deepOrange.shade600
+                          fontSize: 34.0,
+                          fontFamily: 'Rowdies',
+                          fontWeight: FontWeight.bold,
+                          letterSpacing: 1,
+                          color: Colors.deepOrange.shade600
                       ),
                       textAlign: TextAlign.center,
                       maxLines: 2,
@@ -289,12 +295,13 @@ class _homePageState extends State<homePage>{
                     ),
 
                     SizedBox(height: 30,),
+
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Container(
                           width: MediaQuery.of(context).size.width * 0.3,
-                          child: Image(image: NetworkImage("${API.dashboard}markett.png"), fit: BoxFit.fill),
+                          child: Image(image: NetworkImage("${API.dashboard}market.png"), fit: BoxFit.fill),
                         ),
 
                         Container(
@@ -315,7 +322,7 @@ class _homePageState extends State<homePage>{
                       ],
                     ),
 
-                    SizedBox(height: 30,),
+                    SizedBox(height: 40,),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -343,7 +350,7 @@ class _homePageState extends State<homePage>{
                       ],
                     ),
 
-                    SizedBox(height: 30,),
+                    SizedBox(height: 40,),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -373,11 +380,73 @@ class _homePageState extends State<homePage>{
                 ),
               ),
 
+              //call us for inquiries and follow us
+              Lottie.network(
+                'https://lottie.host/b4271de5-63c3-47d2-b756-71bf41c8c643/ARaXZtHsJ8.json',
+                height: 150,
+                width: 500,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  GestureDetector(
+                    child: Image(image: AssetImage("assets/icons/facebook-v2.png"), height: 50, width: 50,),
+                    onTap: () async{
+                      setState(() {
+                        _launchURL("https://www.facebook.com/EnyeControl/");
+                      });
+                    }
+                  ),
+
+                  SizedBox(width: 15,),
+                  GestureDetector(
+                    child: Image(image: AssetImage("assets/icons/instagram.png"), height: 50, width: 50,),
+                    onTap: () async{
+                      setState(() {
+                        _launchURL("https://www.instagram.com/enyecontrols/");
+                      });
+                    }
+                  ),
+
+                  SizedBox(width: 15,),
+                  GestureDetector(
+                    child: Image(image: AssetImage("assets/icons/twitter.png"), height: 50, width: 50,),
+                    onTap: () async{
+                      setState(() {
+                        _launchURL("https://twitter.com/enyecontrols");
+                      });
+                    }
+                  ),
+
+                  SizedBox(width: 15,),
+                  GestureDetector(
+                    child: Image(image: AssetImage("assets/icons/youtube-round-2.png"), height: 50, width: 50,),
+                    onTap: () async{
+                      setState(() {
+                        _launchURL("https://www.youtube.com/channel/UCTPwjwa1YioMkHZCvYjrAnw");
+                      });
+                    }
+                  ),
+
+                  SizedBox(width: 15,),
+                  GestureDetector(
+                    child: Image(image: AssetImage("assets/icons/linkedin.png"), height: 50, width: 50,),
+                    onTap: () async{
+                      setState(() {
+                        _launchURL("https://www.linkedin.com/company/enyecontrols");
+                      });
+                    }
+                  ),
+                ],
+              ),
+
+              SizedBox(height: 60,)
             ],
           ),
         ]
       ),
-      floatingActionButton: SpeedDial(
+
+      /*floatingActionButton: SpeedDial(
         icon: Icons.share,
         backgroundColor: Colors.deepOrange,
         overlayColor: Colors.deepOrange,
@@ -428,7 +497,7 @@ class _homePageState extends State<homePage>{
               }
           ),
         ],
-      ),
+      ),*/
     );
   }
 }
