@@ -1,6 +1,7 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:enye_app/widget/widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 
@@ -56,6 +57,18 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
     });
   }
 
+  void _launchURL (String url) async{
+    try {
+      bool launched = await launch(url, forceSafariVC: false); // Launch the app if installed!
+
+      if (!launched) {
+        launch(url); // Launch web view if app is not installed!
+      }
+    } catch (e) {
+      launch(url); // Launch web view if app is not installed!
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -85,7 +98,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
                 ),
               ),
 
-              Positioned(
+              /*Positioned(
                   right: 10,
                   bottom: 5,
                   child: Stack(
@@ -97,7 +110,11 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
                           transform: Matrix4.rotationZ(getRadiansFromDegree(rotationAnimation.value)),
                           alignment: Alignment.center,
                           child: IconButton(
-                            onPressed: (){},
+                            onPressed: () async{
+                              setState(() {
+                                _launchURL("https://www.facebook.com/EnyeControl/");
+                              });
+                            },
                             icon: Image.asset("assets/icons/facebook-v2.png",),
                             iconSize: 43,
                             enableFeedback: true,
@@ -167,22 +184,62 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
                       ),
                     ],
                   )
-              ),
+              ),*/
             ],
           ),
-        )
+        ),
+      floatingActionButton: SpeedDial(
+        icon: Icons.share,
+        backgroundColor: Colors.deepOrange,
+        overlayColor: Colors.deepOrange,
+        overlayOpacity: 0.4,
+        children: [
+          SpeedDialChild(
+            child: Image(image: AssetImage("assets/icons/facebook-v2.png"),),
+            onTap: () async{
+              setState(() {
+                _launchURL("https://www.facebook.com/EnyeControl/");
+              });
+            }
+          ),
+
+          SpeedDialChild(
+              child: Image(image: AssetImage("assets/icons/instagram.png"),),
+              onTap: () async{
+                setState(() {
+                  _launchURL("https://www.instagram.com/enyecontrols/");
+                });
+              }
+          ),
+
+          SpeedDialChild(
+              child: Image(image: AssetImage("assets/icons/twitter.png"),),
+              onTap: () async{
+                setState(() {
+                  _launchURL("https://twitter.com/enyecontrols");
+                });
+              }
+          ),
+
+          SpeedDialChild(
+              child: Image(image: AssetImage("assets/icons/youtube-round-2.png"),),
+              onTap: () async{
+                setState(() {
+                  _launchURL("https://www.youtube.com/channel/UCTPwjwa1YioMkHZCvYjrAnw");
+                });
+              }
+          ),
+
+          SpeedDialChild(
+              child: Image(image: AssetImage("assets/icons/linkedin.png"),),
+              onTap: () async{
+                setState(() {
+                  _launchURL("https://www.linkedin.com/company/enyecontrols");
+                });
+              }
+          ),
+        ],
+      ),
     );
-  }
-}
-
-Future<void> _launchURL (String url) async{
-  try {
-    bool launched = await launch(url, forceSafariVC: false); // Launch the app if installed!
-
-    if (!launched) {
-      launch(url); // Launch web view if app is not installed!
-    }
-  } catch (e) {
-    launch(url); // Launch web view if app is not installed!
   }
 }

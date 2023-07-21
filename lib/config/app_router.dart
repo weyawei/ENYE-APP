@@ -18,8 +18,8 @@ class AppRouter{
     switch (settings.name){
       case '/':
         return CustomNavBar.route();
-      case HomePage.routeName:
-        return HomePage.route();
+      case homePage.routeName:
+        return homePage.route();
       case SecondScreen.routeName:
         return SecondScreen.route();
       case SplashScreen.routeName:
