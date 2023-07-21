@@ -9,11 +9,9 @@ import 'package:lottie/lottie.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:video_player/video_player.dart';
-import 'package:visibility_detector/visibility_detector.dart';
 
 import '../../config/api_connection.dart';
 import '../../widget/widgets.dart';
-import '../screens.dart';
 
 class homePage extends StatefulWidget {
   static const String routeName = '/home';
@@ -55,6 +53,8 @@ class _homePageState extends State<homePage>{
 
   //late showing of text
   bool showAnim = false;
+
+  var lottieController;
 
   void _launchURL (String url) async{
     try {
@@ -202,7 +202,7 @@ class _homePageState extends State<homePage>{
 
               //who are we
               Container(
-                height: MediaQuery.of(context).size.height * 0.85,
+                margin: EdgeInsets.symmetric(vertical: 50),
                 width: MediaQuery.of(context).size.width,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -259,7 +259,7 @@ class _homePageState extends State<homePage>{
 
               //mission vission aims
               Container(
-                height: MediaQuery.of(context).size.height * 0.85,
+                margin: EdgeInsets.symmetric(vertical: 50),
                 width: MediaQuery.of(context).size.width,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -380,11 +380,18 @@ class _homePageState extends State<homePage>{
                 ),
               ),
 
-              //call us for inquiries and follow us
+              SizedBox(height: 60,),
+              // follow us
               Lottie.network(
                 'https://lottie.host/b4271de5-63c3-47d2-b756-71bf41c8c643/ARaXZtHsJ8.json',
+                frameRate: FrameRate.max,
                 height: 150,
                 width: 500,
+                controller: lottieController,
+                onLoaded: (composition) {
+                  lottieController.duration = Duration(milliseconds: 10);
+                  lottieController.forward();
+                }
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,

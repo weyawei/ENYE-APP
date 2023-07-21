@@ -114,7 +114,7 @@ class _detailedProductPageState extends State<detailedProductPage> {
   Widget build(BuildContext context) {
 
     return Scaffold(
-      appBar: CustomAppBar(title: widget.products.prod_desc, imagePath: '',),
+      appBar: CustomAppBar(title: widget.products.name, imagePath: '',),
       body: ListView(
         children:[
           Container(
