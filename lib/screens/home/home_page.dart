@@ -184,6 +184,7 @@ class _homePageState extends State<homePage>{
                   ),
 
                   Container(
+                    margin: EdgeInsets.only(top: 15),
                     padding: const EdgeInsets.all(10.0),
                     alignment: Alignment.center,
                     child: SmoothPageIndicator(

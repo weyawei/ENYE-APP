@@ -308,7 +308,8 @@ class _detailedProductPageState extends State<detailedProductPage> {
                           child: Container(
                             padding: EdgeInsets.symmetric(horizontal: 16.0),
                             child: Text(_productDetail[index].description, maxLines: null, textAlign: TextAlign.justify,
-                              style: TextStyle(fontSize: 16, fontStyle: FontStyle.italic, letterSpacing: 1, fontWeight: FontWeight.w600),),
+                              style: TextStyle(fontSize: 16, fontStyle: FontStyle.italic, letterSpacing: 1, color: Colors.grey.shade600),
+                            ),
                           ),
                         ),
 
