@@ -37,7 +37,7 @@ class CustomNavBar extends StatelessWidget {
     List<PersistentBottomNavBarItem> _navBarsItems() {
       return [
         PersistentBottomNavBarItem(
-          icon: Icon(Dashboardicon.home_nav),
+          icon: Icon(Icons.home),
           title: ("Home"),
           activeColorPrimary: Colors.white,
           inactiveColorPrimary: Colors.white70,
