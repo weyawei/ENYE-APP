@@ -1,17 +1,18 @@
-import 'package:flutter/material.dart';
+/*import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';
 
 class BookingSystem extends StatefulWidget {
   @override
   _BookingSystemState createState() => _BookingSystemState();
-}
+}*/
 
-class _BookingSystemState extends State<BookingSystem> {
+/*class _BookingSystemState extends State<BookingSystem> {
   DateTime? selectedDate;
   TimeOfDay? selectedTime;
   String? name;
   String? address;
   String? mobileNumber;
+  String? email;
   final Uuid _uuid = Uuid();
   List<DateTime> availableDates = [
     DateTime.now().add(Duration(days: 1)),
@@ -30,11 +31,14 @@ class _BookingSystemState extends State<BookingSystem> {
   List<String> availableConcerns = [
     'Repair',
     'Quotation',
+    'Consultation',
     'Other',
   ];
 
   String? customConcern;
   String? generatedCode;
+
+  final _formKey = GlobalKey<FormState>();
 
   void generateCode() {
     // Generate the code based on your desired logic
@@ -42,20 +46,62 @@ class _BookingSystemState extends State<BookingSystem> {
     final formattedDate = selectedDate!.toString().split(' ')[0];
     final formattedTime = selectedTime!.format(context);
     final uniqueId = _uuid.v4();
-    generatedCode = '$formattedDate - $formattedTime - $uniqueId';
+    generatedCode = '$uniqueId';
+    //generatedCode = '$formattedDate - $formattedTime - $uniqueId';
   }
 
+  Map<DateTime, int> bookingCountMap = {};
+
+  bool isBookingAvailable(DateTime date) {
+    if (bookingCountMap.containsKey(date)) {
+      int count = bookingCountMap[date]!;
+      return count < 5;
+    }
+    return true;
+  }
+
+  void incrementBookingCount(DateTime date) {
+    if (bookingCountMap.containsKey(date)) {
+      int count = bookingCountMap[date]!;
+      bookingCountMap[date] = count + 1;
+    } else {
+      bookingCountMap[date] = 1;
+    }
+  }
+  final nameController = TextEditingController();
+  final addressController = TextEditingController();
+  final mobileNumberController = TextEditingController();
+  final emailController = TextEditingController();
   Future<void> _selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
       context: context,
       initialDate: selectedDate ?? DateTime.now(),
       firstDate: DateTime.now(),
-      lastDate: DateTime.now().add(Duration(days: 90)),
+      lastDate: DateTime.now().add(Duration(days: 60)),
     );
     if (picked != null) {
-      setState(() {
-        selectedDate = picked;
-      });
+      if (isBookingAvailable(picked)) {
+        incrementBookingCount(picked);
+        setState(() {
+          selectedDate = picked;
+        });
+      } else {
+        showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+            title: Text('Booking Unavailable'),
+            content: Text('Sorry, all slots for this date are booked.'),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: Text('OK'),
+              ),
+            ],
+          ),
+        );
+      }
     }
   }
 
@@ -69,16 +115,16 @@ class _BookingSystemState extends State<BookingSystem> {
         padding: EdgeInsets.all(16.0),
         child: Column(
           children: [
-            SizedBox(height: 20),
+            SizedBox(height: 16),
             Text(
-              'Select a date:',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              'APPOINTMENT:',
+              style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
             ),
             SizedBox(height: 10),
             InkWell(
               onTap: () => _selectDate(context),
               child: Container(
-                padding: EdgeInsets.all(12.0),
+                padding: EdgeInsets.all(10.0),
                 decoration: BoxDecoration(
                   border: Border.all(color: Colors.grey),
                   borderRadius: BorderRadius.circular(4.0),
@@ -89,23 +135,23 @@ class _BookingSystemState extends State<BookingSystem> {
                     Text(
                       selectedDate != null
                           ? '${selectedDate!.toString().split(' ')[0]}'
-                          : 'Select a date',
-                      style: TextStyle(fontSize: 16),
+                          : 'Select Date*',
+                      style: TextStyle(fontSize: 15),
                     ),
                     Icon(Icons.calendar_today),
                   ],
                 ),
               ),
             ),
-            SizedBox(height: 20),
+            *//*SizedBox(height: 16),
             Text(
-              'Select a time:',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-            ),
+              'SELECT TIME:',
+              style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+            ),*//*
             SizedBox(height: 10),
             DropdownButtonFormField<TimeOfDay>(
               decoration: InputDecoration(
-                labelText: 'Time',
+                labelText: 'Time*',
               ),
               value: selectedTime,
               items: availableTimes.map((time) {
@@ -121,47 +167,95 @@ class _BookingSystemState extends State<BookingSystem> {
                 });
               },
             ),
-            SizedBox(height: 20),
-            TextFormField(
-              decoration: InputDecoration(
-                labelText: 'Name',
+            SizedBox(height: 10),
+            Form(
+              key: _formKey,
+              child: Column(
+                children: [
+                  TextFormField(
+                    controller: nameController,
+                    decoration: InputDecoration(
+                      labelText: 'Name*',
+                    ),
+                    onChanged: (value) {
+                      setState(() {
+                        name = value;
+                      });
+                    },
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return 'Please enter a name';
+                      }
+                      return null;
+                    },
+                  ),
+                  TextFormField(
+                    controller: addressController,
+                    decoration: InputDecoration(
+                      labelText: 'Address*',
+                    ),
+                    onChanged: (value) {
+                      setState(() {
+                        address = value;
+                      });
+                    },
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return 'Please enter an address';
+                      }
+                      return null;
+                    },
+                  ),
+                  TextFormField(
+                    controller: mobileNumberController,
+                    decoration: InputDecoration(
+                      labelText: 'Mobile Number*',
+                    ),
+                    onChanged: (value) {
+                      setState(() {
+                        mobileNumber = value;
+                      });
+                    },
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return 'Please enter a mobile number';
+                      }
+                      return null;
+                    },
+                  ),
+                  TextFormField(
+                    controller: emailController,
+                    decoration: InputDecoration(
+                      labelText: 'Email*',
+                    ),
+                    keyboardType: TextInputType.emailAddress,
+                    onChanged: (value) {
+                      setState(() {
+                        email = value;
+                      });
+                    },
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return 'Please enter an email';
+                      }
+                      if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$').hasMatch(value)) {
+                        return 'Please enter a valid email';
+                      }
+                      return null;
+                    },
+                  ),
+                ],
               ),
-              onChanged: (value) {
-                setState(() {
-                  name = value;
-                });
-              },
             ),
-            TextFormField(
-              decoration: InputDecoration(
-                labelText: 'Address',
-              ),
-              onChanged: (value) {
-                setState(() {
-                  address = value;
-                });
-              },
-            ),
-            TextFormField(
-              decoration: InputDecoration(
-                labelText: 'Mobile Number',
-              ),
-              onChanged: (value) {
-                setState(() {
-                  mobileNumber = value;
-                });
-              },
-            ),
-
-            SizedBox(height: 20),
+           *//* SizedBox(height: 10),
             Text(
-              'Select a concern:',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-            ),
+              'SELECT SERVICE:',
+              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+            ),*//*
             SizedBox(height: 10),
             DropdownButtonFormField<String>(
               decoration: InputDecoration(
-                labelText: 'Concern',
+                labelText: 'Select Service*',
               ),
               value: selectedConcern,
               items: availableConcerns.map((concern) {
@@ -175,12 +269,17 @@ class _BookingSystemState extends State<BookingSystem> {
                   selectedConcern = concern;
                 });
               },
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return 'Please select a service';
+                }
+                return null;
+              },
             ),
-
             if (selectedConcern == 'Other')
               TextFormField(
                 decoration: InputDecoration(
-                  labelText: 'Specify your concern',
+                  labelText: 'Specify here...',
                 ),
                 onChanged: (value) {
                   setState(() {
@@ -188,15 +287,13 @@ class _BookingSystemState extends State<BookingSystem> {
                   });
                 },
               ),
-
             SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
-                if (selectedDate != null &&
+                if (_formKey.currentState!.validate() &&
+                    selectedDate != null &&
                     selectedTime != null &&
-                    name != null &&
-                    address != null &&
-                    mobileNumber != null) {
+                    selectedConcern != null) {
                   generateCode();
                   showDialog(
                     context: context,
@@ -213,16 +310,21 @@ class _BookingSystemState extends State<BookingSystem> {
                           if (selectedConcern != null && selectedConcern != 'Other')
                             Text('Concern: $selectedConcern'),
                           if (selectedConcern == 'Other' && customConcern != null)
-                            Text('Concern: $customConcern'),
+                            Text('Service: $customConcern'),
                           Text('Generated Code: $generatedCode'),
                           Text('Name: $name'),
                           Text('Address: $address'),
                           Text('Mobile Number: $mobileNumber'),
+                          Text('Email: $email'),
                         ],
                       ),
                       actions: [
                         TextButton(
                           onPressed: () {
+                            nameController.clear();
+                            addressController.clear();
+                            mobileNumberController.clear();
+                            emailController.clear();
                             Navigator.of(context).pop();
                             setState(() {
                               selectedDate = null;
@@ -233,6 +335,406 @@ class _BookingSystemState extends State<BookingSystem> {
                               name = null;
                               address = null;
                               mobileNumber = null;
+                              email = null;
+                            });
+                          },
+                          child: Text('OK'),
+                        ),
+                      ],
+                    ),
+                  );
+                }
+            else {
+            showDialog(
+            context: context,
+            builder: (context) => AlertDialog(
+            title: Text('Incomplete Form'),
+            content: Text('Please fill in all the required fields.'),
+            actions: [
+            TextButton(
+            onPressed: () {
+            Navigator.of(context).pop();
+            },
+            child: Text('OK'),
+               ),
+               ],
+              ),
+             );
+            }
+
+              },
+              child: Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 32.0,
+                  vertical: 12.0,
+                ),
+                child: Text(
+                  'Book',
+                  style: TextStyle(fontSize: 18.0),
+                ),
+              ),
+              style: ButtonStyle(
+                backgroundColor:
+                MaterialStateProperty.all<Color>(Colors.deepOrange),
+                shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                  RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(30.0),
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}*/
+
+
+
+import 'dart:math';
+
+import 'package:flutter/material.dart';
+import 'package:uuid/uuid.dart';
+
+class BookingSystem extends StatefulWidget {
+  @override
+  _BookingSystemState createState() => _BookingSystemState();
+}
+
+class _BookingSystemState extends State<BookingSystem> {
+  DateTime? selectedDate;
+  TimeOfDay? selectedTime;
+  String? name;
+  String? address;
+  String? mobileNumber;
+  String? email;
+  final Uuid _uuid = Uuid();
+  List<DateTime> availableDates = [
+    DateTime.now().add(Duration(days: 1)),
+    DateTime.now().add(Duration(days: 2)),
+    DateTime.now().add(Duration(days: 3)),
+  ];
+  List<TimeOfDay> availableTimes = [
+    TimeOfDay(hour: 10, minute: 0),
+    TimeOfDay(hour: 12, minute: 0),
+    TimeOfDay(hour: 14, minute: 0),
+    TimeOfDay(hour: 16, minute: 0),
+    TimeOfDay(hour: 18, minute: 0),
+  ];
+
+  String? selectedConcern;
+  List<String> availableConcerns = [
+    'Repair',
+    'Quotation',
+    'Consultation',
+    'Other',
+  ];
+
+  String? customConcern;
+  String? generatedCode;
+
+  final _formKey = GlobalKey<FormState>();
+
+ /* void generateCode() {
+    // Generate the code based on your desired logic
+    // Example: Concatenate the selected date and time
+    final formattedDate = selectedDate!.toString().split(' ')[0];
+    final formattedTime = selectedTime!.format(context);
+    final uniqueId = _uuid.v4();
+   // generatedCode = '$uniqueId';
+    generatedCode = '${name ?? 'Unknown'}${selectedDate?.day}${selectedDate?.month}$uniqueId';
+    //generatedCode = '$formattedDate - $formattedTime - $uniqueId';
+  }*/
+  void generateCode() {
+    final random = Random();
+    const String chars = 'abcdefghijklmnopqrstuvwxyz0123456789';
+
+    // Generate a random 6-character alphanumeric ID
+    String randomId = String.fromCharCodes(
+      List.generate(
+          6, (index) => chars.codeUnitAt(random.nextInt(chars.length))),
+    );
+    generatedCode = '${name ?? 'Unknown'}${selectedDate?.month}${selectedDate?.day}$randomId';
+  }
+  Map<DateTime, int> bookingCountMap = {};
+
+  bool isBookingAvailable(DateTime date) {
+    if (bookingCountMap.containsKey(date)) {
+      int count = bookingCountMap[date]!;
+      return count < 1; // para sa limit ng booking
+    }
+    return true;
+  }
+
+  void incrementBookingCount(DateTime date) {
+    if (bookingCountMap.containsKey(date)) {
+      int count = bookingCountMap[date]!;
+      bookingCountMap[date] = count + 1;
+    } else {
+      bookingCountMap[date] = 1;
+    }
+  }
+
+  final nameController = TextEditingController();
+  final addressController = TextEditingController();
+  final mobileNumberController = TextEditingController();
+  final emailController = TextEditingController();
+
+  Future<void> _selectDate(BuildContext context) async {
+    final DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: selectedDate ?? DateTime.now(),
+      firstDate: DateTime.now(),
+      lastDate: DateTime.now().add(Duration(days: 60)),
+    );
+    if (picked != null) {
+      if (isBookingAvailable(picked)) {
+        incrementBookingCount(picked);
+        setState(() {
+          selectedDate = picked;
+        });
+      } else {
+        showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+            title: Text('Booking Unavailable'),
+            content: Text('Sorry, all slots for this date are booked.'),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: Text('OK'),
+              ),
+            ],
+          ),
+        );
+      }
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Booking System'),
+      ),
+      body: SingleChildScrollView(
+        padding: EdgeInsets.all(16.0),
+        child: Column(
+          children: [
+            SizedBox(height: 16),
+            Text(
+              'APPOINTMENT:',
+              style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+            ),
+            SizedBox(height: 10),
+            InkWell(
+              onTap: () => _selectDate(context),
+              child: Container(
+                padding: EdgeInsets.all(10.0),
+                decoration: BoxDecoration(
+                  border: Border.all(color: Colors.grey),
+                  borderRadius: BorderRadius.circular(4.0),
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      selectedDate != null
+                          ? '${selectedDate!.toString().split(' ')[0]}'
+                          : 'Select Date*',
+                      style: TextStyle(fontSize: 15),
+                    ),
+                    Icon(Icons.calendar_today),
+                  ],
+                ),
+              ),
+            ),
+            SizedBox(height: 10),
+            DropdownButtonFormField<TimeOfDay>(
+              decoration: InputDecoration(
+                labelText: 'Time*',
+              ),
+              value: selectedTime,
+              items: availableTimes.map((time) {
+                final formattedTime = time.format(context);
+                return DropdownMenuItem<TimeOfDay>(
+                  value: time,
+                  child: Text(formattedTime),
+                );
+              }).toList(),
+              onChanged: (time) {
+                setState(() {
+                  selectedTime = time;
+                });
+              },
+            ),
+            SizedBox(height: 10),
+            Form(
+              key: _formKey,
+              child: Column(
+                children: [
+                  TextFormField(
+                    controller: nameController,
+                    decoration: InputDecoration(
+                      labelText: 'Name*',
+                    ),
+                    onChanged: (value) {
+                      setState(() {
+                        name = value;
+                      });
+                    },
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return 'Please enter a name';
+                      }
+                      return null;
+                    },
+                  ),
+                  TextFormField(
+                    controller: addressController,
+                    decoration: InputDecoration(
+                      labelText: 'Address*',
+                    ),
+                    onChanged: (value) {
+                      setState(() {
+                        address = value;
+                      });
+                    },
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return 'Please enter an address';
+                      }
+                      return null;
+                    },
+                  ),
+                  TextFormField(
+                    controller: mobileNumberController,
+                    decoration: InputDecoration(
+                      labelText: 'Mobile Number*',
+                    ),
+                    onChanged: (value) {
+                      setState(() {
+                        mobileNumber = value;
+                      });
+                    },
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return 'Please enter a mobile number';
+                      }
+                      return null;
+                    },
+                  ),
+                  TextFormField(
+                    controller: emailController,
+                    decoration: InputDecoration(
+                      labelText: 'Email*',
+                    ),
+                    keyboardType: TextInputType.emailAddress,
+                    onChanged: (value) {
+                      setState(() {
+                        email = value;
+                      });
+                    },
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return 'Please enter an email';
+                      }
+                      if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$').hasMatch(value)) {
+                        return 'Please enter a valid email';
+                      }
+                      return null;
+                    },
+                  ),
+                ],
+              ),
+            ),
+            SizedBox(height: 10),
+            DropdownButtonFormField<String>(
+              decoration: InputDecoration(
+                labelText: 'Select Service*',
+              ),
+              value: selectedConcern,
+              items: availableConcerns.map((concern) {
+                return DropdownMenuItem<String>(
+                  value: concern,
+                  child: Text(concern),
+                );
+              }).toList(),
+              onChanged: (concern) {
+                setState(() {
+                  selectedConcern = concern;
+                });
+              },
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return 'Please select a service';
+                }
+                return null;
+              },
+            ),
+            if (selectedConcern == 'Other')
+              TextFormField(
+                decoration: InputDecoration(
+                  labelText: 'Specify here...',
+                ),
+                onChanged: (value) {
+                  setState(() {
+                    customConcern = value;
+                  });
+                },
+              ),
+            SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: () {
+                if (_formKey.currentState!.validate() &&
+                    selectedDate != null &&
+                    selectedTime != null &&
+                    selectedConcern != null) {
+                  generateCode();
+                  showDialog(
+                    context: context,
+                    builder: (context) => AlertDialog(
+                      title: Text('Confirmation'),
+                      content: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Text('You have booked the following appointment:'),
+                          SizedBox(height: 10),
+                          Text('Date: ${selectedDate!.toString().split(' ')[0]}'),
+                          Text('Time: ${selectedTime!.format(context)}'),
+                          if (selectedConcern != null && selectedConcern != 'Other')
+                            Text('Concern: $selectedConcern'),
+                          if (selectedConcern == 'Other' && customConcern != null)
+                            Text('Service: $customConcern'),
+                          Text('Generated Code: $generatedCode'),
+                          Text('Name: $name'),
+                          Text('Address: $address'),
+                          Text('Mobile Number: $mobileNumber'),
+                          Text('Email: $email'),
+                        ],
+                      ),
+                      actions: [
+                        TextButton(
+                          onPressed: () {
+                            nameController.clear();
+                            addressController.clear();
+                            mobileNumberController.clear();
+                            emailController.clear();
+                            Navigator.of(context).pop();
+                            setState(() {
+                              selectedDate = null;
+                              selectedTime = null;
+                              selectedConcern = null;
+                              customConcern = null;
+                              generatedCode = null;
+                              name = null;
+                              address = null;
+                              mobileNumber = null;
+                              email = null;
                             });
                           },
                           child: Text('OK'),
@@ -244,8 +746,8 @@ class _BookingSystemState extends State<BookingSystem> {
                   showDialog(
                     context: context,
                     builder: (context) => AlertDialog(
-                      title: Text('Error'),
-                      content: Text('Please fill in all the fields.'),
+                      title: Text('Incomplete Form'),
+                      content: Text('Please fill in all the required fields.'),
                       actions: [
                         TextButton(
                           onPressed: () {
@@ -258,7 +760,25 @@ class _BookingSystemState extends State<BookingSystem> {
                   );
                 }
               },
-              child: Text('Book'),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 32.0,
+                  vertical: 12.0,
+                ),
+                child: Text(
+                  'Book',
+                  style: TextStyle(fontSize: 18.0),
+                ),
+              ),
+              style: ButtonStyle(
+                backgroundColor:
+                MaterialStateProperty.all<Color>(Colors.deepOrange),
+                shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                  RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(30.0),
+                  ),
+                ),
+              ),
             ),
           ],
         ),
@@ -266,3 +786,4 @@ class _BookingSystemState extends State<BookingSystem> {
     );
   }
 }
+

@@ -20,23 +20,22 @@ class SplashScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Timer(Duration(seconds: 2),() => Navigator.of(navigatorKey.currentContext!).pushReplacement(
+    Timer(Duration(seconds: 5),() => Navigator.of(navigatorKey.currentContext!).pushReplacement(
       MaterialPageRoute(
         builder: (context) => CustomNavBar(),
       ),
     ),
     );
     return Scaffold(
-        body: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-              Center(
-                child: Image(image: AssetImage('assets/logo/splash.gif'),
-                  fit: BoxFit.fill,),
-              )
+        body: SingleChildScrollView(
+          child: Center(
+                  child: Image(image: AssetImage('assets/logo/splash.gif'),
+                    fit: BoxFit.fill,),
+                )
 
-          ],
-        )
+
+
+        ),
     );
   }
 }

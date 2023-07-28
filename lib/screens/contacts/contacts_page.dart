@@ -1,5 +1,6 @@
 import 'package:enye_app/widget/widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:sizer/sizer.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -33,6 +34,8 @@ class ContactsPage extends StatelessWidget {
       appBar: CustomAppBar(title: 'Contact Us', imagePath: 'assets/logo/enyecontrols.png',),
       /*drawer: CustomDrawer(),*/
       body: Container(
+        width: 100.w,
+        height:  100.h,
         decoration: const BoxDecoration(
           image: DecorationImage(image: AssetImage("assets/backgrounds/wallpaper-contacts.png"), fit: BoxFit.fill),
         ),
@@ -98,8 +101,10 @@ class ContactsPage extends StatelessWidget {
                             ),
                           ),
                           Container(
-                            height: MediaQuery.of(context).size.height * 0.3,
-                            width: MediaQuery.of(context).size.width * 0.9,
+                            /*height: MediaQuery.of(context).size.height * 0.3,
+                            width: MediaQuery.of(context).size.width * 0.9,*/
+                            width: 70.w,
+                            height:  40.h,
                             decoration: const BoxDecoration(
                               image: DecorationImage(image: AssetImage("assets/backgrounds/mapqc.png"), fit: BoxFit.fill),
                             ),

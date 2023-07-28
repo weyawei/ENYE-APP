@@ -56,6 +56,15 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
       });
     });
   }
+  void openFacebookMessenger() async {
+    final String messengerUrl = "https://m.me/RJay.FranciaON";
+
+    if (await canLaunch(messengerUrl)) {
+      await launch(messengerUrl);
+    } else {
+      throw 'Could not launch $messengerUrl';
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -102,7 +111,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
                         vertical: 12.0,
                       ),
                       child: Text(
-                        'Booking Service',
+                        'BOOK A SERVICE',
                         style: TextStyle(fontSize: 18.0),
                       ),
                     ),
@@ -117,6 +126,12 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
                     ),
                   ),
                 ),
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  openFacebookMessenger();
+                },
+                child: Text('Open Messenger'),
               ),
 
               Positioned(
