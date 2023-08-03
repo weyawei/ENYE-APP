@@ -2,6 +2,7 @@ export 'home/homepage.dart';
 export 'home/homepage2.dart';
 
 export 'home/home_page.dart';
+export 'home/contacts_page.dart';
 
 export 'projects/project_page.dart';
 export 'projects/list_projects.dart';
@@ -32,6 +33,8 @@ export 'product/detailed_product.dart';
 export 'product/cards/product_carousel.dart';
 export 'product/cards/subcategory_carousel.dart';
 
+export 'service/service_page.dart';
 
 export 'contacts/contacts_page.dart';
+
 export '/splash/splash_screen.dart';

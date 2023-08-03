@@ -29,8 +29,7 @@ class CustomNavBar extends StatelessWidget {
         systemsPage(),
         productsPage(),
         ProjectsPage(),
-        ContactsPage(),
-
+        ServicePage(),
       ];
     }
 
@@ -65,8 +64,8 @@ class CustomNavBar extends StatelessWidget {
           textStyle: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
         ),
         PersistentBottomNavBarItem(
-          icon: Icon(Dashboardicon.contact_us_nav),
-          title: ("Contacts"),
+          icon: Icon(Icons.calendar_month_rounded),
+          title: ("Appointment"),
           activeColorPrimary: Colors.white,
           inactiveColorPrimary: Colors.white70,
           textStyle: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
