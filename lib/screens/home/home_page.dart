@@ -12,6 +12,7 @@ import 'package:video_player/video_player.dart';
 
 import '../../config/api_connection.dart';
 import '../../widget/widgets.dart';
+import '../screens.dart';
 
 class homePage extends StatefulWidget {
   static const String routeName = '/home';
@@ -448,7 +449,9 @@ class _homePageState extends State<homePage>{
                 ],
               ),
 
-              SizedBox(height: 60,)
+              SizedBox(height: 60,),
+
+              ContactsHome(),
             ],
           ),
         ]
