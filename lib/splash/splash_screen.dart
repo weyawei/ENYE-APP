@@ -20,7 +20,7 @@ class SplashScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Timer(Duration(seconds: 2, milliseconds: 499),() => Navigator.of(navigatorKey.currentContext!).pushReplacement(
+    Timer(Duration(seconds: 2, milliseconds: 199),() => Navigator.of(navigatorKey.currentContext!).pushReplacement(
       MaterialPageRoute(
         builder: (context) => CustomNavBar(),
       ),

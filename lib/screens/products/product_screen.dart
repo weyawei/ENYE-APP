@@ -1,21 +1,12 @@
 
 
-import 'package:advance_pdf_viewer/advance_pdf_viewer.dart';
 import 'package:enye_app/screens/products/product_model.dart';
 import 'package:enye_app/screens/products/productinfo_model.dart';
 import 'package:enye_app/widget/CarouselCardProduct.dart';
-import 'package:enye_app/widget/carousel_card.dart';
 import 'package:enye_app/widget/custom_appbar.dart';
-import 'package:enye_app/widget/custom_navbar.dart';
-import 'package:enye_app/widget/product_carousel.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:photo_view/photo_view.dart';
-import 'package:flutter/services.dart' show rootBundle;
-import 'dart:io';
-import 'package:flutter_pdfview/flutter_pdfview.dart';
-import 'package:path_provider/path_provider.dart';
-import 'package:http/http.dart' as http;
 
 
 class ProductScreen extends StatelessWidget {
@@ -103,12 +94,7 @@ final Product product;
                       Center(
                         child: GestureDetector(
                           onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (_) => PDFScreen(pdfUrl: info.pdfUrl),
-                              ),
-                            );
+
                           },
 
                           child: Icon(Icons.picture_as_pdf),),
@@ -186,122 +172,6 @@ final Product product;
     );
   }
 }
-
-
-class PDFScreen extends StatefulWidget {
-  final String pdfUrl;
-
-  const PDFScreen({required this.pdfUrl});
-
-  @override
-  _PDFScreenState createState() => _PDFScreenState();
-}
-
-class _PDFScreenState extends State<PDFScreen> {
-  bool _isLoading = true;
-  int _pages = 0;
-  int _currentPage = 0;
-  late PDFViewController _pdfViewController;
-
-  @override
-  void initState() {
-    super.initState();
-    _loadPDF();
-  }
-
-  Future<void> _loadPDF() async {
-    final pdfUrl = widget.pdfUrl;
-
-    setState(() {
-      _isLoading = true;
-    });
-
-    try {
-      final PDFDocument pdfDocument = await PDFDocument.fromURL(pdfUrl);
-      final int pageCount = pdfDocument.count;
-      setState(() {
-        _pages = pageCount;
-        _currentPage = 1;
-        _isLoading = false;
-      });
-    } catch (e) {
-      setState(() {
-        _isLoading = false;
-      });
-      // Handle the error loading the PDF
-      print('Error loading PDF: $e');
-    }
-  }
-
-  void _previousPage() {
-    if (_currentPage > 1) {
-      setState(() {
-        _currentPage--;
-      });
-      _pdfViewController.setPage(_currentPage);
-    }
-  }
-
-  void _nextPage() {
-    if (_currentPage < _pages) {
-      setState(() {
-        _currentPage++;
-      });
-      _pdfViewController.setPage(_currentPage);
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('PDF Viewer'),
-      ),
-      body: _isLoading
-          ? Center(child: CircularProgressIndicator())
-          : Column(
-        children: [
-          Expanded(
-            child: PDFView(
-              filePath: widget.pdfUrl,
-              onViewCreated: (PDFViewController pdfViewController) {
-                _pdfViewController = pdfViewController;
-              },
-              onPageChanged: (int? page, int? total) {
-                setState(() {
-                  _currentPage = page ?? 0;
-                });
-              },
-            ),
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              IconButton(
-                icon: Icon(Icons.chevron_left),
-                onPressed: _previousPage,
-              ),
-              Text('Page $_currentPage of $_pages'),
-              IconButton(
-                icon: Icon(Icons.chevron_right),
-                onPressed: _nextPage,
-              ),
-            ],
-          ),
-
-        ],
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          // Implement your logic to handle the download action
-          // For example, show a dialog with options to save or share the PDF file
-        },
-        child: Icon(Icons.download),
-      ),
-    );
-  }
-}
-
 
 class ImageZoomScreen extends StatelessWidget {
 

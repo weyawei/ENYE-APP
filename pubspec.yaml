@@ -34,7 +34,6 @@ dependencies:
   path_provider: ^2.0.15
   flutter_pdfview: ^1.0.1
   http: ^1.1.0
-  advance_pdf_viewer: ^2.0.0
   flutter_downloader: ^1.7.0
 
   dio: ^5.2.1+1
@@ -57,6 +56,10 @@ dependencies:
   chewie: ^1.7.0
   visibility_detector: ^0.4.0+2
   sizer:
+  flutter_session_manager: ^1.0.3
+
+  firebase_messaging: ^14.6.5
+  firebase_core: ^2.15.0
 
 
 dev_dependencies:
@@ -134,7 +137,6 @@ flutter:
     - assets/producs_image/actuators/damper/
     - assets/producs_image/actuators/motorized/
     - assets/producs_image/actuators/electronic/
-    - assets/producs_image/actuators/fire/
     - assets/producs_image/actuators/spring/
     - assets/producs_image/flexible/expansion/
     - assets/producs_image/flexible/rubber/
