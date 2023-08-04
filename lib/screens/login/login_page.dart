@@ -215,13 +215,13 @@ class _loginPageState extends State<loginPage> {
                   const SizedBox(height: 4,),
                   TextButton(
                     onPressed: (){
-                      /*PersistentNavBarNavigator.pushNewScreenWithRouteSettings(
+                      PersistentNavBarNavigator.pushNewScreenWithRouteSettings(
                         context,
                         settings: RouteSettings(name: registerPage.routeName,),
                         screen: registerPage(),
                         withNavBar: true,
                         pageTransitionAnimation: PageTransitionAnimation.cupertino,
-                      );*/
+                      );
                     },
                     child: Text(
                       'Register now',
