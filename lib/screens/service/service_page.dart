@@ -1,6 +1,8 @@
+import 'package:enye_app/screens/login/login_page.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
+import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 
 import '../../config/app_checksession.dart';
 import '../../widget/widgets.dart';
@@ -82,7 +84,15 @@ class ServicePage extends StatelessWidget {
                         ),
                       ),
                       onSelected: (value) {
-
+                        if (value == '/login'){
+                          PersistentNavBarNavigator.pushNewScreenWithRouteSettings(
+                            context,
+                            settings: RouteSettings(name: loginPage.routeName,),
+                            screen: loginPage(),
+                            withNavBar: true,
+                            pageTransitionAnimation: PageTransitionAnimation.cupertino,
+                          );
+                        }
                       },
                       itemBuilder: (BuildContext bc) {
                         if (_userSessionFuture == true) {

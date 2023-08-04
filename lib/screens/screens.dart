@@ -35,6 +35,10 @@ export 'product/cards/subcategory_carousel.dart';
 
 export 'service/service_page.dart';
 
+export 'login/login_page.dart';
+export 'login/register_page.dart';
+export 'login/clientinfo.dart';
+
 export 'contacts/contacts_page.dart';
 
 export '/splash/splash_screen.dart';
