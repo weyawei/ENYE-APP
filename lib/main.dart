@@ -1,3 +1,4 @@
+import 'package:enye_app/widget/custom_navbar.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -35,8 +36,9 @@ class MyApp extends StatelessWidget {
         ),
         navigatorKey: navigatorKey,
         // splash screen preventing to go back
-        onGenerateRoute: AppRouter.onGenerateRoute,
-        initialRoute: SplashScreen.routeName,
+        //onGenerateRoute: AppRouter.onGenerateRoute,
+        //initialRoute: SplashScreen.routeName,
+        home: CustomNavBar(),
       );
     }
     );

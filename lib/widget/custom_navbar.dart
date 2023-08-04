@@ -1,11 +1,12 @@
 import 'package:enye_app/screens/products/products1.dart';
 import 'package:enye_app/screens/screens.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 
 import '../dashboardicon_icons.dart';
 
-class CustomNavBar extends StatelessWidget {
+class CustomNavBar extends StatefulWidget {
 
   static const String routeName = '/';
 
@@ -16,12 +17,34 @@ class CustomNavBar extends StatelessWidget {
     );
   }
 
-  const CustomNavBar({
+  CustomNavBar({
     super.key,
   });
 
   @override
+  State<CustomNavBar> createState() => _CustomNavBarState();
+}
+
+class _CustomNavBarState extends State<CustomNavBar> {
+  int _initialIndex = 0;
+
+  @override
   Widget build(BuildContext context) {
+    RemoteMessage? message;
+
+    if (ModalRoute.of(context)!.settings.arguments != null) {
+      message = ModalRoute.of(context)!.settings.arguments as RemoteMessage;
+
+      if (message.data["goToPage"].toString() == 'completed'){
+        _initialIndex = 4;
+      } else if (message.data["goToPage"].toString() == 'products'){
+        _initialIndex = 2;
+      }
+
+      // Continue processing with the casted value
+    } else {
+      message = RemoteMessage();
+    }
 
     List<Widget> _buildScreens() {
       return [
@@ -76,7 +99,7 @@ class CustomNavBar extends StatelessWidget {
 
     PersistentTabController _controller;
 
-    _controller = PersistentTabController(initialIndex: 0);
+    _controller = PersistentTabController(initialIndex: _initialIndex);
 
     return PersistentTabView(
       context,
