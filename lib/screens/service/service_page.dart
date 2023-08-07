@@ -135,14 +135,6 @@ class ServicePage extends StatelessWidget {
                         }
                       },
                     ),
-
-                    /*Container(
-                      height: MediaQuery.of(context).size.height * 0.1,
-                      width: MediaQuery.of(context).size.width * 0.11,
-                      decoration: BoxDecoration(
-                        image: DecorationImage(image: AssetImage("assets/icons/user.png")),
-                      ),
-                    ),*/
                   ],
                 ),
               ),
@@ -156,16 +148,14 @@ class ServicePage extends StatelessWidget {
             padding: EdgeInsets.symmetric(horizontal: 21.0),
             child: customButton(
               onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => BookingSystem()),
-                );
-
-               /* if (_userSessionFuture == true) {
-
+                if (_userSessionFuture == true) {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => BookingSystem()),
+                  );
                 } else {
                   _errorSnackbar(context, "Login first before booking !");
-                }*/
+                }
               },
               text: 'BOOK A SERVICE',
               clr: Colors.deepOrange,
@@ -195,6 +185,7 @@ class ServicePage extends StatelessWidget {
                     border: Border.all(width: 2, color: Colors.deepOrange.withOpacity(0.2)),
                     borderRadius: BorderRadius.circular(10),
                     image: DecorationImage(
+                      alignment: Alignment(0.0, -0.3),
                       image: AssetImage("assets/icons/service-status.png"),
                       scale: 2.75,
                     )
@@ -202,7 +193,7 @@ class ServicePage extends StatelessWidget {
                   child: Align(
                     alignment: Alignment.bottomCenter,
                     child: Container(
-                      padding: EdgeInsets.only(bottom: 4),
+                      padding: EdgeInsets.only(bottom: 15),
                       child: Text("Status",
                         style: GoogleFonts.rowdies(
                           textStyle: TextStyle(fontSize: 15, letterSpacing: 1.5, color: Colors.deepOrange.shade700),
@@ -229,6 +220,7 @@ class ServicePage extends StatelessWidget {
                     border: Border.all(width: 2, color: Colors.deepOrange.withOpacity(0.2)),
                     borderRadius: BorderRadius.circular(10),
                       image: DecorationImage(
+                        alignment: Alignment(0.0, -0.3),
                         image: AssetImage("assets/icons/service-history.png"),
                         scale: 2.75,
                       )
@@ -236,7 +228,7 @@ class ServicePage extends StatelessWidget {
                   child: Align(
                     alignment: Alignment.bottomCenter,
                     child: Container(
-                      padding: EdgeInsets.only(bottom: 4),
+                      padding: EdgeInsets.only(bottom: 15),
                       child: Text("History",
                         style: GoogleFonts.rowdies(
                           textStyle: TextStyle(fontSize: 15, letterSpacing: 1.5, color: Colors.deepOrange.shade700),
@@ -263,6 +255,7 @@ class ServicePage extends StatelessWidget {
                       border: Border.all(width: 2, color: Colors.deepOrange.withOpacity(0.2)),
                       borderRadius: BorderRadius.circular(10),
                       image: DecorationImage(
+                        alignment: Alignment(0.0, -0.3),
                         image: AssetImage("assets/icons/question.png"),
                         scale: 2.75,
                       )
@@ -270,7 +263,7 @@ class ServicePage extends StatelessWidget {
                   child: Align(
                     alignment: Alignment.bottomCenter,
                     child: Container(
-                      padding: EdgeInsets.only(bottom: 4),
+                      padding: EdgeInsets.only(bottom: 15),
                       child: Text("Help",
                         style: GoogleFonts.rowdies(
                           textStyle: TextStyle(fontSize: 15, letterSpacing: 1.5, color: Colors.deepOrange.shade700),
