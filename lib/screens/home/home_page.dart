@@ -382,76 +382,77 @@ class _homePageState extends State<homePage>{
                 ),
               ),
 
+              SizedBox(height: 40,),
+              ContactsHome(),
+
               SizedBox(height: 60,),
               // follow us
               Lottie.network(
-                'https://lottie.host/b4271de5-63c3-47d2-b756-71bf41c8c643/ARaXZtHsJ8.json',
-                frameRate: FrameRate.max,
-                height: 150,
-                width: 500,
-                controller: lottieController,
-                onLoaded: (composition) {
-                  lottieController.duration = Duration(milliseconds: 10);
-                  lottieController.forward();
-                }
+                  'https://lottie.host/b4271de5-63c3-47d2-b756-71bf41c8c643/ARaXZtHsJ8.json',
+                  frameRate: FrameRate.max,
+                  height: 150,
+                  width: 500,
+                  controller: lottieController,
+                  onLoaded: (composition) {
+                    lottieController.duration = Duration(milliseconds: 10);
+                    lottieController.forward();
+                  }
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   GestureDetector(
-                    child: Image(image: AssetImage("assets/icons/facebook-v2.png"), height: 50, width: 50,),
-                    onTap: () async{
-                      setState(() {
-                        _launchURL("https://www.facebook.com/EnyeControl/");
-                      });
-                    }
+                      child: Image(image: AssetImage("assets/icons/facebook-v2.png"), height: 50, width: 50,),
+                      onTap: () async{
+                        setState(() {
+                          _launchURL("https://www.facebook.com/EnyeControl/");
+                        });
+                      }
                   ),
 
                   SizedBox(width: 15,),
                   GestureDetector(
-                    child: Image(image: AssetImage("assets/icons/instagram.png"), height: 50, width: 50,),
-                    onTap: () async{
-                      setState(() {
-                        _launchURL("https://www.instagram.com/enyecontrols/");
-                      });
-                    }
+                      child: Image(image: AssetImage("assets/icons/instagram.png"), height: 50, width: 50,),
+                      onTap: () async{
+                        setState(() {
+                          _launchURL("https://www.instagram.com/enyecontrols/");
+                        });
+                      }
                   ),
 
                   SizedBox(width: 15,),
                   GestureDetector(
-                    child: Image(image: AssetImage("assets/icons/twitter.png"), height: 50, width: 50,),
-                    onTap: () async{
-                      setState(() {
-                        _launchURL("https://twitter.com/enyecontrols");
-                      });
-                    }
+                      child: Image(image: AssetImage("assets/icons/twitter.png"), height: 50, width: 50,),
+                      onTap: () async{
+                        setState(() {
+                          _launchURL("https://twitter.com/enyecontrols");
+                        });
+                      }
                   ),
 
                   SizedBox(width: 15,),
                   GestureDetector(
-                    child: Image(image: AssetImage("assets/icons/youtube-round-2.png"), height: 50, width: 50,),
-                    onTap: () async{
-                      setState(() {
-                        _launchURL("https://www.youtube.com/channel/UCTPwjwa1YioMkHZCvYjrAnw");
-                      });
-                    }
+                      child: Image(image: AssetImage("assets/icons/youtube-round-2.png"), height: 50, width: 50,),
+                      onTap: () async{
+                        setState(() {
+                          _launchURL("https://www.youtube.com/channel/UCTPwjwa1YioMkHZCvYjrAnw");
+                        });
+                      }
                   ),
 
                   SizedBox(width: 15,),
                   GestureDetector(
-                    child: Image(image: AssetImage("assets/icons/linkedin.png"), height: 50, width: 50,),
-                    onTap: () async{
-                      setState(() {
-                        _launchURL("https://www.linkedin.com/company/enyecontrols");
-                      });
-                    }
+                      child: Image(image: AssetImage("assets/icons/linkedin.png"), height: 50, width: 50,),
+                      onTap: () async{
+                        setState(() {
+                          _launchURL("https://www.linkedin.com/company/enyecontrols");
+                        });
+                      }
                   ),
                 ],
               ),
 
               SizedBox(height: 60,),
-
-              ContactsHome(),
             ],
           ),
         ]
