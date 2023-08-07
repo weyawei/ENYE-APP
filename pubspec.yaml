@@ -60,6 +60,7 @@ dependencies:
   flutter_session_manager: ^1.0.3
   google_fonts:
   email_validator:
+  flutter_keyboard_visibility: ^5.4.1
 
   firebase_messaging: ^14.6.5
   firebase_core: ^2.15.0

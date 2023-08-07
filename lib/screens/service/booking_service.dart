@@ -1,4 +1,5 @@
 import 'dart:math';
+import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';
@@ -122,282 +123,296 @@ class _BookingSystemState extends State<BookingSystem> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Booking System'),
-      ),
-      resizeToAvoidBottomInset: true,
-      body: SingleChildScrollView(
-        padding: EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            SizedBox(height: 16),
-            Center(
-              child: Text(
-                'APPOINTMENT:',
-                style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
-              ),
-            ),
-            SizedBox(height: 10),
-            InkWell(
-              onTap: () => _selectDate(context),
-              child: Container(
-                padding: EdgeInsets.all(10.0),
-                decoration: BoxDecoration(
-                  border: Border.all(color: Colors.grey),
-                  borderRadius: BorderRadius.circular(4.0),
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      selectedDate != null
-                          ? '${selectedDate!.toString().split(' ')[0]}'
-                          : 'Select Date*',
-                      style: TextStyle(fontSize: 15),
-                    ),
-                    Icon(Icons.calendar_today),
-                  ],
+    return KeyboardVisibilityBuilder(
+        builder: (context, isKeyboardVisible)
+    {
+      return Scaffold(
+        appBar: AppBar(
+          title: Text('Booking System'),
+        ),
+        resizeToAvoidBottomInset: true,
+        body: SingleChildScrollView(
+          padding: EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              SizedBox(height: 16),
+              Center(
+                child: Text(
+                  'APPOINTMENT:',
+                  style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
                 ),
               ),
-            ),
-            SizedBox(height: 10),
-            DropdownButtonFormField<TimeOfDay>(
-              decoration: InputDecoration(
-                labelText: 'Time*',
+              SizedBox(height: 10),
+              InkWell(
+                onTap: () => _selectDate(context),
+                child: Container(
+                  padding: EdgeInsets.all(10.0),
+                  decoration: BoxDecoration(
+                    border: Border.all(color: Colors.grey),
+                    borderRadius: BorderRadius.circular(4.0),
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        selectedDate != null
+                            ? '${selectedDate!.toString().split(' ')[0]}'
+                            : 'Select Date*',
+                        style: TextStyle(fontSize: 15),
+                      ),
+                      Icon(Icons.calendar_today),
+                    ],
+                  ),
+                ),
               ),
-              value: selectedTime,
-              items: availableTimes.map((time) {
-                final formattedTime = time.format(context);
-                return DropdownMenuItem<TimeOfDay>(
-                  value: time,
-                  child: Text(formattedTime),
-                );
-              }).toList(),
-              onChanged: (time) {
-                setState(() {
-                  selectedTime = time;
-                });
-              },
-            ),
-            SizedBox(height: 10),
-            Form(
-              key: _formKey,
-              child: Column(
-                children: [
-                  TextFormField(
-                    controller: nameController,
-                    decoration: InputDecoration(
-                      labelText: 'Name*',
-                    ),
-                    onChanged: (value) {
-                      setState(() {
-                        name = value;
-                      });
-                    },
-                    validator: (value) {
-                      if (value!.isEmpty) {
-                        return 'Please enter a name';
-                      }
-                      return null;
-                    },
-                  ),
-                  TextFormField(
-                    controller: addressController,
-                    decoration: InputDecoration(
-                      labelText: 'Address*',
-                    ),
-                    onChanged: (value) {
-                      setState(() {
-                        address = value;
-                      });
-                    },
-                    validator: (value) {
-                      if (value!.isEmpty) {
-                        return 'Please enter an address';
-                      }
-                      return null;
-                    },
-                  ),
-                  TextFormField(
-                    controller: mobileNumberController,
-                    decoration: InputDecoration(
-                      labelText: 'Mobile Number*',
-                    ),
-                    onChanged: (value) {
-                      setState(() {
-                        mobileNumber = value;
-                      });
-                    },
-                    validator: (value) {
-                      if (value!.isEmpty) {
-                        return 'Please enter a mobile number';
-                      }
-                      return null;
-                    },
-                  ),
-                  TextFormField(
-                    controller: emailController,
-                    decoration: InputDecoration(
-                      labelText: 'Email*',
-                    ),
-                    keyboardType: TextInputType.emailAddress,
-                    onChanged: (value) {
-                      setState(() {
-                        email = value;
-                      });
-                    },
-                    validator: (value) {
-                      if (value!.isEmpty) {
-                        return 'Please enter an email';
-                      }
-                      if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$').hasMatch(value)) {
-                        return 'Please enter a valid email';
-                      }
-                      return null;
-                    },
-                  ),
-                ],
-              ),
-            ),
-            SizedBox(height: 10),
-            DropdownButtonFormField<String>(
-              decoration: InputDecoration(
-                labelText: 'Select Service*',
-              ),
-              value: selectedConcern,
-              items: availableConcerns.map((concern) {
-                return DropdownMenuItem<String>(
-                  value: concern,
-                  child: Text(concern),
-                );
-              }).toList(),
-              onChanged: (concern) {
-                setState(() {
-                  selectedConcern = concern;
-                });
-              },
-              validator: (value) {
-                if (value == null || value.isEmpty) {
-                  return 'Please select a service';
-                }
-                return null;
-              },
-            ),
-            if (selectedConcern == 'Other')
-              TextFormField(
+              SizedBox(height: 10),
+              DropdownButtonFormField<TimeOfDay>(
                 decoration: InputDecoration(
-                  labelText: 'Specify here...',
+                  labelText: 'Time*',
                 ),
-                onChanged: (value) {
+                value: selectedTime,
+                items: availableTimes.map((time) {
+                  final formattedTime = time.format(context);
+                  return DropdownMenuItem<TimeOfDay>(
+                    value: time,
+                    child: Text(formattedTime),
+                  );
+                }).toList(),
+                onChanged: (time) {
                   setState(() {
-                    customConcern = value;
+                    selectedTime = time;
                   });
                 },
               ),
-            SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () async {
-                if (_formKey.currentState!.validate() &&
-                    selectedDate != null &&
-                    selectedTime != null &&
-                    selectedConcern != null) {
-                  generateCode();
-                  showDialog(
-                    context: context,
-                    builder: (context) => AlertDialog(
-                      title: Text('Confirmation'),
-                      content: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Text('You have booked the following appointment:'),
-                          SizedBox(height: 10),
-                          Text('Date: ${selectedDate!.toString().split(' ')[0]}'),
-                          Text('Time: ${selectedTime!.format(context)}'),
-                          if (selectedConcern != null && selectedConcern != 'Other')
-                            Text('Concern: $selectedConcern'),
-                          if (selectedConcern == 'Other' && customConcern != null)
-                            Text('Service: $customConcern'),
-                          Text('Generated Code: $generatedCode'),
-                          Text('Name: $name'),
-                          Text('Address: $address'),
-                          Text('Mobile Number: $mobileNumber'),
-                          Text('Email: $email'),
-                        ],
+              SizedBox(height: 10),
+              Form(
+                key: _formKey,
+                child: Column(
+                  children: [
+                    TextFormField(
+                      controller: nameController,
+                      decoration: InputDecoration(
+                        labelText: 'Name*',
                       ),
-                      actions: [
-                        TextButton(
-                          onPressed: () {
-                            nameController.clear();
-                            addressController.clear();
-                            mobileNumberController.clear();
-                            emailController.clear();
-                            Navigator.of(context).pop();
-                            setState(() {
-                              selectedDate = null;
-                              selectedTime = null;
-                              selectedConcern = null;
-                              customConcern = null;
-                              generatedCode = null;
-                              name = null;
-                              address = null;
-                              mobileNumber = null;
-                              email = null;
-                            });
-                          },
-                          child: Text('OK'),
-                        ),
-                      ],
+                      onChanged: (value) {
+                        setState(() {
+                          name = value;
+                        });
+                      },
+                      validator: (value) {
+                        if (value!.isEmpty) {
+                          return 'Please enter a name';
+                        }
+                        return null;
+                      },
                     ),
-                  );
-                  await sendPushNotifications();
-                } else {
-                  showDialog(
-                    context: context,
-                    builder: (context) => AlertDialog(
-                      title: Text('Incomplete Form'),
-                      content: Text('Please fill in all the required fields.'),
-                      actions: [
-                        TextButton(
-                          onPressed: () async {
-                            Navigator.of(context).pop();
-                            await sendPushNotifications();
-                          },
-                          child: Text('OK'),
-                        ),
-                      ],
+                    TextFormField(
+                      controller: addressController,
+                      decoration: InputDecoration(
+                        labelText: 'Address*',
+                      ),
+                      onChanged: (value) {
+                        setState(() {
+                          address = value;
+                        });
+                      },
+                      validator: (value) {
+                        if (value!.isEmpty) {
+                          return 'Please enter an address';
+                        }
+                        return null;
+                      },
                     ),
-                  );
-                }
-              },
-
-              child: Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 32.0,
-                  vertical: 12.0,
+                    TextFormField(
+                      controller: mobileNumberController,
+                      decoration: InputDecoration(
+                        labelText: 'Mobile Number*',
+                      ),
+                      onChanged: (value) {
+                        setState(() {
+                          mobileNumber = value;
+                        });
+                      },
+                      validator: (value) {
+                        if (value!.isEmpty) {
+                          return 'Please enter a mobile number';
+                        }
+                        return null;
+                      },
+                    ),
+                    TextFormField(
+                      controller: emailController,
+                      decoration: InputDecoration(
+                        labelText: 'Email*',
+                      ),
+                      keyboardType: TextInputType.emailAddress,
+                      onChanged: (value) {
+                        setState(() {
+                          email = value;
+                        });
+                      },
+                      validator: (value) {
+                        if (value!.isEmpty) {
+                          return 'Please enter an email';
+                        }
+                        if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$')
+                            .hasMatch(value)) {
+                          return 'Please enter a valid email';
+                        }
+                        return null;
+                      },
+                    ),
+                  ],
                 ),
-
-                child: Text(
-                  'Book',
-                  style: TextStyle(fontSize: 18.0),
-                ),
-
               ),
-              style: ButtonStyle(
-                backgroundColor:
-                MaterialStateProperty.all<Color>(Colors.deepOrangeAccent),
-                shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                  RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(30.0),
+              SizedBox(height: 10),
+              DropdownButtonFormField<String>(
+                decoration: InputDecoration(
+                  labelText: 'Select Service*',
+                ),
+                value: selectedConcern,
+                items: availableConcerns.map((concern) {
+                  return DropdownMenuItem<String>(
+                    value: concern,
+                    child: Text(concern),
+                  );
+                }).toList(),
+                onChanged: (concern) {
+                  setState(() {
+                    selectedConcern = concern;
+                  });
+                },
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please select a service';
+                  }
+                  return null;
+                },
+              ),
+              if (selectedConcern == 'Other')
+                TextFormField(
+                  decoration: InputDecoration(
+                    labelText: 'Specify here...',
+                  ),
+                  onChanged: (value) {
+                    setState(() {
+                      customConcern = value;
+                    });
+                  },
+                ),
+              SizedBox(height: 20),
+              ElevatedButton(
+                onPressed: () async {
+                  if (_formKey.currentState!.validate() &&
+                      selectedDate != null &&
+                      selectedTime != null &&
+                      selectedConcern != null) {
+                    generateCode();
+                    showDialog(
+                      context: context,
+                      builder: (context) =>
+                          AlertDialog(
+                            title: Text('Confirmation'),
+                            content: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Text(
+                                    'You have booked the following appointment:'),
+                                SizedBox(height: 10),
+                                Text('Date: ${selectedDate!.toString().split(
+                                    ' ')[0]}'),
+                                Text('Time: ${selectedTime!.format(context)}'),
+                                if (selectedConcern != null &&
+                                    selectedConcern != 'Other')
+                                  Text('Concern: $selectedConcern'),
+                                if (selectedConcern == 'Other' &&
+                                    customConcern != null)
+                                  Text('Service: $customConcern'),
+                                Text('Generated Code: $generatedCode'),
+                                Text('Name: $name'),
+                                Text('Address: $address'),
+                                Text('Mobile Number: $mobileNumber'),
+                                Text('Email: $email'),
+                              ],
+                            ),
+                            actions: [
+                              TextButton(
+                                onPressed: () {
+                                  nameController.clear();
+                                  addressController.clear();
+                                  mobileNumberController.clear();
+                                  emailController.clear();
+                                  Navigator.of(context).pop();
+                                  setState(() {
+                                    selectedDate = null;
+                                    selectedTime = null;
+                                    selectedConcern = null;
+                                    customConcern = null;
+                                    generatedCode = null;
+                                    name = null;
+                                    address = null;
+                                    mobileNumber = null;
+                                    email = null;
+                                  });
+                                },
+                                child: Text('OK'),
+                              ),
+                            ],
+                          ),
+                    );
+                    await sendPushNotifications();
+                  } else {
+                    showDialog(
+                      context: context,
+                      builder: (context) =>
+                          AlertDialog(
+                            title: Text('Incomplete Form'),
+                            content: Text(
+                                'Please fill in all the required fields.'),
+                            actions: [
+                              TextButton(
+                                onPressed: () async {
+                                  Navigator.of(context).pop();
+                                  await sendPushNotifications();
+                                },
+                                child: Text('OK'),
+                              ),
+                            ],
+                          ),
+                    );
+                  }
+                },
+
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 32.0,
+                    vertical: 12.0,
+                  ),
+
+                  child: Text(
+                    'Book',
+                    style: TextStyle(fontSize: 18.0),
+                  ),
+
+                ),
+                style: ButtonStyle(
+                  backgroundColor:
+                  MaterialStateProperty.all<Color>(Colors.deepOrangeAccent),
+                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                    RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(30.0),
+                    ),
                   ),
                 ),
               ),
-            ),
-          ],
+              if (isKeyboardVisible) SizedBox(height: 300),  // Adjust this height based on your needs
+            ],
+          ),
         ),
-      ),
+      );
+    }
     );
   }
 }
