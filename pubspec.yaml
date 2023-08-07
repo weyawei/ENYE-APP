@@ -35,6 +35,7 @@ dependencies:
   flutter_pdfview: ^1.0.1
   http: ^1.1.0
   flutter_downloader: ^1.7.0
+  uuid: ^3.0.7
 
   dio: ^5.2.1+1
   open_file_plus: ^3.4.1

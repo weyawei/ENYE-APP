@@ -6,6 +6,7 @@ import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 
 import '../../config/app_checksession.dart';
 import '../../widget/widgets.dart';
+import 'booking_service.dart';
 
 class ServicePage extends StatelessWidget {
   static const String routeName = '/service';
@@ -155,11 +156,16 @@ class ServicePage extends StatelessWidget {
             padding: EdgeInsets.symmetric(horizontal: 21.0),
             child: customButton(
               onTap: () {
-                if (_userSessionFuture == true) {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => BookingSystem()),
+                );
+
+               /* if (_userSessionFuture == true) {
 
                 } else {
                   _errorSnackbar(context, "Login first before booking !");
-                }
+                }*/
               },
               text: 'BOOK A SERVICE',
               clr: Colors.deepOrange,
