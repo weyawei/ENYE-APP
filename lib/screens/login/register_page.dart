@@ -27,16 +27,22 @@ class registerPage extends StatefulWidget {
 class _registerPageState extends State<registerPage> {
   //text editing controllers
   final nameController = TextEditingController();
-
+  final compnameController = TextEditingController();
+  final locationController = TextEditingController();
+  final projnameController = TextEditingController();
+  final contactController = TextEditingController();
   final emailController = TextEditingController();
-
   final passwordController = TextEditingController();
-
   final conpasswordController = TextEditingController();
 
   final _formKey = GlobalKey<FormState>();
 
   bool disabling = false;
+
+  //close the keyboard if nakalabas
+  void _onButtonPressed() {
+    FocusScope.of(context).unfocus(); // Close the keyboard
+  }
 
   Future<void> signUserUp() async {
 
@@ -62,14 +68,21 @@ class _registerPageState extends State<registerPage> {
 
       } else {
         //useradmin.dart transfering to json
-        /*userAdmin userAdminModel = userAdmin(
-          name: nameController.text.trim(),
-          email: emailController.text.trim(),
-          password: passwordController.text.trim(),
-        );
+
+        var map = Map<String, dynamic>();
+        //get the action do by the user transfer it to POST method
+        map['name'] = nameController.text.trim();
+        map['company_name'] = compnameController.text.trim();
+        map['location'] = locationController.text.trim();
+        map['project_name'] = projnameController.text.trim();
+        map['contact_no'] = contactController.text.trim();
+        map['email'] = emailController.text.trim();
+        map['password'] = passwordController.text.trim();
+
+
         var res = await http.post( //pasiing value to result
           Uri.parse(API.register),
-          body: userAdminModel.toJson(),
+          body: map,
         );
 
         if (res.statusCode == 200){ //from flutter app the connection with API to server  - success
@@ -93,7 +106,13 @@ class _registerPageState extends State<registerPage> {
             );
             _formKey.currentState?.reset();
 
-          } else if(resBodyOfSignUp['user_add'] == true){ //registration success
+          } else if(resBodyOfSignUp['client_add'] == true){ //registration success
+            setState(() {
+              disabling = true;
+            });
+
+            _formKey.currentState?.reset();
+
             ScaffoldMessenger.of(context).showSnackBar(
               const SnackBar(
                 backgroundColor: Colors.green,
@@ -107,8 +126,7 @@ class _registerPageState extends State<registerPage> {
                   ],
                 ),
               ),
-            );
-            _formKey.currentState?.reset();
+            ).closed.then((value) => Navigator.of(context).popUntil(ModalRoute.withName("/login")));
           } else {
             ScaffoldMessenger.of(context).showSnackBar( //registration failed
               const SnackBar(
@@ -125,7 +143,7 @@ class _registerPageState extends State<registerPage> {
               ),
             );
           }
-        }*/
+        }
       }
 
     }
@@ -172,28 +190,28 @@ class _registerPageState extends State<registerPage> {
 
                   const SizedBox(height: 10,),
                   NormalTextField(
-                    controller: null,
+                    controller: compnameController,
                     hintText: 'Company Name',
                     disabling: disabling,
                   ),
 
                   const SizedBox(height: 10,),
                   NormalTextField(
-                    controller: null,
+                    controller: locationController,
                     hintText: 'Location',
                     disabling: disabling,
                   ),
 
                   const SizedBox(height: 10,),
                   NormalTextField(
-                    controller: null,
+                    controller: projnameController,
                     hintText: 'Project Name',
                     disabling: disabling,
                   ),
 
                   const SizedBox(height: 10,),
                   NormalTextField(
-                    controller: null,
+                    controller: contactController,
                     hintText: 'Contact No',
                     disabling: disabling,
                   ),
@@ -226,7 +244,12 @@ class _registerPageState extends State<registerPage> {
                   const SizedBox(height: 25,),
                   customButton(
                     text: "Sign Up",
-                    onTap: signUserUp,
+                    onTap: (){
+                      if (disabling == false) {
+                        signUserUp();
+                      }
+                      _onButtonPressed();
+                    },
                     clr: Colors.deepOrange,
                     fontSize: 19.0,
                   ),

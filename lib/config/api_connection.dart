@@ -4,7 +4,7 @@ class API {
 
   //login and registration
   static const login = "$hostConnect/enye/login.php";
-  static const register = "$hostConnect/enye/login.php";
+  static const register = "$hostConnect/enye/signup.php";
 
   //file catalogs pdf
   static const fileCatalogsPdf = "$hostConnect/admin/system_catalog_pdf/";
