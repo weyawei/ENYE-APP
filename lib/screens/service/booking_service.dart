@@ -1,5 +1,5 @@
 import 'dart:math';
-
+import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';
 
@@ -298,7 +298,7 @@ class _BookingSystemState extends State<BookingSystem> {
               ),
             SizedBox(height: 20),
             ElevatedButton(
-              onPressed: () {
+              onPressed: () async {
                 if (_formKey.currentState!.validate() &&
                     selectedDate != null &&
                     selectedTime != null &&
@@ -352,6 +352,7 @@ class _BookingSystemState extends State<BookingSystem> {
                       ],
                     ),
                   );
+                  await sendPushNotifications();
                 } else {
                   showDialog(
                     context: context,
@@ -360,8 +361,9 @@ class _BookingSystemState extends State<BookingSystem> {
                       content: Text('Please fill in all the required fields.'),
                       actions: [
                         TextButton(
-                          onPressed: () {
+                          onPressed: () async {
                             Navigator.of(context).pop();
+                            await sendPushNotifications();
                           },
                           child: Text('OK'),
                         ),
@@ -376,14 +378,16 @@ class _BookingSystemState extends State<BookingSystem> {
                   horizontal: 32.0,
                   vertical: 12.0,
                 ),
+
                 child: Text(
                   'Book',
                   style: TextStyle(fontSize: 18.0),
                 ),
+
               ),
               style: ButtonStyle(
                 backgroundColor:
-                MaterialStateProperty.all<Color>(Colors.deepOrange),
+                MaterialStateProperty.all<Color>(Colors.deepOrangeAccent),
                 shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                   RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(30.0),
@@ -395,5 +399,14 @@ class _BookingSystemState extends State<BookingSystem> {
         ),
       ),
     );
+  }
+}
+Future<void> sendPushNotifications() async {
+  final url = 'https://enye.com.ph/enyecontrols_app/login_user/send1.php'; // Replace this with the URL to your PHP script
+  final response = await http.post(Uri.parse(url));
+  if (response.statusCode == 200) {
+    print('Push notifications sent successfully!');
+  } else {
+    print('Failed to send push notifications.');
   }
 }
