@@ -57,6 +57,14 @@ class _ServicePageState extends State<ServicePage> {
     setState(() {
       userSessionFuture = false;
       ClientInfo = null; // Clear the client info
+
+      PersistentNavBarNavigator.pushNewScreenWithRouteSettings(
+        context,
+        settings: RouteSettings(name: loginPage.routeName,),
+        screen: loginPage(),
+        withNavBar: true,
+        pageTransitionAnimation: PageTransitionAnimation.cupertino,
+      );
     });
   }
 
@@ -79,7 +87,6 @@ class _ServicePageState extends State<ServicePage> {
         children: [
           Stack(
             children: [
-
               Padding(
                 padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.03),
                 child: Lottie.network(
