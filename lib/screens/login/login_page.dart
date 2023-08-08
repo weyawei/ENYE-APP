@@ -61,9 +61,6 @@ class _loginPageState extends State<loginPage> {
         var resBodyOfLogin = jsonDecode(res.body);
 
         if(resBodyOfLogin['login'] == true){
-          setState(() {
-            disabling = true;
-          });
 
           var clientData = resBodyOfLogin["clients_data"];
           await SessionManager().set("client_data",  clientInfo(
@@ -77,20 +74,23 @@ class _loginPageState extends State<loginPage> {
               email: clientData["email"]
           ));
 
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              backgroundColor: Colors.green,
-              behavior: SnackBarBehavior.floating,
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(4))),
-              content: Row(
-                children: [
-                  Icon(Icons.check, color: Colors.greenAccent,),
-                  const SizedBox(width: 10,),
-                  Text("Congratulations, Login Successfully."),
-                ],
+          setState(() {
+            disabling = true;
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                backgroundColor: Colors.green,
+                behavior: SnackBarBehavior.floating,
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(4))),
+                content: Row(
+                  children: [
+                    Icon(Icons.check, color: Colors.greenAccent,),
+                    const SizedBox(width: 10,),
+                    Text("Congratulations, Login Successfully."),
+                  ],
+                ),
               ),
-            ),
-          ).closed.then((value) => Navigator.of(context).pop());
+            ).closed.then((value) => Navigator.of(context).pop());
+          });
         } else {
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(
