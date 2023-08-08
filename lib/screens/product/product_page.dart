@@ -28,9 +28,8 @@ class _productsPageState extends State<productsPage> {
   List<productCategory> _prodCategory = [];
   List<product> _products = [];
 
-  late List<Product> allProducts;
-  List<Product> searchResults = [];
-  List<Product> displayedProducts = []; // Initialize as an empty list
+  List<product> searchResults = [];
+  List<product> displayedProducts = []; // Initialize as an empty list
   TextEditingController searchController = TextEditingController();
   int visibleProductCount = 10; // Number of products initially visible
   int increment = 10; // Number of products to load at a time
@@ -38,20 +37,21 @@ class _productsPageState extends State<productsPage> {
 
   @override
   void initState() {
-    allProducts = Product.products;
-    displayedProducts = allProducts.sublist(0, visibleProductCount);
+    //allProducts = Product.products;
+    //displayedProducts = allProducts.sublist(0, visibleProductCount);
     searchFocusNode = FocusNode();
     _getProdCategory();
     _getProducts();
+    loadMoreProducts();
   }
 
   void loadMoreProducts() {
     int endIndex = visibleProductCount + increment;
-    if (endIndex > allProducts.length) {
-      endIndex = allProducts.length;
+    if (endIndex > _products.length) {
+      endIndex = _products.length;
     }
     setState(() {
-      displayedProducts = allProducts.sublist(0, endIndex);
+      displayedProducts = _products.sublist(0, endIndex);
       visibleProductCount = endIndex;
     });
   }
@@ -63,7 +63,7 @@ class _productsPageState extends State<productsPage> {
         searchPerformed = false;
       });
     } else {
-      final filteredProducts = allProducts
+      final filteredProducts = _products
           .where((product) =>
           product.name.toLowerCase().contains(searchText.toLowerCase()))
           .toList();
@@ -193,7 +193,7 @@ class _productsPageState extends State<productsPage> {
                   itemBuilder: (context, index) {
                     final product = displayedProducts[index];
                     if (index == displayedProducts.length - 1) {
-                      if (displayedProducts.length < allProducts.length) {
+                      if (displayedProducts.length < _products.length) {
                         WidgetsBinding.instance!.addPostFrameCallback((_) {
                           loadMoreProducts();
                         });
