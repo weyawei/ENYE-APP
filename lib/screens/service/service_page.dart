@@ -27,7 +27,7 @@ class ServicePage extends StatefulWidget {
 }
 
 class _ServicePageState extends State<ServicePage> {
-  bool userSessionFuture = false;
+  bool? userSessionFuture;
 
   clientInfo? ClientInfo;
 
@@ -79,6 +79,8 @@ class _ServicePageState extends State<ServicePage> {
           });
         });
         userSessionFuture = bool;
+      } else {
+        userSessionFuture = bool;
       }
     });
 
@@ -103,7 +105,7 @@ class _ServicePageState extends State<ServicePage> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(userSessionFuture ? "Hello ${ClientInfo?.name}," : "Hello Guest !",
+                    Text(userSessionFuture == true ? "Hello ${ClientInfo?.name}," : "Hello Guest !",
                         style: GoogleFonts.lalezar(
                           textStyle:
                           TextStyle(fontSize: 26, letterSpacing: 1.5, color: Colors.deepOrange.shade700),
