@@ -8,6 +8,7 @@ import '../../config/api_connection.dart';
 import '../../widget/widgets.dart';
 import '../products/category_model.dart';
 import '../products/product_model.dart';
+import '../products/product_screen.dart';
 import '../screens.dart';
 
 class productsPage extends StatefulWidget {
@@ -125,7 +126,7 @@ class _productsPageState extends State<productsPage> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            /*Padding(
+            Padding(
               padding: const EdgeInsets.all(8.0),
               child: TextField(
                 focusNode: searchFocusNode,
@@ -136,6 +137,9 @@ class _productsPageState extends State<productsPage> {
                 ),
                 onChanged: (value) {
                   filterProducts(value);
+                  setState(() {
+                    visibleProductCount = 10;
+                  });
                 },
               ),
             ),
@@ -145,23 +149,26 @@ class _productsPageState extends State<productsPage> {
                 child: ListView.builder(
                     shrinkWrap: true,
                     physics: NeverScrollableScrollPhysics(),
-                    itemCount: searchResults.length,
+                    //itemCount: searchResults.length,
+                    itemCount: searchResults.length < visibleProductCount
+                        ? searchResults.length
+                        : visibleProductCount,
                     itemBuilder: (context, index) {
                       final product = searchResults[index];
                       return Center(
                           child: InkWell(
                             onTap: () {
-                              *//*PersistentNavBarNavigator
+                              PersistentNavBarNavigator
                                   .pushNewScreenWithRouteSettings(
                                 context,
                                 settings: RouteSettings(
-                                    name: ProductScreen.routeName,
+                                    name: detailedProductPage.routeName,
                                     arguments: {product.name: product}),
-                                screen: ProductScreen(product: product),
+                                screen: detailedProductPage(products: _products[index],),
                                 withNavBar: true,
                                 pageTransitionAnimation: PageTransitionAnimation
                                     .cupertino,
-                              );*//*
+                              );
                               // ProductCarouselCard(product: categoryProducts[index]);
                             },
 
@@ -194,7 +201,8 @@ class _productsPageState extends State<productsPage> {
                     }
                   },
                 ),
-              ),*/
+              ),
+
 
             Container(
               child: CarouselSlider(
