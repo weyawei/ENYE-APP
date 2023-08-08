@@ -36,6 +36,11 @@ class _loginPageState extends State<loginPage> {
 
   bool disabling = false;
 
+  //close the keyboard if nakalabas
+  void _onButtonPressed() {
+    FocusScope.of(context).unfocus(); // Close the keyboard
+  }
+
   Future<void> signUserIn() async {
 
     // Validate returns true if the form is valid, or false otherwise.
@@ -61,7 +66,7 @@ class _loginPageState extends State<loginPage> {
           });
 
           var clientData = resBodyOfLogin["clients_data"];
-          await SessionManager().set("user_data",  clientInfo(
+          await SessionManager().set("client_data",  clientInfo(
               client_id: clientData["client_id"],
               name: clientData["name"],
               company_name: clientData["company_name"],
@@ -85,8 +90,7 @@ class _loginPageState extends State<loginPage> {
                 ],
               ),
             ),
-          );
-          //.closed.then((value) => Navigator.pushReplacement(context, MaterialPageRoute(builder: (BuildContext context) => checkSession())));
+          ).closed.then((value) => Navigator.of(context).pop());
         } else {
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(
@@ -166,6 +170,7 @@ class _loginPageState extends State<loginPage> {
                   if (disabling == false) {
                     signUserIn();
                   }
+                  _onButtonPressed();
                 },
                 clr: Colors.deepOrange,
                 fontSize: 18.0,

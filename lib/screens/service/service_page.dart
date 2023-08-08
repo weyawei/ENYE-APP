@@ -1,14 +1,16 @@
 import 'package:enye_app/screens/login/login_page.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_session_manager/flutter_session_manager.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 
 import '../../config/app_checksession.dart';
 import '../../widget/widgets.dart';
+import '../screens.dart';
 import 'booking_service.dart';
 
-class ServicePage extends StatelessWidget {
+class ServicePage extends StatefulWidget {
   static const String routeName = '/service';
 
   ServicePage({super.key});
@@ -20,7 +22,14 @@ class ServicePage extends StatelessWidget {
     );
   }
 
-  late Future<bool> _userSessionFuture;
+  @override
+  State<ServicePage> createState() => _ServicePageState();
+}
+
+class _ServicePageState extends State<ServicePage> {
+  bool userSessionFuture = false;
+
+  clientInfo? ClientInfo;
 
   _errorSnackbar(context, message){
     ScaffoldMessenger.of(context).showSnackBar(
@@ -43,24 +52,49 @@ class ServicePage extends StatelessWidget {
     );
   }
 
+  Future<void> logoutClient() async {
+    await SessionManager().remove("client_data");
+    setState(() {
+      userSessionFuture = false;
+      ClientInfo = null; // Clear the client info
+
+      PersistentNavBarNavigator.pushNewScreenWithRouteSettings(
+        context,
+        settings: RouteSettings(name: loginPage.routeName,),
+        screen: loginPage(),
+        withNavBar: true,
+        pageTransitionAnimation: PageTransitionAnimation.cupertino,
+      );
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    _userSessionFuture = checkSession().getUserSessionStatus();
+    //calling session data
+    checkSession().getUserSessionStatus().then((bool) {
+      if (bool == true) {
+        checkSession().getClientsData().then((value) {
+          setState(() {
+            ClientInfo = value;
+          });
+        });
+        userSessionFuture = bool;
+      }
+    });
 
     return Scaffold(
       body: ListView(
         children: [
           Stack(
             children: [
-
               Padding(
                 padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.03),
                 child: Lottie.network(
-                  'https://lottie.host/e0b46b50-377a-4679-9f7d-d860fa44c7fd/2CntC1k3EB.json',
-                  frameRate: FrameRate.max,
-                  alignment: Alignment.center,
-                  height: MediaQuery.of(context).size.height * 0.5,
-                  width: MediaQuery.of(context).size.width * 1
+                    'https://lottie.host/e0b46b50-377a-4679-9f7d-d860fa44c7fd/2CntC1k3EB.json',
+                    frameRate: FrameRate.max,
+                    alignment: Alignment.center,
+                    height: MediaQuery.of(context).size.height * 0.5,
+                    width: MediaQuery.of(context).size.width * 1
                 ),
               ),
 
@@ -69,11 +103,11 @@ class ServicePage extends StatelessWidget {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text("Hello Guest !",
-                      style: GoogleFonts.lalezar(
-                        textStyle:
-                        TextStyle(fontSize: 26, letterSpacing: 1.5, color: Colors.deepOrange.shade700),
-                      )
+                    Text(userSessionFuture ? "Hello ${ClientInfo?.name}," : "Hello Guest !",
+                        style: GoogleFonts.lalezar(
+                          textStyle:
+                          TextStyle(fontSize: 26, letterSpacing: 1.5, color: Colors.deepOrange.shade700),
+                        )
                     ),
 
                     PopupMenuButton(
@@ -93,10 +127,12 @@ class ServicePage extends StatelessWidget {
                             withNavBar: true,
                             pageTransitionAnimation: PageTransitionAnimation.cupertino,
                           );
+                        } else if (value == '/logout'){
+                          logoutClient();
                         }
                       },
                       itemBuilder: (BuildContext bc) {
-                        if (_userSessionFuture == true) {
+                        if (userSessionFuture == true) {
                           return [
                             PopupMenuItem(
                               child: Row(
@@ -135,14 +171,6 @@ class ServicePage extends StatelessWidget {
                         }
                       },
                     ),
-
-                    /*Container(
-                      height: MediaQuery.of(context).size.height * 0.1,
-                      width: MediaQuery.of(context).size.width * 0.11,
-                      decoration: BoxDecoration(
-                        image: DecorationImage(image: AssetImage("assets/icons/user.png")),
-                      ),
-                    ),*/
                   ],
                 ),
               ),
@@ -156,16 +184,14 @@ class ServicePage extends StatelessWidget {
             padding: EdgeInsets.symmetric(horizontal: 21.0),
             child: customButton(
               onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => BookingSystem()),
-                );
-
-               /* if (_userSessionFuture == true) {
-
+                if (userSessionFuture == true) {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => BookingSystem()),
+                  );
                 } else {
                   _errorSnackbar(context, "Login first before booking !");
-                }*/
+                }
               },
               text: 'BOOK A SERVICE',
               clr: Colors.deepOrange,
@@ -182,7 +208,7 @@ class ServicePage extends StatelessWidget {
               //status button
               GestureDetector(
                 onTap: (){
-                  if (_userSessionFuture == true) {
+                  if (userSessionFuture == true) {
 
                   } else {
                     _errorSnackbar(context, "Login first !");
@@ -192,17 +218,18 @@ class ServicePage extends StatelessWidget {
                   height: MediaQuery.of(context).size.height * 0.12,
                   width: MediaQuery.of(context).size.width * 0.26,
                   decoration: BoxDecoration(
-                    border: Border.all(width: 2, color: Colors.deepOrange.withOpacity(0.2)),
-                    borderRadius: BorderRadius.circular(10),
-                    image: DecorationImage(
-                      image: AssetImage("assets/icons/service-status.png"),
-                      scale: 2.75,
-                    )
+                      border: Border.all(width: 2, color: Colors.deepOrange.withOpacity(0.2)),
+                      borderRadius: BorderRadius.circular(10),
+                      image: DecorationImage(
+                        alignment: Alignment(0.0, -0.3),
+                        image: AssetImage("assets/icons/service-status.png"),
+                        scale: 2.75,
+                      )
                   ),
                   child: Align(
                     alignment: Alignment.bottomCenter,
                     child: Container(
-                      padding: EdgeInsets.only(bottom: 4),
+                      padding: EdgeInsets.only(bottom: 15),
                       child: Text("Status",
                         style: GoogleFonts.rowdies(
                           textStyle: TextStyle(fontSize: 15, letterSpacing: 1.5, color: Colors.deepOrange.shade700),
@@ -216,7 +243,7 @@ class ServicePage extends StatelessWidget {
               //history button
               GestureDetector(
                 onTap: (){
-                  if (_userSessionFuture == true) {
+                  if (userSessionFuture == true) {
 
                   } else {
                     _errorSnackbar(context, "Login first !");
@@ -226,9 +253,10 @@ class ServicePage extends StatelessWidget {
                   height: MediaQuery.of(context).size.height * 0.12,
                   width: MediaQuery.of(context).size.width * 0.26,
                   decoration: BoxDecoration(
-                    border: Border.all(width: 2, color: Colors.deepOrange.withOpacity(0.2)),
-                    borderRadius: BorderRadius.circular(10),
+                      border: Border.all(width: 2, color: Colors.deepOrange.withOpacity(0.2)),
+                      borderRadius: BorderRadius.circular(10),
                       image: DecorationImage(
+                        alignment: Alignment(0.0, -0.3),
                         image: AssetImage("assets/icons/service-history.png"),
                         scale: 2.75,
                       )
@@ -236,7 +264,7 @@ class ServicePage extends StatelessWidget {
                   child: Align(
                     alignment: Alignment.bottomCenter,
                     child: Container(
-                      padding: EdgeInsets.only(bottom: 4),
+                      padding: EdgeInsets.only(bottom: 15),
                       child: Text("History",
                         style: GoogleFonts.rowdies(
                           textStyle: TextStyle(fontSize: 15, letterSpacing: 1.5, color: Colors.deepOrange.shade700),
@@ -250,34 +278,35 @@ class ServicePage extends StatelessWidget {
               //help button
               GestureDetector(
                 onTap: (){
-                  if (_userSessionFuture == true) {
+                  if (userSessionFuture == true) {
 
                   } else {
                     _errorSnackbar(context, "Login first !");
                   }
                 },
                 child: Container(
-                  height: MediaQuery.of(context).size.height * 0.12,
-                  width: MediaQuery.of(context).size.width * 0.26,
-                  decoration: BoxDecoration(
-                      border: Border.all(width: 2, color: Colors.deepOrange.withOpacity(0.2)),
-                      borderRadius: BorderRadius.circular(10),
-                      image: DecorationImage(
-                        image: AssetImage("assets/icons/question.png"),
-                        scale: 2.75,
-                      )
-                  ),
-                  child: Align(
-                    alignment: Alignment.bottomCenter,
-                    child: Container(
-                      padding: EdgeInsets.only(bottom: 4),
-                      child: Text("Help",
-                        style: GoogleFonts.rowdies(
-                          textStyle: TextStyle(fontSize: 15, letterSpacing: 1.5, color: Colors.deepOrange.shade700),
+                    height: MediaQuery.of(context).size.height * 0.12,
+                    width: MediaQuery.of(context).size.width * 0.26,
+                    decoration: BoxDecoration(
+                        border: Border.all(width: 2, color: Colors.deepOrange.withOpacity(0.2)),
+                        borderRadius: BorderRadius.circular(10),
+                        image: DecorationImage(
+                          alignment: Alignment(0.0, -0.3),
+                          image: AssetImage("assets/icons/question.png"),
+                          scale: 2.75,
+                        )
+                    ),
+                    child: Align(
+                      alignment: Alignment.bottomCenter,
+                      child: Container(
+                        padding: EdgeInsets.only(bottom: 15),
+                        child: Text("Help",
+                          style: GoogleFonts.rowdies(
+                            textStyle: TextStyle(fontSize: 15, letterSpacing: 1.5, color: Colors.deepOrange.shade700),
+                          ),
                         ),
                       ),
-                    ),
-                  )
+                    )
                 ),
               ),
 

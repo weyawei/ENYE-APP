@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:enye_app/config/api_connection.dart';
+import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 
@@ -26,16 +27,22 @@ class registerPage extends StatefulWidget {
 class _registerPageState extends State<registerPage> {
   //text editing controllers
   final nameController = TextEditingController();
-
+  final compnameController = TextEditingController();
+  final locationController = TextEditingController();
+  final projnameController = TextEditingController();
+  final contactController = TextEditingController();
   final emailController = TextEditingController();
-
   final passwordController = TextEditingController();
-
   final conpasswordController = TextEditingController();
 
   final _formKey = GlobalKey<FormState>();
 
   bool disabling = false;
+
+  //close the keyboard if nakalabas
+  void _onButtonPressed() {
+    FocusScope.of(context).unfocus(); // Close the keyboard
+  }
 
   Future<void> signUserUp() async {
 
@@ -61,14 +68,21 @@ class _registerPageState extends State<registerPage> {
 
       } else {
         //useradmin.dart transfering to json
-        /*userAdmin userAdminModel = userAdmin(
-          name: nameController.text.trim(),
-          email: emailController.text.trim(),
-          password: passwordController.text.trim(),
-        );
+
+        var map = Map<String, dynamic>();
+        //get the action do by the user transfer it to POST method
+        map['name'] = nameController.text.trim();
+        map['company_name'] = compnameController.text.trim();
+        map['location'] = locationController.text.trim();
+        map['project_name'] = projnameController.text.trim();
+        map['contact_no'] = contactController.text.trim();
+        map['email'] = emailController.text.trim();
+        map['password'] = passwordController.text.trim();
+
+
         var res = await http.post( //pasiing value to result
           Uri.parse(API.register),
-          body: userAdminModel.toJson(),
+          body: map,
         );
 
         if (res.statusCode == 200){ //from flutter app the connection with API to server  - success
@@ -92,7 +106,13 @@ class _registerPageState extends State<registerPage> {
             );
             _formKey.currentState?.reset();
 
-          } else if(resBodyOfSignUp['user_add'] == true){ //registration success
+          } else if(resBodyOfSignUp['client_add'] == true){ //registration success
+            setState(() {
+              disabling = true;
+            });
+
+            _formKey.currentState?.reset();
+
             ScaffoldMessenger.of(context).showSnackBar(
               const SnackBar(
                 backgroundColor: Colors.green,
@@ -106,8 +126,7 @@ class _registerPageState extends State<registerPage> {
                   ],
                 ),
               ),
-            );
-            _formKey.currentState?.reset();
+            ).closed.then((value) => Navigator.of(context).popUntil(ModalRoute.withName("/login")));
           } else {
             ScaffoldMessenger.of(context).showSnackBar( //registration failed
               const SnackBar(
@@ -124,7 +143,7 @@ class _registerPageState extends State<registerPage> {
               ),
             );
           }
-        }*/
+        }
       }
 
     }
@@ -132,104 +151,111 @@ class _registerPageState extends State<registerPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.deepOrange.shade200,
-      body: Form(
-        key: _formKey,
-        child: SingleChildScrollView(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
+    return KeyboardVisibilityBuilder(
+      builder: (context, isKeyboardVisible){
+        return Scaffold(
+          backgroundColor: Colors.deepOrange.shade200,
+          body: Form(
+            key: _formKey,
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
 
-              //logo application
-              SizedBox(height: MediaQuery.of(context).size.height * 0.07,),
-              Container(
-                alignment: Alignment.center,
-                height: MediaQuery.of(context).size.height * 0.13,
-                width: MediaQuery.of(context).size.width * 0.3,
-                decoration: BoxDecoration(
-                    image: DecorationImage(image: AssetImage("assets/icons/enye.png"), fit: BoxFit.fill)
-                ),
-              ),
+                  //logo application
+                  SizedBox(height: MediaQuery.of(context).size.height * 0.07,),
+                  Container(
+                    alignment: Alignment.center,
+                    height: MediaQuery.of(context).size.height * 0.13,
+                    width: MediaQuery.of(context).size.width * 0.3,
+                    decoration: BoxDecoration(
+                        image: DecorationImage(image: AssetImage("assets/icons/enye.png"), fit: BoxFit.fill)
+                    ),
+                  ),
 
-              //lets create an account for you
-              const SizedBox(height: 20,),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                child: Text("Let's create an account for you!", style: TextStyle(color: Colors.grey.shade800, fontSize: 18),),
-              ),
+                  //lets create an account for you
+                  const SizedBox(height: 20,),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                    child: Text("Let's create an account for you!", style: TextStyle(color: Colors.grey.shade800, fontSize: 18),),
+                  ),
 
-              //fullname textfield
-              const SizedBox(height: 25,),
-              PersonNameTextField(
-                controller: nameController,
-                hintText: 'Fullname',
-                disabling: disabling,
-              ),
+                  //fullname textfield
+                  const SizedBox(height: 25,),
+                  PersonNameTextField(
+                    controller: nameController,
+                    hintText: 'Fullname',
+                    disabling: disabling,
+                  ),
 
-              const SizedBox(height: 10,),
-              NormalTextField(
-                controller: null,
-                hintText: 'Company Name',
-                disabling: disabling,
-              ),
+                  const SizedBox(height: 10,),
+                  NormalTextField(
+                    controller: compnameController,
+                    hintText: 'Company Name',
+                    disabling: disabling,
+                  ),
 
-              const SizedBox(height: 10,),
-              NormalTextField(
-                controller: null,
-                hintText: 'Location',
-                disabling: disabling,
-              ),
+                  const SizedBox(height: 10,),
+                  NormalTextField(
+                    controller: locationController,
+                    hintText: 'Location',
+                    disabling: disabling,
+                  ),
 
-              const SizedBox(height: 10,),
-              NormalTextField(
-                controller: null,
-                hintText: 'Project Name',
-                disabling: disabling,
-              ),
+                  const SizedBox(height: 10,),
+                  NormalTextField(
+                    controller: projnameController,
+                    hintText: 'Project Name',
+                    disabling: disabling,
+                  ),
 
-              const SizedBox(height: 10,),
-              NormalTextField(
-                controller: null,
-                hintText: 'Contact No',
-                disabling: disabling,
-              ),
+                  const SizedBox(height: 10,),
+                  NormalTextField(
+                    controller: contactController,
+                    hintText: 'Contact No',
+                    disabling: disabling,
+                  ),
 
-              //email textfield
-              const SizedBox(height: 10,),
-              EmailTextField(
-                controller: emailController,
-                hintText: 'Email',
-                disabling: disabling,
-              ),
+                  //email textfield
+                  const SizedBox(height: 10,),
+                  EmailTextField(
+                    controller: emailController,
+                    hintText: 'Email',
+                    disabling: disabling,
+                  ),
 
-              //password textfield
-              const SizedBox(height: 10,),
-              PasswordTextField(
-                controller: passwordController,
-                hintText: 'Password',
-                disabling: disabling,
-              ),
+                  //password textfield
+                  const SizedBox(height: 10,),
+                  PasswordTextField(
+                    controller: passwordController,
+                    hintText: 'Password',
+                    disabling: disabling,
+                  ),
 
-              //confirm password textfield
-              const SizedBox(height: 10,),
-              PasswordTextField(
-                controller: conpasswordController,
-                hintText: 'Confirm Password',
-                disabling: disabling,
-              ),
+                  //confirm password textfield
+                  const SizedBox(height: 10,),
+                  PasswordTextField(
+                    controller: conpasswordController,
+                    hintText: 'Confirm Password',
+                    disabling: disabling,
+                  ),
 
-              //sign-up button
-              const SizedBox(height: 25,),
-              customButton(
-                text: "Sign Up",
-                onTap: signUserUp,
-                clr: Colors.deepOrange,
-                fontSize: 19.0,
-              ),
+                  //sign-up button
+                  const SizedBox(height: 25,),
+                  customButton(
+                    text: "Sign Up",
+                    onTap: (){
+                      if (disabling == false) {
+                        signUserUp();
+                      }
+                      _onButtonPressed();
+                    },
+                    clr: Colors.deepOrange,
+                    fontSize: 19.0,
+                  ),
 
-              //or continue with
-              /*const SizedBox(height: 30,),
+                  //or continue with
+                  /*const SizedBox(height: 30,),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 25.0),
                 child: Row(
@@ -253,8 +279,8 @@ class _registerPageState extends State<registerPage> {
               ),*/
 
 
-              //gmail + facebook sign in
-              /*const SizedBox(height: 25,),
+                  //gmail + facebook sign in
+                  /*const SizedBox(height: 25,),
               const Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -265,30 +291,33 @@ class _registerPageState extends State<registerPage> {
               ),*/
 
 
-              //already have an account
-              const SizedBox(height: 10,),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text('Already have an account?', style: TextStyle(color: Colors.grey.shade800),),
-                  const SizedBox(height: 4,),
-                  TextButton(
-                    onPressed: (){
-                      Navigator.of(context).popUntil(ModalRoute.withName("/login"));
-                    },
-                    child: const Text(
-                      'Login now',
-                      style: TextStyle(color: Colors.blue, fontWeight: FontWeight.bold),
-                    ),
+                  //already have an account
+                  const SizedBox(height: 10,),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text('Already have an account?', style: TextStyle(color: Colors.grey.shade800),),
+                      const SizedBox(height: 4,),
+                      TextButton(
+                        onPressed: (){
+                          Navigator.of(context).popUntil(ModalRoute.withName("/login"));
+                        },
+                        child: const Text(
+                          'Login now',
+                          style: TextStyle(color: Colors.blue, fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                    ],
                   ),
+
+                  const SizedBox(height: 60,),
+                  if (isKeyboardVisible) SizedBox(height: MediaQuery.of(context).size.height * 0.4,),
                 ],
               ),
-
-              const SizedBox(height: 50,),
-            ],
+            ),
           ),
-        ),
-      ),
+        );
+      }
     );
   }
 }
