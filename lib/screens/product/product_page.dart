@@ -27,30 +27,32 @@ class _productsPageState extends State<productsPage> {
   List<productCategory> _prodCategory = [];
   List<product> _products = [];
 
-  late List<Product> allProducts;
-  List<Product> searchResults = [];
-  List<Product> displayedProducts = []; // Initialize as an empty list
+  //late List<Product> allProducts;
+  List<product> searchResults = [];
+  List<product> displayedProducts = []; // Initialize as an empty list
   TextEditingController searchController = TextEditingController();
-  int visibleProductCount = 10; // Number of products initially visible
-  int increment = 10; // Number of products to load at a time
+  int visibleProductCount = 5; // Number of products initially visible
+  int increment = 3; // Number of products to load at a time
   bool searchPerformed = false;
 
   @override
   void initState() {
-    allProducts = Product.products;
-    displayedProducts = allProducts.sublist(0, visibleProductCount);
+    //allProducts = Product.products;
+
     searchFocusNode = FocusNode();
     _getProdCategory();
     _getProducts();
+    //displayedProducts = _products.sublist(0, visibleProductCount);
+    loadMoreProducts();
   }
 
   void loadMoreProducts() {
     int endIndex = visibleProductCount + increment;
-    if (endIndex > allProducts.length) {
-      endIndex = allProducts.length;
+    if (endIndex > _products.length) {
+      endIndex = _products.length;
     }
     setState(() {
-      displayedProducts = allProducts.sublist(0, endIndex);
+      displayedProducts = _products.sublist(0, endIndex);
       visibleProductCount = endIndex;
     });
   }
@@ -62,7 +64,7 @@ class _productsPageState extends State<productsPage> {
         searchPerformed = false;
       });
     } else {
-      final filteredProducts = allProducts
+      final filteredProducts = _products
           .where((product) =>
           product.name.toLowerCase().contains(searchText.toLowerCase()))
           .toList();
@@ -125,7 +127,7 @@ class _productsPageState extends State<productsPage> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            /*Padding(
+            Padding(
               padding: const EdgeInsets.all(8.0),
               child: TextField(
                 focusNode: searchFocusNode,
@@ -151,17 +153,13 @@ class _productsPageState extends State<productsPage> {
                       return Center(
                           child: InkWell(
                             onTap: () {
-                              *//*PersistentNavBarNavigator
-                                  .pushNewScreenWithRouteSettings(
+                              PersistentNavBarNavigator.pushNewScreenWithRouteSettings(
                                 context,
-                                settings: RouteSettings(
-                                    name: ProductScreen.routeName,
-                                    arguments: {product.name: product}),
-                                screen: ProductScreen(product: product),
+                                settings: RouteSettings(name: detailedProductPage.routeName),
+                                screen: detailedProductPage(products: searchResults[index],),
                                 withNavBar: true,
-                                pageTransitionAnimation: PageTransitionAnimation
-                                    .cupertino,
-                              );*//*
+                                pageTransitionAnimation: PageTransitionAnimation.cupertino,
+                              );
                               // ProductCarouselCard(product: categoryProducts[index]);
                             },
 
@@ -186,7 +184,7 @@ class _productsPageState extends State<productsPage> {
                   itemBuilder: (context, index) {
                     final product = displayedProducts[index];
                     if (index == displayedProducts.length - 1) {
-                      if (displayedProducts.length < allProducts.length) {
+                      if (displayedProducts.length < _products.length) {
                         WidgetsBinding.instance!.addPostFrameCallback((_) {
                           loadMoreProducts();
                         });
@@ -194,7 +192,7 @@ class _productsPageState extends State<productsPage> {
                     }
                   },
                 ),
-              ),*/
+              ),
 
             Container(
               child: CarouselSlider(

@@ -21,7 +21,20 @@ class clientInfo {
     required this.image,
   });
 
-  factory clientInfo.toJson(Map<String, dynamic> json) {
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> client = Map<String, dynamic>();
+    client["client_id"] = this.client_id;
+    client["name"] = this.name;
+    client["company_name"] = this.company_name;
+    client["location"] = this.project_name;
+    client["project_name"] = this.location;
+    client["contact_no"] = this.contact_no;
+    client["email"] = this.email;
+    client["image"] = this.image;
+    return client;
+  }
+
+  static clientInfo fromJson(Map<String, dynamic> json) {
     return clientInfo(
       client_id: json['client_id'] as String,
       name: json['name'] as String,
@@ -35,8 +48,9 @@ class clientInfo {
   }
 }
 
+
 Future <clientInfo> _getClientSessionStatus() async {
-  clientInfo userInfo = clientInfo.toJson(await SessionManager().get("user_data"));
+  clientInfo userInfo = clientInfo.fromJson(await SessionManager().get("user_data"));
 
   return userInfo;
 }
