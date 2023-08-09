@@ -126,7 +126,7 @@ class _registerPageState extends State<registerPage> {
                   ],
                 ),
               ),
-            ).closed.then((value) => Navigator.of(context).popUntil(ModalRoute.withName("/login")));
+            ).closed.then((value) => Navigator.of(context).pop());
           } else {
             ScaffoldMessenger.of(context).showSnackBar( //registration failed
               const SnackBar(
