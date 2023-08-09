@@ -3,12 +3,20 @@ import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';
 
+import '../screens.dart';
+
 class BookingSystem extends StatefulWidget {
   @override
   _BookingSystemState createState() => _BookingSystemState();
 }
 
 class _BookingSystemState extends State<BookingSystem> {
+  void initState(){
+    super.initState();
+    _services = [];
+    _getServices();
+  }
+
   DateTime? selectedDate;
   TimeOfDay? selectedTime;
   String? name;
@@ -16,23 +24,12 @@ class _BookingSystemState extends State<BookingSystem> {
   String? mobileNumber;
   String? email;
   final Uuid _uuid = Uuid();
-  List<DateTime> availableDates = [
-    DateTime.now().add(Duration(days: 1)),
-    DateTime.now().add(Duration(days: 2)),
-    DateTime.now().add(Duration(days: 3)),
-  ];
-  List<TimeOfDay> availableTimes = [
-    TimeOfDay(hour: 10, minute: 0),
-    TimeOfDay(hour: 12, minute: 0),
-    TimeOfDay(hour: 14, minute: 0),
-    TimeOfDay(hour: 16, minute: 0),
-    TimeOfDay(hour: 18, minute: 0),
-  ];
+  List<DateTime> unavailableDates = [];
 
   String? selectedConcern;
   List<String> availableConcerns = [
     'Repair',
-    'Quotation',
+    //'Quotation',
     'Consultation',
     'Other',
   ];
@@ -52,6 +49,7 @@ class _BookingSystemState extends State<BookingSystem> {
     generatedCode = '${name ?? 'Unknown'}${selectedDate?.day}${selectedDate?.month}$uniqueId';
     //generatedCode = '$formattedDate - $formattedTime - $uniqueId';
   }*/
+
   void generateCode() {
     final random = Random();
     const String chars = 'abcdefghijklmnopqrstuvwxyz0123456789';
@@ -63,12 +61,13 @@ class _BookingSystemState extends State<BookingSystem> {
     );
     generatedCode = '${name ?? 'Unknown'}${selectedDate?.month}${selectedDate?.day}$randomId';
   }
+
   Map<DateTime, int> bookingCountMap = {};
 
   bool isBookingAvailable(DateTime date) {
     if (bookingCountMap.containsKey(date)) {
       int count = bookingCountMap[date]!;
-      return count < 1; // para sa limit ng booking
+      return count < 2; // para sa limit ng booking
     }
     return true;
   }
@@ -90,9 +89,20 @@ class _BookingSystemState extends State<BookingSystem> {
   Future<void> _selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
       context: context,
-      initialDate: selectedDate ?? DateTime.now(),
-      firstDate: DateTime.now(),
+      initialDate: selectedDate ?? DateTime.now().add(Duration(days: 5)),
+      firstDate: DateTime.now().add(Duration(days: 5)),
       lastDate: DateTime.now().add(Duration(days: 60)),
+      selectableDayPredicate: (DateTime date) {
+        if (date.weekday == DateTime.saturday || date.weekday == DateTime.sunday) {
+          return false;
+        }
+
+        //database counting if may sched na disabled na sya
+        int scheduledServiceCount = _services.where((services) {
+          return DateTime.parse(services.dateSched).isAtSameMomentAs(date);
+        }).length;
+        return scheduledServiceCount < 2;
+      }
     );
     if (picked != null) {
       if (isBookingAvailable(picked)) {
@@ -120,8 +130,19 @@ class _BookingSystemState extends State<BookingSystem> {
     }
   }
 
+  late List<TechnicalData> _services;
+  _getServices(){
+    TechnicalDataServices.getTechnicalData().then((technicalData){
+      setState(() {
+        _services = technicalData;
+      });
+      print("Length ${technicalData.length}");
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       appBar: AppBar(
         title: Text('Booking System'),
@@ -163,63 +184,10 @@ class _BookingSystemState extends State<BookingSystem> {
               ),
             ),
             SizedBox(height: 10),
-            DropdownButtonFormField<TimeOfDay>(
-              decoration: InputDecoration(
-                labelText: 'Time*',
-              ),
-              value: selectedTime,
-              items: availableTimes.map((time) {
-                final formattedTime = time.format(context);
-                return DropdownMenuItem<TimeOfDay>(
-                  value: time,
-                  child: Text(formattedTime),
-                );
-              }).toList(),
-              onChanged: (time) {
-                setState(() {
-                  selectedTime = time;
-                });
-              },
-            ),
-            SizedBox(height: 10),
             Form(
               key: _formKey,
               child: Column(
                 children: [
-                  TextFormField(
-                    controller: nameController,
-                    decoration: InputDecoration(
-                      labelText: 'Name*',
-                    ),
-                    onChanged: (value) {
-                      setState(() {
-                        name = value;
-                      });
-                    },
-                    validator: (value) {
-                      if (value!.isEmpty) {
-                        return 'Please enter a name';
-                      }
-                      return null;
-                    },
-                  ),
-                  TextFormField(
-                    controller: addressController,
-                    decoration: InputDecoration(
-                      labelText: 'Address*',
-                    ),
-                    onChanged: (value) {
-                      setState(() {
-                        address = value;
-                      });
-                    },
-                    validator: (value) {
-                      if (value!.isEmpty) {
-                        return 'Please enter an address';
-                      }
-                      return null;
-                    },
-                  ),
                   TextFormField(
                     controller: mobileNumberController,
                     decoration: InputDecoration(
@@ -233,27 +201,6 @@ class _BookingSystemState extends State<BookingSystem> {
                     validator: (value) {
                       if (value!.isEmpty) {
                         return 'Please enter a mobile number';
-                      }
-                      return null;
-                    },
-                  ),
-                  TextFormField(
-                    controller: emailController,
-                    decoration: InputDecoration(
-                      labelText: 'Email*',
-                    ),
-                    keyboardType: TextInputType.emailAddress,
-                    onChanged: (value) {
-                      setState(() {
-                        email = value;
-                      });
-                    },
-                    validator: (value) {
-                      if (value!.isEmpty) {
-                        return 'Please enter an email';
-                      }
-                      if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$').hasMatch(value)) {
-                        return 'Please enter a valid email';
                       }
                       return null;
                     },
