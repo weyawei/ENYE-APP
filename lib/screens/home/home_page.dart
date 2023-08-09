@@ -30,18 +30,27 @@ class homePage extends StatefulWidget {
 
 class _homePageState extends State<homePage>{
   final List<String> dashboard = [
+    "${API.dashboard}Balancing Valves.png",
+    "${API.dashboard}Motorized Valves and Actuators.png",
+    "${API.dashboard}sensors and transmitters.png",
     "${API.dashboard}2.png",
     "${API.dashboard}1.png",
     "${API.dashboard}3.png",
   ];
 
   final List<String> dashboardText1 = [
+    '',
+    '',
+    '',
     '"Committed to be your',
     '"Challenging Innovation"',
     '"We Hand Over',
   ];
 
   final List<String> dashboardText2 = [
+    '',
+    '',
+    '',
     'Business Partner of Choice!!"',
     "campaign is our aggressive move in setting the standard in Energy Saving by providing the approppriate products & solutions that will solve current HVAC problems and enhance efficiency.",
     'Best After Sales Services"',
