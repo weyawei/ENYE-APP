@@ -89,7 +89,7 @@ class _loginPageState extends State<loginPage> {
                   ],
                 ),
               ),
-            ).closed.then((value) => Navigator.of(context).pop());
+            ).closed.then((value) => Navigator.pop(context));
           });
         } else {
           ScaffoldMessenger.of(context).showSnackBar(
@@ -220,13 +220,7 @@ class _loginPageState extends State<loginPage> {
                   const SizedBox(height: 4,),
                   TextButton(
                     onPressed: (){
-                      PersistentNavBarNavigator.pushNewScreenWithRouteSettings(
-                        context,
-                        settings: RouteSettings(name: registerPage.routeName,),
-                        screen: registerPage(),
-                        withNavBar: true,
-                        pageTransitionAnimation: PageTransitionAnimation.cupertino,
-                      );
+                      Navigator.of(context).push(MaterialPageRoute(builder: (context) => registerPage())).then((value) { setState(() {}); });
                     },
                     child: Text(
                       'Register now',

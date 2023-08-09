@@ -57,14 +57,7 @@ class _ServicePageState extends State<ServicePage> {
     setState(() {
       userSessionFuture = false;
       ClientInfo = null; // Clear the client info
-
-      PersistentNavBarNavigator.pushNewScreenWithRouteSettings(
-        context,
-        settings: RouteSettings(name: loginPage.routeName,),
-        screen: loginPage(),
-        withNavBar: true,
-        pageTransitionAnimation: PageTransitionAnimation.cupertino,
-      );
+      Navigator.of(context).push(MaterialPageRoute(builder: (context) => loginPage())).then((value) { setState(() {}); });
     });
   }
 
@@ -122,13 +115,14 @@ class _ServicePageState extends State<ServicePage> {
                       ),
                       onSelected: (value) {
                         if (value == '/login'){
-                          PersistentNavBarNavigator.pushNewScreenWithRouteSettings(
+                          Navigator.of(context).push(MaterialPageRoute(builder: (context) => loginPage())).then((value) { setState(() {}); });
+                          /*PersistentNavBarNavigator.pushNewScreenWithRouteSettings(
                             context,
                             settings: RouteSettings(name: loginPage.routeName,),
                             screen: loginPage(),
                             withNavBar: true,
                             pageTransitionAnimation: PageTransitionAnimation.cupertino,
-                          );
+                          );*/
                         } else if (value == '/logout'){
                           logoutClient();
                         }
