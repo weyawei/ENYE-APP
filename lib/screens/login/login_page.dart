@@ -1,11 +1,14 @@
 import 'dart:convert';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_session_manager/flutter_session_manager.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import 'package:http/http.dart' as http;
 
 import '../../config/api_connection.dart';
+import '../../config/api_firebase.dart';
 import '../../widget/widgets.dart';
 import '../screens.dart';
 
@@ -229,6 +232,51 @@ class _loginPageState extends State<loginPage> {
                   ),
                 ],
               ),
+              Center(
+                child: Container(
+                  margin: EdgeInsets.symmetric(horizontal: 30),
+                  child: ElevatedButton(
+                    onPressed: () async {
+                      await FirebaseServices().signInWithGoogle();
+                    //  Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => ServicePage()));
+                      Navigator.pop(context);
+
+                    },
+                    style: ButtonStyle(
+                        backgroundColor: MaterialStateProperty.resolveWith((states) {
+                          if (states.contains(MaterialState.pressed)){
+                            return Colors.black26;
+                          }
+                          return Colors.white;
+                        })
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Padding(
+                        padding: const EdgeInsets.all(2.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget> [
+                            Image.asset('assets/logo/google_icon.png' ,width: 40, height: 40,),
+                            const SizedBox(
+                              width: 20,
+                            ),
+                            Center(
+                              child: Text("Login with Google",
+                                style: TextStyle(
+                                  color: Colors.black87,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 18,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
             ],
           ),
         ),
@@ -236,3 +284,5 @@ class _loginPageState extends State<loginPage> {
     );
   }
 }
+
+
