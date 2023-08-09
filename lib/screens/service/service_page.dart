@@ -27,7 +27,7 @@ class ServicePage extends StatefulWidget {
 }
 
 class _ServicePageState extends State<ServicePage> {
-  bool userSessionFuture = false;
+  bool? userSessionFuture;
 
   clientInfo? ClientInfo;
 
@@ -57,14 +57,7 @@ class _ServicePageState extends State<ServicePage> {
     setState(() {
       userSessionFuture = false;
       ClientInfo = null; // Clear the client info
-
-      PersistentNavBarNavigator.pushNewScreenWithRouteSettings(
-        context,
-        settings: RouteSettings(name: loginPage.routeName,),
-        screen: loginPage(),
-        withNavBar: true,
-        pageTransitionAnimation: PageTransitionAnimation.cupertino,
-      );
+      Navigator.of(context).push(MaterialPageRoute(builder: (context) => loginPage())).then((value) { setState(() {}); });
     });
   }
 
@@ -78,6 +71,8 @@ class _ServicePageState extends State<ServicePage> {
             ClientInfo = value;
           });
         });
+        userSessionFuture = bool;
+      } else {
         userSessionFuture = bool;
       }
     });
@@ -103,7 +98,7 @@ class _ServicePageState extends State<ServicePage> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(userSessionFuture ? "Hello ${ClientInfo?.name}," : "Hello Guest !",
+                    Text(userSessionFuture == true ? "Hello ${ClientInfo?.name}," : "Hello Guest !",
                         style: GoogleFonts.lalezar(
                           textStyle:
                           TextStyle(fontSize: 26, letterSpacing: 1.5, color: Colors.deepOrange.shade700),
@@ -120,13 +115,14 @@ class _ServicePageState extends State<ServicePage> {
                       ),
                       onSelected: (value) {
                         if (value == '/login'){
-                          PersistentNavBarNavigator.pushNewScreenWithRouteSettings(
+                          Navigator.of(context).push(MaterialPageRoute(builder: (context) => loginPage())).then((value) { setState(() {}); });
+                          /*PersistentNavBarNavigator.pushNewScreenWithRouteSettings(
                             context,
                             settings: RouteSettings(name: loginPage.routeName,),
                             screen: loginPage(),
                             withNavBar: true,
                             pageTransitionAnimation: PageTransitionAnimation.cupertino,
-                          );
+                          );*/
                         } else if (value == '/logout'){
                           logoutClient();
                         }
