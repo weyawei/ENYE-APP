@@ -37,6 +37,9 @@ export 'service/service_page.dart';
 export 'service/booking_service.dart';
 export 'service/technical_data.dart';
 export 'service/technical_svc.dart';
+export 'service/tasktile_page.dart';
+
+export 'service/status/status_page.dart';
 
 export 'login/login_page.dart';
 export 'login/register_page.dart';

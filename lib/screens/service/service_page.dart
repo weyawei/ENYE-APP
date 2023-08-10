@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_session_manager/flutter_session_manager.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
-import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 
 import '../../config/api_firebase.dart';
 import '../../config/app_checksession.dart';
@@ -211,7 +210,7 @@ class _ServicePageState extends State<ServicePage> {
               GestureDetector(
                 onTap: (){
                   if (userSessionFuture == true) {
-
+                    Navigator.of(context).push(MaterialPageRoute(builder: (context) => StatusPage())).then((value) { setState(() {}); });
                   } else {
                     _errorSnackbar(context, "Login first !");
                   }

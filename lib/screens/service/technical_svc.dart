@@ -7,6 +7,7 @@ import '../screens.dart';
 class TechnicalDataServices {
   //this is same as in PHP code action made by the user CRUD
   static const GET_ALL_TECHNICAL = 'get_all_technical';
+  static const GET_CLIENT_TECHNICAL = 'get_client_technical';
   static const BOOKING = 'add_booking';
 
   //get data categories from database
@@ -36,6 +37,30 @@ class TechnicalDataServices {
     //conversion from web server into data by using categories.dart
     final parsed = json.decode(responseBody).cast<Map<String, dynamic>>();
     return parsed.map<TechnicalData>((json) => TechnicalData.fromJson(json)).toList();
+  }
+
+  //get data categories from database
+  static Future <List<TechnicalData>> clientTechnicalData(String client_id) async {
+    try{
+      var map = Map<String, dynamic>();
+      map['action'] = GET_CLIENT_TECHNICAL;
+      map['client_id'] = client_id;
+
+      //get all data of categories
+      final res = await http.post(Uri.parse(API.booking), body: map); //passing value to result
+      print('getTechnicalDatas Response: ${res.body}');
+
+      if(res.statusCode == 200){
+        List<TechnicalData> list = parseResponse(res.body);
+        return list;
+      } else {
+        throw Exception('Failed to retrieve Technical Data');
+        //return List<Categories>();
+      }
+    } catch (e) {
+      throw Exception('Failed to retrieve Technical Data');
+      //return List<Categories>();
+    }
   }
 
   static Future<String> addBooking(
