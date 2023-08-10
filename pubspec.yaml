@@ -61,6 +61,8 @@ dependencies:
   google_fonts:
   email_validator:
   flutter_keyboard_visibility: ^5.4.1
+  flutter_otp_text_field: ^1.1.0+2
+  speech_to_text: ^6.3.0
 
   firebase_messaging: ^14.6.5
   firebase_core: ^2.15.0

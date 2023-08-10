@@ -3,6 +3,8 @@ import 'dart:math';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
+import 'package:speech_to_text/speech_to_text.dart' as stt;
+import 'package:speech_to_text/speech_recognition_result.dart' as stt;
 
 import '../../config/api_connection.dart';
 import '../../widget/widgets.dart';
@@ -34,6 +36,10 @@ class _productsPageState extends State<productsPage> {
   int increment = 10; // Number of products to load at a time
   bool searchPerformed = false;
 
+  late stt.SpeechToText _speech;
+  bool _isListening = false;
+  String _text = '';
+
   @override
   void initState() {
     //allProducts = Product.products;
@@ -42,6 +48,7 @@ class _productsPageState extends State<productsPage> {
     _getProdCategory();
     _getProducts();
     loadMoreProducts();
+    _speech = stt.SpeechToText();
   }
 
   void loadMoreProducts() {
@@ -79,6 +86,7 @@ class _productsPageState extends State<productsPage> {
 
   @override
   void dispose() {
+    _speech.cancel();
     searchFocusNode.dispose();
     super.dispose();
   }
@@ -115,6 +123,65 @@ class _productsPageState extends State<productsPage> {
     });
   }
 
+  void _startListening() async {
+    if (!_isListening) {
+      bool available = await _speech.initialize();
+      if (available) {
+        setState(() => _isListening = true);
+        _speech.listen(
+          onResult: (stt.SpeechRecognitionResult result) {
+            setState(() {
+              _text = result.recognizedWords;
+              searchController.text = _text;
+              // Trigger search after updating the text
+              filterProducts(_text);
+              // Note: Don't update searchController.text here
+              // Wait for the user to complete speech and press the stop button
+            });
+          },
+        );
+      }
+    }
+  }
+
+  void _stopListening() {
+    if (_isListening) {
+      setState(() => _isListening = false);
+      _speech.stop();
+      // Update searchController.text after speech is complete
+      //searchController.text = _text;
+      // Trigger search after updating the text
+     // filterProducts(_text);
+    }
+  }
+  void _showStartSpeakingDialog() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+         // title: Text('Start Speaking'),
+          content: Text('Click OK and start to speak.'),
+          actions: <Widget>[
+            ElevatedButton(
+              child: Text('OK'),
+              onPressed: () {
+                Navigator.of(context).pop(); // Close the dialog
+                _startListening(); // Start listening for speech
+              },
+            ),
+            ElevatedButton(
+              child: Text('Cancel'),
+              onPressed: () {
+                Navigator.of(context).pop(); // Close the dialog
+                _stopListening(); // Start listening for speech
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     _prodCategory.shuffle();
@@ -133,9 +200,19 @@ class _productsPageState extends State<productsPage> {
                 decoration: InputDecoration(
                   labelText: 'Search name of products',
                   prefixIcon: Icon(Icons.search),
+                  suffixIcon: IconButton(
+                   /* icon: Icon(_isListening ? Icons.mic_off : Icons.mic),
+                    onPressed: _isListening ? _stopListening : _showStartSpeakingDialog,*/
+
+                    icon: Icon(Icons.mic),
+                    onPressed:  _showStartSpeakingDialog,
+
+                  ),
                 ),
                 onChanged: (value) {
                   filterProducts(value);
+                  filterProducts(_text);
+
                   setState(() {
                     visibleProductCount = 10;
                   });
