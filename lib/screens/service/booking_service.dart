@@ -1,8 +1,13 @@
 import 'dart:math';
-import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:uuid/uuid.dart';
+
+import '../../config/config.dart';
+import '../../widget/widgets.dart';
+import '../screens.dart';
 
 class BookingSystem extends StatefulWidget {
   @override
@@ -10,6 +15,28 @@ class BookingSystem extends StatefulWidget {
 }
 
 class _BookingSystemState extends State<BookingSystem> {
+  void initState(){
+    super.initState();
+    _services = [];
+    _getServices();
+    //calling session data
+    checkSession().getUserSessionStatus().then((bool) {
+      if (bool == true) {
+        checkSession().getClientsData().then((value) {
+          setState(() {
+            ClientInfo = value;
+          });
+        });
+        userSessionFuture = bool;
+      } else {
+        userSessionFuture = bool;
+      }
+    });
+  }
+
+  clientInfo? ClientInfo;
+  bool? userSessionFuture;
+  bool disabling = false;
   DateTime? selectedDate;
   TimeOfDay? selectedTime;
   String? name;
@@ -17,29 +44,20 @@ class _BookingSystemState extends State<BookingSystem> {
   String? mobileNumber;
   String? email;
   final Uuid _uuid = Uuid();
-  List<DateTime> availableDates = [
-    DateTime.now().add(Duration(days: 1)),
-    DateTime.now().add(Duration(days: 2)),
-    DateTime.now().add(Duration(days: 3)),
-  ];
-  List<TimeOfDay> availableTimes = [
-    TimeOfDay(hour: 10, minute: 0),
-    TimeOfDay(hour: 12, minute: 0),
-    TimeOfDay(hour: 14, minute: 0),
-    TimeOfDay(hour: 16, minute: 0),
-    TimeOfDay(hour: 18, minute: 0),
-  ];
+  List<DateTime> unavailableDates = [];
 
   String? selectedConcern;
   List<String> availableConcerns = [
     'Repair',
-    'Quotation',
+    //'Quotation',
     'Consultation',
     'Other',
   ];
 
-  String? customConcern;
   String? generatedCode;
+
+  final subjectController = TextEditingController();
+  final descriptionController = TextEditingController();
 
   final _formKey = GlobalKey<FormState>();
 
@@ -53,64 +71,178 @@ class _BookingSystemState extends State<BookingSystem> {
     generatedCode = '${name ?? 'Unknown'}${selectedDate?.day}${selectedDate?.month}$uniqueId';
     //generatedCode = '$formattedDate - $formattedTime - $uniqueId';
   }*/
+
   void generateCode() {
     final random = Random();
-    const String chars = 'abcdefghijklmnopqrstuvwxyz0123456789';
+    const String chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
 
     // Generate a random 6-character alphanumeric ID
     String randomId = String.fromCharCodes(
       List.generate(
           6, (index) => chars.codeUnitAt(random.nextInt(chars.length))),
     );
-    generatedCode = '${name ?? 'Unknown'}${selectedDate?.month}${selectedDate?.day}$randomId';
-  }
-  Map<DateTime, int> bookingCountMap = {};
 
-  bool isBookingAvailable(DateTime date) {
-    if (bookingCountMap.containsKey(date)) {
-      int count = bookingCountMap[date]!;
-      return count < 1; // para sa limit ng booking
-    }
-    return true;
-  }
-
-  void incrementBookingCount(DateTime date) {
-    if (bookingCountMap.containsKey(date)) {
-      int count = bookingCountMap[date]!;
-      bookingCountMap[date] = count + 1;
+    String concern;
+    if(selectedConcern == 'Repair'){
+      concern = 'RPR';
+    } else if(selectedConcern == 'Consultation'){
+      concern = 'CONSLT';
+    } else if(selectedConcern == 'Other'){
+      concern = 'OTHR';
     } else {
-      bookingCountMap[date] = 1;
+      concern = 'SVC';
     }
+
+    generatedCode = '${concern}-${selectedDate?.month}${selectedDate?.day}${selectedDate?.year}$randomId';
   }
 
-  final nameController = TextEditingController();
-  final addressController = TextEditingController();
-  final mobileNumberController = TextEditingController();
-  final emailController = TextEditingController();
-
+  //datepicker para sa date sched
   Future<void> _selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
       context: context,
-      initialDate: selectedDate ?? DateTime.now(),
-      firstDate: DateTime.now(),
+      initialDate: selectedDate ?? DateTime.now().add(Duration(days: 7)),
+      firstDate: DateTime.now().add(Duration(days: 5)),
       lastDate: DateTime.now().add(Duration(days: 60)),
+      selectableDayPredicate: (DateTime date) {
+        if (date.weekday == DateTime.saturday || date.weekday == DateTime.sunday) {
+          return false;
+        }
+
+        //database counting if may sched na disabled na sya
+        int scheduledServiceCount = _services.where((services) {
+          return DateTime.parse(services.dateSched).isAtSameMomentAs(date);
+        }).length;
+        return scheduledServiceCount < 2;
+      }
     );
     if (picked != null) {
-      if (isBookingAvailable(picked)) {
-        incrementBookingCount(picked);
-        setState(() {
-          selectedDate = picked;
-        });
+      setState(() {
+        selectedDate = picked;
+      });
+    }
+  }
+
+  _successSnackbar(context, message){
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        margin: EdgeInsets.only(bottom: MediaQuery.of(context).size.height * 0.7,),
+        duration: Duration(seconds: 2),
+        backgroundColor: Colors.greenAccent,
+        behavior: SnackBarBehavior.floating,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(4))),
+        content: Row(
+          children: [
+            Icon(Icons.check, color: Colors.white,),
+            const SizedBox(width: 10,),
+            Text(message),
+          ],
+        ),
+      ),
+    );
+  }
+
+  _errorSnackbar(context, message){
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        margin: EdgeInsets.only(bottom: MediaQuery.of(context).size.height * 0.7,),
+        duration: Duration(seconds: 2),
+        backgroundColor: Colors.redAccent,
+        behavior: SnackBarBehavior.floating,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(4))),
+        content: Row(
+          children: [
+            Icon(Icons.error, color: Colors.white,),
+            const SizedBox(width: 10,),
+            Text(message),
+          ],
+        ),
+      ),
+    );
+  }
+
+  clearFields(){
+    subjectController.clear();
+    descriptionController.clear();
+    setState(() {
+      selectedDate = null;
+      selectedConcern = null;
+      generatedCode = null;
+    });
+  }
+
+  //list of services para lang makuha yung mga date sched na available
+  late List<TechnicalData> _services;
+  _getServices(){
+    TechnicalDataServices.getTechnicalData().then((technicalData){
+      setState(() {
+        _services = technicalData;
+      });
+      print("Length ${technicalData.length}");
+    });
+  }
+
+  //kapag wala pa na-select na date
+  String? _dropdownError;
+  addBooking() {
+    if (_formKey.currentState!.validate()) {
+      if(selectedDate == null){
+        setState(() => _dropdownError = "Please select a DATE !");
       } else {
+        setState(() => _dropdownError = "");
+        generateCode();
         showDialog(
           context: context,
           builder: (context) => AlertDialog(
-            title: Text('Booking Unavailable'),
-            content: Text('Sorry, all slots for this date are booked.'),
+            title: Text('Confirmation'),
+            content: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text('You have booked the following appointment:'),
+                SizedBox(height: 20),
+                Text('Date: ${DateFormat.yMMMd().format(DateTime.parse(selectedDate.toString()))}',
+                  style: GoogleFonts.lato(
+                    textStyle:
+                    TextStyle(fontSize: 16, letterSpacing: 0.5),
+                  ),
+                ),
+                SizedBox(height: 5),
+                Text('Generated Code: $generatedCode',
+                  style: GoogleFonts.lato(
+                    textStyle:
+                    TextStyle(fontSize: 16, letterSpacing: 0.5),
+                  ),
+                ),
+                SizedBox(height: 5),
+                Text('Service: $selectedConcern'),
+                SizedBox(height: 5),
+                Text('Subject: ${subjectController.text}'),
+                SizedBox(height: 5),
+                Text('Description: ${descriptionController.text}'),
+              ],
+            ),
             actions: [
               TextButton(
                 onPressed: () {
-                  Navigator.of(context).pop();
+                  TechnicalDataServices.addBooking(
+                      generatedCode!, selectedConcern!,
+                      subjectController.text, descriptionController.text,
+                      selectedDate.toString(), ClientInfo!.client_id,
+                      ClientInfo!.name, ClientInfo!.company_name,
+                      ClientInfo!.location, ClientInfo!.project_name,
+                      ClientInfo!.contact_no, ClientInfo!.email
+                  ).then((result) {
+                    if('success' == result){
+                      sendPushNotifications();
+                      _getServices();
+                      _successSnackbar(context, "Successfully booked.");
+                      clearFields();
+                      Navigator.of(context).pop();
+                    } else {
+                      _errorSnackbar(context, "Error occured...");
+                    }
+                  });
+
                 },
                 child: Text('OK'),
               ),
@@ -121,307 +253,154 @@ class _BookingSystemState extends State<BookingSystem> {
     }
   }
 
+  Future<void> sendPushNotifications() async {
+    //final url = 'https://enye.com.ph/enyecontrols_app/login_user/send1.php'; // Replace this with the URL to your PHP script
+    final response = await http.post(
+      Uri.parse(API.pushNotif),
+      body: {
+        'code' : generatedCode,
+        'name' : ClientInfo!.name,
+        'company' : ClientInfo!.company_name,
+        'date_sched' : selectedDate.toString(),
+      },
+    );
+    if (response.statusCode == 200) {
+      if(response.body == "success"){
+        print('send push notifications.');
+      }
+    } else {
+      print('Failed to send push notifications.');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    return KeyboardVisibilityBuilder(
-        builder: (context, isKeyboardVisible)
-    {
-      return Scaffold(
-        appBar: AppBar(
-          title: Text('Booking System'),
-        ),
-        resizeToAvoidBottomInset: true,
-        body: SingleChildScrollView(
-          padding: EdgeInsets.all(16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              SizedBox(height: 16),
-              Center(
-                child: Text(
-                  'APPOINTMENT:',
-                  style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
-                ),
+
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Booking System'),
+      ),
+      resizeToAvoidBottomInset: true,
+      body: SingleChildScrollView(
+        padding: EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            SizedBox(height: 50),
+            Center(
+              child: Text(
+                'APPOINTMENT :',
+                style: GoogleFonts.rowdies(
+                  textStyle: TextStyle(fontSize: 24.0, fontWeight: FontWeight.bold, color: Colors.black54)
+                )
               ),
-              SizedBox(height: 10),
-              InkWell(
-                onTap: () => _selectDate(context),
-                child: Container(
-                  padding: EdgeInsets.all(10.0),
-                  decoration: BoxDecoration(
-                    border: Border.all(color: Colors.grey),
-                    borderRadius: BorderRadius.circular(4.0),
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        selectedDate != null
-                            ? '${selectedDate!.toString().split(' ')[0]}'
-                            : 'Select Date*',
-                        style: TextStyle(fontSize: 15),
-                      ),
-                      Icon(Icons.calendar_today),
-                    ],
-                  ),
+            ),
+
+
+            SizedBox(height: 30),
+            InkWell(
+              onTap: () => _selectDate(context),
+              child: Container(
+                padding: EdgeInsets.all(10.0),
+                decoration: BoxDecoration(
+                  border: Border.all(color: Colors.grey),
+                  borderRadius: BorderRadius.circular(4.0),
                 ),
-              ),
-              SizedBox(height: 10),
-              DropdownButtonFormField<TimeOfDay>(
-                decoration: InputDecoration(
-                  labelText: 'Time*',
-                ),
-                value: selectedTime,
-                items: availableTimes.map((time) {
-                  final formattedTime = time.format(context);
-                  return DropdownMenuItem<TimeOfDay>(
-                    value: time,
-                    child: Text(formattedTime),
-                  );
-                }).toList(),
-                onChanged: (time) {
-                  setState(() {
-                    selectedTime = time;
-                  });
-                },
-              ),
-              SizedBox(height: 10),
-              Form(
-                key: _formKey,
-                child: Column(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    TextFormField(
-                      controller: nameController,
-                      decoration: InputDecoration(
-                        labelText: 'Name*',
+                    Text(
+                      selectedDate != null
+                          ? '${selectedDate!.toString().split(' ')[0]}'
+                          : 'Select Date*',
+                      style: GoogleFonts.lato(
+                        textStyle:
+                        TextStyle(fontSize: 16, fontWeight: FontWeight.w500, letterSpacing: 0.8),
                       ),
-                      onChanged: (value) {
-                        setState(() {
-                          name = value;
-                        });
-                      },
-                      validator: (value) {
-                        if (value!.isEmpty) {
-                          return 'Please enter a name';
-                        }
-                        return null;
-                      },
                     ),
-                    TextFormField(
-                      controller: addressController,
-                      decoration: InputDecoration(
-                        labelText: 'Address*',
-                      ),
-                      onChanged: (value) {
-                        setState(() {
-                          address = value;
-                        });
-                      },
-                      validator: (value) {
-                        if (value!.isEmpty) {
-                          return 'Please enter an address';
-                        }
-                        return null;
-                      },
-                    ),
-                    TextFormField(
-                      controller: mobileNumberController,
-                      decoration: InputDecoration(
-                        labelText: 'Mobile Number*',
-                      ),
-                      onChanged: (value) {
-                        setState(() {
-                          mobileNumber = value;
-                        });
-                      },
-                      validator: (value) {
-                        if (value!.isEmpty) {
-                          return 'Please enter a mobile number';
-                        }
-                        return null;
-                      },
-                    ),
-                    TextFormField(
-                      controller: emailController,
-                      decoration: InputDecoration(
-                        labelText: 'Email*',
-                      ),
-                      keyboardType: TextInputType.emailAddress,
-                      onChanged: (value) {
-                        setState(() {
-                          email = value;
-                        });
-                      },
-                      validator: (value) {
-                        if (value!.isEmpty) {
-                          return 'Please enter an email';
-                        }
-                        if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$')
-                            .hasMatch(value)) {
-                          return 'Please enter a valid email';
-                        }
-                        return null;
-                      },
-                    ),
+                    Icon(Icons.calendar_today, color: Colors.deepOrange,),
                   ],
                 ),
               ),
-              SizedBox(height: 10),
-              DropdownButtonFormField<String>(
-                decoration: InputDecoration(
-                  labelText: 'Select Service*',
-                ),
-                value: selectedConcern,
-                items: availableConcerns.map((concern) {
-                  return DropdownMenuItem<String>(
-                    value: concern,
-                    child: Text(concern),
-                  );
-                }).toList(),
-                onChanged: (concern) {
-                  setState(() {
-                    selectedConcern = concern;
-                  });
-                },
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please select a service';
-                  }
-                  return null;
-                },
-              ),
-              if (selectedConcern == 'Other')
-                TextFormField(
-                  decoration: InputDecoration(
-                    labelText: 'Specify here...',
-                  ),
-                  onChanged: (value) {
-                    setState(() {
-                      customConcern = value;
-                    });
-                  },
-                ),
-              SizedBox(height: 20),
-              ElevatedButton(
-                onPressed: () async {
-                  if (_formKey.currentState!.validate() &&
-                      selectedDate != null &&
-                      selectedTime != null &&
-                      selectedConcern != null) {
-                    generateCode();
-                    showDialog(
-                      context: context,
-                      builder: (context) =>
-                          AlertDialog(
-                            title: Text('Confirmation'),
-                            content: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                Text(
-                                    'You have booked the following appointment:'),
-                                SizedBox(height: 10),
-                                Text('Date: ${selectedDate!.toString().split(
-                                    ' ')[0]}'),
-                                Text('Time: ${selectedTime!.format(context)}'),
-                                if (selectedConcern != null &&
-                                    selectedConcern != 'Other')
-                                  Text('Concern: $selectedConcern'),
-                                if (selectedConcern == 'Other' &&
-                                    customConcern != null)
-                                  Text('Service: $customConcern'),
-                                Text('Generated Code: $generatedCode'),
-                                Text('Name: $name'),
-                                Text('Address: $address'),
-                                Text('Mobile Number: $mobileNumber'),
-                                Text('Email: $email'),
-                              ],
-                            ),
-                            actions: [
-                              TextButton(
-                                onPressed: () {
-                                  nameController.clear();
-                                  addressController.clear();
-                                  mobileNumberController.clear();
-                                  emailController.clear();
-                                  Navigator.of(context).pop();
-                                  setState(() {
-                                    selectedDate = null;
-                                    selectedTime = null;
-                                    selectedConcern = null;
-                                    customConcern = null;
-                                    generatedCode = null;
-                                    name = null;
-                                    address = null;
-                                    mobileNumber = null;
-                                    email = null;
-                                  });
-                                },
-                                child: Text('OK'),
-                              ),
-                            ],
-                          ),
-                    );
-                    await sendPushNotifications();
-                  } else {
-                    showDialog(
-                      context: context,
-                      builder: (context) =>
-                          AlertDialog(
-                            title: Text('Incomplete Form'),
-                            content: Text(
-                                'Please fill in all the required fields.'),
-                            actions: [
-                              TextButton(
-                                onPressed: () async {
-                                  Navigator.of(context).pop();
-                                  await sendPushNotifications();
-                                },
-                                child: Text('OK'),
-                              ),
-                            ],
-                          ),
-                    );
-                  }
-                },
+            ),
+            _dropdownError == null
+                ? SizedBox.shrink()
+                : Text(
+              _dropdownError ?? "",
+              style: TextStyle(color: Colors.red),
+            ),
 
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 32.0,
-                    vertical: 12.0,
-                  ),
+            SizedBox(height: 10),
+            Form(
+              key: _formKey,
+              child: Column(
+                children: [
 
-                  child: Text(
-                    'Book',
-                    style: TextStyle(fontSize: 18.0),
-                  ),
-
-                ),
-                style: ButtonStyle(
-                  backgroundColor:
-                  MaterialStateProperty.all<Color>(Colors.deepOrangeAccent),
-                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                    RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30.0),
+                  SizedBox(height: 10),
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 10.0),
+                    child: DropdownButtonFormField<String>(
+                      style: GoogleFonts.lato(
+                        textStyle:
+                        TextStyle(fontSize: 16, color: Colors.black, fontWeight: FontWeight.w500, letterSpacing: 0.8),
+                      ),
+                      decoration: InputDecoration(
+                        labelText: 'Select Service*',
+                        labelStyle: GoogleFonts.lato(
+                          textStyle:
+                          TextStyle(fontSize: 16, fontWeight: FontWeight.w500, letterSpacing: 0.8),
+                        ),
+                      ),
+                      value: selectedConcern,
+                      items: availableConcerns.map((concern) {
+                        return DropdownMenuItem<String>(
+                          value: concern,
+                          child: Text(concern),
+                        );
+                      }).toList(),
+                      onChanged: (concern) {
+                        setState(() {
+                          selectedConcern = concern;
+                        });
+                      },
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please select a service';
+                        }
+                        return null;
+                      },
                     ),
                   ),
-                ),
+
+                  SizedBox(height: 10),
+                  Normal2TextField(
+                    controller: subjectController,
+                    hintText: 'Subject *',
+                  ),
+
+                  SizedBox(height: 10),
+                  Normal2TextField(
+                    controller: descriptionController,
+                    hintText: 'Description *',
+                  ),
+
+                ],
               ),
-              if (isKeyboardVisible) SizedBox(height: 300),  // Adjust this height based on your needs
-            ],
-          ),
+            ),
+
+            SizedBox(height: 40),
+            customButton(
+              onTap: () {
+                addBooking();
+              },
+              text: 'BOOK',
+              clr: Colors.deepOrange,
+              fontSize: 18.0,
+            ),
+          ],
         ),
-      );
-    }
+      ),
     );
   }
 }
-Future<void> sendPushNotifications() async {
-  final url = 'https://enye.com.ph/enyecontrols_app/login_user/send1.php'; // Replace this with the URL to your PHP script
-  final response = await http.post(Uri.parse(url));
-  if (response.statusCode == 200) {
-    print('Push notifications sent successfully!');
-  } else {
-    print('Failed to send push notifications.');
-  }
-}
+

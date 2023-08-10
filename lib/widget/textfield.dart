@@ -1,5 +1,39 @@
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+
+class Normal2TextField extends StatelessWidget {
+  final controller;
+  final String hintText;
+
+  const Normal2TextField({super.key, required this.controller, required this.hintText});
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 10.0),
+      child: TextFormField(
+        style: GoogleFonts.lato(
+          textStyle:
+          TextStyle(fontSize: 16, fontWeight: FontWeight.w500, letterSpacing: 0.8),
+        ),
+        onEditingComplete: (){},
+        validator: (value) {
+          if (value == null || value.isEmpty) {
+            return 'Required !';
+          }
+          return null;
+        },
+        maxLines: null,
+        keyboardType: TextInputType.multiline,
+        controller: controller,
+        decoration: InputDecoration(
+          labelText: hintText,
+        ),
+      ),
+    ) ;
+  }
+}
 
 class NormalTextField extends StatelessWidget {
   final controller;
