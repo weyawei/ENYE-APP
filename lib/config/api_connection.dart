@@ -32,4 +32,7 @@ class API {
 
   //booking
   static const booking = "$hostConnect/enye/booking/booking.php";
+
+  //push notif
+  static const pushNotif = "$hostConnect/enye/pushNotif.php";
 }

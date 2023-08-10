@@ -61,6 +61,7 @@ dependencies:
   google_fonts:
   email_validator:
   flutter_keyboard_visibility:
+  intl:
 
   firebase_messaging: ^14.6.5
   firebase_core: ^2.15.0
