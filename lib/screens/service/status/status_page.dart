@@ -24,6 +24,7 @@ class StatusPage extends StatefulWidget {
 class _StatusPageState extends State<StatusPage> {
   clientInfo? ClientInfo;
   bool? userSessionFuture;
+  String searchText = '';
 
   void initState(){
     super.initState();
@@ -56,6 +57,15 @@ class _StatusPageState extends State<StatusPage> {
     });
   }
 
+  List<TechnicalData> _filteredServices = [];
+  void filterSystemsList() {
+    _filteredServices = _services.where((technicalData) {
+      final svcId = technicalData.svcId.toLowerCase();
+      final searchQuery = searchText.toLowerCase();
+      return svcId.contains(searchQuery);
+    }).toList();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -64,12 +74,26 @@ class _StatusPageState extends State<StatusPage> {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          SizedBox(height: 10,),
+          const SizedBox(height: 10,),
+          TextField(
+            decoration: InputDecoration(
+              labelText: 'Search',
+              prefixIcon: Icon(Icons.search),
+            ),
+            onChanged: (value) {
+              setState(() {
+                searchText = value;
+                filterSystemsList();
+              });
+            },
+          ),
 
+          SizedBox(height: 10,),
           Expanded(
             child: ListView.builder(
-                itemCount: _services.length,
+                itemCount: searchText.isEmpty ? _services.length : _filteredServices.length,
                 itemBuilder: (_, index){
+                  _filteredServices = searchText.isEmpty ? _services : _filteredServices;
 
                   return AnimationConfiguration.staggeredList(
                     position: index,
@@ -81,7 +105,7 @@ class _StatusPageState extends State<StatusPage> {
                               onTap: (){
                                 //_showBottomSheet(context, services);
                               },
-                              child: TaskTile(services: _services[index]),
+                              child: TaskTile(services: _filteredServices[index]),
                             )
                           ],
                         ),
