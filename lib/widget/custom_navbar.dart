@@ -35,7 +35,8 @@ class _CustomNavBarState extends State<CustomNavBar> {
     if (ModalRoute.of(context)!.settings.arguments != null) {
       message = ModalRoute.of(context)!.settings.arguments as RemoteMessage;
 
-      if (message.data["goToPage"].toString() == 'Service'){
+      if (message.data["goToPage"].toString() == 'Status' ||
+          message.data["goToPage"].toString() == 'Completed' ){
         _initialIndex = 4;
       } else if (message.data["goToPage"].toString() == 'products'){
         _initialIndex = 2;
@@ -52,7 +53,7 @@ class _CustomNavBarState extends State<CustomNavBar> {
         systemsPage(),
         productsPage(),
         ProjectsPage(),
-        ServicePage(),
+        ServicePage(message: message as RemoteMessage),
       ];
     }
 

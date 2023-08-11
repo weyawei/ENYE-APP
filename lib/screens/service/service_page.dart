@@ -1,6 +1,7 @@
-import 'package:enye_app/screens/login/login_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter_session_manager/flutter_session_manager.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
@@ -9,17 +10,18 @@ import '../../config/api_firebase.dart';
 import '../../config/app_checksession.dart';
 import '../../widget/widgets.dart';
 import '../screens.dart';
-import 'booking_service.dart';
 
 class ServicePage extends StatefulWidget {
   static const String routeName = '/service';
 
-  ServicePage({super.key});
+  RemoteMessage? message;
 
-  static Route route(){
+  ServicePage({required this.message});
+
+  Route route(){
     return MaterialPageRoute(
         settings: const RouteSettings(name: routeName),
-        builder: (_) => ServicePage()
+        builder: (_) => ServicePage(message: message,)
     );
   }
 
@@ -28,6 +30,7 @@ class ServicePage extends StatefulWidget {
 }
 
 class _ServicePageState extends State<ServicePage> {
+  RemoteMessage message = RemoteMessage();
   bool? userSessionFuture;
 
   clientInfo? ClientInfo;
@@ -62,6 +65,18 @@ class _ServicePageState extends State<ServicePage> {
       await FirebaseServices().signOut();
       Navigator.of(context).push(MaterialPageRoute(builder: (context) => loginPage())).then((value) { setState(() {}); });
     });
+  }
+
+  void initState(){
+    super.initState();
+    if(widget.message!.data["goToPage"] == "Status"){
+
+      WidgetsBinding.instance?.addPostFrameCallback((_) {
+        Navigator.of(context).push(
+          MaterialPageRoute(builder: (BuildContext context) => StatusPage(message: widget.message!)),
+        );
+      });
+    }
   }
 
   @override
@@ -210,7 +225,7 @@ class _ServicePageState extends State<ServicePage> {
               GestureDetector(
                 onTap: (){
                   if (userSessionFuture == true) {
-                    Navigator.of(context).push(MaterialPageRoute(builder: (context) => StatusPage())).then((value) { setState(() {}); });
+                    Navigator.of(context).push(MaterialPageRoute(builder: (context) => StatusPage(message: message))).then((value) { setState(() {}); });
                   } else {
                     _errorSnackbar(context, "Login first !");
                   }
