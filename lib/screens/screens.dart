@@ -40,6 +40,7 @@ export 'service/technical_svc.dart';
 export 'service/tasktile_page.dart';
 
 export 'service/status/status_page.dart';
+export 'service/history/history_page.dart';
 
 export 'login/login_page.dart';
 export 'login/register_page.dart';

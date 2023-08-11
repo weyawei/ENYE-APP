@@ -6,12 +6,12 @@ import '../../../config/config.dart';
 import '../../../widget/widgets.dart';
 import '../../screens.dart';
 
-class StatusPage extends StatefulWidget {
+class HistoryPage extends StatefulWidget {
   static const String routeName = '/status';
 
   RemoteMessage? message;
 
-  StatusPage({required this.message});
+  HistoryPage({required this.message});
 
   Route route(){
     return MaterialPageRoute(
@@ -21,10 +21,10 @@ class StatusPage extends StatefulWidget {
   }
 
   @override
-  State<StatusPage> createState() => _StatusPageState();
+  State<HistoryPage> createState() => _HistoryPageState();
 }
 
-class _StatusPageState extends State<StatusPage> {
+class _HistoryPageState extends State<HistoryPage> {
   clientInfo? ClientInfo;
   bool? userSessionFuture;
   final searchController = TextEditingController();
@@ -59,7 +59,7 @@ class _StatusPageState extends State<StatusPage> {
   _getServices(){
     TechnicalDataServices.clientTechnicalData(ClientInfo!.client_id).then((technicalData){
       setState(() {
-        _services = technicalData.where((element) => element.status != "Completed").toList();
+        _services = technicalData.where((element) => element.status == "Completed").toList();
       });
     });
   }
@@ -75,13 +75,13 @@ class _StatusPageState extends State<StatusPage> {
 
   @override
   Widget build(BuildContext context) {
-    if(widget.message!.data["goToPage"] == "Status"){
+    if(widget.message!.data["goToPage"] == "Completed"){
       searchController.text = '${widget.message!.data["code"]}';
       filterSystemsList();
     }
 
     return Scaffold(
-      appBar: CustomAppBar(title: 'Status', imagePath: '',),
+      appBar: CustomAppBar(title: 'History', imagePath: '',),
       /*drawer: CustomDrawer(),*/
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,

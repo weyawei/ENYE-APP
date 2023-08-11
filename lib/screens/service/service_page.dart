@@ -70,10 +70,15 @@ class _ServicePageState extends State<ServicePage> {
   void initState(){
     super.initState();
     if(widget.message!.data["goToPage"] == "Status"){
-
       WidgetsBinding.instance?.addPostFrameCallback((_) {
         Navigator.of(context).push(
           MaterialPageRoute(builder: (BuildContext context) => StatusPage(message: widget.message!)),
+        );
+      });
+    } else if(widget.message!.data["goToPage"] == "Completed"){
+      WidgetsBinding.instance?.addPostFrameCallback((_) {
+        Navigator.of(context).push(
+          MaterialPageRoute(builder: (BuildContext context) => HistoryPage(message: widget.message!)),
         );
       });
     }
@@ -122,8 +127,8 @@ class _ServicePageState extends State<ServicePage> {
                           TextStyle(fontSize: 26, letterSpacing: 1.5, color: Colors.deepOrange.shade700),
                         )
                     ),
-                   // Text("${FirebaseAuth.instance.currentUser!.displayName}"),
-                    Text( FirebaseAuth.instance.currentUser?.displayName != null ? "${FirebaseAuth.instance.currentUser?.displayName}": "Hello Guest !"),
+                    // Text("${FirebaseAuth.instance.currentUser!.displayName}"),
+                    //Text( FirebaseAuth.instance.currentUser?.displayName != null ? "${FirebaseAuth.instance.currentUser?.displayName}": "Hello Guest !"),
                     PopupMenuButton(
                       icon: Container(
                         height: MediaQuery.of(context).size.height * 0.1,
@@ -260,7 +265,7 @@ class _ServicePageState extends State<ServicePage> {
               GestureDetector(
                 onTap: (){
                   if (userSessionFuture == true) {
-
+                    Navigator.of(context).push(MaterialPageRoute(builder: (context) => HistoryPage(message: message))).then((value) { setState(() {}); });
                   } else {
                     _errorSnackbar(context, "Login first !");
                   }
