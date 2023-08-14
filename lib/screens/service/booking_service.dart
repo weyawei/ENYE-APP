@@ -96,11 +96,45 @@ class _BookingSystemState extends State<BookingSystem> {
     generatedCode = '${concern}-${selectedDate?.month}${selectedDate?.day}${selectedDate?.year}$randomId';
   }
 
+  //initialDate configurator kapag naka-disable yung date +1 sa days and so on
+  bool selectableDayPredicate(DateTime date) {
+
+    int scheduledServiceCount = _services.where((services) {
+      if (services.status != "Cancelled"){
+        if(DateTime.parse(services.dateSched).month == date.month
+            && DateTime.parse(services.dateSched).day == date.day
+            && DateTime.parse(services.dateSched).year == date.year){
+          return true;
+        } else {
+          return false;
+        }
+      } else {
+        return false;
+      }
+    }).length;
+
+    print(scheduledServiceCount);
+    if (scheduledServiceCount >= 2){
+      return true;
+    } else if (date.weekday == DateTime.saturday || date.weekday == DateTime.sunday) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   //datepicker para sa date sched
   Future<void> _selectDate(BuildContext context) async {
+    DateTime initialDate = DateTime.now().add(Duration(days: 7));
+
+    //initialDate configurator kapag naka-disable yung date +1 sa days and so on
+    while (selectableDayPredicate(initialDate)) {
+      initialDate = initialDate.add(Duration(days: 1));
+    }
+
     final DateTime? picked = await showDatePicker(
       context: context,
-      initialDate: selectedDate ?? DateTime.now().add(Duration(days: 7)),
+      initialDate: selectedDate ?? initialDate,
       firstDate: DateTime.now().add(Duration(days: 5)),
       lastDate: DateTime.now().add(Duration(days: 60)),
       selectableDayPredicate: (DateTime date) {
@@ -110,7 +144,11 @@ class _BookingSystemState extends State<BookingSystem> {
 
         //database counting if may sched na disabled na sya
         int scheduledServiceCount = _services.where((services) {
-          return DateTime.parse(services.dateSched).isAtSameMomentAs(date);
+          if (services.status != "Cancelled"){
+            return DateTime.parse(services.dateSched).isAtSameMomentAs(date);
+          } else {
+            return false;
+          }
         }).length;
         return scheduledServiceCount < 2;
       }
