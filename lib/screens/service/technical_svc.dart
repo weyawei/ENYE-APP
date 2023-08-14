@@ -9,6 +9,7 @@ class TechnicalDataServices {
   static const GET_ALL_TECHNICAL = 'get_all_technical';
   static const GET_CLIENT_TECHNICAL = 'get_client_technical';
   static const GET_HANDLER_DATA = 'get_handler_data';
+  static const EDIT_TO_CANCELLED = 'edit_to_cancelled';
   static const BOOKING = 'add_booking';
 
   //get handler data from database
@@ -135,15 +136,17 @@ class TechnicalDataServices {
     }
   }
 
-  /*static Future<String> pushNotif(String title, String body) async {
+  //edit TO CANCEL BOOKING in database
+  static Future<String> editCancelBooking(String id, String svcId, String reason) async {
     try{
       var map = Map<String, dynamic>();
-      map['action'] = EDIT_TO_COMPLETED;
-      map['title'] = title;
-      map['body'] = body;
+      map['action'] = EDIT_TO_CANCELLED;
+      map['id'] = id;
+      map['svcId'] = svcId;
+      map['reason'] = reason;
 
-      final res = await http.post(Uri.parse(API.pushNotif), body: map); //passing value to result
-      print('pushNotif Response: ${res.body}');
+      final res = await http.post(Uri.parse(API.booking), body: map); //passing value to result
+      print('editToCancelled Response: ${res.body}');
 
       if(res.statusCode == 200){
         return res.body;
@@ -153,5 +156,6 @@ class TechnicalDataServices {
     } catch (e) {
       return "error";
     }
-  }*/
+  }
+
 }

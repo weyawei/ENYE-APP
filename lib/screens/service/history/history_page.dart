@@ -59,7 +59,7 @@ class _HistoryPageState extends State<HistoryPage> {
   _getServices(){
     TechnicalDataServices.clientTechnicalData(ClientInfo!.client_id).then((technicalData){
       setState(() {
-        _services = technicalData.where((element) => element.status == "Completed").toList();
+        _services = technicalData.where((element) => element.status == "Completed" || element.status == "Cancelled").toList();
       });
     });
   }
@@ -87,24 +87,41 @@ class _HistoryPageState extends State<HistoryPage> {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           const SizedBox(height: 10,),
-          TextField(
-            controller: searchController,
-            decoration: InputDecoration(
-              labelText: 'Search',
-              prefixIcon: Icon(Icons.search),
-            ),
-            onChanged: (value) {
-              setState(() {
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 18.0),
+            child: TextField(
+              controller: searchController,
+              decoration: InputDecoration(
+                labelText: 'Search SERVICE #',
+                prefixIcon: Icon(Icons.search),
+              ),
+              onChanged: (value) {
+                setState(() {
+                  filterSystemsList();
+                });
+              },
+              onEditingComplete: (){
                 filterSystemsList();
-              });
-            },
-            onEditingComplete: (){
-              filterSystemsList();
-            },
+              },
+            ),
           ),
 
-          SizedBox(height: 10,),
-          Expanded(
+          SizedBox(height: 25,),
+          _services.isEmpty
+           ? Expanded(
+             child: Container(
+              child: Center(
+                child: (Text(
+                  "No Data Available",
+                  style: TextStyle(
+                      fontSize: 40,
+                      color: Colors.grey
+                  ),
+                )),
+              ),
+          ),
+           )
+           : Expanded(
             child: ListView.builder(
                 itemCount: searchController.text.isEmpty ? _services.length : _filteredServices.length,
                 itemBuilder: (_, index){

@@ -120,7 +120,7 @@ class _TaskTileState extends State<TaskTile> {
                 ),
 
                 //handler data's
-                SizedBox(height: 12),
+                SizedBox(height: 10),
                 widget.services.status == "On Process" || widget.services.status == "Completed"
                   ? RichText(
                   softWrap: true,
@@ -153,26 +153,45 @@ class _TaskTileState extends State<TaskTile> {
                 )
                   : SizedBox.shrink(),
 
-                //once completed display dito yung note
-                SizedBox(height: 15),
-                widget.services.status == "Completed"
-                    ? RichText(
-                  softWrap: true,
-                  text: TextSpan(children: <TextSpan>
-                  [
-                    TextSpan(text: "NOTE : ",
-                      style: GoogleFonts.lato(
-                        textStyle: TextStyle(fontSize: 15, color: Colors.grey[100], letterSpacing: 0.5, fontWeight: FontWeight.bold),
-                      ),),
+                widget.services.status == "Cancelled"
+                  ? RichText(
+                softWrap: true,
+                text: TextSpan(children: <TextSpan>
+                [
+                  TextSpan(text: "REASON : ",
+                    style: GoogleFonts.lato(
+                      textStyle: TextStyle(fontSize: 15, color: Colors.grey[100], letterSpacing: 0.5, fontWeight: FontWeight.bold),
+                    ),),
 
-                    TextSpan(text: "${widget.services.notesComplete}",
-                      style: GoogleFonts.lato(
-                        textStyle: TextStyle(fontSize: 15, color: Colors.grey[100], letterSpacing: 0.8),
-                      ),),
-                  ]
-                  ),
-                )
-                    : SizedBox.shrink(),
+                  TextSpan(text: "${widget.services.notesComplete}",
+                    style: GoogleFonts.lato(
+                      textStyle: TextStyle(fontSize: 15, color: Colors.grey[100], letterSpacing: 0.8),
+                    ),),
+                ]
+                ),
+              )
+                  : SizedBox.shrink(),
+
+                //once completed display dito yung note
+                SizedBox(height: 10),
+                widget.services.status == "Completed"
+                  ? RichText(
+                softWrap: true,
+                text: TextSpan(children: <TextSpan>
+                [
+                  TextSpan(text: "NOTE : ",
+                    style: GoogleFonts.lato(
+                      textStyle: TextStyle(fontSize: 15, color: Colors.grey[100], letterSpacing: 0.5, fontWeight: FontWeight.bold),
+                    ),),
+
+                  TextSpan(text: "${widget.services.notesComplete}",
+                    style: GoogleFonts.lato(
+                      textStyle: TextStyle(fontSize: 15, color: Colors.grey[100], letterSpacing: 0.8),
+                    ),),
+                ]
+                ),
+              )
+                  : SizedBox.shrink(),
               ],
             ),
           ),
