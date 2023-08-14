@@ -232,7 +232,9 @@ class _loginPageState extends State<loginPage> {
                   ),
                 ],
               ),
-              Center(
+
+              //LOGIN WITH GOOGLE RON COMMENT LANG MUNA
+              /*Center(
                 child: Container(
                   margin: EdgeInsets.symmetric(horizontal: 30),
                   child: ElevatedButton(
@@ -276,7 +278,7 @@ class _loginPageState extends State<loginPage> {
                     ),
                   ),
                 ),
-              ),
+              ),*/
             ],
           ),
         ),
