@@ -18,6 +18,7 @@ class _BookingSystemState extends State<BookingSystem> {
   void initState(){
     super.initState();
     _services = [];
+    _ecCalendar = [];
     _getServices();
     //calling session data
     checkSession().getUserSessionStatus().then((bool) {
@@ -127,21 +128,53 @@ class _BookingSystemState extends State<BookingSystem> {
   }
 
   //datepicker para sa date sched
+  late List<CalendarData> _ecCalendar; //get the ec calendar
   Future<void> _selectDate(BuildContext context) async {
     DateTime initialDate = DateTime.now().add(Duration(days: 7));
+    DateTime firstDate = DateTime.now().add(Duration(days: 5));
+    DateTime lastDate = DateTime.now().add(Duration(days: 60));
 
     //initialDate configurator kapag naka-disable yung date +1 sa days and so on
     while (selectableDayPredicate(initialDate)) {
       initialDate = initialDate.add(Duration(days: 1));
     }
 
+    CalendarServices.calendarData(
+      "${DateFormat('yyyy-MM-dd').format(firstDate)}",
+      "${DateFormat('yyyy-MM-dd').format(lastDate)}"
+    ).then((CalendarData){
+      setState(() {
+        _ecCalendar = CalendarData;
+      });
+      print("Length ${CalendarData.length}");
+    });
+
     final DateTime? picked = await showDatePicker(
       context: context,
       initialDate: selectedDate ?? initialDate,
-      firstDate: DateTime.now().add(Duration(days: 5)),
-      lastDate: DateTime.now().add(Duration(days: 60)),
+      firstDate: firstDate,
+      lastDate: lastDate,
       selectableDayPredicate: (DateTime date) {
         if (date.weekday == DateTime.saturday || date.weekday == DateTime.sunday) {
+          return false;
+        }
+
+        //this code is from ChatGPT to disable dates came from ec calendar HR
+        bool isDateDisabled = _ecCalendar.any((CalendarData) {
+          DateTime startDate = DateTime.parse(CalendarData.start);
+          DateTime endDate = DateTime.parse(CalendarData.end);
+
+          for (DateTime currentDate = startDate;
+          currentDate.isBefore(endDate) || currentDate.isAtSameMomentAs(endDate);
+          currentDate = currentDate.add(Duration(days: 1))) {
+            if (currentDate.isAtSameMomentAs(date)) {
+              return true;
+            }
+          }
+          return false;
+        });
+
+        if (isDateDisabled) {
           return false;
         }
 

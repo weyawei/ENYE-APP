@@ -48,4 +48,7 @@ export 'login/clientinfo.dart';
 
 export 'contacts/contacts_page.dart';
 
+export 'ec_calendar/calendar.dart';
+export 'ec_calendar/calendar_svc.dart';
+
 export '/splash/splash_screen.dart';
