@@ -204,10 +204,14 @@ class _BookingSystemState extends State<BookingSystem> {
   clearFields(){
     subjectController.clear();
     descriptionController.clear();
-    compnameController.clear();
-    locationController.clear();
-    projnameController.clear();
-    contactController.clear();
+
+    if(ClientInfo?.login == 'GMAIL'){
+      compnameController.clear();
+      locationController.clear();
+      projnameController.clear();
+      contactController.clear();
+    }
+
     setState(() {
       selectedDate = null;
       selectedConcern = null;

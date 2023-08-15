@@ -1,6 +1,6 @@
 class API {
-  static const hostConnect = "https://enye.com.ph/enyecontrols_app";
-  //static const hostConnect = "http://192.168.0.137/adminenye";
+  //static const hostConnect = "https://enye.com.ph/enyecontrols_app";
+  static const hostConnect = "http://192.168.0.137/adminenye";
 
   //login and registration
   static const login = "$hostConnect/enye/login.php";
@@ -35,4 +35,7 @@ class API {
 
   //push notif
   static const pushNotif = "$hostConnect/enye/pushNotif.php";
+
+  //token table
+  static const token = "$hostConnect/enye/token.php";
 }

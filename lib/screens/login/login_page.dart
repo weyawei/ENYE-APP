@@ -75,6 +75,15 @@ class _loginPageState extends State<loginPage> {
               login: 'SIGNIN'
           ));
 
+          TokenServices.updateToken(token.toString(), clientData["client_id"]).then((result) {
+            if('success' == result){
+              print("Updated token successfully");
+            } else {
+              print("Error updating token");
+              //_errorSnackbar(context, "Error occured...");
+            }
+          });
+
           setState(() {
             disabling = true;
             ScaffoldMessenger.of(context).showSnackBar(
@@ -219,6 +228,15 @@ class _loginPageState extends State<loginPage> {
                         email: FirebaseAuth.instance.currentUser!.email.toString(),
                         login: 'GMAIL',
                       ));
+
+                      dynamic token = await SessionManager().get("token");
+                      TokenServices.updateToken(token.toString(), FirebaseAuth.instance.currentUser!.uid.toString()).then((result) {
+                        if('success' == result){
+                          print("Updated token successfully");
+                        } else {
+                          print("Error updating token");
+                        }
+                      });
                       Navigator.pop(context);
                     },
                     child: Image(

@@ -54,12 +54,23 @@ class _ServicePageState extends State<ServicePage> {
   }
 
   Future<void> logoutClient() async {
+    dynamic token = await SessionManager().get("token");
+
     await SessionManager().remove("client_data");
     await FirebaseServices().signOut();
-    setState(() async {
+
+    //clear the client_id in a token
+    TokenServices.updateToken(token.toString(), "").then((result) {
+      if('success' == result){
+        print("Updated token successfully");
+      } else {
+        print("Error updating token");
+      }
+    });
+
+    setState(() {
       userSessionFuture = false;
       ClientInfo = null; // Clear the client info
-      await FirebaseServices().signOut();
       Navigator.of(context).push(MaterialPageRoute(builder: (context) => loginPage())).then((value) { setState(() {}); });
     });
   }
