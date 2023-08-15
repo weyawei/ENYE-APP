@@ -3,12 +3,9 @@ import 'dart:convert';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_session_manager/flutter_session_manager.dart';
-import 'package:google_sign_in/google_sign_in.dart';
-import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import 'package:http/http.dart' as http;
 
-import '../../config/api_connection.dart';
-import '../../config/api_firebase.dart';
+import '../../config/config.dart';
 import '../../widget/widgets.dart';
 import '../screens.dart';
 
@@ -74,7 +71,8 @@ class _loginPageState extends State<loginPage> {
               project_name: clientData["project_name"],
               contact_no: clientData["contact_no"],
               image: clientData["image"],
-              email: clientData["email"]
+              email: clientData["email"],
+              login: 'SIGNIN'
           ));
 
           setState(() {
@@ -211,14 +209,15 @@ class _loginPageState extends State<loginPage> {
                     onTap: () async {
                       await FirebaseServices().signInWithGoogle();
                       await SessionManager().set("client_data",  clientInfo(
-                          client_id: FirebaseAuth.instance.currentUser!.uid.toString(),
-                          name: FirebaseAuth.instance.currentUser!.displayName.toString(),
-                          company_name: "",
-                          location: "",
-                          project_name: "",
-                          contact_no: "",
-                          image: FirebaseAuth.instance.currentUser!.photoURL.toString(),
-                          email: FirebaseAuth.instance.currentUser!.email.toString(),
+                        client_id: FirebaseAuth.instance.currentUser!.uid.toString(),
+                        name: FirebaseAuth.instance.currentUser!.displayName.toString(),
+                        company_name: '',
+                        location: '',
+                        project_name: '',
+                        contact_no: '',
+                        image: FirebaseAuth.instance.currentUser!.photoURL.toString(),
+                        email: FirebaseAuth.instance.currentUser!.email.toString(),
+                        login: 'GMAIL',
                       ));
                       Navigator.pop(context);
                     },
