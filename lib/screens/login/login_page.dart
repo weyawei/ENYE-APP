@@ -180,7 +180,7 @@ class _loginPageState extends State<loginPage> {
               ),
 
               //or continue with
-              /*const SizedBox(height: 30,),
+              const SizedBox(height: 30,),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 25.0),
                 child: Row(
@@ -201,21 +201,40 @@ class _loginPageState extends State<loginPage> {
                     ),
                   ],
                 ),
-              ),*/
+              ),
 
               //gmail + facebook sign in
-              /*SizedBox(height: 25,),
-              const Row(
+              Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Image(image: AssetImage('assets/icons/gmail.png'), height: 40, width: 40),
-                  SizedBox(width: 25,),
-                  Image(image: AssetImage('assets/icons/facebook-v2.png'), height: 40, width: 40,),
+                  GestureDetector(
+                    onTap: () async {
+                      await FirebaseServices().signInWithGoogle();
+                      await SessionManager().set("client_data",  clientInfo(
+                          client_id: FirebaseAuth.instance.currentUser!.uid.toString(),
+                          name: FirebaseAuth.instance.currentUser!.displayName.toString(),
+                          company_name: "",
+                          location: "",
+                          project_name: "",
+                          contact_no: "",
+                          image: FirebaseAuth.instance.currentUser!.photoURL.toString(),
+                          email: FirebaseAuth.instance.currentUser!.email.toString(),
+                      ));
+                      Navigator.pop(context);
+                    },
+                    child: Image(
+                      image: AssetImage('assets/icons/gmail.png'),
+                      height: MediaQuery.of(context).size.height * 0.12,
+                      width: MediaQuery.of(context).size.width * 0.12,
+                    ),
+                  ),
+
+                  /*SizedBox(width: 25,),
+                  Image(image: AssetImage('assets/icons/facebook-v2.png'), height: 40, width: 40,),*/
                 ],
-              ),*/
+              ),
 
               //not a member sign up
-              const SizedBox(height: 10,),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [

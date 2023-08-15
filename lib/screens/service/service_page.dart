@@ -1,13 +1,10 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:flutter_session_manager/flutter_session_manager.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
 
-import '../../config/api_firebase.dart';
-import '../../config/app_checksession.dart';
+import '../../config/config.dart';
 import '../../widget/widgets.dart';
 import '../screens.dart';
 
@@ -117,7 +114,7 @@ class _ServicePageState extends State<ServicePage> {
               ),
 
               Padding(
-                padding: const EdgeInsets.only(left: 15.0, right: 15, top: 20),
+                padding: const EdgeInsets.only(left: 20.0, right: 20),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -130,12 +127,16 @@ class _ServicePageState extends State<ServicePage> {
                     // Text("${FirebaseAuth.instance.currentUser!.displayName}"),
                     //Text( FirebaseAuth.instance.currentUser?.displayName != null ? "${FirebaseAuth.instance.currentUser?.displayName}": "Hello Guest !"),
                     PopupMenuButton(
-                      icon: Container(
-                        height: MediaQuery.of(context).size.height * 0.1,
+                      child: Container(
+                        height: MediaQuery.of(context).size.height * 0.11,
                         width: MediaQuery.of(context).size.width * 0.11,
                         decoration: BoxDecoration(
-                         // image: DecorationImage(image: AssetImage("assets/icons/user.png")),
-                          image: DecorationImage(image: FirebaseAuth == true ? Image.network("${FirebaseAuth.instance.currentUser!.photoURL}").image : AssetImage("assets/icons/user.png")),
+                          shape: BoxShape.circle,
+                          image: DecorationImage(
+                            image: userSessionFuture == true && ClientInfo?.image != ""
+                              ? Image.network("${ClientInfo?.image}").image
+                              : AssetImage("assets/icons/user.png"),
+                          ),
                         ),
                       ),
                       onSelected: (value) {
