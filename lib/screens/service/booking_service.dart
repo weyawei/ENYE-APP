@@ -119,10 +119,27 @@ class _BookingSystemState extends State<BookingSystem> {
       }
     }).length;
 
-    print(scheduledServiceCount);
+    bool isDateDisabled = _ecCalendar.any((CalendarData) {
+      DateTime startDate = DateTime.parse(CalendarData.start);
+      DateTime endDate = DateTime.parse(CalendarData.end);
+
+      for (DateTime currentDate = startDate;
+      currentDate.isBefore(endDate) || currentDate.isAtSameMomentAs(endDate);
+      currentDate = currentDate.add(Duration(days: 1))) {
+        if (currentDate.month == date.month
+            && currentDate.day == date.day
+            && currentDate.year == date.year) {
+          return true;
+        }
+      }
+      return false;
+    });
+
     if (scheduledServiceCount >= 2){
       return true;
     } else if (date.weekday == DateTime.saturday || date.weekday == DateTime.sunday) {
+      return true;
+    } else if (isDateDisabled) {
       return true;
     } else {
       return false;
