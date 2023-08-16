@@ -161,6 +161,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "5.2.1+1"
+  email_otp:
+    dependency: "direct main"
+    description:
+      name: email_otp
+      sha256: cd1c90824f4da83764d8d0fdadcb152e4b4236102f3334f4753fc7f3d53a910b
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.0.1"
   email_validator:
     dependency: "direct main"
     description:
@@ -366,14 +374,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "7.0.0+1"
-  flutter_otp_text_field:
-    dependency: "direct main"
-    description:
-      name: flutter_otp_text_field
-      sha256: c9164ba391071fb9783698256ddbb9efc960cfed056d843db164711c65b1b114
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.1.1"
   flutter_pdfview:
     dependency: "direct main"
     description:
@@ -428,10 +428,10 @@ packages:
     dependency: "direct main"
     description:
       name: google_fonts
-      sha256: e20ff62b158b96f392bfc8afe29dee1503c94fbea2cbe8186fd59b756b8ae982
+      sha256: "6b6f10f0ce3c42f6552d1c70d2c28d764cf22bb487f50f66cca31dcd5194f4d6"
       url: "https://pub.dev"
     source: hosted
-    version: "5.1.0"
+    version: "4.0.4"
   google_identity_services_web:
     dependency: transitive
     description:
@@ -492,10 +492,10 @@ packages:
     dependency: "direct main"
     description:
       name: http
-      sha256: "759d1a329847dd0f39226c688d3e06a6b8679668e350e2891a6474f8b4bb8525"
+      sha256: "5895291c13fa8a3bd82e76d5627f69e0d85ca6a30dcac95c4ea19a5d555879c2"
       url: "https://pub.dev"
     source: hosted
-    version: "1.1.0"
+    version: "0.13.6"
   http_parser:
     dependency: transitive
     description:
@@ -688,6 +688,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.14.0"
+  pinput:
+    dependency: "direct main"
+    description:
+      name: pinput
+      sha256: "92b60664eec437a53de7cf5472ed3e65edb2dc32d7070875887c4285a9c0a088"
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.0.0"
   platform:
     dependency: transitive
     description:
@@ -805,6 +813,14 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.99"
+  smart_auth:
+    dependency: transitive
+    description:
+      name: smart_auth
+      sha256: a25229b38c02f733d0a4e98d941b42bed91a976cb589e934895e60ccfa674cf6
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.1.1"
   smooth_page_indicator:
     dependency: "direct main"
     description:
@@ -909,6 +925,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.2.2"
+  universal_platform:
+    dependency: transitive
+    description:
+      name: universal_platform
+      sha256: d315be0f6641898b280ffa34e2ddb14f3d12b1a37882557869646e0cc363d0cc
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.0+1"
   url_launcher:
     dependency: "direct main"
     description:
