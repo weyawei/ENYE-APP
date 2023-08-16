@@ -88,6 +88,7 @@ class _loginPageState extends State<loginPage> {
             disabling = true;
             ScaffoldMessenger.of(context).showSnackBar(
               const SnackBar(
+                duration: Duration(seconds: 1),
                 backgroundColor: Colors.green,
                 behavior: SnackBarBehavior.floating,
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(4))),
@@ -104,6 +105,7 @@ class _loginPageState extends State<loginPage> {
         } else {
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(
+              duration: Duration(seconds: 1),
               backgroundColor: Colors.redAccent,
               behavior: SnackBarBehavior.floating,
               shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(4))),

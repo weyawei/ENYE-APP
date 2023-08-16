@@ -222,8 +222,8 @@ class _BookingSystemState extends State<BookingSystem> {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         margin: EdgeInsets.only(bottom: MediaQuery.of(context).size.height * 0.7,),
-        duration: Duration(seconds: 2),
-        backgroundColor: Colors.greenAccent,
+        duration: Duration(seconds: 1),
+        backgroundColor: Colors.green,
         behavior: SnackBarBehavior.floating,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(4))),
         content: Row(
@@ -241,7 +241,7 @@ class _BookingSystemState extends State<BookingSystem> {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         margin: EdgeInsets.only(bottom: MediaQuery.of(context).size.height * 0.7,),
-        duration: Duration(seconds: 2),
+        duration: Duration(seconds: 1),
         backgroundColor: Colors.redAccent,
         behavior: SnackBarBehavior.floating,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(4))),
@@ -572,7 +572,7 @@ class _BookingSystemState extends State<BookingSystem> {
                       ClientInfo?.contact_no == ''
                        ? Padding(
                           padding: const EdgeInsets.only(top: 8.0),
-                          child: Normal2TextField(
+                          child: ContactTextField(
                             controller: contactController,
                             hintText: 'Contact # *',
                           ),

@@ -53,6 +53,7 @@ class _registerPageState extends State<registerPage> {
       if (passwordController.text.trim() != conpasswordController.text.trim()){
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
+            duration: Duration(seconds: 1),
             backgroundColor: Colors.redAccent,
             behavior: SnackBarBehavior.floating,
             shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(4))),
@@ -92,6 +93,7 @@ class _registerPageState extends State<registerPage> {
           if(resBodyOfSignUp['email_taken'] == true){
             ScaffoldMessenger.of(context).showSnackBar(
               const SnackBar(
+                duration: Duration(seconds: 1),
                 backgroundColor: Colors.orangeAccent,
                 behavior: SnackBarBehavior.floating,
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(4))),
@@ -115,6 +117,7 @@ class _registerPageState extends State<registerPage> {
 
             ScaffoldMessenger.of(context).showSnackBar(
               const SnackBar(
+                duration: Duration(seconds: 1),
                 backgroundColor: Colors.green,
                 behavior: SnackBarBehavior.floating,
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(4))),
@@ -130,6 +133,7 @@ class _registerPageState extends State<registerPage> {
           } else {
             ScaffoldMessenger.of(context).showSnackBar( //registration failed
               const SnackBar(
+                duration: Duration(seconds: 1),
                 backgroundColor: Colors.redAccent,
                 behavior: SnackBarBehavior.floating,
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(4))),
@@ -210,10 +214,9 @@ class _registerPageState extends State<registerPage> {
                   ),
 
                   const SizedBox(height: 10,),
-                  NormalTextField(
+                  ContactTextField(
                     controller: contactController,
                     hintText: 'Contact No',
-                    disabling: disabling,
                   ),
 
                   //email textfield

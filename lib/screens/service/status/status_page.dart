@@ -66,8 +66,8 @@ class _StatusPageState extends State<StatusPage> {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         margin: EdgeInsets.only(bottom: MediaQuery.of(context).size.height * 0.7,),
-        duration: const Duration(seconds: 2),
-        backgroundColor: Colors.greenAccent,
+        duration: Duration(seconds: 1),
+        backgroundColor: Colors.green,
         behavior: SnackBarBehavior.floating,
         shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(4))),
         content: Row(
@@ -85,7 +85,7 @@ class _StatusPageState extends State<StatusPage> {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         margin: EdgeInsets.only(bottom: MediaQuery.of(context).size.height * 0.7,),
-        duration: const Duration(seconds: 2),
+        duration: Duration(seconds: 1),
         backgroundColor: Colors.redAccent,
         behavior: SnackBarBehavior.floating,
         shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(4))),
