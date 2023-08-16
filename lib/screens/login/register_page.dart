@@ -170,60 +170,87 @@ class _registerPageState extends State<registerPage> {
       },
     );
   }*/
+
   void _showOTPDialog() {
     showDialog(
       context: context,
       builder: (BuildContext context) {
+        final defaultPinTheme = PinTheme(
+          width: 56,
+          height: 56,
+          textStyle: TextStyle(fontSize: 20, color: Colors.white, fontWeight: FontWeight.w600),
+          decoration: BoxDecoration(
+            border: Border.all(color: Colors.deepOrange),
+            borderRadius: BorderRadius.circular(20),
+            color: Colors.deepOrange.shade50,
+          ),
+        );
+        final focusedPinTheme = defaultPinTheme.copyDecorationWith(
+          border: Border.all(color: Colors.deepOrange.shade200),
+          borderRadius: BorderRadius.circular(8),
+        );
+        final submittedPinTheme = defaultPinTheme.copyWith(
+          decoration: defaultPinTheme.decoration?.copyWith(
+            color: Colors.deepOrange.shade300,
+          ),
+        );
+
         return Dialog(
           // Set dialog properties such as shape, elevation, etc.
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Padding(
-                padding: EdgeInsets.all(16),
-                child: Text(
-                  "Enter OTP",
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                ),
-              ),
-              Padding(
-                padding: EdgeInsets.all(16),
-                child: Pinput(
-                  controller: pin,
-                  length: 6,
-                  scrollPadding: EdgeInsets.all(5),
-                ),
-              ),
-              GestureDetector(
-                onTap: () async {
-                  Navigator.of(context).pop(); // Close the dialog
-                  if (await myauth.verifyOTP(otp: pin.text)) {
-                    signUserUp();
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                        content: Text("OTP is verified"),
-                      ),
-                    );
-                  } else {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                        content: Text("Invalid OTP"),
-                      ),
-                    );
-                  }
-                },
-                child: Container(
+          child: Container(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Padding(
                   padding: EdgeInsets.all(16),
-                  color: Colors.blue,
-                  child: Center(
-                    child: Text(
-                      "Verify",
-                      style: TextStyle(color: Colors.white, fontSize: 16),
+                  child: Text(
+                    "Enter OTP",
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsets.all(16),
+                  child: Pinput(
+                    controller: pin,
+                    length: 6,
+                    defaultPinTheme: defaultPinTheme,
+                    focusedPinTheme: focusedPinTheme,
+                    submittedPinTheme: submittedPinTheme,
+
+                   // scrollPadding: EdgeInsets.all(5),
+                  ),
+                ),
+                GestureDetector(
+                  onTap: () async {
+                    Navigator.of(context).pop(); // Close the dialog
+                    if (await myauth.verifyOTP(otp: pin.text)) {
+                      signUserUp();
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text("OTP is verified"),
+                        ),
+                      );
+                    } else {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text("Invalid OTP"),
+                        ),
+                      );
+                    }
+                  },
+                  child: Container(
+                    padding: EdgeInsets.all(16),
+                    color: Colors.deepOrangeAccent,
+                    child: Center(
+                      child: Text(
+                        "Verify",
+                        style: TextStyle(color: Colors.white, fontSize: 16),
+                      ),
                     ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         );
       },
