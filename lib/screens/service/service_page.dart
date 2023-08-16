@@ -307,12 +307,12 @@ class _ServicePageState extends State<ServicePage> {
                           ),
                         ),
                       ),
-                    )
+                    ),
                 ),
               ),
 
             ],
-          )
+          ),
         ],
       ),
     );

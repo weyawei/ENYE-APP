@@ -63,6 +63,7 @@ dependencies:
   flutter_keyboard_visibility:
   intl:
   flutter_staggered_animations:
+  speech_to_text: ^6.3.0
 
   firebase_messaging: ^14.6.5
   firebase_core: ^2.15.0
