@@ -3,12 +3,9 @@ import 'dart:convert';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_session_manager/flutter_session_manager.dart';
-import 'package:google_sign_in/google_sign_in.dart';
-import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import 'package:http/http.dart' as http;
 
-import '../../config/api_connection.dart';
-import '../../config/api_firebase.dart';
+import '../../config/config.dart';
 import '../../widget/widgets.dart';
 import '../screens.dart';
 
@@ -74,13 +71,24 @@ class _loginPageState extends State<loginPage> {
               project_name: clientData["project_name"],
               contact_no: clientData["contact_no"],
               image: clientData["image"],
-              email: clientData["email"]
+              email: clientData["email"],
+              login: 'SIGNIN'
           ));
+
+          TokenServices.updateToken(token.toString(), clientData["client_id"]).then((result) {
+            if('success' == result){
+              print("Updated token successfully");
+            } else {
+              print("Error updating token");
+              //_errorSnackbar(context, "Error occured...");
+            }
+          });
 
           setState(() {
             disabling = true;
             ScaffoldMessenger.of(context).showSnackBar(
               const SnackBar(
+                duration: Duration(seconds: 1),
                 backgroundColor: Colors.green,
                 behavior: SnackBarBehavior.floating,
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(4))),
@@ -97,6 +105,7 @@ class _loginPageState extends State<loginPage> {
         } else {
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(
+              duration: Duration(seconds: 1),
               backgroundColor: Colors.redAccent,
               behavior: SnackBarBehavior.floating,
               shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(4))),
@@ -180,7 +189,7 @@ class _loginPageState extends State<loginPage> {
               ),
 
               //or continue with
-              /*const SizedBox(height: 30,),
+              const SizedBox(height: 30,),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 25.0),
                 child: Row(
@@ -201,21 +210,50 @@ class _loginPageState extends State<loginPage> {
                     ),
                   ],
                 ),
-              ),*/
+              ),
 
               //gmail + facebook sign in
-              /*SizedBox(height: 25,),
-              const Row(
+              Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Image(image: AssetImage('assets/icons/gmail.png'), height: 40, width: 40),
-                  SizedBox(width: 25,),
-                  Image(image: AssetImage('assets/icons/facebook-v2.png'), height: 40, width: 40,),
+                  GestureDetector(
+                    onTap: () async {
+                      await FirebaseServices().signInWithGoogle();
+                      await SessionManager().set("client_data",  clientInfo(
+                        client_id: FirebaseAuth.instance.currentUser!.uid.toString(),
+                        name: FirebaseAuth.instance.currentUser!.displayName.toString(),
+                        company_name: '',
+                        location: '',
+                        project_name: '',
+                        contact_no: '',
+                        image: FirebaseAuth.instance.currentUser!.photoURL.toString(),
+                        email: FirebaseAuth.instance.currentUser!.email.toString(),
+                        login: 'GMAIL',
+                      ));
+
+                      dynamic token = await SessionManager().get("token");
+                      TokenServices.updateToken(token.toString(), FirebaseAuth.instance.currentUser!.uid.toString()).then((result) {
+                        if('success' == result){
+                          print("Updated token successfully");
+                        } else {
+                          print("Error updating token");
+                        }
+                      });
+                      Navigator.pop(context);
+                    },
+                    child: Image(
+                      image: AssetImage('assets/icons/gmail.png'),
+                      height: MediaQuery.of(context).size.height * 0.12,
+                      width: MediaQuery.of(context).size.width * 0.12,
+                    ),
+                  ),
+
+                  /*SizedBox(width: 25,),
+                  Image(image: AssetImage('assets/icons/facebook-v2.png'), height: 40, width: 40,),*/
                 ],
-              ),*/
+              ),
 
               //not a member sign up
-              const SizedBox(height: 10,),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -232,7 +270,9 @@ class _loginPageState extends State<loginPage> {
                   ),
                 ],
               ),
-              Center(
+
+              //LOGIN WITH GOOGLE RON COMMENT LANG MUNA
+              /*Center(
                 child: Container(
                   margin: EdgeInsets.symmetric(horizontal: 30),
                   child: ElevatedButton(
@@ -276,7 +316,7 @@ class _loginPageState extends State<loginPage> {
                     ),
                   ),
                 ),
-              ),
+              ),*/
             ],
           ),
         ),

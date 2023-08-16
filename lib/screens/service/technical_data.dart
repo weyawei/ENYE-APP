@@ -1,4 +1,4 @@
-//values na meron si categories
+//values na meron si booking galing sa database
 class TechnicalData {
   String id;
   String svcId;
@@ -54,6 +54,36 @@ class TechnicalData {
       status: json['status'] as String,
       svcHandler: json['service_handler'] as String,
       notesComplete: json['notesComplete'] as String,
+    );
+  }
+}
+
+//userAdmin certain data
+class UserAdminData {
+  String user_id;
+  String name;
+  String contact;
+  String email;
+  String position;
+  String fcmToken;
+
+  UserAdminData({
+    required this.user_id,
+    required this.name,
+    required this.contact,
+    required this.email,
+    required this.position,
+    required this.fcmToken,
+  });
+
+  factory UserAdminData.fromJson(Map<String, dynamic> json) {
+    return UserAdminData(
+      user_id: json['user_id'] as String,
+      name: json['name'] as String,
+      contact: json['contact'] as String,
+      email: json['email'] as String,
+      position: json['position'] as String,
+      fcmToken: json['fcmToken'] as String,
     );
   }
 }

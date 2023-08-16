@@ -4,12 +4,38 @@ import 'package:intl/intl.dart';
 
 import '../screens.dart';
 
-class TaskTile extends StatelessWidget {
+class TaskTile extends StatefulWidget {
   final TechnicalData services;
   const TaskTile({super.key, required this.services});
 
   @override
+  State<TaskTile> createState() => _TaskTileState();
+}
+
+class _TaskTileState extends State<TaskTile> {
+  List<UserAdminData> _handler = [];
+
+  _getServices(){
+    if (widget.services.status != "Unread") {
+      TechnicalDataServices.handlerData(widget.services.svcHandler).then((
+          UserAdminData) {
+        setState(() {
+          _handler = UserAdminData;
+        });
+        print("Length ${UserAdminData.length}");
+      });
+    }
+  }
+
+  @override
+  void initState(){
+    super.initState();
+    _getServices();
+  }
+
+  @override
   Widget build(BuildContext context) {
+
     return Container(
       padding:
       EdgeInsets.symmetric(horizontal: 20),
@@ -20,7 +46,7 @@ class TaskTile extends StatelessWidget {
         //  width: SizeConfig.screenWidth * 0.78,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(16),
-          color: _getStatusColor(services?.status),
+          color: _getStatusColor(widget.services.status),
         ),
         child: Row(children: [
           Expanded(
@@ -28,7 +54,7 @@ class TaskTile extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  "#${services?.svcId}",
+                  "#${widget.services.svcId}",
                   style: GoogleFonts.lato(
                     textStyle: const TextStyle(
                       fontSize: 16,
@@ -44,11 +70,11 @@ class TaskTile extends StatelessWidget {
                   softWrap: true,
                   text: TextSpan(children:
                   [
-                    TextSpan(text: "${services?.service} - ",
+                    TextSpan(text: "${widget.services.service} - ",
                       style: GoogleFonts.lato(
                         textStyle: TextStyle(fontSize: 15, fontWeight: FontWeight.bold, color: Colors.white),
                       ),),
-                    TextSpan(text: "(${services!.svcTitle})",
+                    TextSpan(text: "(${widget.services.svcTitle})",
                       style: GoogleFonts.lato(
                         textStyle: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Colors.grey[100], letterSpacing: 0.8),
                       ),),
@@ -65,7 +91,7 @@ class TaskTile extends StatelessWidget {
                       style: GoogleFonts.lato(
                         textStyle: TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: Colors.grey[100], letterSpacing: 0.8),
                       ),),
-                    TextSpan(text: "${services!.svcDesc}",
+                    TextSpan(text: "${widget.services.svcDesc}",
                       style: GoogleFonts.lato(
                         textStyle: TextStyle(fontSize: 14, color: Colors.grey[100], letterSpacing: 0.8),
                       ),),
@@ -84,7 +110,7 @@ class TaskTile extends StatelessWidget {
                     ),
                     SizedBox(width: 4),
                     Text(
-                      DateFormat.yMMMd().format(DateTime.parse(services!.dateSched)),
+                      DateFormat.yMMMd().format(DateTime.parse(widget.services.dateSched)),
                       style: GoogleFonts.lato(
                         textStyle:
                         TextStyle(fontSize: 15, color: Colors.grey[100]),
@@ -94,19 +120,77 @@ class TaskTile extends StatelessWidget {
                 ),
 
                 //handler data's
-                SizedBox(height: 12),
-                services!.status == "On Process"
+                SizedBox(height: 10),
+                widget.services.status == "On Process" || widget.services.status == "Completed"
                   ? RichText(
                   softWrap: true,
                   text: TextSpan(children: <TextSpan>
                   [
-                    TextSpan(text: "${services!.svcHandler} || ",
+                    TextSpan(text: "Handler : ",
+                      style: GoogleFonts.lato(
+                        textStyle: TextStyle(fontSize: 14, color: Colors.grey[100], letterSpacing: 0.5, fontWeight: FontWeight.bold),
+                      ),),
+
+                    TextSpan(text: "${_handler.elementAtOrNull(0)?.name} || ",
+                      style: GoogleFonts.lato(
+                        textStyle: TextStyle(fontSize: 14, color: Colors.grey[100], letterSpacing: 0.8),
+                      ),),
+
+                    TextSpan(text: "${_handler.elementAtOrNull(0)?.position} || ",
+                      style: GoogleFonts.lato(
+                        textStyle: TextStyle(fontSize: 14, color: Colors.grey[100], letterSpacing: 0.8),
+                      ),),
+                    TextSpan(text: "${_handler.elementAtOrNull(0)?.contact} || ",
+                      style: GoogleFonts.lato(
+                        textStyle: TextStyle(fontSize: 14, color: Colors.grey[100], letterSpacing: 0.8),
+                      ),),
+                    TextSpan(text: "${_handler.elementAtOrNull(0)?.email}",
                       style: GoogleFonts.lato(
                         textStyle: TextStyle(fontSize: 14, color: Colors.grey[100], letterSpacing: 0.8),
                       ),),
                   ]
                   ),
                 )
+                  : SizedBox.shrink(),
+
+                widget.services.status == "Cancelled"
+                  ? RichText(
+                softWrap: true,
+                text: TextSpan(children: <TextSpan>
+                [
+                  TextSpan(text: "REASON : ",
+                    style: GoogleFonts.lato(
+                      textStyle: TextStyle(fontSize: 15, color: Colors.grey[100], letterSpacing: 0.5, fontWeight: FontWeight.bold),
+                    ),),
+
+                  TextSpan(text: "${widget.services.notesComplete}",
+                    style: GoogleFonts.lato(
+                      textStyle: TextStyle(fontSize: 15, color: Colors.grey[100], letterSpacing: 0.8),
+                    ),),
+                ]
+                ),
+              )
+                  : SizedBox.shrink(),
+
+                //once completed display dito yung note
+                SizedBox(height: 10),
+                widget.services.status == "Completed"
+                  ? RichText(
+                softWrap: true,
+                text: TextSpan(children: <TextSpan>
+                [
+                  TextSpan(text: "NOTE : ",
+                    style: GoogleFonts.lato(
+                      textStyle: TextStyle(fontSize: 15, color: Colors.grey[100], letterSpacing: 0.5, fontWeight: FontWeight.bold),
+                    ),),
+
+                  TextSpan(text: "${widget.services.notesComplete}",
+                    style: GoogleFonts.lato(
+                      textStyle: TextStyle(fontSize: 15, color: Colors.grey[100], letterSpacing: 0.8),
+                    ),),
+                ]
+                ),
+              )
                   : SizedBox.shrink(),
               ],
             ),
@@ -120,7 +204,7 @@ class TaskTile extends StatelessWidget {
           RotatedBox(
             quarterTurns: 3,
             child: Text(
-              services!.status.toUpperCase(),
+              widget.services.status.toUpperCase(),
               style: GoogleFonts.lato(
                 textStyle: TextStyle(
                     fontSize: 12,

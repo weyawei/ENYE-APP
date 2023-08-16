@@ -1,16 +1,48 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
-import '../../../config/api_connection.dart';
+import '../../config/config.dart';
 import '../screens.dart';
 
 class TechnicalDataServices {
   //this is same as in PHP code action made by the user CRUD
   static const GET_ALL_TECHNICAL = 'get_all_technical';
   static const GET_CLIENT_TECHNICAL = 'get_client_technical';
+  static const GET_HANDLER_DATA = 'get_handler_data';
+  static const EDIT_TO_CANCELLED = 'edit_to_cancelled';
   static const BOOKING = 'add_booking';
 
-  //get data categories from database
+  //get handler data from database
+  static Future <List<UserAdminData>> handlerData(String user_id) async {
+    try{
+      var map = Map<String, dynamic>();
+      map['action'] = GET_HANDLER_DATA;
+      map['user_id'] = user_id;
+
+      //get all data of categories
+      final res = await http.post(Uri.parse(API.booking), body: map); //passing value to result
+      print('Handler Data Response: ${res.body}');
+
+      if(res.statusCode == 200){
+        List<UserAdminData> list = parseResHandler(res.body);
+        return list;
+      } else {
+        throw Exception('Failed to retrieve Handler Data');
+        //return List<Categories>();
+      }
+    } catch (e) {
+      throw Exception('Failed to retrieve Handler Data');
+      //return List<Categories>();
+    }
+  }
+
+  static List<UserAdminData> parseResHandler(String responseBody){
+    //conversion from web server into data by using categories.dart
+    final parsed = json.decode(responseBody).cast<Map<String, dynamic>>();
+    return parsed.map<UserAdminData>((json) => UserAdminData.fromJson(json)).toList();
+  }
+
+  //get all bookings para sa date disabling from database
   static Future <List<TechnicalData>> getTechnicalData() async {
     try{
       var map = Map<String, dynamic>();
@@ -39,7 +71,7 @@ class TechnicalDataServices {
     return parsed.map<TechnicalData>((json) => TechnicalData.fromJson(json)).toList();
   }
 
-  //get data categories from database
+  //get booking of certain client from database
   static Future <List<TechnicalData>> clientTechnicalData(String client_id) async {
     try{
       var map = Map<String, dynamic>();
@@ -104,15 +136,17 @@ class TechnicalDataServices {
     }
   }
 
-  /*static Future<String> pushNotif(String title, String body) async {
+  //edit TO CANCEL BOOKING in database
+  static Future<String> editCancelBooking(String id, String svcId, String reason) async {
     try{
       var map = Map<String, dynamic>();
-      map['action'] = EDIT_TO_COMPLETED;
-      map['title'] = title;
-      map['body'] = body;
+      map['action'] = EDIT_TO_CANCELLED;
+      map['id'] = id;
+      map['svcId'] = svcId;
+      map['reason'] = reason;
 
-      final res = await http.post(Uri.parse(API.pushNotif), body: map); //passing value to result
-      print('pushNotif Response: ${res.body}');
+      final res = await http.post(Uri.parse(API.booking), body: map); //passing value to result
+      print('editToCancelled Response: ${res.body}');
 
       if(res.statusCode == 200){
         return res.body;
@@ -122,5 +156,6 @@ class TechnicalDataServices {
     } catch (e) {
       return "error";
     }
-  }*/
+  }
+
 }

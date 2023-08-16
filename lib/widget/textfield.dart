@@ -35,6 +35,45 @@ class Normal2TextField extends StatelessWidget {
   }
 }
 
+class ContactTextField extends StatelessWidget {
+  final controller;
+  final String hintText;
+
+  const ContactTextField({super.key, required this.controller, required this.hintText});
+
+  @override
+  Widget build(BuildContext context) {
+    String patttern = r'(^(?:[+0]9)?[0-9]{11,12}$)';
+    RegExp regExp = new RegExp(patttern);
+
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 10.0),
+      child: TextFormField(
+        style: GoogleFonts.lato(
+          textStyle:
+          TextStyle(fontSize: 16, fontWeight: FontWeight.w500, letterSpacing: 0.8),
+        ),
+        onEditingComplete: (){},
+        validator: (value) {
+          if (value == null || value.isEmpty) {
+            return 'Required !';
+          } else if (!regExp.hasMatch(value)) {
+            return 'Please enter valid mobile number';
+          }
+          return null;
+        },
+        maxLines: null,
+        keyboardType: TextInputType.multiline,
+        controller: controller,
+        decoration: InputDecoration(
+          labelText: hintText,
+          hintText: "09xxxxxxxxx"
+        ),
+      ),
+    ) ;
+  }
+}
+
 class NormalTextField extends StatelessWidget {
   final controller;
   final String hintText;

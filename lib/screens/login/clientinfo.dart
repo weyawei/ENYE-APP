@@ -9,6 +9,7 @@ class clientInfo {
   String contact_no;
   String email;
   String image;
+  String login;
 
   clientInfo({
     required this.client_id,
@@ -19,6 +20,7 @@ class clientInfo {
     required this.contact_no,
     required this.email,
     required this.image,
+    required this.login,
   });
 
   Map<String, dynamic> toJson() {
@@ -31,6 +33,7 @@ class clientInfo {
     client["contact_no"] = this.contact_no;
     client["email"] = this.email;
     client["image"] = this.image;
+    client["login"] = this.login;
     return client;
   }
 
@@ -44,6 +47,7 @@ class clientInfo {
       contact_no: json['contact_no'] as String,
       email: json['email'] as String,
       image: json['image'] as String,
+      login: json['login'] as String,
     );
   }
 }

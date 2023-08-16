@@ -1,9 +1,9 @@
 import 'dart:math';
+import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:uuid/uuid.dart';
 
 import '../../config/config.dart';
 import '../../widget/widgets.dart';
@@ -18,7 +18,10 @@ class _BookingSystemState extends State<BookingSystem> {
   void initState(){
     super.initState();
     _services = [];
+    _ecCalendar = [];
     _getServices();
+    _getEcCalendar();
+
     //calling session data
     checkSession().getUserSessionStatus().then((bool) {
       if (bool == true) {
@@ -43,7 +46,6 @@ class _BookingSystemState extends State<BookingSystem> {
   String? address;
   String? mobileNumber;
   String? email;
-  final Uuid _uuid = Uuid();
   List<DateTime> unavailableDates = [];
 
   String? selectedConcern;
@@ -58,6 +60,10 @@ class _BookingSystemState extends State<BookingSystem> {
 
   final subjectController = TextEditingController();
   final descriptionController = TextEditingController();
+  final compnameController = TextEditingController();
+  final locationController = TextEditingController();
+  final projnameController = TextEditingController();
+  final contactController = TextEditingController();
 
   final _formKey = GlobalKey<FormState>();
 
@@ -96,21 +102,111 @@ class _BookingSystemState extends State<BookingSystem> {
     generatedCode = '${concern}-${selectedDate?.month}${selectedDate?.day}${selectedDate?.year}$randomId';
   }
 
+  //initialDate configurator kapag naka-disable yung date +1 sa days and so on
+  bool selectableDayPredicate(DateTime date) {
+
+    int scheduledServiceCount = _services.where((services) {
+      if (services.status != "Cancelled"){
+        if(DateTime.parse(services.dateSched).month == date.month
+            && DateTime.parse(services.dateSched).day == date.day
+            && DateTime.parse(services.dateSched).year == date.year){
+          return true;
+        } else {
+          return false;
+        }
+      } else {
+        return false;
+      }
+    }).length;
+
+    bool isDateDisabled = _ecCalendar.any((CalendarData) {
+      DateTime startDate = DateTime.parse(CalendarData.start);
+      DateTime endDate = DateTime.parse(CalendarData.end);
+
+      for (DateTime currentDate = startDate;
+      currentDate.isBefore(endDate) || currentDate.isAtSameMomentAs(endDate);
+      currentDate = currentDate.add(Duration(days: 1))) {
+        if (currentDate.month == date.month
+            && currentDate.day == date.day
+            && currentDate.year == date.year) {
+          return true;
+        }
+      }
+      return false;
+    });
+
+    if (scheduledServiceCount >= 2){
+      return true;
+    } else if (date.weekday == DateTime.saturday || date.weekday == DateTime.sunday) {
+      return true;
+    } else if (isDateDisabled) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   //datepicker para sa date sched
+  late List<CalendarData> _ecCalendar; //get the ec calendar
+  DateTime initialDate = DateTime.now().add(Duration(days: 7));
+  DateTime firstDate = DateTime.now().add(Duration(days: 5));
+  DateTime lastDate = DateTime.now().add(Duration(days: 60));
+
+  _getEcCalendar(){
+    CalendarServices.calendarData(
+        "${DateFormat('yyyy-MM-dd').format(firstDate)}",
+        "${DateFormat('yyyy-MM-dd').format(lastDate)}"
+    ).then((CalendarData){
+      setState(() {
+        _ecCalendar = CalendarData;
+      });
+      print("Length ${CalendarData.length}");
+    });
+  }
+
   Future<void> _selectDate(BuildContext context) async {
+
+    //initialDate configurator kapag naka-disable yung date +1 sa days and so on
+    while (selectableDayPredicate(initialDate)) {
+      initialDate = initialDate.add(Duration(days: 1));
+    }
+
     final DateTime? picked = await showDatePicker(
       context: context,
-      initialDate: selectedDate ?? DateTime.now().add(Duration(days: 7)),
-      firstDate: DateTime.now().add(Duration(days: 5)),
-      lastDate: DateTime.now().add(Duration(days: 60)),
+      initialDate: selectedDate ?? initialDate,
+      firstDate: firstDate,
+      lastDate: lastDate,
       selectableDayPredicate: (DateTime date) {
         if (date.weekday == DateTime.saturday || date.weekday == DateTime.sunday) {
           return false;
         }
 
+        //this code is from ChatGPT to disable dates came from ec calendar HR
+        bool isDateDisabled = _ecCalendar.any((CalendarData) {
+          DateTime startDate = DateTime.parse(CalendarData.start);
+          DateTime endDate = DateTime.parse(CalendarData.end);
+
+          for (DateTime currentDate = startDate;
+          currentDate.isBefore(endDate) || currentDate.isAtSameMomentAs(endDate);
+          currentDate = currentDate.add(Duration(days: 1))) {
+            if (currentDate.isAtSameMomentAs(date)) {
+              return true;
+            }
+          }
+          return false;
+        });
+
+        if (isDateDisabled) {
+          return false;
+        }
+
         //database counting if may sched na disabled na sya
         int scheduledServiceCount = _services.where((services) {
-          return DateTime.parse(services.dateSched).isAtSameMomentAs(date);
+          if (services.status != "Cancelled"){
+            return DateTime.parse(services.dateSched).isAtSameMomentAs(date);
+          } else {
+            return false;
+          }
         }).length;
         return scheduledServiceCount < 2;
       }
@@ -126,8 +222,8 @@ class _BookingSystemState extends State<BookingSystem> {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         margin: EdgeInsets.only(bottom: MediaQuery.of(context).size.height * 0.7,),
-        duration: Duration(seconds: 2),
-        backgroundColor: Colors.greenAccent,
+        duration: Duration(seconds: 1),
+        backgroundColor: Colors.green,
         behavior: SnackBarBehavior.floating,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(4))),
         content: Row(
@@ -145,7 +241,7 @@ class _BookingSystemState extends State<BookingSystem> {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         margin: EdgeInsets.only(bottom: MediaQuery.of(context).size.height * 0.7,),
-        duration: Duration(seconds: 2),
+        duration: Duration(seconds: 1),
         backgroundColor: Colors.redAccent,
         behavior: SnackBarBehavior.floating,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(4))),
@@ -163,6 +259,14 @@ class _BookingSystemState extends State<BookingSystem> {
   clearFields(){
     subjectController.clear();
     descriptionController.clear();
+
+    if(ClientInfo?.login == 'GMAIL'){
+      compnameController.clear();
+      locationController.clear();
+      projnameController.clear();
+      contactController.clear();
+    }
+
     setState(() {
       selectedDate = null;
       selectedConcern = null;
@@ -219,30 +323,80 @@ class _BookingSystemState extends State<BookingSystem> {
                 Text('Subject: ${subjectController.text}'),
                 SizedBox(height: 5),
                 Text('Description: ${descriptionController.text}'),
+
+                ClientInfo?.company_name == ''
+                  ? Padding(
+                      padding: const EdgeInsets.only(top: 5.0),
+                      child: Text('Company Name: ${compnameController.text}'),
+                    )
+                  : SizedBox.shrink(),
+
+                ClientInfo?.location == ''
+                  ? Padding(
+                      padding: const EdgeInsets.only(top: 5.0),
+                      child: Text('Location: ${locationController.text}'),
+                    )
+                  : SizedBox.shrink(),
+
+                ClientInfo?.project_name == ''
+                  ? Padding(
+                      padding: const EdgeInsets.only(top: 5.0),
+                      child: Text('Project Name: ${projnameController.text}'),
+                    )
+                  : SizedBox.shrink(),
+
+                ClientInfo?.contact_no == ''
+                  ? Padding(
+                      padding: const EdgeInsets.only(top: 5.0),
+                      child: Text('Contact #: ${contactController.text}'),
+                    )
+                  : SizedBox.shrink(),
               ],
             ),
             actions: [
               TextButton(
                 onPressed: () {
-                  TechnicalDataServices.addBooking(
-                      generatedCode!, selectedConcern!,
-                      subjectController.text, descriptionController.text,
-                      selectedDate.toString(), ClientInfo!.client_id,
-                      ClientInfo!.name, ClientInfo!.company_name,
-                      ClientInfo!.location, ClientInfo!.project_name,
-                      ClientInfo!.contact_no, ClientInfo!.email
-                  ).then((result) {
-                    if('success' == result){
-                      sendPushNotifications();
-                      _getServices();
-                      _successSnackbar(context, "Successfully booked.");
-                      clearFields();
-                      Navigator.of(context).pop();
-                    } else {
-                      _errorSnackbar(context, "Error occured...");
-                    }
-                  });
-
+                  if (ClientInfo?.login == 'SIGNIN'){
+                    TechnicalDataServices.addBooking(
+                        generatedCode!, selectedConcern!,
+                        subjectController.text, descriptionController.text,
+                        selectedDate.toString(), ClientInfo!.client_id,
+                        ClientInfo!.name, ClientInfo!.company_name,
+                        ClientInfo!.location, ClientInfo!.project_name,
+                        ClientInfo!.contact_no, ClientInfo!.email
+                    ).then((result) {
+                      if('success' == result){
+                        sendPushNotifications();
+                        _getServices();
+                        _successSnackbar(context, "Successfully booked.");
+                        clearFields();
+                        Navigator.of(context).pop();
+                      } else {
+                        _errorSnackbar(context, "Error occured...");
+                      }
+                    });
+                  } else if (ClientInfo?.login == 'GMAIL'){
+                    TechnicalDataServices.addBooking(
+                        generatedCode!, selectedConcern!,
+                        subjectController.text, descriptionController.text,
+                        selectedDate.toString(), ClientInfo!.client_id,
+                        ClientInfo!.name, compnameController.text,
+                        locationController.text, projnameController.text,
+                        contactController.text, ClientInfo!.email
+                    ).then((result) {
+                      if('success' == result){
+                        sendPushNotifications();
+                        _getServices();
+                        _successSnackbar(context, "Successfully booked.");
+                        clearFields();
+                        Navigator.of(context).pop();
+                      } else {
+                        _errorSnackbar(context, "Error occured...");
+                      }
+                    });
+                  } else {
+                    _errorSnackbar(context, "Error occured...");
+                  }
                 },
                 child: Text('OK'),
               ),
@@ -275,131 +429,176 @@ class _BookingSystemState extends State<BookingSystem> {
 
   @override
   Widget build(BuildContext context) {
-
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Booking System'),
-      ),
-      resizeToAvoidBottomInset: true,
-      body: SingleChildScrollView(
-        padding: EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            SizedBox(height: 50),
-            Center(
-              child: Text(
-                'APPOINTMENT :',
-                style: GoogleFonts.rowdies(
-                  textStyle: TextStyle(fontSize: 24.0, fontWeight: FontWeight.bold, color: Colors.black54)
-                )
-              ),
-            ),
-
-
-            SizedBox(height: 30),
-            InkWell(
-              onTap: () => _selectDate(context),
-              child: Container(
-                padding: EdgeInsets.all(10.0),
-                decoration: BoxDecoration(
-                  border: Border.all(color: Colors.grey),
-                  borderRadius: BorderRadius.circular(4.0),
+    return KeyboardVisibilityBuilder(
+      builder: (context, isKeyboardVisible){
+        return Scaffold(
+          appBar: AppBar(
+            title: Text('Booking System'),
+          ),
+          resizeToAvoidBottomInset: true,
+          body: SingleChildScrollView(
+            padding: EdgeInsets.all(16.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                SizedBox(height: 30),
+                Center(
+                  child: Text(
+                    'APPOINTMENT :',
+                    style: GoogleFonts.rowdies(
+                      textStyle: TextStyle(fontSize: 24.0, fontWeight: FontWeight.bold, color: Colors.black54)
+                    )
+                  ),
                 ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      selectedDate != null
-                          ? '${selectedDate!.toString().split(' ')[0]}'
-                          : 'Select Date*',
-                      style: GoogleFonts.lato(
-                        textStyle:
-                        TextStyle(fontSize: 16, fontWeight: FontWeight.w500, letterSpacing: 0.8),
-                      ),
+
+
+                SizedBox(height: 30),
+                InkWell(
+                  onTap: () => _selectDate(context),
+                  child: Container(
+                    padding: EdgeInsets.all(10.0),
+                    decoration: BoxDecoration(
+                      border: Border.all(color: Colors.grey),
+                      borderRadius: BorderRadius.circular(4.0),
                     ),
-                    Icon(Icons.calendar_today, color: Colors.deepOrange,),
-                  ],
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          selectedDate != null
+                              ? '${selectedDate!.toString().split(' ')[0]}'
+                              : 'Select Date*',
+                          style: GoogleFonts.lato(
+                            textStyle:
+                            TextStyle(fontSize: 16, fontWeight: FontWeight.w500, letterSpacing: 0.8),
+                          ),
+                        ),
+                        Icon(Icons.calendar_today, color: Colors.deepOrange,),
+                      ],
+                    ),
+                  ),
                 ),
-              ),
-            ),
-            _dropdownError == null
-                ? SizedBox.shrink()
-                : Text(
-              _dropdownError ?? "",
-              style: TextStyle(color: Colors.red),
-            ),
+                _dropdownError == null
+                    ? SizedBox.shrink()
+                    : Text(
+                  _dropdownError ?? "",
+                  style: TextStyle(color: Colors.red),
+                ),
 
-            SizedBox(height: 10),
-            Form(
-              key: _formKey,
-              child: Column(
-                children: [
+                SizedBox(height: 8),
+                Form(
+                  key: _formKey,
+                  child: Column(
+                    children: [
 
-                  SizedBox(height: 10),
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 10.0),
-                    child: DropdownButtonFormField<String>(
-                      style: GoogleFonts.lato(
-                        textStyle:
-                        TextStyle(fontSize: 16, color: Colors.black, fontWeight: FontWeight.w500, letterSpacing: 0.8),
-                      ),
-                      decoration: InputDecoration(
-                        labelText: 'Select Service*',
-                        labelStyle: GoogleFonts.lato(
-                          textStyle:
-                          TextStyle(fontSize: 16, fontWeight: FontWeight.w500, letterSpacing: 0.8),
+                      SizedBox(height: 8),
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 10.0),
+                        child: DropdownButtonFormField<String>(
+                          style: GoogleFonts.lato(
+                            textStyle:
+                            TextStyle(fontSize: 16, color: Colors.black, fontWeight: FontWeight.w500, letterSpacing: 0.8),
+                          ),
+                          decoration: InputDecoration(
+                            labelText: 'Select Service*',
+                            labelStyle: GoogleFonts.lato(
+                              textStyle:
+                              TextStyle(fontSize: 16, fontWeight: FontWeight.w500, letterSpacing: 0.8),
+                            ),
+                          ),
+                          value: selectedConcern,
+                          items: availableConcerns.map((concern) {
+                            return DropdownMenuItem<String>(
+                              value: concern,
+                              child: Text(concern),
+                            );
+                          }).toList(),
+                          onChanged: (concern) {
+                            setState(() {
+                              selectedConcern = concern;
+                            });
+                          },
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Please select a service';
+                            }
+                            return null;
+                          },
                         ),
                       ),
-                      value: selectedConcern,
-                      items: availableConcerns.map((concern) {
-                        return DropdownMenuItem<String>(
-                          value: concern,
-                          child: Text(concern),
-                        );
-                      }).toList(),
-                      onChanged: (concern) {
-                        setState(() {
-                          selectedConcern = concern;
-                        });
-                      },
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Please select a service';
-                        }
-                        return null;
-                      },
-                    ),
-                  ),
 
-                  SizedBox(height: 10),
-                  Normal2TextField(
-                    controller: subjectController,
-                    hintText: 'Subject *',
-                  ),
+                      SizedBox(height: 8),
+                      Normal2TextField(
+                        controller: subjectController,
+                        hintText: 'Subject *',
+                      ),
 
-                  SizedBox(height: 10),
-                  Normal2TextField(
-                    controller: descriptionController,
-                    hintText: 'Description *',
-                  ),
+                      SizedBox(height: 8),
+                      Normal2TextField(
+                        controller: descriptionController,
+                        hintText: 'Description *',
+                      ),
 
-                ],
-              ),
+                      ClientInfo?.company_name == ''
+                       ? Padding(
+                         padding: const EdgeInsets.only(top: 8.0),
+                         child: Normal2TextField(
+                            controller: compnameController,
+                            hintText: 'Company Name *',
+                          ),
+                       )
+                       : SizedBox.shrink(),
+
+                      ClientInfo?.location == ''
+                       ? Padding(
+                          padding: const EdgeInsets.only(top: 8.0),
+                          child: Normal2TextField(
+                            controller: locationController,
+                            hintText: 'Location *',
+                          ),
+                        )
+                        : SizedBox.shrink(),
+
+                      ClientInfo?.project_name == ''
+                       ? Padding(
+                          padding: const EdgeInsets.only(top: 8.0),
+                          child: Normal2TextField(
+                            controller: projnameController,
+                            hintText: 'Project Name *',
+                          ),
+                        )
+                       : SizedBox.shrink(),
+
+                      ClientInfo?.contact_no == ''
+                       ? Padding(
+                          padding: const EdgeInsets.only(top: 8.0),
+                          child: ContactTextField(
+                            controller: contactController,
+                            hintText: 'Contact # *',
+                          ),
+                        )
+                        : SizedBox.shrink(),
+                    ],
+                  ),
+                ),
+
+                SizedBox(height: 40),
+                customButton(
+                  onTap: () {
+                    addBooking();
+                  },
+                  text: 'BOOK',
+                  clr: Colors.deepOrange,
+                  fontSize: 18.0,
+                ),
+
+                const SizedBox(height: 20,),
+                if (isKeyboardVisible) SizedBox(height: MediaQuery.of(context).size.height * 0.4,),
+              ],
             ),
-
-            SizedBox(height: 40),
-            customButton(
-              onTap: () {
-                addBooking();
-              },
-              text: 'BOOK',
-              clr: Colors.deepOrange,
-              fontSize: 18.0,
-            ),
-          ],
-        ),
-      ),
+          ),
+        );
+      }
     );
   }
 }
