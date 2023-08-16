@@ -20,6 +20,8 @@ class _BookingSystemState extends State<BookingSystem> {
     _services = [];
     _ecCalendar = [];
     _getServices();
+    _getEcCalendar();
+
     //calling session data
     checkSession().getUserSessionStatus().then((bool) {
       if (bool == true) {
@@ -129,25 +131,28 @@ class _BookingSystemState extends State<BookingSystem> {
 
   //datepicker para sa date sched
   late List<CalendarData> _ecCalendar; //get the ec calendar
-  Future<void> _selectDate(BuildContext context) async {
-    DateTime initialDate = DateTime.now().add(Duration(days: 7));
-    DateTime firstDate = DateTime.now().add(Duration(days: 5));
-    DateTime lastDate = DateTime.now().add(Duration(days: 60));
+  DateTime initialDate = DateTime.now().add(Duration(days: 7));
+  DateTime firstDate = DateTime.now().add(Duration(days: 5));
+  DateTime lastDate = DateTime.now().add(Duration(days: 60));
 
-    //initialDate configurator kapag naka-disable yung date +1 sa days and so on
-    while (selectableDayPredicate(initialDate)) {
-      initialDate = initialDate.add(Duration(days: 1));
-    }
-
+  _getEcCalendar(){
     CalendarServices.calendarData(
-      "${DateFormat('yyyy-MM-dd').format(firstDate)}",
-      "${DateFormat('yyyy-MM-dd').format(lastDate)}"
+        "${DateFormat('yyyy-MM-dd').format(firstDate)}",
+        "${DateFormat('yyyy-MM-dd').format(lastDate)}"
     ).then((CalendarData){
       setState(() {
         _ecCalendar = CalendarData;
       });
       print("Length ${CalendarData.length}");
     });
+  }
+
+  Future<void> _selectDate(BuildContext context) async {
+
+    //initialDate configurator kapag naka-disable yung date +1 sa days and so on
+    while (selectableDayPredicate(initialDate)) {
+      initialDate = initialDate.add(Duration(days: 1));
+    }
 
     final DateTime? picked = await showDatePicker(
       context: context,
