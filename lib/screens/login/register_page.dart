@@ -45,13 +45,70 @@ class _registerPageState extends State<registerPage> {
   }
 
   Future<void> signUserUp() async {
+    //useradmin.dart transfering to json
 
-    // Validate returns true if the form is valid, or false otherwise.
-    if (_formKey.currentState!.validate()) {
+    var map = Map<String, dynamic>();
+    //get the action do by the user transfer it to POST method
+    map['name'] = nameController.text.trim();
+    map['company_name'] = compnameController.text.trim();
+    map['location'] = locationController.text.trim();
+    map['project_name'] = projnameController.text.trim();
+    map['contact_no'] = contactController.text.trim();
+    map['email'] = emailController.text.trim();
+    map['password'] = passwordController.text.trim();
 
-      //password doesn't match with confirmation password
-      if (passwordController.text.trim() != conpasswordController.text.trim()){
+
+    var res = await http.post( //pasiing value to result
+      Uri.parse(API.register),
+      body: map,
+    );
+
+    if (res.statusCode == 200){ //from flutter app the connection with API to server  - success
+      var resBodyOfSignUp = jsonDecode(res.body);
+
+      //if email is already taken
+      if(resBodyOfSignUp['email_taken'] == true){
         ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            duration: Duration(seconds: 1),
+            backgroundColor: Colors.orangeAccent,
+            behavior: SnackBarBehavior.floating,
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(4))),
+            content: Row(
+              children: [
+                Icon(Icons.info, color: Colors.orange,),
+                const SizedBox(width: 10,),
+                Text("Warning: Email is already taken."),
+              ],
+            ),
+          ),
+        );
+        _formKey.currentState?.reset();
+
+      } else if(resBodyOfSignUp['client_add'] == true){ //registration success
+        setState(() {
+          disabling = true;
+        });
+
+        _formKey.currentState?.reset();
+
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            duration: Duration(seconds: 1),
+            backgroundColor: Colors.green,
+            behavior: SnackBarBehavior.floating,
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(4))),
+            content: Row(
+              children: [
+                Icon(Icons.check, color: Colors.greenAccent,),
+                const SizedBox(width: 10,),
+                Text("Congratulations, SignUp Successfully."),
+              ],
+            ),
+          ),
+        ).closed.then((value) => Navigator.of(context).pop());
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar( //registration failed
           const SnackBar(
             duration: Duration(seconds: 1),
             backgroundColor: Colors.redAccent,
@@ -61,95 +118,12 @@ class _registerPageState extends State<registerPage> {
               children: [
                 Icon(Icons.close, color: Colors.white,),
                 const SizedBox(width: 10,),
-                Text("Password doesn't match !"),
+                Text("Error occured!"),
               ],
             ),
           ),
         );
-
-      } else {
-        //useradmin.dart transfering to json
-
-        var map = Map<String, dynamic>();
-        //get the action do by the user transfer it to POST method
-        map['name'] = nameController.text.trim();
-        map['company_name'] = compnameController.text.trim();
-        map['location'] = locationController.text.trim();
-        map['project_name'] = projnameController.text.trim();
-        map['contact_no'] = contactController.text.trim();
-        map['email'] = emailController.text.trim();
-        map['password'] = passwordController.text.trim();
-
-
-        var res = await http.post( //pasiing value to result
-          Uri.parse(API.register),
-          body: map,
-        );
-
-        if (res.statusCode == 200){ //from flutter app the connection with API to server  - success
-          var resBodyOfSignUp = jsonDecode(res.body);
-
-          //if email is already taken
-          if(resBodyOfSignUp['email_taken'] == true){
-            ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(
-                duration: Duration(seconds: 1),
-                backgroundColor: Colors.orangeAccent,
-                behavior: SnackBarBehavior.floating,
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(4))),
-                content: Row(
-                  children: [
-                    Icon(Icons.info, color: Colors.orange,),
-                    const SizedBox(width: 10,),
-                    Text("Warning: Email is already taken."),
-                  ],
-                ),
-              ),
-            );
-            _formKey.currentState?.reset();
-
-          } else if(resBodyOfSignUp['client_add'] == true){ //registration success
-            setState(() {
-              disabling = true;
-            });
-
-            _formKey.currentState?.reset();
-
-            ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(
-                duration: Duration(seconds: 1),
-                backgroundColor: Colors.green,
-                behavior: SnackBarBehavior.floating,
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(4))),
-                content: Row(
-                  children: [
-                    Icon(Icons.check, color: Colors.greenAccent,),
-                    const SizedBox(width: 10,),
-                    Text("Congratulations, SignUp Successfully."),
-                  ],
-                ),
-              ),
-            ).closed.then((value) => Navigator.of(context).pop());
-          } else {
-            ScaffoldMessenger.of(context).showSnackBar( //registration failed
-              const SnackBar(
-                duration: Duration(seconds: 1),
-                backgroundColor: Colors.redAccent,
-                behavior: SnackBarBehavior.floating,
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(4))),
-                content: Row(
-                  children: [
-                    Icon(Icons.close, color: Colors.white,),
-                    const SizedBox(width: 10,),
-                    Text("Error occured!"),
-                  ],
-                ),
-              ),
-            );
-          }
-        }
       }
-
     }
   }
 
@@ -249,7 +223,30 @@ class _registerPageState extends State<registerPage> {
                     text: "Sign Up",
                     onTap: (){
                       if (disabling == false) {
-                        signUserUp();
+                        // Validate returns true if the form is valid, or false otherwise.
+                        if (_formKey.currentState!.validate()) {
+                          //password doesn't match with confirmation password
+                          if (passwordController.text.trim() != conpasswordController.text.trim()) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                duration: Duration(seconds: 1),
+                                backgroundColor: Colors.redAccent,
+                                behavior: SnackBarBehavior.floating,
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.all(Radius.circular(4))),
+                                content: Row(
+                                  children: [
+                                    Icon(Icons.close, color: Colors.white,),
+                                    const SizedBox(width: 10,),
+                                    Text("Password doesn't match !"),
+                                  ],
+                                ),
+                              ),
+                            );
+                          } else {
+
+                          }
+                        }
                       }
                       _onButtonPressed();
                     },
