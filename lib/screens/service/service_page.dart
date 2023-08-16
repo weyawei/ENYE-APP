@@ -166,28 +166,45 @@ class _ServicePageState extends State<ServicePage> {
                       },
                       itemBuilder: (BuildContext bc) {
                         if (userSessionFuture == true) {
-                          return [
-                            PopupMenuItem(
-                              child: Row(
-                                children: [
-                                  Icon(Icons.person, color: Colors.deepOrange,),
-                                  SizedBox(width: 10,),
-                                  Text("Profile", style: TextStyle(fontWeight: FontWeight.w600),)
-                                ],
+                          if(ClientInfo?.login == "SIGNIN"){
+                            return [
+                              PopupMenuItem(
+                                child: Row(
+                                  children: [
+                                    Icon(Icons.person, color: Colors.deepOrange,),
+                                    SizedBox(width: 10,),
+                                    Text("Profile", style: TextStyle(fontWeight: FontWeight.w600),)
+                                  ],
+                                ),
+                                value: '/profile',
                               ),
-                              value: '/profile',
-                            ),
-                            PopupMenuItem(
-                              child: Row(
-                                children: [
-                                  Icon(Icons.logout, color: Colors.deepOrange,),
-                                  SizedBox(width: 10,),
-                                  Text("Logout", style: TextStyle(fontWeight: FontWeight.w600),)
-                                ],
-                              ),
-                              value: '/logout',
-                            )
-                          ];
+                              PopupMenuItem(
+                                child: Row(
+                                  children: [
+                                    Icon(Icons.logout, color: Colors.deepOrange,),
+                                    SizedBox(width: 10,),
+                                    Text("Logout", style: TextStyle(fontWeight: FontWeight.w600),)
+                                  ],
+                                ),
+                                value: '/logout',
+                              )
+                            ];
+                          } else {
+                            return [
+                              PopupMenuItem(
+                                child: Row(
+                                  children: [
+                                    Icon(
+                                      Icons.logout, color: Colors.deepOrange,),
+                                    SizedBox(width: 10,),
+                                    Text("Logout", style: TextStyle(
+                                        fontWeight: FontWeight.w600),)
+                                  ],
+                                ),
+                                value: '/logout',
+                              )
+                            ];
+                          }
                         } else {
                           return [
                             PopupMenuItem(
