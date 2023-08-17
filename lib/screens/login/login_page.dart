@@ -53,13 +53,11 @@ class _loginPageState extends State<loginPage> {
         body: {
           'email' : emailController.text.trim(),
           'password' : passwordController.text.trim(),
-          'token' : token.toString(),
         },
       );
 
       if (res.statusCode == 200){ //from flutter app the connection with API to server  - success
         var resBodyOfLogin = jsonDecode(res.body);
-
         if(resBodyOfLogin['login'] == true){
 
           var clientData = resBodyOfLogin["clients_data"];
@@ -80,7 +78,6 @@ class _loginPageState extends State<loginPage> {
               print("Updated token successfully");
             } else {
               print("Error updating token");
-              //_errorSnackbar(context, "Error occured...");
             }
           });
 
@@ -105,7 +102,7 @@ class _loginPageState extends State<loginPage> {
         } else {
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(
-              duration: Duration(seconds: 1),
+              duration: Duration(seconds: 2),
               backgroundColor: Colors.redAccent,
               behavior: SnackBarBehavior.floating,
               shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(4))),
