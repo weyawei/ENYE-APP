@@ -46,11 +46,16 @@ class _registerPageState extends State<registerPage> {
     FocusScope.of(context).unfocus(); // Close the keyboard
   }
 
+  checkEmail () async {
+
+  }
+
   Future<void> signUserUp() async {
     //useradmin.dart transfering to json
 
     var map = Map<String, dynamic>();
     //get the action do by the user transfer it to POST method
+    map['action'] = "SIGN UP";
     map['name'] = nameController.text.trim();
     map['company_name'] = compnameController.text.trim();
     map['location'] = locationController.text.trim();
@@ -69,25 +74,7 @@ class _registerPageState extends State<registerPage> {
       var resBodyOfSignUp = jsonDecode(res.body);
 
       //if email is already taken
-      if(resBodyOfSignUp['email_taken'] == true){
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            duration: Duration(seconds: 1),
-            backgroundColor: Colors.orangeAccent,
-            behavior: SnackBarBehavior.floating,
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(4))),
-            content: Row(
-              children: [
-                Icon(Icons.info, color: Colors.orange,),
-                const SizedBox(width: 10,),
-                Text("Warning: Email is already taken."),
-              ],
-            ),
-          ),
-        );
-        _formKey.currentState?.reset();
-
-      } else if(resBodyOfSignUp['client_add'] == true){ //registration success
+      if(resBodyOfSignUp['client_add'] == true){ //registration success
         setState(() {
           disabling = true;
         });
@@ -96,7 +83,7 @@ class _registerPageState extends State<registerPage> {
 
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
-            duration: Duration(seconds: 1),
+            duration: Duration(seconds: 2),
             backgroundColor: Colors.green,
             behavior: SnackBarBehavior.floating,
             shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(4))),
@@ -104,7 +91,7 @@ class _registerPageState extends State<registerPage> {
               children: [
                 Icon(Icons.check, color: Colors.greenAccent,),
                 const SizedBox(width: 10,),
-                Text("Congratulations, SignUp Successfully."),
+                Text("OTP is verified! Congratulations, SignUp Successfully."),
               ],
             ),
           ),
@@ -112,7 +99,7 @@ class _registerPageState extends State<registerPage> {
       } else {
         ScaffoldMessenger.of(context).showSnackBar( //registration failed
           const SnackBar(
-            duration: Duration(seconds: 1),
+            duration: Duration(seconds: 2),
             backgroundColor: Colors.redAccent,
             behavior: SnackBarBehavior.floating,
             shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(4))),
@@ -128,48 +115,6 @@ class _registerPageState extends State<registerPage> {
       }
     }
   }
-
-  /*void _showOTPDialog() {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text("Enter OTP"),
-          content: Container(
-            child: Pinput(
-              controller: pin,
-              length: 4,
-             scrollPadding: EdgeInsets.all(5),
-             // keyboardType: TextInputType.number,
-             // decoration: InputDecoration(labelText: "OTP"),
-            ),
-          ),
-          actions: <Widget>[
-            TextButton(
-              onPressed: () async {
-                Navigator.of(context).pop(); // Close the dialog
-                if (await myauth.verifyOTP(otp: pin.text) == true) {
-                  signUserUp();
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                      content: Text("OTP is verified"),
-                    ),
-                  );
-                } else {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                      content: Text("Invalid OTP"),
-                    ),
-                  );
-                }
-              },
-              child: Text("Verify"),
-            ),
-          ],
-        );
-      },
-    );
-  }*/
 
   void _showOTPDialog() {
     showDialog(
@@ -202,10 +147,24 @@ class _registerPageState extends State<registerPage> {
               mainAxisSize: MainAxisSize.min,
               children: [
                 Padding(
-                  padding: EdgeInsets.all(16),
+                  padding: const EdgeInsets.only(top: 8.0),
                   child: Text(
-                    "Enter OTP",
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                    "Kindly check the email provided",
+                    style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Colors.black54),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 8.0),
+                  child: Text(
+                    emailController.text,
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.black54),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 8.0),
+                  child: Text(
+                    "Please enter the OTP CODE to verify,",
+                    style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
                   ),
                 ),
                 Padding(
@@ -225,15 +184,20 @@ class _registerPageState extends State<registerPage> {
                     Navigator.of(context).pop(); // Close the dialog
                     if (await myauth.verifyOTP(otp: pin.text)) {
                       signUserUp();
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                          content: Text("OTP is verified"),
-                        ),
-                      );
                     } else {
                       ScaffoldMessenger.of(context).showSnackBar(
                         const SnackBar(
-                          content: Text("Invalid OTP"),
+                          duration: Duration(seconds: 2),
+                          backgroundColor: Colors.redAccent,
+                          behavior: SnackBarBehavior.floating,
+                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(4))),
+                          content: Row(
+                            children: [
+                              Icon(Icons.close, color: Colors.white,),
+                              const SizedBox(width: 10,),
+                              Text("Invalid OTP !"),
+                            ],
+                          ),
                         ),
                       );
                     }
@@ -321,9 +285,10 @@ class _registerPageState extends State<registerPage> {
                   ),
 
                   const SizedBox(height: 10,),
-                  ContactTextField(
+                  Contact2TextField(
                     controller: contactController,
-                    hintText: 'Contact No',
+                    hintText: 'Contact # (09xxxxxxxxx)',
+                    disabling: disabling,
                   ),
 
                   //email textfield
@@ -362,7 +327,7 @@ class _registerPageState extends State<registerPage> {
                           if (passwordController.text.trim() != conpasswordController.text.trim()) {
                             ScaffoldMessenger.of(context).showSnackBar(
                               const SnackBar(
-                                duration: Duration(seconds: 1),
+                                duration: Duration(seconds: 2),
                                 backgroundColor: Colors.redAccent,
                                 behavior: SnackBarBehavior.floating,
                                 shape: RoundedRectangleBorder(
@@ -377,27 +342,59 @@ class _registerPageState extends State<registerPage> {
                               ),
                             );
                           } else {
-                            myauth.setConfig(
-                              appEmail: "ronfrancia.enye@gmail.com",
-                              appName: "ENYE CONTROLS",
-                              userEmail: emailController.text,
-                              otpLength: 6,
-                              otpType: OTPType.digitsOnly,
+                            //check email if meron na sa database
+
+                            var map = Map<String, dynamic>();
+                            //get the action do by the user transfer it to POST method
+                            map['action'] = "CHECK EMAIL";
+                            map['email'] = emailController.text.trim();
+
+                            var res = await http.post( //pasiing value to result
+                              Uri.parse(API.register),
+                              body: map,
                             );
-                            if (await myauth.sendOTP() == true) {
-                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                      content: Text("OTP has been sent"),
-                      ));
-                      _showOTPDialog();
-                      } else {
-                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                      content: Text("Oops, OTP send failed"),
-                      ));
-                      }
 
+                            if (res.statusCode == 200) { //from flutter app the connection with API to server  - success
+                              var resBodyOfSignUp = jsonDecode(res.body);
 
-
-
+                              //if email is already taken
+                              if (resBodyOfSignUp['email_taken'] == true) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                    duration: Duration(seconds: 2),
+                                    backgroundColor: Colors.orangeAccent,
+                                    behavior: SnackBarBehavior.floating,
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.all(Radius.circular(4))),
+                                    content: Row(
+                                      children: [
+                                        Icon(Icons.info, color: Colors.orange,),
+                                        const SizedBox(width: 10,),
+                                        Text("Warning: Email is already taken."),
+                                      ],
+                                    ),
+                                  ),
+                                );
+                              } else {
+                                myauth.setConfig(
+                                  appEmail: "ronfrancia.enye@gmail.com",
+                                  appName: "ENYE CONTROLS",
+                                  userEmail: emailController.text,
+                                  otpLength: 6,
+                                  otpType: OTPType.digitsOnly,
+                                );
+                                if (await myauth.sendOTP() == true) {
+                                  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                                    content: Text("OTP has been sent"),
+                                  ));
+                                  _showOTPDialog();
+                                } else {
+                                  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                                    content: Text("Oops, OTP send failed"),
+                                  ));
+                                }
+                              }
+                            }
                           }
                         }
                       }
