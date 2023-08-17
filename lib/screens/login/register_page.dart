@@ -1,9 +1,11 @@
 import 'dart:convert';
 
+import 'package:email_otp/email_otp.dart';
 import 'package:enye_app/config/api_connection.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
+import 'package:pinput/pinput.dart';
 
 import '../../widget/widgets.dart';
 
@@ -127,6 +129,137 @@ class _registerPageState extends State<registerPage> {
     }
   }
 
+  /*void _showOTPDialog() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text("Enter OTP"),
+          content: Container(
+            child: Pinput(
+              controller: pin,
+              length: 4,
+             scrollPadding: EdgeInsets.all(5),
+             // keyboardType: TextInputType.number,
+             // decoration: InputDecoration(labelText: "OTP"),
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () async {
+                Navigator.of(context).pop(); // Close the dialog
+                if (await myauth.verifyOTP(otp: pin.text) == true) {
+                  signUserUp();
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text("OTP is verified"),
+                    ),
+                  );
+                } else {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text("Invalid OTP"),
+                    ),
+                  );
+                }
+              },
+              child: Text("Verify"),
+            ),
+          ],
+        );
+      },
+    );
+  }*/
+
+  void _showOTPDialog() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        final defaultPinTheme = PinTheme(
+          width: 56,
+          height: 56,
+          textStyle: TextStyle(fontSize: 20, color: Colors.white, fontWeight: FontWeight.w600),
+          decoration: BoxDecoration(
+            border: Border.all(color: Colors.deepOrange),
+            borderRadius: BorderRadius.circular(20),
+            color: Colors.deepOrange.shade50,
+          ),
+        );
+        final focusedPinTheme = defaultPinTheme.copyDecorationWith(
+          border: Border.all(color: Colors.deepOrange.shade200),
+          borderRadius: BorderRadius.circular(8),
+        );
+        final submittedPinTheme = defaultPinTheme.copyWith(
+          decoration: defaultPinTheme.decoration?.copyWith(
+            color: Colors.deepOrange.shade300,
+          ),
+        );
+
+        return Dialog(
+          // Set dialog properties such as shape, elevation, etc.
+          child: Container(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Padding(
+                  padding: EdgeInsets.all(16),
+                  child: Text(
+                    "Enter OTP",
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsets.all(16),
+                  child: Pinput(
+                    controller: pin,
+                    length: 6,
+                    defaultPinTheme: defaultPinTheme,
+                    focusedPinTheme: focusedPinTheme,
+                    submittedPinTheme: submittedPinTheme,
+
+                   // scrollPadding: EdgeInsets.all(5),
+                  ),
+                ),
+                GestureDetector(
+                  onTap: () async {
+                    Navigator.of(context).pop(); // Close the dialog
+                    if (await myauth.verifyOTP(otp: pin.text)) {
+                      signUserUp();
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text("OTP is verified"),
+                        ),
+                      );
+                    } else {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text("Invalid OTP"),
+                        ),
+                      );
+                    }
+                  },
+                  child: Container(
+                    padding: EdgeInsets.all(16),
+                    color: Colors.deepOrangeAccent,
+                    child: Center(
+                      child: Text(
+                        "Verify",
+                        style: TextStyle(color: Colors.white, fontSize: 16),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+
+  TextEditingController pin = TextEditingController();
+  EmailOTP myauth = EmailOTP();
   @override
   Widget build(BuildContext context) {
     return KeyboardVisibilityBuilder(
@@ -221,7 +354,7 @@ class _registerPageState extends State<registerPage> {
                   const SizedBox(height: 25,),
                   customButton(
                     text: "Sign Up",
-                    onTap: (){
+                    onTap: () async {
                       if (disabling == false) {
                         // Validate returns true if the form is valid, or false otherwise.
                         if (_formKey.currentState!.validate()) {
@@ -244,6 +377,26 @@ class _registerPageState extends State<registerPage> {
                               ),
                             );
                           } else {
+                            myauth.setConfig(
+                              appEmail: "ronfrancia.enye@gmail.com",
+                              appName: "ENYE CONTROLS",
+                              userEmail: emailController.text,
+                              otpLength: 6,
+                              otpType: OTPType.digitsOnly,
+                            );
+                            if (await myauth.sendOTP() == true) {
+                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                      content: Text("OTP has been sent"),
+                      ));
+                      _showOTPDialog();
+                      } else {
+                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                      content: Text("Oops, OTP send failed"),
+                      ));
+                      }
+
+
+
 
                           }
                         }

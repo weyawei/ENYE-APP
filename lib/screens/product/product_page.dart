@@ -3,6 +3,8 @@ import 'dart:math';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
+import 'package:speech_to_text/speech_to_text.dart' as stt;
+import 'package:speech_to_text/speech_recognition_result.dart' as stt;
 
 import '../../config/api_connection.dart';
 import '../../widget/widgets.dart';
@@ -27,23 +29,26 @@ class _productsPageState extends State<productsPage> {
   List<productCategory> _prodCategory = [];
   List<product> _products = [];
 
-  //late List<Product> allProducts;
   List<product> searchResults = [];
   List<product> displayedProducts = []; // Initialize as an empty list
   TextEditingController searchController = TextEditingController();
-  int visibleProductCount = 5; // Number of products initially visible
-  int increment = 3; // Number of products to load at a time
+  int visibleProductCount = 10; // Number of products initially visible
+  int increment = 10; // Number of products to load at a time
   bool searchPerformed = false;
+
+  late stt.SpeechToText _speech;
+  bool _isListening = false;
+  String _text = '';
 
   @override
   void initState() {
     //allProducts = Product.products;
-
+    //displayedProducts = allProducts.sublist(0, visibleProductCount);
     searchFocusNode = FocusNode();
     _getProdCategory();
     _getProducts();
-    //displayedProducts = _products.sublist(0, visibleProductCount);
     loadMoreProducts();
+    _speech = stt.SpeechToText();
   }
 
   void loadMoreProducts() {
@@ -81,6 +86,7 @@ class _productsPageState extends State<productsPage> {
 
   @override
   void dispose() {
+    _speech.cancel();
     searchFocusNode.dispose();
     super.dispose();
   }
@@ -117,6 +123,65 @@ class _productsPageState extends State<productsPage> {
     });
   }
 
+  void _startListening() async {
+    if (!_isListening) {
+      bool available = await _speech.initialize();
+      if (available) {
+        setState(() => _isListening = true);
+        _speech.listen(
+          onResult: (stt.SpeechRecognitionResult result) {
+            setState(() {
+              _text = result.recognizedWords;
+              searchController.text = _text;
+              // Trigger search after updating the text
+              filterProducts(_text);
+              // Note: Don't update searchController.text here
+              // Wait for the user to complete speech and press the stop button
+            });
+          },
+        );
+      }
+    }
+  }
+
+  void _stopListening() {
+    if (_isListening) {
+      setState(() => _isListening = false);
+      _speech.stop();
+      // Update searchController.text after speech is complete
+      //searchController.text = _text;
+      // Trigger search after updating the text
+     // filterProducts(_text);
+    }
+  }
+  void _showStartSpeakingDialog() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+         // title: Text('Start Speaking'),
+          content: Text('Click OK and start to speak.'),
+          actions: <Widget>[
+            ElevatedButton(
+              child: Text('OK'),
+              onPressed: () {
+                Navigator.of(context).pop(); // Close the dialog
+                _startListening(); // Start listening for speech
+              },
+            ),
+            ElevatedButton(
+              child: Text('Cancel'),
+              onPressed: () {
+                Navigator.of(context).pop(); // Close the dialog
+                _stopListening(); // Start listening for speech
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     _prodCategory.shuffle();
@@ -135,9 +200,22 @@ class _productsPageState extends State<productsPage> {
                 decoration: InputDecoration(
                   labelText: 'Search name of products',
                   prefixIcon: Icon(Icons.search),
+                  suffixIcon: IconButton(
+                   /* icon: Icon(_isListening ? Icons.mic_off : Icons.mic),
+                    onPressed: _isListening ? _stopListening : _showStartSpeakingDialog,*/
+
+                    icon: Icon(Icons.mic),
+                    onPressed:  _showStartSpeakingDialog,
+
+                  ),
                 ),
                 onChanged: (value) {
                   filterProducts(value);
+                  filterProducts(_text);
+
+                  setState(() {
+                    visibleProductCount = 10;
+                  });
                 },
               ),
             ),
@@ -147,18 +225,25 @@ class _productsPageState extends State<productsPage> {
                 child: ListView.builder(
                     shrinkWrap: true,
                     physics: NeverScrollableScrollPhysics(),
-                    itemCount: searchResults.length,
+                    //itemCount: searchResults.length,
+                    itemCount: searchResults.length < visibleProductCount
+                        ? searchResults.length
+                        : visibleProductCount,
                     itemBuilder: (context, index) {
                       final product = searchResults[index];
                       return Center(
                           child: InkWell(
                             onTap: () {
-                              PersistentNavBarNavigator.pushNewScreenWithRouteSettings(
+                              PersistentNavBarNavigator
+                                  .pushNewScreenWithRouteSettings(
                                 context,
-                                settings: RouteSettings(name: detailedProductPage.routeName),
-                                screen: detailedProductPage(products: searchResults[index],),
+                                settings: RouteSettings(
+                                    name: detailedProductPage.routeName,
+                                    arguments: {product.name: product}),
+                                screen: detailedProductPage(products: _products[index],),
                                 withNavBar: true,
-                                pageTransitionAnimation: PageTransitionAnimation.cupertino,
+                                pageTransitionAnimation: PageTransitionAnimation
+                                    .cupertino,
                               );
                               // ProductCarouselCard(product: categoryProducts[index]);
                             },
@@ -184,7 +269,7 @@ class _productsPageState extends State<productsPage> {
                   itemBuilder: (context, index) {
                     final product = displayedProducts[index];
                     if (index == displayedProducts.length - 1) {
-                      if (displayedProducts.length < _products.length) {
+                      if (displayedProducts.length < visibleProductCount) {
                         WidgetsBinding.instance!.addPostFrameCallback((_) {
                           loadMoreProducts();
                         });
@@ -193,6 +278,8 @@ class _productsPageState extends State<productsPage> {
                   },
                 ),
               ),
+
+
 
             Container(
               child: CarouselSlider(
