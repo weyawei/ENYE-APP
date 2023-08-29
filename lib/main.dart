@@ -22,23 +22,21 @@ void main() async {
 
   //to update token in database always everytime app opened
   dynamic token = await SessionManager().get("token");
-  String client_id = "";
 
   //this is to configure if the user already signed in
   checkSession().getUserSessionStatus().then((bool) {
     if (bool == true) {
       checkSession().getClientsData().then((value) {
-        client_id = value.client_id;
-      });
-      TokenServices.updateToken(token.toString(), client_id.toString()).then((result) {
-        if('success' == result){
-          print("Updated token successfully");
-        } else {
-          print("Error updating token");
-        }
+        TokenServices.updateToken(token.toString(), value.client_id).then((result) {
+          if('success' == result){
+            print("Updated token successfully");
+          } else {
+            print("Error updating token");
+          }
+        });
       });
     } else {
-      TokenServices.updateToken(token.toString(), client_id.toString()).then((result) {
+      TokenServices.updateToken(token.toString(), "").then((result) {
         if('success' == result){
           print("Updated token successfully");
         } else {
