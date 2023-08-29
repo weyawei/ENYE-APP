@@ -414,7 +414,7 @@ class _BookingSystemState extends State<BookingSystem> {
       body: {
         'code' : generatedCode,
         'name' : ClientInfo!.name,
-        'company' : ClientInfo!.company_name,
+        'company' : ClientInfo!.company_name.isEmpty ? compnameController.text : ClientInfo!.company_name,
         'date_sched' : selectedDate.toString(),
       },
     );
