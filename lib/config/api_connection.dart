@@ -33,6 +33,7 @@ class API {
   //booking
   static const booking = "$hostConnect/enye/booking/booking.php";
   static const ec_calendar = "$hostConnect/ec_calendar.php"; //calendar disable holidays and events
+  static const position = "$hostConnect/admin/features/position.php"; //position data's
 
   //push notif
   static const pushNotif = "$hostConnect/enye/pushNotif.php";

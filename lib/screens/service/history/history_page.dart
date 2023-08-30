@@ -94,10 +94,23 @@ class _HistoryPageState extends State<HistoryPage> {
               decoration: InputDecoration(
                 labelText: 'Search SERVICE #',
                 prefixIcon: Icon(Icons.search),
+                suffixIcon: searchController.text.isNotEmpty
+                    ? IconButton(
+                  onPressed: () {
+                    searchController.clear();
+                    FocusScope.of(context).unfocus();
+                    filterSystemsList();
+                  },
+                  icon: const Icon(Icons.clear),
+                )
+                : null, // Set suffixIcon to null when text is empty
               ),
               onChanged: (value) {
                 setState(() {
                   filterSystemsList();
+                  if(searchController.text.isEmpty){
+                    FocusScope.of(context).unfocus();
+                  }
                 });
               },
               onEditingComplete: (){

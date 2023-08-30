@@ -9,8 +9,38 @@ class TechnicalDataServices {
   static const GET_ALL_TECHNICAL = 'get_all_technical';
   static const GET_CLIENT_TECHNICAL = 'get_client_technical';
   static const GET_HANDLER_DATA = 'get_handler_data';
+  static const GET_ALL_POSITIONS = 'get_all_pos';
   static const EDIT_TO_CANCELLED = 'edit_to_cancelled';
   static const BOOKING = 'add_booking';
+
+  //get data users position from database
+  static Future <List<Position>> getPositions() async {
+    try{
+      var map = Map<String, dynamic>();
+      map['action'] = GET_ALL_POSITIONS;
+
+      //get all data of categories
+      final res = await http.post(Uri.parse(API.position), body: map); //passing value to result
+      print('getPosition Response: ${res.body}');
+
+      if(res.statusCode == 200){
+        List<Position> list = parseResPosition(res.body);
+        return list;
+      } else {
+        throw Exception('Failed to retrieve Position');
+        //return List<Categories>();
+      }
+    } catch (e) {
+      throw Exception('Failed to retrieve Position');
+      //return List<Categories>();
+    }
+  }
+
+  static List<Position> parseResPosition(String responseBody){
+    //conversion from web server into data by using categories.dart
+    final parsed = json.decode(responseBody).cast<Map<String, dynamic>>();
+    return parsed.map<Position>((json) => Position.fromJson(json)).toList();
+  }
 
   //get handler data from database
   static Future <List<UserAdminData>> handlerData(String user_id) async {

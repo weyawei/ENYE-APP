@@ -65,7 +65,6 @@ class UserAdminData {
   String contact;
   String email;
   String position;
-  String fcmToken;
 
   UserAdminData({
     required this.user_id,
@@ -73,7 +72,6 @@ class UserAdminData {
     required this.contact,
     required this.email,
     required this.position,
-    required this.fcmToken,
   });
 
   factory UserAdminData.fromJson(Map<String, dynamic> json) {
@@ -83,7 +81,27 @@ class UserAdminData {
       contact: json['contact'] as String,
       email: json['email'] as String,
       position: json['position'] as String,
-      fcmToken: json['fcmToken'] as String,
+    );
+  }
+}
+
+//get positions ng user
+class Position {
+  String id;
+  String position;
+  String departmentId;
+
+  Position({
+    required this.id,
+    required this.position,
+    required this.departmentId,
+  });
+
+  factory Position.fromJson(Map<String, dynamic> json) {
+    return Position(
+      id: json['id'] as String,
+      position: json['position'] as String,
+      departmentId: json['department_id'] as String,
     );
   }
 }

@@ -211,7 +211,7 @@ class _productsPageState extends State<productsPage> {
                 ),
                 onChanged: (value) {
                   filterProducts(value);
-                  filterProducts(_text);
+                 // filterProducts(_text);
 
                   setState(() {
                     visibleProductCount = 10;

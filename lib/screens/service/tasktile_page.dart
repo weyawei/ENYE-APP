@@ -27,10 +27,20 @@ class _TaskTileState extends State<TaskTile> {
     }
   }
 
+  List<Position> _position = [];
+  _getPositions(){
+    TechnicalDataServices.getPositions().then((positions){
+      setState(() {
+        _position = positions;
+      });
+    });
+  }
+
   @override
   void initState(){
     super.initState();
     _getServices();
+    _getPositions();
   }
 
   @override
@@ -89,7 +99,7 @@ class _TaskTileState extends State<TaskTile> {
                   [
                     TextSpan(text: "Description : ",
                       style: GoogleFonts.lato(
-                        textStyle: TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: Colors.grey[100], letterSpacing: 0.8),
+                        textStyle: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Colors.grey[100], letterSpacing: 0.8),
                       ),),
                     TextSpan(text: "${widget.services.svcDesc}",
                       style: GoogleFonts.lato(
@@ -136,7 +146,7 @@ class _TaskTileState extends State<TaskTile> {
                         textStyle: TextStyle(fontSize: 14, color: Colors.grey[100], letterSpacing: 0.8),
                       ),),
 
-                    TextSpan(text: "${_handler.elementAtOrNull(0)?.position} || ",
+                    TextSpan(text: "${_position.where((position) => position.id == _handler.elementAtOrNull(0)?.position).elementAtOrNull(0)?.position} || ",
                       style: GoogleFonts.lato(
                         textStyle: TextStyle(fontSize: 14, color: Colors.grey[100], letterSpacing: 0.8),
                       ),),
@@ -197,7 +207,7 @@ class _TaskTileState extends State<TaskTile> {
           ),
           Container(
             margin: EdgeInsets.symmetric(horizontal: 10),
-            height: 60,
+            height: 100,
             width: 0.5,
             color: Colors.grey[200]!.withOpacity(0.7),
           ),
