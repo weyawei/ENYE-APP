@@ -171,17 +171,10 @@ class _productsPageState extends State<productsPage> with TickerProviderStateMix
       builder: (BuildContext context) {
         return AlertDialog(
           // title: Text('Start Speaking'),
-          content: Text('Click OK and start to speak.'),
+          content: Text('Start Speaking.....'),
           actions: <Widget>[
             ElevatedButton(
-              child: Text('OK'),
-              onPressed: () {
-                Navigator.of(context).pop(); // Close the dialog
-                _startListening(); // Start listening for speech
-              },
-            ),
-            ElevatedButton(
-              child: Text('Cancel'),
+              child: Text('Done'),
               onPressed: () {
                 Navigator.of(context).pop(); // Close the dialog
                 _stopListening(); // Start listening for speech
@@ -218,7 +211,10 @@ class _productsPageState extends State<productsPage> with TickerProviderStateMix
                       onPressed: _isListening ? _stopListening : _showStartSpeakingDialog,*/
 
                       icon: Icon(Icons.mic),
-                      onPressed:  _showStartSpeakingDialog,
+                      onPressed:  (){
+                        _startListening();
+                        _showStartSpeakingDialog();
+                      },
 
                     ),
                   ),

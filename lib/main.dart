@@ -1,3 +1,4 @@
+import 'package:enye_app/screens/home/no_internet.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -65,7 +66,8 @@ class MyApp extends StatelessWidget {
         // splash screen preventing to go back
         //onGenerateRoute: AppRouter.onGenerateRoute,
         //initialRoute: SplashScreen.routeName,
-        home: CustomNavBar(),
+        home: NoInternetHandler(
+            child: CustomNavBar()),
       );
     }
     );
