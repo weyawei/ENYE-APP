@@ -102,12 +102,38 @@ class _detailedSysPageState extends State<detailedSysPage> {
     });
   }
 
+  //if image is still loading
+  ImageProvider _buildNetworkImage(String imageUrl) {
+    bool isImageLoading = true;
+    try {
+      ImageProvider _networkImage = NetworkImage(imageUrl);
+      _networkImage.resolve(ImageConfiguration()).addListener(
+        ImageStreamListener((info, synchronousCall) {
+          setState(() {
+            isImageLoading = false; // Update the loading status when the image is loaded
+          });
+        }),
+      );
+
+      if (isImageLoading){
+        return NetworkImage("https://travel.orange.com/wp-content/themes/bootstrap-basic-child/images/orange-loader.gif", scale: 100.0);
+      } else {
+        return NetworkImage(imageUrl);
+      }
+
+    } catch (error) {
+      // Handle the error
+      print('Error loading image: $error');
+      return NetworkImage("https://travel.orange.com/wp-content/themes/bootstrap-basic-child/images/orange-loader.gif", scale: 100.0); // Replace with a fallback image URL
+    }
+  }
+
   List<Widget> _pages(){
     return [
       if (widget.systems.image != null && widget.systems.image.isNotEmpty)
         Container(
           decoration: BoxDecoration(
-            image: DecorationImage(image: NetworkImage("${API.systemsImg + widget.systems.image}"), fit: BoxFit.fill),
+            image: DecorationImage(image: _buildNetworkImage("${API.systemsImg + widget.systems.image}"), fit: BoxFit.fill),
           ),
           child: Container(
             decoration: BoxDecoration(
@@ -163,7 +189,7 @@ class _detailedSysPageState extends State<detailedSysPage> {
                         if (SystemsDetail.image != null && SystemsDetail.image!.isNotEmpty)
                           Container(
                             decoration: BoxDecoration(
-                              image: DecorationImage(image: NetworkImage("${API.sysDetailsImg + SystemsDetail.image}"), fit: BoxFit.fill),
+                              image: DecorationImage(image: _buildNetworkImage("${API.sysDetailsImg + SystemsDetail.image}"), fit: BoxFit.fill),
                             ),
                           )
                       ],

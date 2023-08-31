@@ -27,13 +27,14 @@ class StatusPage extends StatefulWidget {
   State<StatusPage> createState() => _StatusPageState();
 }
 
-class _StatusPageState extends State<StatusPage> {
+class _StatusPageState extends State<StatusPage> with TickerProviderStateMixin {
   clientInfo? ClientInfo;
   bool? userSessionFuture;
   String? _dropdownError; //kapag wala pa na-select sa option
 
   final searchController = TextEditingController();
   final reasonController = TextEditingController();
+  bool _isLoading = true;
 
   void initState(){
     super.initState();
@@ -58,8 +59,14 @@ class _StatusPageState extends State<StatusPage> {
     // widget tree.
     searchController.dispose();
     reasonController.dispose();
+    _controller.dispose();
     super.dispose();
   }
+
+  late final AnimationController _controller = AnimationController(
+    duration: const Duration(seconds: 60),
+    vsync: this,
+  )..repeat();
 
   //snackbars
   _successSnackbar(context, message){
@@ -107,6 +114,7 @@ class _StatusPageState extends State<StatusPage> {
       setState(() {
         _services = technicalData.where((element) => element.status != "Completed" && element.status != "Cancelled").toList();
       });
+      _isLoading = false;
     });
   }
 
@@ -138,89 +146,94 @@ class _StatusPageState extends State<StatusPage> {
       filterSystemsList();
     }
 
-    return Scaffold(
-      appBar: CustomAppBar(title: 'Status', imagePath: '',),
-      /*drawer: CustomDrawer(),*/
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          const SizedBox(height: 10,),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 18.0),
-            child: TextField(
-              controller: searchController,
-              decoration: InputDecoration(
-                labelText: 'Search SERVICE #',
-                prefixIcon: Icon(Icons.search),
-                suffixIcon: searchController.text.isNotEmpty
-                    ? IconButton(
-                  onPressed: () {
-                    searchController.clear();
-                    FocusScope.of(context).unfocus();
-                    filterSystemsList();
-                  },
-                  icon: const Icon(Icons.clear),
-                )
-                    : null, // Set suffixIcon to null when text is empty
-              ),
-              onChanged: (value) {
-                setState(() {
-                  filterSystemsList();
-                  if(searchController.text.isEmpty){
-                    FocusScope.of(context).unfocus();
-                  }
-                });
-              },
-              onEditingComplete: (){
-                filterSystemsList();
-              },
-            ),
-          ),
-
-          SizedBox(height: 25,),
-          _services.isEmpty
-           ? Expanded(
-            child: Container(
-              child: Center(
-                child: (Text(
-                  "No Data Available",
-                  style: TextStyle(
-                      fontSize: 40,
-                      color: Colors.grey
+    return GestureDetector(
+      onTap: (){FocusScope.of(context).unfocus();},
+      child: Scaffold(
+        appBar: CustomAppBar(title: 'Status', imagePath: '',),
+        /*drawer: CustomDrawer(),*/
+        body: _isLoading
+          ? Center(child: SpinningContainer(controller: _controller),)
+          : Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                const SizedBox(height: 10,),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 18.0),
+                  child: TextField(
+                    controller: searchController,
+                    decoration: InputDecoration(
+                      labelText: 'Search SERVICE #',
+                      prefixIcon: Icon(Icons.search),
+                      suffixIcon: searchController.text.isNotEmpty
+                          ? IconButton(
+                        onPressed: () {
+                          searchController.clear();
+                          FocusScope.of(context).unfocus();
+                          filterSystemsList();
+                        },
+                        icon: const Icon(Icons.clear),
+                      )
+                          : null, // Set suffixIcon to null when text is empty
+                    ),
+                    onChanged: (value) {
+                      setState(() {
+                        filterSystemsList();
+                        if(searchController.text.isEmpty){
+                          FocusScope.of(context).unfocus();
+                        }
+                      });
+                    },
+                    onEditingComplete: (){
+                      filterSystemsList();
+                    },
                   ),
-                )),
-              ),
-            ),
-          )
-           : Expanded(
-            child: ListView.builder(
-              itemCount: searchController.text.isEmpty ? _services.length : _filteredServices.length,
-              itemBuilder: (_, index){
-                _filteredServices = searchController.text.isEmpty ? _services : _filteredServices;
+                ),
 
-                return AnimationConfiguration.staggeredList(
-                  position: index,
-                  child: SlideAnimation(
-                    child: FadeInAnimation(
-                      child: Row(
-                        children: [
-                          GestureDetector(
-                            onTap: (){
-                              if(_filteredServices[index].status == "Unread"){
-                                _showBottomSheet(context, _filteredServices[index]);
-                              }
-                            },
-                            child: TaskTile(services: _filteredServices[index]),
-                          )
-                        ],
-                      ),
+                SizedBox(height: 25,),
+                _services.isEmpty
+                 ? Expanded(
+                  child: Container(
+                    child: Center(
+                      child: (Text(
+                        "No Data Available",
+                        style: TextStyle(
+                            fontSize: 40,
+                            color: Colors.grey
+                        ),
+                      )),
                     ),
                   ),
-                );
-              }
+                )
+                 : Expanded(
+                  child: ListView.builder(
+                    itemCount: searchController.text.isEmpty ? _services.length : _filteredServices.length,
+                    itemBuilder: (_, index){
+                      _filteredServices = searchController.text.isEmpty ? _services : _filteredServices;
+
+                      return AnimationConfiguration.staggeredList(
+                        position: index,
+                        child: SlideAnimation(
+                          child: FadeInAnimation(
+                            child: Row(
+                              children: [
+                                GestureDetector(
+                                  onTap: (){
+                                    if(_filteredServices[index].status == "Unread"){
+                                      _showBottomSheet(context, _filteredServices[index]);
+                                    }
+                                  },
+                                  child: TaskTile(services: _filteredServices[index]),
+                                )
+                              ],
+                            ),
+                          ),
+                        ),
+                      );
+                    }
+                  ),
+                ),
+              ],
             ),
-          ),
-        ],
       ),
     );
   }

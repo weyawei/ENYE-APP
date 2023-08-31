@@ -25,7 +25,7 @@ class productsPage extends StatefulWidget {
   _productsPageState createState() => _productsPageState();
 }
 
-class _productsPageState extends State<productsPage> {
+class _productsPageState extends State<productsPage> with TickerProviderStateMixin {
   List<productCategory> _prodCategory = [];
   List<product> _products = [];
 
@@ -40,6 +40,9 @@ class _productsPageState extends State<productsPage> {
   bool _isListening = false;
   String _text = '';
 
+  bool _isLoadingCategory = true;
+  bool _isLoadingProducts = true;
+
   @override
   void initState() {
     //allProducts = Product.products;
@@ -50,6 +53,11 @@ class _productsPageState extends State<productsPage> {
     loadMoreProducts();
     _speech = stt.SpeechToText();
   }
+
+  late final AnimationController _controller = AnimationController(
+    duration: const Duration(seconds: 60),
+    vsync: this,
+  )..repeat();
 
   void loadMoreProducts() {
     int endIndex = visibleProductCount + increment;
@@ -86,6 +94,7 @@ class _productsPageState extends State<productsPage> {
 
   @override
   void dispose() {
+    _controller.dispose();
     _speech.cancel();
     searchFocusNode.dispose();
     super.dispose();
@@ -110,6 +119,7 @@ class _productsPageState extends State<productsPage> {
       setState(() {
         _prodCategory = productCategory;
       });
+      _isLoadingCategory = false;
       print("Length ${productCategory.length}");
     });
   }
@@ -119,6 +129,7 @@ class _productsPageState extends State<productsPage> {
       setState(() {
         _products = product;
       });
+      _isLoadingProducts = false;
       print("Length ${product.length}");
     });
   }
@@ -189,260 +200,262 @@ class _productsPageState extends State<productsPage> {
     return Scaffold(
       appBar: CustomAppBar(title: 'PRODUCTS', imagePath: 'assets/logo/enyecontrols.png'),
       drawer: productDrawer(),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: TextField(
-                focusNode: searchFocusNode,
-                controller: searchController,
-                decoration: InputDecoration(
-                  labelText: 'Search name of products',
-                  prefixIcon: Icon(Icons.search),
-                  suffixIcon: IconButton(
-                   /* icon: Icon(_isListening ? Icons.mic_off : Icons.mic),
-                    onPressed: _isListening ? _stopListening : _showStartSpeakingDialog,*/
+      body: _isLoadingCategory || _isLoadingProducts
+        ? Center(child: SpinningContainer(controller: _controller),)
+        : SingleChildScrollView(
+          child: Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: TextField(
+                  focusNode: searchFocusNode,
+                  controller: searchController,
+                  decoration: InputDecoration(
+                    labelText: 'Search name of products',
+                    prefixIcon: Icon(Icons.search),
+                    suffixIcon: IconButton(
+                     /* icon: Icon(_isListening ? Icons.mic_off : Icons.mic),
+                      onPressed: _isListening ? _stopListening : _showStartSpeakingDialog,*/
 
-                    icon: Icon(Icons.mic),
-                    onPressed:  _showStartSpeakingDialog,
+                      icon: Icon(Icons.mic),
+                      onPressed:  _showStartSpeakingDialog,
 
+                    ),
                   ),
-                ),
-                onChanged: (value) {
-                  filterProducts(value);
-                 // filterProducts(_text);
+                  onChanged: (value) {
+                    filterProducts(value);
+                   // filterProducts(_text);
 
-                  setState(() {
-                    visibleProductCount = 10;
-                  });
-                },
-              ),
-            ),
-            if (searchPerformed && searchResults.isNotEmpty)
-              Visibility(
-                visible: searchResults.isNotEmpty,
-                child: ListView.builder(
-                    shrinkWrap: true,
-                    physics: NeverScrollableScrollPhysics(),
-                    //itemCount: searchResults.length,
-                    itemCount: searchResults.length < visibleProductCount
-                        ? searchResults.length
-                        : visibleProductCount,
-                    itemBuilder: (context, index) {
-                      final product = searchResults[index];
-                      return Center(
-                          child: InkWell(
-                            onTap: () {
-                              PersistentNavBarNavigator
-                                  .pushNewScreenWithRouteSettings(
-                                context,
-                                settings: RouteSettings(
-                                    name: detailedProductPage.routeName,
-                                    arguments: {product.name: product}),
-                                screen: detailedProductPage(products: _products[index],),
-                                withNavBar: true,
-                                pageTransitionAnimation: PageTransitionAnimation
-                                    .cupertino,
-                              );
-                              // ProductCarouselCard(product: categoryProducts[index]);
-                            },
-
-                            child: ListTile(
-                              title: Text(product.name),
-                              // Add additional widgets or customize the display of each product
-                            ),
-                          )
-                      );
-
-                    }
-                ),
-              ),
-
-            if (!searchPerformed && searchResults.isEmpty)
-              Visibility(
-                visible: displayedProducts.isNotEmpty,
-                child: ListView.builder(
-                  shrinkWrap: true,
-                  physics: NeverScrollableScrollPhysics(),
-                  itemCount: displayedProducts.length,
-                  itemBuilder: (context, index) {
-                    final product = displayedProducts[index];
-                    if (index == displayedProducts.length - 1) {
-                      if (displayedProducts.length < visibleProductCount) {
-                        WidgetsBinding.instance!.addPostFrameCallback((_) {
-                          loadMoreProducts();
-                        });
-                      }
-                    }
+                    setState(() {
+                      visibleProductCount = 10;
+                    });
                   },
                 ),
               ),
+              if (searchPerformed && searchResults.isNotEmpty)
+                Visibility(
+                  visible: searchResults.isNotEmpty,
+                  child: ListView.builder(
+                      shrinkWrap: true,
+                      physics: NeverScrollableScrollPhysics(),
+                      //itemCount: searchResults.length,
+                      itemCount: searchResults.length < visibleProductCount
+                          ? searchResults.length
+                          : visibleProductCount,
+                      itemBuilder: (context, index) {
+                        final product = searchResults[index];
+                        return Center(
+                            child: InkWell(
+                              onTap: () {
+                                PersistentNavBarNavigator
+                                    .pushNewScreenWithRouteSettings(
+                                  context,
+                                  settings: RouteSettings(
+                                      name: detailedProductPage.routeName,
+                                      arguments: {product.name: product}),
+                                  screen: detailedProductPage(products: _products[index],),
+                                  withNavBar: true,
+                                  pageTransitionAnimation: PageTransitionAnimation
+                                      .cupertino,
+                                );
+                                // ProductCarouselCard(product: categoryProducts[index]);
+                              },
 
-
-
-            Container(
-              child: CarouselSlider(
-                options: CarouselOptions(
-                  autoPlay: true,
-                  aspectRatio: 1.5,
-                  viewportFraction: 0.9,
-                  enlargeCenterPage: true,
-                  enlargeStrategy: CenterPageEnlargeStrategy.height,
-                ),
-                items: _prodCategory.where((productCategory) => productCategory.published == "Yes").map((productCategory) =>
-                  InkWell(
-                    onTap: (){
-                      setState(() {
-                        PersistentNavBarNavigator.pushNewScreenWithRouteSettings(
-                          context,
-                          settings: RouteSettings(name: subCatProductPage.routeName),
-                          screen: subCatProductPage(category: productCategory),
-                          withNavBar: true,
-                          pageTransitionAnimation: PageTransitionAnimation.cupertino,
+                              child: ListTile(
+                                title: Text(product.name),
+                                // Add additional widgets or customize the display of each product
+                              ),
+                            )
                         );
-                      });
+
+                      }
+                  ),
+                ),
+
+              if (!searchPerformed && searchResults.isEmpty)
+                Visibility(
+                  visible: displayedProducts.isNotEmpty,
+                  child: ListView.builder(
+                    shrinkWrap: true,
+                    physics: NeverScrollableScrollPhysics(),
+                    itemCount: displayedProducts.length,
+                    itemBuilder: (context, index) {
+                      final product = displayedProducts[index];
+                      if (index == displayedProducts.length - 1) {
+                        if (displayedProducts.length < visibleProductCount) {
+                          WidgetsBinding.instance!.addPostFrameCallback((_) {
+                            loadMoreProducts();
+                          });
+                        }
+                      }
                     },
-                    child: Container(
-                      margin: EdgeInsets.symmetric(horizontal: 5.0, vertical: 20),
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.all(Radius.circular(5.0)),
-                        child: Stack(
-                          children: <Widget>[
-                            Image.network(
-                              //"${API.prodCategIcon + widget.productcategory.icon}",
-                                "${API.prodImg + _products.where((product) => product.category_id == productCategory.id).elementAt(0).image}",
-                                fit: BoxFit.fill, width: 1000.0),
-                            Positioned(
-                              bottom: 0.0,
-                              left: 0.0,
-                              right: 0.0,
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  gradient: LinearGradient(
-                                    colors: [
-                                      Color.fromARGB(200, 0, 0, 0),
-                                      Color.fromARGB(0, 0, 0, 0),
-                                    ],
-                                    begin: Alignment.bottomCenter,
-                                    end: Alignment.topCenter,
+                  ),
+                ),
+
+
+
+              Container(
+                child: CarouselSlider(
+                  options: CarouselOptions(
+                    autoPlay: true,
+                    aspectRatio: 1.5,
+                    viewportFraction: 0.9,
+                    enlargeCenterPage: true,
+                    enlargeStrategy: CenterPageEnlargeStrategy.height,
+                  ),
+                  items: _prodCategory.where((productCategory) => productCategory.published == "Yes").map((productCategory) =>
+                    InkWell(
+                      onTap: (){
+                        setState(() {
+                          PersistentNavBarNavigator.pushNewScreenWithRouteSettings(
+                            context,
+                            settings: RouteSettings(name: subCatProductPage.routeName),
+                            screen: subCatProductPage(category: productCategory),
+                            withNavBar: true,
+                            pageTransitionAnimation: PageTransitionAnimation.cupertino,
+                          );
+                        });
+                      },
+                      child: Container(
+                        margin: EdgeInsets.symmetric(horizontal: 5.0, vertical: 20),
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.all(Radius.circular(5.0)),
+                          child: Stack(
+                            children: <Widget>[
+                              Image.network(
+                                //"${API.prodCategIcon + widget.productcategory.icon}",
+                                  "${API.prodImg + _products.where((product) => product.category_id == productCategory.id).elementAt(0).image}",
+                                  fit: BoxFit.fill, width: 1000.0),
+                              Positioned(
+                                bottom: 0.0,
+                                left: 0.0,
+                                right: 0.0,
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    gradient: LinearGradient(
+                                      colors: [
+                                        Color.fromARGB(200, 0, 0, 0),
+                                        Color.fromARGB(0, 0, 0, 0),
+                                      ],
+                                      begin: Alignment.bottomCenter,
+                                      end: Alignment.topCenter,
+                                    ),
+                                  ),
+                                  padding:
+                                  EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
+                                  child: Text(
+                                    productCategory.name,
+                                    style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                                      color: Colors.white,
+
+                                    ),
                                   ),
                                 ),
-                                padding:
-                                EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
-                                child: Text(
-                                  productCategory.name,
-                                  style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                                    color: Colors.white,
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    )
+                  ).toList(),
+                ),
+              ),
 
-                                  ),
+              GridView.builder(
+                padding: EdgeInsets.symmetric(horizontal: 6.0, vertical: 8.0),
+                physics: const NeverScrollableScrollPhysics(),
+                shrinkWrap: true,
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 4,
+                  childAspectRatio: 0.8,
+                  crossAxisSpacing: 6.0,
+                  mainAxisSpacing: 6.0,
+                ),
+                /*gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 4  ,
+                  childAspectRatio: 0.8,
+                ),*/
+                itemCount: 8,
+                itemBuilder: (context, index) {
+                  if (index < _prodCategory.length) {
+                    return InkWell(
+                      onTap: () {
+                        setState(() {
+                          PersistentNavBarNavigator
+                              .pushNewScreenWithRouteSettings(
+                            context,
+                            settings: RouteSettings(
+                                name: subCatProductPage.routeName),
+                            screen: subCatProductPage(
+                                category: _prodCategory[index]),
+                            withNavBar: true,
+                            pageTransitionAnimation: PageTransitionAnimation
+                                .cupertino,
+                          );
+                        });
+                      },
+
+                      child: Container(
+                        padding: EdgeInsets.symmetric(horizontal: 10.0),
+                        margin: EdgeInsets.symmetric(
+                            horizontal: 2.0, vertical: 2.0),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(5.0),
+
+                        ),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Image.network(
+                              "${API.prodCategIcon + _prodCategory[index].icon}",
+                              height: 50,
+                              width: 50,
+                            ),
+                            // SizedBox(height: 15.0, width: 15,),
+                            Flexible(
+                              child: Text(
+                                textAlign: TextAlign.center,
+                                _prodCategory[index].name,
+                                style: TextStyle(
+                                  fontSize: 9,
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.bold,
                                 ),
                               ),
                             ),
                           ],
                         ),
                       ),
+                    );
+                  }
+                },
+              ),
+
+              Container(
+                margin: EdgeInsets.all(6),
+                decoration: BoxDecoration(color: Colors.orange.shade50.withOpacity(0.7), borderRadius: BorderRadius.circular(15)),
+                child: Column(
+                  children: [
+                    SizedBox(height: 20,),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text("most", style: TextStyle(fontFamily: 'DancingScript', fontStyle: FontStyle.italic, letterSpacing: 2.5, fontWeight: FontWeight.w900, fontSize: 36, color: Colors.deepOrange.shade300,),),
+                        SizedBox(width: 13,),
+                        Text("POPULAR", style: TextStyle(fontFamily: 'Rowdies', fontStyle: FontStyle.italic, fontSize: 32, color: Colors.deepOrange,),),
+                      ],
                     ),
-                  )
-                ).toList(),
-              ),
-            ),
 
-            GridView.builder(
-              padding: EdgeInsets.symmetric(horizontal: 6.0, vertical: 8.0),
-              physics: const NeverScrollableScrollPhysics(),
-              shrinkWrap: true,
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 4,
-                childAspectRatio: 0.8,
-                crossAxisSpacing: 6.0,
-                mainAxisSpacing: 6.0,
-              ),
-              /*gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 4  ,
-                childAspectRatio: 0.8,
-              ),*/
-              itemCount: 8,
-              itemBuilder: (context, index) {
-                if (index < _prodCategory.length) {
-                  return InkWell(
-                    onTap: () {
-                      setState(() {
-                        PersistentNavBarNavigator
-                            .pushNewScreenWithRouteSettings(
-                          context,
-                          settings: RouteSettings(
-                              name: subCatProductPage.routeName),
-                          screen: subCatProductPage(
-                              category: _prodCategory[index]),
-                          withNavBar: true,
-                          pageTransitionAnimation: PageTransitionAnimation
-                              .cupertino,
-                        );
-                      });
-                    },
-
-                    child: Container(
-                      padding: EdgeInsets.symmetric(horizontal: 10.0),
-                      margin: EdgeInsets.symmetric(
-                          horizontal: 2.0, vertical: 2.0),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(5.0),
-
-                      ),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Image.network(
-                            "${API.prodCategIcon + _prodCategory[index].icon}",
-                            height: 50,
-                            width: 50,
-                          ),
-                          // SizedBox(height: 15.0, width: 15,),
-                          Flexible(
-                            child: Text(
-                              textAlign: TextAlign.center,
-                              _prodCategory[index].name,
-                              style: TextStyle(
-                                fontSize: 9,
-                                color: Colors.black,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
+                    SizedBox(height: 20,),
+                    productCarousel(
+                      products: _products.where((product) => product.isPopular == "true").toList(),
                     ),
-                  );
-                }
-              },
-            ),
-
-            Container(
-              margin: EdgeInsets.all(6),
-              decoration: BoxDecoration(color: Colors.orange.shade50.withOpacity(0.7), borderRadius: BorderRadius.circular(15)),
-              child: Column(
-                children: [
-                  SizedBox(height: 20,),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text("most", style: TextStyle(fontFamily: 'DancingScript', fontStyle: FontStyle.italic, letterSpacing: 2.5, fontWeight: FontWeight.w900, fontSize: 36, color: Colors.deepOrange.shade300,),),
-                      SizedBox(width: 13,),
-                      Text("POPULAR", style: TextStyle(fontFamily: 'Rowdies', fontStyle: FontStyle.italic, fontSize: 32, color: Colors.deepOrange,),),
-                    ],
-                  ),
-
-                  SizedBox(height: 20,),
-                  productCarousel(
-                    products: _products.where((product) => product.isPopular == "true").toList(),
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
-      ),
     );
   }
 }

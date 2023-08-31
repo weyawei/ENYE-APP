@@ -19,13 +19,16 @@ class ProjectsPage extends StatefulWidget {
   State<ProjectsPage> createState() => _ProjectsPageState();
 }
 
-class _ProjectsPageState extends State<ProjectsPage> {
+class _ProjectsPageState extends State<ProjectsPage> with TickerProviderStateMixin {
   String? selectedCategory;
   PageController _pageController = PageController(initialPage: 0);
   int _currentPageIndex = 0;
   List<projCategories> _projCategories = [];
   late List<Projects> _projects;
   List<Projects> _filteredProjects = [];
+
+  bool _isLoadingCat = true;
+  bool _isLoadingProj = true;
 
   void initState() {
     super.initState();
@@ -35,11 +38,25 @@ class _ProjectsPageState extends State<ProjectsPage> {
     _getProjects();
   }
 
+  @override
+  void dispose() {
+    // Clean up the controller when the widget is removed from the
+    // widget tree.
+    _controller.dispose();
+    super.dispose();
+  }
+
+  late final AnimationController _controller = AnimationController(
+    duration: const Duration(seconds: 60),
+    vsync: this,
+  )..repeat();
+
   _getProjCategories(){
     projectSVC.getProjCategory().then((projCategories){
       setState(() {
         _projCategories = projCategories;
       });
+      _isLoadingCat = false;
       print("Length ${projCategories.length}");
     });
   }
@@ -49,6 +66,7 @@ class _ProjectsPageState extends State<ProjectsPage> {
       setState(() {
         _projects = Projects;
       });
+      _isLoadingProj = false;
       print("Length ${Projects.length}");
     });
   }
@@ -76,7 +94,9 @@ class _ProjectsPageState extends State<ProjectsPage> {
     return Scaffold(
       extendBody: true,
       appBar: CustomAppBar(title: 'Projects', imagePath: '',),
-      body: SafeArea(
+      body: _isLoadingProj || _isLoadingCat
+        ? Center(child: SpinningContainer(controller: _controller),)
+        : SafeArea(
         child: SingleChildScrollView(
           child: Padding(padding: EdgeInsets.all(12.0),
             child: Column(
@@ -240,7 +260,14 @@ class _ProjectsPageState extends State<ProjectsPage> {
                               child: Container(
                                 height: 270,
                                 decoration: BoxDecoration(
-                                  image: DecorationImage(image: NetworkImage("${API.projectsImage + _projects[index].images}"), fit: BoxFit.cover),
+                                  image: DecorationImage(
+                                    image: NetworkImage("${API.projectsImage + _projects[index].images}"),
+                                    fit: BoxFit.cover,
+                                    onError: (exception, stackTrace) {
+                                      // Handle image loading error here
+                                      print("Image loading failed: $exception");
+                                    },
+                                  ),
                                 ),
 
                                 child: Container(
