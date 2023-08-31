@@ -8,7 +8,7 @@ export 'product_carousel.dart';
 
 export 'spinning_logo.dart';
 
-export 'maintenance_page.dart';
+export 'no_internet.dart';
 
 export 'product_drawer.dart';
 

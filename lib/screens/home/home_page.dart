@@ -30,9 +30,9 @@ class homePage extends StatefulWidget {
 
 class _homePageState extends State<homePage>{
   final List<String> dashboard = [
-    "${API.dashboard}Balancing Valves.png",
-    "${API.dashboard}Motorized Valves and Actuators.png",
-    "${API.dashboard}sensors and transmitters.png",
+    "${API.dashboard}1692077053.jpg",
+    "${API.dashboard}1692078344.jpg",
+    "${API.dashboard}1692078358.jpg",
     "${API.dashboard}2.png",
     "${API.dashboard}1.png",
     "${API.dashboard}3.png",
@@ -113,14 +113,15 @@ class _homePageState extends State<homePage>{
                         image: DecorationImage(image: NetworkImage(dashboard[currentIndex]), fit: BoxFit.fill),
                       ),
                       child: BackdropFilter(
-                        filter: ImageFilter.blur(sigmaX: 15, sigmaY: 15),
+                        filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
                         child: Container(color: Colors.black.withOpacity(0.2),),
                       ),
                     ),
                   ),
 
                   Container(
-                    height: MediaQuery.of(context).size.height * 0.8,
+                    height: MediaQuery.of(context).size.height * 0.5,
+                    margin: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.175,),
                     child: PageView.builder(
                         controller: _pageController,
                         onPageChanged: (val){
@@ -132,7 +133,7 @@ class _homePageState extends State<homePage>{
                         itemBuilder: (context, int index) {
                           return FractionallySizedBox(
                             heightFactor: 0.8,
-                            widthFactor: 0.9,
+                            widthFactor: 0.85,
                             child: Container(
                                 decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(32),
