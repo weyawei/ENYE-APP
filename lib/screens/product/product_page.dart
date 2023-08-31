@@ -162,7 +162,7 @@ class _productsPageState extends State<productsPage> with TickerProviderStateMix
       // Update searchController.text after speech is complete
       //searchController.text = _text;
       // Trigger search after updating the text
-     // filterProducts(_text);
+      // filterProducts(_text);
     }
   }
   void _showStartSpeakingDialog() {
@@ -170,7 +170,7 @@ class _productsPageState extends State<productsPage> with TickerProviderStateMix
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-         // title: Text('Start Speaking'),
+          // title: Text('Start Speaking'),
           content: Text('Click OK and start to speak.'),
           actions: <Widget>[
             ElevatedButton(
