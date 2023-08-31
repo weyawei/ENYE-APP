@@ -253,7 +253,7 @@ class _productsPageState extends State<productsPage> with TickerProviderStateMix
                                   settings: RouteSettings(
                                       name: detailedProductPage.routeName,
                                       arguments: {product.name: product}),
-                                  screen: detailedProductPage(products: _products[index],),
+                                  screen: detailedProductPage(products: product,),
                                   withNavBar: true,
                                   pageTransitionAnimation: PageTransitionAnimation
                                       .cupertino,
