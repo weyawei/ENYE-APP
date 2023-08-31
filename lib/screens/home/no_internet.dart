@@ -1,5 +1,5 @@
 import 'dart:async';
-
+import 'package:http/http.dart' as http;
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -24,10 +24,7 @@ class _NoInternetHandlerState extends State<NoInternetHandler> {
     _loadConnectionStatus(); // Load previous connection status
     _connectivitySubscription =
         Connectivity().onConnectivityChanged.listen((ConnectivityResult result) {
-          setState(() {
-            _hasConnection = result != ConnectivityResult.none;
-            _saveConnectionStatus(_hasConnection); // Save the new connection status
-          });
+          _checkInternetConnection(); // Check connection status
         });
   }
 
@@ -52,6 +49,21 @@ class _NoInternetHandlerState extends State<NoInternetHandler> {
   _saveConnectionStatus(bool hasConnection) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setBool('hasConnection', hasConnection);
+  }
+
+  _checkInternetConnection() async {
+    try {
+      final response = await http.get(Uri.parse("https://www.enye.com.ph"));
+      setState(() {
+        _hasConnection = response.statusCode == 200;
+        _saveConnectionStatus(_hasConnection); // Save the new connection status
+      });
+    } catch (e) {
+      setState(() {
+        _hasConnection = false;
+        _saveConnectionStatus(false); // Save the new connection status
+      });
+    }
   }
 }
 
