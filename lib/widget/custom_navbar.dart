@@ -30,7 +30,7 @@ class _CustomNavBarState extends State<CustomNavBar> {
 
   @override
   Widget build(BuildContext context) {
-    RemoteMessage? message;
+    RemoteMessage message = RemoteMessage();
 
     if (ModalRoute.of(context)!.settings.arguments != null) {
       message = ModalRoute.of(context)!.settings.arguments as RemoteMessage;
@@ -41,10 +41,6 @@ class _CustomNavBarState extends State<CustomNavBar> {
       } else if (message.data["goToPage"].toString() == 'products'){
         _initialIndex = 2;
       }
-
-      // Continue processing with the casted value
-    } else {
-      message = RemoteMessage();
     }
 
     List<Widget> _buildScreens() {

@@ -34,6 +34,7 @@ class _detailedSysPageState extends State<detailedSysPage> {
 
   double? _progress;
 
+
   Future openFile ({required String url, String? filename}) async {
     final file = await downloadFile(url, filename!);
 
@@ -103,8 +104,8 @@ class _detailedSysPageState extends State<detailedSysPage> {
   }
 
   //if image is still loading
+  bool isImageLoading = true;
   ImageProvider _buildNetworkImage(String imageUrl) {
-    bool isImageLoading = true;
     try {
       ImageProvider _networkImage = NetworkImage(imageUrl);
       _networkImage.resolve(ImageConfiguration()).addListener(
@@ -116,7 +117,7 @@ class _detailedSysPageState extends State<detailedSysPage> {
       );
 
       if (isImageLoading){
-        return NetworkImage("https://travel.orange.com/wp-content/themes/bootstrap-basic-child/images/orange-loader.gif", scale: 100.0);
+        return NetworkImage("https://travel.orange.com/wp-content/themes/bootstrap-basic-child/images/orange-loader.gif",);
       } else {
         return NetworkImage(imageUrl);
       }
@@ -124,7 +125,7 @@ class _detailedSysPageState extends State<detailedSysPage> {
     } catch (error) {
       // Handle the error
       print('Error loading image: $error');
-      return NetworkImage("https://travel.orange.com/wp-content/themes/bootstrap-basic-child/images/orange-loader.gif", scale: 100.0); // Replace with a fallback image URL
+      return NetworkImage("https://travel.orange.com/wp-content/themes/bootstrap-basic-child/images/orange-loader.gif",); // Replace with a fallback image URL
     }
   }
 
@@ -133,7 +134,7 @@ class _detailedSysPageState extends State<detailedSysPage> {
       if (widget.systems.image != null && widget.systems.image.isNotEmpty)
         Container(
           decoration: BoxDecoration(
-            image: DecorationImage(image: _buildNetworkImage("${API.systemsImg + widget.systems.image}"), fit: BoxFit.fill),
+            image: DecorationImage(image: _buildNetworkImage("${API.systemsImg + widget.systems.image}",), alignment: Alignment.center, fit: isImageLoading ? BoxFit.none : BoxFit.fill),
           ),
           child: Container(
             decoration: BoxDecoration(
