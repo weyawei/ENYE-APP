@@ -52,6 +52,10 @@ class _StatusPageState extends State<StatusPage> with TickerProviderStateMixin {
         userSessionFuture = bool;
       }
     });
+
+    if(widget.message!.data["goToPage"] == "Status"){
+      searchController.text = '${widget.message!.data["code"]}';
+    }
   }
 
   void dispose() {
@@ -142,7 +146,6 @@ class _StatusPageState extends State<StatusPage> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     if(widget.message!.data["goToPage"] == "Status"){
-      searchController.text = '${widget.message!.data["code"]}';
       filterSystemsList();
     }
 

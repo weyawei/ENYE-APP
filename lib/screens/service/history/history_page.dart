@@ -46,6 +46,10 @@ class _HistoryPageState extends State<HistoryPage> with TickerProviderStateMixin
         userSessionFuture = bool;
       }
     });
+
+    if(widget.message!.data["goToPage"] == "Completed"){
+      searchController.text = '${widget.message!.data["code"]}';
+    }
   }
 
   void dispose() {
@@ -84,7 +88,6 @@ class _HistoryPageState extends State<HistoryPage> with TickerProviderStateMixin
   @override
   Widget build(BuildContext context) {
     if(widget.message!.data["goToPage"] == "Completed"){
-      searchController.text = '${widget.message!.data["code"]}';
       filterSystemsList();
     }
 
