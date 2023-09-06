@@ -47,6 +47,8 @@ export 'login/register_page.dart';
 export 'login/clientinfo.dart';
 export 'login/forgotpass_page.dart';
 
+export 'profile/profile_page.dart';
+
 export 'contacts/contacts_page.dart';
 
 export 'ec_calendar/calendar.dart';

@@ -139,13 +139,13 @@ class _ServicePageState extends State<ServicePage> {
                     //Text( FirebaseAuth.instance.currentUser?.displayName != null ? "${FirebaseAuth.instance.currentUser?.displayName}": "Hello Guest !"),
                     PopupMenuButton(
                       child: Container(
-                        height: MediaQuery.of(context).size.height * 0.11,
-                        width: MediaQuery.of(context).size.width * 0.11,
+                        height: MediaQuery.of(context).size.height * 0.12,
+                        width: MediaQuery.of(context).size.width * 0.12,
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
                           image: DecorationImage(
                             image: userSessionFuture == true && ClientInfo?.image != ""
-                              ? Image.network("${ClientInfo?.image}").image
+                              ? ClientInfo?.login == "GMAIL" ? Image.network("${ClientInfo?.image}").image : Image.network("${API.clientsImages + ClientInfo!.image}").image
                               : AssetImage("assets/icons/user.png"),
                           ),
                         ),
@@ -153,15 +153,10 @@ class _ServicePageState extends State<ServicePage> {
                       onSelected: (value) {
                         if (value == '/login'){
                           Navigator.of(context).push(MaterialPageRoute(builder: (context) => loginPage())).then((value) { setState(() {}); });
-                          /*PersistentNavBarNavigator.pushNewScreenWithRouteSettings(
-                            context,
-                            settings: RouteSettings(name: loginPage.routeName,),
-                            screen: loginPage(),
-                            withNavBar: true,
-                            pageTransitionAnimation: PageTransitionAnimation.cupertino,
-                          );*/
                         } else if (value == '/logout'){
                           logoutClient();
+                        } else if (value == '/profile'){
+                          Navigator.of(context).push(MaterialPageRoute(builder: (context) => ProfilePage())).then((value) { setState(() {}); });
                         }
                       },
                       itemBuilder: (BuildContext bc) {
