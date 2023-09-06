@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 
+import '../../config/config.dart';
 import '../screens.dart';
 
 class TaskTile extends StatefulWidget {
@@ -132,35 +133,55 @@ class _TaskTileState extends State<TaskTile> {
                 //handler data's
                 SizedBox(height: 10),
                 widget.services.status == "On Process" || widget.services.status == "Completed"
-                  ? RichText(
-                  softWrap: true,
-                  text: TextSpan(children: <TextSpan>
-                  [
-                    TextSpan(text: "Handler : ",
-                      style: GoogleFonts.lato(
-                        textStyle: TextStyle(fontSize: 14, color: Colors.grey[100], letterSpacing: 0.5, fontWeight: FontWeight.bold),
-                      ),),
+                  ? Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Container(
+                      width: MediaQuery.of(context).size.width * 0.13,
+                      height: MediaQuery.of(context).size.height * 0.13,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        image: DecorationImage(
+                          image: _handler.elementAtOrNull(0)?.image.isNotEmpty == true && _handler.elementAtOrNull(0)?.image != ""
+                              ? Image.network(API.usersImages + _handler.elementAt(0).image).image
+                              : const AssetImage("assets/icons/user.png"),
+                        ),
+                      ),
+                    ),
+                    Container(
+                      width: MediaQuery.of(context).size.width * 0.6,
+                      child: RichText(
+                        softWrap: true,
+                        text: TextSpan(children: <TextSpan>
+                        [
+                          TextSpan(text: "Handler : ",
+                            style: GoogleFonts.lato(
+                              textStyle: TextStyle(fontSize: 14, color: Colors.grey[100], letterSpacing: 0.5, fontWeight: FontWeight.bold),
+                            ),),
 
-                    TextSpan(text: "${_handler.elementAtOrNull(0)?.name} || ",
-                      style: GoogleFonts.lato(
-                        textStyle: TextStyle(fontSize: 14, color: Colors.grey[100], letterSpacing: 0.8),
-                      ),),
+                          TextSpan(text: "${_handler.elementAtOrNull(0)?.name} || ",
+                            style: GoogleFonts.lato(
+                              textStyle: TextStyle(fontSize: 14, color: Colors.grey[100], letterSpacing: 0.8),
+                            ),),
 
-                    TextSpan(text: "${_position.where((position) => position.id == _handler.elementAtOrNull(0)?.position).elementAtOrNull(0)?.position} || ",
-                      style: GoogleFonts.lato(
-                        textStyle: TextStyle(fontSize: 14, color: Colors.grey[100], letterSpacing: 0.8),
-                      ),),
-                    TextSpan(text: "${_handler.elementAtOrNull(0)?.contact} || ",
-                      style: GoogleFonts.lato(
-                        textStyle: TextStyle(fontSize: 14, color: Colors.grey[100], letterSpacing: 0.8),
-                      ),),
-                    TextSpan(text: "${_handler.elementAtOrNull(0)?.email}",
-                      style: GoogleFonts.lato(
-                        textStyle: TextStyle(fontSize: 14, color: Colors.grey[100], letterSpacing: 0.8),
-                      ),),
-                  ]
-                  ),
-                )
+                          TextSpan(text: "${_position.where((position) => position.id == _handler.elementAtOrNull(0)?.position).elementAtOrNull(0)?.position} || ",
+                            style: GoogleFonts.lato(
+                              textStyle: TextStyle(fontSize: 14, color: Colors.grey[100], letterSpacing: 0.8),
+                            ),),
+                          TextSpan(text: "${_handler.elementAtOrNull(0)?.contact} || ",
+                            style: GoogleFonts.lato(
+                              textStyle: TextStyle(fontSize: 14, color: Colors.grey[100], letterSpacing: 0.8),
+                            ),),
+                          TextSpan(text: "${_handler.elementAtOrNull(0)?.email}",
+                            style: GoogleFonts.lato(
+                              textStyle: TextStyle(fontSize: 14, color: Colors.grey[100], letterSpacing: 0.8),
+                            ),),
+                        ]
+                        ),
+                      ),
+                    ),
+                  ],
+                  )
                   : SizedBox.shrink(),
 
                 widget.services.status == "Cancelled"
