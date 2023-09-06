@@ -46,10 +46,6 @@ class _registerPageState extends State<registerPage> {
     FocusScope.of(context).unfocus(); // Close the keyboard
   }
 
-  checkEmail () async {
-
-  }
-
   Future<void> signUserUp() async {
     //useradmin.dart transfering to json
 
