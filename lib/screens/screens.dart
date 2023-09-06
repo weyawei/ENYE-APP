@@ -45,6 +45,7 @@ export 'service/history/history_page.dart';
 export 'login/login_page.dart';
 export 'login/register_page.dart';
 export 'login/clientinfo.dart';
+export 'login/forgotpass_page.dart';
 
 export 'contacts/contacts_page.dart';
 
