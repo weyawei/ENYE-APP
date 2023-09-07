@@ -65,6 +65,7 @@ class UserAdminData {
   String contact;
   String email;
   String position;
+  String image;
 
   UserAdminData({
     required this.user_id,
@@ -72,6 +73,7 @@ class UserAdminData {
     required this.contact,
     required this.email,
     required this.position,
+    required this.image,
   });
 
   factory UserAdminData.fromJson(Map<String, dynamic> json) {
@@ -81,6 +83,7 @@ class UserAdminData {
       contact: json['contact'] as String,
       email: json['email'] as String,
       position: json['position'] as String,
+      image: json['image'] as String,
     );
   }
 }

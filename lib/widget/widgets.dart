@@ -13,6 +13,7 @@ export 'no_internet.dart';
 export 'product_drawer.dart';
 
 export 'videoplayer.dart';
+export 'youtubeplayer.dart';
 
 export 'button.dart';
 export 'textfield.dart';

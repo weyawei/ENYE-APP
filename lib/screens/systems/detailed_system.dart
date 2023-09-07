@@ -7,6 +7,7 @@ import 'package:path_provider/path_provider.dart';
 
 import '../../config/api_connection.dart';
 import '../../widget/custom_appbar.dart';
+import '../../widget/widgets.dart';
 import '../screens.dart';
 
 class detailedSysPage extends StatefulWidget {
@@ -28,12 +29,10 @@ class detailedSysPage extends StatefulWidget {
 
 class _detailedSysPageState extends State<detailedSysPage> {
 
-
   PageController _pageController = new PageController();
   ScrollController _scrollController = new ScrollController();
 
   double? _progress;
-
 
   Future openFile ({required String url, String? filename}) async {
     final file = await downloadFile(url, filename!);
@@ -149,21 +148,31 @@ class _detailedSysPageState extends State<detailedSysPage> {
 
       if (widget.systems.description != null && widget.systems.description.isNotEmpty)
         Center(
-          child: Container(
-            padding: EdgeInsets.symmetric(horizontal: 40.0),
-            child: SingleChildScrollView(
-              controller: _scrollController,
-              child: Column(
-                children: [
-                  SizedBox(height: 20,),
-                  Text("System Description", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24, color: Colors.deepOrange),),
-
-                  SizedBox(height: 20,),
-                  Text(widget.systems.description, maxLines: null, textAlign: TextAlign.justify,
-                    style: TextStyle(fontSize: 16, fontStyle: FontStyle.italic, letterSpacing: 1),),
-                ],
+          child: Column(
+            children: [
+              if (widget.systems.youtubeUrl.isNotEmpty)
+              youtubePlayerView(
+                  url: widget.systems.youtubeUrl.toString()
               ),
-            ),
+
+              Container(
+                padding: EdgeInsets.symmetric(horizontal: 30.0),
+                child: SingleChildScrollView(
+                  controller: _scrollController,
+                  child: Column(
+                    children: [
+
+                      SizedBox(height: 10,),
+                      Text("System Description", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24, color: Colors.deepOrange),),
+
+                      SizedBox(height: 20,),
+                      Text(widget.systems.description, maxLines: null, textAlign: TextAlign.justify,
+                        style: TextStyle(fontSize: 16, fontStyle: FontStyle.italic, letterSpacing: 1),),
+                    ],
+                  ),
+                ),
+              ),
+            ],
           ),
         ),
 
@@ -288,12 +297,12 @@ class _detailedSysPageState extends State<detailedSysPage> {
   @override
   Widget build(BuildContext context) {
 
-
     return Scaffold(
       appBar: CustomAppBar(title: 'Systems', imagePath: 'assets/logo/enyecontrols.png',),
       /*drawer: CustomDrawer(),*/
       body: Stack(
         children: [
+
           PageView(
             controller: _pageController,
             scrollDirection: Axis.vertical,

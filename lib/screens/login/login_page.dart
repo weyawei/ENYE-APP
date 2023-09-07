@@ -158,18 +158,20 @@ class _loginPageState extends State<loginPage> {
               ),
 
               //forgot password
-              /*Padding(
+              Padding(
                 padding: EdgeInsets.symmetric(horizontal: 25.0),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     TextButton(
-                      onPressed: (){},
+                      onPressed: (){
+                        Navigator.of(context).push(MaterialPageRoute(builder: (context) => ForgotPassPage())).then((value) { setState(() {}); });
+                      },
                       child: Text('Forgot Password?', style: TextStyle(color: Colors.grey.shade800,),),
                     ),
                   ],
                 ),
-              ),*/
+              ),
 
               //sign-in button
               SizedBox(height: 20,),

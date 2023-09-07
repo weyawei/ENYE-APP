@@ -135,10 +135,11 @@ class _PasswordTextFieldState extends State<PasswordTextField> {
       child: TextFormField(
         readOnly: widget.disabling,
         onEditingComplete: (){},
-        autovalidateMode: AutovalidateMode.onUserInteraction,
         validator: (value) {
           if (value == null || value.isEmpty) {
             return 'Required !';
+          } else if (value.length < 6) {
+            return 'Password too short !';
           } else {
             return null;
           }
