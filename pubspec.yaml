@@ -68,6 +68,9 @@ dependencies:
   pinput: ^3.0.0
   connectivity_plus: ^4.0.2
   shared_preferences: ^2.2.1
+  units_converter: ^2.1.1
+  convert: ^3.1.1
+  math_expressions: ^2.4.0
 
   firebase_messaging: ^14.6.5
   firebase_core: ^2.15.0

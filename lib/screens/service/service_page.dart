@@ -1,3 +1,4 @@
+import 'package:enye_app/screens/service/convert/power_converter.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_session_manager/flutter_session_manager.dart';
@@ -7,6 +8,7 @@ import 'package:lottie/lottie.dart';
 import '../../config/config.dart';
 import '../../widget/widgets.dart';
 import '../screens.dart';
+import 'convert/converter_page.dart';
 
 class ServicePage extends StatefulWidget {
   static const String routeName = '/service';
@@ -329,7 +331,7 @@ class _ServicePageState extends State<ServicePage> {
               GestureDetector(
                 onTap: (){
                   if (userSessionFuture == true) {
-
+                    Navigator.of(context).push(MaterialPageRoute(builder: (context) => ConverterPage())).then((value) { setState(() {}); });
                   } else {
                     _errorSnackbar(context, "Login first !");
                   }
