@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 enum Unit { meters, feet }
 enum TemperatureUnit { celsius, fahrenheit }
+enum InsulationCondition { good, normal, poor }
 
 class HeatingBTUCalcu extends StatefulWidget {
   const HeatingBTUCalcu({Key? key}) : super(key: key);
@@ -17,7 +18,7 @@ class _HeatingBTUCalcuState extends State<HeatingBTUCalcu> {
   double roomLength = 5.0;
   double ceilingHeight = 3.0;
   double deltaT = 25.0; // Desired temperature increase in Celsius
-  double insulationFactor = 35.0; // Default to moderately insulated
+  InsulationCondition insulationCondition = InsulationCondition.normal; // Default to normal insulation
   double requiredBTU = 0.0;
 
   String roomWidthError = '';
@@ -36,18 +37,18 @@ class _HeatingBTUCalcuState extends State<HeatingBTUCalcu> {
     ),
   ];
 
-  final List<DropdownMenuItem<double>> insulationItems = [
+  final List<DropdownMenuItem<InsulationCondition>> insulationItems = [
     DropdownMenuItem(
-      value: 30.0,
-      child: Text('Well Insulated (30 BTU/sq. ft)'),
+      value: InsulationCondition.good,
+      child: Text('Good Insulation'),
     ),
     DropdownMenuItem(
-      value: 35.0,
-      child: Text('Moderately Insulated (35 BTU/sq. ft)'),
+      value: InsulationCondition.normal,
+      child: Text('Normal Insulation'),
     ),
     DropdownMenuItem(
-      value: 40.0,
-      child: Text('Poorly Insulated (40 BTU/sq. ft)'),
+      value: InsulationCondition.poor,
+      child: Text('Poor Insulation'),
     ),
   ];
 
@@ -80,9 +81,24 @@ class _HeatingBTUCalcuState extends State<HeatingBTUCalcu> {
         temperatureDifference = (deltaT - 32) * 5 / 9; // Convert Fahrenheit to Celsius
       }
 
+      double insulationMultiplier = 0.0;
+
+      // Set insulation multiplier based on selected insulation condition
+      switch (insulationCondition) {
+        case InsulationCondition.good:
+          insulationMultiplier = 30.0 / 35.0;
+          break;
+        case InsulationCondition.normal:
+          insulationMultiplier = 1.0; // No change for normal insulation
+          break;
+        case InsulationCondition.poor:
+          insulationMultiplier = 40.0 / 35.0;
+          break;
+      }
+
       requiredBTU =
           (roomWidthInFeet * roomLengthInFeet * ceilingHeight) *
-              temperatureDifference;
+              insulationMultiplier * temperatureDifference;
 
       // Validate input fields and update error messages
       if (roomWidth <= 0) {
@@ -229,17 +245,14 @@ class _HeatingBTUCalcuState extends State<HeatingBTUCalcu> {
                 ),
               ],
             ),
-            DropdownButtonFormField<double>(
-              value: insulationFactor,
+            DropdownButton<InsulationCondition>(
+              value: insulationCondition,
               onChanged: (value) {
                 setState(() {
-                  insulationFactor = value ?? 0.0;
+                  insulationCondition = value!;
                 });
               },
               items: insulationItems,
-              decoration: InputDecoration(
-                labelText: 'Insulation Condition',
-              ),
             ),
             Row(
               children: <Widget>[
