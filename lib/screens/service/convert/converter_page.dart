@@ -8,7 +8,7 @@ class ConverterPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Unit Converter'),
+        title: Text('Engineering Tools'),
       ),
       body: SingleChildScrollView(
         child: Center(
@@ -57,15 +57,9 @@ class ConverterPage extends StatelessWidget {
           padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
             EdgeInsets.all(16.0),
           ),
-          shape: MaterialStateProperty.all<OutlinedBorder>(
-            RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(10.0),
-              // Adjust the border radius as needed
-              side: BorderSide(color: Colors.black), // Add a black border
-            ),
-          ),
         ),
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.center, // Center content vertically
           children: <Widget>[
             Image.asset(
               imagePath,
@@ -86,4 +80,4 @@ class ConverterPage extends StatelessWidget {
       ),
     );
   }
-}
+  }
