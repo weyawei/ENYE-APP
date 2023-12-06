@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../widget/custom_appbar.dart';
+import '../../widget/widgets.dart';
 import '../screens.dart';
 
 class systemsPage extends StatefulWidget {
@@ -10,13 +11,15 @@ class systemsPage extends StatefulWidget {
   State<systemsPage> createState() => _systemsPageState();
 }
 
-class _systemsPageState extends State<systemsPage> {
+class _systemsPageState extends State<systemsPage> with TickerProviderStateMixin {
   double screenHeight = 0;
   double screenWidth = 0;
-  String searchText = '';
 
+  final searchController = TextEditingController();
   late List<Systems> _systems;
   List<Systems> _filteredSystems = [];
+
+  bool _isLoading = true;
 
   @override
   void initState(){
@@ -25,11 +28,26 @@ class _systemsPageState extends State<systemsPage> {
     _getSystems();
   }
 
+  late final AnimationController _controller = AnimationController(
+    duration: const Duration(seconds: 60),
+    vsync: this,
+  )..repeat();
+
+  @override
+  void dispose() {
+    // Clean up the controller when the widget is removed from the
+    // widget tree.
+    searchController.dispose();
+    _controller.dispose();
+    super.dispose();
+  }
+
   _getSystems(){
     systemService.getSystems().then((Systems){
       setState(() {
         _systems = Systems;
       });
+      _isLoading = false;
       print("Length ${Systems.length}");
     });
   }
@@ -37,7 +55,7 @@ class _systemsPageState extends State<systemsPage> {
   void filterSystemsList() {
     _filteredSystems = _systems.where((Systems) {
       final title = Systems.title.toLowerCase();
-      final searchQuery = searchText.toLowerCase();
+      final searchQuery = searchController.text.toLowerCase();
       return title.contains(searchQuery);
     }).toList();
   }
@@ -46,89 +64,116 @@ class _systemsPageState extends State<systemsPage> {
   Widget build(BuildContext context) {
     screenHeight = MediaQuery.of(context).size.height;
     screenWidth = MediaQuery.of(context).size.height;
-    return Scaffold(
-      appBar: CustomAppBar(title: 'Systems', imagePath: '',),
-      backgroundColor: Colors.white,
-      body: SafeArea(
-        child: SingleChildScrollView(
-          padding: EdgeInsets.symmetric(
-            horizontal: screenWidth /50,
-          ),
-          child: Column(
-            children: [
-              const SizedBox(height: 10,),
-              TextField(
-                decoration: InputDecoration(
-                  labelText: 'Search',
-                  prefixIcon: Icon(Icons.search),
+    return GestureDetector(
+      // When tapped, dismiss the keyboard by unfocusing the TextField
+      onTap: () {
+        FocusScope.of(context).unfocus();
+      },
+      child: Scaffold(
+        appBar: CustomAppBar(title: 'Systems', imagePath: '',),
+        backgroundColor: Colors.white,
+        body: _isLoading
+          ? Center(child: SpinningContainer(controller: _controller),)
+          : SafeArea(
+              child: SingleChildScrollView(
+                padding: EdgeInsets.symmetric(
+                  horizontal: screenWidth /50,
                 ),
-                onChanged: (value) {
-                  setState(() {
-                    searchText = value;
-                    filterSystemsList();
-                  });
-                },
-              ),
-
-              const SizedBox(height: 10,),
-              ListView.builder(
-                  primary: false,
-                  shrinkWrap: true,
-                  itemCount: searchText.isEmpty ? _systems.length : _filteredSystems.length,
-                  itemBuilder: (context, index) {
-                    _filteredSystems = searchText.isEmpty ? _systems : _filteredSystems;
-                    return InkWell(
-                      onTap: () {
-                        // Handle the onTap event here
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => detailedSysPage(systems: _filteredSystems[index]),
-                          ),
-                        );
+                child: Column(
+                  children: [
+                    const SizedBox(height: 10,),
+                    TextField(
+                      controller: searchController,
+                      decoration: InputDecoration(
+                        labelText: 'Search',
+                        prefixIcon: Icon(Icons.search),
+                        suffixIcon: searchController.text.isNotEmpty
+                          ? IconButton(
+                            onPressed: () {
+                              searchController.clear();
+                              FocusScope.of(context).unfocus();
+                              filterSystemsList();
+                            },
+                            icon: const Icon(Icons.clear),
+                          )
+                          : null, // Set suffixIcon to null when text is empty
+                      ),
+                      onChanged: (value) {
+                        setState(() {
+                          filterSystemsList();
+                          if(searchController.text.isEmpty){
+                            FocusScope.of(context).unfocus();
+                          }
+                        });
                       },
-                      child: Container(
-                        height: 55,
-                        width: screenWidth,
-                        margin: EdgeInsets.only(
-                          bottom: 12,
-                        ),
-                        padding: EdgeInsets.symmetric(
-                          horizontal: screenWidth / 100,
-                        ),
-                        decoration: BoxDecoration(
-                          color: Colors.white10,
-                          borderRadius: BorderRadius.circular(10),
-                          border: Border.all(
-                            color: Colors.deepOrange,
-                            width: 2,
-                            style: BorderStyle.solid,
-                          ),
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Expanded(
-                              child: Text(
-                                " ${_filteredSystems[index].title}",
-                                style: TextStyle(
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.bold,
+                      onEditingComplete: (){
+                        filterSystemsList();
+                        if(searchController.text.isEmpty){
+                          FocusScope.of(context).unfocus();
+                        }
+                      },
+                    ),
+
+                    const SizedBox(height: 10,),
+                    ListView.builder(
+                        primary: false,
+                        shrinkWrap: true,
+                        itemCount: searchController.text.isEmpty ? _systems.length : _filteredSystems.length,
+                        itemBuilder: (context, index) {
+                          _filteredSystems = searchController.text.isEmpty ? _systems : _filteredSystems;
+                          return InkWell(
+                            onTap: () {
+                              // Handle the onTap event here
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => detailedSysPage(systems: _filteredSystems[index]),
+                                ),
+                              );
+                            },
+                            child: Container(
+                              height: 55,
+                              width: screenWidth,
+                              margin: EdgeInsets.only(
+                                bottom: 12,
+                              ),
+                              padding: EdgeInsets.symmetric(
+                                horizontal: screenWidth / 100,
+                              ),
+                              decoration: BoxDecoration(
+                                color: Colors.white10,
+                                borderRadius: BorderRadius.circular(10),
+                                border: Border.all(
+                                  color: Colors.deepOrange,
+                                  width: 2,
+                                  style: BorderStyle.solid,
                                 ),
                               ),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Expanded(
+                                    child: Text(
+                                      " ${_filteredSystems[index].title}",
+                                      style: TextStyle(
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ),
+                                  Icon(
+                                    Icons.label_important,
+                                    color: Colors.deepOrange,
+                                  )
+                                ],
+                              ),
                             ),
-                            Icon(
-                              Icons.label_important,
-                              color: Colors.deepOrange,
-                            )
-                          ],
-                        ),
-                      ),
-                    );
-                  }),
-            ],
-          ),
-        ),
+                          );
+                        }),
+                  ],
+                ),
+              ),
+            ),
       ),
     );
   }

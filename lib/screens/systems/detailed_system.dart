@@ -7,6 +7,7 @@ import 'package:path_provider/path_provider.dart';
 
 import '../../config/api_connection.dart';
 import '../../widget/custom_appbar.dart';
+import '../../widget/widgets.dart';
 import '../screens.dart';
 
 class detailedSysPage extends StatefulWidget {
@@ -27,7 +28,6 @@ class detailedSysPage extends StatefulWidget {
 }
 
 class _detailedSysPageState extends State<detailedSysPage> {
-
 
   PageController _pageController = new PageController();
   ScrollController _scrollController = new ScrollController();
@@ -102,12 +102,38 @@ class _detailedSysPageState extends State<detailedSysPage> {
     });
   }
 
+  //if image is still loading
+  bool isImageLoading = true;
+  ImageProvider _buildNetworkImage(String imageUrl) {
+    try {
+      ImageProvider _networkImage = NetworkImage(imageUrl);
+      _networkImage.resolve(ImageConfiguration()).addListener(
+        ImageStreamListener((info, synchronousCall) {
+          setState(() {
+            isImageLoading = false; // Update the loading status when the image is loaded
+          });
+        }),
+      );
+
+      if (isImageLoading){
+        return NetworkImage("https://travel.orange.com/wp-content/themes/bootstrap-basic-child/images/orange-loader.gif",);
+      } else {
+        return NetworkImage(imageUrl);
+      }
+
+    } catch (error) {
+      // Handle the error
+      print('Error loading image: $error');
+      return NetworkImage("https://travel.orange.com/wp-content/themes/bootstrap-basic-child/images/orange-loader.gif",); // Replace with a fallback image URL
+    }
+  }
+
   List<Widget> _pages(){
     return [
       if (widget.systems.image != null && widget.systems.image.isNotEmpty)
         Container(
           decoration: BoxDecoration(
-            image: DecorationImage(image: NetworkImage("${API.systemsImg + widget.systems.image}"), fit: BoxFit.fill),
+            image: DecorationImage(image: _buildNetworkImage("${API.systemsImg + widget.systems.image}",), alignment: Alignment.center, fit: isImageLoading ? BoxFit.none : BoxFit.fill),
           ),
           child: Container(
             decoration: BoxDecoration(
@@ -122,21 +148,31 @@ class _detailedSysPageState extends State<detailedSysPage> {
 
       if (widget.systems.description != null && widget.systems.description.isNotEmpty)
         Center(
-          child: Container(
-            padding: EdgeInsets.symmetric(horizontal: 40.0),
-            child: SingleChildScrollView(
-              controller: _scrollController,
-              child: Column(
-                children: [
-                  SizedBox(height: 20,),
-                  Text("System Description", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24, color: Colors.deepOrange),),
-
-                  SizedBox(height: 20,),
-                  Text(widget.systems.description, maxLines: null, textAlign: TextAlign.justify,
-                    style: TextStyle(fontSize: 16, fontStyle: FontStyle.italic, letterSpacing: 1),),
-                ],
+          child: Column(
+            children: [
+              if (widget.systems.youtubeUrl.isNotEmpty)
+              youtubePlayerView(
+                  url: widget.systems.youtubeUrl.toString()
               ),
-            ),
+
+              Container(
+                padding: EdgeInsets.symmetric(horizontal: 30.0),
+                child: SingleChildScrollView(
+                  controller: _scrollController,
+                  child: Column(
+                    children: [
+
+                      SizedBox(height: 10,),
+                      Text("System Description", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24, color: Colors.deepOrange),),
+
+                      SizedBox(height: 20,),
+                      Text(widget.systems.description, maxLines: null, textAlign: TextAlign.justify,
+                        style: TextStyle(fontSize: 16, fontStyle: FontStyle.italic, letterSpacing: 1),),
+                    ],
+                  ),
+                ),
+              ),
+            ],
           ),
         ),
 
@@ -163,7 +199,7 @@ class _detailedSysPageState extends State<detailedSysPage> {
                         if (SystemsDetail.image != null && SystemsDetail.image!.isNotEmpty)
                           Container(
                             decoration: BoxDecoration(
-                              image: DecorationImage(image: NetworkImage("${API.sysDetailsImg + SystemsDetail.image}"), fit: BoxFit.fill),
+                              image: DecorationImage(image: _buildNetworkImage("${API.sysDetailsImg + SystemsDetail.image}"), fit: BoxFit.fill),
                             ),
                           )
                       ],
@@ -261,12 +297,12 @@ class _detailedSysPageState extends State<detailedSysPage> {
   @override
   Widget build(BuildContext context) {
 
-
     return Scaffold(
       appBar: CustomAppBar(title: 'Systems', imagePath: 'assets/logo/enyecontrols.png',),
       /*drawer: CustomDrawer(),*/
       body: Stack(
         children: [
+
           PageView(
             controller: _pageController,
             scrollDirection: Axis.vertical,

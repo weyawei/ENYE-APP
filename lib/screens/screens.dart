@@ -2,6 +2,7 @@ export 'home/homepage.dart';
 export 'home/homepage2.dart';
 
 export 'home/home_page.dart';
+export 'home/contacts_page.dart';
 
 export 'projects/project_page.dart';
 export 'projects/list_projects.dart';
@@ -32,6 +33,25 @@ export 'product/detailed_product.dart';
 export 'product/cards/product_carousel.dart';
 export 'product/cards/subcategory_carousel.dart';
 
+export 'service/service_page.dart';
+export 'service/booking_service.dart';
+export 'service/technical_data.dart';
+export 'service/technical_svc.dart';
+export 'service/tasktile_page.dart';
+
+export 'service/status/status_page.dart';
+export 'service/history/history_page.dart';
+
+export 'login/login_page.dart';
+export 'login/register_page.dart';
+export 'login/clientinfo.dart';
+export 'login/forgotpass_page.dart';
+
+export 'profile/profile_page.dart';
 
 export 'contacts/contacts_page.dart';
+
+export 'ec_calendar/calendar.dart';
+export 'ec_calendar/calendar_svc.dart';
+
 export '/splash/splash_screen.dart';

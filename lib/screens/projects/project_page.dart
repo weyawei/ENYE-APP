@@ -19,7 +19,7 @@ class ProjectsPage extends StatefulWidget {
   State<ProjectsPage> createState() => _ProjectsPageState();
 }
 
-class _ProjectsPageState extends State<ProjectsPage> {
+class _ProjectsPageState extends State<ProjectsPage> with TickerProviderStateMixin {
   String? selectedCategory;
   PageController _pageController = PageController(initialPage: 0);
   int _currentPageIndex = 0;
@@ -27,19 +27,41 @@ class _ProjectsPageState extends State<ProjectsPage> {
   late List<Projects> _projects;
   List<Projects> _filteredProjects = [];
 
+  bool _isLoadingCat = true;
+  bool _isLoadingProj = true;
+
+  final ScrollController _scrollController = ScrollController();
+  bool isRightButtonVisible = true; // Track the visibility of the right arrow button
+  bool isLeftButtonVisible = false; // Track the visibility of the left arrow button
+
   void initState() {
     super.initState();
     // Initially, show all products
     _projects = [];
     _getProjCategories();
     _getProjects();
+    _scrollController.addListener(_scrollListener);
   }
+
+  @override
+  void dispose() {
+    // Clean up the controller when the widget is removed from the
+    // widget tree.
+    _controller.dispose();
+    super.dispose();
+  }
+
+  late final AnimationController _controller = AnimationController(
+    duration: const Duration(seconds: 60),
+    vsync: this,
+  )..repeat();
 
   _getProjCategories(){
     projectSVC.getProjCategory().then((projCategories){
       setState(() {
         _projCategories = projCategories;
       });
+      _isLoadingCat = false;
       print("Length ${projCategories.length}");
     });
   }
@@ -49,6 +71,7 @@ class _ProjectsPageState extends State<ProjectsPage> {
       setState(() {
         _projects = Projects;
       });
+      _isLoadingProj = false;
       print("Length ${Projects.length}");
     });
   }
@@ -70,20 +93,71 @@ class _ProjectsPageState extends State<ProjectsPage> {
     }
   }
 
+  // Function to scroll the GridView to the right
+  void scrollRight() {
+    _scrollController.animateTo(
+      _scrollController.offset + 100.0, // Adjust the scroll distance as needed
+      duration: Duration(milliseconds: 500), // Adjust the duration as needed
+      curve: Curves.easeInOut,
+    );
+  }
+
+  void scrollLeft() {
+    _scrollController.animateTo(
+      _scrollController.offset - 100.0, // Adjust the scroll distance as needed
+      duration: Duration(milliseconds: 500), // Adjust the duration as needed
+      curve: Curves.easeInOut,
+    );
+  }
+
+
+  // Listener for the scroll controller
+  void _scrollListener() {
+    // Check if the GridView is at the rightmost edge
+    if (_scrollController.position.pixels ==
+        _scrollController.position.maxScrollExtent) {
+      setState(() {
+        // Hide the right arrow button when at the edge
+        isRightButtonVisible = false;
+      });
+    } else {
+      setState(() {
+        // Show the right arrow button when not at the edge
+        isRightButtonVisible = true;
+      });
+    }
+
+    // Check if the GridView is at the leftmost edge
+    if (_scrollController.position.pixels ==
+        _scrollController.position.minScrollExtent) {
+      setState(() {
+        // Hide the right arrow button when at the edge
+        isLeftButtonVisible = false;
+      });
+    } else {
+      setState(() {
+        // Show the right arrow button when not at the edge
+        isLeftButtonVisible = true;
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
 
     return Scaffold(
       extendBody: true,
       appBar: CustomAppBar(title: 'Projects', imagePath: '',),
-      body: SafeArea(
+      body: _isLoadingProj || _isLoadingCat
+        ? Center(child: SpinningContainer(controller: _controller),)
+        : SafeArea(
         child: SingleChildScrollView(
           child: Padding(padding: EdgeInsets.all(12.0),
             child: Column(
               children: [
 
                 //project categories
-                Container(
+                /*Container(
                   height: 110,
                   width: MediaQuery.of(context).size.width * 1,
                      child: Stack(
@@ -193,6 +267,86 @@ class _ProjectsPageState extends State<ProjectsPage> {
 
                      ],
                      ),
+                ),*/
+                Container(
+                  height: 110,
+                  width: MediaQuery.of(context).size.width * 1,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      //lefft arrow
+                      isLeftButtonVisible
+                      ? Container(
+                        width: MediaQuery.of(context).size.width * 0.07,
+                        child: IconButton(
+                          onPressed: scrollLeft,
+                          icon: Image(image: AssetImage("assets/icons/left_arrow.png")),
+                        ),
+                      )
+                      : SizedBox.shrink(),
+
+
+                      //categories
+                      Container(
+                        width: MediaQuery.of(context).size.width * 0.8,
+                        child: GridView.builder(
+                          controller: _scrollController, // Assign the ScrollController
+                          scrollDirection: Axis.horizontal,
+                          shrinkWrap: true,
+                          gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 1,
+                            crossAxisSpacing: 12.0,
+                            mainAxisSpacing: 12.0,
+                            mainAxisExtent: 120,
+                          ),
+                          itemCount: _projCategories.length,
+                          itemBuilder: (context, index) {
+                            return TextButton(
+                              onPressed: () {
+                                setState(() {
+                                  selectedCategory = _projCategories[index].category;
+                                  filterProjects();
+                                  // Perform your desired action here
+                                });
+                              },
+                              child: Column(
+                                children: [
+                                  Image.network(
+                                    "${API.projCategImage + _projCategories[index].images}",
+                                    color: Colors.deepOrange.shade400,
+                                    height: 55,
+                                    width: 45,
+                                    alignment: Alignment.center,
+                                  ),
+                                  Text(
+                                    "${_projCategories[index].title}",
+                                    style: TextStyle(
+                                      fontSize: 11,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                    textAlign: TextAlign.center,
+                                    maxLines: 2,
+                                  ),
+                                ],
+                              ),
+                            );
+                          },
+                        ),
+                      ),
+
+                      //right button
+                      isRightButtonVisible
+                      ? Container(
+                        width: MediaQuery.of(context).size.width * 0.07,
+                        child: IconButton(
+                          onPressed: scrollRight,
+                          icon: Image(image: AssetImage("assets/icons/right_arrow.png")),
+                        ),
+                      )
+                      : SizedBox.shrink(),
+                    ],
+                  ),
                 ),
 
 
@@ -240,7 +394,14 @@ class _ProjectsPageState extends State<ProjectsPage> {
                               child: Container(
                                 height: 270,
                                 decoration: BoxDecoration(
-                                  image: DecorationImage(image: NetworkImage("${API.projectsImage + _projects[index].images}"), fit: BoxFit.cover),
+                                  image: DecorationImage(
+                                    image: NetworkImage("${API.projectsImage + _projects[index].images}"),
+                                    fit: BoxFit.cover,
+                                    onError: (exception, stackTrace) {
+                                      // Handle image loading error here
+                                      print("Image loading failed: $exception");
+                                    },
+                                  ),
                                 ),
 
                                 child: Container(

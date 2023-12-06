@@ -12,6 +12,7 @@ import 'package:video_player/video_player.dart';
 
 import '../../config/api_connection.dart';
 import '../../widget/widgets.dart';
+import '../screens.dart';
 
 class homePage extends StatefulWidget {
   static const String routeName = '/home';
@@ -29,18 +30,27 @@ class homePage extends StatefulWidget {
 
 class _homePageState extends State<homePage>{
   final List<String> dashboard = [
+    "${API.dashboard}1692077053.jpg",
+    "${API.dashboard}1692078344.jpg",
+    "${API.dashboard}1692078358.jpg",
     "${API.dashboard}2.png",
     "${API.dashboard}1.png",
     "${API.dashboard}3.png",
   ];
 
   final List<String> dashboardText1 = [
+    '',
+    '',
+    '',
     '"Committed to be your',
     '"Challenging Innovation"',
     '"We Hand Over',
   ];
 
   final List<String> dashboardText2 = [
+    '',
+    '',
+    '',
     'Business Partner of Choice!!"',
     "campaign is our aggressive move in setting the standard in Energy Saving by providing the approppriate products & solutions that will solve current HVAC problems and enhance efficiency.",
     'Best After Sales Services"',
@@ -103,14 +113,15 @@ class _homePageState extends State<homePage>{
                         image: DecorationImage(image: NetworkImage(dashboard[currentIndex]), fit: BoxFit.fill),
                       ),
                       child: BackdropFilter(
-                        filter: ImageFilter.blur(sigmaX: 15, sigmaY: 15),
+                        filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
                         child: Container(color: Colors.black.withOpacity(0.2),),
                       ),
                     ),
                   ),
 
                   Container(
-                    height: MediaQuery.of(context).size.height * 0.8,
+                    height: MediaQuery.of(context).size.height * 0.5,
+                    margin: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.175,),
                     child: PageView.builder(
                         controller: _pageController,
                         onPageChanged: (val){
@@ -122,7 +133,7 @@ class _homePageState extends State<homePage>{
                         itemBuilder: (context, int index) {
                           return FractionallySizedBox(
                             heightFactor: 0.8,
-                            widthFactor: 0.9,
+                            widthFactor: 0.85,
                             child: Container(
                                 decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(32),
@@ -381,74 +392,77 @@ class _homePageState extends State<homePage>{
                 ),
               ),
 
+              SizedBox(height: 40,),
+              ContactsHome(),
+
               SizedBox(height: 60,),
               // follow us
               Lottie.network(
-                'https://lottie.host/b4271de5-63c3-47d2-b756-71bf41c8c643/ARaXZtHsJ8.json',
-                frameRate: FrameRate.max,
-                height: 150,
-                width: 500,
-                controller: lottieController,
-                onLoaded: (composition) {
-                  lottieController.duration = Duration(milliseconds: 10);
-                  lottieController.forward();
-                }
+                  'https://lottie.host/b4271de5-63c3-47d2-b756-71bf41c8c643/ARaXZtHsJ8.json',
+                  frameRate: FrameRate.max,
+                  height: 150,
+                  width: 500,
+                  controller: lottieController,
+                  onLoaded: (composition) {
+                    lottieController.duration = Duration(milliseconds: 10);
+                    lottieController.forward();
+                  }
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   GestureDetector(
-                    child: Image(image: AssetImage("assets/icons/facebook-v2.png"), height: 50, width: 50,),
-                    onTap: () async{
-                      setState(() {
-                        _launchURL("https://www.facebook.com/EnyeControl/");
-                      });
-                    }
+                      child: Image(image: AssetImage("assets/icons/facebook-v2.png"), height: 50, width: 50,),
+                      onTap: () async{
+                        setState(() {
+                          _launchURL("https://www.facebook.com/EnyeControl/");
+                        });
+                      }
                   ),
 
                   SizedBox(width: 15,),
                   GestureDetector(
-                    child: Image(image: AssetImage("assets/icons/instagram.png"), height: 50, width: 50,),
-                    onTap: () async{
-                      setState(() {
-                        _launchURL("https://www.instagram.com/enyecontrols/");
-                      });
-                    }
+                      child: Image(image: AssetImage("assets/icons/instagram.png"), height: 50, width: 50,),
+                      onTap: () async{
+                        setState(() {
+                          _launchURL("https://www.instagram.com/enyecontrols/");
+                        });
+                      }
                   ),
 
                   SizedBox(width: 15,),
                   GestureDetector(
-                    child: Image(image: AssetImage("assets/icons/twitter.png"), height: 50, width: 50,),
-                    onTap: () async{
-                      setState(() {
-                        _launchURL("https://twitter.com/enyecontrols");
-                      });
-                    }
+                      child: Image(image: AssetImage("assets/icons/twitter.png"), height: 50, width: 50,),
+                      onTap: () async{
+                        setState(() {
+                          _launchURL("https://twitter.com/enyecontrols");
+                        });
+                      }
                   ),
 
                   SizedBox(width: 15,),
                   GestureDetector(
-                    child: Image(image: AssetImage("assets/icons/youtube-round-2.png"), height: 50, width: 50,),
-                    onTap: () async{
-                      setState(() {
-                        _launchURL("https://www.youtube.com/channel/UCTPwjwa1YioMkHZCvYjrAnw");
-                      });
-                    }
+                      child: Image(image: AssetImage("assets/icons/youtube-round-2.png"), height: 50, width: 50,),
+                      onTap: () async{
+                        setState(() {
+                          _launchURL("https://www.youtube.com/channel/UCTPwjwa1YioMkHZCvYjrAnw");
+                        });
+                      }
                   ),
 
                   SizedBox(width: 15,),
                   GestureDetector(
-                    child: Image(image: AssetImage("assets/icons/linkedin.png"), height: 50, width: 50,),
-                    onTap: () async{
-                      setState(() {
-                        _launchURL("https://www.linkedin.com/company/enyecontrols");
-                      });
-                    }
+                      child: Image(image: AssetImage("assets/icons/linkedin.png"), height: 50, width: 50,),
+                      onTap: () async{
+                        setState(() {
+                          _launchURL("https://www.linkedin.com/company/enyecontrols");
+                        });
+                      }
                   ),
                 ],
               ),
 
-              SizedBox(height: 60,)
+              SizedBox(height: 60,),
             ],
           ),
         ]
