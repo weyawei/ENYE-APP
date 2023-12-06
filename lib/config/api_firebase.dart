@@ -58,6 +58,7 @@ class FirebaseApi{
     description: 'This channel is used for important notification',
     importance: Importance.defaultImportance,
   );
+
   final _localNotifications = FlutterLocalNotificationsPlugin();
 
   void handleMessage(RemoteMessage? message){
@@ -69,9 +70,9 @@ class FirebaseApi{
     //  );
   }
   Future initLocalNotifications() async{
-    //  const iOS = IOSInitializationSettings();
+    const iOS = DarwinInitializationSettings();
     const android = AndroidInitializationSettings('drawable/enye');
-    const settings =  InitializationSettings(android: android);
+    const settings =  InitializationSettings(android: android, iOS: iOS);
 
     await _localNotifications.initialize(
         settings,
@@ -108,6 +109,11 @@ class FirebaseApi{
             _androidChannel.name,
             channelDescription: _androidChannel.description,
             icon: '@drawable/enye',
+          ),
+          iOS: DarwinNotificationDetails(
+            presentAlert: true,
+            presentBadge: true,
+            presentSound: true
           ),
         ),
         payload: jsonEncode(message.toMap()),
