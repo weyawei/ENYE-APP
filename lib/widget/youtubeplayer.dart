@@ -79,7 +79,7 @@ class _youtubePlayerViewState extends State<youtubePlayerView> {
               child: VisibilityDetector(
                   key: Key('video-visibility-key'),
                   onVisibilityChanged: (visibilityInfo) {
-                    if (visibilityInfo.visibleFraction == 0.0) {
+                    if (visibilityInfo.visibleFraction < 1) {
                       _controller.pause();
                     } else {
                       _controller.play();
