@@ -222,6 +222,7 @@ class _detailedSysPageState extends State<detailedSysPage> {
             Container(
               child: Column(
                 children: _sysTechSpecs!.map((SystemsTechSpecs) => ExpansionTile(
+                  initiallyExpanded: true,
                   title: Text(
                     SystemsTechSpecs.title,
                     style: TextStyle(
