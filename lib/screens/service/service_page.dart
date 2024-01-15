@@ -132,7 +132,7 @@ class _ServicePageState extends State<ServicePage> {
                     Text(userSessionFuture == true ? "Hello ${ClientInfo?.name}," : "Hello Guest !",
                         style: GoogleFonts.lalezar(
                           textStyle:
-                          TextStyle(fontSize: 21, letterSpacing: 1.5, color: Colors.deepOrange.shade700),
+                          TextStyle(fontSize: 17, letterSpacing: 1.5, color: Colors.deepOrange.shade700),
                         )
                     ),
                     // Text("${FirebaseAuth.instance.currentUser!.displayName}"),

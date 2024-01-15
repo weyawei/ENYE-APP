@@ -142,7 +142,7 @@ class _HistoryPageState extends State<HistoryPage> with TickerProviderStateMixin
                   child: (Text(
                     "No Data Available",
                     style: TextStyle(
-                        fontSize: 40,
+                        fontSize: 24,
                         color: Colors.grey
                     ),
                   )),
