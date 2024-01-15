@@ -72,8 +72,8 @@ class _youtubePlayerViewState extends State<youtubePlayerView> {
         ),
         builder: (BuildContext context, player){
           return Container(
-            padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
-            height: MediaQuery.of(context).size.height * 0.35,
+            padding: EdgeInsets.symmetric(vertical: 10.0),
+            height: MediaQuery.of(context).size.height * 0.3,
             child: FittedBox(
               fit: BoxFit.fill,
               child: VisibilityDetector(

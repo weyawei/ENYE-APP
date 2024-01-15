@@ -288,7 +288,7 @@ class _ProjectsPageState extends State<ProjectsPage> with TickerProviderStateMix
 
                       //categories
                       Container(
-                        width: MediaQuery.of(context).size.width * 0.8,
+                        width: MediaQuery.of(context).size.width * 0.75,
                         child: GridView.builder(
                           controller: _scrollController, // Assign the ScrollController
                           scrollDirection: Axis.horizontal,

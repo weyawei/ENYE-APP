@@ -163,11 +163,11 @@ class _detailedSysPageState extends State<detailedSysPage> {
                     children: [
 
                       SizedBox(height: 10,),
-                      Text("System Description", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24, color: Colors.deepOrange),),
+                      Text("System Description", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18, color: Colors.deepOrange),),
 
                       SizedBox(height: 20,),
                       Text(widget.systems.description, maxLines: null, textAlign: TextAlign.justify,
-                        style: TextStyle(fontSize: 16, fontStyle: FontStyle.italic, letterSpacing: 1),),
+                        style: TextStyle(fontSize: 12, fontStyle: FontStyle.italic, letterSpacing: 1),),
                     ],
                   ),
                 ),
@@ -188,12 +188,12 @@ class _detailedSysPageState extends State<detailedSysPage> {
                       children: [
                         SizedBox(height: 20,),
                         if (SystemsDetail.title != null && SystemsDetail.title!.isNotEmpty)
-                          Text(SystemsDetail.title, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24, color: Colors.deepOrange),),
+                          Text(SystemsDetail.title, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18, color: Colors.deepOrange),),
 
                         SizedBox(height: 20,),
                         if (SystemsDetail.description != null && SystemsDetail.description!.isNotEmpty)
                           Text(SystemsDetail.description, maxLines: null, textAlign: TextAlign.justify,
-                            style: TextStyle(fontSize: 16, fontStyle: FontStyle.italic, letterSpacing: 1),),
+                            style: TextStyle(fontSize: 12, fontStyle: FontStyle.italic, letterSpacing: 1),),
 
                         SizedBox(height: 20,),
                         if (SystemsDetail.image != null && SystemsDetail.image!.isNotEmpty)
@@ -250,7 +250,7 @@ class _detailedSysPageState extends State<detailedSysPage> {
                           padding: EdgeInsets.only(right: 70.0),
                           child: Text(
                             "${SystemsTechSpecs.features}",
-                            style: TextStyle(fontSize: 14.0, color: Colors.white, fontWeight: FontWeight.w900, letterSpacing: 1),
+                            style: TextStyle(fontSize: 12.0, color: Colors.white, fontWeight: FontWeight.w900, letterSpacing: 1),
                             textAlign: TextAlign.left,
                           ),
                         ),

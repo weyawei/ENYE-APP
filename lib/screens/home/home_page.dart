@@ -280,7 +280,7 @@ class _homePageState extends State<homePage>{
                     Text(
                       "Our Mission & Vision",
                       style: TextStyle(
-                          fontSize: 34.0,
+                          fontSize: 28.0,
                           fontFamily: 'Rowdies',
                           fontWeight: FontWeight.bold,
                           letterSpacing: 1,

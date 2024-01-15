@@ -44,7 +44,7 @@ class ContactsHome extends StatelessWidget {
                   child: Text(
                     'Quezon City Office',
                     style: TextStyle(
-                      fontSize: 30.0,
+                      fontSize: 26.0,
                       fontFamily: 'Rowdies',
                       fontWeight: FontWeight.bold,
                       letterSpacing: 1,
@@ -316,7 +316,7 @@ class ContactsHome extends StatelessWidget {
                   child: Text(
                     'CEBU Office',
                     style: TextStyle(
-                        fontSize: 30.0,
+                        fontSize: 26.0,
                         fontFamily: 'Rowdies',
                         fontWeight: FontWeight.bold,
                         letterSpacing: 1,
@@ -436,7 +436,7 @@ class ContactsHome extends StatelessWidget {
                   child: Text(
                     'LAGUNA Office',
                     style: TextStyle(
-                        fontSize: 30.0,
+                        fontSize: 26.0,
                         fontFamily: 'Rowdies',
                         fontWeight: FontWeight.bold,
                         letterSpacing: 1,
