@@ -452,11 +452,11 @@ class ContactsHome extends StatelessWidget {
                 height: MediaQuery.of(context).size.height * 0.3,
                 width: MediaQuery.of(context).size.width * 0.9,
                 decoration: const BoxDecoration(
-                  image: DecorationImage(image: AssetImage("assets/backgrounds/mapcebu.png"), fit: BoxFit.fill),
+                  image: DecorationImage(image: AssetImage("assets/backgrounds/maplaguna.png"), fit: BoxFit.fill),
                 ),
                 child: GestureDetector(
                   onTap: () async {
-                    _launchURL("https://www.google.com/maps/place/Enye+Ltd+Corporation/@10.3729606,123.9570973,20z/data=!4m15!1m8!3m7!1s0x33a9a2a3893d39cf:0xd458b729586d3abe!2sSta.+Lucia+Town+Square,+Consolacion,+6001+Cebu!3b1!8m2!3d10.3736865!4d123.9580107!16s%2Fg%2F11c1_vj9rn!3m5!1s0x33a9a31aad4a80b7:0x99af3a18c21847f6!8m2!3d10.3728218!4d123.9569089!16s%2Fg%2F11rbx51pzj?entry=ttu");
+                    _launchURL("https://www.google.com/maps/place/14%C2%B020'46.4%22N+121%C2%B003'20.7%22E/@14.3463273,121.0552596,18.75z/data=!4m4!3m3!8m2!3d14.3462222!4d121.05575?entry=ttu");
                   },
                 ),
               ),
