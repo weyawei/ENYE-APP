@@ -11,6 +11,8 @@ class TechnicalDataServices {
   static const GET_HANDLER_DATA = 'get_handler_data';
   static const GET_ALL_POSITIONS = 'get_all_pos';
   static const EDIT_TO_CANCELLED = 'edit_to_cancelled';
+  static const EDIT_TO_ACCEPTED = 'edit_to_accepted';
+  static const EDIT_TO_RESCHED = 'edit_to_resched';
   static const BOOKING = 'add_booking';
 
   //get data users position from database
@@ -141,7 +143,7 @@ class TechnicalDataServices {
       map['service'] = service;
       map['subject'] = svc_title;
       map['desc'] = svc_desc;
-      map['date_sched'] = date_sched;
+      map['date_booked'] = date_sched;
       map['client_id'] = client_id;
       map['name'] = client_name;
       map['company'] = client_company;
@@ -177,6 +179,53 @@ class TechnicalDataServices {
 
       final res = await http.post(Uri.parse(API.booking), body: map); //passing value to result
       print('editToCancelled Response: ${res.body}');
+
+      if(res.statusCode == 200){
+        return res.body;
+      } else {
+        return "error";
+      }
+    } catch (e) {
+      return "error";
+    }
+  }
+
+  //edit TO ACCEPT THE BOOKING
+  static Future<String> editToAccepted(String id, String svcId, String sDateSched, String eDateSched) async {
+    try{
+      var map = Map<String, dynamic>();
+      map['action'] = EDIT_TO_ACCEPTED;
+      map['id'] = id;
+      map['svcId'] = svcId;
+      map['sDateSched'] = sDateSched;
+      map['eDateSched'] = eDateSched;
+
+      final res = await http.post(Uri.parse(API.booking), body: map); //passing value to result
+      print('editToAcceptedResponse: ${res.body}');
+
+      if(res.statusCode == 200){
+        return res.body;
+      } else {
+        return "error";
+      }
+    } catch (e) {
+      return "error";
+    }
+  }
+
+  //edit TO ACCEPT THE BOOKING
+  static Future<String> editToResched(String id, String svcId, String sDateSched, String eDateSched, String notes) async {
+    try{
+      var map = Map<String, dynamic>();
+      map['action'] = EDIT_TO_RESCHED;
+      map['id'] = id;
+      map['svcId'] = svcId;
+      map['sDateSched'] = sDateSched;
+      map['eDateSched'] = eDateSched;
+      map['notes'] = notes;
+
+      final res = await http.post(Uri.parse(API.booking), body: map); //passing value to result
+      print('editToReschedResponse: ${res.body}');
 
       if(res.statusCode == 200){
         return res.body;

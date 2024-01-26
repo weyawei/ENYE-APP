@@ -40,7 +40,7 @@ class _BookingSystemState extends State<BookingSystem> {
   clientInfo? ClientInfo;
   bool? userSessionFuture;
   bool disabling = false;
-  DateTime? selectedDate;
+  DateTime selectedDate = DateTime.now();
   TimeOfDay? selectedTime;
   String? name;
   String? address;
@@ -268,7 +268,6 @@ class _BookingSystemState extends State<BookingSystem> {
     }
 
     setState(() {
-      selectedDate = null;
       selectedConcern = null;
       generatedCode = null;
     });
@@ -289,10 +288,6 @@ class _BookingSystemState extends State<BookingSystem> {
   String? _dropdownError;
   addBooking() {
     if (_formKey.currentState!.validate()) {
-      if(selectedDate == null){
-        setState(() => _dropdownError = "Please select a DATE !");
-      } else {
-        setState(() => _dropdownError = "");
         generateCode();
         showDialog(
           context: context,
@@ -304,7 +299,7 @@ class _BookingSystemState extends State<BookingSystem> {
               children: [
                 Text('You have booked the following appointment:'),
                 SizedBox(height: 20),
-                Text('Date: ${DateFormat.yMMMd().format(DateTime.parse(selectedDate.toString()))}',
+                Text('Date Booked: ${DateFormat.yMMMd().format(DateTime.parse(selectedDate.toString()))}',
                   style: GoogleFonts.lato(
                     textStyle:
                     TextStyle(fontSize: 16, letterSpacing: 0.5),
@@ -403,7 +398,6 @@ class _BookingSystemState extends State<BookingSystem> {
             ],
           ),
         );
-      }
     }
   }
 
@@ -412,10 +406,11 @@ class _BookingSystemState extends State<BookingSystem> {
     final response = await http.post(
       Uri.parse(API.pushNotif),
       body: {
+        'action' : 'Booking',
         'code' : generatedCode,
         'name' : ClientInfo!.name,
         'company' : ClientInfo!.company_name.isEmpty ? compnameController.text : ClientInfo!.company_name,
-        'date_sched' : selectedDate.toString(),
+        'date_booked' : selectedDate.toString(),
       },
     );
     if (response.statusCode == 200) {
@@ -453,39 +448,6 @@ class _BookingSystemState extends State<BookingSystem> {
 
 
                 SizedBox(height: 30),
-                InkWell(
-                  onTap: () => _selectDate(context),
-                  child: Container(
-                    padding: EdgeInsets.all(10.0),
-                    decoration: BoxDecoration(
-                      border: Border.all(color: Colors.grey),
-                      borderRadius: BorderRadius.circular(4.0),
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          selectedDate != null
-                              ? '${selectedDate!.toString().split(' ')[0]}'
-                              : 'Select Date*',
-                          style: GoogleFonts.lato(
-                            textStyle:
-                            TextStyle(fontSize: 16, fontWeight: FontWeight.w500, letterSpacing: 0.8),
-                          ),
-                        ),
-                        Icon(Icons.calendar_today, color: Colors.deepOrange,),
-                      ],
-                    ),
-                  ),
-                ),
-                _dropdownError == null
-                    ? SizedBox.shrink()
-                    : Text(
-                  _dropdownError ?? "",
-                  style: TextStyle(color: Colors.red),
-                ),
-
-                SizedBox(height: 8),
                 Form(
                   key: _formKey,
                   child: Column(

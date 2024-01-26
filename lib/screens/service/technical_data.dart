@@ -6,6 +6,8 @@ class TechnicalData {
   String svcTitle;
   String svcDesc;
   String dateSched;
+  String sDateSched;
+  String eDateSched;
   String clientId;
   String clientName;
   String clientCompany;
@@ -24,6 +26,8 @@ class TechnicalData {
     required this.svcTitle,
     required this.svcDesc,
     required this.dateSched,
+    required this.sDateSched,
+    required this.eDateSched,
     required this.clientId,
     required this.clientName,
     required this.clientCompany,
@@ -44,6 +48,8 @@ class TechnicalData {
       svcTitle: json['svc_title'] as String,
       svcDesc: json['svc_desc'] as String,
       dateSched: json['date_sched'] as String,
+      sDateSched: json['sDate_sched'] as String,
+      eDateSched: json['eDate_sched'] as String,
       clientId: json['client_id'] as String,
       clientName: json['client_name'] as String,
       clientCompany: json['client_company'] as String,

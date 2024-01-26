@@ -68,7 +68,7 @@ class _TaskTileState extends State<TaskTile> {
                   "#${widget.services.svcId}",
                   style: GoogleFonts.lato(
                     textStyle: const TextStyle(
-                      fontSize: 16,
+                      fontSize: 14,
                       fontWeight: FontWeight.bold,
                       color: Colors.white,
                       fontStyle: FontStyle.italic,
@@ -76,42 +76,43 @@ class _TaskTileState extends State<TaskTile> {
                   ),
                 ),
 
-                SizedBox(height: 12,),
+                SizedBox(height: 5,),
                 RichText(
                   softWrap: true,
                   text: TextSpan(children:
                   [
                     TextSpan(text: "${widget.services.service} - ",
                       style: GoogleFonts.lato(
-                        textStyle: TextStyle(fontSize: 15, fontWeight: FontWeight.bold, color: Colors.white),
+                        textStyle: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Colors.white),
                       ),),
                     TextSpan(text: "(${widget.services.svcTitle})",
                       style: GoogleFonts.lato(
-                        textStyle: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Colors.grey[100], letterSpacing: 0.8),
+                        textStyle: TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: Colors.grey[100], letterSpacing: 0.8),
                       ),),
                   ]
                   ),
                 ),
 
-                SizedBox(height: 12,),
+                SizedBox(height: 5,),
                 RichText(
                   softWrap: true,
                   text: TextSpan(children:
                   [
                     TextSpan(text: "Description : ",
                       style: GoogleFonts.lato(
-                        textStyle: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Colors.grey[100], letterSpacing: 0.8),
+                        textStyle: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Colors.grey[100], letterSpacing: 0.8),
                       ),),
                     TextSpan(text: "${widget.services.svcDesc}",
                       style: GoogleFonts.lato(
-                        textStyle: TextStyle(fontSize: 14, color: Colors.grey[100], letterSpacing: 0.8),
+                        textStyle: TextStyle(fontSize: 13, color: Colors.grey[100], letterSpacing: 0.8),
                       ),),
                   ]
                   ),
                 ),
 
-                SizedBox(height: 12,),
-                Row(
+                SizedBox(height: 5,),
+                widget.services.status == "Set-sched"
+                 ? Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Icon(
@@ -121,18 +122,42 @@ class _TaskTileState extends State<TaskTile> {
                     ),
                     SizedBox(width: 4),
                     Text(
-                      DateFormat.yMMMd().format(DateTime.parse(widget.services.dateSched)),
+                      DateFormat.yMMMd().format(DateTime.parse(widget.services.sDateSched)) + ' - ' +
+                          DateFormat.yMMMd().format(DateTime.parse(widget.services.eDateSched)) + '\n (Pick only within these dates)',
                       style: GoogleFonts.lato(
                         textStyle:
-                        TextStyle(fontSize: 15, color: Colors.grey[100]),
+                        TextStyle(fontSize: 13, color: Colors.grey[100]),
                       ),
                     ),
                   ],
-                ),
+                )
+                 : SizedBox.shrink(),
+
+                widget.services.status == "Completed" || widget.services.status == "On Process"
+                 ? Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Icon(
+                        Icons.calendar_month_rounded,
+                        color: Colors.grey[200],
+                        size: 18,
+                      ),
+                      SizedBox(width: 4),
+                      Text(
+                        DateFormat.yMMMd().format(DateTime.parse(widget.services.sDateSched)) + ' - ' +
+                            DateFormat.yMMMd().format(DateTime.parse(widget.services.eDateSched)),
+                        style: GoogleFonts.lato(
+                          textStyle:
+                          TextStyle(fontSize: 13, color: Colors.grey[100]),
+                        ),
+                      ),
+                    ],
+                  )
+                 : SizedBox.shrink(),
 
                 //handler data's
-                SizedBox(height: 10),
-                widget.services.status == "On Process" || widget.services.status == "Completed"
+                SizedBox(height: 5),
+                widget.services.status == "Completed" || widget.services.status == "On Process"
                   ? Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -149,32 +174,32 @@ class _TaskTileState extends State<TaskTile> {
                       ),
                     ),
                     Container(
-                      width: MediaQuery.of(context).size.width * 0.6,
+                      width: MediaQuery.of(context).size.width * 0.5,
                       child: RichText(
                         softWrap: true,
                         text: TextSpan(children: <TextSpan>
                         [
                           TextSpan(text: "Handler : ",
                             style: GoogleFonts.lato(
-                              textStyle: TextStyle(fontSize: 14, color: Colors.grey[100], letterSpacing: 0.5, fontWeight: FontWeight.bold),
+                              textStyle: TextStyle(fontSize: 13, color: Colors.grey[100], letterSpacing: 0.5, fontWeight: FontWeight.bold),
                             ),),
 
                           TextSpan(text: "${_handler.elementAtOrNull(0)?.name} || ",
                             style: GoogleFonts.lato(
-                              textStyle: TextStyle(fontSize: 14, color: Colors.grey[100], letterSpacing: 0.8),
+                              textStyle: TextStyle(fontSize: 13, color: Colors.grey[100], letterSpacing: 0.8),
                             ),),
 
                           TextSpan(text: "${_position.where((position) => position.id == _handler.elementAtOrNull(0)?.position).elementAtOrNull(0)?.position} || ",
                             style: GoogleFonts.lato(
-                              textStyle: TextStyle(fontSize: 14, color: Colors.grey[100], letterSpacing: 0.8),
+                              textStyle: TextStyle(fontSize: 13, color: Colors.grey[100], letterSpacing: 0.8),
                             ),),
                           TextSpan(text: "${_handler.elementAtOrNull(0)?.contact} || ",
                             style: GoogleFonts.lato(
-                              textStyle: TextStyle(fontSize: 14, color: Colors.grey[100], letterSpacing: 0.8),
+                              textStyle: TextStyle(fontSize: 13, color: Colors.grey[100], letterSpacing: 0.8),
                             ),),
                           TextSpan(text: "${_handler.elementAtOrNull(0)?.email}",
                             style: GoogleFonts.lato(
-                              textStyle: TextStyle(fontSize: 14, color: Colors.grey[100], letterSpacing: 0.8),
+                              textStyle: TextStyle(fontSize: 13, color: Colors.grey[100], letterSpacing: 0.8),
                             ),),
                         ]
                         ),
@@ -191,12 +216,12 @@ class _TaskTileState extends State<TaskTile> {
                 [
                   TextSpan(text: "REASON : ",
                     style: GoogleFonts.lato(
-                      textStyle: TextStyle(fontSize: 15, color: Colors.grey[100], letterSpacing: 0.5, fontWeight: FontWeight.bold),
+                      textStyle: TextStyle(fontSize: 13, color: Colors.grey[100], letterSpacing: 0.5, fontWeight: FontWeight.bold),
                     ),),
 
                   TextSpan(text: "${widget.services.notesComplete}",
                     style: GoogleFonts.lato(
-                      textStyle: TextStyle(fontSize: 15, color: Colors.grey[100], letterSpacing: 0.8),
+                      textStyle: TextStyle(fontSize: 13, color: Colors.grey[100], letterSpacing: 0.8),
                     ),),
                 ]
                 ),
@@ -204,7 +229,7 @@ class _TaskTileState extends State<TaskTile> {
                   : SizedBox.shrink(),
 
                 //once completed display dito yung note
-                SizedBox(height: 10),
+                SizedBox(height: 5),
                 widget.services.status == "Completed"
                   ? RichText(
                 softWrap: true,
@@ -212,12 +237,12 @@ class _TaskTileState extends State<TaskTile> {
                 [
                   TextSpan(text: "NOTE : ",
                     style: GoogleFonts.lato(
-                      textStyle: TextStyle(fontSize: 15, color: Colors.grey[100], letterSpacing: 0.5, fontWeight: FontWeight.bold),
+                      textStyle: TextStyle(fontSize: 13, color: Colors.grey[100], letterSpacing: 0.5, fontWeight: FontWeight.bold),
                     ),),
 
                   TextSpan(text: "${widget.services.notesComplete}",
                     style: GoogleFonts.lato(
-                      textStyle: TextStyle(fontSize: 15, color: Colors.grey[100], letterSpacing: 0.8),
+                      textStyle: TextStyle(fontSize: 13, color: Colors.grey[100], letterSpacing: 0.8),
                     ),),
                 ]
                 ),
@@ -228,7 +253,7 @@ class _TaskTileState extends State<TaskTile> {
           ),
           Container(
             margin: EdgeInsets.symmetric(horizontal: 10),
-            height: 100,
+            height: MediaQuery.of(context).size.height * 0.15,
             width: 0.5,
             color: Colors.grey[200]!.withOpacity(0.7),
           ),
@@ -254,6 +279,8 @@ class _TaskTileState extends State<TaskTile> {
       return Colors.orangeAccent;
     } else if (status == "Unread") {
       return Colors.blue;
+    } else if (status == "Set-sched") {
+      return Colors.green;
     } else if (status == "Completed") {
       return Colors.green;
     } else {

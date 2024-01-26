@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 
 import '../../../config/config.dart';
@@ -35,6 +36,12 @@ class _StatusPageState extends State<StatusPage> with TickerProviderStateMixin {
   final searchController = TextEditingController();
   final reasonController = TextEditingController();
   bool _isLoading = true;
+
+  DateTimeRange? selectedDate;
+  DateTime firstDate = DateTime.now().add(Duration(days: 5));
+  DateTime lastDate = DateTime.now().add(Duration(days: 60));
+
+  final TextEditingController note = TextEditingController();
 
   void initState(){
     super.initState();
@@ -143,6 +150,196 @@ class _StatusPageState extends State<StatusPage> with TickerProviderStateMixin {
     });
   }
 
+  _editToAccepted(TechnicalData services){
+    TechnicalDataServices.editToAccepted(
+        services.id, services.svcId,
+        DateFormat('yyyy-MM-dd').format(selectedDate!.start),
+        DateFormat('yyyy-MM-dd').format(selectedDate!.end)).then((result) {
+      if('success' == result){
+        _getServices(); //refresh the list after update
+        sendPushNotifications("Accepted", services.svcId);
+        _successSnackbar(context, "Booking successfully accepted.");
+        _dropdownError = null;
+      } else {
+        _errorSnackbar(context, "Error occured...");
+      }
+    });
+  }
+
+  Future<void> sendPushNotifications(String status, String svcId) async {
+    //final url = 'https://enye.com.ph/enyecontrols_app/login_user/send1.php'; // Replace this with the URL to your PHP script
+    final response = await http.post(
+      Uri.parse(API.pushNotif),
+      body: {
+        'action' : status,
+        'svc_id' : svcId,
+      },
+    );
+    if (response.statusCode == 200) {
+      if(response.body == "success"){
+        print('send push notifications.');
+      }
+    } else {
+      print('Failed to send push notifications.');
+    }
+  }
+
+  _editToResched(TechnicalData services){
+    TechnicalDataServices.editToResched(
+        services.id, services.svcId,
+        DateFormat('yyyy-MM-dd').format(selectedDate!.start),
+        DateFormat('yyyy-MM-dd').format(selectedDate!.end),
+        note.text).then((result) {
+      if('success' == result){
+        _getServices(); //refresh the list after update
+        sendPushNotifications("Re-sched", services.svcId);
+        _successSnackbar(context, "Booking successfully re-schedule. \n Wait someone to accept it");
+        _dropdownError = null;
+      } else {
+        _errorSnackbar(context, "Error occured...");
+      }
+    });
+  }
+
+  void _selectDate(BuildContext context, TechnicalData services, String accORresched, Function(DateTimeRange) onDateSelected) async {
+
+    DateTimeRange? pickedDate = await showDateRangePicker(
+      context: context,
+      firstDate: accORresched == "Accept" ? DateTime.parse(services.sDateSched.toString()) : firstDate,
+      lastDate: accORresched == "Accept" ? DateTime.parse(services.eDateSched.toString()) : lastDate,
+    );
+
+    if (pickedDate != null) {
+      onDateSelected(pickedDate);
+    }
+  }
+
+  void _showDatePicker(BuildContext context, TechnicalData services, String accORresched) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return Dialog(
+          // Set dialog properties such as shape, elevation, etc.
+          child: StatefulBuilder(
+              builder: (BuildContext context, setState) {
+                return Container(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+
+                      const SizedBox(height: 15,),
+                      _dropdownError == null
+                          ? SizedBox.shrink()
+                          : Text(
+                        _dropdownError ?? "",
+                        textAlign: TextAlign.center,
+                        style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Colors.red, letterSpacing: 0.8),
+                      ),
+
+                      accORresched == "Accept"
+                       ? const Padding(
+                          padding: EdgeInsets.all(12.0),
+                          child: Text(
+                            "For 1 day booking, \n choose the same day twice.",
+                            style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: Colors.black54, letterSpacing: 0.8),
+                          ),
+                        )
+                       : const Padding(
+                          padding: EdgeInsets.all(12.0),
+                          child: Text(
+                            "Available Date for you",
+                            style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: Colors.black54, letterSpacing: 0.8),
+                          ),
+                        ),
+
+                      //select date range of availability
+                      InkWell(
+                        onTap: () {
+                          _selectDate(context, services, accORresched, (DateTimeRange pickedDate) {
+                            setState(() {
+                              selectedDate = pickedDate;
+                            });
+                          });
+                        },
+                        child: Container(
+                          margin: const EdgeInsets.symmetric(horizontal: 12),
+                          padding: const EdgeInsets.symmetric(horizontal: 12),
+                          height: 55,
+                          width: MediaQuery.of(context).size.width * 0.9,
+                          decoration: BoxDecoration(
+                            border: Border.all(width: 2, color: Colors.deepOrange.shade300),
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                selectedDate != null
+                                    ? '${DateFormat('EEE, MMM d').format(selectedDate!.start)} TO ${DateFormat('EEE, MMM d').format(selectedDate!.end)}'
+                                    : 'Select Date *',
+                                style: GoogleFonts.lato(
+                                  textStyle:
+                                  const TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: Colors.black, letterSpacing: 0.8),
+                                ),
+                              ),
+                              const Icon(Icons.calendar_today, color: Colors.deepOrange,),
+                            ],
+                          ),
+                        ),
+                      ),
+
+                      const SizedBox(height: 10,),
+                      accORresched == "Re-sched"
+                       ? NormalTextField(
+                          controller: note,
+                          hintText: 'Note',
+                          disabling: false,
+                        ) : SizedBox.shrink(),
+
+                      SizedBox(height: 20,),
+                      GestureDetector(
+                        onTap: (){
+                          if(accORresched == "Accept"){
+                            if(selectedDate == null){
+                              setState(() => _dropdownError = "Required Date");
+                            } else {
+                              _editToAccepted(services);
+                              Navigator.pop(context);
+                            }
+                          } else {
+                            if(selectedDate == null || note.text == "" || note.text.isEmpty){
+                              setState(() => _dropdownError = "Required Date and notes");
+                            } else {
+                              _editToResched(services);
+                              Navigator.pop(context);
+                            }
+                          }
+                        },
+                        child: Container(
+                          padding: EdgeInsets.all(16),
+                          color: Colors.deepOrangeAccent,
+                          child: Center(
+                            child: Text(
+                              accORresched.toString(),
+                              style: TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.bold, letterSpacing: 0.8),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                );
+              }
+          ),
+        );
+      },
+    ).whenComplete(() {
+      selectedDate = null;
+      note.text = '';
+      _dropdownError = null;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     if(widget.message!.data["goToPage"] == "Status"){
@@ -224,6 +421,10 @@ class _StatusPageState extends State<StatusPage> with TickerProviderStateMixin {
                                     if(_filteredServices[index].status == "Unread"){
                                       _showBottomSheet(context, _filteredServices[index]);
                                     }
+
+                                    if(_filteredServices[index].status == "Set-sched"){
+                                      _showBottomSheet(context, _filteredServices[index]);
+                                    }
                                   },
                                   child: TaskTile(services: _filteredServices[index]),
                                 )
@@ -249,7 +450,9 @@ class _StatusPageState extends State<StatusPage> with TickerProviderStateMixin {
         builder: (context) {
           return Container(
             padding: const EdgeInsets.only(top: 4),
-            height: MediaQuery.of(context).size.height * 0.24,
+            height: services.status == "Set-sched"
+                ? MediaQuery.of(context).size.height * 0.34
+                : MediaQuery.of(context).size.height * 0.24,
             color: Colors.white,
             child: Column(
               children: [
@@ -272,6 +475,32 @@ class _StatusPageState extends State<StatusPage> with TickerProviderStateMixin {
                     setState(() {
                       Navigator.pop(context);
                       _showAnotherBottomSheet(context, services, "Cancel");
+                    });
+                  },
+                  clr: Colors.redAccent,
+                  context:context,
+                ): Container(),
+
+                services.status == "Set-sched" ?
+                _bottomSheetButton(
+                  label: "ACCEPT",
+                  onTap: (){
+                    setState(() {
+                      Navigator.pop(context);
+                      _showDatePicker(context, services, "Accept");
+                    });
+                  },
+                  clr: Colors.green,
+                  context:context,
+                ): Container(),
+
+                services.status == "Set-sched" ?
+                _bottomSheetButton(
+                  label: "RE-SCHED",
+                  onTap: (){
+                    setState(() {
+                      Navigator.pop(context);
+                      _showDatePicker(context, services, "Re-sched");
                     });
                   },
                   clr: Colors.redAccent,

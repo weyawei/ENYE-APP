@@ -1,5 +1,5 @@
 class API {
-  static const hostConnect = "https://enye.com.ph/enyecontrols_app";
+  static const hostConnect = "https://enye.com.ph/enyecontrols_app_test";
   //static const hostConnect = "http://192.168.0.137/adminenye";
 
   //login and registration
