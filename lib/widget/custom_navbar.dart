@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 
 import '../dashboardicon_icons.dart';
+import 'widgets.dart';
 
 class CustomNavBar extends StatefulWidget {
 
@@ -32,6 +33,11 @@ class _CustomNavBarState extends State<CustomNavBar> {
   Widget build(BuildContext context) {
     RemoteMessage message = RemoteMessage();
 
+    double screenHeight = MediaQuery.of(context).size.height;
+    double screenWidth = MediaQuery.of(context).size.width;
+
+    var fontExtraSize = ResponsiveTextUtils.getExtraFontSize(screenWidth);
+
     if (ModalRoute.of(context)!.settings.arguments != null) {
       message = ModalRoute.of(context)!.settings.arguments as RemoteMessage;
 
@@ -56,39 +62,39 @@ class _CustomNavBarState extends State<CustomNavBar> {
     List<PersistentBottomNavBarItem> _navBarsItems() {
       return [
         PersistentBottomNavBarItem(
-          icon: Icon(Icons.home),
+          icon: Icon(Icons.home, size: (screenHeight + screenWidth) / 40,),
           title: ("Home"),
           activeColorPrimary: Colors.white,
           inactiveColorPrimary: Colors.white70,
-          textStyle: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+          textStyle: TextStyle(fontSize: fontExtraSize, fontWeight: FontWeight.bold),
         ),
         PersistentBottomNavBarItem(
-          icon: Icon(Dashboardicon.systems_nav),
+          icon: Icon(Dashboardicon.systems_nav, size: (screenHeight + screenWidth) / 40),
           title: ("Systems"),
           activeColorPrimary: Colors.white,
           inactiveColorPrimary: Colors.white70,
-          textStyle: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+          textStyle: TextStyle(fontSize: fontExtraSize, fontWeight: FontWeight.bold),
         ),
         PersistentBottomNavBarItem(
-          icon: Icon(Icons.shopping_cart),
+          icon: Icon(Icons.shopping_cart, size: (screenHeight + screenWidth) / 40),
           title: ("Products"),
           activeColorPrimary: Colors.white,
           inactiveColorPrimary: Colors.white70,
-          textStyle: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+          textStyle: TextStyle(fontSize: fontExtraSize, fontWeight: FontWeight.bold),
         ),
         PersistentBottomNavBarItem(
-          icon: Icon(Dashboardicon.projects_nav),
+          icon: Icon(Dashboardicon.projects_nav, size: (screenHeight + screenWidth) / 40),
           title: ("Projects"),
           activeColorPrimary: Colors.white,
           inactiveColorPrimary: Colors.white70,
-          textStyle: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+          textStyle: TextStyle(fontSize: fontExtraSize, fontWeight: FontWeight.bold),
         ),
         PersistentBottomNavBarItem(
-          icon: Icon(Icons.calendar_month_rounded),
+          icon: Icon(Icons.calendar_month_rounded, size: (screenHeight + screenWidth) / 40),
           title: ("Appointment"),
           activeColorPrimary: Colors.white,
           inactiveColorPrimary: Colors.white70,
-          textStyle: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+          textStyle: TextStyle(fontSize: fontExtraSize, fontWeight: FontWeight.bold),
         ),
 
       ];
@@ -102,6 +108,7 @@ class _CustomNavBarState extends State<CustomNavBar> {
       context,
       controller: _controller,
       screens: _buildScreens(),
+      navBarHeight: screenHeight * 0.08,
       items: _navBarsItems(),
       confineInSafeArea: true,
       backgroundColor: Colors.deepOrange, // Default is Colors.white.

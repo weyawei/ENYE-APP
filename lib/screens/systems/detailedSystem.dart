@@ -129,10 +129,18 @@ class _detailedSysPageState extends State<detailedSysPage> {
   }
 
   List<Widget> _pages(){
+    double screenHeight = MediaQuery.of(context).size.height;
+    double screenWidth = MediaQuery.of(context).size.width;
+
+    var fontNormalSize = ResponsiveTextUtils.getNormalFontSize(screenWidth);
+    var fontExtraSize = ResponsiveTextUtils.getExtraFontSize(screenWidth);
+    var fontXXSize = ResponsiveTextUtils.getXXFontSize(screenWidth);
+    var fontXXXSize = ResponsiveTextUtils.getXXXFontSize(screenWidth);
+
     return [
       if (widget.systems.image != null && widget.systems.image.isNotEmpty)
         Container(
-          height: MediaQuery.of(context).size.height * 0.9,
+          height: screenHeight * 0.9,
           decoration: BoxDecoration(
             image: DecorationImage(image: _buildNetworkImage("${API.systemsImg + widget.systems.image}",), alignment: Alignment.center, fit: isImageLoading ? BoxFit.scaleDown : BoxFit.fill),
           ),
@@ -149,8 +157,8 @@ class _detailedSysPageState extends State<detailedSysPage> {
 
       if (widget.systems.description != null && widget.systems.description.isNotEmpty)
         Container(
-          margin: EdgeInsets.symmetric(vertical: 75, horizontal: 20),
-          width: MediaQuery.of(context).size.width,
+          margin: EdgeInsets.symmetric(vertical: screenHeight / 5, horizontal: screenWidth / 20),
+          width: screenWidth,
           child: Column(
             children: [
               if (widget.systems.youtubeUrl.isNotEmpty)
@@ -159,11 +167,11 @@ class _detailedSysPageState extends State<detailedSysPage> {
                 ),
 
                 SizedBox(height: 20,),
-                Text("System Description", style: TextStyle(fontWeight: FontWeight.bold, fontFamily: 'Rowdies', fontSize: 20, color: Colors.deepOrange),),
+                Text("System Description", style: TextStyle(fontWeight: FontWeight.bold, fontFamily: 'Rowdies', fontSize: fontXXXSize, color: Colors.deepOrange, letterSpacing: 1.2),),
 
                 SizedBox(height: 20,),
                 Text(widget.systems.description, maxLines: null, textAlign: TextAlign.justify,
-                  style: TextStyle(fontSize: 13, fontStyle: FontStyle.italic, letterSpacing: 1),),
+                  style: TextStyle(height: 1.5, fontSize: fontExtraSize, fontStyle: FontStyle.italic, letterSpacing: 1.2),),
             ],
           ),
         ),
@@ -177,17 +185,17 @@ class _detailedSysPageState extends State<detailedSysPage> {
                   children: [
                     SizedBox(height: 20,),
                     if (SystemsDetail.title != null && SystemsDetail.title!.isNotEmpty)
-                      Text(SystemsDetail.title, style: TextStyle(fontWeight: FontWeight.bold, fontFamily: 'Rowdies', fontSize: 20, color: Colors.deepOrange),),
+                      Text(SystemsDetail.title, style: TextStyle(fontWeight: FontWeight.bold, fontFamily: 'Rowdies', fontSize: fontXXXSize, color: Colors.deepOrange, letterSpacing: 1.2),),
 
                     if (SystemsDetail.description != null && SystemsDetail.description!.isNotEmpty)
                       SizedBox(height: 30,),
                       Text(SystemsDetail.description, maxLines: null, textAlign: TextAlign.justify,
-                        style: TextStyle(fontSize: 13, fontStyle: FontStyle.italic, letterSpacing: 1),),
+                        style: TextStyle(height: 1.5, fontSize: fontExtraSize, fontStyle: FontStyle.italic, letterSpacing: 1.2),),
 
                     SizedBox(height: 30,),
                     if (SystemsDetail.image != null && SystemsDetail.image!.isNotEmpty)
                       Container(
-                        height: MediaQuery.of(context).size.height * 0.3,
+                        height: screenHeight * 0.3,
                         decoration: BoxDecoration(
                           image: DecorationImage(image: _buildNetworkImage("${API.sysDetailsImg + SystemsDetail.image}"), fit: BoxFit.fill),
                         ),
@@ -204,18 +212,19 @@ class _detailedSysPageState extends State<detailedSysPage> {
             SizedBox(height: 30,),
             Lottie.network(
               'https://lottie.host/72bb063b-09e0-4a31-b7e4-cb941f3912e0/ISN4Y7fWVz.json',
-              height: MediaQuery.of(context).size.height * 0.13,
-              width: MediaQuery.of(context).size.width * 0.8,
+              height: screenHeight * 0.13,
+              width: screenWidth * 0.8,
             ),
             SizedBox(height: 10,),
             Text(
               "Technical Specifications",
               textAlign: TextAlign.center,
               style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontFamily: 'Rowdies',
-                  fontSize: 20,
-                  color: Colors.deepOrange
+                fontWeight: FontWeight.bold,
+                fontFamily: 'Rowdies',
+                fontSize: fontXXXSize,
+                color: Colors.deepOrange,
+                letterSpacing: 1.2,
               ),
             ),
             SizedBox(height: 30,),
@@ -226,8 +235,9 @@ class _detailedSysPageState extends State<detailedSysPage> {
                   title: Text(
                     SystemsTechSpecs.title,
                     style: TextStyle(
-                      fontSize: 18,
+                      fontSize: fontXXSize,
                       fontWeight: FontWeight.bold,
+                      letterSpacing: 1.2,
                     ),
                   ),
                   children: [
@@ -244,7 +254,7 @@ class _detailedSysPageState extends State<detailedSysPage> {
                           ),
                         ),
                         child: Container(
-                          width: MediaQuery.of(context).size.width * 1,
+                          width: screenWidth * 1,
                           padding: EdgeInsets.all(16.0),
                           decoration: BoxDecoration(
                             gradient: LinearGradient(
@@ -257,7 +267,7 @@ class _detailedSysPageState extends State<detailedSysPage> {
                             padding: EdgeInsets.only(right: 70.0),
                             child: Text(
                               "${SystemsTechSpecs.features}",
-                              style: TextStyle(fontSize: 12.0, color: Colors.white, fontWeight: FontWeight.w900, letterSpacing: 1),
+                              style: TextStyle(height: 1.5, fontSize: fontNormalSize, color: Colors.white, fontWeight: FontWeight.w900, letterSpacing: 1.2),
                               textAlign: TextAlign.left,
                             ),
                           ),
@@ -275,6 +285,12 @@ class _detailedSysPageState extends State<detailedSysPage> {
 
   @override
   Widget build(BuildContext context) {
+
+    double screenHeight = MediaQuery.of(context).size.height;
+    double screenWidth = MediaQuery.of(context).size.width;
+
+    var fontNormalSize = ResponsiveTextUtils.getNormalFontSize(screenWidth);
+    var fontExtraSize = ResponsiveTextUtils.getExtraFontSize(screenWidth);
 
     return Scaffold(
       appBar: CustomAppBar(title: 'Systems', imagePath: 'assets/logo/enyecontrols.png',),
@@ -303,12 +319,14 @@ class _detailedSysPageState extends State<detailedSysPage> {
                     ? Column(
                   children: <Widget>[
                     SizedBox(
-                      height: 40,
+                      height: screenHeight / 15,
                       child: Stack(
                         children: <Widget>[
                           Container(
-                            width: 40,
-                            height: 40,
+                            padding: EdgeInsets.symmetric(vertical: 5),
+                            alignment: Alignment.center,
+                            width: screenWidth / 8,
+                            height: screenHeight / 10,
                             child:
                             const CircularProgressIndicator(
                               color: Colors.white,
@@ -318,13 +336,13 @@ class _detailedSysPageState extends State<detailedSysPage> {
                               bottom: 0,
                               left: 0,
                               right: 0,
-                              top: 15,
+                              top: screenHeight / 45,
                               child: Text(
                                 "${_progress?.toInt().toString()} %",
                                 textAlign:
                                 TextAlign.center,
                                 style: TextStyle(
-                                  fontSize: 11,
+                                  fontSize: fontNormalSize,
                                   color: Colors.white,
                                   fontWeight: FontWeight.bold,
                                 ),
@@ -334,8 +352,12 @@ class _detailedSysPageState extends State<detailedSysPage> {
                     ),
                   ],
                 )
-                    : Icon(Icons.remove_red_eye),
-                Text("PDF", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 11),),
+                    : Column(
+                      children: [
+                        Icon(Icons.remove_red_eye, size: (screenHeight + screenWidth) / 60,),
+                        Text("PDF", style: TextStyle(fontWeight: FontWeight.bold, fontSize: fontNormalSize),),
+                      ],
+                    ),
               ]
           )
       ),

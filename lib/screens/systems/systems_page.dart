@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-
-import '../../widget/custom_appbar.dart';
 import '../../widget/widgets.dart';
 import '../screens.dart';
 
@@ -63,7 +61,11 @@ class _systemsPageState extends State<systemsPage> with TickerProviderStateMixin
   @override
   Widget build(BuildContext context) {
     screenHeight = MediaQuery.of(context).size.height;
-    screenWidth = MediaQuery.of(context).size.height;
+    screenWidth = MediaQuery.of(context).size.width;
+
+    var fontNormalSize = ResponsiveTextUtils.getNormalFontSize(screenWidth);
+    var fontExtraSize = ResponsiveTextUtils.getExtraFontSize(screenWidth);
+
     return GestureDetector(
       // When tapped, dismiss the keyboard by unfocusing the TextField
       onTap: () {
@@ -77,7 +79,7 @@ class _systemsPageState extends State<systemsPage> with TickerProviderStateMixin
           : SafeArea(
               child: SingleChildScrollView(
                 padding: EdgeInsets.symmetric(
-                  horizontal: screenWidth /50,
+                  horizontal: screenWidth / 50,
                 ),
                 child: Column(
                   children: [
@@ -86,6 +88,7 @@ class _systemsPageState extends State<systemsPage> with TickerProviderStateMixin
                       controller: searchController,
                       decoration: InputDecoration(
                         labelText: 'Search',
+                        labelStyle: TextStyle(fontSize: fontExtraSize),
                         prefixIcon: Icon(Icons.search),
                         suffixIcon: searchController.text.isNotEmpty
                           ? IconButton(
@@ -94,7 +97,7 @@ class _systemsPageState extends State<systemsPage> with TickerProviderStateMixin
                               FocusScope.of(context).unfocus();
                               filterSystemsList();
                             },
-                            icon: const Icon(Icons.clear),
+                            icon: Icon(Icons.clear, size: (screenHeight + screenWidth) / 40,),
                           )
                           : null, // Set suffixIcon to null when text is empty
                       ),
@@ -132,13 +135,13 @@ class _systemsPageState extends State<systemsPage> with TickerProviderStateMixin
                               );
                             },
                             child: Container(
-                              height: 55,
+                              height: screenHeight / 13,
                               width: screenWidth,
                               margin: EdgeInsets.only(
-                                bottom: 12,
+                                bottom: screenHeight / 50,
                               ),
                               padding: EdgeInsets.symmetric(
-                                horizontal: screenWidth / 100,
+                                horizontal: screenWidth / 50
                               ),
                               decoration: BoxDecoration(
                                 color: Colors.white10,
@@ -156,13 +159,16 @@ class _systemsPageState extends State<systemsPage> with TickerProviderStateMixin
                                     child: Text(
                                       " ${_filteredSystems[index].title}",
                                       style: TextStyle(
-                                        fontSize: 12,
+                                        fontSize: fontNormalSize,
                                         fontWeight: FontWeight.bold,
+                                        letterSpacing: 1.2,
                                       ),
                                     ),
                                   ),
+                                  SizedBox(width: 15,),
                                   Icon(
                                     Icons.label_important,
+                                    size: (screenHeight + screenWidth) / 50,
                                     color: Colors.deepOrange,
                                   )
                                 ],
