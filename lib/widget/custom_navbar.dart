@@ -62,35 +62,35 @@ class _CustomNavBarState extends State<CustomNavBar> {
     List<PersistentBottomNavBarItem> _navBarsItems() {
       return [
         PersistentBottomNavBarItem(
-          icon: Icon(Icons.home, size: (screenHeight + screenWidth) / 38,),
+          icon: Icon(Icons.home, size: (screenHeight + screenWidth) / 40,),
           title: ("Home"),
           activeColorPrimary: Colors.white,
           inactiveColorPrimary: Colors.white70,
           textStyle: TextStyle(fontSize: fontNormalSize, fontWeight: FontWeight.bold),
         ),
         PersistentBottomNavBarItem(
-          icon: Icon(Dashboardicon.systems_nav, size: (screenHeight + screenWidth) / 38),
+          icon: Icon(Dashboardicon.systems_nav, size: (screenHeight + screenWidth) / 40),
           title: ("Systems"),
           activeColorPrimary: Colors.white,
           inactiveColorPrimary: Colors.white70,
           textStyle: TextStyle(fontSize: fontNormalSize, fontWeight: FontWeight.bold),
         ),
         PersistentBottomNavBarItem(
-          icon: Icon(Icons.shopping_cart, size: (screenHeight + screenWidth) / 38),
+          icon: Icon(Icons.shopping_cart, size: (screenHeight + screenWidth) / 40),
           title: ("Products"),
           activeColorPrimary: Colors.white,
           inactiveColorPrimary: Colors.white70,
           textStyle: TextStyle(fontSize: fontNormalSize, fontWeight: FontWeight.bold),
         ),
         PersistentBottomNavBarItem(
-          icon: Icon(Dashboardicon.projects_nav, size: (screenHeight + screenWidth) / 38),
+          icon: Icon(Dashboardicon.projects_nav, size: (screenHeight + screenWidth) / 40),
           title: ("Projects"),
           activeColorPrimary: Colors.white,
           inactiveColorPrimary: Colors.white70,
           textStyle: TextStyle(fontSize: fontNormalSize, fontWeight: FontWeight.bold),
         ),
         PersistentBottomNavBarItem(
-          icon: Icon(Icons.calendar_month_rounded, size: (screenHeight + screenWidth) / 38),
+          icon: Icon(Icons.calendar_month_rounded, size: (screenHeight + screenWidth) / 40),
           title: ("Appointment"),
           activeColorPrimary: Colors.white,
           inactiveColorPrimary: Colors.white70,
@@ -108,7 +108,7 @@ class _CustomNavBarState extends State<CustomNavBar> {
       context,
       controller: _controller,
       screens: _buildScreens(),
-      navBarHeight: screenHeight * 0.07,
+      navBarHeight: screenHeight * 0.08,
       items: _navBarsItems(),
       confineInSafeArea: true,
       backgroundColor: Colors.deepOrange, // Default is Colors.white.

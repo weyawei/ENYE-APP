@@ -1,4 +1,14 @@
 class ResponsiveTextUtils {
+  static bool getLayout(double width) {
+    if (width <= 500) {
+      return true;
+    } else if (width > 500 && width <= 1100) {
+      return false;
+    } else {
+      return false;
+    }
+  }
+
   static double getSmallFontSize(double width) {
     if (width <= 500) {
       return 10.0;

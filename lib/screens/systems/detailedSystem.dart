@@ -137,6 +137,8 @@ class _detailedSysPageState extends State<detailedSysPage> {
     var fontXXSize = ResponsiveTextUtils.getXXFontSize(screenWidth);
     var fontXXXSize = ResponsiveTextUtils.getXXXFontSize(screenWidth);
 
+    bool screenLayout = ResponsiveTextUtils.getLayout(screenWidth);
+
     return [
       if (widget.systems.image != null && widget.systems.image.isNotEmpty)
         Container(
@@ -244,7 +246,7 @@ class _detailedSysPageState extends State<detailedSysPage> {
                   children: [
                     Container(
                       decoration: BoxDecoration(
-                        image: DecorationImage(image: NetworkImage("${API.sysTechImg + SystemsTechSpecs.image}", scale: 2.5), alignment: Alignment.topRight),
+                        image: DecorationImage(image: NetworkImage("${API.sysTechImg + SystemsTechSpecs.image}", scale: screenLayout ? 2.5 : 1,), alignment: Alignment.topRight),
                       ),
                       child: Container(
                         decoration: BoxDecoration(
