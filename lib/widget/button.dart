@@ -14,7 +14,7 @@ class customButton extends StatelessWidget {
       onTap: onTap,
       child: Container(
         margin: const EdgeInsets.symmetric(vertical: 4),
-        height: 55,
+        height: MediaQuery.of(context).size.height * 0.07,
         width: MediaQuery.of(context).size.width * 0.9,
         decoration: BoxDecoration(
           border: Border.all(width: 2, color: clr),

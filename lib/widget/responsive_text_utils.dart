@@ -33,7 +33,7 @@ class ResponsiveTextUtils {
     if (width <= 500) {
       return 16.0;
     } else if (width > 500 && width <= 1100) {
-      return 24.0;
+      return 26.0;
     } else {
       return 32.0;
     }

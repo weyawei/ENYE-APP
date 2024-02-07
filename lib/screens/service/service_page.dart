@@ -94,6 +94,15 @@ class _ServicePageState extends State<ServicePage> {
 
   @override
   Widget build(BuildContext context) {
+    double screenHeight = MediaQuery.of(context).size.height;
+    double screenWidth = MediaQuery.of(context).size.width;
+
+    bool screenLayout = ResponsiveTextUtils.getLayout(screenWidth);
+
+    var fontNormalSize = ResponsiveTextUtils.getNormalFontSize(screenWidth);
+    var fontExtraSize = ResponsiveTextUtils.getExtraFontSize(screenWidth);
+    var fontXXSize = ResponsiveTextUtils.getXXFontSize(screenWidth);
+
     //calling session data
     checkSession().getUserSessionStatus().then((bool) {
       if (bool == true) {
@@ -114,13 +123,13 @@ class _ServicePageState extends State<ServicePage> {
           Stack(
             children: [
               Padding(
-                padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.03),
+                padding: EdgeInsets.only(top: screenHeight * 0.03),
                 child: Lottie.network(
                     'https://lottie.host/e0b46b50-377a-4679-9f7d-d860fa44c7fd/2CntC1k3EB.json',
                     frameRate: FrameRate.max,
                     alignment: Alignment.center,
-                    height: MediaQuery.of(context).size.height * 0.5,
-                    width: MediaQuery.of(context).size.width * 1
+                    height: screenHeight * 0.5,
+                    width: screenWidth * 1
                 ),
               ),
 
@@ -132,15 +141,15 @@ class _ServicePageState extends State<ServicePage> {
                     Text(userSessionFuture == true ? "Hello ${ClientInfo?.name}," : "Hello Guest !",
                         style: GoogleFonts.lalezar(
                           textStyle:
-                          TextStyle(fontSize: 17, letterSpacing: 1.5, color: Colors.deepOrange.shade700),
+                          TextStyle(fontSize: fontExtraSize, letterSpacing: 1.5, color: Colors.deepOrange.shade700),
                         )
                     ),
                     // Text("${FirebaseAuth.instance.currentUser!.displayName}"),
                     //Text( FirebaseAuth.instance.currentUser?.displayName != null ? "${FirebaseAuth.instance.currentUser?.displayName}": "Hello Guest !"),
                     PopupMenuButton(
                       child: Container(
-                        height: MediaQuery.of(context).size.height * 0.12,
-                        width: MediaQuery.of(context).size.width * 0.12,
+                        height: (screenHeight + screenWidth) / 23,
+                        width: (screenHeight + screenWidth) / 23,
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
                           image: DecorationImage(
@@ -166,9 +175,19 @@ class _ServicePageState extends State<ServicePage> {
                               PopupMenuItem(
                                 child: Row(
                                   children: [
-                                    Icon(Icons.person, color: Colors.deepOrange,),
-                                    SizedBox(width: 10,),
-                                    Text("Profile", style: TextStyle(fontWeight: FontWeight.w600),)
+                                    Icon(
+                                      Icons.person,
+                                      color: Colors.deepOrange,
+                                      size: (screenHeight + screenWidth) / 50,
+                                    ),
+                                    SizedBox(width: screenWidth * 0.05,),
+                                    Text(
+                                      "Profile",
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.w600,
+                                        fontSize: fontExtraSize,
+                                      ),
+                                    )
                                   ],
                                 ),
                                 value: '/profile',
@@ -176,9 +195,19 @@ class _ServicePageState extends State<ServicePage> {
                               PopupMenuItem(
                                 child: Row(
                                   children: [
-                                    Icon(Icons.logout, color: Colors.deepOrange,),
-                                    SizedBox(width: 10,),
-                                    Text("Logout", style: TextStyle(fontWeight: FontWeight.w600),)
+                                    Icon(
+                                      Icons.logout,
+                                      color: Colors.deepOrange,
+                                      size: (screenHeight + screenWidth) / 50,
+                                    ),
+                                    SizedBox(width: screenWidth * 0.05,),
+                                    Text(
+                                      "Logout",
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.w600,
+                                        fontSize: fontExtraSize,
+                                      ),
+                                    )
                                   ],
                                 ),
                                 value: '/logout',
@@ -190,10 +219,18 @@ class _ServicePageState extends State<ServicePage> {
                                 child: Row(
                                   children: [
                                     Icon(
-                                      Icons.logout, color: Colors.deepOrange,),
-                                    SizedBox(width: 10,),
-                                    Text("Logout", style: TextStyle(
-                                        fontWeight: FontWeight.w600),)
+                                      Icons.logout,
+                                      color: Colors.deepOrange,
+                                      size: (screenHeight + screenWidth) / 50,
+                                    ),
+                                    SizedBox(width: screenWidth * 0.05,),
+                                    Text(
+                                      "Logout",
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.w600,
+                                        fontSize: fontExtraSize,
+                                      ),
+                                    )
                                   ],
                                 ),
                                 value: '/logout',
@@ -205,9 +242,19 @@ class _ServicePageState extends State<ServicePage> {
                             PopupMenuItem(
                               child: Row(
                                 children: [
-                                  Icon(Icons.login, color: Colors.deepOrange,),
-                                  SizedBox(width: 10,),
-                                  Text("Login", style: TextStyle(fontWeight: FontWeight.w600),)
+                                  Icon(
+                                    Icons.login,
+                                    color: Colors.deepOrange,
+                                    size: (screenHeight + screenWidth) / 50,
+                                  ),
+                                  SizedBox(width: screenWidth * 0.05,),
+                                  Text(
+                                    "Login",
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: fontExtraSize,
+                                    ),
+                                  )
                                 ],
                               ),
                               value: '/login',
@@ -222,7 +269,7 @@ class _ServicePageState extends State<ServicePage> {
             ],
           ),
 
-          SizedBox(height: MediaQuery.of(context).size.height * 0.01),
+          SizedBox(height: screenHeight * 0.01),
 
           //book a service button
           Padding(
@@ -240,11 +287,11 @@ class _ServicePageState extends State<ServicePage> {
               },
               text: 'BOOK A SERVICE',
               clr: Colors.deepOrange,
-              fontSize: 18,
+              fontSize: fontExtraSize,
             ),
           ),
 
-          SizedBox(height: MediaQuery.of(context).size.height * 0.03),
+          SizedBox(height: screenHeight * 0.03),
 
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -260,15 +307,15 @@ class _ServicePageState extends State<ServicePage> {
                   }
                 },
                 child: Container(
-                  height: MediaQuery.of(context).size.height * 0.12,
-                  width: MediaQuery.of(context).size.width * 0.26,
+                  height: screenHeight * 0.12,
+                  width: screenWidth * 0.26,
                   decoration: BoxDecoration(
                       border: Border.all(width: 2, color: Colors.deepOrange.withOpacity(0.2)),
                       borderRadius: BorderRadius.circular(10),
                       image: DecorationImage(
                         alignment: Alignment(0.0, -0.3),
                         image: AssetImage("assets/icons/service-status.png"),
-                        scale: 2.75,
+                        scale: screenLayout ? 2.9 : 1.5,
                       )
                   ),
                   child: Align(
@@ -277,7 +324,7 @@ class _ServicePageState extends State<ServicePage> {
                       padding: EdgeInsets.only(bottom: 15),
                       child: Text("Status",
                         style: GoogleFonts.rowdies(
-                          textStyle: TextStyle(fontSize: 15, letterSpacing: 1.5, color: Colors.deepOrange.shade700),
+                          textStyle: TextStyle(fontSize: fontExtraSize, letterSpacing: 1.5, color: Colors.deepOrange.shade700),
                         ),
                       ),
                     ),
@@ -295,15 +342,15 @@ class _ServicePageState extends State<ServicePage> {
                   }
                 },
                 child: Container(
-                  height: MediaQuery.of(context).size.height * 0.12,
-                  width: MediaQuery.of(context).size.width * 0.26,
+                  height: screenHeight * 0.12,
+                  width: screenWidth * 0.26,
                   decoration: BoxDecoration(
                       border: Border.all(width: 2, color: Colors.deepOrange.withOpacity(0.2)),
                       borderRadius: BorderRadius.circular(10),
                       image: DecorationImage(
                         alignment: Alignment(0.0, -0.3),
                         image: AssetImage("assets/icons/service-history.png"),
-                        scale: 2.75,
+                        scale: screenLayout ? 2.9 : 1.5,
                       )
                   ),
                   child: Align(
@@ -312,7 +359,7 @@ class _ServicePageState extends State<ServicePage> {
                       padding: EdgeInsets.only(bottom: 15),
                       child: Text("History",
                         style: GoogleFonts.rowdies(
-                          textStyle: TextStyle(fontSize: 15, letterSpacing: 1.5, color: Colors.deepOrange.shade700),
+                          textStyle: TextStyle(fontSize: fontExtraSize, letterSpacing: 1.5, color: Colors.deepOrange.shade700),
                         ),
                       ),
                     ),
@@ -330,15 +377,15 @@ class _ServicePageState extends State<ServicePage> {
                   }
                 },
                 child: Container(
-                    height: MediaQuery.of(context).size.height * 0.12,
-                    width: MediaQuery.of(context).size.width * 0.26,
+                    height: screenHeight * 0.12,
+                    width: screenWidth * 0.26,
                     decoration: BoxDecoration(
                         border: Border.all(width: 2, color: Colors.deepOrange.withOpacity(0.2)),
                         borderRadius: BorderRadius.circular(10),
                         image: DecorationImage(
                           alignment: Alignment(0.0, -0.3),
                           image: AssetImage("assets/icons/question.png"),
-                          scale: 2.75,
+                          scale: screenLayout ? 2.9 : 1.5,
                         )
                     ),
                     child: Align(
@@ -347,7 +394,7 @@ class _ServicePageState extends State<ServicePage> {
                         padding: EdgeInsets.only(bottom: 15),
                         child: Text("Help",
                           style: GoogleFonts.rowdies(
-                            textStyle: TextStyle(fontSize: 15, letterSpacing: 1.5, color: Colors.deepOrange.shade700),
+                            textStyle: TextStyle(fontSize: fontExtraSize, letterSpacing: 1.5, color: Colors.deepOrange.shade700),
                           ),
                         ),
                       ),
