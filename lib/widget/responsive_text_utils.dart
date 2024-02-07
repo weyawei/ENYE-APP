@@ -23,9 +23,9 @@ class ResponsiveTextUtils {
     if (width <= 500) {
       return 12.0;
     } else if (width > 500 && width <= 1100) {
-      return 18.0;
+      return 20.0;
     } else {
-      return 24.0;
+      return 28.0;
     }
   }
 
@@ -33,9 +33,9 @@ class ResponsiveTextUtils {
     if (width <= 500) {
       return 16.0;
     } else if (width > 500 && width <= 1100) {
-      return 22.0;
+      return 24.0;
     } else {
-      return 28.0;
+      return 32.0;
     }
   }
 
@@ -43,9 +43,9 @@ class ResponsiveTextUtils {
     if (width <= 500) {
       return 24.0;
     } else if (width > 500 && width <= 1100) {
-      return 34.0;
+      return 36.0;
     } else {
-      return 44.0;
+      return 46.0;
     }
   }
 
