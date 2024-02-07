@@ -22,6 +22,14 @@ class ContactsHome extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double screenHeight = MediaQuery.of(context).size.height;
+    double screenWidth = MediaQuery.of(context).size.width;
+
+    var fontNormalSize = ResponsiveTextUtils.getNormalFontSize(screenWidth);
+    var fontExtraSize = ResponsiveTextUtils.getExtraFontSize(screenWidth);
+    var fontXXSize = ResponsiveTextUtils.getXXFontSize(screenWidth);
+    var fontXXXSize = ResponsiveTextUtils.getXXXFontSize(screenWidth);
+
     return Column(
       children: [
         Align(
@@ -29,7 +37,7 @@ class ContactsHome extends StatelessWidget {
           child: Lottie.network(
             'https://lottie.host/28ef9455-92ac-4a2c-a7f7-abe95224d844/N3o8vTHWbL.json',
             frameRate: FrameRate.max,
-            height: 160,
+            height: screenHeight / 4.5,
           ),
         ),
 
@@ -44,10 +52,10 @@ class ContactsHome extends StatelessWidget {
                   child: Text(
                     'Quezon City Office',
                     style: TextStyle(
-                      fontSize: 26.0,
+                      fontSize: fontXXSize,
                       fontFamily: 'Rowdies',
                       fontWeight: FontWeight.bold,
-                      letterSpacing: 1,
+                      letterSpacing: 1.2,
                       color: Colors.deepOrange.shade600
                     ),
                   ),
@@ -58,8 +66,8 @@ class ContactsHome extends StatelessWidget {
 
               //MAPS LOCATION OF OFFICE
               Container(
-                height: MediaQuery.of(context).size.height * 0.3,
-                width: MediaQuery.of(context).size.width * 0.9,
+                height: screenHeight * 0.3,
+                width: screenWidth * 0.9,
                 decoration: const BoxDecoration(
                   image: DecorationImage(image: AssetImage("assets/backgrounds/mapqc.png"), fit: BoxFit.fill),
                 ),
@@ -74,10 +82,10 @@ class ContactsHome extends StatelessWidget {
                 child: Container(
                   margin: EdgeInsets.only(top: 5.0, left: 20.0, right: 20.0),
                   child: TextButton(
-                    child: const Text.rich(
+                    child: Text.rich(
                       TextSpan(
                         children: [
-                          WidgetSpan(child: Icon(Icons.location_on, size: 30, )),
+                          WidgetSpan(child: Icon(Icons.location_on, size: (screenHeight + screenWidth) / 55, )),
                           WidgetSpan(
                             child: Padding(
                               padding: EdgeInsets.only(left: 12.0),
@@ -85,7 +93,7 @@ class ContactsHome extends StatelessWidget {
                           ),
                           TextSpan(
                             text: '1, 82 Scout Ojeda St., Brgy. Obrero Diliman, Quezon City. 1103 Philippines',
-                            style: TextStyle(color: Colors.black54, fontSize: 13.0, fontWeight: FontWeight.bold, letterSpacing: 1.0, overflow: TextOverflow.visible,),
+                            style: TextStyle(color: Colors.black54, fontSize: fontNormalSize, fontWeight: FontWeight.bold, letterSpacing: 1.2, overflow: TextOverflow.visible,),
                           ),
                         ],
                       ),
@@ -109,12 +117,12 @@ class ContactsHome extends StatelessWidget {
 
                       _launchURL(url);
                     },
-                    icon: Icon(Icons.mail, size: 25,),
+                    icon: Icon(Icons.mail, size: (screenHeight + screenWidth) / 55,),
                     label: Text('enyecontrols@enyecontrols.com',
                       style: TextStyle(
                         color: Colors.black54,
-                        fontSize: 13.0,
-                        letterSpacing: 1.0,
+                        fontSize: fontNormalSize,
+                        letterSpacing: 1.2,
                         fontWeight: FontWeight.bold,
                         overflow: TextOverflow.visible,),
                     ),
@@ -125,12 +133,12 @@ class ContactsHome extends StatelessWidget {
               //Contact Sales Eng.
               Column(
                 children: [
-                  const Text('Sales & Engineering',
+                  Text('Sales & Engineering',
                     textAlign: TextAlign.left,
                     style: TextStyle(
                       color: Colors.black54,
-                      fontSize: 13.0,
-                      letterSpacing: 1.0,
+                      fontSize: fontNormalSize,
+                      letterSpacing: 1.2,
                       fontWeight: FontWeight.bold,
                       overflow: TextOverflow.visible,
                     ),
@@ -146,18 +154,18 @@ class ContactsHome extends StatelessWidget {
 
                           _launchURL(url);
                         },
-                        icon: Icon(Icons.call, size: 25,),
-                        label: const Text('+639 7616-5949',
+                        icon: Icon(Icons.call, size: (screenHeight + screenWidth) / 55,),
+                        label: Text('+639 7616-5949',
                           style: TextStyle(
                             color: Colors.black54,
-                            fontSize: 13.0,
-                            letterSpacing: 1.0,
+                            fontSize: fontNormalSize,
+                            letterSpacing: 1.2,
                             fontWeight: FontWeight.bold,
                             overflow: TextOverflow.visible,),
                         ),
                       ),
 
-                      Text('/', style: TextStyle(color: Colors.black54,fontSize: 16.0,letterSpacing: 1.0,fontWeight: FontWeight.bold, overflow: TextOverflow.visible,),),
+                      Text('/', style: TextStyle(color: Colors.black54,fontSize: fontExtraSize,letterSpacing: 1.2,fontWeight: FontWeight.bold, overflow: TextOverflow.visible,),),
 
                       TextButton(
                         onPressed: (){
@@ -166,11 +174,11 @@ class ContactsHome extends StatelessWidget {
 
                           _launchURL(url);
                         },
-                        child: const Text('(02) 8352-3250',
+                        child: Text('(02) 8352-3250',
                           style: TextStyle(
                             color: Colors.black54,
-                            fontSize: 13.0,
-                            letterSpacing: 1.0,
+                            fontSize: fontNormalSize,
+                            letterSpacing: 1.2,
                             fontWeight: FontWeight.bold,
                             overflow: TextOverflow.visible,),
                         ),
@@ -184,12 +192,12 @@ class ContactsHome extends StatelessWidget {
               //Procurement & Logistics
               Column(
                 children: [
-                  const Text('Procurement & Logistics',
+                  Text('Procurement & Logistics',
                     textAlign: TextAlign.left,
                     style: TextStyle(
                       color: Colors.black54,
-                      fontSize: 13.0,
-                      letterSpacing: 1.0,
+                      fontSize: fontNormalSize,
+                      letterSpacing: 1.2,
                       fontWeight: FontWeight.bold,
                       overflow: TextOverflow.visible,
                     ),
@@ -205,18 +213,18 @@ class ContactsHome extends StatelessWidget {
 
                           _launchURL(url);
                         },
-                        icon: Icon(Icons.call, size: 25,),
-                        label: const Text('+639 7219-4163',
+                        icon: Icon(Icons.call, size: (screenHeight + screenWidth) / 55,),
+                        label: Text('+639 7219-4163',
                           style: TextStyle(
                             color: Colors.black54,
-                            fontSize: 13.0,
-                            letterSpacing: 1.0,
+                            fontSize: fontNormalSize,
+                            letterSpacing: 1.2,
                             fontWeight: FontWeight.bold,
                             overflow: TextOverflow.visible,),
                         ),
                       ),
 
-                      Text('/', style: TextStyle(color: Colors.black54,fontSize: 16.0,letterSpacing: 1.0,fontWeight: FontWeight.bold, overflow: TextOverflow.visible,),),
+                      Text('/', style: TextStyle(color: Colors.black54,fontSize: fontExtraSize, letterSpacing: 1.2,fontWeight: FontWeight.bold, overflow: TextOverflow.visible,),),
 
                       TextButton(
                         onPressed: (){
@@ -225,11 +233,11 @@ class ContactsHome extends StatelessWidget {
 
                           _launchURL(url);
                         },
-                        child: const Text('(02) 8352-3250',
+                        child: Text('(02) 8352-3250',
                           style: TextStyle(
                             color: Colors.black54,
-                            fontSize: 13.0,
-                            letterSpacing: 1.0,
+                            fontSize: fontNormalSize,
+                            letterSpacing: 1.2,
                             fontWeight: FontWeight.bold,
                             overflow: TextOverflow.visible,),
                         ),
@@ -243,12 +251,12 @@ class ContactsHome extends StatelessWidget {
               //HR, Admin, Accounting
               Column(
                 children: [
-                  const Text('HR, Admin, Accounting',
+                  Text('HR, Admin, Accounting',
                     textAlign: TextAlign.left,
                     style: TextStyle(
                       color: Colors.black54,
-                      fontSize: 13.0,
-                      letterSpacing: 1.0,
+                      fontSize: fontNormalSize,
+                      letterSpacing: 1.2,
                       fontWeight: FontWeight.bold,
                       overflow: TextOverflow.visible,
                     ),
@@ -264,18 +272,18 @@ class ContactsHome extends StatelessWidget {
 
                           _launchURL(url);
                         },
-                        icon: Icon(Icons.call, size: 25,),
-                        label: const Text('+639 7218-5329',
+                        icon: Icon(Icons.call, size: (screenHeight + screenWidth) / 55,),
+                        label: Text('+639 7218-5329',
                           style: TextStyle(
                             color: Colors.black54,
-                            fontSize: 13.0,
-                            letterSpacing: 1.0,
+                            fontSize: fontNormalSize,
+                            letterSpacing: 1.2,
                             fontWeight: FontWeight.bold,
                             overflow: TextOverflow.visible,),
                         ),
                       ),
 
-                      Text('/', style: TextStyle(color: Colors.black54,fontSize: 16.0,letterSpacing: 1.0,fontWeight: FontWeight.bold, overflow: TextOverflow.visible,),),
+                      Text('/', style: TextStyle(color: Colors.black54,fontSize: fontExtraSize,letterSpacing: 1.2,fontWeight: FontWeight.bold, overflow: TextOverflow.visible,),),
 
                       TextButton(
                         onPressed: (){
@@ -284,10 +292,10 @@ class ContactsHome extends StatelessWidget {
 
                           _launchURL(url);
                         },
-                        child: const Text('(02) 8352-3250',
+                        child: Text('(02) 8352-3250',
                           style: TextStyle(
                             color: Colors.black54,
-                            fontSize: 13.0,
+                            fontSize: fontNormalSize,
                             letterSpacing: 1.0,
                             fontWeight: FontWeight.bold,
                             overflow: TextOverflow.visible,),
@@ -316,10 +324,10 @@ class ContactsHome extends StatelessWidget {
                   child: Text(
                     'CEBU Office',
                     style: TextStyle(
-                        fontSize: 26.0,
+                        fontSize: fontXXSize,
                         fontFamily: 'Rowdies',
                         fontWeight: FontWeight.bold,
-                        letterSpacing: 1,
+                        letterSpacing: 1.2,
                         color: Colors.deepOrange.shade600
                     ),
                   ),
@@ -330,8 +338,8 @@ class ContactsHome extends StatelessWidget {
 
               //MAPS LOCATION OF OFFICE
               Container(
-                height: MediaQuery.of(context).size.height * 0.3,
-                width: MediaQuery.of(context).size.width * 0.9,
+                height: screenHeight * 0.3,
+                width: screenWidth * 0.9,
                 decoration: const BoxDecoration(
                   image: DecorationImage(image: AssetImage("assets/backgrounds/mapcebu.png"), fit: BoxFit.fill),
                 ),
@@ -346,10 +354,10 @@ class ContactsHome extends StatelessWidget {
                 child: Container(
                   margin: EdgeInsets.only(top: 5.0, left: 20.0, right: 20.0),
                   child: TextButton(
-                    child: const Text.rich(
+                    child: Text.rich(
                       TextSpan(
                         children: [
-                          WidgetSpan(child: Icon(Icons.location_on, size: 30, )),
+                          WidgetSpan(child: Icon(Icons.location_on, size: (screenHeight + screenWidth) / 55, )),
                           WidgetSpan(
                             child: Padding(
                               padding: EdgeInsets.only(left: 12.0),
@@ -357,7 +365,7 @@ class ContactsHome extends StatelessWidget {
                           ),
                           TextSpan(
                             text: '  Lofice 2, Lot 5, Blk 7, Phase 2 Sta. Lucia Town Square Consolacion, Cebu 6001 Philippines',
-                            style: TextStyle(color: Colors.black54, fontSize: 13.0, fontWeight: FontWeight.bold, letterSpacing: 1.0, overflow: TextOverflow.visible,),
+                            style: TextStyle(color: Colors.black54, fontSize: fontNormalSize, fontWeight: FontWeight.bold, letterSpacing: 1.2, overflow: TextOverflow.visible,),
                           ),
                         ],
                       ),
@@ -381,12 +389,12 @@ class ContactsHome extends StatelessWidget {
 
                       _launchURL(url);
                     },
-                    icon: Icon(Icons.mail, size: 25,),
+                    icon: Icon(Icons.mail, size: (screenHeight + screenWidth) / 55,),
                     label: Text('pearlguevarra.enyecontrols@gmail.com',
                       style: TextStyle(
                         color: Colors.black54,
-                        fontSize: 13.0,
-                        letterSpacing: 1.0,
+                        fontSize: fontNormalSize,
+                        letterSpacing: 1.2,
                         fontWeight: FontWeight.bold,
                         overflow: TextOverflow.visible,),
                     ),
@@ -406,12 +414,12 @@ class ContactsHome extends StatelessWidget {
 
                       _launchURL(url);
                     },
-                    icon: Icon(Icons.call, size: 25,),
-                    label: const Text('(+032) 423-1759',
+                    icon: Icon(Icons.call, size: (screenHeight + screenWidth) / 55,),
+                    label: Text('(+032) 423-1759',
                       style: TextStyle(
                         color: Colors.black54,
-                        fontSize: 13.0,
-                        letterSpacing: 1.0,
+                        fontSize: fontNormalSize,
+                        letterSpacing: 1.2,
                         fontWeight: FontWeight.bold,
                         overflow: TextOverflow.visible,),
                     ),
@@ -436,10 +444,10 @@ class ContactsHome extends StatelessWidget {
                   child: Text(
                     'LAGUNA Office',
                     style: TextStyle(
-                        fontSize: 26.0,
+                        fontSize: fontXXSize,
                         fontFamily: 'Rowdies',
                         fontWeight: FontWeight.bold,
-                        letterSpacing: 1,
+                        letterSpacing: 1.2,
                         color: Colors.deepOrange.shade600
                     ),
                   ),
@@ -449,8 +457,8 @@ class ContactsHome extends StatelessWidget {
               SizedBox(height: 20,),
               //MAPS LOCATION OF OFFICE
               Container(
-                height: MediaQuery.of(context).size.height * 0.3,
-                width: MediaQuery.of(context).size.width * 0.9,
+                height: screenHeight * 0.3,
+                width: screenWidth * 0.9,
                 decoration: const BoxDecoration(
                   image: DecorationImage(image: AssetImage("assets/backgrounds/maplaguna.png"), fit: BoxFit.fill),
                 ),
@@ -465,10 +473,10 @@ class ContactsHome extends StatelessWidget {
                 child: Container(
                   margin: EdgeInsets.only(top: 5.0, left: 20.0),
                   child: TextButton(
-                    child: const Text.rich(
+                    child: Text.rich(
                       TextSpan(
                         children: [
-                          WidgetSpan(child: Icon(Icons.location_on, size: 30, )),
+                          WidgetSpan(child: Icon(Icons.location_on, size: (screenHeight + screenWidth) / 55, )),
                           WidgetSpan(
                             child: Padding(
                               padding: EdgeInsets.only(left: 12.0),
@@ -476,7 +484,7 @@ class ContactsHome extends StatelessWidget {
                           ),
                           TextSpan(
                             text: 'Lofice 3, Lot 6, Blk 17, Pacita Ave Pacita Complex, San Vicente San Pedro, Laguna 4023 Philippines',
-                            style: TextStyle(color: Colors.black54, fontWeight: FontWeight.bold, fontSize: 13.0, letterSpacing: 1.0, overflow: TextOverflow.visible,),
+                            style: TextStyle(color: Colors.black54, fontWeight: FontWeight.bold, fontSize: fontNormalSize, letterSpacing: 1.2, overflow: TextOverflow.visible,),
                           ),
                         ],
                       ),
@@ -501,12 +509,12 @@ class ContactsHome extends StatelessWidget {
 
                       _launchURL(url);
                     },
-                    icon: Icon(Icons.mail, size: 25,),
+                    icon: Icon(Icons.mail, size: (screenHeight + screenWidth) / 55,),
                     label: Text('janice.capinpin@enyecontrols.com',
                       style: TextStyle(
                         color: Colors.black54,
-                        fontSize: 13.0,
-                        letterSpacing: 1.0,
+                        fontSize: fontNormalSize,
+                        letterSpacing: 1.2,
                         fontWeight: FontWeight.bold,
                         overflow: TextOverflow.visible,),
                     ),
@@ -526,12 +534,12 @@ class ContactsHome extends StatelessWidget {
 
                       _launchURL(url);
                     },
-                    icon: Icon(Icons.call, size: 25,),
-                    label: const Text('(+63) 917 138-7049',
+                    icon: Icon(Icons.call, size: (screenHeight + screenWidth) / 55,),
+                    label: Text('(+63) 917 138-7049',
                       style: TextStyle(
                         color: Colors.black54,
-                        fontSize: 13.0,
-                        letterSpacing: 1.0,
+                        fontSize: fontNormalSize,
+                        letterSpacing: 1.2,
                         fontWeight: FontWeight.bold,
                         overflow: TextOverflow.visible,),
                     ),

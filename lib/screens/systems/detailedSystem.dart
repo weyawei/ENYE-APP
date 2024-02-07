@@ -157,7 +157,7 @@ class _detailedSysPageState extends State<detailedSysPage> {
 
       if (widget.systems.description != null && widget.systems.description.isNotEmpty)
         Container(
-          margin: EdgeInsets.symmetric(vertical: screenHeight / 5, horizontal: screenWidth / 20),
+          margin: EdgeInsets.symmetric(vertical: screenHeight / 5, horizontal: screenWidth / 10),
           width: screenWidth,
           child: Column(
             children: [
@@ -167,11 +167,11 @@ class _detailedSysPageState extends State<detailedSysPage> {
                 ),
 
                 SizedBox(height: 20,),
-                Text("System Description", style: TextStyle(fontWeight: FontWeight.bold, fontFamily: 'Rowdies', fontSize: fontXXXSize, color: Colors.deepOrange, letterSpacing: 1.2),),
+                Text("System Description", style: TextStyle(fontWeight: FontWeight.bold, fontFamily: 'Rowdies', fontSize: fontXXSize, color: Colors.deepOrange, letterSpacing: 1.2),),
 
                 SizedBox(height: 20,),
                 Text(widget.systems.description, maxLines: null, textAlign: TextAlign.justify,
-                  style: TextStyle(height: 1.5, fontSize: fontExtraSize, fontStyle: FontStyle.italic, letterSpacing: 1.2),),
+                  style: TextStyle(height: 1.5, fontSize: fontNormalSize, fontStyle: FontStyle.italic, letterSpacing: 1.2),),
             ],
           ),
         ),
@@ -185,17 +185,18 @@ class _detailedSysPageState extends State<detailedSysPage> {
                   children: [
                     SizedBox(height: 20,),
                     if (SystemsDetail.title != null && SystemsDetail.title!.isNotEmpty)
-                      Text(SystemsDetail.title, style: TextStyle(fontWeight: FontWeight.bold, fontFamily: 'Rowdies', fontSize: fontXXXSize, color: Colors.deepOrange, letterSpacing: 1.2),),
+                      Text(SystemsDetail.title, style: TextStyle(fontWeight: FontWeight.bold, fontFamily: 'Rowdies', fontSize: fontXXSize, color: Colors.deepOrange, letterSpacing: 1.2),),
 
                     if (SystemsDetail.description != null && SystemsDetail.description!.isNotEmpty)
                       SizedBox(height: 30,),
                       Text(SystemsDetail.description, maxLines: null, textAlign: TextAlign.justify,
-                        style: TextStyle(height: 1.5, fontSize: fontExtraSize, fontStyle: FontStyle.italic, letterSpacing: 1.2),),
+                        style: TextStyle(height: 1.5, fontSize: fontNormalSize, fontStyle: FontStyle.italic, letterSpacing: 1.2),),
 
                     SizedBox(height: 30,),
                     if (SystemsDetail.image != null && SystemsDetail.image!.isNotEmpty)
                       Container(
                         height: screenHeight * 0.3,
+                        width: screenWidth * 0.9,
                         decoration: BoxDecoration(
                           image: DecorationImage(image: _buildNetworkImage("${API.sysDetailsImg + SystemsDetail.image}"), fit: BoxFit.fill),
                         ),
@@ -213,7 +214,7 @@ class _detailedSysPageState extends State<detailedSysPage> {
             Lottie.network(
               'https://lottie.host/72bb063b-09e0-4a31-b7e4-cb941f3912e0/ISN4Y7fWVz.json',
               height: screenHeight * 0.13,
-              width: screenWidth * 0.8,
+              width: screenWidth * 0.9,
             ),
             SizedBox(height: 10,),
             Text(
@@ -222,7 +223,7 @@ class _detailedSysPageState extends State<detailedSysPage> {
               style: TextStyle(
                 fontWeight: FontWeight.bold,
                 fontFamily: 'Rowdies',
-                fontSize: fontXXXSize,
+                fontSize: fontXXSize,
                 color: Colors.deepOrange,
                 letterSpacing: 1.2,
               ),
@@ -235,7 +236,7 @@ class _detailedSysPageState extends State<detailedSysPage> {
                   title: Text(
                     SystemsTechSpecs.title,
                     style: TextStyle(
-                      fontSize: fontXXSize,
+                      fontSize: fontExtraSize,
                       fontWeight: FontWeight.bold,
                       letterSpacing: 1.2,
                     ),
@@ -289,8 +290,8 @@ class _detailedSysPageState extends State<detailedSysPage> {
     double screenHeight = MediaQuery.of(context).size.height;
     double screenWidth = MediaQuery.of(context).size.width;
 
+    var fontSmallSize = ResponsiveTextUtils.getSmallFontSize(screenWidth);
     var fontNormalSize = ResponsiveTextUtils.getNormalFontSize(screenWidth);
-    var fontExtraSize = ResponsiveTextUtils.getExtraFontSize(screenWidth);
 
     return Scaffold(
       appBar: CustomAppBar(title: 'Systems', imagePath: 'assets/logo/enyecontrols.png',),
@@ -307,59 +308,62 @@ class _detailedSysPageState extends State<detailedSysPage> {
             ),
           ]
       ),
-      floatingActionButton: FloatingActionButton(
-          onPressed: () => openFile(
-            url: "${API.fileCatalogsPdf + widget.systems.catalogs_pdf}",
-            filename: "${widget.systems.catalogs_pdf}",
-          ),
-          child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                _progress != null
-                    ? Column(
-                  children: <Widget>[
-                    SizedBox(
-                      height: screenHeight / 15,
-                      child: Stack(
-                        children: <Widget>[
-                          Container(
-                            padding: EdgeInsets.symmetric(vertical: 5),
-                            alignment: Alignment.center,
-                            width: screenWidth / 8,
-                            height: screenHeight / 10,
-                            child:
-                            const CircularProgressIndicator(
-                              color: Colors.white,
+      floatingActionButton: Container(
+        height: (screenHeight + screenWidth) / 20,
+        width: (screenHeight + screenWidth) / 20,
+        child: FloatingActionButton(
+            onPressed: () => openFile(
+              url: "${API.fileCatalogsPdf + widget.systems.catalogs_pdf}",
+              filename: "${widget.systems.catalogs_pdf}",
+            ),
+            child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  _progress != null
+                      ? Column(
+                    children: <Widget>[
+                      SizedBox(
+                        height: screenHeight / 15,
+                        child: Stack(
+                          children: <Widget>[
+                            Container(
+                              alignment: Alignment.center,
+                              width: screenWidth / 10,
+                              height: screenHeight / 12,
+                              child:
+                              const CircularProgressIndicator(
+                                color: Colors.white,
+                              ),
                             ),
-                          ),
-                          Positioned(
-                              bottom: 0,
-                              left: 0,
-                              right: 0,
-                              top: screenHeight / 45,
-                              child: Text(
-                                "${_progress?.toInt().toString()} %",
-                                textAlign:
-                                TextAlign.center,
-                                style: TextStyle(
-                                  fontSize: fontNormalSize,
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              )),
+                            Positioned(
+                                bottom: 0,
+                                left: 0,
+                                right: 0,
+                                top: screenHeight / 40,
+                                child: Text(
+                                  "${_progress?.toInt().toString()} %",
+                                  textAlign:
+                                  TextAlign.center,
+                                  style: TextStyle(
+                                    fontSize: fontSmallSize,
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                )),
+                          ],
+                        ),
+                      ),
+                    ],
+                  )
+                      : Column(
+                        children: [
+                          Icon(Icons.remove_red_eye, size: (screenHeight + screenWidth) / 70,),
+                          Text("PDF", style: TextStyle(fontWeight: FontWeight.bold, fontSize: fontSmallSize),),
                         ],
                       ),
-                    ),
-                  ],
-                )
-                    : Column(
-                      children: [
-                        Icon(Icons.remove_red_eye, size: (screenHeight + screenWidth) / 60,),
-                        Text("PDF", style: TextStyle(fontWeight: FontWeight.bold, fontSize: fontNormalSize),),
-                      ],
-                    ),
-              ]
-          )
+                ]
+            )
+        ),
       ),
     );
   }

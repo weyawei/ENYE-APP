@@ -1,9 +1,7 @@
-
 import 'dart:ui';
 
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:lottie/lottie.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
@@ -89,6 +87,14 @@ class _homePageState extends State<homePage>{
   @override
   Widget build(BuildContext context) {
 
+    double screenHeight = MediaQuery.of(context).size.height;
+    double screenWidth = MediaQuery.of(context).size.width;
+
+    var fontNormalSize = ResponsiveTextUtils.getNormalFontSize(screenWidth);
+    var fontExtraSize = ResponsiveTextUtils.getExtraFontSize(screenWidth);
+    var fontXXSize = ResponsiveTextUtils.getXXFontSize(screenWidth);
+    var fontXXXSize = ResponsiveTextUtils.getXXXFontSize(screenWidth);
+
     return Scaffold(
       appBar: CustomAppBar(title: '', imagePath: 'assets/logo/enyecontrols.png',),
       body: ListView(
@@ -107,7 +113,7 @@ class _homePageState extends State<homePage>{
                   AnimatedSwitcher(
                     duration: const Duration(milliseconds: 600),
                     child: Container(
-                      height: MediaQuery.of(context).size.height,
+                      height: screenHeight * 0.9,
                       key: ValueKey<int>(currentIndex),
                       decoration: BoxDecoration(
                         image: DecorationImage(image: NetworkImage(dashboard[currentIndex]), fit: BoxFit.fill),
@@ -120,8 +126,8 @@ class _homePageState extends State<homePage>{
                   ),
 
                   Container(
-                    height: MediaQuery.of(context).size.height * 0.5,
-                    margin: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.175,),
+                    height: screenHeight * 0.5,
+                    margin: EdgeInsets.only(top: screenHeight * 0.175,),
                     child: PageView.builder(
                         controller: _pageController,
                         onPageChanged: (val){
@@ -146,12 +152,12 @@ class _homePageState extends State<homePage>{
                                     Container(
                                       padding: EdgeInsets.only(left: 20),
                                       child: DefaultTextStyle(
-                                        style: const TextStyle(
-                                          fontSize: 24.0,
+                                        style: TextStyle(
+                                          fontSize: fontXXSize,
                                           fontFamily: 'Rowdies',
                                           fontWeight: FontWeight.bold,
                                           color: Colors.white,
-                                          letterSpacing: 1,
+                                          letterSpacing: 1.2,
                                         ),
                                         child: AnimatedTextKit(
                                           isRepeatingAnimation: false,
@@ -169,7 +175,7 @@ class _homePageState extends State<homePage>{
                                     SizedBox(height: 10,),
                                     type ? Container(
                                       padding: EdgeInsets.only(left: 40),
-                                      width: MediaQuery.of(context).size.width * 0.8,
+                                      width: screenWidth * 0.8,
                                       child: DefaultTextStyle(
                                         textAlign: TextAlign.justify,
                                         style: const TextStyle(
@@ -214,8 +220,8 @@ class _homePageState extends State<homePage>{
 
               //who are we
               Container(
-                margin: EdgeInsets.symmetric(vertical: 50),
-                width: MediaQuery.of(context).size.width,
+                margin: EdgeInsets.symmetric(vertical: screenWidth / 7),
+                width: screenWidth,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
@@ -223,10 +229,10 @@ class _homePageState extends State<homePage>{
                     Text(
                       "Who We Are",
                       style: TextStyle(
-                        fontSize: 36.0,
+                        fontSize: fontXXXSize,
                         fontFamily: 'Rowdies',
                         fontWeight: FontWeight.bold,
-                        letterSpacing: 1,
+                        letterSpacing: 1.2,
                         color: Colors.deepOrange.shade600
                       ),
                     ),
@@ -234,27 +240,27 @@ class _homePageState extends State<homePage>{
                     SizedBox(height: 10,),
                     Text(
                       "CHECK OUR STORY",
-                      style: const TextStyle(
-                        fontSize: 14.0,
+                      style: TextStyle(
+                        fontSize: fontExtraSize,
                         color: Colors.grey,
-                        letterSpacing: 1,
+                        letterSpacing: 1.2,
                       ),
                     ),
 
                     SizedBox(height: 30,),
                     Container(
-                      padding: EdgeInsets.symmetric(horizontal: 25.0),
+                      padding: EdgeInsets.symmetric(horizontal: screenWidth / 15),
                       child: RichText(
                         textAlign: TextAlign.justify,
                         softWrap: true,
                         text: TextSpan(children: <TextSpan>
                         [
                           TextSpan(text: '  ENYE LTD. CORP.',
-                            style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold, color: Colors.grey, letterSpacing: 0.8),),
+                            style: TextStyle(fontSize: fontExtraSize, fontWeight: FontWeight.bold, color: Colors.grey, letterSpacing: 0.8),),
                           TextSpan(text: " is actively involved in the project design conceptualization and supply of fully innovative and state-of-the-art HVAC products and control systems. Our strength basically lies on flexibility and adaptability which allow us to tailor-fit our systems to the end user's specific requirements supported by our highly trained after-sales-technical support engineers,",
-                            style: TextStyle(fontSize: 15, color: Colors.grey, letterSpacing: 0.8),),
+                            style: TextStyle(fontSize: fontExtraSize, color: Colors.grey, letterSpacing: 0.8),),
                           TextSpan(text: " We gained the reputation of being a total solution provider.",
-                            style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold, color: Colors.grey, letterSpacing: 0.8),),
+                            style: TextStyle(fontSize: fontExtraSize, fontWeight: FontWeight.bold, color: Colors.grey, letterSpacing: 0.8),),
                         ]
                         ),
                       ),
@@ -271,8 +277,8 @@ class _homePageState extends State<homePage>{
 
               //mission vission aims
               Container(
-                margin: EdgeInsets.symmetric(vertical: 50),
-                width: MediaQuery.of(context).size.width,
+                margin: EdgeInsets.symmetric(vertical: screenWidth / 8),
+                width: screenWidth,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
@@ -280,10 +286,10 @@ class _homePageState extends State<homePage>{
                     Text(
                       "Our Mission & Vision",
                       style: TextStyle(
-                          fontSize: 28.0,
+                          fontSize: fontXXSize,
                           fontFamily: 'Rowdies',
                           fontWeight: FontWeight.bold,
-                          letterSpacing: 1,
+                          letterSpacing: 1.2,
                           color: Colors.deepOrange.shade600
                       ),
                       textAlign: TextAlign.center,
@@ -294,16 +300,16 @@ class _homePageState extends State<homePage>{
                     SizedBox(height: 10,),
                     Text(
                       "OUR AIMS",
-                      style: const TextStyle(
-                        fontSize: 18.0,
+                      style: TextStyle(
+                        fontSize: fontExtraSize,
                         color: Colors.grey,
-                        letterSpacing: 1,
+                        letterSpacing: 1.2,
                       ),
                     ),
                     Lottie.network(
                       'https://lottie.host/68b583d9-5d17-4b1a-91fd-5ea004b4e059/vJsIqeClYC.json',
-                      height: 75,
-                      width: 75,
+                      height: screenHeight / 10 ,
+                      width: screenWidth / 5,
                     ),
 
                     SizedBox(height: 30,),
@@ -311,22 +317,24 @@ class _homePageState extends State<homePage>{
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Container(
-                          width: MediaQuery.of(context).size.width * 0.3,
-                          child: Image(image: NetworkImage("${API.dashboard}market.png"), fit: BoxFit.fill),
+
+                        ImageIcon(
+                          NetworkImage("${API.dashboard}market.png"),
+                          color: Colors.deepOrange.shade700,
+                          size: (screenHeight + screenWidth) / 10,
                         ),
 
                         Container(
-                          width: MediaQuery.of(context).size.width * 0.6,
+                          width: screenWidth * 0.5,
                           child: RichText(
-                            textAlign: TextAlign.center,
+                            textAlign: TextAlign.left,
                             softWrap: true,
                             text: TextSpan(children: <TextSpan>
                             [
                               TextSpan(text: '  TO BE A MARKET LEADER',
-                                style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold, color: Colors.grey, letterSpacing: 0.8),),
+                                style: TextStyle(fontSize: fontExtraSize, fontWeight: FontWeight.bold, color: Colors.grey, letterSpacing: 0.8),),
                               TextSpan(text: ' in all our business fields by continuing to "challenge our own success"',
-                                style: TextStyle(fontSize: 15, color: Colors.grey, letterSpacing: 0.8),),
+                                style: TextStyle(fontSize: fontExtraSize, color: Colors.grey, letterSpacing: 0.8),),
                             ]
                             ),
                           ),
@@ -341,23 +349,25 @@ class _homePageState extends State<homePage>{
 
                         Container(
                           width: MediaQuery.of(context).size.width * 0.6,
+                          padding: EdgeInsets.symmetric(horizontal: 10),
                           child: RichText(
-                            textAlign: TextAlign.center,
+                            textAlign: TextAlign.right,
                             softWrap: true,
                             text: TextSpan(children: <TextSpan>
                             [
                               TextSpan(text: '  TO OUR CUSTOMERS',
-                                style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold, color: Colors.grey, letterSpacing: 0.8),),
+                                style: TextStyle(fontSize: fontExtraSize, fontWeight: FontWeight.bold, color: Colors.grey, letterSpacing: 0.8),),
                               TextSpan(text: ' , we will be a complete solution to their business requirements by giving "the BEST products, technical support and after-sales services"',
-                                style: TextStyle(fontSize: 15, color: Colors.grey, letterSpacing: 0.8),),
+                                style: TextStyle(fontSize: fontExtraSize, color: Colors.grey, letterSpacing: 0.8),),
                             ]
                             ),
                           ),
                         ),
 
-                        Container(
-                          width: MediaQuery.of(context).size.width * 0.3,
-                          child: Image(image: NetworkImage("${API.dashboard}customer.png"), fit: BoxFit.fill),
+                        ImageIcon(
+                          NetworkImage("${API.dashboard}customer.png"),
+                          color: Colors.deepOrange.shade700,
+                          size: (screenHeight + screenWidth) / 10,
                         ),
                       ],
                     ),
@@ -366,22 +376,23 @@ class _homePageState extends State<homePage>{
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Container(
-                          width: MediaQuery.of(context).size.width * 0.3,
-                          child: Image(image: NetworkImage("${API.dashboard}business_partner.png"), fit: BoxFit.fill),
+                        ImageIcon(
+                          NetworkImage("${API.dashboard}business_partner.png"),
+                          color: Colors.deepOrange.shade700,
+                          size: (screenHeight + screenWidth) / 10,
                         ),
 
                         Container(
-                          width: MediaQuery.of(context).size.width * 0.6,
+                          width: screenWidth * 0.6,
                           child: RichText(
-                            textAlign: TextAlign.center,
+                            textAlign: TextAlign.left,
                             softWrap: true,
                             text: TextSpan(children: <TextSpan>
                             [
                               TextSpan(text: '  TO OUR BUSINESS PARTNERS',
-                                style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold, color: Colors.grey, letterSpacing: 0.8),),
+                                style: TextStyle(fontSize: fontExtraSize, fontWeight: FontWeight.bold, color: Colors.grey, letterSpacing: 0.8),),
                               TextSpan(text: ' , a mutual benefit relationship.',
-                                style: TextStyle(fontSize: 15, color: Colors.grey, letterSpacing: 0.8),),
+                                style: TextStyle(fontSize: fontExtraSize, color: Colors.grey, letterSpacing: 0.8),),
                             ]
                             ),
                           ),
@@ -400,19 +411,15 @@ class _homePageState extends State<homePage>{
               Lottie.network(
                   'https://lottie.host/b4271de5-63c3-47d2-b756-71bf41c8c643/ARaXZtHsJ8.json',
                   frameRate: FrameRate.max,
-                  height: 150,
-                  width: 500,
-                  controller: lottieController,
-                  onLoaded: (composition) {
-                    lottieController.duration = Duration(milliseconds: 10);
-                    lottieController.forward();
-                  }
+                  height: screenHeight * 0.2,
+                  width: screenWidth * 0.6,
+                  controller: lottieController
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   GestureDetector(
-                      child: Image(image: AssetImage("assets/icons/facebook-v2.png"), height: 50, width: 50,),
+                      child: Image(image: AssetImage("assets/icons/facebook-v2.png"), height: (screenHeight + screenWidth) / 25, width: (screenHeight + screenWidth) / 25,),
                       onTap: () async{
                         setState(() {
                           _launchURL("https://www.facebook.com/EnyeControl/");
@@ -420,9 +427,9 @@ class _homePageState extends State<homePage>{
                       }
                   ),
 
-                  SizedBox(width: 15,),
+                  SizedBox(width: 18,),
                   GestureDetector(
-                      child: Image(image: AssetImage("assets/icons/instagram.png"), height: 50, width: 50,),
+                      child: Image(image: AssetImage("assets/icons/instagram.png"), height: (screenHeight + screenWidth) / 25, width: (screenHeight + screenWidth) / 25,),
                       onTap: () async{
                         setState(() {
                           _launchURL("https://www.instagram.com/enyecontrols/");
@@ -430,9 +437,9 @@ class _homePageState extends State<homePage>{
                       }
                   ),
 
-                  SizedBox(width: 15,),
+                  SizedBox(width: 18,),
                   GestureDetector(
-                      child: Image(image: AssetImage("assets/icons/twitter.png"), height: 50, width: 50,),
+                      child: Image(image: AssetImage("assets/icons/twitter.png"), height: (screenHeight + screenWidth) / 25, width: (screenHeight + screenWidth) / 25,),
                       onTap: () async{
                         setState(() {
                           _launchURL("https://twitter.com/enyecontrols");
@@ -440,9 +447,9 @@ class _homePageState extends State<homePage>{
                       }
                   ),
 
-                  SizedBox(width: 15,),
+                  SizedBox(width: 18,),
                   GestureDetector(
-                      child: Image(image: AssetImage("assets/icons/youtube-round-2.png"), height: 50, width: 50,),
+                      child: Image(image: AssetImage("assets/icons/youtube-round-2.png"), height: (screenHeight + screenWidth) / 25, width: (screenHeight + screenWidth) / 25,),
                       onTap: () async{
                         setState(() {
                           _launchURL("https://www.youtube.com/channel/UCTPwjwa1YioMkHZCvYjrAnw");
@@ -450,9 +457,9 @@ class _homePageState extends State<homePage>{
                       }
                   ),
 
-                  SizedBox(width: 15,),
+                  SizedBox(width: 18,),
                   GestureDetector(
-                      child: Image(image: AssetImage("assets/icons/linkedin.png"), height: 50, width: 50,),
+                      child: Image(image: AssetImage("assets/icons/linkedin.png"), height: (screenHeight + screenWidth) / 25, width: (screenHeight + screenWidth) / 25,),
                       onTap: () async{
                         setState(() {
                           _launchURL("https://www.linkedin.com/company/enyecontrols");

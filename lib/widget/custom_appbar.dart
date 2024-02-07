@@ -1,3 +1,4 @@
+import 'package:enye_app/widget/widgets.dart';
 import 'package:flutter/material.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget{
@@ -15,10 +16,19 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget{
   Widget build(BuildContext context) {
     Widget appBarTitle;
 
+    double screenHeight = MediaQuery.of(context).size.height;
+    double screenWidth = MediaQuery.of(context).size.width;
+
+    var fontExtraSize = ResponsiveTextUtils.getExtraFontSize(screenWidth);
+
     if (imagePath.isNotEmpty) {
-      appBarTitle = Image.asset(imagePath, width: MediaQuery.of(context).size.width * 0.6,);
+      appBarTitle = Image.asset(
+        imagePath,
+        width: MediaQuery.of(context).size.width * 0.6,
+        height: MediaQuery.of(context).size.height * 0.85,
+      );
     } else {
-      appBarTitle = Text(title, style: TextStyle(color: Colors.white));
+      appBarTitle = Text(title, style: TextStyle(color: Colors.white, fontSize: fontExtraSize, letterSpacing: 1.2));
     }
 
     return AppBar(

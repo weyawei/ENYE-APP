@@ -60,9 +60,6 @@ class _youtubePlayerViewState extends State<youtubePlayerView> {
             playedColor: Colors.amber,
             handleColor: Colors.amberAccent,
           ),
-          onReady: (){
-            _controller.play();
-          },
           bottomActions: [
             CurrentPosition(),
             ProgressBar(isExpanded: true),
