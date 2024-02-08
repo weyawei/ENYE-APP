@@ -53,14 +53,16 @@ class _ServicePageState extends State<ServicePage> {
           children: [
             Icon(Icons.error, color: Colors.white,),
             SizedBox(width: screenWidth * 0.01,),
-            Text(
-              message.toString().toUpperCase(),
-              style: GoogleFonts.lato(
-                textStyle: TextStyle(
-                  fontSize: fontNormalSize,
-                  fontWeight: FontWeight.w800,
-                  letterSpacing: 1.2,
-                  color: Colors.white
+            Flexible(
+              child: Text(
+                message.toString().toUpperCase(),
+                style: GoogleFonts.lato(
+                  textStyle: TextStyle(
+                      fontSize: fontNormalSize,
+                      fontWeight: FontWeight.w800,
+                      letterSpacing: 1.2,
+                      color: Colors.white
+                  ),
                 ),
               ),
             ),

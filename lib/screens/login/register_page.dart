@@ -42,17 +42,86 @@ class _registerPageState extends State<registerPage> {
 
   bool disabling = false;
 
+  _custSnackbar(context, message, Color color, IconData iconData){
+    double screenHeight = MediaQuery.of(context).size.height;
+    double screenWidth = MediaQuery.of(context).size.width;
+
+    var fontNormalSize = ResponsiveTextUtils.getNormalFontSize(screenWidth);
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        duration: Duration(seconds: 3),
+        backgroundColor: color,
+        behavior: SnackBarBehavior.floating,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(4))),
+        content: Row(
+          children: [
+            Icon(
+              iconData,
+              color: Colors.white,
+              size: (screenHeight + screenWidth) / 75,
+            ),
+            SizedBox(width: screenWidth * 0.01,),
+            Text(
+              message.toString().toUpperCase(),
+              style: GoogleFonts.lato(
+                textStyle: TextStyle(
+                    fontSize: fontNormalSize,
+                    fontWeight: FontWeight.w800,
+                    letterSpacing: 1.2,
+                    color: Colors.white
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  _successSnackbar(context, message){
+    double screenHeight = MediaQuery.of(context).size.height;
+    double screenWidth = MediaQuery.of(context).size.width;
+
+    var fontNormalSize = ResponsiveTextUtils.getNormalFontSize(screenWidth);
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        duration: Duration(seconds: 3),
+        backgroundColor: Colors.redAccent,
+        behavior: SnackBarBehavior.floating,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(4))),
+        content: Row(
+          children: [
+            Icon(
+              Icons.check,
+              color: Colors.greenAccent,
+              size: (screenHeight + screenWidth) / 75,
+            ),
+            SizedBox(width: screenWidth * 0.01,),
+            Text(
+              message.toString().toUpperCase(),
+              style: GoogleFonts.lato(
+                textStyle: TextStyle(
+                    fontSize: fontNormalSize,
+                    fontWeight: FontWeight.w800,
+                    letterSpacing: 1.2,
+                    color: Colors.white
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    ).closed.then((value) => Navigator.of(context).pop());
+  }
+
   //close the keyboard if nakalabas
   void _onButtonPressed() {
     FocusScope.of(context).unfocus(); // Close the keyboard
   }
 
   Future<void> signUserUp() async {
-    double screenHeight = MediaQuery.of(context).size.height;
-    double screenWidth = MediaQuery.of(context).size.width;
-
-    var fontNormalSize = ResponsiveTextUtils.getNormalFontSize(screenWidth);
-
     //useradmin.dart transfering to json
 
     var map = Map<String, dynamic>();
@@ -83,62 +152,13 @@ class _registerPageState extends State<registerPage> {
 
         _formKey.currentState?.reset();
 
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            duration: Duration(seconds: 2),
-            backgroundColor: Colors.green,
-            behavior: SnackBarBehavior.floating,
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(4))),
-            content: Row(
-              children: [
-                Icon(
-                  Icons.check,
-                  color: Colors.greenAccent,
-                  size: (screenHeight + screenWidth) / 75,
-                ),
-                const SizedBox(width: 10,),
-                Text(
-                  "OTP is verified! Congratulations, SignUp Successfully.",
-                  style: GoogleFonts.lato(
-                    textStyle: TextStyle(
-                      fontSize: fontNormalSize,
-                      fontWeight: FontWeight.w500,
-                      letterSpacing: 0.8,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ).closed.then((value) => Navigator.of(context).pop());
+        _successSnackbar(context, "OTP is verified! Congratulations, SignUp Successfully.");
       } else {
-        ScaffoldMessenger.of(context).showSnackBar( //registration failed
-          SnackBar(
-            duration: Duration(seconds: 2),
-            backgroundColor: Colors.redAccent,
-            behavior: SnackBarBehavior.floating,
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(4))),
-            content: Row(
-              children: [
-                Icon(
-                  Icons.close,
-                  color: Colors.white,
-                  size: (screenHeight + screenWidth) / 75,
-                ),
-                const SizedBox(width: 10,),
-                Text(
-                  "Error occured!",
-                  style: GoogleFonts.lato(
-                    textStyle: TextStyle(
-                      fontSize: fontNormalSize,
-                      fontWeight: FontWeight.w500,
-                      letterSpacing: 0.8,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
+        _custSnackbar(
+          context,
+          "Error occured !",
+          Colors.redAccent,
+          Icons.dangerous_rounded
         );
       }
     }
@@ -148,7 +168,6 @@ class _registerPageState extends State<registerPage> {
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        double screenHeight = MediaQuery.of(context).size.height;
         double screenWidth = MediaQuery.of(context).size.width;
 
         var fontNormalSize = ResponsiveTextUtils.getNormalFontSize(screenWidth);
@@ -219,32 +238,11 @@ class _registerPageState extends State<registerPage> {
                     if (await myauth.verifyOTP(otp: pin.text)) {
                       signUserUp();
                     } else {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          duration: Duration(seconds: 2),
-                          backgroundColor: Colors.redAccent,
-                          behavior: SnackBarBehavior.floating,
-                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(4))),
-                          content: Row(
-                            children: [
-                              Icon(
-                                Icons.close,
-                                color: Colors.white,
-                              ),
-                              const SizedBox(width: 10,),
-                              Text(
-                                "Invalid OTP !",
-                                style: GoogleFonts.lato(
-                                  textStyle: TextStyle(
-                                    fontSize: fontNormalSize,
-                                    fontWeight: FontWeight.w500,
-                                    letterSpacing: 0.8,
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
+                      _custSnackbar(
+                          context,
+                          "Invalid OTP !",
+                          Colors.redAccent,
+                          Icons.dangerous_rounded
                       );
                     }
                   },
@@ -388,21 +386,11 @@ class _registerPageState extends State<registerPage> {
                         if (_formKey.currentState!.validate()) {
                           //password doesn't match with confirmation password
                           if (passwordController.text.trim() != conpasswordController.text.trim()) {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(
-                                duration: Duration(seconds: 2),
-                                backgroundColor: Colors.redAccent,
-                                behavior: SnackBarBehavior.floating,
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.all(Radius.circular(4))),
-                                content: Row(
-                                  children: [
-                                    Icon(Icons.close, color: Colors.white,),
-                                    const SizedBox(width: 10,),
-                                    Text("Password doesn't match !"),
-                                  ],
-                                ),
-                              ),
+                            _custSnackbar(
+                                context,
+                                "Password doesn't match !",
+                                Colors.redAccent,
+                                Icons.dangerous_rounded
                             );
                           } else {
                             //check email if meron na sa database
@@ -422,21 +410,11 @@ class _registerPageState extends State<registerPage> {
 
                               //if email is already taken
                               if (resBodyOfSignUp['email_taken'] == true) {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(
-                                    duration: Duration(seconds: 2),
-                                    backgroundColor: Colors.orangeAccent,
-                                    behavior: SnackBarBehavior.floating,
-                                    shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.all(Radius.circular(4))),
-                                    content: Row(
-                                      children: [
-                                        Icon(Icons.info, color: Colors.orange,),
-                                        const SizedBox(width: 10,),
-                                        Text("Warning: Email is already taken."),
-                                      ],
-                                    ),
-                                  ),
+                                _custSnackbar(
+                                    context,
+                                    "Warning: Email is already taken.",
+                                    Colors.orangeAccent,
+                                    Icons.info
                                 );
                               } else {
                                 myauth.setConfig(
@@ -447,14 +425,20 @@ class _registerPageState extends State<registerPage> {
                                   otpType: OTPType.digitsOnly,
                                 );
                                 if (await myauth.sendOTP() == true) {
-                                  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                                    content: Text("OTP has been sent"),
-                                  ));
+                                  _custSnackbar(
+                                      context,
+                                      "OTP has been sent",
+                                      Colors.green,
+                                      Icons.check_box
+                                  );
                                   _showOTPDialog();
                                 } else {
-                                  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                                    content: Text("Oops, OTP send failed"),
-                                  ));
+                                  _custSnackbar(
+                                      context,
+                                      "Oops, OTP send failed !",
+                                      Colors.redAccent,
+                                      Icons.dangerous_rounded
+                                  );
                                 }
                               }
                             }

@@ -218,38 +218,37 @@ class _BookingSystemState extends State<BookingSystem> {
     }
   }
 
-  _successSnackbar(context, message){
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        margin: EdgeInsets.only(bottom: MediaQuery.of(context).size.height * 0.7,),
-        duration: Duration(seconds: 1),
-        backgroundColor: Colors.green,
-        behavior: SnackBarBehavior.floating,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(4))),
-        content: Row(
-          children: [
-            Icon(Icons.check, color: Colors.white,),
-            const SizedBox(width: 10,),
-            Text(message),
-          ],
-        ),
-      ),
-    );
-  }
+  _custSnackbar(context, message, Color color, IconData iconData){
+    double screenHeight = MediaQuery.of(context).size.height;
+    double screenWidth = MediaQuery.of(context).size.width;
 
-  _errorSnackbar(context, message){
+    var fontNormalSize = ResponsiveTextUtils.getNormalFontSize(screenWidth);
+
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        margin: EdgeInsets.only(bottom: MediaQuery.of(context).size.height * 0.7,),
-        duration: Duration(seconds: 1),
-        backgroundColor: Colors.redAccent,
+        duration: Duration(seconds: 3),
+        backgroundColor: color,
         behavior: SnackBarBehavior.floating,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(4))),
         content: Row(
           children: [
-            Icon(Icons.error, color: Colors.white,),
-            const SizedBox(width: 10,),
-            Text(message),
+            Icon(
+              iconData,
+              color: Colors.white,
+              size: (screenHeight + screenWidth) / 75,
+            ),
+            SizedBox(width: screenWidth * 0.01,),
+            Text(
+              message.toString().toUpperCase(),
+              style: GoogleFonts.lato(
+                textStyle: TextStyle(
+                    fontSize: fontNormalSize,
+                    fontWeight: FontWeight.w800,
+                    letterSpacing: 1.2,
+                    color: Colors.white
+                ),
+              ),
+            ),
           ],
         ),
       ),
@@ -287,63 +286,151 @@ class _BookingSystemState extends State<BookingSystem> {
   //kapag wala pa na-select na date
   String? _dropdownError;
   addBooking() {
+    double screenHeight = MediaQuery.of(context).size.height;
+    double screenWidth = MediaQuery.of(context).size.width;
+
+    var fontNormalSize = ResponsiveTextUtils.getNormalFontSize(screenWidth);
+    var fontExtraSize = ResponsiveTextUtils.getExtraFontSize(screenWidth);
+
     if (_formKey.currentState!.validate()) {
         generateCode();
         showDialog(
           context: context,
           builder: (context) => AlertDialog(
-            title: Text('Confirmation'),
+            title: Text(
+              'CONFIRMATION',
+              textAlign: TextAlign.center,
+              style: GoogleFonts.rowdies(
+                textStyle: TextStyle(
+                    fontSize: fontExtraSize,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black54,
+                    letterSpacing: 0.8
+                ),
+              ),
+            ),
             content: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
               children: [
-                Text('You have booked the following appointment:'),
-                SizedBox(height: 20),
+                Text(
+                  'You have booked the following appointment:',
+                  textAlign: TextAlign.center,
+                  style: GoogleFonts.lato(
+                    textStyle: TextStyle(
+                        fontSize: fontNormalSize,
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                        letterSpacing: 0.8
+                    ),
+                  ),
+                ),
+                SizedBox(height: screenHeight * 0.03),
                 Text('Date Booked: ${DateFormat.yMMMd().format(DateTime.parse(selectedDate.toString()))}',
                   style: GoogleFonts.lato(
-                    textStyle:
-                    TextStyle(fontSize: 16, letterSpacing: 0.5),
+                    textStyle: TextStyle(
+                      fontSize: fontNormalSize,
+                      color: Colors.black,
+                      letterSpacing: 0.8
+                    ),
                   ),
                 ),
-                SizedBox(height: 5),
+                SizedBox(height: screenHeight * 0.008),
                 Text('Generated Code: $generatedCode',
                   style: GoogleFonts.lato(
-                    textStyle:
-                    TextStyle(fontSize: 16, letterSpacing: 0.5),
+                    textStyle: TextStyle(
+                        fontSize: fontNormalSize,
+                        color: Colors.black,
+                        letterSpacing: 0.8
+                    ),
                   ),
                 ),
-                SizedBox(height: 5),
-                Text('Service: $selectedConcern'),
-                SizedBox(height: 5),
-                Text('Subject: ${subjectController.text}'),
-                SizedBox(height: 5),
-                Text('Description: ${descriptionController.text}'),
+                SizedBox(height: screenHeight * 0.008),
+                Text(
+                  'Service: $selectedConcern',
+                  style: GoogleFonts.lato(
+                    textStyle: TextStyle(
+                        fontSize: fontNormalSize,
+                        color: Colors.black,
+                        letterSpacing: 0.8
+                    ),
+                  ),
+                ),
+                SizedBox(height: screenHeight * 0.008),
+                Text(
+                  'Subject: ${subjectController.text}',
+                  style: GoogleFonts.lato(
+                    textStyle: TextStyle(
+                        fontSize: fontNormalSize,
+                        color: Colors.black,
+                        letterSpacing: 0.8
+                    ),
+                  ),
+                ),
+                SizedBox(height: screenHeight * 0.008),
+                Text(
+                  'Description: ${descriptionController.text}',
+                  style: GoogleFonts.lato(
+                    textStyle: TextStyle(
+                        fontSize: fontNormalSize,
+                        color: Colors.black,
+                        letterSpacing: 0.8
+                    ),
+                  ),
+                ),
 
                 ClientInfo?.company_name == ''
                   ? Padding(
-                      padding: const EdgeInsets.only(top: 5.0),
+                      padding: EdgeInsets.only(top: screenHeight * 0.008),
                       child: Text('Company Name: ${compnameController.text}'),
                     )
                   : SizedBox.shrink(),
 
                 ClientInfo?.location == ''
                   ? Padding(
-                      padding: const EdgeInsets.only(top: 5.0),
-                      child: Text('Location: ${locationController.text}'),
+                      padding: EdgeInsets.only(top: screenHeight * 0.008),
+                      child: Text(
+                        'Location: ${locationController.text}',
+                        style: GoogleFonts.lato(
+                          textStyle: TextStyle(
+                              fontSize: fontNormalSize,
+                              color: Colors.black,
+                              letterSpacing: 0.8
+                          ),
+                        ),
+                      ),
                     )
                   : SizedBox.shrink(),
 
                 ClientInfo?.project_name == ''
                   ? Padding(
-                      padding: const EdgeInsets.only(top: 5.0),
-                      child: Text('Project Name: ${projnameController.text}'),
+                      padding: EdgeInsets.only(top: screenHeight * 0.008),
+                      child: Text(
+                        'Project Name: ${projnameController.text}',
+                        style: GoogleFonts.lato(
+                          textStyle: TextStyle(
+                              fontSize: fontNormalSize,
+                              color: Colors.black,
+                              letterSpacing: 0.8
+                          ),
+                        ),
+                      ),
                     )
                   : SizedBox.shrink(),
 
                 ClientInfo?.contact_no == ''
                   ? Padding(
-                      padding: const EdgeInsets.only(top: 5.0),
-                      child: Text('Contact #: ${contactController.text}'),
+                      padding: EdgeInsets.only(top: screenHeight * 0.008),
+                      child: Text(
+                        'Contact #: ${contactController.text}',
+                        style: GoogleFonts.lato(
+                          textStyle: TextStyle(
+                              fontSize: fontNormalSize,
+                              color: Colors.black,
+                              letterSpacing: 0.8
+                          ),
+                        ),
+                      ),
                     )
                   : SizedBox.shrink(),
               ],
@@ -363,11 +450,21 @@ class _BookingSystemState extends State<BookingSystem> {
                       if('success' == result){
                         sendPushNotifications();
                         _getServices();
-                        _successSnackbar(context, "Successfully booked.");
+                        _custSnackbar(
+                          context,
+                          "Successfully booked.",
+                          Colors.green,
+                          Icons.check_box
+                        );
                         clearFields();
                         Navigator.of(context).pop();
                       } else {
-                        _errorSnackbar(context, "Error occured...");
+                        _custSnackbar(
+                            context,
+                            "Error occured...",
+                            Colors.redAccent,
+                            Icons.dangerous_rounded
+                        );
                       }
                     });
                   } else if (ClientInfo?.login == 'GMAIL'){
@@ -382,18 +479,41 @@ class _BookingSystemState extends State<BookingSystem> {
                       if('success' == result){
                         sendPushNotifications();
                         _getServices();
-                        _successSnackbar(context, "Successfully booked.");
+                        _custSnackbar(
+                            context,
+                            "Successfully booked.",
+                            Colors.green,
+                            Icons.check_box
+                        );
                         clearFields();
                         Navigator.of(context).pop();
                       } else {
-                        _errorSnackbar(context, "Error occured...");
+                        _custSnackbar(
+                            context,
+                            "Error occured...",
+                            Colors.redAccent,
+                            Icons.dangerous_rounded
+                        );
                       }
                     });
                   } else {
-                    _errorSnackbar(context, "Error occured...");
+                    _custSnackbar(
+                        context,
+                        "Error occured...",
+                        Colors.redAccent,
+                        Icons.dangerous_rounded
+                    );
                   }
                 },
-                child: Text('OK'),
+                child: Text(
+                  'OK',
+                  style: GoogleFonts.rowdies(
+                    textStyle: TextStyle(
+                        fontSize: fontExtraSize,
+                        letterSpacing: 0.8
+                    ),
+                  ),
+                ),
               ),
             ],
           ),
@@ -424,6 +544,12 @@ class _BookingSystemState extends State<BookingSystem> {
 
   @override
   Widget build(BuildContext context) {
+    double screenHeight = MediaQuery.of(context).size.height;
+    double screenWidth = MediaQuery.of(context).size.width;
+
+    var fontExtraSize = ResponsiveTextUtils.getExtraFontSize(screenWidth);
+    var fontXXSize = ResponsiveTextUtils.getXXFontSize(screenWidth);
+
     return KeyboardVisibilityBuilder(
       builder: (context, isKeyboardVisible){
         return Scaffold(
@@ -436,36 +562,48 @@ class _BookingSystemState extends State<BookingSystem> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                SizedBox(height: 30),
+                SizedBox(height: screenHeight * 0.05),
                 Center(
                   child: Text(
                     'APPOINTMENT :',
                     style: GoogleFonts.rowdies(
-                      textStyle: TextStyle(fontSize: 24.0, fontWeight: FontWeight.bold, color: Colors.black54)
+                      textStyle: TextStyle(
+                        fontSize: fontXXSize,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black54
+                      )
                     )
                   ),
                 ),
 
 
-                SizedBox(height: 30),
+                SizedBox(height: screenHeight * 0.05),
                 Form(
                   key: _formKey,
                   child: Column(
                     children: [
 
-                      SizedBox(height: 8),
+                      SizedBox(height: screenHeight * 0.01),
                       Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 10.0),
+                        padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.06),
                         child: DropdownButtonFormField<String>(
                           style: GoogleFonts.lato(
-                            textStyle:
-                            TextStyle(fontSize: 16, color: Colors.black, fontWeight: FontWeight.w500, letterSpacing: 0.8),
+                            textStyle: TextStyle(
+                              fontSize: fontExtraSize,
+                              color: Colors.black,
+                              fontWeight: FontWeight.w500,
+                              letterSpacing: 0.8
+                            ),
                           ),
                           decoration: InputDecoration(
                             labelText: 'Select Service*',
                             labelStyle: GoogleFonts.lato(
-                              textStyle:
-                              TextStyle(fontSize: 16, fontWeight: FontWeight.w500, letterSpacing: 0.8),
+                              textStyle: TextStyle(
+                                  fontSize: fontExtraSize,
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.w500,
+                                  letterSpacing: 0.8
+                              ),
                             ),
                           ),
                           value: selectedConcern,
@@ -489,13 +627,13 @@ class _BookingSystemState extends State<BookingSystem> {
                         ),
                       ),
 
-                      SizedBox(height: 8),
+                      SizedBox(height: screenHeight * 0.01),
                       Normal2TextField(
                         controller: subjectController,
                         hintText: 'Subject *',
                       ),
 
-                      SizedBox(height: 8),
+                      SizedBox(height: screenHeight * 0.01),
                       Normal2TextField(
                         controller: descriptionController,
                         hintText: 'Description *',
@@ -544,18 +682,18 @@ class _BookingSystemState extends State<BookingSystem> {
                   ),
                 ),
 
-                SizedBox(height: 40),
+                SizedBox(height: screenHeight * 0.04),
                 customButton(
                   onTap: () {
                     addBooking();
                   },
                   text: 'BOOK',
                   clr: Colors.deepOrange,
-                  fontSize: 18.0,
+                  fontSize: fontExtraSize,
                 ),
 
-                const SizedBox(height: 20,),
-                if (isKeyboardVisible) SizedBox(height: MediaQuery.of(context).size.height * 0.4,),
+                SizedBox(height: screenHeight * 0.02,),
+                if (isKeyboardVisible) SizedBox(height: screenHeight * 0.4,),
               ],
             ),
           ),
