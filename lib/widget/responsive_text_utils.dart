@@ -13,9 +13,9 @@ class ResponsiveTextUtils {
     if (width <= 500) {
       return 10.0;
     } else if (width > 500 && width <= 1100) {
-      return 14.0;
+      return 16.0;
     } else {
-      return 18.0;
+      return 20.0;
     }
   }
 
@@ -23,9 +23,9 @@ class ResponsiveTextUtils {
     if (width <= 500) {
       return 12.0;
     } else if (width > 500 && width <= 1100) {
-      return 20.0;
+      return 21.0;
     } else {
-      return 28.0;
+      return 29.0;
     }
   }
 
@@ -33,9 +33,9 @@ class ResponsiveTextUtils {
     if (width <= 500) {
       return 16.0;
     } else if (width > 500 && width <= 1100) {
-      return 26.0;
+      return 23.0;
     } else {
-      return 32.0;
+      return 33.0;
     }
   }
 
@@ -43,9 +43,9 @@ class ResponsiveTextUtils {
     if (width <= 500) {
       return 24.0;
     } else if (width > 500 && width <= 1100) {
-      return 36.0;
+      return 37.0;
     } else {
-      return 46.0;
+      return 47.0;
     }
   }
 

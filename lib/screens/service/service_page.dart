@@ -33,19 +33,36 @@ class _ServicePageState extends State<ServicePage> {
   clientInfo? ClientInfo;
 
   _errorSnackbar(context, message){
+    double screenHeight = MediaQuery.of(context).size.height;
+    double screenWidth = MediaQuery.of(context).size.width;
+
+    var fontNormalSize = ResponsiveTextUtils.getNormalFontSize(screenWidth);
+
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        margin: EdgeInsets.only(bottom: MediaQuery.of(context).size.height * 0.37,),
+        margin: EdgeInsets.only(
+          bottom: screenHeight * 0.04,
+          left: screenWidth * 0.15,
+          right: screenWidth * 0.15,
+        ),
         duration: Duration(seconds: 2),
         backgroundColor: Colors.redAccent,
         behavior: SnackBarBehavior.floating,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(4))),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(5))),
         content: Row(
           children: [
             Icon(Icons.error, color: Colors.white,),
-            const SizedBox(width: 10,),
-            Text(message.toString().toUpperCase(), style: GoogleFonts.lato(
-              textStyle: TextStyle(fontSize: 14, fontWeight: FontWeight.w800, letterSpacing: 1.2, color: Colors.white),),
+            SizedBox(width: screenWidth * 0.01,),
+            Text(
+              message.toString().toUpperCase(),
+              style: GoogleFonts.lato(
+                textStyle: TextStyle(
+                  fontSize: fontNormalSize,
+                  fontWeight: FontWeight.w800,
+                  letterSpacing: 1.2,
+                  color: Colors.white
+                ),
+              ),
             ),
           ],
         ),
@@ -99,9 +116,7 @@ class _ServicePageState extends State<ServicePage> {
 
     bool screenLayout = ResponsiveTextUtils.getLayout(screenWidth);
 
-    var fontNormalSize = ResponsiveTextUtils.getNormalFontSize(screenWidth);
     var fontExtraSize = ResponsiveTextUtils.getExtraFontSize(screenWidth);
-    var fontXXSize = ResponsiveTextUtils.getXXFontSize(screenWidth);
 
     //calling session data
     checkSession().getUserSessionStatus().then((bool) {
@@ -315,7 +330,7 @@ class _ServicePageState extends State<ServicePage> {
                       image: DecorationImage(
                         alignment: Alignment(0.0, -0.3),
                         image: AssetImage("assets/icons/service-status.png"),
-                        scale: screenLayout ? 2.9 : 1.5,
+                        scale: screenLayout ? 3.1 : 1.7,
                       )
                   ),
                   child: Align(
@@ -350,7 +365,7 @@ class _ServicePageState extends State<ServicePage> {
                       image: DecorationImage(
                         alignment: Alignment(0.0, -0.3),
                         image: AssetImage("assets/icons/service-history.png"),
-                        scale: screenLayout ? 2.9 : 1.5,
+                        scale: screenLayout ? 3.1 : 1.7,
                       )
                   ),
                   child: Align(
@@ -385,7 +400,7 @@ class _ServicePageState extends State<ServicePage> {
                         image: DecorationImage(
                           alignment: Alignment(0.0, -0.3),
                           image: AssetImage("assets/icons/question.png"),
-                          scale: screenLayout ? 2.9 : 1.5,
+                          scale: screenLayout ? 3.1 : 1.7,
                         )
                     ),
                     child: Align(

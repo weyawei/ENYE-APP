@@ -2,6 +2,8 @@ import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import 'widgets.dart';
+
 class Normal2TextField extends StatelessWidget {
   final controller;
   final String hintText;
@@ -10,12 +12,17 @@ class Normal2TextField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
+
+    var fontSmallSize = ResponsiveTextUtils.getSmallFontSize(screenWidth);
+    var fontNormalSize = ResponsiveTextUtils.getNormalFontSize(screenWidth);
+
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 10.0),
+      padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.06),
       child: TextFormField(
         style: GoogleFonts.lato(
           textStyle:
-          TextStyle(fontSize: 16, fontWeight: FontWeight.w500, letterSpacing: 0.8),
+          TextStyle(fontSize: fontNormalSize, fontWeight: FontWeight.w500, letterSpacing: 0.8),
         ),
         onEditingComplete: (){},
         validator: (value) {
@@ -28,7 +35,15 @@ class Normal2TextField extends StatelessWidget {
         keyboardType: TextInputType.multiline,
         controller: controller,
         decoration: InputDecoration(
+          errorStyle: TextStyle(
+              fontSize: fontSmallSize,
+              letterSpacing: 0.8
+          ),
           labelText: hintText,
+          labelStyle: TextStyle(
+            fontSize: fontNormalSize,
+            letterSpacing: 0.8
+          ),
         ),
       ),
     ) ;
@@ -46,12 +61,16 @@ class ContactTextField extends StatelessWidget {
     String patttern = r'(^(?:[+0]9)?[0-9]{11,12}$)';
     RegExp regExp = new RegExp(patttern);
 
+    double screenWidth = MediaQuery.of(context).size.width;
+    var fontNormalSize = ResponsiveTextUtils.getNormalFontSize(screenWidth);
+    var fontSmallSize = ResponsiveTextUtils.getSmallFontSize(screenWidth);
+
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 10.0),
+      padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.06),
       child: TextFormField(
         style: GoogleFonts.lato(
           textStyle:
-          TextStyle(fontSize: 16, fontWeight: FontWeight.w500, letterSpacing: 0.8),
+          TextStyle(fontSize: fontNormalSize, fontWeight: FontWeight.w500, letterSpacing: 0.8),
         ),
         onEditingComplete: (){},
         validator: (value) {
@@ -66,8 +85,16 @@ class ContactTextField extends StatelessWidget {
         keyboardType: TextInputType.multiline,
         controller: controller,
         decoration: InputDecoration(
+          errorStyle: TextStyle(
+              fontSize: fontNormalSize,
+              letterSpacing: 0.8
+          ),
           labelText: hintText,
-          hintText: "09xxxxxxxxx"
+          hintText: "09xxxxxxxxx",
+          labelStyle: TextStyle(
+              fontSize: fontSmallSize,
+              letterSpacing: 0.8
+          ),
         ),
       ),
     ) ;
@@ -83,9 +110,19 @@ class NormalTextField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    double screenWidth = MediaQuery.of(context).size.width;
+
+    var fontNormalSize = ResponsiveTextUtils.getNormalFontSize(screenWidth);
+    var fontSmallSize = ResponsiveTextUtils.getSmallFontSize(screenWidth);
+
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 25.0),
+      padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.06),
       child: TextFormField(
+        style: GoogleFonts.lato(
+          textStyle:
+          TextStyle(fontSize: fontNormalSize, fontWeight: FontWeight.w500, letterSpacing: 0.8),
+        ),
         readOnly: disabling,
         onEditingComplete: (){},
         validator: (value) {
@@ -98,16 +135,24 @@ class NormalTextField extends StatelessWidget {
         keyboardType: TextInputType.multiline,
         controller: controller,
         decoration: InputDecoration(
-            enabledBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: Colors.white),
-            ),
-            focusedBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: Colors.deepOrange),
-            ),
-            fillColor: Colors.deepOrange.shade50,
-            filled: true,
-            hintText: hintText,
-            hintStyle: TextStyle(color: Colors.grey.shade400)
+          errorStyle: TextStyle(
+              fontSize: fontSmallSize,
+              letterSpacing: 0.8
+          ),
+          labelStyle: TextStyle(
+            fontSize: fontNormalSize,
+            letterSpacing: 0.8
+          ),
+          enabledBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: Colors.white),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: Colors.deepOrange),
+          ),
+          fillColor: Colors.deepOrange.shade50,
+          filled: true,
+          hintText: hintText,
+          hintStyle: TextStyle(color: Colors.grey.shade400, fontSize: fontNormalSize, letterSpacing: 0.8),
         ),
       ),
     ) ;
@@ -130,9 +175,19 @@ class _PasswordTextFieldState extends State<PasswordTextField> {
 
   @override
   Widget build(BuildContext context) {
+
+    double screenWidth = MediaQuery.of(context).size.width;
+
+    var fontSmallSize = ResponsiveTextUtils.getSmallFontSize(screenWidth);
+    var fontNormalSize = ResponsiveTextUtils.getNormalFontSize(screenWidth);
+
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 25.0),
+      padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.06),
       child: TextFormField(
+        style: GoogleFonts.lato(
+          textStyle:
+          TextStyle(fontSize: fontNormalSize, fontWeight: FontWeight.w500, letterSpacing: 0.8),
+        ),
         readOnly: widget.disabling,
         onEditingComplete: (){},
         validator: (value) {
@@ -147,25 +202,29 @@ class _PasswordTextFieldState extends State<PasswordTextField> {
         controller: widget.controller,
         obscureText: passToggle,
         decoration: InputDecoration(
-            prefixIcon: Icon(Icons.lock),
-            suffixIcon: InkWell(
-              onTap: (){
-                setState((){
-                  passToggle = !passToggle;
-                });
-              },
-              child: Icon(passToggle ? Icons.visibility : Icons.visibility_off),
-            ),
-            enabledBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: Colors.white),
-            ),
-            focusedBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: Colors.deepOrange),
-            ),
-            fillColor: Colors.deepOrange.shade50,
-            filled: true,
-            hintText: widget.hintText,
-            hintStyle: TextStyle(color: Colors.grey.shade400)
+          errorStyle: TextStyle(
+              fontSize: fontSmallSize,
+              letterSpacing: 0.8
+          ),
+          prefixIcon: Icon(Icons.lock),
+          suffixIcon: InkWell(
+            onTap: (){
+              setState((){
+                passToggle = !passToggle;
+              });
+            },
+            child: Icon(passToggle ? Icons.visibility : Icons.visibility_off),
+          ),
+          enabledBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: Colors.white),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: Colors.deepOrange),
+          ),
+          fillColor: Colors.deepOrange.shade50,
+          filled: true,
+          hintText: widget.hintText,
+          hintStyle: TextStyle(color: Colors.grey.shade400, fontSize: fontNormalSize, letterSpacing: 0.8),
         ),
       ),
     ) ;
@@ -181,9 +240,19 @@ class EmailTextField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    double screenWidth = MediaQuery.of(context).size.width;
+
+    var fontSmallSize = ResponsiveTextUtils.getSmallFontSize(screenWidth);
+    var fontNormalSize = ResponsiveTextUtils.getNormalFontSize(screenWidth);
+
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 25.0),
+      padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.06),
       child: TextFormField(
+        style: GoogleFonts.lato(
+          textStyle:
+          TextStyle(fontSize: fontNormalSize, fontWeight: FontWeight.w500, letterSpacing: 0.8),
+        ),
         readOnly: disabling,
         onEditingComplete: (){},
         validator: (value) {
@@ -196,17 +265,21 @@ class EmailTextField extends StatelessWidget {
         },
         controller: controller,
         decoration: InputDecoration(
-            prefixIcon: Icon(Icons.email),
-            enabledBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: Colors.white),
-            ),
-            focusedBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: Colors.deepOrange),
-            ),
-            fillColor: Colors.deepOrange.shade50,
-            filled: true,
-            hintText: hintText,
-            hintStyle: TextStyle(color: Colors.grey.shade400)
+          errorStyle: TextStyle(
+              fontSize: fontSmallSize,
+              letterSpacing: 0.8
+          ),
+          prefixIcon: Icon(Icons.email),
+          enabledBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: Colors.white),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: Colors.deepOrange),
+          ),
+          fillColor: Colors.deepOrange.shade50,
+          filled: true,
+          hintText: hintText,
+          hintStyle: TextStyle(color: Colors.grey.shade400, fontSize: fontNormalSize, letterSpacing: 0.8),
         ),
       ),
     ) ;
@@ -222,9 +295,19 @@ class PersonNameTextField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    double screenWidth = MediaQuery.of(context).size.width;
+
+    var fontSmallSize = ResponsiveTextUtils.getSmallFontSize(screenWidth);
+    var fontNormalSize = ResponsiveTextUtils.getNormalFontSize(screenWidth);
+
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 25.0),
+      padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.06),
       child: TextFormField(
+        style: GoogleFonts.lato(
+          textStyle:
+          TextStyle(fontSize: fontNormalSize, fontWeight: FontWeight.w500, letterSpacing: 0.8),
+        ),
         readOnly: disabling,
         onEditingComplete: (){},
         validator: (value) {
@@ -235,17 +318,21 @@ class PersonNameTextField extends StatelessWidget {
         },
         controller: controller,
         decoration: InputDecoration(
-            prefixIcon: Icon(Icons.person),
-            enabledBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: Colors.white),
-            ),
-            focusedBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: Colors.deepOrange),
-            ),
-            fillColor: Colors.deepOrange.shade50,
-            filled: true,
-            hintText: hintText,
-            hintStyle: TextStyle(color: Colors.grey.shade400)
+          errorStyle: TextStyle(
+              fontSize: fontSmallSize,
+              letterSpacing: 0.8
+          ),
+          prefixIcon: Icon(Icons.person),
+          enabledBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: Colors.white),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: Colors.deepOrange),
+          ),
+          fillColor: Colors.deepOrange.shade50,
+          filled: true,
+          hintText: hintText,
+          hintStyle: TextStyle(color: Colors.grey.shade400, fontSize: fontNormalSize, letterSpacing: 0.8),
         ),
       ),
     ) ;
@@ -261,12 +348,22 @@ class Contact2TextField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    double screenWidth = MediaQuery.of(context).size.width;
+
+    var fontSmallSize = ResponsiveTextUtils.getSmallFontSize(screenWidth);
+    var fontNormalSize = ResponsiveTextUtils.getNormalFontSize(screenWidth);
+
     String patttern = r'(^(?:[+0]9)?[0-9]{11,12}$)';
     RegExp regExp = new RegExp(patttern);
 
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 25.0),
+      padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.06),
       child: TextFormField(
+        style: GoogleFonts.lato(
+          textStyle:
+          TextStyle(fontSize: fontNormalSize, fontWeight: FontWeight.w500, letterSpacing: 0.8),
+        ),
         readOnly: disabling,
         onEditingComplete: (){},
         validator: (value) {
@@ -279,17 +376,21 @@ class Contact2TextField extends StatelessWidget {
         },
         controller: controller,
         decoration: InputDecoration(
-            prefixIcon: Icon(Icons.call),
-            enabledBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: Colors.white),
-            ),
-            focusedBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: Colors.deepOrange),
-            ),
-            fillColor: Colors.deepOrange.shade50,
-            filled: true,
-            hintText: hintText,
-            hintStyle: TextStyle(color: Colors.grey.shade400)
+          errorStyle: TextStyle(
+              fontSize: fontSmallSize,
+              letterSpacing: 0.8
+          ),
+          prefixIcon: Icon(Icons.call),
+          enabledBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: Colors.white),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: Colors.deepOrange),
+          ),
+          fillColor: Colors.deepOrange.shade50,
+          filled: true,
+          hintText: hintText,
+          hintStyle: TextStyle(color: Colors.grey.shade400, fontSize: fontNormalSize, letterSpacing: 0.8),
         ),
       ),
     ) ;

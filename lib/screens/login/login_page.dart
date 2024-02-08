@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_session_manager/flutter_session_manager.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 
 import '../../config/config.dart';
@@ -27,6 +28,7 @@ class loginPage extends StatefulWidget {
 }
 
 class _loginPageState extends State<loginPage> {
+
   //text editing controllers
   final emailController = TextEditingController();
 
@@ -42,6 +44,11 @@ class _loginPageState extends State<loginPage> {
   }
 
   Future<void> signUserIn() async {
+
+    double screenHeight = MediaQuery.of(context).size.height;
+    double screenWidth = MediaQuery.of(context).size.width;
+
+    var fontNormalSize = ResponsiveTextUtils.getNormalFontSize(screenWidth);
 
     // Validate returns true if the form is valid, or false otherwise.
     if (_formKey.currentState!.validate()) {
@@ -84,16 +91,29 @@ class _loginPageState extends State<loginPage> {
           setState(() {
             disabling = true;
             ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(
-                duration: Duration(seconds: 1),
+              SnackBar(
+                duration: Duration(seconds: 2),
                 backgroundColor: Colors.green,
                 behavior: SnackBarBehavior.floating,
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(4))),
                 content: Row(
                   children: [
-                    Icon(Icons.check, color: Colors.greenAccent,),
-                    const SizedBox(width: 10,),
-                    Text("Congratulations, Login Successfully."),
+                    Icon(
+                      Icons.check,
+                      color: Colors.greenAccent,
+                      size: (screenHeight + screenWidth) / 75,
+                    ),
+                    SizedBox(width: 10,),
+                    Text(
+                      "Congratulations, Login Successfully.",
+                      style: GoogleFonts.lato(
+                        textStyle: TextStyle(
+                          fontSize: fontNormalSize,
+                          fontWeight: FontWeight.w500,
+                          letterSpacing: 0.8,
+                        ),
+                      ),
+                    ),
                   ],
                 ),
               ),
@@ -101,16 +121,29 @@ class _loginPageState extends State<loginPage> {
           });
         } else {
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              duration: Duration(seconds: 2),
+            SnackBar(
+              duration: Duration(seconds: 3),
               backgroundColor: Colors.redAccent,
               behavior: SnackBarBehavior.floating,
               shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(4))),
               content: Row(
                 children: [
-                  Icon(Icons.close, color: Colors.white,),
-                  const SizedBox(width: 10,),
-                  Text("Incorrect email or password !"),
+                  Icon(
+                    Icons.close,
+                    color: Colors.white,
+                    size: (screenHeight + screenWidth) / 75,
+                  ),
+                  SizedBox(width: 10,),
+                  Text(
+                    "Incorrect email or password !",
+                    style: GoogleFonts.lato(
+                      textStyle: TextStyle(
+                        fontSize: fontNormalSize,
+                        fontWeight: FontWeight.w500,
+                        letterSpacing: 0.8,
+                      ),
+                    ),
+                  ),
                 ],
               ),
             ),
@@ -122,6 +155,13 @@ class _loginPageState extends State<loginPage> {
 
   @override
   Widget build(BuildContext context) {
+
+    double screenHeight = MediaQuery.of(context).size.height;
+    double screenWidth = MediaQuery.of(context).size.width;
+
+    var fontSmallSize = ResponsiveTextUtils.getSmallFontSize(screenWidth);
+    var fontExtraSize = ResponsiveTextUtils.getExtraFontSize(screenWidth);
+
     return Scaffold(
       backgroundColor: Colors.deepOrange.shade200,
       body: Form(
@@ -131,18 +171,18 @@ class _loginPageState extends State<loginPage> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               //logo application
-              SizedBox(height: MediaQuery.of(context).size.height * 0.15,),
+              SizedBox(height: screenHeight * 0.15,),
               Container(
                 alignment: Alignment.center,
-                height: MediaQuery.of(context).size.height * 0.15,
-                width: MediaQuery.of(context).size.width * 0.33,
+                height: (screenHeight + screenWidth) / 12,
+                width: (screenHeight + screenWidth) / 12,
                 decoration: BoxDecoration(
                   image: DecorationImage(image: AssetImage("assets/icons/enye.png"), fit: BoxFit.fill)
                 ),
               ),
 
               //email textfield
-              SizedBox(height: 25,),
+              SizedBox(height: screenHeight * 0.05,),
               EmailTextField(
                 controller: emailController,
                 hintText: 'Email',
@@ -150,7 +190,7 @@ class _loginPageState extends State<loginPage> {
               ),
 
               //password textfield
-              SizedBox(height: 10,),
+              SizedBox(height: screenHeight * 0.02,),
               PasswordTextField(
                 controller: passwordController,
                 hintText: 'Password',
@@ -159,7 +199,7 @@ class _loginPageState extends State<loginPage> {
 
               //forgot password
               Padding(
-                padding: EdgeInsets.symmetric(horizontal: 25.0),
+                padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.05),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
@@ -167,14 +207,21 @@ class _loginPageState extends State<loginPage> {
                       onPressed: (){
                         Navigator.of(context).push(MaterialPageRoute(builder: (context) => ForgotPassPage())).then((value) { setState(() {}); });
                       },
-                      child: Text('Forgot Password?', style: TextStyle(color: Colors.grey.shade800,),),
+                      child: Text(
+                        'Forgot Password?',
+                        style: TextStyle(
+                          fontSize: fontSmallSize,
+                          letterSpacing: 1.2,
+                          color: Colors.grey.shade800,
+                        ),
+                      ),
                     ),
                   ],
                 ),
               ),
 
               //sign-in button
-              SizedBox(height: 20,),
+              SizedBox(height: screenHeight * 0.01,),
               customButton(
                 text: "SIGN IN",
                 onTap: (){
@@ -184,13 +231,13 @@ class _loginPageState extends State<loginPage> {
                   _onButtonPressed();
                 },
                 clr: Colors.deepOrange,
-                fontSize: 18.0,
+                fontSize: fontExtraSize,
               ),
 
               //or continue with
-              const SizedBox(height: 30,),
+              SizedBox(height: screenHeight * 0.05,),
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 25.0),
+                padding: EdgeInsets.symmetric(horizontal: screenHeight * 0.05),
                 child: Row(
                   children: [
                     Expanded(
@@ -199,8 +246,15 @@ class _loginPageState extends State<loginPage> {
                           color: Colors.grey.shade500,)
                     ),
                     Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 10.0),
-                      child: Text('Or continue with', style: TextStyle(color: Colors.grey.shade800,),),
+                      padding: EdgeInsets.symmetric(horizontal: screenHeight * 0.025),
+                      child: Text(
+                        'Or continue with',
+                        style: TextStyle(
+                          fontSize: fontSmallSize,
+                          letterSpacing: 1.2,
+                          color: Colors.grey.shade800,
+                        ),
+                      ),
                     ),
                     Expanded(
                         child: Divider(
@@ -211,6 +265,7 @@ class _loginPageState extends State<loginPage> {
                 ),
               ),
 
+              SizedBox(height: screenHeight * 0.017,),
               //gmail + facebook sign in
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -242,8 +297,8 @@ class _loginPageState extends State<loginPage> {
                     },
                     child: Image(
                       image: AssetImage('assets/icons/gmail.png'),
-                      height: MediaQuery.of(context).size.height * 0.12,
-                      width: MediaQuery.of(context).size.width * 0.12,
+                      height: (screenHeight + screenWidth) / 28,
+                      width: (screenHeight + screenWidth) / 28,
                     ),
                   ),
 
@@ -252,19 +307,32 @@ class _loginPageState extends State<loginPage> {
                 ],
               ),
 
+              SizedBox(height: screenHeight * 0.01,),
               //not a member sign up
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text('Not a member?', style: TextStyle(color: Colors.grey.shade800),),
-                  const SizedBox(height: 4,),
+                  Text(
+                    'Not a member?',
+                    style: TextStyle(
+                      fontSize: fontSmallSize,
+                      letterSpacing: 1.2,
+                      color: Colors.grey.shade800
+                    ),
+                  ),
+                  SizedBox(height: screenHeight * 0.04,),
                   TextButton(
                     onPressed: (){
                       Navigator.of(context).push(MaterialPageRoute(builder: (context) => registerPage())).then((value) { setState(() {}); });
                     },
                     child: Text(
                       'Register now',
-                      style: TextStyle(color: Colors.blue, fontWeight: FontWeight.bold),
+                      style: TextStyle(
+                        fontSize: fontSmallSize,
+                        letterSpacing: 1.2,
+                        color: Colors.blue,
+                        fontWeight: FontWeight.bold
+                      ),
                     ),
                   ),
                 ],
