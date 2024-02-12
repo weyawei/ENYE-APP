@@ -220,7 +220,7 @@ class _productsPageState extends State<productsPage> with TickerProviderStateMix
 			fontSize: MediaQuery.of(context).size.width * 0.02,
 			fontStyle: FontStyle.italic,
 			),
-                    prefixIcon: Icon(Icons.search, size: MediaQuery.of(context).size.width * 0.06,),
+                    prefixIcon: Icon(Icons.search, size: MediaQuery.of(context).size.width * 				0.06,),
                     suffixIcon: IconButton(
                      /* icon: Icon(_isListening ? Icons.mic_off : Icons.mic),
                       onPressed: _isListening ? _stopListening : _showStartSpeakingDialog,*/

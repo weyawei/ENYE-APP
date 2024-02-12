@@ -18,10 +18,10 @@ class productCarousel extends StatelessWidget {
         physics: const NeverScrollableScrollPhysics(),
         shrinkWrap: true,
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2,
+          crossAxisCount: 3,
           crossAxisSpacing: 12.0,
           mainAxisSpacing: 12.0,
-          childAspectRatio: 1,
+          childAspectRatio: 1.4,
         ),
         itemCount: products.length,
         itemBuilder: (BuildContext context, int index) {
@@ -36,29 +36,27 @@ class productCarousel extends StatelessWidget {
               );
             },
             child: Container(
-              width: MediaQuery.of(context).size.width * 0.01,
-              height: MediaQuery.of(context).size.width * 0.2,
               decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(5.0),
               ),
               child: Column(
                 children: [
-                  Expanded(
-                    child: SizedBox(
-                      width: MediaQuery.of(context).size.width * 0.5,
-                      height: MediaQuery.of(context).size.height * 0.4 * 0.5,
-                      child: DecoratedBox(
-                        decoration: BoxDecoration(
-                          image: DecorationImage(
-                            image: NetworkImage("${API.prodImg + products[index].image}"),
-                            alignment: Alignment(0.0, -0.70),
-                            fit: BoxFit.fill,
-                          ),
+		Expanded(
+                   child: SizedBox(
+                    width: MediaQuery.of(context).size.width * 0.2,
+                    height: MediaQuery.of(context).size.height * 0.6,
+                    child: DecoratedBox(
+                      decoration: BoxDecoration(
+                        image: DecorationImage(
+                          image: NetworkImage("${API.prodImg + products[index].image}"),
+                          alignment: Alignment(0.0, -0.70),
+                          fit: BoxFit.fill,
                         ),
                       ),
                     ),
                   ),
+		),
                   Container(
                     padding: const EdgeInsets.all(8.0),
                     child: Row(
@@ -69,7 +67,7 @@ class productCarousel extends StatelessWidget {
                           child: Text(
                             products[index].name,
                             style: TextStyle(
-                              fontSize: MediaQuery.of(context).size.width * 0.03,
+                              fontSize: MediaQuery.of(context).size.width * 0.025,
                               fontWeight: FontWeight.bold,
                               color: Colors.deepOrange,
                             ),
@@ -77,7 +75,8 @@ class productCarousel extends StatelessWidget {
                             softWrap: true,
                           ),
                         ),
-                        Icon(Icons.ads_click_sharp, color: Colors.deepOrange, size: MediaQuery.of(context).size.width * 0.06 ),
+                        Icon(Icons.ads_click_sharp, color: Colors.deepOrange, 
+			size: MediaQuery.of(context).size.width * 0.06 ),
                       ],
                     ),
                   ),

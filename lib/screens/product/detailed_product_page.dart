@@ -114,7 +114,7 @@ class _detailedProductPageState extends State<detailedProductPage> {
   Widget build(BuildContext context) {
 
     return Scaffold(
-      appBar: CustomAppBar(title: widget.products.name, imagePath: '', appBarHeight:  MediaQuery.of(context).size.height * 0.05,),
+      appBar: CustomAppBar(title: widget.products.name, imagePath: '', appBarHeight: MediaQuery.of(context).size.height * 0.05,),
       body: ListView(
         children:[
           Container(

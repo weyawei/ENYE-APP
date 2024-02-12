@@ -47,10 +47,12 @@ class _productDrawerState extends State<productDrawer> {
   @override
   Widget build(BuildContext context) {
     return Drawer(
-      width: MediaQuery.of(context).size.width * 0.5 ,
+	width: MediaQuery.of(context).size.width * 0.8,
       child: Column(
         children: [
-          DrawerHeader(
+	Container(
+	height: MediaQuery.of(context).size.width * 0.5,
+          child: DrawerHeader(
             padding: const EdgeInsets.all(0),
             child: Container(
               //color: Colors.deepOrange,
@@ -58,8 +60,9 @@ class _productDrawerState extends State<productDrawer> {
                   color: Colors.white,
                   //   borderRadius: BorderRadius.all(Radius.circular(10.0)),
                   image: DecorationImage(
-                      image: AssetImage("assets/images_1/wallpaper.jpg"), fit: BoxFit.cover, )
+                      image: AssetImage("assets/images_1/wallpaper.jpg"), fit: BoxFit.cover)
               ),
+		),
             ),
           ),
 
@@ -83,7 +86,7 @@ class _productDrawerState extends State<productDrawer> {
                   title: Text(
                     _prodCategory[index].name,
                     style: TextStyle(
-                      fontSize: 15,
+                      fontSize: MediaQuery.of(context).size.width * 0.025,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
@@ -115,14 +118,15 @@ class _productDrawerState extends State<productDrawer> {
                             children: [
                               Icon(
                                 Icons.label_important_outlined,
-                                size: 15,
+                                size: MediaQuery.of(context).size.width * 0.04,
                                 color: Colors.deepOrange.shade400,
                               ),
                               SizedBox(width: 10,),
                               Flexible(
                                 child: Text(
                                   productSubCategory.name,
-                                  style: Theme.of(context).textTheme.labelLarge?.copyWith(
+                                  style: TextStyle(
+				    fontSize: MediaQuery.of(context).size.width * 0.025,
                                     color: Colors.black54,
                                     fontWeight: FontWeight.bold,
                                   ),
