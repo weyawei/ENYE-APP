@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:email_otp/email_otp.dart';
 import 'package:enye_app/config/api_connection.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:pinput/pinput.dart';
@@ -41,6 +42,80 @@ class _registerPageState extends State<registerPage> {
 
   bool disabling = false;
 
+  _custSnackbar(context, message, Color color, IconData iconData){
+    double screenHeight = MediaQuery.of(context).size.height;
+    double screenWidth = MediaQuery.of(context).size.width;
+
+    var fontNormalSize = ResponsiveTextUtils.getNormalFontSize(screenWidth);
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        duration: Duration(seconds: 3),
+        backgroundColor: color,
+        behavior: SnackBarBehavior.floating,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(4))),
+        content: Row(
+          children: [
+            Icon(
+              iconData,
+              color: Colors.white,
+              size: (screenHeight + screenWidth) / 75,
+            ),
+            SizedBox(width: screenWidth * 0.01,),
+            Text(
+              message.toString().toUpperCase(),
+              style: GoogleFonts.lato(
+                textStyle: TextStyle(
+                    fontSize: fontNormalSize,
+                    fontWeight: FontWeight.w800,
+                    letterSpacing: 1.2,
+                    color: Colors.white
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  _successSnackbar(context, message){
+    double screenHeight = MediaQuery.of(context).size.height;
+    double screenWidth = MediaQuery.of(context).size.width;
+
+    var fontNormalSize = ResponsiveTextUtils.getNormalFontSize(screenWidth);
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        duration: Duration(seconds: 3),
+        backgroundColor: Colors.redAccent,
+        behavior: SnackBarBehavior.floating,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(4))),
+        content: Row(
+          children: [
+            Icon(
+              Icons.check,
+              color: Colors.greenAccent,
+              size: (screenHeight + screenWidth) / 75,
+            ),
+            SizedBox(width: screenWidth * 0.01,),
+            Text(
+              message.toString().toUpperCase(),
+              style: GoogleFonts.lato(
+                textStyle: TextStyle(
+                    fontSize: fontNormalSize,
+                    fontWeight: FontWeight.w800,
+                    letterSpacing: 1.2,
+                    color: Colors.white
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    ).closed.then((value) => Navigator.of(context).pop());
+  }
+
   //close the keyboard if nakalabas
   void _onButtonPressed() {
     FocusScope.of(context).unfocus(); // Close the keyboard
@@ -77,36 +152,13 @@ class _registerPageState extends State<registerPage> {
 
         _formKey.currentState?.reset();
 
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            duration: Duration(seconds: 2),
-            backgroundColor: Colors.green,
-            behavior: SnackBarBehavior.floating,
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(4))),
-            content: Row(
-              children: [
-                Icon(Icons.check, color: Colors.greenAccent,),
-                const SizedBox(width: 10,),
-                Text("OTP is verified! Congratulations, SignUp Successfully."),
-              ],
-            ),
-          ),
-        ).closed.then((value) => Navigator.of(context).pop());
+        _successSnackbar(context, "OTP is verified! Congratulations, SignUp Successfully.");
       } else {
-        ScaffoldMessenger.of(context).showSnackBar( //registration failed
-          const SnackBar(
-            duration: Duration(seconds: 2),
-            backgroundColor: Colors.redAccent,
-            behavior: SnackBarBehavior.floating,
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(4))),
-            content: Row(
-              children: [
-                Icon(Icons.close, color: Colors.white,),
-                const SizedBox(width: 10,),
-                Text("Error occured!"),
-              ],
-            ),
-          ),
+        _custSnackbar(
+          context,
+          "Error occured !",
+          Colors.redAccent,
+          Icons.dangerous_rounded
         );
       }
     }
@@ -116,10 +168,15 @@ class _registerPageState extends State<registerPage> {
     showDialog(
       context: context,
       builder: (BuildContext context) {
+        double screenWidth = MediaQuery.of(context).size.width;
+
+        var fontNormalSize = ResponsiveTextUtils.getNormalFontSize(screenWidth);
+        var fontExtraSize = ResponsiveTextUtils.getExtraFontSize(screenWidth);
+
         final defaultPinTheme = PinTheme(
           width: 56,
           height: 56,
-          textStyle: TextStyle(fontSize: 20, color: Colors.white, fontWeight: FontWeight.w600),
+          textStyle: TextStyle(fontSize: fontExtraSize, color: Colors.white, fontWeight: FontWeight.w600),
           decoration: BoxDecoration(
             border: Border.all(color: Colors.deepOrange),
             borderRadius: BorderRadius.circular(20),
@@ -146,21 +203,21 @@ class _registerPageState extends State<registerPage> {
                   padding: const EdgeInsets.only(top: 8.0),
                   child: Text(
                     "Kindly check the email provided",
-                    style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Colors.black54),
+                    style: TextStyle(fontSize: fontNormalSize, fontWeight: FontWeight.bold, color: Colors.black54),
                   ),
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 8.0),
                   child: Text(
                     emailController.text,
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.black54),
+                    style: TextStyle(fontSize: fontExtraSize, fontWeight: FontWeight.bold, color: Colors.black54),
                   ),
                 ),
                 Padding(
                   padding: const EdgeInsets.only(top: 8.0),
                   child: Text(
                     "Please enter the OTP CODE to verify,",
-                    style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+                    style: TextStyle(fontSize: fontNormalSize, fontWeight: FontWeight.bold),
                   ),
                 ),
                 Padding(
@@ -181,20 +238,11 @@ class _registerPageState extends State<registerPage> {
                     if (await myauth.verifyOTP(otp: pin.text)) {
                       signUserUp();
                     } else {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                          duration: Duration(seconds: 2),
-                          backgroundColor: Colors.redAccent,
-                          behavior: SnackBarBehavior.floating,
-                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(4))),
-                          content: Row(
-                            children: [
-                              Icon(Icons.close, color: Colors.white,),
-                              const SizedBox(width: 10,),
-                              Text("Invalid OTP !"),
-                            ],
-                          ),
-                        ),
+                      _custSnackbar(
+                          context,
+                          "Invalid OTP !",
+                          Colors.redAccent,
+                          Icons.dangerous_rounded
                       );
                     }
                   },
@@ -204,7 +252,11 @@ class _registerPageState extends State<registerPage> {
                     child: Center(
                       child: Text(
                         "Verify",
-                        style: TextStyle(color: Colors.white, fontSize: 16),
+                        style: TextStyle(
+                          letterSpacing: 1.2,
+                          color: Colors.white,
+                          fontSize: fontExtraSize
+                        ),
                       ),
                     ),
                   ),
@@ -222,6 +274,12 @@ class _registerPageState extends State<registerPage> {
   EmailOTP myauth = EmailOTP();
   @override
   Widget build(BuildContext context) {
+    double screenHeight = MediaQuery.of(context).size.height;
+    double screenWidth = MediaQuery.of(context).size.width;
+
+    var fontSmallSize = ResponsiveTextUtils.getSmallFontSize(screenWidth);
+    var fontExtraSize = ResponsiveTextUtils.getExtraFontSize(screenWidth);
+
     return KeyboardVisibilityBuilder(
       builder: (context, isKeyboardVisible){
         return Scaffold(
@@ -234,53 +292,60 @@ class _registerPageState extends State<registerPage> {
                 children: [
 
                   //logo application
-                  SizedBox(height: MediaQuery.of(context).size.height * 0.07,),
+                  SizedBox(height: screenHeight * 0.06,),
                   Container(
                     alignment: Alignment.center,
-                    height: MediaQuery.of(context).size.height * 0.13,
-                    width: MediaQuery.of(context).size.width * 0.3,
+                    height: (screenHeight + screenWidth) / 12,
+                    width: (screenHeight + screenWidth) / 12,
                     decoration: BoxDecoration(
                         image: DecorationImage(image: AssetImage("assets/icons/enye.png"), fit: BoxFit.fill)
                     ),
                   ),
 
                   //lets create an account for you
-                  const SizedBox(height: 20,),
+                  SizedBox(height: screenHeight * 0.01,),
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                    child: Text("Let's create an account for you!", style: TextStyle(color: Colors.grey.shade800, fontSize: 18),),
+                    padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.05),
+                    child: Text(
+                      "Let's create an account for you!",
+                      style: TextStyle(
+                        letterSpacing: 1.2,
+                        color: Colors.grey.shade800,
+                        fontSize: fontExtraSize,
+                      ),
+                    ),
                   ),
 
                   //fullname textfield
-                  const SizedBox(height: 25,),
+                  SizedBox(height: screenHeight * 0.02,),
                   PersonNameTextField(
                     controller: nameController,
                     hintText: 'Fullname',
                     disabling: disabling,
                   ),
 
-                  const SizedBox(height: 10,),
+                  SizedBox(height: screenHeight * 0.008,),
                   NormalTextField(
                     controller: compnameController,
                     hintText: 'Company Name',
                     disabling: disabling,
                   ),
 
-                  const SizedBox(height: 10,),
+                  SizedBox(height: screenHeight * 0.008,),
                   NormalTextField(
                     controller: locationController,
                     hintText: 'Location',
                     disabling: disabling,
                   ),
 
-                  const SizedBox(height: 10,),
+                  SizedBox(height: screenHeight * 0.008,),
                   NormalTextField(
                     controller: projnameController,
                     hintText: 'Project Name',
                     disabling: disabling,
                   ),
 
-                  const SizedBox(height: 10,),
+                  SizedBox(height: screenHeight * 0.008,),
                   Contact2TextField(
                     controller: contactController,
                     hintText: 'Contact # (09xxxxxxxxx)',
@@ -288,7 +353,7 @@ class _registerPageState extends State<registerPage> {
                   ),
 
                   //email textfield
-                  const SizedBox(height: 10,),
+                  SizedBox(height: screenHeight * 0.008,),
                   EmailTextField(
                     controller: emailController,
                     hintText: 'Email',
@@ -296,7 +361,7 @@ class _registerPageState extends State<registerPage> {
                   ),
 
                   //password textfield
-                  const SizedBox(height: 10,),
+                  SizedBox(height: screenHeight * 0.008,),
                   PasswordTextField(
                     controller: passwordController,
                     hintText: 'Password',
@@ -304,7 +369,7 @@ class _registerPageState extends State<registerPage> {
                   ),
 
                   //confirm password textfield
-                  const SizedBox(height: 10,),
+                  SizedBox(height: screenHeight * 0.008,),
                   PasswordTextField(
                     controller: conpasswordController,
                     hintText: 'Confirm Password',
@@ -312,7 +377,7 @@ class _registerPageState extends State<registerPage> {
                   ),
 
                   //sign-up button
-                  const SizedBox(height: 25,),
+                  SizedBox(height: screenHeight * 0.01,),
                   customButton(
                     text: "Sign Up",
                     onTap: () async {
@@ -321,21 +386,11 @@ class _registerPageState extends State<registerPage> {
                         if (_formKey.currentState!.validate()) {
                           //password doesn't match with confirmation password
                           if (passwordController.text.trim() != conpasswordController.text.trim()) {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(
-                                duration: Duration(seconds: 2),
-                                backgroundColor: Colors.redAccent,
-                                behavior: SnackBarBehavior.floating,
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.all(Radius.circular(4))),
-                                content: Row(
-                                  children: [
-                                    Icon(Icons.close, color: Colors.white,),
-                                    const SizedBox(width: 10,),
-                                    Text("Password doesn't match !"),
-                                  ],
-                                ),
-                              ),
+                            _custSnackbar(
+                                context,
+                                "Password doesn't match !",
+                                Colors.redAccent,
+                                Icons.dangerous_rounded
                             );
                           } else {
                             //check email if meron na sa database
@@ -355,21 +410,11 @@ class _registerPageState extends State<registerPage> {
 
                               //if email is already taken
                               if (resBodyOfSignUp['email_taken'] == true) {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(
-                                    duration: Duration(seconds: 2),
-                                    backgroundColor: Colors.orangeAccent,
-                                    behavior: SnackBarBehavior.floating,
-                                    shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.all(Radius.circular(4))),
-                                    content: Row(
-                                      children: [
-                                        Icon(Icons.info, color: Colors.orange,),
-                                        const SizedBox(width: 10,),
-                                        Text("Warning: Email is already taken."),
-                                      ],
-                                    ),
-                                  ),
+                                _custSnackbar(
+                                    context,
+                                    "Warning: Email is already taken.",
+                                    Colors.orangeAccent,
+                                    Icons.info
                                 );
                               } else {
                                 myauth.setConfig(
@@ -380,14 +425,20 @@ class _registerPageState extends State<registerPage> {
                                   otpType: OTPType.digitsOnly,
                                 );
                                 if (await myauth.sendOTP() == true) {
-                                  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                                    content: Text("OTP has been sent"),
-                                  ));
+                                  _custSnackbar(
+                                      context,
+                                      "OTP has been sent",
+                                      Colors.green,
+                                      Icons.check_box
+                                  );
                                   _showOTPDialog();
                                 } else {
-                                  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                                    content: Text("Oops, OTP send failed"),
-                                  ));
+                                  _custSnackbar(
+                                      context,
+                                      "Oops, OTP send failed !",
+                                      Colors.redAccent,
+                                      Icons.dangerous_rounded
+                                  );
                                 }
                               }
                             }
@@ -397,7 +448,7 @@ class _registerPageState extends State<registerPage> {
                       _onButtonPressed();
                     },
                     clr: Colors.deepOrange,
-                    fontSize: 19.0,
+                    fontSize: fontExtraSize,
                   ),
 
                   //or continue with
@@ -438,26 +489,38 @@ class _registerPageState extends State<registerPage> {
 
 
                   //already have an account
-                  const SizedBox(height: 10,),
+                  SizedBox(height: screenHeight * 0.008),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text('Already have an account?', style: TextStyle(color: Colors.grey.shade800),),
-                      const SizedBox(height: 4,),
+                      Text(
+                        'Already have an account?',
+                        style: TextStyle(
+                          fontSize: fontSmallSize,
+                          letterSpacing: 1.2,
+                          color: Colors.grey.shade800
+                        ),
+                      ),
+                      SizedBox(height: screenHeight * 0.002,),
                       TextButton(
                         onPressed: (){
                           Navigator.of(context).pop();
                         },
-                        child: const Text(
+                        child: Text(
                           'Login now',
-                          style: TextStyle(color: Colors.blue, fontWeight: FontWeight.bold),
+                          style: TextStyle(
+                            fontSize: fontSmallSize,
+                            letterSpacing: 1.2,
+                            color: Colors.blue,
+                            fontWeight: FontWeight.bold
+                          ),
                         ),
                       ),
                     ],
                   ),
 
-                  const SizedBox(height: 60,),
-                  if (isKeyboardVisible) SizedBox(height: MediaQuery.of(context).size.height * 0.4,),
+                  SizedBox(height: screenHeight * 0.1,),
+                  if (isKeyboardVisible) SizedBox(height: screenHeight * 0.3,),
                 ],
               ),
             ),

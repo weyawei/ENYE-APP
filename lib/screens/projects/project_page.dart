@@ -144,6 +144,14 @@ class _ProjectsPageState extends State<ProjectsPage> with TickerProviderStateMix
 
   @override
   Widget build(BuildContext context) {
+    double screenHeight = MediaQuery.of(context).size.height;
+    double screenWidth = MediaQuery.of(context).size.width;
+
+    bool screenLayout = ResponsiveTextUtils.getLayout(screenWidth);
+
+    var fontSmallSize = ResponsiveTextUtils.getSmallFontSize(screenWidth);
+    var fontNormalSize = ResponsiveTextUtils.getNormalFontSize(screenWidth);
+    var fontExtraSize = ResponsiveTextUtils.getExtraFontSize(screenWidth);
 
     return Scaffold(
       extendBody: true,
@@ -269,18 +277,20 @@ class _ProjectsPageState extends State<ProjectsPage> with TickerProviderStateMix
                      ),
                 ),*/
                 Container(
-                  height: 110,
-                  width: MediaQuery.of(context).size.width * 1,
+                  height: screenHeight * 0.15,
+                  width: screenWidth * 1,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       //lefft arrow
                       isLeftButtonVisible
                       ? Container(
-                        width: MediaQuery.of(context).size.width * 0.07,
+                        height: screenHeight * 0.06,
+                        width: screenWidth * 0.07,
                         child: IconButton(
                           onPressed: scrollLeft,
                           icon: Image(image: AssetImage("assets/icons/left_arrow.png")),
+                          iconSize: screenLayout ? (screenHeight + screenWidth) / 50 : (screenHeight + screenWidth) / 75,
                         ),
                       )
                       : SizedBox.shrink(),
@@ -288,17 +298,17 @@ class _ProjectsPageState extends State<ProjectsPage> with TickerProviderStateMix
 
                       //categories
                       Container(
-                        width: MediaQuery.of(context).size.width * 0.75,
+                        height: screenHeight * 0.13,
+                        width: screenWidth * 0.75,
                         child: GridView.builder(
                           controller: _scrollController, // Assign the ScrollController
                           scrollDirection: Axis.horizontal,
                           shrinkWrap: true,
-                          gridDelegate:
-                          const SliverGridDelegateWithFixedCrossAxisCount(
+                          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                             crossAxisCount: 1,
-                            crossAxisSpacing: 12.0,
-                            mainAxisSpacing: 12.0,
-                            mainAxisExtent: 120,
+                            crossAxisSpacing: (screenHeight + screenWidth) / 90,
+                            mainAxisSpacing: (screenHeight + screenWidth) / 90,
+                            mainAxisExtent: screenLayout ? screenWidth * 0.3 : screenWidth * 0.2,
                           ),
                           itemCount: _projCategories.length,
                           itemBuilder: (context, index) {
@@ -312,18 +322,20 @@ class _ProjectsPageState extends State<ProjectsPage> with TickerProviderStateMix
                               },
                               child: Column(
                                 children: [
-                                  Image.network(
-                                    "${API.projCategImage + _projCategories[index].images}",
+                                  ImageIcon(
+                                    NetworkImage("${API.projCategImage + _projCategories[index].images}"),
+                                    size: (screenHeight + screenWidth) / 25,
                                     color: Colors.deepOrange.shade400,
-                                    height: 55,
-                                    width: 45,
-                                    alignment: Alignment.center,
                                   ),
+
+                                  SizedBox(height: 5,),
+
                                   Text(
                                     "${_projCategories[index].title}",
                                     style: TextStyle(
-                                      fontSize: 11,
+                                      fontSize: fontSmallSize,
                                       fontWeight: FontWeight.bold,
+                                      letterSpacing: 1.2,
                                     ),
                                     textAlign: TextAlign.center,
                                     maxLines: 2,
@@ -338,10 +350,12 @@ class _ProjectsPageState extends State<ProjectsPage> with TickerProviderStateMix
                       //right button
                       isRightButtonVisible
                       ? Container(
-                        width: MediaQuery.of(context).size.width * 0.07,
+                        height: screenHeight * 0.06,
+                        width: screenWidth * 0.07,
                         child: IconButton(
                           onPressed: scrollRight,
                           icon: Image(image: AssetImage("assets/icons/right_arrow.png")),
+                          iconSize: screenLayout ? (screenHeight + screenWidth) / 50 : (screenHeight + screenWidth) / 75,
                         ),
                       )
                       : SizedBox.shrink(),
@@ -353,14 +367,14 @@ class _ProjectsPageState extends State<ProjectsPage> with TickerProviderStateMix
                 //project items
                 _filteredProjects.isEmpty
                     ? GridView.builder(
-                  padding: EdgeInsets.symmetric(horizontal: 6.0, vertical: 8.0),
+                  padding: EdgeInsets.symmetric(horizontal: 6.0),
                   physics: const NeverScrollableScrollPhysics(),
                   shrinkWrap: true,
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                    crossAxisSpacing: 12.0,
-                    mainAxisSpacing: 12.0,
-                    mainAxisExtent: 270,
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: screenLayout ? 2 : 3,
+                    crossAxisSpacing: (screenHeight + screenWidth) / 90,
+                    mainAxisSpacing: (screenHeight + screenWidth) / 90,
+                    mainAxisExtent: screenHeight * 0.3,
                   ),
                   itemCount: _projects.length,
                   itemBuilder: (context, index){
@@ -392,7 +406,7 @@ class _ProjectsPageState extends State<ProjectsPage> with TickerProviderStateMix
                           children: [
                             ClipRRect(borderRadius: BorderRadius.circular(12.0),
                               child: Container(
-                                height: 270,
+                                height: screenHeight * 0.3,
                                 decoration: BoxDecoration(
                                   image: DecorationImage(
                                     image: NetworkImage("${API.projectsImage + _projects[index].images}"),
@@ -415,7 +429,7 @@ class _ProjectsPageState extends State<ProjectsPage> with TickerProviderStateMix
                                   child: Align(
                                     alignment: Alignment.centerLeft,
                                     child: Container(
-                                      width: 150,
+                                      width: screenWidth * 0.7,
                                       margin: EdgeInsets.only(top: 50.0),
                                       padding: EdgeInsets.all(16.0),
                                       decoration: BoxDecoration(
@@ -425,7 +439,7 @@ class _ProjectsPageState extends State<ProjectsPage> with TickerProviderStateMix
                                       ),
                                       child: Text(
                                         "${_projects[index].title}",
-                                        style: TextStyle(fontSize: 16.0, color: Colors.white, fontWeight: FontWeight.bold),
+                                        style: TextStyle(fontSize: fontExtraSize, color: Colors.white, fontWeight: FontWeight.bold, letterSpacing: 1.2),
                                       ),
                                     ),
                                   ),
@@ -443,11 +457,11 @@ class _ProjectsPageState extends State<ProjectsPage> with TickerProviderStateMix
                   padding: EdgeInsets.symmetric(horizontal: 6.0, vertical: 8.0),
                   physics: const NeverScrollableScrollPhysics(),
                   shrinkWrap: true,
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                    crossAxisSpacing: 12.0,
-                    mainAxisSpacing: 12.0,
-                    mainAxisExtent: 270,
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: screenLayout ? 2 : 3,
+                    crossAxisSpacing: (screenHeight + screenWidth) / 90,
+                    mainAxisSpacing: (screenHeight + screenWidth) / 90,
+                    mainAxisExtent: screenHeight * 0.3,
                   ),
                   itemCount: _filteredProjects.length,
                   itemBuilder: (context, index){
@@ -473,7 +487,7 @@ class _ProjectsPageState extends State<ProjectsPage> with TickerProviderStateMix
                           children: [
                             ClipRRect(borderRadius: BorderRadius.circular(12.0),
                               child: Container(
-                                height: 270,
+                                height: screenHeight * 0.3,
                                 decoration: BoxDecoration(
                                   image: DecorationImage(image: NetworkImage("${API.projectsImage + _filteredProjects[index].images}"), fit: BoxFit.cover),
                                 ),
@@ -489,7 +503,7 @@ class _ProjectsPageState extends State<ProjectsPage> with TickerProviderStateMix
                                   child: Align(
                                     alignment: Alignment.centerLeft,
                                     child: Container(
-                                      width: 150,
+                                      width: screenWidth * 0.7,
                                       margin: EdgeInsets.only(top: 50.0),
                                       padding: EdgeInsets.all(16.0),
                                       decoration: BoxDecoration(
@@ -499,7 +513,7 @@ class _ProjectsPageState extends State<ProjectsPage> with TickerProviderStateMix
                                       ),
                                       child: Text(
                                         "${_filteredProjects[index].title}",
-                                        style: TextStyle(fontSize: 16.0, color: Colors.white, fontWeight: FontWeight.bold),
+                                        style: TextStyle(fontSize: fontExtraSize, color: Colors.white, fontWeight: FontWeight.bold),
                                       ),
                                     ),
                                   ),

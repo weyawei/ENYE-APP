@@ -80,38 +80,38 @@ class _StatusPageState extends State<StatusPage> with TickerProviderStateMixin {
   )..repeat();
 
   //snackbars
-  _successSnackbar(context, message){
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        margin: EdgeInsets.only(bottom: MediaQuery.of(context).size.height * 0.7,),
-        duration: Duration(seconds: 1),
-        backgroundColor: Colors.green,
-        behavior: SnackBarBehavior.floating,
-        shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(4))),
-        content: Row(
-          children: [
-            const Icon(Icons.check, color: Colors.white,),
-            const SizedBox(width: 10,),
-            Text(message),
-          ],
-        ),
-      ),
-    );
-  }
+  _custSnackbar(context, message, Color color, IconData iconData){
+    double screenHeight = MediaQuery.of(context).size.height;
+    double screenWidth = MediaQuery.of(context).size.width;
 
-  _errorSnackbar(context, message){
+    var fontNormalSize = ResponsiveTextUtils.getNormalFontSize(screenWidth);
+
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         margin: EdgeInsets.only(bottom: MediaQuery.of(context).size.height * 0.7,),
-        duration: Duration(seconds: 1),
-        backgroundColor: Colors.redAccent,
+        duration: Duration(seconds: 3),
+        backgroundColor: color,
         behavior: SnackBarBehavior.floating,
-        shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(4))),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(4))),
         content: Row(
           children: [
-            const Icon(Icons.error, color: Colors.white,),
-            const SizedBox(width: 10,),
-            Text(message),
+            Icon(
+              iconData,
+              color: Colors.white,
+              size: (screenHeight + screenWidth) / 75,
+            ),
+            SizedBox(width: screenWidth * 0.01,),
+            Text(
+              message.toString().toUpperCase(),
+              style: GoogleFonts.lato(
+                textStyle: TextStyle(
+                    fontSize: fontNormalSize,
+                    fontWeight: FontWeight.w800,
+                    letterSpacing: 1.2,
+                    color: Colors.white
+                ),
+              ),
+            ),
           ],
         ),
       ),
@@ -142,10 +142,20 @@ class _StatusPageState extends State<StatusPage> with TickerProviderStateMixin {
     TechnicalDataServices.editCancelBooking(services.id, services.svcId, reasonController.text.trim()).then((result) {
       if('success' == result){
         _getServices(); //refresh the list after update
-        _successSnackbar(context, "Cancelled Booking Successfully");
+        _custSnackbar(
+          context,
+          "Cancelled Booking Successfully",
+          Colors.green,
+          Icons.check
+        );
         reasonController.text = '';
       } else {
-        _errorSnackbar(context, "Error occured...");
+        _custSnackbar(
+            context,
+            "Error occured...",
+            Colors.redAccent,
+            Icons.dangerous_rounded
+        );
       }
     });
   }
@@ -158,10 +168,20 @@ class _StatusPageState extends State<StatusPage> with TickerProviderStateMixin {
       if('success' == result){
         _getServices(); //refresh the list after update
         sendPushNotifications("Accepted", services.svcId);
-        _successSnackbar(context, "Booking successfully accepted.");
+        _custSnackbar(
+            context,
+            "Booking successfully accepted.",
+            Colors.green,
+            Icons.check
+        );
         _dropdownError = null;
       } else {
-        _errorSnackbar(context, "Error occured...");
+        _custSnackbar(
+            context,
+            "Error occured...",
+            Colors.redAccent,
+            Icons.dangerous_rounded
+        );
       }
     });
   }
@@ -193,10 +213,20 @@ class _StatusPageState extends State<StatusPage> with TickerProviderStateMixin {
       if('success' == result){
         _getServices(); //refresh the list after update
         sendPushNotifications("Re-sched", services.svcId);
-        _successSnackbar(context, "Booking successfully re-schedule. \n Wait someone to accept it");
+        _custSnackbar(
+            context,
+            "Booking successfully re-schedule. \n Wait someone to accept it",
+            Colors.green,
+            Icons.info
+        );
         _dropdownError = null;
       } else {
-        _errorSnackbar(context, "Error occured...");
+        _custSnackbar(
+            context,
+            "Error occured...",
+            Colors.redAccent,
+            Icons.dangerous_rounded
+        );
       }
     });
   }
@@ -218,6 +248,12 @@ class _StatusPageState extends State<StatusPage> with TickerProviderStateMixin {
     showDialog(
       context: context,
       builder: (BuildContext context) {
+        double screenHeight = MediaQuery.of(context).size.height;
+        double screenWidth = MediaQuery.of(context).size.width;
+
+        var fontExtraSize = ResponsiveTextUtils.getExtraFontSize(screenWidth);
+        var fontNormalSize = ResponsiveTextUtils.getNormalFontSize(screenWidth);
+
         return Dialog(
           // Set dialog properties such as shape, elevation, etc.
           child: StatefulBuilder(
@@ -227,31 +263,47 @@ class _StatusPageState extends State<StatusPage> with TickerProviderStateMixin {
                     mainAxisSize: MainAxisSize.min,
                     children: [
 
-                      const SizedBox(height: 15,),
+                      SizedBox(height: screenHeight * 0.02,),
                       _dropdownError == null
                           ? SizedBox.shrink()
                           : Text(
                         _dropdownError ?? "",
                         textAlign: TextAlign.center,
-                        style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Colors.red, letterSpacing: 0.8),
+                        style: TextStyle(
+                          fontSize: fontNormalSize,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.red,
+                          letterSpacing: 0.8
+                        ),
                       ),
 
                       accORresched == "Accept"
-                       ? const Padding(
+                       ? Padding(
                           padding: EdgeInsets.all(12.0),
                           child: Text(
                             "For 1 day booking, \n choose the same day twice.",
-                            style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: Colors.black54, letterSpacing: 0.8),
+                            style: TextStyle(
+                              fontSize: fontNormalSize,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black54,
+                              letterSpacing: 0.8
+                            ),
                           ),
                         )
-                       : const Padding(
+                       : Padding(
                           padding: EdgeInsets.all(12.0),
                           child: Text(
                             "Available Date for you",
-                            style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: Colors.black54, letterSpacing: 0.8),
+                            style: TextStyle(
+                              fontSize: fontNormalSize,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black54,
+                              letterSpacing: 0.8
+                            ),
                           ),
                         ),
 
+                      SizedBox(height: screenHeight * 0.01,),
                       //select date range of availability
                       InkWell(
                         onTap: () {
@@ -262,10 +314,10 @@ class _StatusPageState extends State<StatusPage> with TickerProviderStateMixin {
                           });
                         },
                         child: Container(
-                          margin: const EdgeInsets.symmetric(horizontal: 12),
-                          padding: const EdgeInsets.symmetric(horizontal: 12),
-                          height: 55,
-                          width: MediaQuery.of(context).size.width * 0.9,
+                          margin: EdgeInsets.symmetric(horizontal: screenWidth * 0.05,),
+                          padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.05,),
+                          height: screenHeight * 0.065,
+                          width: screenWidth * 0.9,
                           decoration: BoxDecoration(
                             border: Border.all(width: 2, color: Colors.deepOrange.shade300),
                             borderRadius: BorderRadius.circular(20),
@@ -273,22 +325,32 @@ class _StatusPageState extends State<StatusPage> with TickerProviderStateMixin {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text(
-                                selectedDate != null
-                                    ? '${DateFormat('EEE, MMM d').format(selectedDate!.start)} TO ${DateFormat('EEE, MMM d').format(selectedDate!.end)}'
-                                    : 'Select Date *',
-                                style: GoogleFonts.lato(
-                                  textStyle:
-                                  const TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: Colors.black, letterSpacing: 0.8),
+                              Flexible(
+                                child: Text(
+                                  selectedDate != null
+                                      ? '${DateFormat('(EEE) MMM d, y').format(selectedDate!.start)} to ${DateFormat('(EEE) MMM d, y').format(selectedDate!.end)}'
+                                      : 'Select Date *',
+                                  style: GoogleFonts.lato(
+                                    textStyle: TextStyle(
+                                      fontSize: fontNormalSize,
+                                      fontWeight: FontWeight.w500,
+                                      color: Colors.black,
+                                      letterSpacing: 0.8
+                                    ),
+                                  ),
                                 ),
                               ),
-                              const Icon(Icons.calendar_today, color: Colors.deepOrange,),
+                              Icon(
+                                Icons.calendar_today,
+                                color: Colors.deepOrange,
+                                size: (screenHeight + screenWidth) / 45,
+                              ),
                             ],
                           ),
                         ),
                       ),
 
-                      const SizedBox(height: 10,),
+                      SizedBox(height: screenHeight * 0.015,),
                       accORresched == "Re-sched"
                        ? NormalTextField(
                           controller: note,
@@ -296,7 +358,7 @@ class _StatusPageState extends State<StatusPage> with TickerProviderStateMixin {
                           disabling: false,
                         ) : SizedBox.shrink(),
 
-                      SizedBox(height: 20,),
+                      SizedBox(height: screenHeight * 0.015,),
                       GestureDetector(
                         onTap: (){
                           if(accORresched == "Accept"){
@@ -321,7 +383,12 @@ class _StatusPageState extends State<StatusPage> with TickerProviderStateMixin {
                           child: Center(
                             child: Text(
                               accORresched.toString(),
-                              style: TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.bold, letterSpacing: 0.8),
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: fontExtraSize,
+                                fontWeight: FontWeight.bold,
+                                letterSpacing: 0.8
+                              ),
                             ),
                           ),
                         ),
@@ -443,22 +510,119 @@ class _StatusPageState extends State<StatusPage> with TickerProviderStateMixin {
   }
 
   _showBottomSheet (BuildContext context, TechnicalData services) {
+
     showModalBottomSheet(
         isScrollControlled: true,
         useRootNavigator: true,
         context: context,
         builder: (context) {
-          return Container(
+          double screenHeight = MediaQuery.of(context).size.height;
+          double screenWidth = MediaQuery.of(context).size.width;
+
+          EdgeInsets viewInsets = MediaQuery.of(context).viewInsets;
+          return Padding(
+            padding: EdgeInsets.only(bottom: viewInsets.bottom),
+            child: MasonryGridView(
+              physics: NeverScrollableScrollPhysics(),
+              shrinkWrap: true,
+              gridDelegate: SliverSimpleGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 1,
+              ),
+              children: <Widget> [
+                Container(
+                  height: screenHeight * 0.007,
+                  margin: EdgeInsets.only(
+                      left: MediaQuery.of(context).size.width * 0.2,
+                      right: MediaQuery.of(context).size.width * 0.2,
+                      top: 4
+                  ),
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      color: Colors.grey[300]
+                  ),
+                ),
+
+                SizedBox(height: screenHeight * 0.04,),
+
+                services.status == "Unread" ?
+                Container(
+                  padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.02),
+                  child: _bottomSheetButton(
+                    label: "CANCEL",
+                    onTap: (){
+                      setState(() {
+                        Navigator.pop(context);
+                        _showAnotherBottomSheet(context, services, "Cancel");
+                      });
+                    },
+                    clr: Colors.redAccent,
+                    context:context,
+                  ),
+                ): SizedBox.shrink(),
+
+                services.status == "Set-sched" ?
+                Container(
+                  padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.02),
+                  child: _bottomSheetButton(
+                    label: "ACCEPT",
+                    onTap: (){
+                      setState(() {
+                        Navigator.pop(context);
+                        _showDatePicker(context, services, "Accept");
+                      });
+                    },
+                    clr: Colors.green,
+                    context:context,
+                  ),
+                ): SizedBox.shrink(),
+
+                services.status == "Set-sched" ?
+                Container(
+                  padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.02),
+                  child: _bottomSheetButton(
+                    label: "RE-SCHED",
+                    onTap: (){
+                      setState(() {
+                        Navigator.pop(context);
+                        _showDatePicker(context, services, "Re-sched");
+                      });
+                    },
+                    clr: Colors.redAccent,
+                    context:context,
+                  ),
+                ): SizedBox.shrink(),
+
+                const SizedBox(height: 20,),
+                Container(
+                  padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.02),
+                  child: _bottomSheetButton(
+                    label: "CLOSE",
+                    onTap: (){
+                      Navigator.pop(context);
+                    },
+                    clr: Colors.orangeAccent,
+                    context:context,
+                    isClose: true,
+                  ),
+                ),
+
+                SizedBox(height: screenHeight * 0.01,),
+              ],
+            ),
+          );
+
+            /*Container(
             padding: const EdgeInsets.only(top: 4),
+            width: screenWidth,
             height: services.status == "Set-sched"
-                ? MediaQuery.of(context).size.height * 0.34
-                : MediaQuery.of(context).size.height * 0.24,
+                ? screenHeight * 0.34
+                : screenHeight * 0.24,
             color: Colors.white,
             child: Column(
               children: [
                 Container(
-                  height: 6,
-                  width: 120,
+                  height: screenHeight * 0.007,
+                  width: screenWidth * 0.4,
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
                       color: Colors.grey[300]
@@ -521,7 +685,7 @@ class _StatusPageState extends State<StatusPage> with TickerProviderStateMixin {
                 const SizedBox(height: 10,),
               ],
             ),
-          );
+          );*/
         }
     );
   }
@@ -533,27 +697,38 @@ class _StatusPageState extends State<StatusPage> with TickerProviderStateMixin {
         useRootNavigator: true,
         context: context,
         builder: (BuildContext context) {
+          double screenHeight = MediaQuery.of(context).size.height;
+          double screenWidth = MediaQuery.of(context).size.width;
+
+          var fontNormalSize = ResponsiveTextUtils.getNormalFontSize(screenWidth);
+          var fontExtraSize = ResponsiveTextUtils.getExtraFontSize(screenWidth);
+
+          EdgeInsets viewInsets = MediaQuery.of(context).viewInsets;
           return Padding(
-            padding: MediaQuery.of(context).viewInsets,
+            padding: EdgeInsets.only(bottom: viewInsets.bottom),
             child: MasonryGridView(
-              physics: const NeverScrollableScrollPhysics(),
+              physics: NeverScrollableScrollPhysics(),
               shrinkWrap: true,
-              gridDelegate: const SliverSimpleGridDelegateWithFixedCrossAxisCount(
+              gridDelegate: SliverSimpleGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 1,
               ),
               children: <Widget> [
                 Container(
-                  height: 6,
-                  margin: EdgeInsets.only(left: MediaQuery.of(context).size.width * 0.4, right: MediaQuery.of(context).size.width * 0.4, top: 4),
+                  height: screenHeight * 0.007,
+                  margin: EdgeInsets.only(
+                    left: MediaQuery.of(context).size.width * 0.2,
+                    right: MediaQuery.of(context).size.width * 0.2,
+                    top: 4
+                  ),
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
                       color: Colors.grey[300]
                   ),
                 ),
 
-                const SizedBox(height: 30,),
+                SizedBox(height: screenHeight * 0.04,),
                 Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                  padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.08),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -561,48 +736,28 @@ class _StatusPageState extends State<StatusPage> with TickerProviderStateMixin {
                           softWrap: true,
                           text:TextSpan(
                               children: <TextSpan> [
-                                const TextSpan(text: "Title :  ",
-                                  style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold, color: Colors.grey, letterSpacing: 0.8),),
+                                TextSpan(text: "Title :  ",
+                                  style: TextStyle(fontSize: fontNormalSize, fontWeight: FontWeight.bold, color: Colors.grey, letterSpacing: 0.8),),
 
                                 TextSpan(text: services.svcTitle,
-                                  style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.black54, letterSpacing: 0.8),),
+                                  style: TextStyle(fontSize: fontExtraSize, fontWeight: FontWeight.bold, color: Colors.black54, letterSpacing: 0.8),),
                               ]
                           )
                       ),
 
-                      const SizedBox(height: 10,),
+                      SizedBox(height: screenHeight * 0.01,),
                       RichText(
                           textAlign: TextAlign.justify,
                           softWrap: true,
                           text:TextSpan(
                               children: <TextSpan> [
-                                const TextSpan(text: "Description :  ",
-                                  style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold, color: Colors.grey, letterSpacing: 0.8),),
+                                TextSpan(text: "Description :  ",
+                                  style: TextStyle(fontSize: fontNormalSize, fontWeight: FontWeight.bold, color: Colors.grey, letterSpacing: 0.8),),
 
                                 TextSpan(text: services.svcDesc,
-                                  style: const TextStyle(fontSize: 16, color: Colors.black54, letterSpacing: 0.8),),
+                                  style: TextStyle(fontSize: fontExtraSize, color: Colors.black54, letterSpacing: 0.8),),
                               ]
                           )
-                      ),
-
-                      const SizedBox(height: 15,),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          const Icon(
-                            Icons.calendar_month_rounded,
-                            size: 22,
-                            color: Colors.deepOrange,
-                          ),
-                          const SizedBox(width: 4),
-                          Text(
-                            DateFormat.yMMMd().format(DateTime.parse(services.dateSched)),
-                            style: GoogleFonts.lato(
-                              textStyle:
-                              const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                            ),
-                          ),
-                        ],
                       ),
                     ],
                   ),
@@ -613,12 +768,12 @@ class _StatusPageState extends State<StatusPage> with TickerProviderStateMixin {
                     ? StatefulBuilder(
                     builder: (BuildContext context, setState){
                       return Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 8),
+                          padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.02),
                           child: Column(
                             children: [
 
                               //drop-down button
-                              const SizedBox(height: 10,),
+                              SizedBox(height: screenHeight * 0.01,),
                               NormalTextField(
                                 controller: reasonController,
                                 hintText: 'Reason *',
@@ -630,7 +785,7 @@ class _StatusPageState extends State<StatusPage> with TickerProviderStateMixin {
                                   : Center(
                                 child: Text(
                                   _dropdownError ?? "",
-                                  style: const TextStyle(color: Colors.red, fontWeight: FontWeight.bold),
+                                  style: TextStyle(fontSize: fontNormalSize, color: Colors.red, fontWeight: FontWeight.bold),
                                 ),
                               ),
 
@@ -660,9 +815,9 @@ class _StatusPageState extends State<StatusPage> with TickerProviderStateMixin {
                 )
                     : const SizedBox.shrink(),
 
-                const SizedBox(height: 20,),
+                SizedBox(height: screenHeight * 0.02,),
                 Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 8),
+                  padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.02),
                   child: _bottomSheetButton(
                     label: "Close",
                     onTap: (){
@@ -676,7 +831,7 @@ class _StatusPageState extends State<StatusPage> with TickerProviderStateMixin {
                   ),
                 ),
 
-                const SizedBox(height: 10,),
+                SizedBox(height: screenHeight * 0.01,),
               ],
             ),
           );
@@ -694,12 +849,17 @@ class _StatusPageState extends State<StatusPage> with TickerProviderStateMixin {
     bool isClose = false,
     required BuildContext context
   }) {
+    double screenHeight = MediaQuery.of(context).size.height;
+    double screenWidth = MediaQuery.of(context).size.width;
+
+    var fontExtraSize = ResponsiveTextUtils.getExtraFontSize(screenWidth);
+
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        margin: const EdgeInsets.symmetric(vertical: 4),
-        height: 55,
-        width: MediaQuery.of(context).size.width * 0.9,
+        margin: EdgeInsets.symmetric(vertical: 4),
+        height: screenHeight * 0.07,
+        width: screenWidth * 0.9,
         decoration: BoxDecoration(
           border: Border.all(width: 2, color: isClose == true ? Colors.grey.shade300 : clr),
           borderRadius: BorderRadius.circular(20),
@@ -708,8 +868,8 @@ class _StatusPageState extends State<StatusPage> with TickerProviderStateMixin {
         child: Center(
           child: Text(
             label,
-            style: isClose ? GoogleFonts.lato(textStyle: TextStyle(fontSize: 16, letterSpacing: 0.5, fontWeight: FontWeight.bold, color: Colors.black),)
-              : GoogleFonts.lato(textStyle: TextStyle(fontSize: 16, letterSpacing: 0.5, fontWeight: FontWeight.bold, color: Colors.white),),
+            style: isClose ? GoogleFonts.lato(textStyle: TextStyle(fontSize: fontExtraSize, letterSpacing: 0.5, fontWeight: FontWeight.bold, color: Colors.black),)
+              : GoogleFonts.lato(textStyle: TextStyle(fontSize: fontExtraSize, letterSpacing: 0.5, fontWeight: FontWeight.bold, color: Colors.white),),
           ),
         ),
       ),

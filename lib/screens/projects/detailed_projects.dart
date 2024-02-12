@@ -6,8 +6,8 @@ import 'package:path_provider/path_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import '../../config/api_connection.dart';
-import '../../widget/custom_appbar.dart';
 import '../screens.dart';
+import '../../widget/widgets.dart';
 
 class detailedProjPage extends StatefulWidget {
   static const String routeName = '/detailedproj';
@@ -71,6 +71,15 @@ class _detailedProjPageState extends State<detailedProjPage> {
   @override
   Widget build(BuildContext context) {
 
+    double screenHeight = MediaQuery.of(context).size.height;
+    double screenWidth = MediaQuery.of(context).size.width;
+
+    bool screenLayout = ResponsiveTextUtils.getLayout(screenWidth);
+
+    var fontNormalSize = ResponsiveTextUtils.getNormalFontSize(screenWidth);
+    var fontExtraSize = ResponsiveTextUtils.getExtraFontSize(screenWidth);
+    var fontXXSize = ResponsiveTextUtils.getXXFontSize(screenWidth);
+
     return Scaffold(
       extendBody: true,
       appBar: CustomAppBar(title: 'ENYE CONTROLS', imagePath: 'assets/logo/enyecontrols.png', appBarHeight: MediaQuery.of(context).size.height * 0.05,),
@@ -92,8 +101,8 @@ class _detailedProjPageState extends State<detailedProjPage> {
               Align(
                 alignment: Alignment.topRight,
                 child: Container(
-                  width: MediaQuery.of(context).size.width * 1,
-                  margin: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.2),
+                  width: screenWidth * 1,
+                  margin: EdgeInsets.only(top: screenHeight * 0.2),
                   padding: EdgeInsets.all(16.0),
                   decoration: BoxDecoration(
                     gradient: LinearGradient(
@@ -104,7 +113,7 @@ class _detailedProjPageState extends State<detailedProjPage> {
                   ),
                   child: Text(
                     "${widget.projects.title}",
-                    style: TextStyle(fontSize: 32.0, color: Colors.white, fontWeight: FontWeight.bold),
+                    style: TextStyle(fontSize: fontXXSize, color: Colors.white, fontWeight: FontWeight.bold, letterSpacing: 1.2,),
                     textAlign: TextAlign.right,
                   ),
                 ),
@@ -114,7 +123,7 @@ class _detailedProjPageState extends State<detailedProjPage> {
               Align(
                 alignment: Alignment.topLeft,
                 child: Container(
-                  width: MediaQuery.of(context).size.width * 1,
+                  width: screenWidth * 1,
                   padding: EdgeInsets.all(17.0),
                   decoration: BoxDecoration(
                     gradient: LinearGradient(
@@ -126,11 +135,11 @@ class _detailedProjPageState extends State<detailedProjPage> {
                   child: Text(
                     "${widget.projects.description1}",
                     style: TextStyle(
-                      fontSize: 18.0,
+                      fontSize: fontExtraSize,
                       color: Colors.white,
                       fontWeight: FontWeight.w500,
                       wordSpacing: 2.0,
-                      letterSpacing: 0.5,
+                      letterSpacing: 1.2,
                     ),
                     textAlign: TextAlign.left,
                   ),
@@ -142,7 +151,7 @@ class _detailedProjPageState extends State<detailedProjPage> {
               Align(
                 alignment: Alignment.topRight,
                 child: Container(
-                  width: MediaQuery.of(context).size.width * 1,
+                  width: screenWidth * 1,
                   padding: EdgeInsets.all(16.0),
                   decoration: BoxDecoration(
                     gradient: LinearGradient(
@@ -156,11 +165,12 @@ class _detailedProjPageState extends State<detailedProjPage> {
                     child: Text(
                       "${widget.projects.description2}",
                       style: TextStyle(
-                        fontSize: 15.0,
+                        fontSize: fontNormalSize,
                         color: Colors.white,
                         fontWeight: FontWeight.bold,
                         wordSpacing: 2.0,
-                        letterSpacing: 0.5,
+                        letterSpacing: 1.2,
+                        height: 1.5
                       ),
                       textAlign: TextAlign.right,
                     ),
@@ -171,7 +181,7 @@ class _detailedProjPageState extends State<detailedProjPage> {
               Align(
                 alignment: Alignment.topRight,
                 child: Container(
-                  width: MediaQuery.of(context).size.width * 1,
+                  width: screenWidth * 1,
                   padding: EdgeInsets.all(16.0),
                   decoration: BoxDecoration(
                     gradient: LinearGradient(
@@ -187,17 +197,17 @@ class _detailedProjPageState extends State<detailedProjPage> {
                         ? Container()
                         : Row(
                       children: [
-                        Lottie.network("https://assets3.lottiefiles.com/packages/lf20_Sz5T65.json", height: 50,),
+                        Lottie.network("https://assets3.lottiefiles.com/packages/lf20_Sz5T65.json", height: screenHeight * 0.05,),
                         _progress != null
                             ? const CircularProgressIndicator()
                             :TextButton(
                           child: Text("View Catalog",
                             style: TextStyle(
-                                fontSize: 15.0,
+                                fontSize: fontExtraSize,
                                 color: Colors.white,
                                 fontWeight: FontWeight.bold,
                                 wordSpacing: 2.0,
-                                letterSpacing: 0.5,
+                                letterSpacing: 1.2,
                                 decoration: TextDecoration.underline
                             ),),
                           onPressed: () => openFile(
