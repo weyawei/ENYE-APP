@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_session_manager/flutter_session_manager.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 import 'dart:convert';
@@ -95,6 +96,45 @@ class _ProfilePageState extends State<ProfilePage> {
         userSessionFuture = bool;
       }
     });
+  }
+
+  //snackbars
+  _custSnackbar(context, message, Color color, IconData iconData){
+    double screenHeight = MediaQuery.of(context).size.height;
+    double screenWidth = MediaQuery.of(context).size.width;
+
+    var fontNormalSize = ResponsiveTextUtils.getNormalFontSize(screenWidth);
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        margin: EdgeInsets.only(bottom: MediaQuery.of(context).size.height * 0.7,),
+        duration: Duration(seconds: 3),
+        backgroundColor: color,
+        behavior: SnackBarBehavior.floating,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(4))),
+        content: Row(
+          children: [
+            Icon(
+              iconData,
+              color: Colors.white,
+              size: (screenHeight + screenWidth) / 75,
+            ),
+            SizedBox(width: screenWidth * 0.01,),
+            Text(
+              message.toString().toUpperCase(),
+              style: GoogleFonts.lato(
+                textStyle: TextStyle(
+                    fontSize: fontNormalSize,
+                    fontWeight: FontWeight.w800,
+                    letterSpacing: 1.2,
+                    color: Colors.white
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 
   _showValues(clientInfo ClientInfo){
@@ -212,8 +252,54 @@ class _ProfilePageState extends State<ProfilePage> {
     }
   }
 
+  Future<void> deleteClient() async {
+    var res = await http.post( //pasiing value to result
+      Uri.parse(API.deleteClientInfo),
+      body: {
+        'client_id' : ClientInfo?.client_id.toString(),
+      },
+    );
+
+    if (res.statusCode == 200) { //from flutter app the connection with API to server  - success
+      var resBodyOfSignUp = jsonDecode(res.body);
+
+      //if email is already taken
+      if (resBodyOfSignUp['deleteClientInfo'] == true) {
+        dynamic token = await SessionManager().get("token");
+
+        await SessionManager().remove("client_data");
+        await FirebaseServices().signOut();
+
+        //clear the client_id in a token
+        TokenServices.updateToken(token.toString(), "").then((result) {
+          if('success' == result){
+            print("Updated token successfully");
+          } else {
+            print("Error updating token");
+          }
+        });
+
+        setState(() {
+          userSessionFuture = false;
+          ClientInfo = null; // Clear the client info
+          Navigator.of(context).pop();
+        });
+      } else {
+        _custSnackbar(context, "Error occured!", Colors.redAccent, Icons.dangerous_rounded);
+      }
+    } else {
+      _custSnackbar(context, "Error occured!!", Colors.redAccent, Icons.dangerous_rounded);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+
+    double screenHeight = MediaQuery.of(context).size.height;
+    double screenWidth = MediaQuery.of(context).size.width;
+
+    var fontNormalSize = ResponsiveTextUtils.getNormalFontSize(screenWidth);
+    var fontExtraSize = ResponsiveTextUtils.getExtraFontSize(screenWidth);
 
     return Scaffold(
       appBar: const CustomAppBar(title: 'Profile', imagePath: '',),
@@ -225,7 +311,7 @@ class _ProfilePageState extends State<ProfilePage> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const SizedBox(height: 10,),
+                  SizedBox(height: screenHeight * 0.02,),
                   InkWell(
                     onTap: (){
                       if(disabling != true){
@@ -236,18 +322,18 @@ class _ProfilePageState extends State<ProfilePage> {
                       children: [
                         imagepath != null
                             ? CircleAvatar(
-                          radius: 64,
+                          radius: (screenHeight + screenWidth) / 18,
                           backgroundImage: FileImage(imagepath!),
                         )
                             : showimage != null && showimage != ""
                             ? CircleAvatar(
-                          radius: 64,
+                          radius: (screenHeight + screenWidth) / 18,
                           backgroundImage: NetworkImage(API.clientsImages + showimage!),
                         )
-                            : const CircleAvatar(
-                          radius: 64,
+                            : CircleAvatar(
+                          radius: (screenHeight + screenWidth) / 18,
                           foregroundColor: Colors.deepOrange,
-                          child: Icon(Icons.photo, color: Colors.deepOrange, size: 50,),
+                          child: Icon(Icons.photo, color: Colors.deepOrange, size: (screenHeight + screenWidth) / 18,),
                         ),
 
                         disabling == false
@@ -258,35 +344,35 @@ class _ProfilePageState extends State<ProfilePage> {
                   ),
 
                   //fullname textfield
-                  const SizedBox(height: 25,),
+                  SizedBox(height: screenHeight * 0.02,),
                   PersonNameTextField(
                     controller: nameController,
                     hintText: 'Fullname',
                     disabling: disabling,
                   ),
 
-                  const SizedBox(height: 10,),
+                  SizedBox(height: screenHeight * 0.01,),
                   NormalTextField(
                     controller: compnameController,
                     hintText: 'Company Name',
                     disabling: disabling,
                   ),
 
-                  const SizedBox(height: 10,),
+                  SizedBox(height: screenHeight * 0.01,),
                   NormalTextField(
                     controller: locationController,
                     hintText: 'Location',
                     disabling: disabling,
                   ),
 
-                  const SizedBox(height: 10,),
+                  SizedBox(height: screenHeight * 0.01,),
                   NormalTextField(
                     controller: projnameController,
                     hintText: 'Project Name',
                     disabling: disabling,
                   ),
 
-                  const SizedBox(height: 10,),
+                  SizedBox(height: screenHeight * 0.01,),
                   Contact2TextField(
                     controller: contactController,
                     hintText: 'Contact # (09xxxxxxxxx)',
@@ -294,7 +380,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   ),
 
                   //email textfield
-                  const SizedBox(height: 10,),
+                  SizedBox(height: screenHeight * 0.01,),
                   EmailTextField(
                     controller: emailController,
                     hintText: 'Email',
@@ -315,21 +401,21 @@ class _ProfilePageState extends State<ProfilePage> {
                   });
                 },
                 child: Padding(
-                  padding: const EdgeInsets.only(top: 8.0, right: 20.0),
+                  padding: EdgeInsets.only(top: screenHeight * 0.02, right: screenWidth * 0.05),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       CircleAvatar(
-                        radius: 24,
+                        radius: (screenHeight + screenWidth) / 45,
                         backgroundColor: Colors.yellow.shade700,
-                        child: Icon(Icons.edit, color: Colors.yellowAccent, size: 21,),
+                        child: Icon(Icons.edit, color: Colors.yellowAccent, size: (screenHeight + screenWidth) / 50,),
                       ),
                     ],
                   ),
                 )
             )
                 : Padding(
-              padding: const EdgeInsets.only(top: 8.0, right: 20.0),
+              padding: EdgeInsets.only(top: screenHeight * 0.02, right: screenWidth * 0.05),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
@@ -338,9 +424,9 @@ class _ProfilePageState extends State<ProfilePage> {
                       editInfo();
                     },
                     child: CircleAvatar(
-                      radius: 24,
+                      radius: (screenHeight + screenWidth) / 45,
                       backgroundColor: Colors.green,
-                      child: Icon(Icons.save, color: Colors.greenAccent, size: 21,),
+                      child: Icon(Icons.save, color: Colors.greenAccent, size: (screenHeight + screenWidth) / 50,),
                     ),
                   ),
 
@@ -356,12 +442,94 @@ class _ProfilePageState extends State<ProfilePage> {
                       });
                     },
                     child: CircleAvatar(
-                      radius: 24,
+                      radius: (screenHeight + screenWidth) / 45,
                       backgroundColor: Colors.red.shade600,
-                      child: Icon(Icons.close, color: Colors.white, size: 21,),
+                      child: Icon(Icons.close, color: Colors.white, size: (screenHeight + screenWidth) / 50,),
                     ),
                   ),
                 ],
+              ),
+            ),
+
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.06, vertical: screenHeight * 0.03),
+              child: customButton(
+                onTap: () {
+                  showDialog(
+                    context: context,
+                    builder: (context) => AlertDialog(
+                      title: Text(
+                        'ACCOUNT DELETION',
+                        textAlign: TextAlign.center,
+                        style: GoogleFonts.rowdies(
+                          textStyle: TextStyle(
+                              fontSize: fontExtraSize,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.redAccent,
+                              letterSpacing: 0.8
+                          ),
+                        ),
+                      ),
+                      content: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          SizedBox(height: screenHeight * 0.02),
+                          Text(
+                            'Are you sure to delete your account?',
+                            textAlign: TextAlign.center,
+                            style: GoogleFonts.lato(
+                              textStyle: TextStyle(
+                                  fontSize: fontNormalSize,
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.bold,
+                                  letterSpacing: 0.8
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      actions: [
+                        TextButton(
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                          child: Text(
+                            'CANCEL',
+                            style: GoogleFonts.rowdies(
+                              textStyle: TextStyle(
+                                  fontSize: fontExtraSize,
+                                  color: Colors.black54,
+                                  letterSpacing: 0.8
+                              ),
+                            ),
+                          ),
+                        ),
+                        TextButton(
+                          onPressed: () {
+                            setState(() {
+                              deleteClient();
+                              Navigator.of(context).pop();
+                            });
+                          },
+                          child: Text(
+                            'YES',
+                            style: GoogleFonts.rowdies(
+                              textStyle: TextStyle(
+                                  fontSize: fontExtraSize,
+                                  color: Colors.redAccent,
+                                  letterSpacing: 0.8
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  );
+                },
+                text: 'DELETE ACCOUNT',
+                clr: Colors.redAccent,
+                fontSize: fontExtraSize,
               ),
             ),
           ],
