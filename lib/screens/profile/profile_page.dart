@@ -216,7 +216,7 @@ class _ProfilePageState extends State<ProfilePage> {
   Widget build(BuildContext context) {
 
     return Scaffold(
-      appBar: const CustomAppBar(title: 'Profile', imagePath: '',),
+      appBar: CustomAppBar(title: 'Profile', imagePath: '', appBarHeight: MediaQuery.of(context).size.height * 0.05,),
       body: Center(
         child: ListView(
           children: [

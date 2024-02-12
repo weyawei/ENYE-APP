@@ -171,10 +171,10 @@ class _productsPageState extends State<productsPage> with TickerProviderStateMix
       builder: (BuildContext context) {
         return AlertDialog(
           // title: Text('Start Speaking'),
-          content: Text('Start Speaking.....'),
+          content: Text('Start Speaking.....', style: TextStyle(fontSize: MediaQuery.of(context).size.width * 0.02),),
           actions: <Widget>[
             ElevatedButton(
-              child: Text('Done'),
+              child: Text('Done', style: TextStyle(fontSize: MediaQuery.of(context).size.width * 0.025),),
               onPressed: () {
                 Navigator.of(context).pop(); // Close the dialog
                 _stopListening(); // Start listening for speech
@@ -190,8 +190,18 @@ class _productsPageState extends State<productsPage> with TickerProviderStateMix
   Widget build(BuildContext context) {
     _prodCategory.shuffle();
 
+	double screenHeight = MediaQuery.of(context).size.height;
+        double screenWidth = MediaQuery.of(context).size.width;
+
+        bool screenLayout = ResponsiveTextUtils.getLayout(screenWidth);
+
+	var fontSmallSize = ResponsiveTextUtils.getSmallFontSize(screenWidth);
+    var fontNormalSize = ResponsiveTextUtils.getNormalFontSize(screenWidth);
+    var fontExtraSize = ResponsiveTextUtils.getExtraFontSize(screenWidth);
+	
+
     return Scaffold(
-      appBar: CustomAppBar(title: 'PRODUCTS', imagePath: 'assets/logo/enyecontrols.png'),
+      appBar: CustomAppBar(title: 'PRODUCTS', imagePath: 'assets/logo/enyecontrols.png', appBarHeight: MediaQuery.of(context).size.height * 0.05,),
       drawer: productDrawer(),
       body: _isLoadingCategory || _isLoadingProducts
         ? Center(child: SpinningContainer(controller: _controller),)
@@ -205,12 +215,17 @@ class _productsPageState extends State<productsPage> with TickerProviderStateMix
                   controller: searchController,
                   decoration: InputDecoration(
                     labelText: 'Search name of products',
-                    prefixIcon: Icon(Icons.search),
+		    labelStyle: TextStyle(
+			color: Colors.black,
+			fontSize: MediaQuery.of(context).size.width * 0.02,
+			fontStyle: FontStyle.italic,
+			),
+                    prefixIcon: Icon(Icons.search, size: MediaQuery.of(context).size.width * 0.06,),
                     suffixIcon: IconButton(
                      /* icon: Icon(_isListening ? Icons.mic_off : Icons.mic),
                       onPressed: _isListening ? _stopListening : _showStartSpeakingDialog,*/
 
-                      icon: Icon(Icons.mic),
+                      icon: Icon(Icons.mic, size: MediaQuery.of(context).size.width * 0.06,),
                       onPressed:  (){
                         _startListening();
                         _showStartSpeakingDialog();
@@ -258,7 +273,7 @@ class _productsPageState extends State<productsPage> with TickerProviderStateMix
                               },
 
                               child: ListTile(
-                                title: Text(product.name),
+                                title: Text(product.name, style: TextStyle(fontSize: MediaQuery.of(context).size.width * 0.02),),
                                 // Add additional widgets or customize the display of each product
                               ),
                             )
@@ -294,8 +309,8 @@ class _productsPageState extends State<productsPage> with TickerProviderStateMix
                 child: CarouselSlider(
                   options: CarouselOptions(
                     autoPlay: true,
-                    aspectRatio: 1.5,
-                    viewportFraction: 0.9,
+                    aspectRatio: 1.8,
+                    viewportFraction: 0.5,
                     enlargeCenterPage: true,
                     enlargeStrategy: CenterPageEnlargeStrategy.height,
                   ),
@@ -321,7 +336,10 @@ class _productsPageState extends State<productsPage> with TickerProviderStateMix
                               Image.network(
                                 //"${API.prodCategIcon + widget.productcategory.icon}",
                                   "${API.prodImg + _products.where((product) => product.category_id == productCategory.id).elementAt(0).image}",
-                                  fit: BoxFit.fill, width: 1000.0),
+                                  fit: BoxFit.contain,
+                                  width: MediaQuery.of(context).size.width * 0.9,
+                                  height: MediaQuery.of(context).size.width * 0.3 * 1.3,
+                              ),
                               Positioned(
                                 bottom: 0.0,
                                 left: 0.0,
@@ -338,11 +356,13 @@ class _productsPageState extends State<productsPage> with TickerProviderStateMix
                                     ),
                                   ),
                                   padding:
-                                  EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
+                                  EdgeInsets.symmetric(vertical: 5.0, horizontal: 20.0),
                                   child: Text(
                                     productCategory.name,
-                                    style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                                      color: Colors.white,
+                                    style: TextStyle(
+                                      fontSize: MediaQuery.of(context).size.width * 0.025,
+				      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
 
                                     ),
                                   ),
@@ -361,8 +381,8 @@ class _productsPageState extends State<productsPage> with TickerProviderStateMix
                 padding: EdgeInsets.symmetric(horizontal: 6.0, vertical: 8.0),
                 physics: const NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 4,
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: screenLayout ? 4 : 5,
                   childAspectRatio: 0.8,
                   crossAxisSpacing: 6.0,
                   mainAxisSpacing: 6.0,
@@ -371,7 +391,7 @@ class _productsPageState extends State<productsPage> with TickerProviderStateMix
                   crossAxisCount: 4  ,
                   childAspectRatio: 0.8,
                 ),*/
-                itemCount: 8,
+                itemCount: screenLayout ? 8 : 10,
                 itemBuilder: (context, index) {
                   if (index < _prodCategory.length) {
                     return InkWell(
@@ -404,8 +424,8 @@ class _productsPageState extends State<productsPage> with TickerProviderStateMix
                           children: [
                             Image.network(
                               "${API.prodCategIcon + _prodCategory[index].icon}",
-                              height: 50,
-                              width: 50,
+                              height: MediaQuery.of(context).size.width * 0.1, // Adjust as needed
+                              width: MediaQuery.of(context).size.width * 0.1, // Adjust as needed
                             ),
                             // SizedBox(height: 15.0, width: 15,),
                             Flexible(
@@ -413,7 +433,7 @@ class _productsPageState extends State<productsPage> with TickerProviderStateMix
                                 textAlign: TextAlign.center,
                                 _prodCategory[index].name,
                                 style: TextStyle(
-                                  fontSize: 9,
+                                  fontSize: MediaQuery.of(context).size.width * 0.02,
                                   color: Colors.black,
                                   fontWeight: FontWeight.bold,
                                 ),
@@ -436,9 +456,9 @@ class _productsPageState extends State<productsPage> with TickerProviderStateMix
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text("most", style: TextStyle(fontFamily: 'DancingScript', fontStyle: FontStyle.italic, letterSpacing: 2.5, fontWeight: FontWeight.w900, fontSize: 36, color: Colors.deepOrange.shade300,),),
+                        Text("most", style: TextStyle(fontFamily: 'DancingScript', fontStyle: FontStyle.italic, letterSpacing: 2.5, fontWeight: FontWeight.w900, fontSize: MediaQuery.of(context).size.width * 0.09, color: Colors.deepOrange.shade300,),),
                         SizedBox(width: 13,),
-                        Text("POPULAR", style: TextStyle(fontFamily: 'Rowdies', fontStyle: FontStyle.italic, fontSize: 32, color: Colors.deepOrange,),),
+                        Text("POPULAR", style: TextStyle(fontFamily: 'Rowdies', fontStyle: FontStyle.italic, fontSize: MediaQuery.of(context).size.width * 0.09, color: Colors.deepOrange,),),
                       ],
                     ),
 

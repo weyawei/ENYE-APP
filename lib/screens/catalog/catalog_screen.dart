@@ -29,7 +29,7 @@ class CatalogScreen extends StatelessWidget {
     //detailedProjects = projectList.where((projectList) => projectList.proj_id == projId).toList();
     final List<Product> categoryProducts = Product.products.where((product) => product.subcategory == subCat).toList();
     return Scaffold(
-      appBar: CustomAppBar(title: '$subCat', imagePath: '',),
+      appBar: CustomAppBar(title: '$subCat', imagePath: '', appBarHeight: MediaQuery.of(context).size.height * 0.05,),
       body: Column(
         children: [
           Padding(

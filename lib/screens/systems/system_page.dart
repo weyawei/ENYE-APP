@@ -73,7 +73,7 @@ class SystemsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(title: 'Systems', imagePath: '',),
+      appBar: CustomAppBar(title: 'Systems', imagePath: '', appBarHeight: MediaQuery.of(context).size.height,),
       /*drawer: CustomDrawer(),*/
       body: CustomScrollView(
           slivers: [
@@ -685,7 +685,7 @@ class _SystemsPage1State extends State<SystemsPage1> {
     screenHeight = MediaQuery.of(context).size.height;
     screenWidth = MediaQuery.of(context).size.height;
     return Scaffold(
-      appBar: CustomAppBar(title: 'Systems', imagePath: '',),
+      appBar: CustomAppBar(title: 'Systems', imagePath: '', appBarHeight: MediaQuery.of(context).size.height,),
       backgroundColor: Colors.white,
       body: SafeArea(
         child: SingleChildScrollView(
@@ -786,7 +786,7 @@ class DetailScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(title: 'Systems', imagePath: '',),
+      appBar: CustomAppBar(title: 'Systems', imagePath: '', appBarHeight: MediaQuery.of(context).size.height * 0.05,),
 
       body: ListView(
         children: [

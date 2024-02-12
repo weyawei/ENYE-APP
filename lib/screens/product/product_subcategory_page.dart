@@ -51,7 +51,7 @@ class _subCatProductPageState extends State<subCatProductPage> {
     _filteredprodSubCategory = _prodSubCategory.where((productSubCategory) => productSubCategory.category_id == widget.category.id).toList();
 
     return Scaffold(
-      appBar: CustomAppBar(title: '', imagePath: 'assets/logo/enyecontrols.png',),
+      appBar: CustomAppBar(title: '', imagePath: 'assets/logo/enyecontrols.png', appBarHeight: MediaQuery.of(context).size.height * 0.05,),
 
       body: Column(
         children: [
@@ -60,7 +60,7 @@ class _subCatProductPageState extends State<subCatProductPage> {
             child: Text(
               'Type of ${widget.category.name}'.toUpperCase(),
               style: TextStyle(
-                fontSize: 14,
+                fontSize: MediaQuery.of(context).size.width * 0.03,
                 fontFamily: 'Rowdies',
               ),
               textAlign: TextAlign.center,
@@ -82,7 +82,7 @@ class _subCatProductPageState extends State<subCatProductPage> {
                     );
                   },
                   child: Container(
-                    height: 55,
+                    height: MediaQuery.of(context).size.width * 0.15,
                     width: screenWidth,
                     margin: EdgeInsets.only(
                       bottom: 12,
@@ -106,7 +106,7 @@ class _subCatProductPageState extends State<subCatProductPage> {
                           child: Text(
                             " ${_filteredprodSubCategory[index].name}",
                             style: TextStyle(
-                              fontSize: 14,
+                              fontSize: MediaQuery.of(context).size.width * 0.025,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
@@ -114,6 +114,7 @@ class _subCatProductPageState extends State<subCatProductPage> {
                         Icon(
                           Icons.label_important,
                           color: Colors.deepOrange,
+			  size: MediaQuery.of(context).size.width * 0.04
                         )
                       ],
                     ),

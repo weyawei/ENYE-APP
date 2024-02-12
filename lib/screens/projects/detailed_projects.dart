@@ -73,7 +73,7 @@ class _detailedProjPageState extends State<detailedProjPage> {
 
     return Scaffold(
       extendBody: true,
-      appBar: CustomAppBar(title: 'ENYE CONTROLS', imagePath: 'assets/logo/enyecontrols.png',),
+      appBar: CustomAppBar(title: 'ENYE CONTROLS', imagePath: 'assets/logo/enyecontrols.png', appBarHeight: MediaQuery.of(context).size.height * 0.05,),
       body: Container(
         decoration: BoxDecoration(
           image: DecorationImage(image: NetworkImage("${API.projectsImage + widget.projects.images}"), fit: BoxFit.fill),

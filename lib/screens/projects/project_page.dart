@@ -147,7 +147,7 @@ class _ProjectsPageState extends State<ProjectsPage> with TickerProviderStateMix
 
     return Scaffold(
       extendBody: true,
-      appBar: CustomAppBar(title: 'Projects', imagePath: '',),
+      appBar: CustomAppBar(title: 'Projects', imagePath: '', appBarHeight: MediaQuery.of(context).size.height * 0.05,),
       body: _isLoadingProj || _isLoadingCat
         ? Center(child: SpinningContainer(controller: _controller),)
         : SafeArea(

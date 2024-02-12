@@ -296,7 +296,7 @@ class _detailedSysPageState extends State<detailedSysPage> {
     var fontNormalSize = ResponsiveTextUtils.getNormalFontSize(screenWidth);
 
     return Scaffold(
-      appBar: CustomAppBar(title: 'Systems', imagePath: 'assets/logo/enyecontrols.png',),
+      appBar: CustomAppBar(title: 'Systems', imagePath: 'assets/logo/enyecontrols.png', appBarHeight: MediaQuery.of(context).size.height * 0.05,),
       /*drawer: CustomDrawer(),*/
       body: ListView(
           children: [

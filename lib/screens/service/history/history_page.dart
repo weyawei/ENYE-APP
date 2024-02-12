@@ -94,7 +94,7 @@ class _HistoryPageState extends State<HistoryPage> with TickerProviderStateMixin
     return GestureDetector(
       onTap: (){FocusScope.of(context).unfocus();},
       child: Scaffold(
-        appBar: CustomAppBar(title: 'History', imagePath: '',),
+        appBar: CustomAppBar(title: 'History', imagePath: '', appBarHeight: MediaQuery.of(context).size.height * 0.05,),
         /*drawer: CustomDrawer(),*/
         body: _isLoading
           ? Center(child: SpinningContainer(controller: _controller),)

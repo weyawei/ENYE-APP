@@ -47,6 +47,7 @@ class _productDrawerState extends State<productDrawer> {
   @override
   Widget build(BuildContext context) {
     return Drawer(
+      width: MediaQuery.of(context).size.width * 0.5 ,
       child: Column(
         children: [
           DrawerHeader(
@@ -57,7 +58,7 @@ class _productDrawerState extends State<productDrawer> {
                   color: Colors.white,
                   //   borderRadius: BorderRadius.all(Radius.circular(10.0)),
                   image: DecorationImage(
-                      image: AssetImage("assets/images_1/wallpaper.jpg"), fit: BoxFit.cover)
+                      image: AssetImage("assets/images_1/wallpaper.jpg"), fit: BoxFit.cover, )
               ),
             ),
           ),

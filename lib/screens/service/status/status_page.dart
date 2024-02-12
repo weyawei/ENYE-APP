@@ -349,7 +349,7 @@ class _StatusPageState extends State<StatusPage> with TickerProviderStateMixin {
     return GestureDetector(
       onTap: (){FocusScope.of(context).unfocus();},
       child: Scaffold(
-        appBar: CustomAppBar(title: 'Status', imagePath: '',),
+        appBar: CustomAppBar(title: 'Status', imagePath: '', appBarHeight: MediaQuery.of(context).size.height * 0.05,),
         /*drawer: CustomDrawer(),*/
         body: _isLoading
           ? Center(child: SpinningContainer(controller: _controller),)

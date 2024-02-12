@@ -72,7 +72,7 @@ class _systemsPageState extends State<systemsPage> with TickerProviderStateMixin
         FocusScope.of(context).unfocus();
       },
       child: Scaffold(
-        appBar: CustomAppBar(title: 'Systems', imagePath: '',),
+        appBar: CustomAppBar(title: 'Systems', imagePath: '', appBarHeight: MediaQuery.of(context).size.height * 0.05,),
         backgroundColor: Colors.white,
         body: _isLoading
           ? Center(child: SpinningContainer(controller: _controller),)

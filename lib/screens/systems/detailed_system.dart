@@ -298,7 +298,7 @@ class _detailedSysPageState extends State<detailedSysPage> {
   Widget build(BuildContext context) {
 
     return Scaffold(
-      appBar: CustomAppBar(title: 'Systems', imagePath: 'assets/logo/enyecontrols.png',),
+      appBar: CustomAppBar(title: 'Systems', imagePath: 'assets/logo/enyecontrols.png', appBarHeight: MediaQuery.of(context).size.height * 0.05,),
       /*drawer: CustomDrawer(),*/
       body: Stack(
         children: [

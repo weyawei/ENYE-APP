@@ -210,7 +210,7 @@ class _ProductPageState extends State<ProductPage> {
     return GestureDetector(
         onTap: handleScreenTap,
         child: Scaffold(
-           appBar: CustomAppBar(title: 'PRODUCTS', imagePath: ''),
+           appBar: CustomAppBar(title: 'PRODUCTS', imagePath: '', appBarHeight: MediaQuery.of(context).size.height * 0.05,),
               drawer: CustomDrawer1(),
               body: SingleChildScrollView(
         child: Column(
