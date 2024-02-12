@@ -11,19 +11,19 @@ class ResponsiveTextUtils {
 
   static double getSmallFontSize(double width) {
     if (width <= 500) {
-      return 10.0;
+      return 12.0;
     } else if (width > 500 && width <= 1100) {
-      return 16.0;
+      return 18.0;
     } else {
-      return 20.0;
+      return 24.0;
     }
   }
 
   static double getNormalFontSize(double width) {
     if (width <= 500) {
-      return 13.0;
+      return 14.0;
     } else if (width > 500 && width <= 1100) {
-      return 21.0;
+      return 24.0;
     } else {
       return 29.0;
     }
@@ -33,7 +33,7 @@ class ResponsiveTextUtils {
     if (width <= 500) {
       return 16.0;
     } else if (width > 500 && width <= 1100) {
-      return 23.0;
+      return 28.0;
     } else {
       return 33.0;
     }

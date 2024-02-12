@@ -313,6 +313,7 @@ class _BookingSystemState extends State<BookingSystem> {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
               children: [
+                SizedBox(height: screenHeight * 0.02),
                 Text(
                   'You have booked the following appointment:',
                   textAlign: TextAlign.center,
@@ -325,7 +326,7 @@ class _BookingSystemState extends State<BookingSystem> {
                     ),
                   ),
                 ),
-                SizedBox(height: screenHeight * 0.03),
+                SizedBox(height: screenHeight * 0.02),
                 Text('Date Booked: ${DateFormat.yMMMd().format(DateTime.parse(selectedDate.toString()))}',
                   style: GoogleFonts.lato(
                     textStyle: TextStyle(
@@ -510,6 +511,7 @@ class _BookingSystemState extends State<BookingSystem> {
                   style: GoogleFonts.rowdies(
                     textStyle: TextStyle(
                         fontSize: fontExtraSize,
+                        color: Colors.deepOrange,
                         letterSpacing: 0.8
                     ),
                   ),
@@ -553,9 +555,7 @@ class _BookingSystemState extends State<BookingSystem> {
     return KeyboardVisibilityBuilder(
       builder: (context, isKeyboardVisible){
         return Scaffold(
-          appBar: AppBar(
-            title: Text('Booking System'),
-          ),
+          appBar: CustomAppBar(title: 'Booking System', imagePath: '',),
           resizeToAvoidBottomInset: true,
           body: SingleChildScrollView(
             padding: EdgeInsets.all(16.0),
@@ -683,13 +683,16 @@ class _BookingSystemState extends State<BookingSystem> {
                 ),
 
                 SizedBox(height: screenHeight * 0.04),
-                customButton(
-                  onTap: () {
-                    addBooking();
-                  },
-                  text: 'BOOK',
-                  clr: Colors.deepOrange,
-                  fontSize: fontExtraSize,
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.06),
+                  child: customButton(
+                    onTap: () {
+                      addBooking();
+                    },
+                    text: 'BOOK',
+                    clr: Colors.deepOrange,
+                    fontSize: fontExtraSize,
+                  ),
                 ),
 
                 SizedBox(height: screenHeight * 0.02,),

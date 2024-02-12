@@ -14,7 +14,6 @@ class Normal2TextField extends StatelessWidget {
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
 
-    var fontSmallSize = ResponsiveTextUtils.getSmallFontSize(screenWidth);
     var fontNormalSize = ResponsiveTextUtils.getNormalFontSize(screenWidth);
 
     return Padding(
@@ -36,7 +35,7 @@ class Normal2TextField extends StatelessWidget {
         controller: controller,
         decoration: InputDecoration(
           errorStyle: TextStyle(
-              fontSize: fontSmallSize,
+              fontSize: fontNormalSize,
               letterSpacing: 0.8
           ),
           labelText: hintText,
@@ -63,7 +62,6 @@ class ContactTextField extends StatelessWidget {
 
     double screenWidth = MediaQuery.of(context).size.width;
     var fontNormalSize = ResponsiveTextUtils.getNormalFontSize(screenWidth);
-    var fontSmallSize = ResponsiveTextUtils.getSmallFontSize(screenWidth);
 
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.06),
@@ -92,7 +90,7 @@ class ContactTextField extends StatelessWidget {
           labelText: hintText,
           hintText: "09xxxxxxxxx",
           labelStyle: TextStyle(
-              fontSize: fontSmallSize,
+              fontSize: fontNormalSize,
               letterSpacing: 0.8
           ),
         ),
@@ -114,7 +112,6 @@ class NormalTextField extends StatelessWidget {
     double screenWidth = MediaQuery.of(context).size.width;
 
     var fontNormalSize = ResponsiveTextUtils.getNormalFontSize(screenWidth);
-    var fontSmallSize = ResponsiveTextUtils.getSmallFontSize(screenWidth);
 
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.06),
@@ -136,7 +133,7 @@ class NormalTextField extends StatelessWidget {
         controller: controller,
         decoration: InputDecoration(
           errorStyle: TextStyle(
-              fontSize: fontSmallSize,
+              fontSize: fontNormalSize,
               letterSpacing: 0.8
           ),
           labelStyle: TextStyle(
@@ -178,7 +175,6 @@ class _PasswordTextFieldState extends State<PasswordTextField> {
 
     double screenWidth = MediaQuery.of(context).size.width;
 
-    var fontSmallSize = ResponsiveTextUtils.getSmallFontSize(screenWidth);
     var fontNormalSize = ResponsiveTextUtils.getNormalFontSize(screenWidth);
 
     return Padding(
@@ -203,7 +199,7 @@ class _PasswordTextFieldState extends State<PasswordTextField> {
         obscureText: passToggle,
         decoration: InputDecoration(
           errorStyle: TextStyle(
-              fontSize: fontSmallSize,
+              fontSize: fontNormalSize,
               letterSpacing: 0.8
           ),
           prefixIcon: Icon(Icons.lock),
@@ -243,7 +239,6 @@ class EmailTextField extends StatelessWidget {
 
     double screenWidth = MediaQuery.of(context).size.width;
 
-    var fontSmallSize = ResponsiveTextUtils.getSmallFontSize(screenWidth);
     var fontNormalSize = ResponsiveTextUtils.getNormalFontSize(screenWidth);
 
     return Padding(
@@ -266,7 +261,7 @@ class EmailTextField extends StatelessWidget {
         controller: controller,
         decoration: InputDecoration(
           errorStyle: TextStyle(
-              fontSize: fontSmallSize,
+              fontSize: fontNormalSize,
               letterSpacing: 0.8
           ),
           prefixIcon: Icon(Icons.email),
@@ -298,7 +293,6 @@ class PersonNameTextField extends StatelessWidget {
 
     double screenWidth = MediaQuery.of(context).size.width;
 
-    var fontSmallSize = ResponsiveTextUtils.getSmallFontSize(screenWidth);
     var fontNormalSize = ResponsiveTextUtils.getNormalFontSize(screenWidth);
 
     return Padding(
@@ -319,7 +313,7 @@ class PersonNameTextField extends StatelessWidget {
         controller: controller,
         decoration: InputDecoration(
           errorStyle: TextStyle(
-              fontSize: fontSmallSize,
+              fontSize: fontNormalSize,
               letterSpacing: 0.8
           ),
           prefixIcon: Icon(Icons.person),
@@ -351,7 +345,6 @@ class Contact2TextField extends StatelessWidget {
 
     double screenWidth = MediaQuery.of(context).size.width;
 
-    var fontSmallSize = ResponsiveTextUtils.getSmallFontSize(screenWidth);
     var fontNormalSize = ResponsiveTextUtils.getNormalFontSize(screenWidth);
 
     String patttern = r'(^(?:[+0]9)?[0-9]{11,12}$)';
@@ -377,7 +370,7 @@ class Contact2TextField extends StatelessWidget {
         controller: controller,
         decoration: InputDecoration(
           errorStyle: TextStyle(
-              fontSize: fontSmallSize,
+              fontSize: fontNormalSize,
               letterSpacing: 0.8
           ),
           prefixIcon: Icon(Icons.call),
