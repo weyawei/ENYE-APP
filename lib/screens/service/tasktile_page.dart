@@ -164,7 +164,7 @@ class _TaskTileState extends State<TaskTile> {
                 SizedBox(height: 5),
                 widget.services.status == "Completed" || widget.services.status == "On Process"
                   ? Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     Container(
                       width: (screenWidth + screenHeight) / 17,

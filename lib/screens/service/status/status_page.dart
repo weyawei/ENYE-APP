@@ -510,17 +510,110 @@ class _StatusPageState extends State<StatusPage> with TickerProviderStateMixin {
   }
 
   _showBottomSheet (BuildContext context, TechnicalData services) {
-    double screenHeight = MediaQuery.of(context).size.height;
-    double screenWidth = MediaQuery.of(context).size.width;
 
     showModalBottomSheet(
         isScrollControlled: true,
         useRootNavigator: true,
         context: context,
         builder: (context) {
-          return Container(
+          double screenHeight = MediaQuery.of(context).size.height;
+          double screenWidth = MediaQuery.of(context).size.width;
+
+          EdgeInsets viewInsets = MediaQuery.of(context).viewInsets;
+          return Padding(
+            padding: EdgeInsets.only(bottom: viewInsets.bottom),
+            child: MasonryGridView(
+              physics: NeverScrollableScrollPhysics(),
+              shrinkWrap: true,
+              gridDelegate: SliverSimpleGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 1,
+              ),
+              children: <Widget> [
+                Container(
+                  height: screenHeight * 0.007,
+                  margin: EdgeInsets.only(
+                      left: MediaQuery.of(context).size.width * 0.2,
+                      right: MediaQuery.of(context).size.width * 0.2,
+                      top: 4
+                  ),
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      color: Colors.grey[300]
+                  ),
+                ),
+
+                SizedBox(height: screenHeight * 0.04,),
+
+                services.status == "Unread" ?
+                Container(
+                  padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.02),
+                  child: _bottomSheetButton(
+                    label: "CANCEL",
+                    onTap: (){
+                      setState(() {
+                        Navigator.pop(context);
+                        _showAnotherBottomSheet(context, services, "Cancel");
+                      });
+                    },
+                    clr: Colors.redAccent,
+                    context:context,
+                  ),
+                ): SizedBox.shrink(),
+
+                services.status == "Set-sched" ?
+                Container(
+                  padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.02),
+                  child: _bottomSheetButton(
+                    label: "ACCEPT",
+                    onTap: (){
+                      setState(() {
+                        Navigator.pop(context);
+                        _showDatePicker(context, services, "Accept");
+                      });
+                    },
+                    clr: Colors.green,
+                    context:context,
+                  ),
+                ): SizedBox.shrink(),
+
+                services.status == "Set-sched" ?
+                Container(
+                  padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.02),
+                  child: _bottomSheetButton(
+                    label: "RE-SCHED",
+                    onTap: (){
+                      setState(() {
+                        Navigator.pop(context);
+                        _showDatePicker(context, services, "Re-sched");
+                      });
+                    },
+                    clr: Colors.redAccent,
+                    context:context,
+                  ),
+                ): SizedBox.shrink(),
+
+                const SizedBox(height: 20,),
+                Container(
+                  padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.02),
+                  child: _bottomSheetButton(
+                    label: "CLOSE",
+                    onTap: (){
+                      Navigator.pop(context);
+                    },
+                    clr: Colors.orangeAccent,
+                    context:context,
+                    isClose: true,
+                  ),
+                ),
+
+                SizedBox(height: screenHeight * 0.01,),
+              ],
+            ),
+          );
+
+            /*Container(
             padding: const EdgeInsets.only(top: 4),
-            width: screenWidth * 0.1,
+            width: screenWidth,
             height: services.status == "Set-sched"
                 ? screenHeight * 0.34
                 : screenHeight * 0.24,
@@ -592,7 +685,7 @@ class _StatusPageState extends State<StatusPage> with TickerProviderStateMixin {
                 const SizedBox(height: 10,),
               ],
             ),
-          );
+          );*/
         }
     );
   }
@@ -610,8 +703,9 @@ class _StatusPageState extends State<StatusPage> with TickerProviderStateMixin {
           var fontNormalSize = ResponsiveTextUtils.getNormalFontSize(screenWidth);
           var fontExtraSize = ResponsiveTextUtils.getExtraFontSize(screenWidth);
 
+          EdgeInsets viewInsets = MediaQuery.of(context).viewInsets;
           return Padding(
-            padding: MediaQuery.of(context).viewInsets,
+            padding: EdgeInsets.only(bottom: viewInsets.bottom),
             child: MasonryGridView(
               physics: NeverScrollableScrollPhysics(),
               shrinkWrap: true,
@@ -622,8 +716,8 @@ class _StatusPageState extends State<StatusPage> with TickerProviderStateMixin {
                 Container(
                   height: screenHeight * 0.007,
                   margin: EdgeInsets.only(
-                    left: MediaQuery.of(context).size.width * 0.3,
-                    right: MediaQuery.of(context).size.width * 0.3,
+                    left: MediaQuery.of(context).size.width * 0.2,
+                    right: MediaQuery.of(context).size.width * 0.2,
                     top: 4
                   ),
                   decoration: BoxDecoration(
