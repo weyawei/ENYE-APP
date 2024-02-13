@@ -281,6 +281,56 @@ class EmailTextField extends StatelessWidget {
   }
 }
 
+class Email2TextField extends StatelessWidget {
+  final controller;
+  final String hintText;
+  final bool disabling;
+
+  const Email2TextField({super.key, required this.controller, required this.hintText, required this.disabling});
+
+  @override
+  Widget build(BuildContext context) {
+
+    double screenWidth = MediaQuery.of(context).size.width;
+
+    var fontNormalSize = ResponsiveTextUtils.getNormalFontSize(screenWidth);
+
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.06),
+      child: TextFormField(
+        style: GoogleFonts.lato(
+          textStyle:
+          TextStyle(fontSize: fontNormalSize, fontWeight: FontWeight.w500, letterSpacing: 0.8),
+        ),
+        onEditingComplete: (){},
+        validator: (value) {
+          if (value == null || value.isEmpty) {
+            return 'Required !';
+          } else if (EmailValidator.validate(value) == false) {
+            return 'Please enter valid email';
+          }
+          return null;
+        },
+        maxLines: null,
+        keyboardType: TextInputType.multiline,
+        controller: controller,
+        decoration: InputDecoration(
+          errorStyle: TextStyle(
+              fontSize: fontNormalSize,
+              letterSpacing: 0.8
+          ),
+          labelText: hintText,
+          hintText: "sample@email.com",
+          labelStyle: TextStyle(
+              fontSize: fontNormalSize,
+              letterSpacing: 0.8
+          ),
+        ),
+      ),
+    ) ;
+  }
+}
+
 class PersonNameTextField extends StatelessWidget {
   final controller;
   final String hintText;

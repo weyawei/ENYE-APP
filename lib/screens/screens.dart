@@ -43,6 +43,9 @@ export 'service/tasktile_page.dart';
 export 'service/status/status_page.dart';
 export 'service/history/history_page.dart';
 
+export 'service/help/help_page.dart';
+export 'service/help/content_model.dart';
+
 export 'login/login_page.dart';
 export 'login/register_page.dart';
 export 'login/clientinfo.dart';

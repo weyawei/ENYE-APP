@@ -388,7 +388,10 @@ class _ServicePageState extends State<ServicePage> {
               GestureDetector(
                 onTap: (){
                   if (userSessionFuture == true) {
-                    _errorSnackbar(context, "still ongoing...");
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => Onbording()),
+                    );
                   } else {
                     _errorSnackbar(context, "Login first !");
                   }
