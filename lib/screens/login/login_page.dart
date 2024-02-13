@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_session_manager/flutter_session_manager.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
+import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
 import '../../config/config.dart';
 import '../../widget/widgets.dart';
@@ -270,6 +271,72 @@ class _loginPageState extends State<loginPage> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
+                  GestureDetector(
+                    onTap: () async {
+
+                      final credential = await SignInWithApple.getAppleIDCredential(
+                        scopes: [
+                          AppleIDAuthorizationScopes.email,
+                          AppleIDAuthorizationScopes.fullName,
+                        ],
+                      );
+
+// Concatenate givenName and familyName to form the full name
+                      String? fullName;
+                      if (credential.givenName != null && credential.familyName != null) {
+                        fullName = "${credential.givenName!} ${credential.familyName!}";
+                      }
+
+                      print("Full Name: $fullName"); // Debugging
+
+
+// Use the credential to sign in or create a user account with Firebase
+                      final OAuthProvider oAuthProvider = OAuthProvider("apple.com");
+                      final AuthCredential appleCredential = oAuthProvider.credential(
+                        idToken: credential.identityToken,
+                        accessToken: credential.authorizationCode,
+                      );
+
+// Sign in with Firebase using the Apple credentials
+                      final UserCredential userCredential = await FirebaseAuth.instance.signInWithCredential(appleCredential);
+                      final User user = userCredential.user!;
+
+// Update user profile with retrieved data
+                      String? photoURL = user.photoURL;
+
+                      print("Photo URL: $photoURL"); // Debugging
+
+// Set client data in session manager
+                      await SessionManager().set("client_data", clientInfo(
+                        client_id: user.uid,
+                        name: FirebaseAuth.instance.currentUser!.displayName.toString(), // Use fullName if not null, otherwise use an empty string
+                        company_name: '',
+                        location: '',
+                        project_name: '',
+                        contact_no: '',
+                        image: user.photoURL.toString(), // Use photoURL if not null, otherwise use an empty string
+                        email: user.email.toString(),
+                        login: 'APPLE', // Indicate this as an Apple login
+                      ));
+
+
+                      dynamic token = await SessionManager().get("token");
+                      TokenServices.updateToken(token.toString(), FirebaseAuth.instance.currentUser!.uid.toString()).then((result) {
+                        if('success' == result){
+                          print("Updated token successfully");
+                        } else {
+                          print("Error updating token");
+                        }
+                      });
+                      Navigator.pop(context);
+                    },
+                    child: Image(
+                      image: AssetImage('assets/logo/apple_logo.png'),
+                      height: (screenHeight + screenWidth) / 28,
+                      width: (screenHeight + screenWidth) / 28,
+                    ),
+                  ),
+
                   GestureDetector(
                     onTap: () async {
                       await FirebaseServices().signInWithGoogle();
