@@ -72,7 +72,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: CustomAppBar(title: '', imagePath: 'assets/logo/enyecontrols.png',),
+        appBar: CustomAppBar(title: '', imagePath: 'assets/logo/enyecontrols.png', appBarHeight: MediaQuery.of(context).size.height * 0.05,),
         /*drawer: CustomDrawer(),*/
         body: Container(
           height: MediaQuery.of(context).size.height * 1,

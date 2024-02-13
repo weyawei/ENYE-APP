@@ -96,7 +96,7 @@ class _homePageState extends State<homePage>{
     var fontXXXSize = ResponsiveTextUtils.getXXXFontSize(screenWidth);
 
     return Scaffold(
-      appBar: CustomAppBar(title: '', imagePath: 'assets/logo/enyecontrols.png',),
+      appBar: CustomAppBar(title: '', imagePath: 'assets/logo/enyecontrols.png', appBarHeight: MediaQuery.of(context).size.height * 0.05,),
       body: ListView(
         children: [
           MasonryGridView(

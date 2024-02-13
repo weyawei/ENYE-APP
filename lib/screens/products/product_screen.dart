@@ -26,7 +26,7 @@ final Product product;
   Widget build(BuildContext context) {
     final filteredInfo = ProductInfo.info.where((info) => info.subcategory == product.subcategory && info.name == product.name);
     return Scaffold(
-      appBar: CustomAppBar(title: product.name, imagePath: '',),
+      appBar: CustomAppBar(title: product.name, imagePath: '', appBarHeight: MediaQuery.of(context).size.height * 0.05,),
       body: ListView(
           children:[
             ProductCarouselCard(product: product),

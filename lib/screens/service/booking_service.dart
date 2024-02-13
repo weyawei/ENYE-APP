@@ -555,7 +555,7 @@ class _BookingSystemState extends State<BookingSystem> {
     return KeyboardVisibilityBuilder(
       builder: (context, isKeyboardVisible){
         return Scaffold(
-          appBar: CustomAppBar(title: 'Booking System', imagePath: '',),
+          appBar: CustomAppBar(title: 'Booking System', imagePath: '', appBarHeight: MediaQuery.of(context).size.height * 0.05),
           resizeToAvoidBottomInset: true,
           body: SingleChildScrollView(
             padding: EdgeInsets.all(16.0),

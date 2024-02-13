@@ -114,7 +114,7 @@ class _detailedProductPageState extends State<detailedProductPage> {
   Widget build(BuildContext context) {
 
     return Scaffold(
-      appBar: CustomAppBar(title: widget.products.name, imagePath: '',),
+      appBar: CustomAppBar(title: widget.products.name, imagePath: '', appBarHeight: MediaQuery.of(context).size.height * 0.05,),
       body: ListView(
         children:[
           Container(
@@ -124,7 +124,10 @@ class _detailedProductPageState extends State<detailedProductPage> {
               child: Center(
                 child: Stack(
                   children: <Widget>[
-                    Image.network("${API.prodImg + widget.products.image}", fit: BoxFit.fill, width: MediaQuery.of(context).size.width,),
+                    Image.network("${API.prodImg + widget.products.image}", fit: BoxFit.contain,
+                      width: MediaQuery.of(context).size.width * 0.9,
+                      height: MediaQuery.of(context).size.width * 0.4 * 1.1,
+                    ),
                     Positioned(
                       bottom: 0.0,
                       left: 0.0,
@@ -144,7 +147,7 @@ class _detailedProductPageState extends State<detailedProductPage> {
                         EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
                         child: Text(
                           widget.products.name,
-                          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white),
+                          style: TextStyle(fontSize: MediaQuery.of(context).size.width * 0.04, fontWeight: FontWeight.bold, color: Colors.white),
                           textAlign: TextAlign.center,
                         ),
                       ),
@@ -296,7 +299,7 @@ class _detailedProductPageState extends State<detailedProductPage> {
                   title: Text(
                     _productDetail[index].title,
                     style: TextStyle(
-                      fontSize: 24,
+                      fontSize: MediaQuery.of(context).size.width * 0.025,
                       fontWeight: FontWeight.bold,
                     ),
                     textAlign: TextAlign.center,
@@ -308,7 +311,7 @@ class _detailedProductPageState extends State<detailedProductPage> {
                           child: Container(
                             padding: EdgeInsets.symmetric(horizontal: 16.0),
                             child: Text(_productDetail[index].description, maxLines: null, textAlign: TextAlign.justify,
-                              style: TextStyle(fontSize: 16, fontStyle: FontStyle.italic, letterSpacing: 1, color: Colors.grey.shade600),
+                              style: TextStyle(fontSize: MediaQuery.of(context).size.width * 0.025, fontStyle: FontStyle.italic, letterSpacing: 1, color: Colors.grey.shade600),
                             ),
                           ),
                         ),
@@ -336,56 +339,60 @@ class _detailedProductPageState extends State<detailedProductPage> {
         ],
       ),
 
-      floatingActionButton: FloatingActionButton(
-        onPressed: () =>
-          widget.products.catalogs_pdf.isEmpty || widget.products.catalogs_pdf == null || widget.products.catalogs_pdf == ''
-          ? _errorSnackbar(context, "PDF File don't exist.")
-          : openFile(
-            url: "${API.prodPdf + widget.products.catalogs_pdf}",
-            filename: "${widget.products.catalogs_pdf}",
-          ),
-        child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              _progress != null
-                  ? Column(
-                children: <Widget>[
-                  SizedBox(
-                    height: 40,
-                    child: Stack(
-                      children: <Widget>[
-                        Container(
-                          width: 40,
-                          height: 40,
-                          child:
-                          const CircularProgressIndicator(
-                            color: Colors.white,
+      floatingActionButton: Container(
+        width: MediaQuery.of(context).size.width * 0.12,
+        height: MediaQuery.of(context).size.height * 0.12,
+        child: FloatingActionButton(
+          onPressed: () =>
+            widget.products.catalogs_pdf.isEmpty || widget.products.catalogs_pdf == null || widget.products.catalogs_pdf == ''
+            ? _errorSnackbar(context, "PDF File don't exist.")
+            : openFile(
+              url: "${API.prodPdf + widget.products.catalogs_pdf}",
+              filename: "${widget.products.catalogs_pdf}",
+            ),
+          child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                _progress != null
+                    ? Column(
+                  children: <Widget>[
+                    SizedBox(
+                      height: 40,
+                      child: Stack(
+                        children: <Widget>[
+                          Container(
+                            width: 40,
+                            height: 40,
+                            child:
+                            const CircularProgressIndicator(
+                              color: Colors.white,
+                            ),
                           ),
-                        ),
-                        Positioned(
-                            bottom: 0,
-                            left: 0,
-                            right: 0,
-                            top: 15,
-                            child: Text(
-                              "${_progress?.toInt().toString()} %",
-                              textAlign:
-                              TextAlign.center,
-                              style: TextStyle(
-                                fontSize: 11,
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            )),
-                      ],
+                          Positioned(
+                              bottom: 0,
+                              left: 0,
+                              right: 0,
+                              top: 15,
+                              child: Text(
+                                "${_progress?.toInt().toString()} %",
+                                textAlign:
+                                TextAlign.center,
+                                style: TextStyle(
+                                  fontSize: MediaQuery.of(context).size.width * 0.09,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              )),
+                        ],
+                      ),
                     ),
-                  ),
-                ],
-              )
-                  : Icon(Icons.remove_red_eye),
-              Text("PDF", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 11),),
-            ]
-        )
+                  ],
+                )
+                    : Icon(Icons.remove_red_eye),
+                Text("PDF", style: TextStyle(fontWeight: FontWeight.bold, fontSize: MediaQuery.of(context).size.width * 0.03),),
+              ]
+          )
+        ),
       )
     );
   }

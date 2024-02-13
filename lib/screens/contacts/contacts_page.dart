@@ -30,7 +30,7 @@ class ContactsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(title: 'Contact Us', imagePath: 'assets/logo/enyecontrols.png',),
+      appBar: CustomAppBar(title: 'Contact Us', imagePath: 'assets/logo/enyecontrols.png', appBarHeight: MediaQuery.of(context).size.height * 0.05,),
       /*drawer: CustomDrawer(),*/
       body: Container(
         decoration: const BoxDecoration(

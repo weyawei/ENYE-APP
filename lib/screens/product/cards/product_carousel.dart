@@ -18,10 +18,10 @@ class productCarousel extends StatelessWidget {
         physics: const NeverScrollableScrollPhysics(),
         shrinkWrap: true,
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2,
+          crossAxisCount: 3,
           crossAxisSpacing: 12.0,
           mainAxisSpacing: 12.0,
-          childAspectRatio: 1,
+          childAspectRatio: 1.4,
         ),
         itemCount: products.length,
         itemBuilder: (BuildContext context, int index) {
@@ -37,20 +37,50 @@ class productCarousel extends StatelessWidget {
             },
             child: Container(
               decoration: BoxDecoration(
-                color: Colors.white, borderRadius: BorderRadius.circular(5.0),
-                image: DecorationImage(image: NetworkImage("${API.prodImg + products[index].image}", scale: 3.0,), alignment: Alignment(0.0, -0.70))
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(5.0),
               ),
-              width: MediaQuery.of(context).size.width / 2.5,
-              child: Container(
-                padding: const EdgeInsets.all(12.0),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  mainAxisSize: MainAxisSize.max,
-                  children: [
-                    Expanded(child: Text(products[index].name, style: TextStyle(fontSize: 14.0, fontWeight: FontWeight.bold, color: Colors.deepOrange), maxLines: 3, softWrap: true,)),
-                    Icon(Icons.ads_click_sharp, color: Colors.deepOrange,),
-                  ],
-                ),
+              child: Column(
+                children: [
+		Expanded(
+                   child: SizedBox(
+                    width: MediaQuery.of(context).size.width * 0.2,
+                    height: MediaQuery.of(context).size.height * 0.6,
+                    child: DecoratedBox(
+                      decoration: BoxDecoration(
+                        image: DecorationImage(
+                          image: NetworkImage("${API.prodImg + products[index].image}"),
+                          alignment: Alignment(0.0, -0.70),
+                          fit: BoxFit.fill,
+                        ),
+                      ),
+                    ),
+                  ),
+		),
+                  Container(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      mainAxisSize: MainAxisSize.max,
+                      children: [
+                        Expanded(
+                          child: Text(
+                            products[index].name,
+                            style: TextStyle(
+                              fontSize: MediaQuery.of(context).size.width * 0.025,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.deepOrange,
+                            ),
+                            maxLines: 3,
+                            softWrap: true,
+                          ),
+                        ),
+                        Icon(Icons.ads_click_sharp, color: Colors.deepOrange, 
+			size: MediaQuery.of(context).size.width * 0.06 ),
+                      ],
+                    ),
+                  ),
+                ],
               ),
             ),
 

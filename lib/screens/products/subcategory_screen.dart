@@ -32,7 +32,7 @@ class SubCategoryScreen extends StatelessWidget {
     //detailedProjects = projectList.where((projectList) => projectList.proj_id == projId).toList();
     final List<SubCategory> categoryProducts = SubCategory.categories.where((product) => product.category == CategName).toList();
     return Scaffold(
-        appBar: CustomAppBar(title: '$CategName', imagePath: '',),
+        appBar: CustomAppBar(title: '$CategName', imagePath: '', appBarHeight: MediaQuery.of(context).size.height * 0.05,),
 
         body: Column(
             children: [

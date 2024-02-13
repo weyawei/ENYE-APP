@@ -40,14 +40,14 @@ class _listProductsPageState extends State<listProductsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: CustomAppBar(title: '', imagePath: 'assets/logo/enyecontrols.png',),
+        appBar: CustomAppBar(title: '', imagePath: 'assets/logo/enyecontrols.png', appBarHeight: MediaQuery.of(context).size.height * 0.05,),
         body: Column(
           children: [
             SizedBox(height: 25,),
             Text(
               'Type of ${widget.prodSubCat.name}'.toUpperCase(),
               style: TextStyle(
-                fontSize: 16,
+                fontSize: MediaQuery.of(context).size.width * 0.03,
                 fontFamily: 'Rowdies',
                 color: Colors.deepOrange,
               ),
