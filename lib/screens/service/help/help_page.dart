@@ -36,7 +36,6 @@ class _OnbordingState extends State<Onbording> {
 
     var fontNormalSize = ResponsiveTextUtils.getNormalFontSize(screenWidth);
     var fontExtraSize = ResponsiveTextUtils.getExtraFontSize(screenWidth);
-    var fontXXSize = ResponsiveTextUtils.getXXFontSize(screenWidth);
 
     return Scaffold(
       body: Column(
@@ -52,7 +51,9 @@ class _OnbordingState extends State<Onbording> {
               },
               itemBuilder: (_, i) {
                 return Padding(
-                  padding: EdgeInsets.all((screenHeight + screenWidth) / 40),
+                  padding: screenLayout
+                    ? EdgeInsets.all((screenHeight + screenWidth) / 40)
+                    : EdgeInsets.all((screenHeight + screenWidth) / 80),
                   child: Column(
                     children: [
                       Center(
@@ -86,17 +87,15 @@ class _OnbordingState extends State<Onbording> {
                           ),
                         ),
                       ),
-                      SizedBox(height: screenHeight * 0.05),
-                      Flexible(
-                        child: Text(
-                          contents[i].discription,
-                          textAlign: TextAlign.center,
-                          style: GoogleFonts.lato(
-                            textStyle: TextStyle(
-                              fontSize: fontNormalSize,
-                              letterSpacing: 1.5,
-                              color: Colors.grey
-                            ),
+                      SizedBox(height: screenLayout ? screenHeight * 0.05 : screenHeight * 0.01),
+                      Text(
+                        contents[i].discription,
+                        textAlign: TextAlign.center,
+                        style: GoogleFonts.lato(
+                          textStyle: TextStyle(
+                            fontSize: fontNormalSize,
+                            letterSpacing: 1.5,
+                            color: Colors.grey
                           ),
                         ),
                       )

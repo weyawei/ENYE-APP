@@ -58,6 +58,7 @@ class _BookingSystemState extends State<BookingSystem> {
 
   String? generatedCode;
 
+  final clientNameController = TextEditingController();
   final subjectController = TextEditingController();
   final descriptionController = TextEditingController();
   final compnameController = TextEditingController();
@@ -259,11 +260,15 @@ class _BookingSystemState extends State<BookingSystem> {
     subjectController.clear();
     descriptionController.clear();
 
-    if(ClientInfo?.login == 'GMAIL'){
+    if(ClientInfo?.login == 'GMAIL' || ClientInfo?.login == 'APPLE'){
       compnameController.clear();
       locationController.clear();
       projnameController.clear();
       contactController.clear();
+    }
+
+    if(ClientInfo?.login == 'APPLE'){
+      clientNameController.clear();
     }
 
     setState(() {
@@ -379,6 +384,13 @@ class _BookingSystemState extends State<BookingSystem> {
                     ),
                   ),
                 ),
+
+                ClientInfo?.name == '' || ClientInfo?.name == null
+                ? Padding(
+                  padding: EdgeInsets.only(top: screenHeight * 0.008),
+                  child: Text('Name: ${clientNameController.text}'),
+                )
+                : SizedBox.shrink(),
 
                 ClientInfo?.company_name == ''
                   ? Padding(
@@ -497,6 +509,35 @@ class _BookingSystemState extends State<BookingSystem> {
                         );
                       }
                     });
+                  } else if (ClientInfo?.login == 'APPLE'){
+                    TechnicalDataServices.addBooking(
+                        generatedCode!, selectedConcern!,
+                        subjectController.text, descriptionController.text,
+                        selectedDate.toString(), ClientInfo!.client_id,
+                        clientNameController.text, compnameController.text,
+                        locationController.text, projnameController.text,
+                        contactController.text, ClientInfo!.email
+                    ).then((result) {
+                      if('success' == result){
+                        sendPushNotifications();
+                        _getServices();
+                        _custSnackbar(
+                            context,
+                            "Successfully booked.",
+                            Colors.green,
+                            Icons.check_box
+                        );
+                        clearFields();
+                        Navigator.of(context).pop();
+                      } else {
+                        _custSnackbar(
+                            context,
+                            "Error occured...",
+                            Colors.redAccent,
+                            Icons.dangerous_rounded
+                        );
+                      }
+                    });
                   } else {
                     _custSnackbar(
                         context,
@@ -525,12 +566,14 @@ class _BookingSystemState extends State<BookingSystem> {
 
   Future<void> sendPushNotifications() async {
     //final url = 'https://enye.com.ph/enyecontrols_app/login_user/send1.php'; // Replace this with the URL to your PHP script
+    String name = ClientInfo!.name == '' || ClientInfo!.name == null ? clientNameController.text : ClientInfo!.name;
+
     final response = await http.post(
       Uri.parse(API.pushNotif),
       body: {
         'action' : 'Booking',
         'code' : generatedCode,
-        'name' : ClientInfo!.name,
+        'name' : name,
         'company' : ClientInfo!.company_name.isEmpty ? compnameController.text : ClientInfo!.company_name,
         'date_booked' : selectedDate.toString(),
       },
@@ -638,6 +681,26 @@ class _BookingSystemState extends State<BookingSystem> {
                         controller: descriptionController,
                         hintText: 'Description *',
                       ),
+
+                      ClientInfo?.name == '' || ClientInfo?.name == null
+                      ? Padding(
+                        padding: const EdgeInsets.only(top: 8.0),
+                        child: Normal2TextField(
+                          controller: clientNameController,
+                          hintText: 'Name *',
+                        ),
+                      )
+                      : SizedBox.shrink(),
+
+                      ClientInfo?.company_name == ''
+                      ? Padding(
+                        padding: const EdgeInsets.only(top: 8.0),
+                        child: Normal2TextField(
+                          controller: compnameController,
+                          hintText: 'Company Name *',
+                        ),
+                      )
+                      : SizedBox.shrink(),
 
                       ClientInfo?.company_name == ''
                        ? Padding(

@@ -281,7 +281,7 @@ class _loginPageState extends State<loginPage> {
                         ],
                       );
 
-// Concatenate givenName and familyName to form the full name
+                      // Concatenate givenName and familyName to form the full name
                       String? fullName;
                       if (credential.givenName != null && credential.familyName != null) {
                         fullName = "${credential.givenName!} ${credential.familyName!}";
@@ -290,31 +290,30 @@ class _loginPageState extends State<loginPage> {
                       print("Full Name: $fullName"); // Debugging
 
 
-// Use the credential to sign in or create a user account with Firebase
+                      // Use the credential to sign in or create a user account with Firebase
                       final OAuthProvider oAuthProvider = OAuthProvider("apple.com");
                       final AuthCredential appleCredential = oAuthProvider.credential(
                         idToken: credential.identityToken,
                         accessToken: credential.authorizationCode,
                       );
 
-// Sign in with Firebase using the Apple credentials
+                      // Sign in with Firebase using the Apple credentials
                       final UserCredential userCredential = await FirebaseAuth.instance.signInWithCredential(appleCredential);
                       final User user = userCredential.user!;
 
-// Update user profile with retrieved data
-                      String? photoURL = user.photoURL;
+                      print("Apple ID : " + user.uid.toString());
+                      print("Apple EMAIL : " + user.email.toString());
+                      print("Apple Name : " + user.displayName.toString());
 
-                      print("Photo URL: $photoURL"); // Debugging
-
-// Set client data in session manager
+                      // Set client data in session manager
                       await SessionManager().set("client_data", clientInfo(
-                        client_id: user.uid,
-                        name: FirebaseAuth.instance.currentUser!.displayName.toString(), // Use fullName if not null, otherwise use an empty string
+                        client_id: user.uid.toString(),
+                        name: '', // Use fullName if not null, otherwise use an empty string
                         company_name: '',
                         location: '',
                         project_name: '',
                         contact_no: '',
-                        image: user.photoURL.toString(), // Use photoURL if not null, otherwise use an empty string
+                        image: '', // Use photoURL if not null, otherwise use an empty string
                         email: user.email.toString(),
                         login: 'APPLE', // Indicate this as an Apple login
                       ));
@@ -331,11 +330,13 @@ class _loginPageState extends State<loginPage> {
                       Navigator.pop(context);
                     },
                     child: Image(
-                      image: AssetImage('assets/logo/apple_logo.png'),
+                      image: AssetImage('assets/icons/apple.png'),
                       height: (screenHeight + screenWidth) / 28,
                       width: (screenHeight + screenWidth) / 28,
                     ),
                   ),
+
+                  SizedBox(width: screenWidth * 0.05,),
 
                   GestureDetector(
                     onTap: () async {
