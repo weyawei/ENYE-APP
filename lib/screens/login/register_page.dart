@@ -2,11 +2,13 @@ import 'dart:convert';
 
 import 'package:email_otp/email_otp.dart';
 import 'package:enye_app/config/api_connection.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:pinput/pinput.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../widget/widgets.dart';
 
@@ -114,6 +116,18 @@ class _registerPageState extends State<registerPage> {
         ),
       ),
     ).closed.then((value) => Navigator.of(context).pop());
+  }
+
+  void _launchURL (String url) async{
+    try {
+      bool launched = await launch(url, forceSafariVC: false); // Launch the app if installed!
+
+      if (!launched) {
+        launch(url); // Launch web view if app is not installed!
+      }
+    } catch (e) {
+      launch(url); // Launch web view if app is not installed!
+    }
   }
 
   //close the keyboard if nakalabas
@@ -278,6 +292,7 @@ class _registerPageState extends State<registerPage> {
     double screenWidth = MediaQuery.of(context).size.width;
 
     var fontSmallSize = ResponsiveTextUtils.getSmallFontSize(screenWidth);
+    var fontNormalSize = ResponsiveTextUtils.getNormalFontSize(screenWidth);
     var fontExtraSize = ResponsiveTextUtils.getExtraFontSize(screenWidth);
 
     return KeyboardVisibilityBuilder(
@@ -376,8 +391,62 @@ class _registerPageState extends State<registerPage> {
                     disabling: disabling,
                   ),
 
+                  //tapping agree
+                  SizedBox(height: screenHeight * 0.02,),
+                  RichText(
+                    textAlign: TextAlign.center,
+                    text: TextSpan(
+                      children: [
+                        TextSpan(
+                          text: 'By tapping Sign Up, I agree to the ',
+                          style: TextStyle(
+                            fontSize: fontSmallSize,
+                            letterSpacing: 1.2,
+                            color: Colors.grey.shade800,
+                          ),
+                        ),
+                        TextSpan(
+                          text: '\n Terms and Conditions',
+                          style: TextStyle(
+                            fontSize: fontSmallSize,
+                            letterSpacing: 1.2,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.grey.shade800,
+                            decoration: TextDecoration.underline,
+                          ),
+                          recognizer: TapGestureRecognizer()
+                            ..onTap = () {
+                              _launchURL("https://www.enyecontrols.com/privacypolicy/terms.html");
+                            },
+                        ),
+                        TextSpan(
+                          text: ' and ',
+                          style: TextStyle(
+                            fontSize: fontSmallSize,
+                            letterSpacing: 1.2,
+                            color: Colors.grey.shade800,
+                          ),
+                        ),
+                        TextSpan(
+                          text: 'Privacy Policy.',
+                          style: TextStyle(
+                            fontSize: fontSmallSize,
+                            letterSpacing: 1.2,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.grey.shade800,
+                            decoration: TextDecoration.underline,
+                          ),
+                          recognizer: TapGestureRecognizer()
+                            ..onTap = () {
+                              _launchURL("https://www.enyecontrols.com/privacypolicy/policy.html");
+                            },
+                        ),
+                      ],
+                    ),
+                  ),
+
                   //sign-up button
-                  SizedBox(height: screenHeight * 0.01,),
+                  SizedBox(height: screenHeight * 0.015,),
                   customButton(
                     text: "Sign Up",
                     onTap: () async {

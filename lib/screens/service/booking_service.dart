@@ -388,14 +388,32 @@ class _BookingSystemState extends State<BookingSystem> {
                 ClientInfo?.name == '' || ClientInfo?.name == null
                 ? Padding(
                   padding: EdgeInsets.only(top: screenHeight * 0.008),
-                  child: Text('Name: ${clientNameController.text}'),
+                  child: Text(
+                    'Name: ${clientNameController.text}',
+                    style: GoogleFonts.lato(
+                      textStyle: TextStyle(
+                          fontSize: fontNormalSize,
+                          color: Colors.black,
+                          letterSpacing: 0.8
+                      ),
+                    ),
+                  ),
                 )
                 : SizedBox.shrink(),
 
                 ClientInfo?.company_name == ''
                   ? Padding(
                       padding: EdgeInsets.only(top: screenHeight * 0.008),
-                      child: Text('Company Name: ${compnameController.text}'),
+                      child: Text(
+                        'Company Name: ${compnameController.text}',
+                        style: GoogleFonts.lato(
+                          textStyle: TextStyle(
+                              fontSize: fontNormalSize,
+                              color: Colors.black,
+                              letterSpacing: 0.8
+                          ),
+                        ),
+                      ),
                     )
                   : SizedBox.shrink(),
 
@@ -688,16 +706,6 @@ class _BookingSystemState extends State<BookingSystem> {
                         child: Normal2TextField(
                           controller: clientNameController,
                           hintText: 'Name *',
-                        ),
-                      )
-                      : SizedBox.shrink(),
-
-                      ClientInfo?.company_name == ''
-                      ? Padding(
-                        padding: const EdgeInsets.only(top: 8.0),
-                        child: Normal2TextField(
-                          controller: compnameController,
-                          hintText: 'Company Name *',
                         ),
                       )
                       : SizedBox.shrink(),

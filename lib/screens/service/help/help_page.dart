@@ -40,7 +40,7 @@ class _OnbordingState extends State<Onbording> {
     return Scaffold(
       body: Column(
         children: [
-          Expanded(
+          Flexible(
             child: PageView.builder(
               controller: _controller,
               itemCount: contents.length,
@@ -51,9 +51,7 @@ class _OnbordingState extends State<Onbording> {
               },
               itemBuilder: (_, i) {
                 return Padding(
-                  padding: screenLayout
-                    ? EdgeInsets.all((screenHeight + screenWidth) / 40)
-                    : EdgeInsets.all((screenHeight + screenWidth) / 80),
+                  padding: EdgeInsets.all((screenHeight + screenWidth) / 40),
                   child: Column(
                     children: [
                       Center(
@@ -71,12 +69,14 @@ class _OnbordingState extends State<Onbording> {
                           options: CarouselOptions(
                             autoPlay: true,
                             scrollDirection: Axis.vertical,
-                            aspectRatio: 1,
+                            aspectRatio: screenLayout ? 1 : 1.6,
                             autoPlayInterval: const Duration(seconds: 7),
                             viewportFraction: 1,
                           ),
                         ),
                       ),
+                      
+                    SizedBox(height: screenLayout ? screenHeight * 0.03 : screenHeight * 0.05),
                       Text(
                         contents[i].title,
                         style: GoogleFonts.rowdies(
@@ -87,7 +87,7 @@ class _OnbordingState extends State<Onbording> {
                           ),
                         ),
                       ),
-                      SizedBox(height: screenLayout ? screenHeight * 0.05 : screenHeight * 0.01),
+                      SizedBox(height: screenLayout ? screenHeight * 0.03 : screenHeight * 0.05),
                       Text(
                         contents[i].discription,
                         textAlign: TextAlign.center,
@@ -117,12 +117,11 @@ class _OnbordingState extends State<Onbording> {
 
           currentIndex == contents.length - 1
           ? Container(
-            height: screenHeight * 0.06,
+            height: screenLayout ? screenHeight * 0.06 : screenHeight * 0.05,
             margin: EdgeInsets.only(
-                left: screenWidth * 0.2,
-                right: screenWidth * 0.2,
-                top: screenWidth * 0.05,
-                bottom: screenHeight * 0.07
+                left: screenLayout ? screenWidth * 0.2 : screenWidth * 0.3,
+                right: screenLayout ? screenWidth * 0.2 : screenWidth * 0.3,
+                bottom: screenHeight * 0.03
             ),
             width: double.infinity,
             child: TextButton(
@@ -167,7 +166,7 @@ class _OnbordingState extends State<Onbording> {
           : MediaQuery.of(context).size.width * 0.03,
       margin: EdgeInsets.only(
         right: MediaQuery.of(context).size.width * 0.02,
-        bottom: MediaQuery.of(context).size.height * 0.05
+        bottom: MediaQuery.of(context).size.height * 0.03
       ),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
