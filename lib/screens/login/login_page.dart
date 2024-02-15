@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -271,7 +272,9 @@ class _loginPageState extends State<loginPage> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  GestureDetector(
+                  //apple id login
+                  Platform.isIOS
+                  ? GestureDetector(
                     onTap: () async {
 
                       final credential = await SignInWithApple.getAppleIDCredential(
@@ -334,9 +337,12 @@ class _loginPageState extends State<loginPage> {
                       height: (screenHeight + screenWidth) / 28,
                       width: (screenHeight + screenWidth) / 28,
                     ),
-                  ),
+                  )
+                  : SizedBox.shrink(),
 
-                  SizedBox(width: screenWidth * 0.05,),
+                  Platform.isIOS
+                  ? SizedBox(width: screenWidth * 0.05,)
+                  : SizedBox.shrink(),
 
                   GestureDetector(
                     onTap: () async {
