@@ -187,7 +187,7 @@ class _ServicePageState extends State<ServicePage> {
                       },
                       itemBuilder: (BuildContext bc) {
                         if (userSessionFuture == true) {
-                          if(ClientInfo?.login == "SIGNIN"){
+                          if(ClientInfo?.login == "SIGNIN" || ClientInfo?.login == "APPLE"){
                             return [
                               PopupMenuItem(
                                 child: Row(
