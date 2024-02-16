@@ -294,6 +294,41 @@ class _ProfilePageState extends State<ProfilePage> {
     }
   }
 
+  Future<void> deleteGmail() async {
+    await FirebaseServices().signInWithGoogle();
+    FirebaseAuth.instance.currentUser!.delete();
+    await SessionManager().remove("client_data");
+    await FirebaseServices().signOut();
+
+    Navigator.of(context).pop();
+  }
+
+  Future<void> deleteApple() async {
+    final credential = await SignInWithApple.getAppleIDCredential(
+      scopes: [
+        AppleIDAuthorizationScopes.email,
+        AppleIDAuthorizationScopes.fullName,
+      ],
+    );
+
+    // Use the credential to sign in or create a user account with Firebase
+    final OAuthProvider oAuthProvider = OAuthProvider("apple.com");
+    final AuthCredential appleCredential = oAuthProvider.credential(
+      idToken: credential.identityToken,
+      accessToken: credential.authorizationCode,
+    );
+
+    // Sign in with Firebase using the Apple credentials
+    final UserCredential userCredential = await FirebaseAuth.instance.signInWithCredential(appleCredential);
+    final User user = userCredential.user!;
+
+    user.delete();
+    await SessionManager().remove("client_data");
+    await FirebaseServices().signOut();
+
+    Navigator.of(context).pop();
+  }
+
   @override
   Widget build(BuildContext context) {
 
@@ -642,37 +677,9 @@ class _ProfilePageState extends State<ProfilePage> {
                           ),
                           TextButton(
                             onPressed: () {
-                              setState(() async {
-                                if(ClientInfo?.login == "SIGNIN") {
-                                  deleteClient();
-                                  Navigator.of(context).pop();
-
-                                } else if(ClientInfo?.login == "APPLE") {
-                                  final credential = await SignInWithApple.getAppleIDCredential(
-                                    scopes: [
-                                      AppleIDAuthorizationScopes.email,
-                                      AppleIDAuthorizationScopes.fullName,
-                                    ],
-                                  );
-
-                                  // Use the credential to sign in or create a user account with Firebase
-                                  final OAuthProvider oAuthProvider = OAuthProvider("apple.com");
-                                  final AuthCredential appleCredential = oAuthProvider.credential(
-                                    idToken: credential.identityToken,
-                                    accessToken: credential.authorizationCode,
-                                  );
-
-                                  // Sign in with Firebase using the Apple credentials
-                                  final UserCredential userCredential = await FirebaseAuth.instance.signInWithCredential(appleCredential);
-                                  final User user = userCredential.user!;
-
-                                  user.unlink('apple.com');
-
-                                  Navigator.of(context).pop();
-
-                                } else {
-                                  Navigator.of(context).pop();
-                                }
+                              setState(() {
+                                deleteApple();
+                                Navigator.of(context).pop();
                               });
                             },
                             child: Text(
@@ -719,7 +726,7 @@ class _ProfilePageState extends State<ProfilePage> {
                           : showimage != null && showimage != ""
                           ? CircleAvatar(
                         radius: (screenHeight + screenWidth) / 18,
-                        backgroundImage: NetworkImage(API.clientsImages + showimage!),
+                        backgroundImage: Image.network("${ClientInfo?.image}").image,
                       )
                           : CircleAvatar(
                         radius: (screenHeight + screenWidth) / 18,
@@ -736,7 +743,7 @@ class _ProfilePageState extends State<ProfilePage> {
 
                 //fullname textfield
                 SizedBox(height: screenHeight * 0.02,),
-                EmailTextField(
+                PersonNameTextField(
                   controller: nameController,
                   hintText: 'Name',
                   disabling: disabling,
@@ -809,48 +816,9 @@ class _ProfilePageState extends State<ProfilePage> {
                         ),
                         TextButton(
                           onPressed: () {
-                            setState(() async {
-                              if(ClientInfo?.login == "SIGNIN") {
-                                deleteClient();
-                                Navigator.of(context).pop();
-
-                              } else if(ClientInfo?.login == "APPLE") {
-                                Navigator.of(context).pop();
-
-                                final credential = await SignInWithApple.getAppleIDCredential(
-                                  scopes: [
-                                    AppleIDAuthorizationScopes.email,
-                                    AppleIDAuthorizationScopes.fullName,
-                                  ],
-                                );
-
-                                // Use the credential to sign in or create a user account with Firebase
-                                final OAuthProvider oAuthProvider = OAuthProvider("apple.com");
-                                final AuthCredential appleCredential = oAuthProvider.credential(
-                                  idToken: credential.identityToken,
-                                  accessToken: credential.authorizationCode,
-                                );
-
-                                // Sign in with Firebase using the Apple credentials
-                                final UserCredential userCredential = await FirebaseAuth.instance.signInWithCredential(appleCredential);
-                                final User user = userCredential.user!;
-
-                                user.delete();
-
-                                Navigator.of(context).pop();
-
-                              } else if(ClientInfo?.login == "GMAIL") {
-                                Navigator.of(context).pop();
-
-                                await FirebaseServices().signInWithGoogle();
-
-                                FirebaseAuth.instance.currentUser!.delete();
-
-                                Navigator.of(context).pop();
-
-                              } else {
-                                Navigator.of(context).pop();
-                              }
+                            setState(() {
+                              deleteGmail();
+                              Navigator.of(context).pop();
                             });
                           },
                           child: Text(
