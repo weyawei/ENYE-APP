@@ -294,33 +294,6 @@ class _ProfilePageState extends State<ProfilePage> {
     }
   }
 
-  Future<void> revokeAppleToken(
-      String userIdentifier,
-      String identityToken,
-      String accessToken) async {
-    final url = 'https://appleid.apple.com/auth/revoke';
-
-    final response = await http.post(
-      Uri.parse(url),
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-      },
-      body: {
-        'token': accessToken,
-        'client_id': userIdentifier,
-        'client_secret': identityToken,
-      },
-    );
-
-    if (response.statusCode == 200) {
-      print('Res body : ${response.body}');
-    } else {
-      // Handle error
-      print('Failed to revoke token: ${response.statusCode}');
-    }
-  }
-
-
   @override
   Widget build(BuildContext context) {
 
@@ -564,7 +537,167 @@ class _ProfilePageState extends State<ProfilePage> {
               ),
             ],
           )
-         : ListView(
+         : ClientInfo?.login == "APPLE"
+          ? ListView(
+            children: [
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  SizedBox(height: screenHeight * 0.02,),
+                  InkWell(
+                    onTap: (){
+                      if(disabling != true){
+                        selectImage();
+                      }
+                    },
+                    child: Stack(
+                      children: [
+                        imagepath != null
+                            ? CircleAvatar(
+                          radius: (screenHeight + screenWidth) / 18,
+                          backgroundImage: FileImage(imagepath!),
+                        )
+                            : showimage != null && showimage != ""
+                            ? CircleAvatar(
+                          radius: (screenHeight + screenWidth) / 18,
+                          backgroundImage: NetworkImage(API.clientsImages + showimage!),
+                        )
+                            : CircleAvatar(
+                          radius: (screenHeight + screenWidth) / 18,
+                          foregroundColor: Colors.deepOrange,
+                          child: Icon(Icons.photo, color: Colors.deepOrange, size: (screenHeight + screenWidth) / 18,),
+                        ),
+
+                        disabling == false
+                            ? const Positioned(bottom: 2, left: 90,child: Icon(Icons.add_a_photo, color: Colors.deepOrange,),)
+                            : const SizedBox.shrink(),
+                      ],
+                    ),
+                  ),
+
+                  //fullname textfield
+                  SizedBox(height: screenHeight * 0.02,),
+                  EmailTextField(
+                    controller: emailController,
+                    hintText: 'Email',
+                    disabling: disabling,
+                  ),
+
+                ],
+              ),
+
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.06, vertical: screenHeight * 0.03),
+                child: customButton(
+                  onTap: () {
+                    showDialog(
+                      context: context,
+                      builder: (context) => AlertDialog(
+                        title: Text(
+                          'ACCOUNT DELETION',
+                          textAlign: TextAlign.center,
+                          style: GoogleFonts.rowdies(
+                            textStyle: TextStyle(
+                                fontSize: fontExtraSize,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.redAccent,
+                                letterSpacing: 0.8
+                            ),
+                          ),
+                        ),
+                        content: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            SizedBox(height: screenHeight * 0.02),
+                            Text(
+                              'Are you sure to delete your account?',
+                              textAlign: TextAlign.center,
+                              style: GoogleFonts.lato(
+                                textStyle: TextStyle(
+                                    fontSize: fontNormalSize,
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.bold,
+                                    letterSpacing: 0.8
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        actions: [
+                          TextButton(
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                            child: Text(
+                              'CANCEL',
+                              style: GoogleFonts.rowdies(
+                                textStyle: TextStyle(
+                                    fontSize: fontExtraSize,
+                                    color: Colors.black54,
+                                    letterSpacing: 0.8
+                                ),
+                              ),
+                            ),
+                          ),
+                          TextButton(
+                            onPressed: () {
+                              setState(() async {
+                                if(ClientInfo?.login == "SIGNIN") {
+                                  deleteClient();
+                                  Navigator.of(context).pop();
+
+                                } else if(ClientInfo?.login == "APPLE") {
+                                  final credential = await SignInWithApple.getAppleIDCredential(
+                                    scopes: [
+                                      AppleIDAuthorizationScopes.email,
+                                      AppleIDAuthorizationScopes.fullName,
+                                    ],
+                                  );
+
+                                  // Use the credential to sign in or create a user account with Firebase
+                                  final OAuthProvider oAuthProvider = OAuthProvider("apple.com");
+                                  final AuthCredential appleCredential = oAuthProvider.credential(
+                                    idToken: credential.identityToken,
+                                    accessToken: credential.authorizationCode,
+                                  );
+
+                                  // Sign in with Firebase using the Apple credentials
+                                  final UserCredential userCredential = await FirebaseAuth.instance.signInWithCredential(appleCredential);
+                                  final User user = userCredential.user!;
+
+                                  user.unlink('apple.com');
+
+                                  Navigator.of(context).pop();
+
+                                } else {
+                                  Navigator.of(context).pop();
+                                }
+                              });
+                            },
+                            child: Text(
+                              'YES',
+                              style: GoogleFonts.rowdies(
+                                textStyle: TextStyle(
+                                    fontSize: fontExtraSize,
+                                    color: Colors.redAccent,
+                                    letterSpacing: 0.8
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    );
+                  },
+                  text: 'DELETE ACCOUNT',
+                  clr: Colors.redAccent,
+                  fontSize: fontExtraSize,
+                ),
+              ),
+            ],
+          )
+          : ListView(
           children: [
             Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -599,6 +732,14 @@ class _ProfilePageState extends State<ProfilePage> {
                           : const SizedBox.shrink(),
                     ],
                   ),
+                ),
+
+                //fullname textfield
+                SizedBox(height: screenHeight * 0.02,),
+                EmailTextField(
+                  controller: nameController,
+                  hintText: 'Name',
+                  disabling: disabling,
                 ),
 
                 //fullname textfield
@@ -674,6 +815,8 @@ class _ProfilePageState extends State<ProfilePage> {
                                 Navigator.of(context).pop();
 
                               } else if(ClientInfo?.login == "APPLE") {
+                                Navigator.of(context).pop();
+
                                 final credential = await SignInWithApple.getAppleIDCredential(
                                   scopes: [
                                     AppleIDAuthorizationScopes.email,
@@ -690,21 +833,20 @@ class _ProfilePageState extends State<ProfilePage> {
 
                                 // Sign in with Firebase using the Apple credentials
                                 final UserCredential userCredential = await FirebaseAuth.instance.signInWithCredential(appleCredential);
-                                print('Credential identityToken: : ${credential.identityToken}');
-                                print('Credential accessToken: : ${credential.authorizationCode}');
-                                print('Credential userIdentifier: : ${credential.userIdentifier}');
+                                final User user = userCredential.user!;
 
-                                revokeAppleToken(
-                                  credential.userIdentifier.toString(),
-                                  credential.identityToken.toString(),
-                                  credential.authorizationCode);
+                                user.delete();
 
                                 Navigator.of(context).pop();
 
-                                print('AppleCredential token: : ${appleCredential.token}');
-                                print('AppleCredential accessToken: : ${appleCredential.accessToken}');
-                                print('AppleCredential providerId: : ${appleCredential.providerId}');
-                                print('AppleCredential signInMethod: : ${appleCredential.signInMethod}');
+                              } else if(ClientInfo?.login == "GMAIL") {
+                                Navigator.of(context).pop();
+
+                                await FirebaseServices().signInWithGoogle();
+
+                                FirebaseAuth.instance.currentUser!.delete();
+
+                                Navigator.of(context).pop();
 
                               } else {
                                 Navigator.of(context).pop();
