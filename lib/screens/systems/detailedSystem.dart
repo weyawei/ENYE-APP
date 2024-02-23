@@ -246,7 +246,7 @@ class _detailedSysPageState extends State<detailedSysPage> {
                   children: [
                     Container(
                       decoration: BoxDecoration(
-                        image: DecorationImage(image: NetworkImage("${API.sysTechImg + SystemsTechSpecs.image}", scale: screenLayout ? 2.5 : 1,), alignment: Alignment.topRight),
+                        image: DecorationImage(image: NetworkImage("${API.sysTechImg + SystemsTechSpecs.image}", scale: fontNormalSize == 14.0 ? 2.5 : fontNormalSize == 18.0 ? 1.5 : 1,), alignment: Alignment.topRight),
                       ),
                       child: Container(
                         decoration: BoxDecoration(
