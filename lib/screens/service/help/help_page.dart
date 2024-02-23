@@ -69,7 +69,7 @@ class _OnbordingState extends State<Onbording> {
                           options: CarouselOptions(
                             autoPlay: true,
                             scrollDirection: Axis.vertical,
-                            aspectRatio: screenLayout ? 1 : 1.6,
+                            aspectRatio: fontNormalSize == 14.0 ? 1 : fontNormalSize == 18.0 ? 1.4 : 1.6,
                             autoPlayInterval: const Duration(seconds: 7),
                             viewportFraction: 1,
                           ),
