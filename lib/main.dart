@@ -65,6 +65,7 @@ class MyApp extends StatelessWidget {
         // splash screen preventing to go back
         //onGenerateRoute: AppRouter.onGenerateRoute,
         //initialRoute: SplashScreen.routeName,
+        debugShowCheckedModeBanner: false,
         home: NoInternetHandler(
             child: CustomNavBar()),
       );
