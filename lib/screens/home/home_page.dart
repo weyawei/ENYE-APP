@@ -188,11 +188,11 @@ class _homePageState extends State<homePage>{
                         softWrap: true,
                         text: TextSpan(children: <TextSpan>
                         [
-                          TextSpan(text: '  ENYE LTD. CORP.',
+                          TextSpan(text: '  Enyecontrols',
                             style: TextStyle(fontSize: fontExtraSize, fontWeight: FontWeight.bold, color: Colors.grey, letterSpacing: 0.8),),
-                          TextSpan(text: " is actively involved in the project design conceptualization and supply of fully innovative and state-of-the-art HVAC products and control systems. Our strength basically lies on flexibility and adaptability which allow us to tailor-fit our systems to the end user's specific requirements supported by our highly trained after-sales-technical support engineers,",
+                          TextSpan(text: " is a controls company which is actively involved in more than 90% of all major projects nationwide. Our wide range of clients includes commercial buildings, data centers, hotels, semiconductors, hospitals, and manufacturing plants, retail buildings, residential including fit-outs and retrofits.",
                             style: TextStyle(fontSize: fontExtraSize, color: Colors.grey, letterSpacing: 0.8),),
-                          TextSpan(text: " We gained the reputation of being a total solution provider.",
+                          TextSpan(text: " We are known for project design, conceptualization, supply, installation of controls systems and devices but most importantly preventive maintenance and after-sales technical support.",
                             style: TextStyle(fontSize: fontExtraSize, fontWeight: FontWeight.bold, color: Colors.grey, letterSpacing: 0.8),),
                         ]
                         ),
