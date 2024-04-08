@@ -294,6 +294,10 @@ class _detailedSysPageState extends State<detailedSysPage> {
 
     var fontSmallSize = ResponsiveTextUtils.getSmallFontSize(screenWidth);
     var fontNormalSize = ResponsiveTextUtils.getNormalFontSize(screenWidth);
+    var fontExtraSize = ResponsiveTextUtils.getExtraFontSize(screenWidth);
+    var fontXSize = ResponsiveTextUtils.getXFontSize(screenWidth);
+    var fontXXSize = ResponsiveTextUtils.getXXFontSize(screenWidth);
+    var fontXXXSize = ResponsiveTextUtils.getXXXFontSize(screenWidth);
 
     return Scaffold(
       appBar: CustomAppBar(title: 'Systems', imagePath: 'assets/logo/enyecontrols.png', appBarHeight: MediaQuery.of(context).size.height * 0.05,),
@@ -306,7 +310,182 @@ class _detailedSysPageState extends State<detailedSysPage> {
               gridDelegate: SliverSimpleGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 1,
               ),
-              children: _pages(),
+              children: <Widget> [
+
+                SizedBox(height: screenHeight * 0.05,),
+                //title
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.025),
+                  child: Text(
+                    widget.systems.title,
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        fontSize: fontExtraSize,
+                        fontFamily: 'Rowdies',
+                        fontWeight: FontWeight.bold,
+                        letterSpacing: 1.2,
+                        color: Colors.grey
+                    ),
+                  ),
+                ),
+
+                SizedBox(height: screenHeight * 0.05,),
+                if (widget.systems.youtubeUrl.isNotEmpty)
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.05),
+                    child: youtubePlayerView(
+                        url: widget.systems.youtubeUrl.toString()
+                    ),
+                  ),
+
+                SizedBox(height: screenHeight * 0.065,),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.05),
+                  child: Text(
+                    "System Description",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontFamily: 'Rowdies',
+                        fontSize: fontXXSize,
+                        color: Colors.deepOrange,
+                        letterSpacing: 1.2
+                    ),
+                  ),
+                ),
+
+
+                SizedBox(height: screenHeight * 0.035,),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.1),
+                  child: Text(widget.systems.description, maxLines: null, textAlign: TextAlign.justify,
+                    style: TextStyle(height: 1.5, fontSize: fontNormalSize, fontStyle: FontStyle.italic, letterSpacing: 1.2),),
+                ),
+
+                if (_sysDetails != null && _sysDetails!.isNotEmpty)
+                  Container(
+                    child: Column(
+                      children: _sysDetails!.map((SystemsDetail) =>
+                          Column(
+                            children: [
+                              SizedBox(height: screenHeight * 0.075,),
+                              if (SystemsDetail.title != null && SystemsDetail.title!.isNotEmpty)
+                                Text(SystemsDetail.title, style: TextStyle(fontWeight: FontWeight.bold, fontFamily: 'Rowdies', fontSize: fontXSize, color: Colors.deepOrange, letterSpacing: 1.2),),
+
+                              if (SystemsDetail.description != null && SystemsDetail.description!.isNotEmpty)
+                              Padding(
+                                padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.1, vertical: screenHeight * 0.035,),
+                                child: Text(SystemsDetail.description, maxLines: null, textAlign: TextAlign.justify,
+                                  style: TextStyle(height: 1.5, fontSize: fontNormalSize, fontStyle: FontStyle.italic, letterSpacing: 1.2),),
+                              ),
+
+
+                              if (SystemsDetail.image != null && SystemsDetail.image!.isNotEmpty)
+                                InkWell(
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => FullScreenImage(imagePath: "${API.sysDetailsImg + SystemsDetail.image}"),
+                                      ),
+                                    );
+                                  },
+                                  child: Padding(
+                                    padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.075, vertical: screenHeight * 0.035,),
+                                    child: Container(
+                                      height: screenHeight * 0.3,
+                                      width: screenWidth * 0.9,
+                                      decoration: BoxDecoration(
+                                        image: DecorationImage(
+                                          image: _buildNetworkImage("${API.sysDetailsImg + SystemsDetail.image}"),
+                                          alignment: Alignment.center,
+                                          fit: isImageLoading ? BoxFit.scaleDown : BoxFit.fill
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                            ],
+                          )
+                      ).toList(),
+                    ),
+                  ),
+
+                if (_sysTechSpecs != null && _sysTechSpecs!.isNotEmpty)
+                  Column(
+                    children: [
+                      SizedBox(height: screenHeight * 0.035,),
+                      Lottie.network(
+                        'https://lottie.host/72bb063b-09e0-4a31-b7e4-cb941f3912e0/ISN4Y7fWVz.json',
+                        height: screenHeight * 0.13,
+                        width: screenWidth * 0.9,
+                      ),
+                      SizedBox(height: screenHeight * 0.035,),
+                      Text(
+                        "Technical Specifications",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontFamily: 'Rowdies',
+                          fontSize: fontXXSize,
+                          color: Colors.deepOrange,
+                          letterSpacing: 1.2,
+                        ),
+                      ),
+                      SizedBox(height: 30,),
+                      Container(
+                        child: Column(
+                          children: _sysTechSpecs!.map((SystemsTechSpecs) => ExpansionTile(
+                            initiallyExpanded: true,
+                            title: Text(
+                              SystemsTechSpecs.title,
+                              style: TextStyle(
+                                fontSize: fontNormalSize,
+                                fontWeight: FontWeight.bold,
+                                letterSpacing: 1.2,
+                              ),
+                            ),
+                            children: [
+                              Container(
+                                decoration: BoxDecoration(
+                                  image: DecorationImage(image: NetworkImage("${API.sysTechImg + SystemsTechSpecs.image}", scale: fontNormalSize == 14.0 ? 2.5 : fontNormalSize == 18.0 ? 1.75 : 1.5,), alignment: Alignment.topRight),
+                                ),
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    gradient: LinearGradient(
+                                      colors: [Colors.blue.withOpacity(0.2), Colors.deepOrange.shade100.withOpacity(0.1)],
+                                      stops: [0.0, 1],
+                                      begin: Alignment.topCenter,
+                                    ),
+                                  ),
+                                  child: Container(
+                                    width: screenWidth * 1,
+                                    padding: EdgeInsets.all(16.0),
+                                    decoration: BoxDecoration(
+                                      gradient: LinearGradient(
+                                        begin: Alignment.centerLeft,
+                                        end: Alignment.centerRight,
+                                        colors: [Colors.deepOrange.shade300, Colors.deepOrange.withOpacity(0.1)],
+                                      ),
+                                    ),
+                                    child: Container(
+                                      padding: EdgeInsets.only(right: 70.0),
+                                      child: Text(
+                                        "${SystemsTechSpecs.features}",
+                                        style: TextStyle(height: 1.5, fontSize: fontNormalSize, color: Colors.white, fontWeight: FontWeight.w900, letterSpacing: 1.2),
+                                        textAlign: TextAlign.left,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          )).toList(),
+                        ),
+                      ),
+                    ],
+                  ),
+              ],
             ),
           ]
       ),
