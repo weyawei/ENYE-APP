@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../config/api_connection.dart';
 import '../../widget/widgets.dart';
 import '../screens.dart';
 
@@ -63,6 +64,8 @@ class _systemsPageState extends State<systemsPage> with TickerProviderStateMixin
     screenHeight = MediaQuery.of(context).size.height;
     screenWidth = MediaQuery.of(context).size.width;
 
+    bool screenLayout = ResponsiveTextUtils.getLayout(screenWidth);
+
     var fontNormalSize = ResponsiveTextUtils.getNormalFontSize(screenWidth);
     var fontExtraSize = ResponsiveTextUtils.getExtraFontSize(screenWidth);
 
@@ -118,64 +121,186 @@ class _systemsPageState extends State<systemsPage> with TickerProviderStateMixin
                     ),
 
                     const SizedBox(height: 10,),
-                    ListView.builder(
-                        primary: false,
-                        shrinkWrap: true,
-                        itemCount: searchController.text.isEmpty ? _systems.length : _filteredSystems.length,
-                        itemBuilder: (context, index) {
-                          _filteredSystems = searchController.text.isEmpty ? _systems : _filteredSystems;
-                          return InkWell(
-                            onTap: () {
-                              // Handle the onTap event here
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => detailedSysPage(systems: _filteredSystems[index]),
-                                ),
-                              );
-                            },
-                            child: Container(
-                              height: screenHeight / 13,
-                              width: screenWidth,
-                              margin: EdgeInsets.only(
-                                bottom: screenHeight / 50,
-                              ),
-                              padding: EdgeInsets.symmetric(
-                                horizontal: screenWidth / 50
-                              ),
-                              decoration: BoxDecoration(
-                                color: Colors.white10,
-                                borderRadius: BorderRadius.circular(10),
-                                border: Border.all(
-                                  color: Colors.deepOrange,
-                                  width: 2,
-                                  style: BorderStyle.solid,
-                                ),
-                              ),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-                                  Expanded(
-                                    child: Text(
-                                      " ${_filteredSystems[index].title}",
-                                      style: TextStyle(
-                                        fontSize: fontNormalSize,
-                                        fontWeight: FontWeight.bold,
-                                        letterSpacing: 1.2,
+                    // ListView.builder(
+                    //     primary: false,
+                    //     shrinkWrap: true,
+                    //     itemCount: searchController.text.isEmpty ? _systems.length : _filteredSystems.length,
+                    //     itemBuilder: (context, index) {
+                    //       _filteredSystems = searchController.text.isEmpty ? _systems : _filteredSystems;
+                    //       return InkWell(
+                    //         onTap: () {
+                    //           // Handle the onTap event here
+                    //           Navigator.push(
+                    //             context,
+                    //             MaterialPageRoute(
+                    //               builder: (context) => detailedSysPage(systems: _filteredSystems[index]),
+                    //             ),
+                    //           );
+                    //         },
+                    //         child: Container(
+                    //           height: screenHeight / 13,
+                    //           width: screenWidth,
+                    //           margin: EdgeInsets.only(
+                    //             bottom: screenHeight / 50,
+                    //           ),
+                    //           padding: EdgeInsets.symmetric(
+                    //             horizontal: screenWidth / 50
+                    //           ),
+                    //           decoration: BoxDecoration(
+                    //             color: Colors.white10,
+                    //             borderRadius: BorderRadius.circular(10),
+                    //             border: Border.all(
+                    //               color: Colors.deepOrange,
+                    //               width: 2,
+                    //               style: BorderStyle.solid,
+                    //             ),
+                    //           ),
+                    //           child: Row(
+                    //             mainAxisAlignment: MainAxisAlignment.start,
+                    //             children: [
+                    //               Expanded(
+                    //                 child: Text(
+                    //                   " ${_filteredSystems[index].title}",
+                    //                   style: TextStyle(
+                    //                     fontSize: fontNormalSize,
+                    //                     fontWeight: FontWeight.bold,
+                    //                     letterSpacing: 1.2,
+                    //                   ),
+                    //                 ),
+                    //               ),
+                    //               SizedBox(width: 15,),
+                    //               Icon(
+                    //                 Icons.label_important,
+                    //                 size: (screenHeight + screenWidth) / 50,
+                    //                 color: Colors.deepOrange,
+                    //               )
+                    //             ],
+                    //           ),
+                    //         ),
+                    //       );
+                    //     }),
+                    _filteredSystems.isEmpty
+                      ? GridView.builder(
+                          padding: EdgeInsets.symmetric(horizontal: 6.0),
+                          physics: const NeverScrollableScrollPhysics(),
+                          shrinkWrap: true,
+                          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: screenLayout ? 2 : 3,
+                            crossAxisSpacing: (screenHeight + screenWidth) / 90,
+                            mainAxisSpacing: (screenHeight + screenWidth) / 90,
+                            mainAxisExtent: screenHeight * 0.3,
+                          ),
+                          itemCount: _systems.length,
+                          itemBuilder: (context, index){
+
+                            return GestureDetector(
+                              onTap: (){
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => detailedSysPage(systems: _systems[index]),
+                                  ),
+                                );
+                              },
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(12.0),
+                                  color: Colors.orange[200],
+                                ), //no function?? nasasapawan ng pictures
+                                child: Column(
+                                  children: [
+                                    ClipRRect(borderRadius: BorderRadius.circular(12.0),
+                                      child: Container(
+                                        height: screenHeight * 0.3,
+                                        decoration: BoxDecoration(
+                                          image: DecorationImage(
+                                            image: NetworkImage("${API.systemsImg + _systems[index].image}"),
+                                            fit: BoxFit.cover,
+                                            onError: (exception, stackTrace) {
+                                              // Handle image loading error here
+                                              print("Image loading failed: $exception");
+                                            },
+                                          ),
+                                        ),
+                                        child: Container(
+                                          decoration: BoxDecoration(
+                                            gradient: LinearGradient(
+                                              colors: [Colors.blue.withOpacity(0.18), Colors.deepOrange.shade100.withOpacity(0.28)],
+                                              stops: [0.0, 1],
+                                              begin: Alignment.topCenter,
+                                            ),
+                                          ),
+                                        ),
                                       ),
                                     ),
-                                  ),
-                                  SizedBox(width: 15,),
-                                  Icon(
-                                    Icons.label_important,
-                                    size: (screenHeight + screenWidth) / 50,
-                                    color: Colors.deepOrange,
-                                  )
-                                ],
+                                  ],
+                                ),
                               ),
-                            ),
-                          );
-                        }),
+                            );
+
+                          },
+                        )
+                      : GridView.builder(
+                          padding: EdgeInsets.symmetric(horizontal: 6.0),
+                          physics: const NeverScrollableScrollPhysics(),
+                          shrinkWrap: true,
+                          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: screenLayout ? 2 : 3,
+                            crossAxisSpacing: (screenHeight + screenWidth) / 90,
+                            mainAxisSpacing: (screenHeight + screenWidth) / 90,
+                            mainAxisExtent: screenHeight * 0.3,
+                          ),
+                          itemCount: _filteredSystems.length,
+                          itemBuilder: (context, index){
+
+                            return GestureDetector(
+                              onTap: (){
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => detailedSysPage(systems: _filteredSystems[index]),
+                                  ),
+                                );
+                              },
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(12.0),
+                                  color: Colors.orange[200],
+                                ), //no function?? nasasapawan ng pictures
+                                child: Column(
+                                  children: [
+                                    ClipRRect(borderRadius: BorderRadius.circular(12.0),
+                                      child: Container(
+                                        height: screenHeight * 0.3,
+                                        decoration: BoxDecoration(
+                                          image: DecorationImage(
+                                            image: NetworkImage("${API.systemsImg + _filteredSystems[index].image}"),
+                                            fit: BoxFit.cover,
+                                            onError: (exception, stackTrace) {
+                                              // Handle image loading error here
+                                              print("Image loading failed: $exception");
+                                            },
+                                          ),
+                                        ),
+                                        child: Container(
+                                          decoration: BoxDecoration(
+                                            gradient: LinearGradient(
+                                              colors: [Colors.blue.withOpacity(0.2), Colors.deepOrange.shade100.withOpacity(0.3)],
+                                              stops: [0.0, 1],
+                                              begin: Alignment.topCenter,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            );
+                          },
+                        ),
+
+                    const SizedBox(height: 20,),
                   ],
                 ),
               ),

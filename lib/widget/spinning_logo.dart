@@ -15,7 +15,7 @@ class SpinningContainer extends AnimatedWidget {
         width: MediaQuery.of(context).size.width * 0.2,
         height: MediaQuery.of(context).size.height * 0.2,
         decoration: const BoxDecoration(
-          image: DecorationImage(image: AssetImage("assets/logo/ic_launcher.png"))
+          image: DecorationImage(image: AssetImage("assets/icons/orange_circles.gif"))
         ),
       ),
     );

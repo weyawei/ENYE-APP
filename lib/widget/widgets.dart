@@ -19,3 +19,4 @@ export 'button.dart';
 export 'textfield.dart';
 
 export 'responsive_text_utils.dart';
+export 'image_zoom.dart';
