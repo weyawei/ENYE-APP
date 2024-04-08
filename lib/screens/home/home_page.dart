@@ -28,30 +28,12 @@ class homePage extends StatefulWidget {
 
 class _homePageState extends State<homePage>{
   final List<String> dashboard = [
-    "${API.dashboard}1692077053.jpg",
-    "${API.dashboard}1692078344.jpg",
-    "${API.dashboard}1692078358.jpg",
-    "${API.dashboard}2.png",
-    "${API.dashboard}1.png",
-    "${API.dashboard}3.png",
-  ];
-
-  final List<String> dashboardText1 = [
-    '',
-    '',
-    '',
-    '"Committed to be your',
-    '"Challenging Innovation"',
-    '"We Hand Over',
-  ];
-
-  final List<String> dashboardText2 = [
-    '',
-    '',
-    '',
-    'Business Partner of Choice!!"',
-    "campaign is our aggressive move in setting the standard in Energy Saving by providing the approppriate products & solutions that will solve current HVAC problems and enhance efficiency.",
-    'Best After Sales Services"',
+    "${API.dashboard}BMS.png",
+    "${API.dashboard}ems_ecbills.png",
+    "${API.dashboard}prod1.png",
+    "${API.dashboard}prod2.png",
+    "${API.dashboard}sys1.png",
+    "${API.dashboard}sys2.png",
   ];
 
   int currentIndex = 0;
@@ -126,8 +108,8 @@ class _homePageState extends State<homePage>{
                   ),
 
                   Container(
-                    height: screenHeight * 0.5,
-                    margin: EdgeInsets.only(top: screenHeight * 0.175,),
+                    height: screenHeight * 0.75,
+                    margin: EdgeInsets.only(top: screenHeight * 0.05,),
                     child: PageView.builder(
                         controller: _pageController,
                         onPageChanged: (val){
@@ -138,62 +120,13 @@ class _homePageState extends State<homePage>{
                         itemCount: dashboard.length,
                         itemBuilder: (context, int index) {
                           return FractionallySizedBox(
-                            heightFactor: 0.8,
+                            heightFactor: 0.9,
                             widthFactor: 0.85,
                             child: Container(
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(32),
-                                    image: DecorationImage(image: NetworkImage(dashboard[index]), fit: BoxFit.fill)
-                                ),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Container(
-                                      padding: EdgeInsets.only(left: 20),
-                                      child: DefaultTextStyle(
-                                        style: TextStyle(
-                                          fontSize: fontXXSize,
-                                          fontFamily: 'Rowdies',
-                                          fontWeight: FontWeight.bold,
-                                          color: Colors.white,
-                                          letterSpacing: 1.2,
-                                        ),
-                                        child: AnimatedTextKit(
-                                          isRepeatingAnimation: false,
-                                          repeatForever: false,
-                                          onFinished: (){
-                                            setState(() {
-                                              type = true;
-                                            });
-                                          },
-                                          animatedTexts: [ TyperAnimatedText(dashboardText1[index], curve: Curves.easeIn, speed: Duration(milliseconds: 150)), ],
-                                        ),
-                                      ),
-                                    ),
-
-                                    SizedBox(height: 10,),
-                                    type ? Container(
-                                      padding: EdgeInsets.only(left: 40),
-                                      width: screenWidth * 0.8,
-                                      child: DefaultTextStyle(
-                                        textAlign: TextAlign.justify,
-                                        style: const TextStyle(
-                                          fontSize: 16.0,
-                                          color: Colors.white,
-                                          letterSpacing: 1,
-                                        ),
-                                        child: AnimatedTextKit(
-                                          onFinished: (){
-                                              type = false;
-                                          },
-                                          isRepeatingAnimation: false,
-                                          repeatForever: false,
-                                          animatedTexts: [ TyperAnimatedText(dashboardText2[index], curve: Curves.easeIn, speed: Duration(milliseconds: 70)), ],
-                                        ),
-                                      ),
-                                    ) : Text("")
-                                  ],)
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(32),
+                                  image: DecorationImage(image: NetworkImage(dashboard[index]), fit: BoxFit.fill)
+                              )
                             ),
                           );
                         }
