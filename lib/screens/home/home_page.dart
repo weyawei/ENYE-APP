@@ -27,13 +27,22 @@ class homePage extends StatefulWidget {
 }
 
 class _homePageState extends State<homePage>{
+  // final List<String> dashboard = [
+  //   "${API.dashboard}BMS.png",
+  //   "${API.dashboard}ems_ecbills.png",
+  //   "${API.dashboard}prod1.png",
+  //   "${API.dashboard}prod2.png",
+  //   "${API.dashboard}sys1.png",
+  //   "${API.dashboard}sys2.png",
+  // ];
+
   final List<String> dashboard = [
-    "${API.dashboard}BMS.png",
-    "${API.dashboard}ems_ecbills.png",
-    "${API.dashboard}prod1.png",
-    "${API.dashboard}prod2.png",
-    "${API.dashboard}sys1.png",
-    "${API.dashboard}sys2.png",
+    "assets/backgrounds/BMS.png",
+    "assets/backgrounds/ems_ecbills.png",
+    "assets/backgrounds/prod1.png",
+    "assets/backgrounds/prod2.png",
+    "assets/backgrounds/sys1.png",
+    "assets/backgrounds/sys2.png",
   ];
 
   int currentIndex = 0;
@@ -98,7 +107,7 @@ class _homePageState extends State<homePage>{
                       height: screenHeight * 0.9,
                       key: ValueKey<int>(currentIndex),
                       decoration: BoxDecoration(
-                        image: DecorationImage(image: NetworkImage(dashboard[currentIndex]), fit: BoxFit.fill),
+                        image: DecorationImage(image: AssetImage(dashboard[currentIndex]), fit: BoxFit.fill),
                       ),
                       child: BackdropFilter(
                         filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
@@ -125,7 +134,7 @@ class _homePageState extends State<homePage>{
                             child: Container(
                               decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(32),
-                                  image: DecorationImage(image: NetworkImage(dashboard[index]), fit: BoxFit.fill)
+                                  image: DecorationImage(image: AssetImage(dashboard[index]), fit: BoxFit.fill)
                               )
                             ),
                           );
