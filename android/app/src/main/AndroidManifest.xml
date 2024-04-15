@@ -3,8 +3,8 @@
     <application
         android:label="ENYECONTROLS"
         android:name="${applicationName}"
-        android:roundIcon="@mipmap/ic_launcher"
-        android:icon="@mipmap/ic_launcher">
+        android:roundIcon="@mipmap/enye"
+        android:icon="@mipmap/enye">
 
         <!-- Add the Firebase Messaging service -->
         <service
