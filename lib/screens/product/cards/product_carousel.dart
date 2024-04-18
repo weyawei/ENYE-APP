@@ -21,7 +21,7 @@ class productCarousel extends StatelessWidget {
           crossAxisCount: 3,
           crossAxisSpacing: 12.0,
           mainAxisSpacing: 12.0,
-          childAspectRatio: 1.4,
+          childAspectRatio: 1.1,
         ),
         itemCount: products.length,
         itemBuilder: (BuildContext context, int index) {
