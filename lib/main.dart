@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_session_manager/flutter_session_manager.dart';
 import 'package:sizer/sizer.dart';
-
+import 'firebase_options.dart';
 import 'config/config.dart';
 import 'widget/widgets.dart';
 
@@ -12,7 +12,9 @@ final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();   //
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  await Firebase.initializeApp();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   await FirebaseApi().initNotifications();
 
   SystemChrome.setPreferredOrientations([
