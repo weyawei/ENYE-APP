@@ -120,7 +120,7 @@ class _productsPageState extends State<productsPage> with TickerProviderStateMix
   _getProdCategory(){
     productService.getProdCategory().then((productCategory){
       setState(() {
-        _prodCategory = productCategory;
+        _prodCategory = productCategory.where((element) => element.status == "Active").toList();
       });
       _isLoadingCategory = false;
       print("Length ${productCategory.length}");
@@ -441,7 +441,7 @@ class _productsPageState extends State<productsPage> with TickerProviderStateMix
                                 children: <Widget>[
                                   Image.network(
                                     //"${API.prodCategIcon + widget.productcategory.icon}",
-                                    "${API.prodCat + _prodCategory.where((productCategory) => productCategory.status == "Active").elementAt(0).image}",
+                                    "${API.prodCat + productCategory.image}",
                                     fit: BoxFit.contain,
                                     width: MediaQuery.of(context).size.width * 0.6,
                                     height: MediaQuery.of(context).size.width * 0.3 * 1.3,

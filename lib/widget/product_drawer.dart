@@ -25,7 +25,7 @@ class _productDrawerState extends State<productDrawer> {
   _getProdCategory(){
     productService.getProdCategory().then((productCategory){
       setState(() {
-        _prodCategory = productCategory;
+        _prodCategory = productCategory.where((element) => element.status == "Active").toList();
       });
       print("Length ${productCategory.length}");
     });
