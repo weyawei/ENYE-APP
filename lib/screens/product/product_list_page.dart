@@ -13,7 +13,7 @@ class listProductsPage extends StatefulWidget {
     );
   }
 
-  final productSubCategory prodSubCat;
+  final productCategory prodSubCat;
   const listProductsPage({required this.prodSubCat});
 
   @override
@@ -57,8 +57,7 @@ class _listProductsPageState extends State<listProductsPage> {
             SizedBox(height: 15,),
             productCarousel(
               products: _products.where((product) =>
-              product.category_id == widget.prodSubCat.category_id &&
-                  product.subCategory_id == widget.prodSubCat.id
+              product.category_id == widget.prodSubCat.id
               ).toList(),
             ),
           ],

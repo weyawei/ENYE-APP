@@ -13,12 +13,12 @@ class productDrawer extends StatefulWidget {
 
 class _productDrawerState extends State<productDrawer> {
   List<productCategory> _prodCategory = [];
-  List<productSubCategory> _prodSubCategory = [];
+  List<product> _products = [];
 
   @override
   void initState(){
     super.initState();
-    _getProdSubCategory();
+    _getProducts();
     _getProdCategory();
   }
 
@@ -31,12 +31,12 @@ class _productDrawerState extends State<productDrawer> {
     });
   }
 
-  _getProdSubCategory(){
-    productService.getProdSubCategory().then((productSubCategory){
+  _getProducts(){
+    productService.getProducts().then((product){
       setState(() {
-        _prodSubCategory = productSubCategory;
+        _products = product;
       });
-      print("Length ${productSubCategory.length}");
+      print("Length ${product.length}");
     });
   }
 
@@ -83,22 +83,36 @@ class _productDrawerState extends State<productDrawer> {
                         _currentExpandedTileIndex = -1;
                       });
                   }),
-                  title: Text(
-                    _prodCategory[index].name,
-                    style: TextStyle(
-                      fontSize: MediaQuery.of(context).size.width * 0.025,
-                      fontWeight: FontWeight.bold,
+                  
+                  title: GestureDetector(
+                    onTap: (){
+                      setState(() {
+                        PersistentNavBarNavigator.pushNewScreenWithRouteSettings(
+                          context,
+                          settings: RouteSettings(name: listProductsPage.routeName),
+                          screen: listProductsPage(prodSubCat: _prodCategory[index],),
+                          withNavBar: true,
+                          pageTransitionAnimation: PageTransitionAnimation.cupertino,
+                        );
+                      });
+                    },
+                    child: Text(
+                      _prodCategory[index].name,
+                      style: TextStyle(
+                        fontSize: MediaQuery.of(context).size.width * 0.025,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
-                  children: _prodSubCategory.where(
-                          (productSubCategory) => productSubCategory.category_id == _prodCategory[index].id).map((productSubCategory) =>
+                  children: _products.where(
+                          (product) => product.category_id == _prodCategory[index].id).map((product) =>
                       InkWell(
                         onTap: (){
                           setState(() {
                             PersistentNavBarNavigator.pushNewScreenWithRouteSettings(
                               context,
-                              settings: RouteSettings(name: listProductsPage.routeName),
-                              screen: listProductsPage(prodSubCat: productSubCategory,),
+                              settings: RouteSettings(name: detailedProductPage.routeName),
+                              screen: detailedProductPage(products: product,),
                               withNavBar: true,
                               pageTransitionAnimation: PageTransitionAnimation.cupertino,
                             );
@@ -124,7 +138,7 @@ class _productDrawerState extends State<productDrawer> {
                               SizedBox(width: 10,),
                               Flexible(
                                 child: Text(
-                                  productSubCategory.name,
+                                  product.name,
                                   style: TextStyle(
 				    fontSize: MediaQuery.of(context).size.width * 0.025,
                                     color: Colors.black54,

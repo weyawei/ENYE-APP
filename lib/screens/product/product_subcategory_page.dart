@@ -4,7 +4,7 @@ import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 
 import '../../widget/widgets.dart';
 import '../screens.dart';
-
+/*
 class subCatProductPage extends StatefulWidget {
   static const String routeName = '/subcategory';
 
@@ -127,4 +127,4 @@ class _subCatProductPageState extends State<subCatProductPage> {
       ),
     );
   }
-}
+}*/

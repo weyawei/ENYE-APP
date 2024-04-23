@@ -15,18 +15,21 @@ import '../screens.dart';
 class productsPage extends StatefulWidget {
   static const String routeName = '/products';
 
-  static Route route() {
+  Route route() {
     return MaterialPageRoute(
-        settings: RouteSettings(name: routeName),
+        settings: RouteSettings(name: productsPage.routeName),
         builder: (_) => productsPage());
   }
 
+ late final productCategory category;
+ // const productsPage({required this.category});
   @override
   _productsPageState createState() => _productsPageState();
 }
 
 class _productsPageState extends State<productsPage> with TickerProviderStateMixin {
   List<productCategory> _prodCategory = [];
+  List<productCategory> _filteredprodCategory = [];
   List<product> _products = [];
 
   List<product> searchResults = [];
@@ -199,7 +202,7 @@ class _productsPageState extends State<productsPage> with TickerProviderStateMix
     var fontNormalSize = ResponsiveTextUtils.getNormalFontSize(screenWidth);
     var fontExtraSize = ResponsiveTextUtils.getExtraFontSize(screenWidth);
 
-
+  //  _filteredprodCategory = _prodCategory.where((productCategory) => productCategory.id == widget.category.id).toList();
 
     return GestureDetector(
       // onTap callback will be triggered when tapping anywhere on the screen
@@ -338,9 +341,9 @@ class _productsPageState extends State<productsPage> with TickerProviderStateMix
                                 .pushNewScreenWithRouteSettings(
                               context,
                               settings: RouteSettings(
-                                  name: subCatProductPage.routeName),
-                              screen: subCatProductPage(
-                                  category: _prodCategory[index]),
+                                  name: listProductsPage.routeName),
+                              screen: listProductsPage(
+                                  prodSubCat: _prodCategory[index]),
                               withNavBar: true,
                               pageTransitionAnimation: PageTransitionAnimation
                                   .cupertino,
@@ -417,14 +420,14 @@ class _productsPageState extends State<productsPage> with TickerProviderStateMix
                       enlargeCenterPage: true,
                       enlargeStrategy: CenterPageEnlargeStrategy.height,
                     ),
-                    items: _prodCategory.where((productCategory) => productCategory.published == "Yes").map((productCategory) =>
+                    items: _prodCategory.where((productCategory) => productCategory.status == "Active").map((productCategory) =>
                         InkWell(
                           onTap: (){
                             setState(() {
                               PersistentNavBarNavigator.pushNewScreenWithRouteSettings(
                                 context,
-                                settings: RouteSettings(name: subCatProductPage.routeName),
-                                screen: subCatProductPage(category: productCategory),
+                                settings: RouteSettings(name: listProductsPage.routeName),
+                                screen: listProductsPage(prodSubCat: productCategory,),
                                 withNavBar: true,
                                 pageTransitionAnimation: PageTransitionAnimation.cupertino,
                               );
@@ -438,7 +441,7 @@ class _productsPageState extends State<productsPage> with TickerProviderStateMix
                                 children: <Widget>[
                                   Image.network(
                                     //"${API.prodCategIcon + widget.productcategory.icon}",
-                                    "${API.prodImg + _products.where((product) => product.category_id == productCategory.id).elementAt(0).image}",
+                                    "${API.prodCat + _prodCategory.where((productCategory) => productCategory.status == "Active").elementAt(0).image}",
                                     fit: BoxFit.contain,
                                     width: MediaQuery.of(context).size.width * 0.6,
                                     height: MediaQuery.of(context).size.width * 0.3 * 1.3,

@@ -1,10 +1,12 @@
 import 'dart:io';
 
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:open_file_plus/open_file_plus.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import 'package:photo_view/photo_view.dart';
 
 import '../../config/api_connection.dart';
@@ -30,6 +32,8 @@ class detailedProductPage extends StatefulWidget {
 }
 
 class _detailedProductPageState extends State<detailedProductPage> {
+
+
   //THIS IS FOR PDF VIEWING
   double? _progress;
 
@@ -74,7 +78,6 @@ class _detailedProductPageState extends State<detailedProductPage> {
 
 
   //LIST OF PRODUCT DETAIL
-
   List<detailedProduct> _productDetail = [];
 
   @override
@@ -299,7 +302,7 @@ class _detailedProductPageState extends State<detailedProductPage> {
                   title: Text(
                     _productDetail[index].title,
                     style: TextStyle(
-                      fontSize: MediaQuery.of(context).size.width * 0.025,
+                      fontSize: MediaQuery.of(context).size.width * 0.031,
                       fontWeight: FontWeight.bold,
                     ),
                     textAlign: TextAlign.center,
@@ -316,7 +319,49 @@ class _detailedProductPageState extends State<detailedProductPage> {
                           ),
                         ),
 
-                      if (_productDetail[index].image != null && _productDetail[index].image.isNotEmpty)
+                    if (_productDetail[index].product_pdf != null &&
+                        _productDetail[index].product_pdf.isNotEmpty)
+                      Center(
+                        child: Container(
+                          padding: EdgeInsets.symmetric(horizontal: 2.0),
+                          child: Column(
+                            children: _productDetail[index].product_pdf.split(',').map((filename) {
+                              String trimmedFilename = filename.trim();
+                              return TextButton(
+                                onPressed: () {
+                                  if (trimmedFilename.isEmpty) {
+                                    _errorSnackbar(context, "PDF File doesn't exist.");
+                                  } else {
+                                    openFile(
+                                      url: "${API.prodPdf + trimmedFilename}",
+                                      filename: trimmedFilename,
+                                    );
+                                  }
+                                },
+                                child: Row(
+                                  children: [
+                                    Icon(Icons.picture_as_pdf), // Add icon
+                                    SizedBox(width: 8), // Add some space between icon and filename
+                                    Text(
+                                      trimmedFilename,
+                                      textAlign: TextAlign.justify,
+                                      style: TextStyle(
+                                        fontSize: MediaQuery.of(context).size.width * 0.031,
+                                        fontStyle: FontStyle.italic,
+                                        letterSpacing: 1,
+                                        color: Colors.black,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              );
+                            }).toList(),
+                          ),
+                        ),
+                      ),
+
+
+                    if (_productDetail[index].image != null && _productDetail[index].image.isNotEmpty)
                         Center(
                           child: GestureDetector(
                             onTap: () {
@@ -393,7 +438,8 @@ class _detailedProductPageState extends State<detailedProductPage> {
               ]
           )
         ),
-      )
+      ),
+
     );
   }
 }

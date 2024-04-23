@@ -5,6 +5,7 @@ class detailedProduct {
   String title;
   String description;
   String image;
+  String product_pdf;
 
   detailedProduct({
     required this.id,
@@ -12,6 +13,7 @@ class detailedProduct {
     required this.title,
     required this.description,
     required this.image,
+    required this.product_pdf,
   });
 
   factory detailedProduct.fromJson(Map<String, dynamic> json) {
@@ -21,6 +23,7 @@ class detailedProduct {
       title: json['title'] as String,
       description: json['description'] as String,
       image: json['image'] as String,
+      product_pdf: json['product_pdf'] as String,
     );
   }
 }

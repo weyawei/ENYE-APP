@@ -3,13 +3,17 @@ class productCategory {
   String id;
   String name;
   String icon;
+  String image;
   String published;
+  String status;
 
   productCategory({
     required this.id,
     required this.name,
     required this.icon,
+    required this.image,
     required this.published,
+    required this.status,
   });
 
   factory productCategory.fromJson(Map<String, dynamic> json) {
@@ -17,7 +21,9 @@ class productCategory {
       id: json['category_id'] as String,
       name: json['cat_name'] as String,
       icon: json['icon'] as String,
+      image: json['image'] as String,
       published: json['published'] as String,
+      status: json['status'] as String,
     );
   }
 }
