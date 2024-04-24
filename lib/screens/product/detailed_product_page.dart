@@ -79,10 +79,14 @@ class _detailedProductPageState extends State<detailedProductPage> {
 
   //LIST OF PRODUCT DETAIL
   List<detailedProduct> _productDetail = [];
+  List<productCategory> _prodCategory = [];
+  List<product> _products = [];
 
   @override
   void initState() {
     _getProductDetails();
+    _getProdCategory();
+    _getProducts();
   }
 
   _getProductDetails(){
@@ -91,6 +95,24 @@ class _detailedProductPageState extends State<detailedProductPage> {
         _productDetail = detailedProduct;
       });
       print("Length ${detailedProduct.length}");
+    });
+  }
+
+  _getProdCategory(){
+    productService.getProdCategory().then((productCategory){
+      setState(() {
+        _prodCategory = productCategory.where((element) => element.status == "Active").toList();
+      });
+      print("Length ${productCategory.length}");
+    });
+  }
+
+  _getProducts(){
+    productService.getProducts().then((product){
+      setState(() {
+        _products = product;
+      });
+      print("Length ${product.length}");
     });
   }
 
@@ -319,48 +341,6 @@ class _detailedProductPageState extends State<detailedProductPage> {
                           ),
                         ),
 
-                    if (_productDetail[index].product_pdf != null &&
-                        _productDetail[index].product_pdf.isNotEmpty)
-                      Center(
-                        child: Container(
-                          padding: EdgeInsets.symmetric(horizontal: 2.0),
-                          child: Column(
-                            children: _productDetail[index].product_pdf.split(',').map((filename) {
-                              String trimmedFilename = filename.trim();
-                              return TextButton(
-                                onPressed: () {
-                                  if (trimmedFilename.isEmpty) {
-                                    _errorSnackbar(context, "PDF File doesn't exist.");
-                                  } else {
-                                    openFile(
-                                      url: "${API.prodPdf + trimmedFilename}",
-                                      filename: trimmedFilename,
-                                    );
-                                  }
-                                },
-                                child: Row(
-                                  children: [
-                                    Icon(Icons.picture_as_pdf), // Add icon
-                                    SizedBox(width: 8), // Add some space between icon and filename
-                                    Text(
-                                      trimmedFilename,
-                                      textAlign: TextAlign.justify,
-                                      style: TextStyle(
-                                        fontSize: MediaQuery.of(context).size.width * 0.031,
-                                        fontStyle: FontStyle.italic,
-                                        letterSpacing: 1,
-                                        color: Colors.black,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              );
-                            }).toList(),
-                          ),
-                        ),
-                      ),
-
-
                     if (_productDetail[index].image != null && _productDetail[index].image.isNotEmpty)
                         Center(
                           child: GestureDetector(
@@ -380,7 +360,93 @@ class _detailedProductPageState extends State<detailedProductPage> {
                       SizedBox(height: 30,),
                     ],
                 );
-              })
+              }),
+          Container(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                // Text widget added above the CarouselSlider
+                Text(
+                  "Related Products",
+                  style: TextStyle(
+                    fontSize: 20, // Adjust the font size as needed
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                SizedBox(height: 10), // Adding some space between text and carousel
+                CarouselSlider(
+                  options: CarouselOptions(
+                    autoPlay: true,
+                    aspectRatio: 2.0,
+                    viewportFraction: 0.5,
+                    enableInfiniteScroll: false,
+                    enlargeCenterPage: true,
+                    enlargeStrategy: CenterPageEnlargeStrategy.height,
+                  ),
+                  items: _products.where((product) => product.category_id == widget.products.category_id).map((product) =>
+                      InkWell(
+                        onTap: (){
+                          setState(() {
+                            PersistentNavBarNavigator.pushNewScreenWithRouteSettings(
+                              context,
+                              settings: RouteSettings(name: detailedProductPage.routeName),
+                              screen: detailedProductPage( products: product,),
+                              withNavBar: true,
+                              pageTransitionAnimation: PageTransitionAnimation.cupertino,
+                            );
+                          });
+                        },
+                        child: Container(
+                          margin: EdgeInsets.symmetric(horizontal: 5.0, vertical: 20),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.all(Radius.circular(5.0)),
+                            child: Stack(
+                              children: <Widget>[
+                                Image.network(
+                                  //"${API.prodCategIcon + widget.productcategory.icon}",
+                                  "${API.prodImg + product.image}",
+                                  fit: BoxFit.contain,
+                                  width: MediaQuery.of(context).size.width * 0.6,
+                                  height: MediaQuery.of(context).size.width * 0.3 * 1.3,
+                                ),
+                                Positioned(
+                                  bottom: 0.0,
+                                  left: 0.0,
+                                  right: 0.0,
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      gradient: LinearGradient(
+                                        colors: [
+                                          Color.fromARGB(200, 0, 0, 0),
+                                          Color.fromARGB(0, 0, 0, 0),
+                                        ],
+                                        begin: Alignment.bottomCenter,
+                                        end: Alignment.topCenter,
+                                      ),
+                                    ),
+                                    padding:
+                                    EdgeInsets.symmetric(vertical: 5.0, horizontal: 20.0),
+                                    child: Text(
+                                      product.name,
+                                      style: TextStyle(
+                                        fontSize: MediaQuery.of(context).size.width * 0.025,
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold,
+
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      )
+                  ).toList(),
+                ),
+              ],
+            ),
+          ),
         ],
       ),
 
