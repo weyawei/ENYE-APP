@@ -446,7 +446,8 @@ class _detailedSysPageState extends State<detailedSysPage> {
                               ),
                             ),
                             children: [
-                              Container(
+                              SystemsTechSpecs.product_pdf == null || SystemsTechSpecs.product_pdf.isEmpty
+                               ? Container(
                                 decoration: BoxDecoration(
                                   image: DecorationImage(image: NetworkImage("${API.sysTechImg + SystemsTechSpecs.image}", scale: fontNormalSize == 14.0 ? 2.5 : fontNormalSize == 18.0 ? 1.75 : 1.5,), alignment: Alignment.topRight),
                                 ),
@@ -474,6 +475,72 @@ class _detailedSysPageState extends State<detailedSysPage> {
                                         "${SystemsTechSpecs.features}",
                                         style: TextStyle(height: 1.5, fontSize: fontNormalSize, color: Colors.white, fontWeight: FontWeight.w900, letterSpacing: 1.2),
                                         textAlign: TextAlign.left,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              )
+                               : Container(
+                                decoration: BoxDecoration(
+                                  image: DecorationImage(image: NetworkImage("${API.sysTechImg + SystemsTechSpecs.image}", scale: fontNormalSize == 14.0 ? 2.5 : fontNormalSize == 18.0 ? 1.75 : 1.5,), alignment: Alignment.topRight),
+                                ),
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    gradient: LinearGradient(
+                                      colors: [Colors.blue.withOpacity(0.2), Colors.deepOrange.shade100.withOpacity(0.1)],
+                                      stops: [0.0, 1],
+                                      begin: Alignment.topCenter,
+                                    ),
+                                  ),
+                                  child: Container(
+                                    width: screenWidth * 1,
+                                    padding: EdgeInsets.all(16.0),
+                                    decoration: BoxDecoration(
+                                      gradient: LinearGradient(
+                                        begin: Alignment.centerLeft,
+                                        end: Alignment.centerRight,
+                                        colors: [Colors.deepOrange.shade300, Colors.deepOrange.withOpacity(0.1)],
+                                      ),
+                                    ),
+                                    child: Container(
+                                      child: Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: <Widget>[
+                                          ...SystemsTechSpecs.product_pdf.map((product) {
+                                            return TextButton(
+                                              onPressed: () => openFile(
+                                                url: "${API.prodPdf + product['catalogs_pdf']}",
+                                                filename: "${product['catalogs_pdf']}",
+                                              ),
+                                              child: Row(
+                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                mainAxisSize: MainAxisSize.min,  // Use min to prevent the Row from occupying more space than its children need.
+                                                children: <Widget>[
+                                                  Icon(
+                                                    Icons.download_for_offline_rounded,
+                                                    color: Colors.white,
+                                                    size: (screenHeight + screenWidth) / 40,
+                                                  ),// Example icon
+                                                  SizedBox(width: 8),  // Space between icon and text
+                                                  Text(
+                                                    product['prod_name'],
+                                                    style: TextStyle(
+                                                      height: 1.5,
+                                                      fontSize: fontSmallSize,
+                                                      fontFamily: 'Rowdies',
+                                                      color: Colors.white,
+                                                      fontWeight: FontWeight.w700,
+                                                      letterSpacing: 1.2,
+                                                    ),
+                                                    textAlign: TextAlign.left,
+                                                  ),
+                                                ],
+                                              ),
+                                            );
+                                          }).toList(),
+                                          if (SystemsTechSpecs.product_pdf.length < 3)
+                                            SizedBox(height: screenHeight * 0.15),
+                                        ],
                                       ),
                                     ),
                                   ),

@@ -3,7 +3,7 @@ class SystemsTechSpecs {
   String title;
   String features;
   String image;
-  String product_pdf;
+  List product_pdf;
 
   SystemsTechSpecs({
     required this.id,
@@ -19,7 +19,7 @@ class SystemsTechSpecs {
       title: json['title'] as String,
       features: json['features'] as String,
       image: json['image'] as String,
-      product_pdf: json['product_catalog'] as String,
+      product_pdf: json['product_catalog'] as List,
     );
   }
 }

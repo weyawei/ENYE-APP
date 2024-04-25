@@ -8,7 +8,7 @@ class systemService {
   //this is same as in PHP code action made by the user CRUD
   static const GET_ALL_SYSTEMS = 'get_all_systems';
   static const GET_ALL_SYSDETAILS = 'get_all_sysdetails';
-  static const GET_ALL_SYSTECHSPECS = 'get_all_systechspecs';
+  static const GET_ALL_SYSTECHSPECS = 'get_all_systechspecs_pdfs';
 
   //get data categories from database
   static Future <List<Systems>> getSystems() async {
