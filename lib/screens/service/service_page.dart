@@ -29,6 +29,8 @@ class ServicePage extends StatefulWidget {
 class _ServicePageState extends State<ServicePage> {
   RemoteMessage message = RemoteMessage();
   bool? userSessionFuture;
+  bool _isLoading = true;
+  late List<TechnicalData> _services;
 
   clientInfo? ClientInfo;
 
@@ -109,6 +111,16 @@ class _ServicePageState extends State<ServicePage> {
         );
       });
     }
+    _services = [];
+  }
+
+  _getServices(){
+    TechnicalDataServices.clientTechnicalData(ClientInfo!.client_id).then((technicalData){
+      setState(() {
+        _services = technicalData.where((element) => element.status == "Set-sched").toList();
+      });
+      _isLoading = false;
+    });
   }
 
   @override
@@ -118,6 +130,7 @@ class _ServicePageState extends State<ServicePage> {
 
     bool screenLayout = ResponsiveTextUtils.getLayout(screenWidth);
 
+    var fontSmallSize = ResponsiveTextUtils.getSmallFontSize(screenWidth);
     var fontExtraSize = ResponsiveTextUtils.getExtraFontSize(screenWidth);
 
     //calling session data
@@ -129,6 +142,7 @@ class _ServicePageState extends State<ServicePage> {
           });
         });
         userSessionFuture = bool;
+        _getServices();
       } else {
         userSessionFuture = bool;
       }
@@ -291,36 +305,63 @@ class _ServicePageState extends State<ServicePage> {
 
               //status button
               GestureDetector(
-                onTap: (){
+                onTap: () {
                   if (userSessionFuture == true) {
-                    Navigator.of(context).push(MaterialPageRoute(builder: (context) => StatusPage(message: message))).then((value) { setState(() {}); });
+                    Navigator.of(context).push(MaterialPageRoute(builder: (context) => StatusPage(message: message)))
+                        .then((value) { setState(() {}); });
                   } else {
                     _errorSnackbar(context, "Login first !");
                   }
                 },
-                child: Container(
-                  height: screenHeight * 0.12,
-                  width: screenWidth * 0.26,
-                  decoration: BoxDecoration(
-                      border: Border.all(width: 2, color: Colors.deepOrange.withOpacity(0.2)),
-                      borderRadius: BorderRadius.circular(10),
-                      image: DecorationImage(
-                        alignment: Alignment(0.0, -0.3),
-                        image: AssetImage("assets/icons/service-status.png"),
-                        scale: screenLayout ? 3.1 : 1.7,
-                      )
-                  ),
-                  child: Align(
-                    alignment: Alignment.bottomCenter,
-                    child: Container(
-                      padding: EdgeInsets.only(bottom: 15),
-                      child: Text("Status",
-                        style: GoogleFonts.rowdies(
-                          textStyle: TextStyle(fontSize: fontExtraSize, letterSpacing: 1.5, color: Colors.deepOrange.shade700),
+                child: Stack(
+                  children: [
+                    Container(
+                      height: screenHeight * 0.12,
+                      width: screenWidth * 0.26,
+                      decoration: BoxDecoration(
+                        border: Border.all(width: 2, color: Colors.deepOrange.withOpacity(0.2)),
+                        borderRadius: BorderRadius.circular(10),
+                        image: DecorationImage(
+                          alignment: Alignment(0.0, -0.3),
+                          image: AssetImage("assets/icons/service-status.png"),
+                          scale: screenLayout ? 3.1 : 1.7,
+                        ),
+                      ),
+                      child: Align(
+                        alignment: Alignment.bottomCenter,
+                        child: Container(
+                          padding: EdgeInsets.only(bottom: 15),
+                          child: Text("Status",
+                            style: GoogleFonts.rowdies(
+                              textStyle: TextStyle(fontSize: fontExtraSize, letterSpacing: 1.5, color: Colors.deepOrange.shade700),
+                            ),
+                          ),
                         ),
                       ),
                     ),
-                  ),
+
+                    // Conditional notification badge
+                    if (_services.isNotEmpty) // Replace `showNotification` with your actual condition variable
+                      Positioned(
+                        right: 3,
+                        top: 0,
+                        child: Container(
+                          padding: EdgeInsets.all(8),
+                          decoration: BoxDecoration(
+                            color: Colors.red,
+                            shape: BoxShape.circle,
+                          ),
+                          child: Text(
+                            _services.length.toString(), // This is the notification count, replace '3' with your dynamic data
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: fontSmallSize,
+                            ),
+                          ),
+                        ),
+                      ),
+                  ],
                 ),
               ),
 

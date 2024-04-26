@@ -76,12 +76,23 @@ class _detailedSysPageState extends State<detailedSysPage> {
 
   List<SystemsTechSpecs> _sysTechSpecs = [];
   List<SystemsDetail> _sysDetails = [];
+  List<Systems> _systems = [];
 
   @override
   void initState(){
     super.initState();
     _getSysTechSpecs();
     _getSysDetails();
+    _getSystems();
+  }
+
+  _getSystems(){
+    systemService.getSystems().then((Systems){
+      setState(() {
+        _systems = Systems.where((system) => widget.systems.id == system.id).toList();;
+      });
+      print("Length ${Systems.length}");
+    });
   }
 
   _getSysTechSpecs(){
@@ -317,7 +328,7 @@ class _detailedSysPageState extends State<detailedSysPage> {
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.025),
                   child: Text(
-                    widget.systems.title,
+                    _systems[0].title.toString().toString(),
                     textAlign: TextAlign.center,
                     style: TextStyle(
                         fontSize: fontExtraSize,
@@ -330,11 +341,11 @@ class _detailedSysPageState extends State<detailedSysPage> {
                 ),
 
                 SizedBox(height: screenHeight * 0.05,),
-                if (widget.systems.youtubeUrl.isNotEmpty)
+                if (_systems[0].youtubeUrl.toString().isNotEmpty)
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.05),
                     child: youtubePlayerView(
-                        url: widget.systems.youtubeUrl.toString()
+                        url: _systems.elementAt(0).youtubeUrl.toString()
                     ),
                   ),
 
@@ -358,7 +369,7 @@ class _detailedSysPageState extends State<detailedSysPage> {
                 SizedBox(height: screenHeight * 0.035,),
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.1),
-                  child: Text(widget.systems.description, maxLines: null, textAlign: TextAlign.justify,
+                  child: Text(_systems[0].description.toString(), maxLines: null, textAlign: TextAlign.justify,
                     style: TextStyle(height: 1.5, fontSize: fontNormalSize, fontStyle: FontStyle.italic, letterSpacing: 1.2),),
                 ),
 
