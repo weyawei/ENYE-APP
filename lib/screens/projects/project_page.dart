@@ -149,8 +149,8 @@ class _ProjectsPageState extends State<ProjectsPage> with TickerProviderStateMix
 
     bool screenLayout = ResponsiveTextUtils.getLayout(screenWidth);
 
+    var fontXSmallSize = ResponsiveTextUtils.getXSmallFontSize(screenWidth);
     var fontSmallSize = ResponsiveTextUtils.getSmallFontSize(screenWidth);
-    var fontNormalSize = ResponsiveTextUtils.getNormalFontSize(screenWidth);
     var fontExtraSize = ResponsiveTextUtils.getExtraFontSize(screenWidth);
 
     return Scaffold(
@@ -159,375 +159,384 @@ class _ProjectsPageState extends State<ProjectsPage> with TickerProviderStateMix
       body: _isLoadingProj || _isLoadingCat
         ? Center(child: SpinningContainer(controller: _controller),)
         : SafeArea(
-        child: SingleChildScrollView(
-          child: Padding(padding: EdgeInsets.all(12.0),
-            child: Column(
-              children: [
+        child: RefreshIndicator(
+          onRefresh: () async {
+            await Future.delayed(Duration(seconds: 2));
+            setState(() {
+              _getProjCategories();
+              _getProjects();
+            });
+          },
+          child: SingleChildScrollView(
+            child: Padding(padding: EdgeInsets.all(7.0),
+              child: Column(
+                children: [
 
-                //project categories
-                /*Container(
-                  height: 110,
-                  width: MediaQuery.of(context).size.width * 1,
-                     child: Stack(
-                     children: [
-                       PageView(
-                         controller: _pageController,
-                         scrollDirection: Axis.horizontal,
-                         children: List.generate(
-                           (_projCategories.length ).ceil(),
-                               (pageIndex) {
-                             return GridView.builder(
-                               padding: EdgeInsets.symmetric(horizontal: 55.0),
-                               scrollDirection: Axis.horizontal,
-                               shrinkWrap: true,
-                               gridDelegate:
-                               const SliverGridDelegateWithFixedCrossAxisCount(
-                                 crossAxisCount: 1,
-                                 crossAxisSpacing: 12.0,
-                                 mainAxisSpacing: 12.0,
-                                 mainAxisExtent: 120,
-                               ),
-                               itemCount: _projCategories.length,
-                               itemBuilder: (context, index) {
-                                 int actualIndex = pageIndex * 2 + index;
-                                 if (actualIndex >= _projCategories.length) {
-                                   return SizedBox.shrink();
-                                 }
-                                 return TextButton(
-                                   onPressed: () {
-                                    setState(() {
+                  //project categories
+                  /*Container(
+                    height: 110,
+                    width: MediaQuery.of(context).size.width * 1,
+                       child: Stack(
+                       children: [
+                         PageView(
+                           controller: _pageController,
+                           scrollDirection: Axis.horizontal,
+                           children: List.generate(
+                             (_projCategories.length ).ceil(),
+                                 (pageIndex) {
+                               return GridView.builder(
+                                 padding: EdgeInsets.symmetric(horizontal: 55.0),
+                                 scrollDirection: Axis.horizontal,
+                                 shrinkWrap: true,
+                                 gridDelegate:
+                                 const SliverGridDelegateWithFixedCrossAxisCount(
+                                   crossAxisCount: 1,
+                                   crossAxisSpacing: 12.0,
+                                   mainAxisSpacing: 12.0,
+                                   mainAxisExtent: 120,
+                                 ),
+                                 itemCount: _projCategories.length,
+                                 itemBuilder: (context, index) {
+                                   int actualIndex = pageIndex * 2 + index;
+                                   if (actualIndex >= _projCategories.length) {
+                                     return SizedBox.shrink();
+                                   }
+                                   return TextButton(
+                                     onPressed: () {
+                                      setState(() {
+                                      selectedCategory = _projCategories[index].category;
+                                      filterProjects();
+                                         // Perform your desired action here
+                                       });
+                                     },
+                                     child: Column(
+                                       children: [
+                                         Image.network(
+                                           "${API.projCategImage + _projCategories[actualIndex].images}",
+                                           color: Colors.deepOrange.shade400,
+                                           height: 55,
+                                           width: 45,
+                                           alignment: Alignment.center,
+                                         ),
+                                         Text(
+                                           "${_projCategories[actualIndex].title}",
+                                           style: TextStyle(
+                                             fontSize: 11,
+                                             fontWeight: FontWeight.bold,
+                                           ),
+                                           textAlign: TextAlign.center,
+                                           maxLines: 2,
+                                         ),
+                                       ],
+                                     ),
+                                   );
+                                 },
+                               );
+                             },
+                           ),
+                         onPageChanged: (index) {
+                           setState(() {
+                             _currentPageIndex = index;
+                           });
+                         },
+                       ),
+                    Positioned(
+                      left: 5.0,
+                      top: 20.0,
+                      child: ClipOval(
+                        child: Material(
+                          color: Colors.red, // Set the background color of the icon
+                          child: InkWell(
+                            onTap: _goToPreviousPage,
+                            child: SizedBox(
+                              width: 40.0,
+                              height: 40.0,
+                              child: Icon(
+                                Icons.arrow_back,
+                                color: Colors.white, // Set the color of the icon
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    Positioned(
+                      right: 5.0,
+                      top: 20.0,
+                      child: ClipOval(
+                        child: Material(
+                          color: Colors.red, // Set the background color of the icon
+                          child: InkWell(
+                            onTap: _goToNextPage,
+                            child: SizedBox(
+                              width: 40.0,
+                              height: 40.0,
+                              child: Icon(
+                                Icons.arrow_forward,
+                                color: Colors.white, // Set the color of the icon
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+
+                       ],
+                       ),
+                  ),*/
+                  Container(
+                    height: screenHeight * 0.15,
+                    width: screenWidth * 1,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        //lefft arrow
+                        isLeftButtonVisible
+                        ? Container(
+                          height: screenHeight * 0.06,
+                          width: screenWidth * 0.07,
+                          child: IconButton(
+                            onPressed: scrollLeft,
+                            icon: Image(image: AssetImage("assets/icons/left_arrow.png")),
+                            iconSize: screenLayout ? (screenHeight + screenWidth) / 50 : (screenHeight + screenWidth) / 75,
+                          ),
+                        )
+                        : SizedBox.shrink(),
+
+
+                        //categories
+                        Container(
+                          height: screenHeight * 0.13,
+                          width: screenWidth * 0.8,
+                          child: GridView.builder(
+                            controller: _scrollController, // Assign the ScrollController
+                            scrollDirection: Axis.horizontal,
+                            shrinkWrap: true,
+                            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 1,
+                              crossAxisSpacing: (screenHeight + screenWidth) / 90,
+                              mainAxisSpacing: (screenHeight + screenWidth) / 90,
+                              mainAxisExtent: screenLayout ? screenWidth / 4 : screenWidth / 3,
+                            ),
+                            itemCount: _projCategories.length,
+                            itemBuilder: (context, index) {
+                              return TextButton(
+                                onPressed: () {
+                                  setState(() {
                                     selectedCategory = _projCategories[index].category;
                                     filterProjects();
-                                       // Perform your desired action here
-                                     });
-                                   },
-                                   child: Column(
-                                     children: [
-                                       Image.network(
-                                         "${API.projCategImage + _projCategories[actualIndex].images}",
-                                         color: Colors.deepOrange.shade400,
-                                         height: 55,
-                                         width: 45,
-                                         alignment: Alignment.center,
-                                       ),
-                                       Text(
-                                         "${_projCategories[actualIndex].title}",
-                                         style: TextStyle(
-                                           fontSize: 11,
-                                           fontWeight: FontWeight.bold,
-                                         ),
-                                         textAlign: TextAlign.center,
-                                         maxLines: 2,
-                                       ),
-                                     ],
-                                   ),
-                                 );
-                               },
-                             );
-                           },
-                         ),
-                       onPageChanged: (index) {
-                         setState(() {
-                           _currentPageIndex = index;
-                         });
-                       },
-                     ),
-                  Positioned(
-                    left: 5.0,
-                    top: 20.0,
-                    child: ClipOval(
-                      child: Material(
-                        color: Colors.red, // Set the background color of the icon
-                        child: InkWell(
-                          onTap: _goToPreviousPage,
-                          child: SizedBox(
-                            width: 40.0,
-                            height: 40.0,
-                            child: Icon(
-                              Icons.arrow_back,
-                              color: Colors.white, // Set the color of the icon
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                  Positioned(
-                    right: 5.0,
-                    top: 20.0,
-                    child: ClipOval(
-                      child: Material(
-                        color: Colors.red, // Set the background color of the icon
-                        child: InkWell(
-                          onTap: _goToNextPage,
-                          child: SizedBox(
-                            width: 40.0,
-                            height: 40.0,
-                            child: Icon(
-                              Icons.arrow_forward,
-                              color: Colors.white, // Set the color of the icon
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-
-                     ],
-                     ),
-                ),*/
-                Container(
-                  height: screenHeight * 0.15,
-                  width: screenWidth * 1,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      //lefft arrow
-                      isLeftButtonVisible
-                      ? Container(
-                        height: screenHeight * 0.06,
-                        width: screenWidth * 0.07,
-                        child: IconButton(
-                          onPressed: scrollLeft,
-                          icon: Image(image: AssetImage("assets/icons/left_arrow.png")),
-                          iconSize: screenLayout ? (screenHeight + screenWidth) / 50 : (screenHeight + screenWidth) / 75,
-                        ),
-                      )
-                      : SizedBox.shrink(),
-
-
-                      //categories
-                      Container(
-                        height: screenHeight * 0.13,
-                        width: screenWidth * 0.75,
-                        child: GridView.builder(
-                          controller: _scrollController, // Assign the ScrollController
-                          scrollDirection: Axis.horizontal,
-                          shrinkWrap: true,
-                          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 1,
-                            crossAxisSpacing: (screenHeight + screenWidth) / 90,
-                            mainAxisSpacing: (screenHeight + screenWidth) / 90,
-                            mainAxisExtent: screenLayout ? screenWidth * 0.3 : screenWidth * 0.2,
-                          ),
-                          itemCount: _projCategories.length,
-                          itemBuilder: (context, index) {
-                            return TextButton(
-                              onPressed: () {
-                                setState(() {
-                                  selectedCategory = _projCategories[index].category;
-                                  filterProjects();
-                                  // Perform your desired action here
-                                });
-                              },
-                              child: Column(
-                                children: [
-                                  ImageIcon(
-                                    NetworkImage("${API.projCategImage + _projCategories[index].images}"),
-                                    size: (screenHeight + screenWidth) / 25,
-                                    color: Colors.deepOrange.shade400,
-                                  ),
-
-                                  SizedBox(height: 5,),
-
-                                  Text(
-                                    "${_projCategories[index].title}",
-                                    style: TextStyle(
-                                      fontSize: fontSmallSize,
-                                      fontWeight: FontWeight.bold,
-                                      letterSpacing: 1.2,
+                                    // Perform your desired action here
+                                  });
+                                },
+                                child: Column(
+                                  children: [
+                                    ImageIcon(
+                                      NetworkImage("${API.projCategImage + _projCategories[index].images}"),
+                                      size: (screenHeight + screenWidth) / 25,
+                                      color: Colors.deepOrange.shade400,
                                     ),
-                                    textAlign: TextAlign.center,
-                                    maxLines: 2,
-                                  ),
-                                ],
-                              ),
+
+                                    SizedBox(height: 5,),
+
+                                    Text(
+                                      "${_projCategories[index].title}",
+                                      style: TextStyle(
+                                        fontSize: fontXSmallSize,
+                                        fontWeight: FontWeight.bold,
+                                        letterSpacing: 1.2,
+                                      ),
+                                      textAlign: TextAlign.center,
+                                      maxLines: 2,
+                                    ),
+                                  ],
+                                ),
+                              );
+                            },
+                          ),
+                        ),
+
+                        //right button
+                        isRightButtonVisible
+                        ? Container(
+                          height: screenHeight * 0.06,
+                          width: screenWidth * 0.07,
+                          child: IconButton(
+                            onPressed: scrollRight,
+                            icon: Image(image: AssetImage("assets/icons/right_arrow.png")),
+                            iconSize: screenLayout ? (screenHeight + screenWidth) / 50 : (screenHeight + screenWidth) / 75,
+                          ),
+                        )
+                        : SizedBox.shrink(),
+                      ],
+                    ),
+                  ),
+
+
+                  //project items
+                  _filteredProjects.isEmpty
+                      ? GridView.builder(
+                    padding: EdgeInsets.symmetric(horizontal: 6.0),
+                    physics: const NeverScrollableScrollPhysics(),
+                    shrinkWrap: true,
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: screenLayout ? 2 : 3,
+                      crossAxisSpacing: (screenHeight + screenWidth) / 90,
+                      mainAxisSpacing: (screenHeight + screenWidth) / 90,
+                      mainAxisExtent: screenHeight * 0.3,
+                    ),
+                    itemCount: _projects.length,
+                    itemBuilder: (context, index){
+
+                      return GestureDetector(
+                        onTap: (){
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => detailedProjPage(projects: _projects[index]),
+                            ),
+                          );
+                          /*setState(() {
+                            PersistentNavBarNavigator.pushNewScreenWithRouteSettings(
+                              context,
+                              settings: RouteSettings(name: detailedProjPage.routeName, arguments: {'projects': _projects[index]}),
+                              screen: detailedProjPage(projects: _projects[index]),
+                              withNavBar: true,
+                              pageTransitionAnimation: PageTransitionAnimation.cupertino,
                             );
-                          },
-                        ),
-                      ),
+                          });*/
+                        },
+                        child: Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(12.0),
+                            color: Colors.orange[200],
+                          ), //no function??nasasapawan ng pictures
+                          child: Column(
+                            children: [
+                              ClipRRect(borderRadius: BorderRadius.circular(12.0),
+                                child: Container(
+                                  height: screenHeight * 0.3,
+                                  decoration: BoxDecoration(
+                                    image: DecorationImage(
+                                      image: NetworkImage("${API.projectsImage + _projects[index].images}"),
+                                      fit: BoxFit.cover,
+                                      onError: (exception, stackTrace) {
+                                        // Handle image loading error here
+                                        print("Image loading failed: $exception");
+                                      },
+                                    ),
+                                  ),
 
-                      //right button
-                      isRightButtonVisible
-                      ? Container(
-                        height: screenHeight * 0.06,
-                        width: screenWidth * 0.07,
-                        child: IconButton(
-                          onPressed: scrollRight,
-                          icon: Image(image: AssetImage("assets/icons/right_arrow.png")),
-                          iconSize: screenLayout ? (screenHeight + screenWidth) / 50 : (screenHeight + screenWidth) / 75,
-                        ),
-                      )
-                      : SizedBox.shrink(),
-                    ],
-                  ),
-                ),
-
-
-                //project items
-                _filteredProjects.isEmpty
-                    ? GridView.builder(
-                  padding: EdgeInsets.symmetric(horizontal: 6.0),
-                  physics: const NeverScrollableScrollPhysics(),
-                  shrinkWrap: true,
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: screenLayout ? 2 : 3,
-                    crossAxisSpacing: (screenHeight + screenWidth) / 90,
-                    mainAxisSpacing: (screenHeight + screenWidth) / 90,
-                    mainAxisExtent: screenHeight * 0.3,
-                  ),
-                  itemCount: _projects.length,
-                  itemBuilder: (context, index){
-
-                    return GestureDetector(
-                      onTap: (){
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => detailedProjPage(projects: _projects[index]),
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      gradient: LinearGradient(
+                                        colors: [Colors.blue.withOpacity(0.2), Colors.deepOrange.shade100.withOpacity(0.3)],
+                                        stops: [0.0, 1],
+                                        begin: Alignment.topCenter,
+                                      ),
+                                    ),
+                                    child: Align(
+                                      alignment: Alignment.centerLeft,
+                                      child: Container(
+                                        width: screenWidth * 0.7,
+                                        margin: EdgeInsets.only(top: 50.0),
+                                        padding: EdgeInsets.all(16.0),
+                                        decoration: BoxDecoration(
+                                          gradient: LinearGradient(
+                                            colors: [Colors.deepOrange.shade300, Colors.deepOrange.withOpacity(0)],
+                                          ),
+                                        ),
+                                        child: Text(
+                                          "${_projects[index].title}",
+                                          style: TextStyle(fontSize: fontExtraSize, color: Colors.white, fontWeight: FontWeight.bold, letterSpacing: 1.2),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
-                        );
-                        /*setState(() {
-                          PersistentNavBarNavigator.pushNewScreenWithRouteSettings(
-                            context,
-                            settings: RouteSettings(name: detailedProjPage.routeName, arguments: {'projects': _projects[index]}),
-                            screen: detailedProjPage(projects: _projects[index]),
-                            withNavBar: true,
-                            pageTransitionAnimation: PageTransitionAnimation.cupertino,
-                          );
-                        });*/
-                      },
-                      child: Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(12.0),
-                          color: Colors.orange[200],
-                        ), //no function??nasasapawan ng pictures
-                        child: Column(
-                          children: [
-                            ClipRRect(borderRadius: BorderRadius.circular(12.0),
-                              child: Container(
-                                height: screenHeight * 0.3,
-                                decoration: BoxDecoration(
-                                  image: DecorationImage(
-                                    image: NetworkImage("${API.projectsImage + _projects[index].images}"),
-                                    fit: BoxFit.cover,
-                                    onError: (exception, stackTrace) {
-                                      // Handle image loading error here
-                                      print("Image loading failed: $exception");
-                                    },
-                                  ),
-                                ),
+                        ),
+                      );
 
+                    },
+                  )
+                      : GridView.builder(
+                    padding: EdgeInsets.symmetric(horizontal: 6.0, vertical: 8.0),
+                    physics: const NeverScrollableScrollPhysics(),
+                    shrinkWrap: true,
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: screenLayout ? 2 : 3,
+                      crossAxisSpacing: (screenHeight + screenWidth) / 90,
+                      mainAxisSpacing: (screenHeight + screenWidth) / 90,
+                      mainAxisExtent: screenHeight * 0.3,
+                    ),
+                    itemCount: _filteredProjects.length,
+                    itemBuilder: (context, index){
+
+                      return GestureDetector(
+                        onTap: (){
+                          setState(() {
+                            PersistentNavBarNavigator.pushNewScreenWithRouteSettings(
+                              context,
+                              settings: RouteSettings(name: detailedProjPage.routeName, arguments: {'projects': _filteredProjects[index]}),
+                              screen: detailedProjPage(projects: _filteredProjects[index]),
+                              withNavBar: true,
+                              pageTransitionAnimation: PageTransitionAnimation.cupertino,
+                            );
+                          });
+                        },
+                        child: Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(12.0),
+                            color: Colors.orange[200],
+                          ), //no function??nasasapawan ng pictures
+                          child: Column(
+                            children: [
+                              ClipRRect(borderRadius: BorderRadius.circular(12.0),
                                 child: Container(
+                                  height: screenHeight * 0.3,
                                   decoration: BoxDecoration(
-                                    gradient: LinearGradient(
-                                      colors: [Colors.blue.withOpacity(0.2), Colors.deepOrange.shade100.withOpacity(0.3)],
-                                      stops: [0.0, 1],
-                                      begin: Alignment.topCenter,
-                                    ),
+                                    image: DecorationImage(image: NetworkImage("${API.projectsImage + _filteredProjects[index].images}"), fit: BoxFit.cover),
                                   ),
-                                  child: Align(
-                                    alignment: Alignment.centerLeft,
-                                    child: Container(
-                                      width: screenWidth * 0.7,
-                                      margin: EdgeInsets.only(top: 50.0),
-                                      padding: EdgeInsets.all(16.0),
-                                      decoration: BoxDecoration(
-                                        gradient: LinearGradient(
-                                          colors: [Colors.deepOrange.shade300, Colors.deepOrange.withOpacity(0)],
-                                        ),
+
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      gradient: LinearGradient(
+                                        colors: [Colors.blue.withOpacity(0.2), Colors.deepOrange.shade100.withOpacity(0.3)],
+                                        stops: [0.0, 1],
+                                        begin: Alignment.topCenter,
                                       ),
-                                      child: Text(
-                                        "${_projects[index].title}",
-                                        style: TextStyle(fontSize: fontExtraSize, color: Colors.white, fontWeight: FontWeight.bold, letterSpacing: 1.2),
+                                    ),
+                                    child: Align(
+                                      alignment: Alignment.centerLeft,
+                                      child: Container(
+                                        width: screenWidth * 0.7,
+                                        margin: EdgeInsets.only(top: 50.0),
+                                        padding: EdgeInsets.all(16.0),
+                                        decoration: BoxDecoration(
+                                          gradient: LinearGradient(
+                                            colors: [Colors.deepOrange.shade300, Colors.deepOrange.withOpacity(0)],
+                                          ),
+                                        ),
+                                        child: Text(
+                                          "${_filteredProjects[index].title}",
+                                          style: TextStyle(fontSize: fontExtraSize, color: Colors.white, fontWeight: FontWeight.bold),
+                                        ),
                                       ),
                                     ),
                                   ),
                                 ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
-                      ),
-                    );
+                      );
 
-                  },
-                )
-                    : GridView.builder(
-                  padding: EdgeInsets.symmetric(horizontal: 6.0, vertical: 8.0),
-                  physics: const NeverScrollableScrollPhysics(),
-                  shrinkWrap: true,
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: screenLayout ? 2 : 3,
-                    crossAxisSpacing: (screenHeight + screenWidth) / 90,
-                    mainAxisSpacing: (screenHeight + screenWidth) / 90,
-                    mainAxisExtent: screenHeight * 0.3,
+                    },
                   ),
-                  itemCount: _filteredProjects.length,
-                  itemBuilder: (context, index){
-
-                    return GestureDetector(
-                      onTap: (){
-                        setState(() {
-                          PersistentNavBarNavigator.pushNewScreenWithRouteSettings(
-                            context,
-                            settings: RouteSettings(name: detailedProjPage.routeName, arguments: {'projects': _filteredProjects[index]}),
-                            screen: detailedProjPage(projects: _filteredProjects[index]),
-                            withNavBar: true,
-                            pageTransitionAnimation: PageTransitionAnimation.cupertino,
-                          );
-                        });
-                      },
-                      child: Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(12.0),
-                          color: Colors.orange[200],
-                        ), //no function??nasasapawan ng pictures
-                        child: Column(
-                          children: [
-                            ClipRRect(borderRadius: BorderRadius.circular(12.0),
-                              child: Container(
-                                height: screenHeight * 0.3,
-                                decoration: BoxDecoration(
-                                  image: DecorationImage(image: NetworkImage("${API.projectsImage + _filteredProjects[index].images}"), fit: BoxFit.cover),
-                                ),
-
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                    gradient: LinearGradient(
-                                      colors: [Colors.blue.withOpacity(0.2), Colors.deepOrange.shade100.withOpacity(0.3)],
-                                      stops: [0.0, 1],
-                                      begin: Alignment.topCenter,
-                                    ),
-                                  ),
-                                  child: Align(
-                                    alignment: Alignment.centerLeft,
-                                    child: Container(
-                                      width: screenWidth * 0.7,
-                                      margin: EdgeInsets.only(top: 50.0),
-                                      padding: EdgeInsets.all(16.0),
-                                      decoration: BoxDecoration(
-                                        gradient: LinearGradient(
-                                          colors: [Colors.deepOrange.shade300, Colors.deepOrange.withOpacity(0)],
-                                        ),
-                                      ),
-                                      child: Text(
-                                        "${_filteredProjects[index].title}",
-                                        style: TextStyle(fontSize: fontExtraSize, color: Colors.white, fontWeight: FontWeight.bold),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    );
-
-                  },
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),

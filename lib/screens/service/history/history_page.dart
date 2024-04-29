@@ -98,85 +98,93 @@ class _HistoryPageState extends State<HistoryPage> with TickerProviderStateMixin
         /*drawer: CustomDrawer(),*/
         body: _isLoading
           ? Center(child: SpinningContainer(controller: _controller),)
-          : Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            const SizedBox(height: 10,),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 18.0),
-              child: TextField(
-                controller: searchController,
-                decoration: InputDecoration(
-                  labelText: 'Search SERVICE #',
-                  prefixIcon: Icon(Icons.search),
-                  suffixIcon: searchController.text.isNotEmpty
-                      ? IconButton(
-                    onPressed: () {
-                      searchController.clear();
-                      FocusScope.of(context).unfocus();
+          : RefreshIndicator(
+            onRefresh: () async {
+              await Future.delayed(Duration(seconds: 2));
+              setState(() {
+                _getServices();
+              });
+            },
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                const SizedBox(height: 10,),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 18.0),
+                  child: TextField(
+                    controller: searchController,
+                    decoration: InputDecoration(
+                      labelText: 'Search SERVICE #',
+                      prefixIcon: Icon(Icons.search),
+                      suffixIcon: searchController.text.isNotEmpty
+                          ? IconButton(
+                        onPressed: () {
+                          searchController.clear();
+                          FocusScope.of(context).unfocus();
+                          filterSystemsList();
+                        },
+                        icon: const Icon(Icons.clear),
+                      )
+                          : null, // Set suffixIcon to null when text is empty
+                    ),
+                    onChanged: (value) {
+                      setState(() {
+                        filterSystemsList();
+                        if(searchController.text.isEmpty){
+                          FocusScope.of(context).unfocus();
+                        }
+                      });
+                    },
+                    onEditingComplete: (){
                       filterSystemsList();
                     },
-                    icon: const Icon(Icons.clear),
-                  )
-                      : null, // Set suffixIcon to null when text is empty
+                  ),
                 ),
-                onChanged: (value) {
-                  setState(() {
-                    filterSystemsList();
-                    if(searchController.text.isEmpty){
-                      FocusScope.of(context).unfocus();
-                    }
-                  });
-                },
-                onEditingComplete: (){
-                  filterSystemsList();
-                },
-              ),
-            ),
 
-            SizedBox(height: 25,),
-            _services.isEmpty
-                ? Expanded(
-              child: Container(
-                child: Center(
-                  child: (Text(
-                    "No Data Available",
-                    style: TextStyle(
-                        fontSize: 24,
-                        color: Colors.grey
-                    ),
-                  )),
-                ),
-              ),
-            )
-                : Expanded(
-              child: ListView.builder(
-                  itemCount: searchController.text.isEmpty ? _services.length : _filteredServices.length,
-                  itemBuilder: (_, index){
-                    _filteredServices = searchController.text.isEmpty ? _services : _filteredServices;
-
-                    return AnimationConfiguration.staggeredList(
-                      position: index,
-                      child: SlideAnimation(
-                        child: FadeInAnimation(
-                          child: Row(
-                            children: [
-                              GestureDetector(
-                                onTap: (){
-                                  //_showBottomSheet(context, services);
-                                },
-                                child: TaskTile(services: _filteredServices[index]),
-                              )
-                            ],
-                          ),
+                SizedBox(height: 25,),
+                _services.isEmpty
+                    ? Expanded(
+                  child: Container(
+                    child: Center(
+                      child: (Text(
+                        "No Data Available",
+                        style: TextStyle(
+                            fontSize: 24,
+                            color: Colors.grey
                         ),
-                      ),
-                    );
-                  }
-              ),
-            ),
-          ],
+                      )),
+                    ),
+                  ),
+                )
+                    : Expanded(
+                  child: ListView.builder(
+                      itemCount: searchController.text.isEmpty ? _services.length : _filteredServices.length,
+                      itemBuilder: (_, index){
+                        _filteredServices = searchController.text.isEmpty ? _services : _filteredServices;
+
+                        return AnimationConfiguration.staggeredList(
+                          position: index,
+                          child: SlideAnimation(
+                            child: FadeInAnimation(
+                              child: Row(
+                                children: [
+                                  GestureDetector(
+                                    onTap: (){
+                                      //_showBottomSheet(context, services);
+                                    },
+                                    child: TaskTile(services: _filteredServices[index]),
+                                  )
+                                ],
+                              ),
+                            ),
+                          ),
+                        );
+                      }
+                  ),
+                ),
+              ],
         ),
+          ),
       ),
     );
   }
