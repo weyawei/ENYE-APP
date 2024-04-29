@@ -96,7 +96,7 @@ class _detailedSysPageState extends State<detailedSysPage> with TickerProviderSt
   _getSystems(){
     systemService.getSystems().then((Systems){
       setState(() {
-        _systems = Systems.where((system) => widget.systems.id == system.id).toList();;
+        _systems = Systems.where((system) => widget.systems.id == system.id).toList();
       });
       _isLoading = false;
       print("Length ${Systems.length}");
@@ -197,7 +197,7 @@ class _detailedSysPageState extends State<detailedSysPage> with TickerProviderSt
                       Padding(
                         padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.025),
                         child: Text(
-                          _systems[0]!.title.toString().toString(),
+                          _systems[0].title.toString().toString(),
                           textAlign: TextAlign.center,
                           style: TextStyle(
                               fontSize: fontExtraSize,
@@ -210,7 +210,7 @@ class _detailedSysPageState extends State<detailedSysPage> with TickerProviderSt
                       ),
 
                       SizedBox(height: screenHeight * 0.05,),
-                      if (_systems[0]!.youtubeUrl.toString().isNotEmpty)
+                      if (_systems[0].youtubeUrl.toString().isNotEmpty)
                         Padding(
                           padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.05),
                           child: youtubePlayerView(
@@ -238,7 +238,7 @@ class _detailedSysPageState extends State<detailedSysPage> with TickerProviderSt
                       SizedBox(height: screenHeight * 0.035,),
                       Padding(
                         padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.1),
-                        child: Text(_systems[0]!.description.toString(), maxLines: null, textAlign: TextAlign.justify,
+                        child: Text(_systems[0].description.toString(), maxLines: null, textAlign: TextAlign.justify,
                           style: TextStyle(height: 1.5, fontSize: fontNormalSize, fontStyle: FontStyle.italic, letterSpacing: 1.2),),
                       ),
 

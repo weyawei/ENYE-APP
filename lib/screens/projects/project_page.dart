@@ -149,8 +149,8 @@ class _ProjectsPageState extends State<ProjectsPage> with TickerProviderStateMix
 
     bool screenLayout = ResponsiveTextUtils.getLayout(screenWidth);
 
+    var fontXSmallSize = ResponsiveTextUtils.getXSmallFontSize(screenWidth);
     var fontSmallSize = ResponsiveTextUtils.getSmallFontSize(screenWidth);
-    var fontNormalSize = ResponsiveTextUtils.getNormalFontSize(screenWidth);
     var fontExtraSize = ResponsiveTextUtils.getExtraFontSize(screenWidth);
 
     return Scaffold(
@@ -168,7 +168,7 @@ class _ProjectsPageState extends State<ProjectsPage> with TickerProviderStateMix
             });
           },
           child: SingleChildScrollView(
-            child: Padding(padding: EdgeInsets.all(12.0),
+            child: Padding(padding: EdgeInsets.all(7.0),
               child: Column(
                 children: [
 
@@ -307,7 +307,7 @@ class _ProjectsPageState extends State<ProjectsPage> with TickerProviderStateMix
                         //categories
                         Container(
                           height: screenHeight * 0.13,
-                          width: screenWidth * 0.75,
+                          width: screenWidth * 0.8,
                           child: GridView.builder(
                             controller: _scrollController, // Assign the ScrollController
                             scrollDirection: Axis.horizontal,
@@ -316,7 +316,7 @@ class _ProjectsPageState extends State<ProjectsPage> with TickerProviderStateMix
                               crossAxisCount: 1,
                               crossAxisSpacing: (screenHeight + screenWidth) / 90,
                               mainAxisSpacing: (screenHeight + screenWidth) / 90,
-                              mainAxisExtent: screenLayout ? screenWidth * 0.3 : screenWidth * 0.2,
+                              mainAxisExtent: screenLayout ? screenWidth / 4 : screenWidth / 3,
                             ),
                             itemCount: _projCategories.length,
                             itemBuilder: (context, index) {
@@ -341,7 +341,7 @@ class _ProjectsPageState extends State<ProjectsPage> with TickerProviderStateMix
                                     Text(
                                       "${_projCategories[index].title}",
                                       style: TextStyle(
-                                        fontSize: fontSmallSize,
+                                        fontSize: fontXSmallSize,
                                         fontWeight: FontWeight.bold,
                                         letterSpacing: 1.2,
                                       ),

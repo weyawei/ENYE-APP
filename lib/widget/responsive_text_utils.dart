@@ -9,6 +9,18 @@ class ResponsiveTextUtils {
     }
   }
 
+  static double getXSmallFontSize(double width) {
+    if (width <= 500) {
+      return 9.0;
+    } else if (width > 500 && width <= 800) {
+      return 12.0;
+    } else if (width > 800 && width <= 1100) {
+      return 15.0;
+    } else {
+      return 21.0;
+    }
+  }
+
   static double getSmallFontSize(double width) {
     if (width <= 500) {
       return 12.0;
