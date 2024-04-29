@@ -25,7 +25,6 @@ class ServicePage extends StatefulWidget {
   @override
   State<ServicePage> createState() => _ServicePageState();
 }
-
 class _ServicePageState extends State<ServicePage> {
   RemoteMessage message = RemoteMessage();
   bool? userSessionFuture;
@@ -34,7 +33,12 @@ class _ServicePageState extends State<ServicePage> {
 
   clientInfo? ClientInfo;
 
-  _errorSnackbar(context, message){
+  bool _isShowingErrorSnackbar = false; // Flag to track if error snackbar is already being displayed
+
+  _errorSnackbar(context, message) {
+    if (_isShowingErrorSnackbar) return; // If error snackbar is already visible, do nothing
+    _isShowingErrorSnackbar = true; // Set the flag to indicate that error snackbar is being shown
+
     double screenHeight = MediaQuery.of(context).size.height;
     double screenWidth = MediaQuery.of(context).size.width;
 
@@ -71,8 +75,12 @@ class _ServicePageState extends State<ServicePage> {
           ],
         ),
       ),
-    );
+    ).closed.then((_) {
+      // After snackbar is closed, reset the flag
+      _isShowingErrorSnackbar = false;
+    });
   }
+
 
   Future<void> logoutClient() async {
     dynamic token = await SessionManager().get("token");

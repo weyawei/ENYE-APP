@@ -43,8 +43,13 @@ class _registerPageState extends State<registerPage> {
   final _formKey = GlobalKey<FormState>();
 
   bool disabling = false;
+  bool _isShowingErrorSnackbar = false; // Flag to track if error snackbar is already being displayed
 
   _custSnackbar(context, message, Color color, IconData iconData){
+
+    if (_isShowingErrorSnackbar) return; // If error snackbar is already visible, do nothing
+    _isShowingErrorSnackbar = true; // Set the flag to indicate that error snackbar is being shown
+
     double screenHeight = MediaQuery.of(context).size.height;
     double screenWidth = MediaQuery.of(context).size.width;
 
@@ -78,7 +83,10 @@ class _registerPageState extends State<registerPage> {
           ],
         ),
       ),
-    );
+    ).closed.then((_) {
+      // After snackbar is closed, reset the flag
+      _isShowingErrorSnackbar = false;
+    });
   }
 
   _successSnackbar(context, message){

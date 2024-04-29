@@ -45,7 +45,10 @@ class _loginPageState extends State<loginPage> {
     FocusScope.of(context).unfocus(); // Close the keyboard
   }
 
+  bool _isShowingErrorSnackbar = false; // Flag to track if error snackbar is already being displayed
   Future<void> signUserIn() async {
+    if (_isShowingErrorSnackbar) return; // If error snackbar is already visible, do nothing
+    _isShowingErrorSnackbar = true; // Set the flag to indicate that error snackbar is being shown
 
     double screenHeight = MediaQuery.of(context).size.height;
     double screenWidth = MediaQuery.of(context).size.width;
@@ -149,6 +152,10 @@ class _loginPageState extends State<loginPage> {
                 ],
               ),
             ),
+          ).closed.then((_) {
+            // After snackbar is closed, reset the flag
+            _isShowingErrorSnackbar = false;
+          }
           );
         }
       }
