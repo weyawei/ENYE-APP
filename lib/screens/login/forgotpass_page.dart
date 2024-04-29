@@ -80,6 +80,7 @@ class _ForgotPassPageState extends State<ForgotPassPage> {
   void _showOTPDialog() {
     showDialog(
       context: context,
+      barrierDismissible: false, // This prevents dialog from closing when tapping outside
       builder: (BuildContext context) {
         final defaultPinTheme = PinTheme(
           width: 56,
@@ -101,72 +102,78 @@ class _ForgotPassPageState extends State<ForgotPassPage> {
           ),
         );
 
-        return Dialog(
-          // Set dialog properties such as shape, elevation, etc.
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              const Padding(
-                padding: EdgeInsets.only(top: 8.0),
-                child: Text(
-                  "Kindly check the email provided",
-                  style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Colors.black54),
+        return WillPopScope(
+          onWillPop: () async {
+            // Disable back button press
+            return false;
+          },
+          child: Dialog(
+            // Set dialog properties such as shape, elevation, etc.
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const Padding(
+                  padding: EdgeInsets.only(top: 8.0),
+                  child: Text(
+                    "Kindly check the email provided",
+                    style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Colors.black54),
+                  ),
                 ),
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 8.0),
-                child: Text(
-                  emailController.text,
-                  style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.black54),
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 8.0),
+                  child: Text(
+                    emailController.text,
+                    style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.black54),
+                  ),
                 ),
-              ),
-              const Padding(
-                padding: EdgeInsets.only(top: 8.0),
-                child: Text(
-                  "Please enter the OTP CODE to verify,",
-                  style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+                const Padding(
+                  padding: EdgeInsets.only(top: 8.0),
+                  child: Text(
+                    "Please enter the OTP CODE to verify,",
+                    style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+                  ),
                 ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(16),
-                child: Pinput(
-                  controller: pin,
-                  length: 6,
-                  defaultPinTheme: defaultPinTheme,
-                  focusedPinTheme: focusedPinTheme,
-                  submittedPinTheme: submittedPinTheme,
-                  // scrollPadding: EdgeInsets.all(5),
-                ),
-              ),
-              GestureDetector(
-                onTap: () async {
-                  Navigator.of(context).pop(); // Close the dialog
-                  if (await myauth.verifyOTP(otp: pin.text)) {
-                    setState(() {
-                      verified = true;
-                      disabling = false;
-                    });
-                    _successSnackbar(context, "OTP has been verified! ✅");
-                  } else {
-                    setState(() {
-                      disabling = false;
-                      pin.clear();
-                    });
-                    _errorSnackbar(context, "Invalid OTP !");
-                  }
-                },
-                child: Container(
+                Padding(
                   padding: const EdgeInsets.all(16),
-                  color: Colors.deepOrangeAccent,
-                  child: const Center(
-                    child: Text(
-                      "Verify",
-                      style: TextStyle(color: Colors.white, fontSize: 16),
+                  child: Pinput(
+                    controller: pin,
+                    length: 6,
+                    defaultPinTheme: defaultPinTheme,
+                    focusedPinTheme: focusedPinTheme,
+                    submittedPinTheme: submittedPinTheme,
+                    // scrollPadding: EdgeInsets.all(5),
+                  ),
+                ),
+                GestureDetector(
+                  onTap: () async {
+                    Navigator.of(context).pop(); // Close the dialog
+                    if (await myauth.verifyOTP(otp: pin.text)) {
+                      setState(() {
+                        verified = true;
+                        disabling = false;
+                      });
+                      _successSnackbar(context, "OTP has been verified! ✅");
+                    } else {
+                      setState(() {
+                        disabling = false;
+                        pin.clear();
+                      });
+                      _errorSnackbar(context, "Invalid OTP !");
+                    }
+                  },
+                  child: Container(
+                    padding: const EdgeInsets.all(16),
+                    color: Colors.deepOrangeAccent,
+                    child: const Center(
+                      child: Text(
+                        "Verify",
+                        style: TextStyle(color: Colors.white, fontSize: 16),
+                      ),
                     ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         );
       },
