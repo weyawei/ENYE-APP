@@ -244,6 +244,13 @@ class _ForgotPassPageState extends State<ForgotPassPage> {
 
   @override
   Widget build(BuildContext context) {
+    double screenHeight = MediaQuery.of(context).size.height;
+    double screenWidth = MediaQuery.of(context).size.width;
+
+    var fontSmallSize = ResponsiveTextUtils.getSmallFontSize(screenWidth);
+    var fontNormalSize = ResponsiveTextUtils.getNormalFontSize(screenWidth);
+    var fontExtraSize = ResponsiveTextUtils.getExtraFontSize(screenWidth);
+
     return Scaffold(
       backgroundColor: Colors.deepOrange.shade200,
       body: SingleChildScrollView(
@@ -256,24 +263,24 @@ class _ForgotPassPageState extends State<ForgotPassPage> {
                 children: [
 
                   //logo application
-                  SizedBox(height: MediaQuery.of(context).size.height * 0.15,),
+                  SizedBox(height: screenHeight * 0.2,),
                   Container(
                     alignment: Alignment.center,
-                    height: MediaQuery.of(context).size.height * 0.15,
-                    width: MediaQuery.of(context).size.width * 0.33,
+                    height: screenHeight * 0.06,
+                    width: screenWidth * 0.95,
                     decoration: BoxDecoration(
-                        image: DecorationImage(image: AssetImage("assets/icons/enye.png"), fit: BoxFit.fill)
+                        image: DecorationImage(image: AssetImage("assets/logo/enyecontrols.png"), fit: BoxFit.fill)
                     ),
                   ),
 
                   //lets create an account for you
-                  const SizedBox(height: 20,),
+                  SizedBox(height: screenHeight * 0.07,),
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                    child: Text("Let's reset your password !", style: TextStyle(color: Colors.grey.shade800, fontSize: 18),),
+                    padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.08),
+                    child: Text("Let's reset your password !", style: TextStyle(color: Colors.grey.shade800, fontSize: fontExtraSize),),
                   ),
 
-                  const SizedBox(height: 50,),
+                  SizedBox(height: screenHeight * 0.05,),
                   verified == true
                   ? Column(
                     children: [
@@ -285,7 +292,7 @@ class _ForgotPassPageState extends State<ForgotPassPage> {
                       ),
 
                       //confirm password textfield
-                      const SizedBox(height: 10,),
+                      SizedBox(height: screenHeight * 0.02,),
                       PasswordTextField(
                         controller: conpasswordController,
                         hintText: 'Confirm Password *',
@@ -293,7 +300,7 @@ class _ForgotPassPageState extends State<ForgotPassPage> {
                       ),
 
                       //sign-up button
-                      const SizedBox(height: 25,),
+                      SizedBox(height: screenHeight * 0.03,),
                       customButton(
                         onTap: () {
                           if (disabling == false) {
@@ -303,7 +310,7 @@ class _ForgotPassPageState extends State<ForgotPassPage> {
                         },
                         text: 'RESET PASSWORD',
                         clr: Colors.deepOrange,
-                        fontSize: 14.0,
+                        fontSize: fontNormalSize,
                       ),
                     ],
                   )
@@ -317,7 +324,7 @@ class _ForgotPassPageState extends State<ForgotPassPage> {
                       ),
 
                       //sign-up button
-                      const SizedBox(height: 25,),
+                      SizedBox(height: screenHeight * 0.03,),
                       customButton(
                         onTap: () async {
                           _onButtonPressed();
@@ -364,25 +371,25 @@ class _ForgotPassPageState extends State<ForgotPassPage> {
                         },
                         text: "VERIFY EMAIL",
                         clr: Colors.deepOrange,
-                        fontSize: 16.0
+                        fontSize: fontExtraSize
                       ),
                     ],
                   ),
 
                   //already have an account
-                  const SizedBox(height: 10,),
+                  SizedBox(height: screenHeight * 0.02,),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text('Remember your password ?', style: TextStyle(color: Colors.grey.shade800),),
-                      const SizedBox(height: 4,),
+                      Text('Remember your password ?', style: TextStyle(color: Colors.grey.shade800, fontSize: fontSmallSize),),
+                      SizedBox(height: screenHeight * 0.03,),
                       TextButton(
                         onPressed: (){
                           Navigator.of(context).pop();
                         },
-                        child: const Text(
+                        child: Text(
                           'Login now',
-                          style: TextStyle(color: Colors.blue, fontWeight: FontWeight.bold),
+                          style: TextStyle(color: Colors.blue, fontWeight: FontWeight.bold, fontSize: fontNormalSize),
                         ),
                       ),
                     ],

@@ -315,18 +315,18 @@ class _registerPageState extends State<registerPage> {
                 children: [
 
                   //logo application
-                  SizedBox(height: screenHeight * 0.06,),
+                  SizedBox(height: screenHeight * 0.1,),
                   Container(
                     alignment: Alignment.center,
-                    height: (screenHeight + screenWidth) / 12,
-                    width: (screenHeight + screenWidth) / 12,
+                    height: screenHeight * 0.05,
+                    width: screenWidth * 0.85,
                     decoration: BoxDecoration(
-                        image: DecorationImage(image: AssetImage("assets/icons/enye.png"), fit: BoxFit.fill)
+                        image: DecorationImage(image: AssetImage("assets/logo/enyecontrols.png"), fit: BoxFit.fill)
                     ),
                   ),
 
                   //lets create an account for you
-                  SizedBox(height: screenHeight * 0.01,),
+                  SizedBox(height: screenHeight * 0.03,),
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.05),
                     child: Text(
@@ -334,7 +334,7 @@ class _registerPageState extends State<registerPage> {
                       style: TextStyle(
                         letterSpacing: 1.2,
                         color: Colors.grey.shade800,
-                        fontSize: fontExtraSize,
+                        fontSize: fontNormalSize,
                       ),
                     ),
                   ),

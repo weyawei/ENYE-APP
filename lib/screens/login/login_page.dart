@@ -180,18 +180,18 @@ class _loginPageState extends State<loginPage> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               //logo application
-              SizedBox(height: screenHeight * 0.15,),
+              SizedBox(height: screenHeight * 0.2,),
               Container(
                 alignment: Alignment.center,
-                height: (screenHeight + screenWidth) / 12,
-                width: (screenHeight + screenWidth) / 12,
+                height: screenHeight * 0.06,
+                width: screenWidth * 0.95,
                 decoration: BoxDecoration(
-                  image: DecorationImage(image: AssetImage("assets/icons/enye.png"), fit: BoxFit.fill)
+                  image: DecorationImage(image: AssetImage("assets/logo/enyecontrols.png"), fit: BoxFit.fill)
                 ),
               ),
 
               //email textfield
-              SizedBox(height: screenHeight * 0.05,),
+              SizedBox(height: screenHeight * 0.08,),
               EmailTextField(
                 controller: emailController,
                 hintText: 'Email',
