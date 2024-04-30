@@ -46,6 +46,7 @@ class _productsPageState extends State<productsPage> with TickerProviderStateMix
   bool _isLoadingCategory = true;
   bool _isLoadingProducts = true;
 
+
   @override
   void initState() {
     //allProducts = Product.products;
@@ -215,8 +216,15 @@ class _productsPageState extends State<productsPage> with TickerProviderStateMix
         drawer: productDrawer(),
         body: _isLoadingCategory || _isLoadingProducts
           ? Center(child: SpinningContainer(controller: _controller),)
-          : SingleChildScrollView(
-            child: Column(
+          : RefreshIndicator(
+          onRefresh: () async {
+            await Future.delayed(Duration(seconds: 2));
+            setState(() {
+              _getProdCategory();
+              _getProducts();
+            });
+          },
+            child: ListView(
               children: [
                 Padding(
                   padding: const EdgeInsets.all(8.0),

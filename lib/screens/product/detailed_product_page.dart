@@ -31,7 +31,7 @@ class detailedProductPage extends StatefulWidget {
   State<detailedProductPage> createState() => _detailedProductPageState();
 }
 
-class _detailedProductPageState extends State<detailedProductPage> {
+class _detailedProductPageState extends State<detailedProductPage> with TickerProviderStateMixin {
 
 
   //THIS IS FOR PDF VIEWING
@@ -76,17 +76,35 @@ class _detailedProductPageState extends State<detailedProductPage> {
 
   }
 
+  bool _isLoadingProd = true;
+
+  late final AnimationController _controller = AnimationController(
+    duration: const Duration(seconds: 60),
+    vsync: this,
+  )..repeat();
+
 
   //LIST OF PRODUCT DETAIL
   List<detailedProduct> _productDetail = [];
   List<productCategory> _prodCategory = [];
   List<product> _products = [];
+  List<product> _productsInfo = [];
+
 
   @override
   void initState() {
     _getProductDetails();
     _getProdCategory();
     _getProducts();
+    _getProductsInfo();
+  }
+
+  @override
+  void dispose() {
+    // Clean up the controller when the widget is removed from the
+    // widget tree.
+    _controller.dispose();
+    super.dispose();
   }
 
   _getProductDetails(){
@@ -94,6 +112,7 @@ class _detailedProductPageState extends State<detailedProductPage> {
       setState(() {
         _productDetail = detailedProduct;
       });
+
       print("Length ${detailedProduct.length}");
     });
   }
@@ -103,6 +122,7 @@ class _detailedProductPageState extends State<detailedProductPage> {
       setState(() {
         _prodCategory = productCategory.where((element) => element.status == "Active").toList();
       });
+
       print("Length ${productCategory.length}");
     });
   }
@@ -112,6 +132,17 @@ class _detailedProductPageState extends State<detailedProductPage> {
       setState(() {
         _products = product.where((element) => element.id != widget.products.id).toList();
       });
+
+      print("Length ${product.length}");
+    });
+  }
+
+  _getProductsInfo(){
+    productService.getProducts().then((product){
+      setState(() {
+        _productsInfo = product.where((element) => element.id == widget.products.id).toList();
+      });
+      _isLoadingProd = false;
       print("Length ${product.length}");
     });
   }
@@ -153,9 +184,19 @@ class _detailedProductPageState extends State<detailedProductPage> {
   Widget build(BuildContext context) {
 
     return Scaffold(
-      appBar: CustomAppBar(title: widget.products.name, imagePath: '', appBarHeight: MediaQuery.of(context).size.height * 0.05,),
-      body: RefreshIndicator(
-        onRefresh: _refresh,
+      appBar: CustomAppBar(title: 'PRODUCTS', imagePath: '', appBarHeight: MediaQuery.of(context).size.height * 0.05,),
+      body: _isLoadingProd
+          ? Center(child: SpinningContainer(controller: _controller),)
+          : RefreshIndicator(
+        onRefresh: () async {
+          await Future.delayed(Duration(seconds: 2));
+          setState(() {
+            _getProductDetails();
+            _getProdCategory();
+            _getProducts();
+            _getProductsInfo();
+          });
+        },
         child: ListView(
           children:[
             Container(
@@ -165,7 +206,7 @@ class _detailedProductPageState extends State<detailedProductPage> {
                 child: Center(
                   child: Stack(
                     children: <Widget>[
-                      Image.network("${API.prodImg + widget.products.image}", fit: BoxFit.contain,
+                      Image.network("${API.prodImg + _productsInfo[0].image}", fit: BoxFit.contain,
                         width: MediaQuery.of(context).size.width * 0.9,
                         height: MediaQuery.of(context).size.width * 0.4 * 1.1,
                       ),
@@ -187,7 +228,7 @@ class _detailedProductPageState extends State<detailedProductPage> {
                           padding:
                           EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
                           child: Text(
-                            widget.products.name,
+                            _productsInfo[0].name,
                             style: TextStyle(fontSize: MediaQuery.of(context).size.width * 0.04, fontWeight: FontWeight.bold, color: Colors.white),
                             textAlign: TextAlign.center,
                           ),
@@ -399,7 +440,7 @@ class _detailedProductPageState extends State<detailedProductPage> {
                       enlargeCenterPage: true,
                       enlargeStrategy: CenterPageEnlargeStrategy.height,
                     ),
-                    items: _products.where((product) => product.category_id == widget.products.category_id).map((product) =>
+                    items: _products.where((product) => product.category_id == _productsInfo[0].category_id).map((product) =>
                         InkWell(
                           onTap: (){
                             setState(() {
