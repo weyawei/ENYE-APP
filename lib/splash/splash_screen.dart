@@ -26,19 +26,15 @@ class SplashScreen extends StatelessWidget {
       ),
     ),
     );
-    return Scaffold(
-        body: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-              SingleChildScrollView(
-                child: Center(
-                  child: Image(image: AssetImage('assets/logo/splashh.gif'),
-                    fit: BoxFit.fill,),
-                ),
-              )
-
-          ],
-        )
+    return Container(
+      height: MediaQuery.of(context).size.height * 1,
+      width: MediaQuery.of(context).size.width * 1,
+      decoration: BoxDecoration(
+        image: DecorationImage(
+          image: AssetImage('assets/logo/splashh.gif'),
+          fit: BoxFit.fill,
+        ),
+      ),
     );
   }
 }
