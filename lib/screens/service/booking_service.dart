@@ -48,6 +48,10 @@ class _BookingSystemState extends State<BookingSystem> {
   String? email;
   List<DateTime> unavailableDates = [];
 
+
+  bool isChecked = false;
+  bool isTextFieldEnabled = true;
+
   String? selectedConcern;
   List<String> availableConcerns = [
     'Repair',
@@ -59,6 +63,7 @@ class _BookingSystemState extends State<BookingSystem> {
   String? generatedCode;
 
   final clientNameController = TextEditingController();
+  final clientPositionController = TextEditingController();
   final subjectController = TextEditingController();
   final descriptionController = TextEditingController();
   final compnameController = TextEditingController();
@@ -610,6 +615,7 @@ class _BookingSystemState extends State<BookingSystem> {
     double screenHeight = MediaQuery.of(context).size.height;
     double screenWidth = MediaQuery.of(context).size.width;
 
+    var fontSmallSize = ResponsiveTextUtils.getSmallFontSize(screenWidth);
     var fontExtraSize = ResponsiveTextUtils.getExtraFontSize(screenWidth);
     var fontXXSize = ResponsiveTextUtils.getXXFontSize(screenWidth);
 
@@ -618,158 +624,191 @@ class _BookingSystemState extends State<BookingSystem> {
         return Scaffold(
           appBar: CustomAppBar(title: 'Booking System', imagePath: '', appBarHeight: MediaQuery.of(context).size.height * 0.05),
           resizeToAvoidBottomInset: true,
-          body: SingleChildScrollView(
+          body: ListView(
             padding: EdgeInsets.all(16.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                SizedBox(height: screenHeight * 0.05),
-                Center(
-                  child: Text(
-                    'APPOINTMENT :',
-                    style: GoogleFonts.rowdies(
-                      textStyle: TextStyle(
-                        fontSize: fontXXSize,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black54
-                      )
+            children: [
+              SizedBox(height: screenHeight * 0.05),
+              Center(
+                child: Text(
+                  'APPOINTMENT :',
+                  style: GoogleFonts.rowdies(
+                    textStyle: TextStyle(
+                      fontSize: fontXXSize,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black54
                     )
-                  ),
+                  )
                 ),
+              ),
 
 
-                SizedBox(height: screenHeight * 0.05),
-                Form(
-                  key: _formKey,
-                  child: Column(
-                    children: [
+              SizedBox(height: screenHeight * 0.05),
+              Form(
+                key: _formKey,
+                child: Column(
+                  children: [
 
-                      SizedBox(height: screenHeight * 0.01),
-                      Padding(
-                        padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.06),
-                        child: DropdownButtonFormField<String>(
-                          style: GoogleFonts.lato(
+                    SizedBox(height: screenHeight * 0.01),
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.06),
+                      child: DropdownButtonFormField<String>(
+                        style: GoogleFonts.lato(
+                          textStyle: TextStyle(
+                            fontSize: fontExtraSize,
+                            color: Colors.black,
+                            fontWeight: FontWeight.w500,
+                            letterSpacing: 0.8
+                          ),
+                        ),
+                        decoration: InputDecoration(
+                          labelText: 'Select Service*',
+                          labelStyle: GoogleFonts.lato(
                             textStyle: TextStyle(
-                              fontSize: fontExtraSize,
-                              color: Colors.black,
+                                fontSize: fontExtraSize,
+                                color: Colors.black,
+                                fontWeight: FontWeight.w500,
+                                letterSpacing: 0.8
+                            ),
+                          ),
+                        ),
+                        value: selectedConcern,
+                        items: availableConcerns.map((concern) {
+                          return DropdownMenuItem<String>(
+                            value: concern,
+                            child: Text(concern),
+                          );
+                        }).toList(),
+                        onChanged: (concern) {
+                          setState(() {
+                            selectedConcern = concern;
+                          });
+                        },
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please select a service';
+                          }
+                          return null;
+                        },
+                      ),
+                    ),
+
+                    SizedBox(height: screenHeight * 0.01),
+                    Normal2TextField(
+                      controller: subjectController,
+                      hintText: 'Subject *',
+                    ),
+
+                    SizedBox(height: screenHeight * 0.01),
+                    Normal2TextField(
+                      controller: descriptionController,
+                      hintText: 'Description *',
+                    ),
+
+                    Padding(
+                      padding: const EdgeInsets.only(top: 8.0),
+                      child: EnDisABLETextField(
+                        controller: clientNameController,
+                        hintText: 'Name of Requestor *',
+                        enDisABLE: isTextFieldEnabled,
+                      ),
+                    ),
+
+                    CheckboxListTile(
+                      title: Text(
+                        "use Account Name registered",
+                        style: GoogleFonts.lato(
+                          textStyle: TextStyle(
+                              fontSize: fontSmallSize,
                               fontWeight: FontWeight.w500,
-                              letterSpacing: 0.8
-                            ),
+                              letterSpacing: 0.8,
+                              color: Colors.black54
                           ),
-                          decoration: InputDecoration(
-                            labelText: 'Select Service*',
-                            labelStyle: GoogleFonts.lato(
-                              textStyle: TextStyle(
-                                  fontSize: fontExtraSize,
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.w500,
-                                  letterSpacing: 0.8
-                              ),
-                            ),
-                          ),
-                          value: selectedConcern,
-                          items: availableConcerns.map((concern) {
-                            return DropdownMenuItem<String>(
-                              value: concern,
-                              child: Text(concern),
-                            );
-                          }).toList(),
-                          onChanged: (concern) {
-                            setState(() {
-                              selectedConcern = concern;
-                            });
-                          },
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return 'Please select a service';
-                            }
-                            return null;
-                          },
                         ),
                       ),
+                      value: isChecked,
+                      onChanged: (bool? value) {
+                        setState(() {
+                          isChecked = value ?? false;
+                          if (isChecked) {
+                            // Set the text from ClientInfo and disable the TextField
+                            clientNameController.text = ClientInfo!.name.toString();
+                            isTextFieldEnabled = false;
+                          } else {
+                            // Clear the text and enable the TextField
+                            clientNameController.text = '';
+                            isTextFieldEnabled = true;
+                          }
+                        });
+                      },
+                    ),
 
-                      SizedBox(height: screenHeight * 0.01),
-                      Normal2TextField(
-                        controller: subjectController,
-                        hintText: 'Subject *',
+                    Padding(
+                      padding: const EdgeInsets.only(top: 8.0),
+                      child: Normal2TextField(
+                        controller: clientPositionController,
+                        hintText: 'Designation *',
                       ),
+                    ),
 
-                      SizedBox(height: screenHeight * 0.01),
-                      Normal2TextField(
-                        controller: descriptionController,
-                        hintText: 'Description *',
-                      ),
+                    ClientInfo?.company_name == ''
+                     ? Padding(
+                       padding: const EdgeInsets.only(top: 8.0),
+                       child: Normal2TextField(
+                          controller: compnameController,
+                          hintText: 'Company Name *',
+                        ),
+                     )
+                     : SizedBox.shrink(),
 
-                      ClientInfo?.name == '' || ClientInfo?.name == null
-                      ? Padding(
+                    ClientInfo?.location == ''
+                     ? Padding(
                         padding: const EdgeInsets.only(top: 8.0),
                         child: Normal2TextField(
-                          controller: clientNameController,
-                          hintText: 'Name *',
+                          controller: locationController,
+                          hintText: 'Location *',
                         ),
                       )
                       : SizedBox.shrink(),
 
-                      ClientInfo?.company_name == ''
-                       ? Padding(
-                         padding: const EdgeInsets.only(top: 8.0),
-                         child: Normal2TextField(
-                            controller: compnameController,
-                            hintText: 'Company Name *',
-                          ),
-                       )
-                       : SizedBox.shrink(),
+                    ClientInfo?.project_name == ''
+                     ? Padding(
+                        padding: const EdgeInsets.only(top: 8.0),
+                        child: Normal2TextField(
+                          controller: projnameController,
+                          hintText: 'Project Name *',
+                        ),
+                      )
+                     : SizedBox.shrink(),
 
-                      ClientInfo?.location == ''
-                       ? Padding(
-                          padding: const EdgeInsets.only(top: 8.0),
-                          child: Normal2TextField(
-                            controller: locationController,
-                            hintText: 'Location *',
-                          ),
-                        )
-                        : SizedBox.shrink(),
-
-                      ClientInfo?.project_name == ''
-                       ? Padding(
-                          padding: const EdgeInsets.only(top: 8.0),
-                          child: Normal2TextField(
-                            controller: projnameController,
-                            hintText: 'Project Name *',
-                          ),
-                        )
-                       : SizedBox.shrink(),
-
-                      ClientInfo?.contact_no == ''
-                       ? Padding(
-                          padding: const EdgeInsets.only(top: 8.0),
-                          child: ContactTextField(
-                            controller: contactController,
-                            hintText: 'Contact # *',
-                          ),
-                        )
-                        : SizedBox.shrink(),
-                    ],
-                  ),
+                    ClientInfo?.contact_no == ''
+                     ? Padding(
+                        padding: const EdgeInsets.only(top: 8.0),
+                        child: ContactTextField(
+                          controller: contactController,
+                          hintText: 'Contact # *',
+                        ),
+                      )
+                      : SizedBox.shrink(),
+                  ],
                 ),
+              ),
 
-                SizedBox(height: screenHeight * 0.04),
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.06),
-                  child: customButton(
-                    onTap: () {
-                      addBooking();
-                    },
-                    text: 'BOOK',
-                    clr: Colors.deepOrange,
-                    fontSize: fontExtraSize,
-                  ),
+              SizedBox(height: screenHeight * 0.04),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.06),
+                child: customButton(
+                  onTap: () {
+                    addBooking();
+                  },
+                  text: 'BOOK',
+                  clr: Colors.deepOrange,
+                  fontSize: fontExtraSize,
                 ),
+              ),
 
-                SizedBox(height: screenHeight * 0.02,),
-                if (isKeyboardVisible) SizedBox(height: screenHeight * 0.4,),
-              ],
-            ),
+              SizedBox(height: screenHeight * 0.02,),
+              if (isKeyboardVisible) SizedBox(height: screenHeight * 0.4,),
+            ],
           ),
         );
       }

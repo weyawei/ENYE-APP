@@ -4,6 +4,53 @@ import 'package:google_fonts/google_fonts.dart';
 
 import 'widgets.dart';
 
+class EnDisABLETextField extends StatelessWidget {
+  final controller;
+  final String hintText;
+  final bool enDisABLE;
+
+  const EnDisABLETextField({super.key, required this.controller, required this.hintText, required this.enDisABLE});
+
+  @override
+  Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
+
+    var fontNormalSize = ResponsiveTextUtils.getNormalFontSize(screenWidth);
+
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.06),
+      child: TextFormField(
+        style: GoogleFonts.lato(
+          textStyle:
+          TextStyle(fontSize: fontNormalSize, fontWeight: FontWeight.w500, letterSpacing: 0.8),
+        ),
+        onEditingComplete: (){},
+        validator: (value) {
+          if (value == null || value.isEmpty) {
+            return 'Required !';
+          }
+          return null;
+        },
+        maxLines: null,
+        keyboardType: TextInputType.multiline,
+        controller: controller,
+        enabled: enDisABLE,
+        decoration: InputDecoration(
+          errorStyle: TextStyle(
+              fontSize: fontNormalSize,
+              letterSpacing: 0.8
+          ),
+          labelText: hintText,
+          labelStyle: TextStyle(
+              fontSize: fontNormalSize,
+              letterSpacing: 0.8
+          ),
+        ),
+      ),
+    ) ;
+  }
+}
+
 class Normal2TextField extends StatelessWidget {
   final controller;
   final String hintText;
