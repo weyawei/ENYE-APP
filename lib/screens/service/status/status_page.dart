@@ -767,6 +767,38 @@ class _StatusPageState extends State<StatusPage> with TickerProviderStateMixin {
                               ]
                           )
                       ),
+
+                      SizedBox(height: screenHeight * 0.01,),
+                      RichText(
+                          textAlign: TextAlign.justify,
+                          softWrap: true,
+                          text:TextSpan(
+                              children: <TextSpan> [
+                                TextSpan(text: "Requestor Name :  ",
+                                  style: TextStyle(fontSize: fontNormalSize, fontWeight: FontWeight.bold, color: Colors.grey, letterSpacing: 0.8),),
+
+                                TextSpan(text: services.reqName,
+                                  style: TextStyle(fontSize: fontExtraSize, color: Colors.black54, letterSpacing: 0.8),),
+                              ]
+                          )
+                      ),
+
+
+
+                      SizedBox(height: screenHeight * 0.01,),
+                      RichText(
+                          textAlign: TextAlign.justify,
+                          softWrap: true,
+                          text:TextSpan(
+                              children: <TextSpan> [
+                                TextSpan(text: "Designation :  ",
+                                  style: TextStyle(fontSize: fontNormalSize, fontWeight: FontWeight.bold, color: Colors.grey, letterSpacing: 0.8),),
+
+                                TextSpan(text: services.reqPosition,
+                                  style: TextStyle(fontSize: fontExtraSize, color: Colors.black54, letterSpacing: 0.8),),
+                              ]
+                          )
+                      ),
                     ],
                   ),
                 ),

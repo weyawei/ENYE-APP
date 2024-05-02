@@ -37,8 +37,8 @@ class _homePageState extends State<homePage>{
   // ];
 
   final List<String> dashboard = [
-    "assets/backgrounds/BMS.png",
     "assets/backgrounds/ems_ecbills.png",
+    "assets/backgrounds/BMS.png",
     "assets/backgrounds/prod1.png",
     "assets/backgrounds/prod2.png",
     "assets/backgrounds/sys1.png",

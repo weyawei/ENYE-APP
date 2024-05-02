@@ -264,16 +264,14 @@ class _BookingSystemState extends State<BookingSystem> {
   clearFields(){
     subjectController.clear();
     descriptionController.clear();
+    clientNameController.clear();
+    clientPositionController.clear();
 
     if(ClientInfo?.login == 'GMAIL' || ClientInfo?.login == 'APPLE'){
       compnameController.clear();
       locationController.clear();
       projnameController.clear();
       contactController.clear();
-    }
-
-    if(ClientInfo?.login == 'APPLE'){
-      clientNameController.clear();
     }
 
     setState(() {
@@ -390,85 +388,109 @@ class _BookingSystemState extends State<BookingSystem> {
                   ),
                 ),
 
-                ClientInfo?.name == '' || ClientInfo?.name == null
-                ? Padding(
-                  padding: EdgeInsets.only(top: screenHeight * 0.008),
-                  child: Text(
-                    'Name: ${clientNameController.text}',
-                    style: GoogleFonts.lato(
-                      textStyle: TextStyle(
-                          fontSize: fontNormalSize,
-                          color: Colors.black,
-                          letterSpacing: 0.8
-                      ),
+              SizedBox(height: screenHeight * 0.008),
+              Text(
+                'Requestor: ${clientNameController.text}',
+                style: GoogleFonts.lato(
+                  textStyle: TextStyle(
+                      fontSize: fontNormalSize,
+                      color: Colors.black,
+                      letterSpacing: 0.8
+                  ),
+                ),
+              ),
+
+              SizedBox(height: screenHeight * 0.008),
+              Text(
+                'Designation: ${clientPositionController.text}',
+                style: GoogleFonts.lato(
+                  textStyle: TextStyle(
+                      fontSize: fontNormalSize,
+                      color: Colors.black,
+                      letterSpacing: 0.8
+                  ),
+                ),
+              ),
+
+              ClientInfo?.name == '' || ClientInfo?.name == null
+              ? Padding(
+                padding: EdgeInsets.only(top: screenHeight * 0.008),
+                child: Text(
+                  'Name: ${clientNameController.text}',
+                  style: GoogleFonts.lato(
+                    textStyle: TextStyle(
+                        fontSize: fontNormalSize,
+                        color: Colors.black,
+                        letterSpacing: 0.8
                     ),
                   ),
-                )
+                ),
+              )
+              : SizedBox.shrink(),
+
+              ClientInfo?.company_name == ''
+                ? Padding(
+                    padding: EdgeInsets.only(top: screenHeight * 0.008),
+                    child: Text(
+                      'Company Name: ${compnameController.text}',
+                      style: GoogleFonts.lato(
+                        textStyle: TextStyle(
+                            fontSize: fontNormalSize,
+                            color: Colors.black,
+                            letterSpacing: 0.8
+                        ),
+                      ),
+                    ),
+                  )
                 : SizedBox.shrink(),
 
-                ClientInfo?.company_name == ''
-                  ? Padding(
-                      padding: EdgeInsets.only(top: screenHeight * 0.008),
-                      child: Text(
-                        'Company Name: ${compnameController.text}',
-                        style: GoogleFonts.lato(
-                          textStyle: TextStyle(
-                              fontSize: fontNormalSize,
-                              color: Colors.black,
-                              letterSpacing: 0.8
-                          ),
+              ClientInfo?.location == ''
+                ? Padding(
+                    padding: EdgeInsets.only(top: screenHeight * 0.008),
+                    child: Text(
+                      'Location: ${locationController.text}',
+                      style: GoogleFonts.lato(
+                        textStyle: TextStyle(
+                            fontSize: fontNormalSize,
+                            color: Colors.black,
+                            letterSpacing: 0.8
                         ),
                       ),
-                    )
-                  : SizedBox.shrink(),
+                    ),
+                  )
+                : SizedBox.shrink(),
 
-                ClientInfo?.location == ''
-                  ? Padding(
-                      padding: EdgeInsets.only(top: screenHeight * 0.008),
-                      child: Text(
-                        'Location: ${locationController.text}',
-                        style: GoogleFonts.lato(
-                          textStyle: TextStyle(
-                              fontSize: fontNormalSize,
-                              color: Colors.black,
-                              letterSpacing: 0.8
-                          ),
+              ClientInfo?.project_name == ''
+                ? Padding(
+                    padding: EdgeInsets.only(top: screenHeight * 0.008),
+                    child: Text(
+                      'Project Name: ${projnameController.text}',
+                      style: GoogleFonts.lato(
+                        textStyle: TextStyle(
+                            fontSize: fontNormalSize,
+                            color: Colors.black,
+                            letterSpacing: 0.8
                         ),
                       ),
-                    )
-                  : SizedBox.shrink(),
+                    ),
+                  )
+                : SizedBox.shrink(),
 
-                ClientInfo?.project_name == ''
-                  ? Padding(
-                      padding: EdgeInsets.only(top: screenHeight * 0.008),
-                      child: Text(
-                        'Project Name: ${projnameController.text}',
-                        style: GoogleFonts.lato(
-                          textStyle: TextStyle(
-                              fontSize: fontNormalSize,
-                              color: Colors.black,
-                              letterSpacing: 0.8
-                          ),
+              ClientInfo?.contact_no == ''
+                ? Padding(
+                    padding: EdgeInsets.only(top: screenHeight * 0.008),
+                    child: Text(
+                      'Contact #: ${contactController.text}',
+                      style: GoogleFonts.lato(
+                        textStyle: TextStyle(
+                            fontSize: fontNormalSize,
+                            color: Colors.black,
+                            letterSpacing: 0.8
                         ),
                       ),
-                    )
-                  : SizedBox.shrink(),
-
-                ClientInfo?.contact_no == ''
-                  ? Padding(
-                      padding: EdgeInsets.only(top: screenHeight * 0.008),
-                      child: Text(
-                        'Contact #: ${contactController.text}',
-                        style: GoogleFonts.lato(
-                          textStyle: TextStyle(
-                              fontSize: fontNormalSize,
-                              color: Colors.black,
-                              letterSpacing: 0.8
-                          ),
-                        ),
-                      ),
-                    )
-                  : SizedBox.shrink(),
+                    ),
+                  )
+                : SizedBox.shrink(),
               ],
             ),
             actions: [
@@ -478,6 +500,7 @@ class _BookingSystemState extends State<BookingSystem> {
                     TechnicalDataServices.addBooking(
                         generatedCode!, selectedConcern!,
                         subjectController.text, descriptionController.text,
+                        clientNameController.text, clientPositionController.text,
                         selectedDate.toString(), ClientInfo!.client_id,
                         ClientInfo!.name, ClientInfo!.company_name,
                         ClientInfo!.location, ClientInfo!.project_name,
@@ -507,6 +530,7 @@ class _BookingSystemState extends State<BookingSystem> {
                     TechnicalDataServices.addBooking(
                         generatedCode!, selectedConcern!,
                         subjectController.text, descriptionController.text,
+                        clientNameController.text, clientPositionController.text,
                         selectedDate.toString(), ClientInfo!.client_id,
                         ClientInfo!.name, compnameController.text,
                         locationController.text, projnameController.text,
@@ -536,6 +560,7 @@ class _BookingSystemState extends State<BookingSystem> {
                     TechnicalDataServices.addBooking(
                         generatedCode!, selectedConcern!,
                         subjectController.text, descriptionController.text,
+                        clientNameController.text, clientPositionController.text,
                         selectedDate.toString(), ClientInfo!.client_id,
                         clientNameController.text, compnameController.text,
                         locationController.text, projnameController.text,
@@ -589,7 +614,7 @@ class _BookingSystemState extends State<BookingSystem> {
 
   Future<void> sendPushNotifications() async {
     //final url = 'https://enye.com.ph/enyecontrols_app/login_user/send1.php'; // Replace this with the URL to your PHP script
-    String name = ClientInfo!.name == '' || ClientInfo!.name == null ? clientNameController.text : ClientInfo!.name;
+    String name = clientNameController.text;
 
     final response = await http.post(
       Uri.parse(API.pushNotif),
@@ -713,7 +738,9 @@ class _BookingSystemState extends State<BookingSystem> {
                       ),
                     ),
 
-                    CheckboxListTile(
+                    ClientInfo?.login == 'APPLE'
+                    ? SizedBox.shrink()
+                    : CheckboxListTile(
                       title: Text(
                         "use Account Name registered",
                         style: GoogleFonts.lato(

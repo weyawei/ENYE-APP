@@ -130,6 +130,7 @@ class TechnicalDataServices {
   static Future<String> addBooking(
       String svc_id, String service,
       String svc_title, String svc_desc,
+      String req_name, String req_position,
       String date_sched, String client_id,
       String client_name, String client_company,
       String client_location, String client_projectname,
@@ -144,6 +145,8 @@ class TechnicalDataServices {
       map['subject'] = svc_title;
       map['desc'] = svc_desc;
       map['date_booked'] = date_sched;
+      map['req_name'] = req_name;
+      map['req_position'] = req_position;
       map['client_id'] = client_id;
       map['name'] = client_name;
       map['company'] = client_company;

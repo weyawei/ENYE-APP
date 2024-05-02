@@ -115,7 +115,41 @@ class _TaskTileState extends State<TaskTile> {
                   ),
                 ),
 
+                SizedBox(height: screenHeight * 0.01,),
+                RichText(
+                  softWrap: true,
+                  text: TextSpan(children:
+                  [
+                    TextSpan(text: "Requestor Name : ",
+                      style: GoogleFonts.lato(
+                        textStyle: TextStyle(fontSize: fontSmallSize, fontWeight: FontWeight.bold, color: Colors.grey[100], letterSpacing: 0.8),
+                      ),),
+                    TextSpan(text: "${widget.services.reqName}",
+                      style: GoogleFonts.lato(
+                        textStyle: TextStyle(fontSize: fontNormalSize, color: Colors.grey[100], letterSpacing: 0.8),
+                      ),),
+                  ]
+                  ),
+                ),
+
                 SizedBox(height: screenHeight * 0.003,),
+                RichText(
+                  softWrap: true,
+                  text: TextSpan(children:
+                  [
+                    TextSpan(text: "Designation : ",
+                      style: GoogleFonts.lato(
+                        textStyle: TextStyle(fontSize: fontSmallSize, fontWeight: FontWeight.bold, color: Colors.grey[100], letterSpacing: 0.8),
+                      ),),
+                    TextSpan(text: "${widget.services.reqPosition}",
+                      style: GoogleFonts.lato(
+                        textStyle: TextStyle(fontSize: fontNormalSize, color: Colors.grey[100], letterSpacing: 0.8),
+                      ),),
+                  ]
+                  ),
+                ),
+
+                SizedBox(height: screenHeight * 0.01,),
                 widget.services.status == "Set-sched"
                  ? Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
