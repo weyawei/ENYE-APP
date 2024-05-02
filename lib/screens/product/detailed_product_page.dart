@@ -381,7 +381,7 @@ class _detailedProductPageState extends State<detailedProductPage> with TickerPr
                     title: Text(
                       _productDetail[index].title,
                       style: TextStyle(
-                        fontSize: MediaQuery.of(context).size.width * 0.031,
+                        fontSize: MediaQuery.of(context).size.width * 0.045,
                         fontWeight: FontWeight.bold,
                       ),
                       textAlign: TextAlign.center,
@@ -418,6 +418,58 @@ class _detailedProductPageState extends State<detailedProductPage> with TickerPr
                       ],
                   );
                 }),
+
+            if (_productsInfo[0].id == _productDetail[0].product_id && _productsInfo[0].catalogs_pdf.isNotEmpty)
+              Center(
+                child: Column(
+                  children: [
+                    Text(
+                      "Download PDF",
+                      style: TextStyle(
+                        fontSize: 20, // Adjust the font size as needed
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    Container(
+                      padding: EdgeInsets.symmetric(horizontal: 2.0),
+                      child: Column(
+                        children: _productsInfo[0].catalogs_pdf.split(',').map((filename) {
+                          String trimmedFilename = filename.trim();
+                          return TextButton(
+                            onPressed: () {
+                              if (trimmedFilename.isEmpty) {
+                                _errorSnackbar(context, "PDF File doesn't exist.");
+                              } else {
+                                openFile(
+                                  url: "${API.prodPdf + trimmedFilename}",
+                                  filename: trimmedFilename,
+                                );
+                              }
+                            },
+                            child: Row(
+                              children: [
+                                Icon(Icons.picture_as_pdf), // Add icon
+                                SizedBox(width: 8), // Add some space between icon and filename
+                                Text(
+                                  trimmedFilename,
+                                  textAlign: TextAlign.justify,
+                                  style: TextStyle(
+                                    fontSize: MediaQuery.of(context).size.width * 0.035,
+                                    fontStyle: FontStyle.italic,
+                                    letterSpacing: 1,
+                                    color: Colors.black,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          );
+                        }).toList(),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            SizedBox(height: 50), // Add some space between icon and filename
             Container(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -486,7 +538,7 @@ class _detailedProductPageState extends State<detailedProductPage> with TickerPr
                                       child: Text(
                                         product.name,
                                         style: TextStyle(
-                                          fontSize: MediaQuery.of(context).size.width * 0.025,
+                                          fontSize: MediaQuery.of(context).size.width * 0.03,
                                           color: Colors.white,
                                           fontWeight: FontWeight.bold,
 
