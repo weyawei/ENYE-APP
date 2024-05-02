@@ -29,7 +29,7 @@ class _ServicePageState extends State<ServicePage> {
   RemoteMessage message = RemoteMessage();
   bool? userSessionFuture;
   bool _isLoading = true;
-  late List<TechnicalData> _services;
+  List<TechnicalData> _services = [];
 
   clientInfo? ClientInfo;
 
@@ -119,7 +119,6 @@ class _ServicePageState extends State<ServicePage> {
         );
       });
     }
-    _services = [];
   }
 
   _getServices(){
@@ -150,11 +149,14 @@ class _ServicePageState extends State<ServicePage> {
           });
         });
         userSessionFuture = bool;
-        _getServices();
       } else {
         userSessionFuture = bool;
       }
     });
+
+    if(userSessionFuture == true){
+      _getServices();
+    }
 
     return Scaffold(
       body: ListView(

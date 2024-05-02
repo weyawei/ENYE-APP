@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:enye_app/widget/custom_navbar.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -20,9 +21,15 @@ class SplashScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    RemoteMessage message = RemoteMessage();
+
+    if (ModalRoute.of(context)!.settings.arguments != null) {
+      message = ModalRoute.of(context)!.settings.arguments as RemoteMessage;
+    }
+
     Timer(Duration(seconds: 3, milliseconds: 199),() => Navigator.of(navigatorKey.currentContext!).pushReplacement(
       MaterialPageRoute(
-        builder: (context) => CustomNavBar(),
+        builder: (context) => CustomNavBar(initialMessage: message),
       ),
     ),
     );
