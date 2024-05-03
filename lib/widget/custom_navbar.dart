@@ -8,7 +8,7 @@ import '../dashboardicon_icons.dart';
 import 'widgets.dart';
 
 class CustomNavBar extends StatefulWidget {
-
+  final RemoteMessage? initialMessage;
   static const String routeName = '/';
 
   static Route route(){
@@ -20,6 +20,7 @@ class CustomNavBar extends StatefulWidget {
 
   CustomNavBar({
     super.key,
+    this.initialMessage,
   });
 
   @override
@@ -31,20 +32,20 @@ class _CustomNavBarState extends State<CustomNavBar> {
 
   @override
   Widget build(BuildContext context) {
-    RemoteMessage message = RemoteMessage();
+    RemoteMessage? message = RemoteMessage();
 
     double screenHeight = MediaQuery.of(context).size.height;
     double screenWidth = MediaQuery.of(context).size.width;
 
     var fontNormalSize = ResponsiveTextUtils.getNormalFontSize(screenWidth);
 
-    if (ModalRoute.of(context)!.settings.arguments != null) {
-      message = ModalRoute.of(context)!.settings.arguments as RemoteMessage;
+    if (widget.initialMessage != null) {
+      message = widget.initialMessage;
 
-      if (message.data["goToPage"].toString() == 'Status' ||
-          message.data["goToPage"].toString() == 'Completed' ){
+      if (message?.data["goToPage"].toString() == 'Status' ||
+          message?.data["goToPage"].toString() == 'Completed' ){
         _initialIndex = 4;
-      } else if (message.data["goToPage"].toString() == 'products'){
+      } else if (message?.data["goToPage"].toString() == 'products'){
         _initialIndex = 2;
       }
     }

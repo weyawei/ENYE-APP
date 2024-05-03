@@ -29,7 +29,7 @@ class _ServicePageState extends State<ServicePage> {
   RemoteMessage message = RemoteMessage();
   bool? userSessionFuture;
   bool _isLoading = true;
-  late List<TechnicalData> _services;
+  List<TechnicalData> _services = [];
 
   clientInfo? ClientInfo;
 
@@ -97,15 +97,19 @@ class _ServicePageState extends State<ServicePage> {
       }
     });
 
+    _checkSession();
+
     setState(() {
       userSessionFuture = false;
       ClientInfo = null; // Clear the client info
-      Navigator.of(context).push(MaterialPageRoute(builder: (context) => loginPage())).then((value) { setState(() {}); });
+      _services = [];
+      navigateToLogin();
     });
   }
 
   void initState(){
     super.initState();
+    //calling session data
     if(widget.message!.data["goToPage"] == "Status"){
       WidgetsBinding.instance?.addPostFrameCallback((_) {
         Navigator.of(context).push(
@@ -119,7 +123,36 @@ class _ServicePageState extends State<ServicePage> {
         );
       });
     }
-    _services = [];
+
+    _checkSession();
+  }
+
+  _checkSession(){
+    checkSession().getUserSessionStatus().then((bool) {
+      if (bool == true) {
+        checkSession().getClientsData().then((value) {
+          setState(() {
+            ClientInfo = value;
+            _getServices();
+          });
+        });
+        userSessionFuture = bool;
+      } else {
+        userSessionFuture = bool;
+      }
+    });
+  }
+
+  void navigateToLogin() async {
+    // Navigate and wait for the pop result
+    final result = await Navigator.of(context).push(
+      MaterialPageRoute(builder: (context) => loginPage()),
+    );
+
+    // Check the result to determine if _checkSession should be called
+    if (result == true) {
+      _checkSession();
+    }
   }
 
   _getServices(){
@@ -140,21 +173,6 @@ class _ServicePageState extends State<ServicePage> {
 
     var fontSmallSize = ResponsiveTextUtils.getSmallFontSize(screenWidth);
     var fontExtraSize = ResponsiveTextUtils.getExtraFontSize(screenWidth);
-
-    //calling session data
-    checkSession().getUserSessionStatus().then((bool) {
-      if (bool == true) {
-        checkSession().getClientsData().then((value) {
-          setState(() {
-            ClientInfo = value;
-          });
-        });
-        userSessionFuture = bool;
-        _getServices();
-      } else {
-        userSessionFuture = bool;
-      }
-    });
 
     return Scaffold(
       body: ListView(
@@ -177,7 +195,7 @@ class _ServicePageState extends State<ServicePage> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(userSessionFuture == true ? "Hello ${ClientInfo?.name}," : "Hello Guest !",
+                    Text(userSessionFuture == true ? "Hello ${ClientInfo!.name}," : "Hello Guest !",
                         style: GoogleFonts.lalezar(
                           textStyle:
                           TextStyle(fontSize: fontExtraSize, letterSpacing: 1.5, color: Colors.deepOrange.shade700),
@@ -192,15 +210,15 @@ class _ServicePageState extends State<ServicePage> {
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
                           image: DecorationImage(
-                            image: userSessionFuture == true && ClientInfo?.image != ""
-                              ? ClientInfo?.login == "GMAIL" ? Image.network("${ClientInfo?.image}").image : Image.network("${API.clientsImages + ClientInfo!.image}").image
+                            image: userSessionFuture == true && ClientInfo!.image != ""
+                              ? ClientInfo!.login == "GMAIL" ? Image.network("${ClientInfo!.image}").image : Image.network("${API.clientsImages + ClientInfo!.image}").image
                               : AssetImage("assets/icons/user.png"),
                           ),
                         ),
                       ),
                       onSelected: (value) {
                         if (value == '/login'){
-                          Navigator.of(context).push(MaterialPageRoute(builder: (context) => loginPage())).then((value) { setState(() {}); });
+                          navigateToLogin();
                         } else if (value == '/logout'){
                           logoutClient();
                         } else if (value == '/profile'){
@@ -316,7 +334,11 @@ class _ServicePageState extends State<ServicePage> {
                 onTap: () {
                   if (userSessionFuture == true) {
                     Navigator.of(context).push(MaterialPageRoute(builder: (context) => StatusPage(message: message)))
-                        .then((value) { setState(() {}); });
+                      .then((value) {
+                        // Refresh the services once the StatusPage is popped
+                        _getServices();
+                        setState(() {});
+                      });
                   } else {
                     _errorSnackbar(context, "Login first !");
                   }

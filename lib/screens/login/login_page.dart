@@ -122,7 +122,7 @@ class _loginPageState extends State<loginPage> {
                   ],
                 ),
               ),
-            ).closed.then((value) => Navigator.pop(context));
+            ).closed.then((value) => Navigator.pop(context, true));
           });
         } else {
           ScaffoldMessenger.of(context).showSnackBar(
@@ -337,7 +337,7 @@ class _loginPageState extends State<loginPage> {
                           print("Error updating token");
                         }
                       });
-                      Navigator.pop(context);
+                      Navigator.pop(context, true);
                     },
                     child: Image(
                       image: AssetImage('assets/icons/apple.png'),
@@ -374,7 +374,7 @@ class _loginPageState extends State<loginPage> {
                           print("Error updating token");
                         }
                       });
-                      Navigator.pop(context);
+                      Navigator.pop(context, true);
                     },
                     child: Image(
                       image: AssetImage('assets/icons/gmail.png'),

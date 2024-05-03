@@ -93,26 +93,23 @@ class _StatusPageState extends State<StatusPage> with TickerProviderStateMixin {
         backgroundColor: color,
         behavior: SnackBarBehavior.floating,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(4))),
-        content: Row(
-          children: [
-            Icon(
-              iconData,
-              color: Colors.white,
-              size: (screenHeight + screenWidth) / 75,
-            ),
-            SizedBox(width: screenWidth * 0.01,),
-            Text(
-              message.toString().toUpperCase(),
-              style: GoogleFonts.lato(
-                textStyle: TextStyle(
-                    fontSize: fontNormalSize,
-                    fontWeight: FontWeight.w800,
-                    letterSpacing: 1.2,
-                    color: Colors.white
+        content: RichText(
+          softWrap: true,
+          text: TextSpan(
+            children: <TextSpan> [
+              TextSpan(
+                text: message.toString().toUpperCase(),
+                style: GoogleFonts.lato(
+                  textStyle: TextStyle(
+                      fontSize: fontNormalSize,
+                      fontWeight: FontWeight.w800,
+                      letterSpacing: 1.2,
+                      color: Colors.white
+                  ),
                 ),
               ),
-            ),
-          ],
+            ]
+          ),
         ),
       ),
     );
