@@ -99,7 +99,7 @@ class _productDrawerState extends State<productDrawer> {
                     child: Text(
                       _prodCategory[index].name,
                       style: TextStyle(
-                        fontSize: MediaQuery.of(context).size.width * 0.025,
+                        fontSize: MediaQuery.of(context).size.width * 0.033,
                         fontWeight: FontWeight.bold,
                       ),
                     ),

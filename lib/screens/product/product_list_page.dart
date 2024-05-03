@@ -84,7 +84,7 @@ class _listProductsPageState extends State<listProductsPage> with TickerProvider
             children: [
               SizedBox(height: 25,),
               Text(
-                'Type of ${_prodCategory[0].name}'.toUpperCase(),
+                'Type of ${widget.prodSubCat.name}'.toUpperCase(),
                 style: TextStyle(
                   fontSize: MediaQuery.of(context).size.width * 0.03,
                   fontFamily: 'Rowdies',
@@ -96,7 +96,7 @@ class _listProductsPageState extends State<listProductsPage> with TickerProvider
               SizedBox(height: 15,),
               productCarousel(
                 products: _products.where((product) =>
-                product.category_id == _prodCategory[0].id
+                product.category_id == widget.prodSubCat.id
                 ).toList(),
               ),
             ],

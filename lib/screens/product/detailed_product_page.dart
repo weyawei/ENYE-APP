@@ -381,7 +381,7 @@ class _detailedProductPageState extends State<detailedProductPage> with TickerPr
                     title: Text(
                       _productDetail[index].title,
                       style: TextStyle(
-                        fontSize: MediaQuery.of(context).size.width * 0.045,
+                        fontSize: MediaQuery.of(context).size.width * 0.028,
                         fontWeight: FontWeight.bold,
                       ),
                       textAlign: TextAlign.center,
@@ -426,7 +426,7 @@ class _detailedProductPageState extends State<detailedProductPage> with TickerPr
                     Text(
                       "Download PDF",
                       style: TextStyle(
-                        fontSize: 20, // Adjust the font size as needed
+                        fontSize: MediaQuery.of(context).size.width * 0.037,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
@@ -454,7 +454,7 @@ class _detailedProductPageState extends State<detailedProductPage> with TickerPr
                                   trimmedFilename,
                                   textAlign: TextAlign.justify,
                                   style: TextStyle(
-                                    fontSize: MediaQuery.of(context).size.width * 0.035,
+                                    fontSize: MediaQuery.of(context).size.width * 0.031,
                                     fontStyle: FontStyle.italic,
                                     letterSpacing: 1,
                                     color: Colors.black,
@@ -478,7 +478,7 @@ class _detailedProductPageState extends State<detailedProductPage> with TickerPr
                   Text(
                     "Related Products",
                     style: TextStyle(
-                      fontSize: 20, // Adjust the font size as needed
+                      fontSize: MediaQuery.of(context).size.width * 0.037,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
@@ -538,7 +538,7 @@ class _detailedProductPageState extends State<detailedProductPage> with TickerPr
                                       child: Text(
                                         product.name,
                                         style: TextStyle(
-                                          fontSize: MediaQuery.of(context).size.width * 0.03,
+                                          fontSize: MediaQuery.of(context).size.width * 0.025,
                                           color: Colors.white,
                                           fontWeight: FontWeight.bold,
 
