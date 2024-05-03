@@ -200,41 +200,52 @@ class _detailedProductPageState extends State<detailedProductPage> with TickerPr
         child: ListView(
           children:[
             Container(
+              color: Colors.white,
               margin: EdgeInsets.symmetric(horizontal: 5.0, vertical: 20),
               child: ClipRRect(
                 borderRadius: BorderRadius.all(Radius.circular(5.0)),
                 child: Center(
-                  child: Stack(
-                    children: <Widget>[
-                      Image.network("${API.prodImg + _productsInfo[0].image}", fit: BoxFit.contain,
-                        width: MediaQuery.of(context).size.width * 0.9,
-                        height: MediaQuery.of(context).size.width * 0.4 * 1.1,
-                      ),
-                      Positioned(
-                        bottom: 0.0,
-                        left: 0.0,
-                        right: 0.0,
-                        child: Container(
-                          decoration: BoxDecoration(
-                            gradient: LinearGradient(
-                              colors: [
-                                Color.fromARGB(200, 0, 0, 0),
-                                Color.fromARGB(0, 0, 0, 0),
-                              ],
-                              begin: Alignment.bottomCenter,
-                              end: Alignment.topCenter,
+                  child: GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => ImageZoomScreen(imagepath: "${API.prodImg + _productsInfo[0].image}",),
+                        ),
+                      );
+                    },
+                    child: Stack(
+                      children: <Widget>[
+                        Image.network("${API.prodImg + _productsInfo[0].image}", fit: BoxFit.contain,
+                          width: MediaQuery.of(context).size.width * 0.9,
+                          height: MediaQuery.of(context).size.width * 0.4 * 1.1,
+                        ),
+                        Positioned(
+                          bottom: 0.0,
+                          left: 0.0,
+                          right: 0.0,
+                          child: Container(
+                            decoration: BoxDecoration(
+                              gradient: LinearGradient(
+                                colors: [
+                                  Color.fromARGB(200, 0, 0, 0),
+                                  Color.fromARGB(0, 0, 0, 0),
+                                ],
+                                begin: Alignment.bottomCenter,
+                                end: Alignment.topCenter,
+                              ),
+                            ),
+                            padding:
+                            EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
+                            child: Text(
+                              _productsInfo[0].name,
+                              style: TextStyle(fontSize: MediaQuery.of(context).size.width * 0.04, fontWeight: FontWeight.bold, color: Colors.white),
+                              textAlign: TextAlign.center,
                             ),
                           ),
-                          padding:
-                          EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
-                          child: Text(
-                            _productsInfo[0].name,
-                            style: TextStyle(fontSize: MediaQuery.of(context).size.width * 0.04, fontWeight: FontWeight.bold, color: Colors.white),
-                            textAlign: TextAlign.center,
-                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
               ),
@@ -506,6 +517,7 @@ class _detailedProductPageState extends State<detailedProductPage> with TickerPr
                             });
                           },
                           child: Container(
+                            color: Colors.white,
                             margin: EdgeInsets.symmetric(horizontal: 5.0, vertical: 20),
                             child: ClipRRect(
                               borderRadius: BorderRadius.all(Radius.circular(5.0)),

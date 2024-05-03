@@ -442,6 +442,7 @@ class _productsPageState extends State<productsPage> with TickerProviderStateMix
                             });
                           },
                           child: Container(
+                            color: Colors.white,
                             margin: EdgeInsets.symmetric(horizontal: 5.0, vertical: 20),
                             child: ClipRRect(
                               borderRadius: BorderRadius.all(Radius.circular(5.0)),
