@@ -82,7 +82,7 @@ class TechnicalDataServices {
 
       //get all data of categories
       final res = await http.post(Uri.parse(API.booking), body: map); //passing value to result
-      print('getTechnicalDatas Response: ${res.body}');
+      print('getTechnicalData Response: ${res.body}');
 
       if(res.statusCode == 200){
         List<TechnicalData> list = parseResponse(res.body);
@@ -131,6 +131,7 @@ class TechnicalDataServices {
       String svc_id, String service,
       String svc_title, String svc_desc,
       String req_name, String req_position,
+      String cli_remarks, String atch_file, String atch_data,
       String date_sched, String client_id,
       String client_name, String client_company,
       String client_location, String client_projectname,
@@ -147,6 +148,9 @@ class TechnicalDataServices {
       map['date_booked'] = date_sched;
       map['req_name'] = req_name;
       map['req_position'] = req_position;
+      map['cli_remarks'] = cli_remarks;
+      map['atch_file'] = atch_file;
+      map['atch_data'] = atch_data;
       map['client_id'] = client_id;
       map['name'] = client_name;
       map['company'] = client_company;

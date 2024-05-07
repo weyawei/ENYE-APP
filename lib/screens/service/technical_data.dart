@@ -10,6 +10,8 @@ class TechnicalData {
   String eDateSched;
   String reqName;
   String reqPosition;
+  String cliRemarks;
+  String atchFile;
   String clientId;
   String clientName;
   String clientCompany;
@@ -32,6 +34,8 @@ class TechnicalData {
     required this.eDateSched,
     required this.reqName,
     required this.reqPosition,
+    required this.cliRemarks,
+    required this.atchFile,
     required this.clientId,
     required this.clientName,
     required this.clientCompany,
@@ -56,6 +60,8 @@ class TechnicalData {
       eDateSched: json['eDate_sched'] as String,
       reqName: json['requestor_name'] as String,
       reqPosition: json['requestor_position'] as String,
+      cliRemarks: json['client_remarks'] as String,
+      atchFile: json['attach_file'] as String,
       clientId: json['client_id'] as String,
       clientName: json['client_name'] as String,
       clientCompany: json['client_company'] as String,

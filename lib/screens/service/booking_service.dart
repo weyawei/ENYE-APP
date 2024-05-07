@@ -1,8 +1,11 @@
+import 'dart:convert';
+import 'dart:io';
 import 'dart:math';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 
 import '../../config/config.dart';
@@ -60,6 +63,10 @@ class _BookingSystemState extends State<BookingSystem> {
     'Other',
   ];
 
+
+
+
+
   String? generatedCode;
 
   final clientNameController = TextEditingController();
@@ -70,6 +77,7 @@ class _BookingSystemState extends State<BookingSystem> {
   final locationController = TextEditingController();
   final projnameController = TextEditingController();
   final contactController = TextEditingController();
+  final clientRemarksController = TextEditingController();
 
   final _formKey = GlobalKey<FormState>();
 
@@ -83,6 +91,24 @@ class _BookingSystemState extends State<BookingSystem> {
     generatedCode = '${name ?? 'Unknown'}${selectedDate?.day}${selectedDate?.month}$uniqueId';
     //generatedCode = '$formattedDate - $formattedTime - $uniqueId';
   }*/
+
+
+  File? imagepath;
+  String? imagename;
+  String? imagedata;
+  String? showimage;
+  ImagePicker imagePicker = ImagePicker();
+
+  Future<void> selectImage() async {
+    var getimage = await imagePicker.pickImage(source: ImageSource.gallery);
+    setState(() {
+      imagepath = File(getimage!.path);
+      imagename = getimage.path.split('/').last;
+      imagedata = base64Encode(imagepath!.readAsBytesSync());
+      print(imagepath);
+    });
+  }
+
 
   void generateCode() {
     final random = Random();
@@ -266,6 +292,9 @@ class _BookingSystemState extends State<BookingSystem> {
     descriptionController.clear();
     clientNameController.clear();
     clientPositionController.clear();
+    clientRemarksController.clear();
+    imagepath = null;
+
 
     if(ClientInfo?.login == 'GMAIL' || ClientInfo?.login == 'APPLE'){
       compnameController.clear();
@@ -376,17 +405,7 @@ class _BookingSystemState extends State<BookingSystem> {
                     ),
                   ),
                 ),
-                SizedBox(height: screenHeight * 0.008),
-                Text(
-                  'Description: ${descriptionController.text}',
-                  style: GoogleFonts.lato(
-                    textStyle: TextStyle(
-                        fontSize: fontNormalSize,
-                        color: Colors.black,
-                        letterSpacing: 0.8
-                    ),
-                  ),
-                ),
+
 
               SizedBox(height: screenHeight * 0.008),
               Text(
@@ -399,10 +418,32 @@ class _BookingSystemState extends State<BookingSystem> {
                   ),
                 ),
               ),
+                SizedBox(height: screenHeight * 0.008),
+                Text(
+                  'Designated Position: ${clientPositionController.text}',
+                  style: GoogleFonts.lato(
+                    textStyle: TextStyle(
+                        fontSize: fontNormalSize,
+                        color: Colors.black,
+                        letterSpacing: 0.8
+                    ),
+                  ),
+                ),
+                SizedBox(height: screenHeight * 0.008),
+                Text(
+                  'Problem/Concern: ${descriptionController.text}',
+                  style: GoogleFonts.lato(
+                    textStyle: TextStyle(
+                        fontSize: fontNormalSize,
+                        color: Colors.black,
+                        letterSpacing: 0.8
+                    ),
+                  ),
+                ),
 
               SizedBox(height: screenHeight * 0.008),
               Text(
-                'Designation: ${clientPositionController.text}',
+                'Remarks: ${clientRemarksController.text}',
                 style: GoogleFonts.lato(
                   textStyle: TextStyle(
                       fontSize: fontNormalSize,
@@ -411,6 +452,53 @@ class _BookingSystemState extends State<BookingSystem> {
                   ),
                 ),
               ),
+
+                SizedBox(height: screenHeight * 0.05),
+                Column(
+                  children: [
+
+                    InkWell(
+                      onTap: (){
+                        if(disabling != true){
+                          selectImage();
+                        }
+                      },
+                      child: Stack(
+                        children: [
+                          imagepath != null
+                              ? CircleAvatar(
+                            radius: 64,
+                            backgroundImage: FileImage(imagepath!),
+                          )
+                              : showimage != null && showimage != ""
+                              ? CircleAvatar(
+                            radius: 64,
+                            backgroundImage: NetworkImage(API.clientsImages + showimage!),
+                          )
+                              : const CircleAvatar(
+                            radius: 64,
+                            foregroundColor: Colors.deepOrange,
+                            child: Icon(Icons.photo, color: Colors.deepOrange, size: 50,),
+                          ),
+
+                          disabling == false
+                              ? const Positioned(bottom: 2, left: 90,child: Icon(Icons.add_a_photo, color: Colors.deepOrange,),)
+                              : const SizedBox.shrink(),
+                        ],
+                      ),
+                    ),
+                    Text("Attach file",
+                      style: GoogleFonts.lato(
+                        textStyle: TextStyle(
+                            fontSize: fontNormalSize,
+                            fontWeight: FontWeight.w500,
+                            letterSpacing: 0.8,
+                            color: Colors.black54
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
 
               ClientInfo?.name == '' || ClientInfo?.name == null
               ? Padding(
@@ -501,6 +589,7 @@ class _BookingSystemState extends State<BookingSystem> {
                         generatedCode!, selectedConcern!,
                         subjectController.text, descriptionController.text,
                         clientNameController.text, clientPositionController.text,
+                        clientRemarksController.text, imagename.toString(), imagedata!,
                         selectedDate.toString(), ClientInfo!.client_id,
                         ClientInfo!.name, ClientInfo!.company_name,
                         ClientInfo!.location, ClientInfo!.project_name,
@@ -531,6 +620,7 @@ class _BookingSystemState extends State<BookingSystem> {
                         generatedCode!, selectedConcern!,
                         subjectController.text, descriptionController.text,
                         clientNameController.text, clientPositionController.text,
+                        clientRemarksController.text, imagename.toString(), imagedata!,
                         selectedDate.toString(), ClientInfo!.client_id,
                         ClientInfo!.name, compnameController.text,
                         locationController.text, projnameController.text,
@@ -561,6 +651,7 @@ class _BookingSystemState extends State<BookingSystem> {
                         generatedCode!, selectedConcern!,
                         subjectController.text, descriptionController.text,
                         clientNameController.text, clientPositionController.text,
+                        clientRemarksController.text, imagename.toString(), imagedata!,
                         selectedDate.toString(), ClientInfo!.client_id,
                         clientNameController.text, compnameController.text,
                         locationController.text, projnameController.text,
@@ -723,11 +814,7 @@ class _BookingSystemState extends State<BookingSystem> {
                       hintText: 'Subject *',
                     ),
 
-                    SizedBox(height: screenHeight * 0.01),
-                    Normal2TextField(
-                      controller: descriptionController,
-                      hintText: 'Description *',
-                    ),
+
 
                     Padding(
                       padding: const EdgeInsets.only(top: 8.0),
@@ -742,7 +829,7 @@ class _BookingSystemState extends State<BookingSystem> {
                     ? SizedBox.shrink()
                     : CheckboxListTile(
                       title: Text(
-                        "use Account Name registered",
+                        "Or use the Account Name registered",
                         style: GoogleFonts.lato(
                           textStyle: TextStyle(
                               fontSize: fontSmallSize,
@@ -771,10 +858,71 @@ class _BookingSystemState extends State<BookingSystem> {
 
                     Padding(
                       padding: const EdgeInsets.only(top: 8.0),
-                      child: Normal2TextField(
-                        controller: clientPositionController,
-                        hintText: 'Designation *',
+                      child:Normal2TextField(
+                      controller: clientPositionController,
+                      hintText: 'Designated Position *',
+                    ),
+                    ),
+
+                    SizedBox(height: screenHeight * 0.01),
+                    Normal2TextField(
+                        controller: descriptionController,
+                        hintText: 'Problem/Concern *',
                       ),
+
+
+                    SizedBox(height: screenHeight * 0.01),
+                    Normal2TextField(
+                      controller: clientRemarksController,
+                      hintText: 'Remarks *',
+                    ),
+
+
+                    SizedBox(height: screenHeight * 0.05),
+                    Column(
+                      children: [
+
+                        InkWell(
+                          onTap: (){
+                            if(disabling != true){
+                              selectImage();
+                            }
+                          },
+                          child: Stack(
+                            children: [
+                              imagepath != null
+                                  ? CircleAvatar(
+                                radius: 64,
+                                backgroundImage: FileImage(imagepath!),
+                              )
+                                  : showimage != null && showimage != ""
+                                  ? CircleAvatar(
+                                radius: 64,
+                                  backgroundImage: NetworkImage(API.clientsImages + showimage!),
+                              )
+                                  : const CircleAvatar(
+                                radius: 64,
+                                foregroundColor: Colors.deepOrange,
+                                child: Icon(Icons.photo, color: Colors.deepOrange, size: 50,),
+                              ),
+
+                              disabling == false
+                                  ? const Positioned(bottom: 2, left: 90,child: Icon(Icons.add_a_photo, color: Colors.deepOrange,),)
+                                  : const SizedBox.shrink(),
+                            ],
+                          ),
+                        ),
+                        Text("Attach file",
+                          style: GoogleFonts.lato(
+                            textStyle: TextStyle(
+                                fontSize: fontSmallSize,
+                                fontWeight: FontWeight.w500,
+                                letterSpacing: 0.8,
+                                color: Colors.black54
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
 
                     ClientInfo?.company_name == ''
