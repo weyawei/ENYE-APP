@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 import 'dart:math';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
@@ -93,20 +94,23 @@ class _BookingSystemState extends State<BookingSystem> {
   }*/
 
 
-  File? imagepath;
-  String? imagename;
-  String? imagedata;
-  String? showimage;
+  File? filePath;
+  String? fileName;
+  String? fileData;
+  String? showData;
   ImagePicker imagePicker = ImagePicker();
 
-  Future<void> selectImage() async {
-    var getimage = await imagePicker.pickImage(source: ImageSource.gallery);
-    setState(() {
-      imagepath = File(getimage!.path);
-      imagename = getimage.path.split('/').last;
-      imagedata = base64Encode(imagepath!.readAsBytesSync());
-      print(imagepath);
-    });
+  Future<void> selectFile() async {
+    FilePickerResult? result = await FilePicker.platform.pickFiles();
+
+    if (result != null) {
+      setState(() {
+        filePath = File(result.files.single.path!);
+        fileName = result.files.single.name;
+        fileData = base64Encode(filePath!.readAsBytesSync());
+        print(filePath);
+      });
+    }
   }
 
 
@@ -293,7 +297,7 @@ class _BookingSystemState extends State<BookingSystem> {
     clientNameController.clear();
     clientPositionController.clear();
     clientRemarksController.clear();
-    imagepath = null;
+    filePath = null;
 
 
     if(ClientInfo?.login == 'GMAIL' || ClientInfo?.login == 'APPLE'){
@@ -346,57 +350,105 @@ class _BookingSystemState extends State<BookingSystem> {
                 ),
               ),
             ),
-            content: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                SizedBox(height: screenHeight * 0.02),
+            content: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  SizedBox(height: screenHeight * 0.02),
+                  Text(
+                    'You have booked the following appointment:',
+                    textAlign: TextAlign.center,
+                    style: GoogleFonts.lato(
+                      textStyle: TextStyle(
+                          fontSize: fontNormalSize,
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold,
+                          letterSpacing: 0.8
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: screenHeight * 0.02),
+                  Text('Date Booked: ${DateFormat.yMMMd().format(DateTime.parse(selectedDate.toString()))}',
+                    style: GoogleFonts.lato(
+                      textStyle: TextStyle(
+                        fontSize: fontNormalSize,
+                        color: Colors.black,
+                        letterSpacing: 0.8
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: screenHeight * 0.008),
+                  Text('Generated Code: $generatedCode',
+                    style: GoogleFonts.lato(
+                      textStyle: TextStyle(
+                          fontSize: fontNormalSize,
+                          color: Colors.black,
+                          letterSpacing: 0.8
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: screenHeight * 0.008),
+                  Text(
+                    'Service: $selectedConcern',
+                    style: GoogleFonts.lato(
+                      textStyle: TextStyle(
+                          fontSize: fontNormalSize,
+                          color: Colors.black,
+                          letterSpacing: 0.8
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: screenHeight * 0.008),
+                  Text(
+                    'Subject: ${subjectController.text}',
+                    style: GoogleFonts.lato(
+                      textStyle: TextStyle(
+                          fontSize: fontNormalSize,
+                          color: Colors.black,
+                          letterSpacing: 0.8
+                      ),
+                    ),
+                  ),
+
+
+                SizedBox(height: screenHeight * 0.008),
                 Text(
-                  'You have booked the following appointment:',
-                  textAlign: TextAlign.center,
+                  'Requestor: ${clientNameController.text}',
                   style: GoogleFonts.lato(
                     textStyle: TextStyle(
                         fontSize: fontNormalSize,
                         color: Colors.black,
-                        fontWeight: FontWeight.bold,
                         letterSpacing: 0.8
                     ),
                   ),
                 ),
-                SizedBox(height: screenHeight * 0.02),
-                Text('Date Booked: ${DateFormat.yMMMd().format(DateTime.parse(selectedDate.toString()))}',
-                  style: GoogleFonts.lato(
-                    textStyle: TextStyle(
-                      fontSize: fontNormalSize,
-                      color: Colors.black,
-                      letterSpacing: 0.8
+                  SizedBox(height: screenHeight * 0.008),
+                  Text(
+                    'Designated Position: ${clientPositionController.text}',
+                    style: GoogleFonts.lato(
+                      textStyle: TextStyle(
+                          fontSize: fontNormalSize,
+                          color: Colors.black,
+                          letterSpacing: 0.8
+                      ),
                     ),
                   ),
-                ),
-                SizedBox(height: screenHeight * 0.008),
-                Text('Generated Code: $generatedCode',
-                  style: GoogleFonts.lato(
-                    textStyle: TextStyle(
-                        fontSize: fontNormalSize,
-                        color: Colors.black,
-                        letterSpacing: 0.8
+                  SizedBox(height: screenHeight * 0.008),
+                  Text(
+                    'Problem/Concern: ${descriptionController.text}',
+                    style: GoogleFonts.lato(
+                      textStyle: TextStyle(
+                          fontSize: fontNormalSize,
+                          color: Colors.black,
+                          letterSpacing: 0.8
+                      ),
                     ),
                   ),
-                ),
-                SizedBox(height: screenHeight * 0.008),
-                Text(
-                  'Service: $selectedConcern',
-                  style: GoogleFonts.lato(
-                    textStyle: TextStyle(
-                        fontSize: fontNormalSize,
-                        color: Colors.black,
-                        letterSpacing: 0.8
-                    ),
-                  ),
-                ),
+
                 SizedBox(height: screenHeight * 0.008),
                 Text(
-                  'Subject: ${subjectController.text}',
+                  'Remarks: ${clientRemarksController.text}',
                   style: GoogleFonts.lato(
                     textStyle: TextStyle(
                         fontSize: fontNormalSize,
@@ -406,180 +458,124 @@ class _BookingSystemState extends State<BookingSystem> {
                   ),
                 ),
 
-
-              SizedBox(height: screenHeight * 0.008),
-              Text(
-                'Requestor: ${clientNameController.text}',
-                style: GoogleFonts.lato(
-                  textStyle: TextStyle(
-                      fontSize: fontNormalSize,
-                      color: Colors.black,
-                      letterSpacing: 0.8
+                  SizedBox(height: screenHeight * 0.05),
+                  Column(
+                    children: [
+                      InkWell(
+                        onTap: (){
+                          if(disabling != false){
+                            selectFile();
+                          }
+                        },
+                        child: Stack(
+                          children: [
+                            if (filePath != null && _isImage(filePath!.path))
+                              CircleAvatar(
+                                radius: 40,
+                                backgroundImage: FileImage(filePath!),
+                              )
+                            else if (showData != null && showData!.isNotEmpty && _isImage(showData!))
+                              CircleAvatar(
+                                radius: 40,
+                                backgroundImage: FileImage(File(API.clientsImages + showData!)),
+                              )
+                            else
+                              CircleAvatar(
+                                radius: 40,
+                                foregroundColor: Colors.deepOrange,
+                                child: Icon(Icons.insert_drive_file, color: Colors.deepOrange, size: 50),
+                              ),
+                          ],
+                        ),
+                      ),
+                      SizedBox(height: 8), // Add some space between the avatar and the text
+                    ],
                   ),
-                ),
-              ),
-                SizedBox(height: screenHeight * 0.008),
-                Text(
-                  'Designated Position: ${clientPositionController.text}',
-                  style: GoogleFonts.lato(
-                    textStyle: TextStyle(
-                        fontSize: fontNormalSize,
-                        color: Colors.black,
-                        letterSpacing: 0.8
+
+
+
+
+                ClientInfo?.name == '' || ClientInfo?.name == null
+                ? Padding(
+                  padding: EdgeInsets.only(top: screenHeight * 0.008),
+                  child: Text(
+                    'Name: ${clientNameController.text}',
+                    style: GoogleFonts.lato(
+                      textStyle: TextStyle(
+                          fontSize: fontNormalSize,
+                          color: Colors.black,
+                          letterSpacing: 0.8
+                      ),
                     ),
                   ),
-                ),
-                SizedBox(height: screenHeight * 0.008),
-                Text(
-                  'Problem/Concern: ${descriptionController.text}',
-                  style: GoogleFonts.lato(
-                    textStyle: TextStyle(
-                        fontSize: fontNormalSize,
-                        color: Colors.black,
-                        letterSpacing: 0.8
-                    ),
-                  ),
-                ),
+                )
+                : SizedBox.shrink(),
 
-              SizedBox(height: screenHeight * 0.008),
-              Text(
-                'Remarks: ${clientRemarksController.text}',
-                style: GoogleFonts.lato(
-                  textStyle: TextStyle(
-                      fontSize: fontNormalSize,
-                      color: Colors.black,
-                      letterSpacing: 0.8
-                  ),
-                ),
-              ),
-
-                SizedBox(height: screenHeight * 0.05),
-                Column(
-                  children: [
-
-                    InkWell(
-                      onTap: (){
-                        if(disabling != true){
-                          selectImage();
-                        }
-                      },
-                      child: Stack(
-                        children: [
-                          imagepath != null
-                              ? CircleAvatar(
-                            radius: 64,
-                            backgroundImage: FileImage(imagepath!),
-                          )
-                              : showimage != null && showimage != ""
-                              ? CircleAvatar(
-                            radius: 64,
-                            backgroundImage: NetworkImage(API.clientsImages + showimage!),
-                          )
-                              : const CircleAvatar(
-                            radius: 64,
-                            foregroundColor: Colors.deepOrange,
-                            child: Icon(Icons.photo, color: Colors.deepOrange, size: 50,),
+                ClientInfo?.company_name == ''
+                  ? Padding(
+                      padding: EdgeInsets.only(top: screenHeight * 0.008),
+                      child: Text(
+                        'Company Name: ${compnameController.text}',
+                        style: GoogleFonts.lato(
+                          textStyle: TextStyle(
+                              fontSize: fontNormalSize,
+                              color: Colors.black,
+                              letterSpacing: 0.8
                           ),
-
-                          disabling == false
-                              ? const Positioned(bottom: 2, left: 90,child: Icon(Icons.add_a_photo, color: Colors.deepOrange,),)
-                              : const SizedBox.shrink(),
-                        ],
-                      ),
-                    ),
-                    Text("Attach file",
-                      style: GoogleFonts.lato(
-                        textStyle: TextStyle(
-                            fontSize: fontNormalSize,
-                            fontWeight: FontWeight.w500,
-                            letterSpacing: 0.8,
-                            color: Colors.black54
                         ),
                       ),
-                    ),
-                  ],
-                ),
+                    )
+                  : SizedBox.shrink(),
 
-              ClientInfo?.name == '' || ClientInfo?.name == null
-              ? Padding(
-                padding: EdgeInsets.only(top: screenHeight * 0.008),
-                child: Text(
-                  'Name: ${clientNameController.text}',
-                  style: GoogleFonts.lato(
-                    textStyle: TextStyle(
-                        fontSize: fontNormalSize,
-                        color: Colors.black,
-                        letterSpacing: 0.8
-                    ),
-                  ),
-                ),
-              )
-              : SizedBox.shrink(),
-
-              ClientInfo?.company_name == ''
-                ? Padding(
-                    padding: EdgeInsets.only(top: screenHeight * 0.008),
-                    child: Text(
-                      'Company Name: ${compnameController.text}',
-                      style: GoogleFonts.lato(
-                        textStyle: TextStyle(
-                            fontSize: fontNormalSize,
-                            color: Colors.black,
-                            letterSpacing: 0.8
+                ClientInfo?.location == ''
+                  ? Padding(
+                      padding: EdgeInsets.only(top: screenHeight * 0.008),
+                      child: Text(
+                        'Location: ${locationController.text}',
+                        style: GoogleFonts.lato(
+                          textStyle: TextStyle(
+                              fontSize: fontNormalSize,
+                              color: Colors.black,
+                              letterSpacing: 0.8
+                          ),
                         ),
                       ),
-                    ),
-                  )
-                : SizedBox.shrink(),
+                    )
+                  : SizedBox.shrink(),
 
-              ClientInfo?.location == ''
-                ? Padding(
-                    padding: EdgeInsets.only(top: screenHeight * 0.008),
-                    child: Text(
-                      'Location: ${locationController.text}',
-                      style: GoogleFonts.lato(
-                        textStyle: TextStyle(
-                            fontSize: fontNormalSize,
-                            color: Colors.black,
-                            letterSpacing: 0.8
+                ClientInfo?.project_name == ''
+                  ? Padding(
+                      padding: EdgeInsets.only(top: screenHeight * 0.008),
+                      child: Text(
+                        'Project Name: ${projnameController.text}',
+                        style: GoogleFonts.lato(
+                          textStyle: TextStyle(
+                              fontSize: fontNormalSize,
+                              color: Colors.black,
+                              letterSpacing: 0.8
+                          ),
                         ),
                       ),
-                    ),
-                  )
-                : SizedBox.shrink(),
+                    )
+                  : SizedBox.shrink(),
 
-              ClientInfo?.project_name == ''
-                ? Padding(
-                    padding: EdgeInsets.only(top: screenHeight * 0.008),
-                    child: Text(
-                      'Project Name: ${projnameController.text}',
-                      style: GoogleFonts.lato(
-                        textStyle: TextStyle(
-                            fontSize: fontNormalSize,
-                            color: Colors.black,
-                            letterSpacing: 0.8
+                ClientInfo?.contact_no == ''
+                  ? Padding(
+                      padding: EdgeInsets.only(top: screenHeight * 0.008),
+                      child: Text(
+                        'Contact #: ${contactController.text}',
+                        style: GoogleFonts.lato(
+                          textStyle: TextStyle(
+                              fontSize: fontNormalSize,
+                              color: Colors.black,
+                              letterSpacing: 0.8
+                          ),
                         ),
                       ),
-                    ),
-                  )
-                : SizedBox.shrink(),
-
-              ClientInfo?.contact_no == ''
-                ? Padding(
-                    padding: EdgeInsets.only(top: screenHeight * 0.008),
-                    child: Text(
-                      'Contact #: ${contactController.text}',
-                      style: GoogleFonts.lato(
-                        textStyle: TextStyle(
-                            fontSize: fontNormalSize,
-                            color: Colors.black,
-                            letterSpacing: 0.8
-                        ),
-                      ),
-                    ),
-                  )
-                : SizedBox.shrink(),
-              ],
+                    )
+                  : SizedBox.shrink(),
+                ],
+              ),
             ),
             actions: [
               TextButton(
@@ -589,7 +585,7 @@ class _BookingSystemState extends State<BookingSystem> {
                         generatedCode!, selectedConcern!,
                         subjectController.text, descriptionController.text,
                         clientNameController.text, clientPositionController.text,
-                        clientRemarksController.text, imagename.toString(), imagedata!,
+                        clientRemarksController.text, fileName.toString(), fileData.toString(),
                         selectedDate.toString(), ClientInfo!.client_id,
                         ClientInfo!.name, ClientInfo!.company_name,
                         ClientInfo!.location, ClientInfo!.project_name,
@@ -620,7 +616,7 @@ class _BookingSystemState extends State<BookingSystem> {
                         generatedCode!, selectedConcern!,
                         subjectController.text, descriptionController.text,
                         clientNameController.text, clientPositionController.text,
-                        clientRemarksController.text, imagename.toString(), imagedata!,
+                        clientRemarksController.text, fileName.toString(), fileData.toString(),
                         selectedDate.toString(), ClientInfo!.client_id,
                         ClientInfo!.name, compnameController.text,
                         locationController.text, projnameController.text,
@@ -651,7 +647,7 @@ class _BookingSystemState extends State<BookingSystem> {
                         generatedCode!, selectedConcern!,
                         subjectController.text, descriptionController.text,
                         clientNameController.text, clientPositionController.text,
-                        clientRemarksController.text, imagename.toString(), imagedata!,
+                        clientRemarksController.text, fileName.toString(), fileData.toString(),
                         selectedDate.toString(), ClientInfo!.client_id,
                         clientNameController.text, compnameController.text,
                         locationController.text, projnameController.text,
@@ -881,49 +877,52 @@ class _BookingSystemState extends State<BookingSystem> {
                     SizedBox(height: screenHeight * 0.05),
                     Column(
                       children: [
-
                         InkWell(
                           onTap: (){
                             if(disabling != true){
-                              selectImage();
+                              selectFile();
                             }
                           },
                           child: Stack(
                             children: [
-                              imagepath != null
-                                  ? CircleAvatar(
-                                radius: 64,
-                                backgroundImage: FileImage(imagepath!),
-                              )
-                                  : showimage != null && showimage != ""
-                                  ? CircleAvatar(
-                                radius: 64,
-                                  backgroundImage: NetworkImage(API.clientsImages + showimage!),
-                              )
-                                  : const CircleAvatar(
-                                radius: 64,
-                                foregroundColor: Colors.deepOrange,
-                                child: Icon(Icons.photo, color: Colors.deepOrange, size: 50,),
-                              ),
-
-                              disabling == false
-                                  ? const Positioned(bottom: 2, left: 90,child: Icon(Icons.add_a_photo, color: Colors.deepOrange,),)
-                                  : const SizedBox.shrink(),
+                              if (filePath != null && _isImage(filePath!.path))
+                                CircleAvatar(
+                                  radius: 64,
+                                  backgroundImage: FileImage(filePath!),
+                                )
+                              else if (showData != null && showData!.isNotEmpty && _isImage(showData!))
+                                CircleAvatar(
+                                  radius: 64,
+                                  backgroundImage: FileImage(File(API.clientsImages + showData!)),
+                                )
+                              else
+                                CircleAvatar(
+                                  radius: 64,
+                                  foregroundColor: Colors.deepOrange,
+                                  child: Icon(Icons.insert_drive_file, color: Colors.deepOrange, size: 50),
+                                ),
+                              if (!disabling)
+                                Positioned(
+                                  bottom: 2,
+                                  left: 90,
+                                  child: Icon(Icons.add_a_photo, color: Colors.deepOrange),
+                                ),
                             ],
                           ),
                         ),
-                        Text("Attach file",
-                          style: GoogleFonts.lato(
-                            textStyle: TextStyle(
-                                fontSize: fontSmallSize,
-                                fontWeight: FontWeight.w500,
-                                letterSpacing: 0.8,
-                                color: Colors.black54
-                            ),
+                        SizedBox(height: 8), // Add some space between the avatar and the text
+                        Text(
+                          "Attach file",
+                          style: TextStyle(
+                            fontSize: 14, // Adjust font size as needed
+                            fontWeight: FontWeight.w500,
+                            letterSpacing: 0.8,
+                            color: Colors.black54,
                           ),
                         ),
                       ],
                     ),
+
 
                     ClientInfo?.company_name == ''
                      ? Padding(
@@ -991,3 +990,9 @@ class _BookingSystemState extends State<BookingSystem> {
   }
 }
 
+// Function to check if a file path represents an image
+bool _isImage(String filePath) {
+  final imageExtensions = ['jpg', 'jpeg', 'png', 'gif', 'bmp'];
+  final ext = filePath.split('.').last.toLowerCase();
+  return imageExtensions.contains(ext);
+}
