@@ -58,9 +58,12 @@ class _BookingSystemState extends State<BookingSystem> {
 
   String? selectedConcern;
   List<String> availableConcerns = [
-    'Repair',
+    'Presentation/Consultation',
+    'Survey',
+    'Installation',
     //'Quotation',
-    'Consultation',
+    'Technical Support',
+    'Technical Meeting',
     'Other',
   ];
 
@@ -125,15 +128,15 @@ class _BookingSystemState extends State<BookingSystem> {
     );
 
     String concern;
-    if(selectedConcern == 'Presentation/Consultation (onsite/online)'){
+    if(selectedConcern == 'Presentation/Consultation'){
       concern = 'PRST';
-    } else if(selectedConcern == 'Survey (Service Order)'){
+    } else if(selectedConcern == 'Survey'){
       concern = 'SRVY';
-    } else if(selectedConcern == 'Installation (Service Order)'){
+    } else if(selectedConcern == 'Installation'){
       concern = 'INTS';
-    } else if(selectedConcern == 'Technical Support (Service Order)'){
+    } else if(selectedConcern == 'Technical Support'){
       concern = 'TS';
-    } else if(selectedConcern == 'Technical Meeting (onsite/online)'){
+    } else if(selectedConcern == 'Technical Meeting'){
       concern = 'TM';
     } else if(selectedConcern == 'Other'){
       concern = 'OTHR';
