@@ -121,14 +121,20 @@ class _BookingSystemState extends State<BookingSystem> {
     // Generate a random 6-character alphanumeric ID
     String randomId = String.fromCharCodes(
       List.generate(
-          6, (index) => chars.codeUnitAt(random.nextInt(chars.length))),
+          4, (index) => chars.codeUnitAt(random.nextInt(chars.length))),
     );
 
     String concern;
-    if(selectedConcern == 'Repair'){
-      concern = 'RPR';
-    } else if(selectedConcern == 'Consultation'){
-      concern = 'CONSLT';
+    if(selectedConcern == 'Presentation/Consultation (onsite/online)'){
+      concern = 'PRST';
+    } else if(selectedConcern == 'Survey (Service Order)'){
+      concern = 'SRVY';
+    } else if(selectedConcern == 'Installation (Service Order)'){
+      concern = 'INTS';
+    } else if(selectedConcern == 'Technical Support (Service Order)'){
+      concern = 'TS';
+    } else if(selectedConcern == 'Technical Meeting (onsite/online)'){
+      concern = 'TM';
     } else if(selectedConcern == 'Other'){
       concern = 'OTHR';
     } else {
