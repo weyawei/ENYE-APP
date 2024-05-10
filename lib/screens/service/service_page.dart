@@ -317,7 +317,7 @@ class _ServicePageState extends State<ServicePage> {
                   _errorSnackbar(context, "Login first before booking !");
                 }
               },
-              text: 'BOOK A SERVICE',
+              text: 'SET AN APPOINTMENT',
               clr: Colors.deepOrange,
               fontSize: fontExtraSize,
             ),
