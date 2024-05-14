@@ -921,7 +921,7 @@ class _BookingSystemState extends State<BookingSystem> {
                         ),
                         SizedBox(height: 8), // Add some space between the avatar and the text
                         Text(
-                          "Attach file",
+                          filePath != null ? filePath!.path.split('/').last : "Attach file", // Display file name if file is selected
                           style: TextStyle(
                             fontSize: 14, // Adjust font size as needed
                             fontWeight: FontWeight.w500,
