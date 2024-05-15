@@ -857,7 +857,41 @@ class _StatusPageState extends State<StatusPage> with TickerProviderStateMixin {
 
                 ): SizedBox.shrink(),
 
-
+                ..._servicess.map((ServiceOrder) {
+                  if(ServiceOrder.svc_id == service.id) {
+                    return TextButton(
+                      onPressed: () {},
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisSize: MainAxisSize.min,
+                        // Use min to prevent the Row from occupying more space than its children need.
+                        children: <Widget>[
+                          Icon(
+                            Icons.download_for_offline_rounded,
+                            color: Colors.deepOrange.shade300,
+                            size: (screenHeight + screenWidth) / 40,
+                          ), // Example icon
+                          SizedBox(width: 8), // Space between icon and text
+                          Text(
+                            "SO# " + ServiceOrder.so_no + " - " +
+                                ServiceOrder.date_so,
+                            style: TextStyle(
+                              height: 1.5,
+                              fontSize: 12,
+                              fontFamily: 'Rowdies',
+                              color: Colors.deepOrange.shade300,
+                              fontWeight: FontWeight.w700,
+                              letterSpacing: 1.2,
+                            ),
+                            textAlign: TextAlign.left,
+                          ),
+                        ],
+                      ),
+                    );
+                  } else {
+                    return SizedBox.shrink();
+                  }
+                }).toList(),
 
                 const SizedBox(height: 20,),
                 Container(

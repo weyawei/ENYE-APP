@@ -180,7 +180,7 @@ class ServiceOrder {
 
   factory ServiceOrder.fromJson(Map<String, dynamic> json) {
     return ServiceOrder(
-      id: json['id'] as String,
+      id: json['so_id'] as String,
       so_no: json['so_no'] as String,
       svc_id: json['svc_id'] as String,
       project: json['project'] as String,
@@ -197,7 +197,7 @@ class ServiceOrder {
       status: json['status'] as String,
       remark: json['remark'] as String,
       service: json['service'] as String,
-      serviceBy: json['service_by'] as String,
+      serviceBy: json['serviced_by'] as String,
       conforme: json['conforme'] as String,
       conformeSig: json['conforme_signature'] as String,
       coc: json['coc'] as String,

@@ -19,7 +19,6 @@ class TechnicalDataServices {
 
   //get data users position from database
   static Future <List<ServiceOrder>> getServiceOrder() async {
-    try{
       var map = Map<String, dynamic>();
       map['action'] = GET_ALL_SERVICEORDER;
 
@@ -34,10 +33,7 @@ class TechnicalDataServices {
         throw Exception('Failed to retrieve Server Order');
         //return List<Categories>();
       }
-    } catch (e) {
-      throw Exception('Failed to retrieve Server Order');
-      //return List<Categories>();
-    }
+
   }
 
   static List<ServiceOrder> parseServiceOrder(String responseBody){
