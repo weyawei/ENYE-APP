@@ -126,3 +126,84 @@ class Position {
     );
   }
 }
+
+class ServiceOrder {
+  String id;
+  String so_no;
+  String svc_id;
+  String project;
+  String address;
+  String client_person;
+  String svc_no;
+  String time_in;
+  String time_out;
+  String day;
+  String date_so;
+  String system_product;
+  String location;
+  String complaint;
+  String status;
+  String remark;
+  String service;
+  String serviceBy;
+  String conforme;
+  String conformeSig;
+  String coc;
+  String stat;
+  String date_completed;
+
+  ServiceOrder({
+    required this.id,
+    required this.so_no,
+    required this.svc_id,
+    required this.project,
+    required this.address,
+    required this.client_person,
+    required this.svc_no,
+    required this.time_in,
+    required this.time_out,
+    required this.day,
+    required this.date_so,
+    required this.system_product,
+    required this.location,
+    required this.complaint,
+    required this.status,
+    required this.remark,
+    required this.service,
+    required this.serviceBy,
+    required this.conforme,
+    required this.conformeSig,
+    required this.coc,
+    required this.stat,
+    required this.date_completed,
+  });
+
+  factory ServiceOrder.fromJson(Map<String, dynamic> json) {
+    return ServiceOrder(
+      id: json['id'] as String,
+      so_no: json['so_no'] as String,
+      svc_id: json['svc_id'] as String,
+      project: json['project'] as String,
+      address: json['address'] as String,
+      client_person: json['client_person'] as String,
+      svc_no: json['svc_no'] as String,
+      time_in: json['time_in'] as String,
+      time_out: json['time_out'] as String,
+      day: json['day'] as String,
+      date_so: json['date_so'] as String,
+      system_product: json['system_product'] as String,
+      location: json['location'] as String,
+      complaint: json['complaint'] as String,
+      status: json['status'] as String,
+      remark: json['remark'] as String,
+      service: json['service'] as String,
+      serviceBy: json['service_by'] as String,
+      conforme: json['conforme'] as String,
+      conformeSig: json['conforme_signature'] as String,
+      coc: json['coc'] as String,
+      stat: json['stat'] as String,
+      date_completed: json['date_completed'] as String,
+
+    );
+  }
+}

@@ -14,6 +14,38 @@ class TechnicalDataServices {
   static const EDIT_TO_ACCEPTED = 'edit_to_accepted';
   static const EDIT_TO_RESCHED = 'edit_to_resched';
   static const BOOKING = 'add_booking';
+  static const GET_ALL_SERVICEORDER = 'get_all_serviceorder';
+
+
+  //get data users position from database
+  static Future <List<ServiceOrder>> getServiceOrder() async {
+    try{
+      var map = Map<String, dynamic>();
+      map['action'] = GET_ALL_SERVICEORDER;
+
+      //get all data of categories
+      final res = await http.post(Uri.parse(API.booking), body: map); //passing value to result
+      print('getServiceOrder Response: ${res.body}');
+
+      if(res.statusCode == 200){
+        List<ServiceOrder> list = parseServiceOrder(res.body);
+        return list;
+      } else {
+        throw Exception('Failed to retrieve Server Order');
+        //return List<Categories>();
+      }
+    } catch (e) {
+      throw Exception('Failed to retrieve Server Order');
+      //return List<Categories>();
+    }
+  }
+
+  static List<ServiceOrder> parseServiceOrder(String responseBody){
+    //conversion from web server into data by using categories.dart
+    final parsed = json.decode(responseBody).cast<Map<String, dynamic>>();
+    return parsed.map<ServiceOrder>((json) => ServiceOrder.fromJson(json)).toList();
+  }
+
 
   //get data users position from database
   static Future <List<Position>> getPositions() async {

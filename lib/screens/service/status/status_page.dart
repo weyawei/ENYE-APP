@@ -46,6 +46,7 @@ class _StatusPageState extends State<StatusPage> with TickerProviderStateMixin {
   void initState(){
     super.initState();
     _services = [];
+    _servicess = [];
 
     //calling session data
     checkSession().getUserSessionStatus().then((bool) {
@@ -53,6 +54,7 @@ class _StatusPageState extends State<StatusPage> with TickerProviderStateMixin {
         checkSession().getClientsData().then((value) {
           ClientInfo = value;
           _getServices();
+          _getServicess();
         });
         userSessionFuture = bool;
       } else {
@@ -126,6 +128,16 @@ class _StatusPageState extends State<StatusPage> with TickerProviderStateMixin {
     });
   }
 
+  late List<ServiceOrder> _servicess;
+
+  _getServicess(){
+    TechnicalDataServices.getServiceOrder().then((ServiceOrder){
+      setState(() {
+        _servicess = ServiceOrder;
+      });
+    });
+  }
+
   List<TechnicalData> _filteredServices = [];
   void filterSystemsList() {
     _filteredServices = _services.where((technicalData) {
@@ -135,10 +147,21 @@ class _StatusPageState extends State<StatusPage> with TickerProviderStateMixin {
     }).toList();
   }
 
+
+  List<ServiceOrder> _filteredService = [];
+  void filterSystemsLists() {
+    _filteredService = _servicess.where((ServiceOrder) {
+      final svcId = ServiceOrder.svc_id.toLowerCase();
+      final searchQuery = searchController.text.toLowerCase();
+      return svcId.contains(searchQuery);
+    }).toList();
+  }
+
   _editToCancel(TechnicalData services){
     TechnicalDataServices.editCancelBooking(services.id, services.svcId, reasonController.text.trim()).then((result) {
       if('success' == result){
         _getServices(); //refresh the list after update
+        _getServicess();
         _custSnackbar(
           context,
           "Cancelled Booking Successfully",
@@ -496,6 +519,10 @@ class _StatusPageState extends State<StatusPage> with TickerProviderStateMixin {
                                       if(_filteredServices[index].status == "Set-sched"){
                                         _showBottomSheet(context, _filteredServices[index]);
                                       }
+
+                                      if(_filteredServices[index].status == "On Process"){
+                                        _showBottomSheet2(context, _filteredServices[index]);
+                                      }
                                     },
                                     child: TaskTile(services: _filteredServices[index]),
                                   )
@@ -564,6 +591,8 @@ class _StatusPageState extends State<StatusPage> with TickerProviderStateMixin {
                     context:context,
                   ),
                 ): SizedBox.shrink(),
+
+
 
                 services.status == "Set-sched" ?
                 Container(
@@ -694,6 +723,166 @@ class _StatusPageState extends State<StatusPage> with TickerProviderStateMixin {
         }
     );
   }
+
+
+
+
+  _showBottomSheet2 (BuildContext context, TechnicalData service) {
+
+    showModalBottomSheet(
+        isScrollControlled: true,
+        useRootNavigator: true,
+        context: context,
+        builder: (context) {
+          double screenHeight = MediaQuery.of(context).size.height;
+          double screenWidth = MediaQuery.of(context).size.width;
+
+          var fontNormalSize = ResponsiveTextUtils.getNormalFontSize(screenWidth);
+          var fontExtraSize = ResponsiveTextUtils.getExtraFontSize(screenWidth);
+
+          EdgeInsets viewInsets = MediaQuery.of(context).viewInsets;
+          return Padding(
+            padding: EdgeInsets.only(bottom: viewInsets.bottom),
+            child: MasonryGridView(
+              physics: NeverScrollableScrollPhysics(),
+              shrinkWrap: true,
+              gridDelegate: SliverSimpleGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 1,
+              ),
+              children: <Widget> [
+                Container(
+                  height: screenHeight * 0.007,
+                  margin: EdgeInsets.only(
+                      left: MediaQuery.of(context).size.width * 0.2,
+                      right: MediaQuery.of(context).size.width * 0.2,
+                      top: 4
+                  ),
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      color: Colors.grey[300]
+                  ),
+                ),
+
+                SizedBox(height: screenHeight * 0.04,),
+
+
+
+                service.status == "On Process" ?
+                Container(
+                  padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.08),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      RichText(
+                          softWrap: true,
+                          text:TextSpan(
+                              children: <TextSpan> [
+                                TextSpan(text: "Title :  ",
+                                  style: TextStyle(fontSize: fontNormalSize, fontWeight: FontWeight.bold, color: Colors.grey, letterSpacing: 0.8),),
+
+                                TextSpan(text: () {
+                                  var filteredServices = _servicess.where((serviceOrder) => serviceOrder.svc_no == service.svcId).toList();
+                                  return filteredServices.isNotEmpty
+                                      ? filteredServices[0].project
+                                      : 'No matching project';
+                                }(),
+                                  style: TextStyle(fontSize: fontExtraSize, fontWeight: FontWeight.bold, color: Colors.black54, letterSpacing: 0.8),),
+                              ]
+                          )
+                      ),
+
+                      SizedBox(height: screenHeight * 0.01,),
+                      RichText(
+                          textAlign: TextAlign.justify,
+                          softWrap: true,
+                          text:TextSpan(
+                              children: <TextSpan> [
+                                TextSpan(text: "Description :  ",
+                                  style: TextStyle(fontSize: fontNormalSize, fontWeight: FontWeight.bold, color: Colors.grey, letterSpacing: 0.8),),
+
+                                TextSpan(text: () {
+                                  var filteredServices = _servicess.where((serviceOrder) => serviceOrder.svc_no == service.svcId).toList();
+                                  return filteredServices.isNotEmpty
+                                      ? filteredServices[0].project
+                                      : 'No matching project';
+                                }(),
+                                  style: TextStyle(fontSize: fontExtraSize, color: Colors.black54, letterSpacing: 0.8),),
+                              ]
+                          )
+                      ),
+
+                      SizedBox(height: screenHeight * 0.01,),
+                      RichText(
+                          textAlign: TextAlign.justify,
+                          softWrap: true,
+                          text:TextSpan(
+                              children: <TextSpan> [
+                                TextSpan(text: "Requestor Name :  ",
+                                  style: TextStyle(fontSize: fontNormalSize, fontWeight: FontWeight.bold, color: Colors.grey, letterSpacing: 0.8),),
+
+                                TextSpan(text: () {
+                                  var filteredServices = _servicess.where((serviceOrder) => serviceOrder.svc_no == service.svcId).toList();
+                                  return filteredServices.isNotEmpty
+                                      ? filteredServices[0].project
+                                      : 'No matching project';
+                                }(),
+                                  style: TextStyle(fontSize: fontExtraSize, color: Colors.black54, letterSpacing: 0.8),),
+                              ]
+                          )
+                      ),
+
+
+
+                      SizedBox(height: screenHeight * 0.01,),
+                      RichText(
+                          textAlign: TextAlign.justify,
+                          softWrap: true,
+                          text:TextSpan(
+                              children: <TextSpan> [
+                                TextSpan(text: "Designation :  ",
+                                  style: TextStyle(fontSize: fontNormalSize, fontWeight: FontWeight.bold, color: Colors.grey, letterSpacing: 0.8),),
+
+                                TextSpan(text: () {
+                                  var filteredServices = _servicess.where((serviceOrder) => serviceOrder.svc_no == service.svcId).toList();
+                                  return filteredServices.isNotEmpty
+                                      ? filteredServices[0].project
+                                      : 'No matching project';
+                                }(),
+                                  style: TextStyle(fontSize: fontExtraSize, color: Colors.black54, letterSpacing: 0.8),),
+                              ]
+                          )
+                      ),
+                    ],
+                  ),
+
+                ): SizedBox.shrink(),
+
+
+
+                const SizedBox(height: 20,),
+                Container(
+                  padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.02),
+                  child: _bottomSheetButton(
+                    label: "CLOSE",
+                    onTap: (){
+                      Navigator.pop(context);
+                    },
+                    clr: Colors.orangeAccent,
+                    context:context,
+                    isClose: true,
+                  ),
+                ),
+
+                SizedBox(height: screenHeight * 0.01,),
+              ],
+            ),
+          );
+        }
+    );
+  }
+
+
+
 
   String? valueChooseAccount;
   _showAnotherBottomSheet (BuildContext context, TechnicalData services, String whatToDo) {
@@ -878,6 +1067,147 @@ class _StatusPageState extends State<StatusPage> with TickerProviderStateMixin {
       _dropdownError = null;
     });
   }
+
+
+
+
+  String? valueChooseAccount1;
+  _showServiceOrder (BuildContext context, TechnicalData service, String whatToDo) {
+    showModalBottomSheet(
+        isScrollControlled: true,
+        useRootNavigator: true,
+        context: context,
+        builder: (BuildContext context) {
+          double screenHeight = MediaQuery.of(context).size.height;
+          double screenWidth = MediaQuery.of(context).size.width;
+
+          var fontNormalSize = ResponsiveTextUtils.getNormalFontSize(screenWidth);
+          var fontExtraSize = ResponsiveTextUtils.getExtraFontSize(screenWidth);
+
+          EdgeInsets viewInsets = MediaQuery.of(context).viewInsets;
+          return Padding(
+            padding: EdgeInsets.only(bottom: viewInsets.bottom),
+            child: MasonryGridView(
+              physics: NeverScrollableScrollPhysics(),
+              shrinkWrap: true,
+              gridDelegate: SliverSimpleGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 1,
+              ),
+              children: <Widget> [
+                Container(
+                  height: screenHeight * 0.007,
+                  margin: EdgeInsets.only(
+                      left: MediaQuery.of(context).size.width * 0.2,
+                      right: MediaQuery.of(context).size.width * 0.2,
+                      top: 4
+                  ),
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      color: Colors.grey[300]
+                  ),
+                ),
+
+                SizedBox(height: screenHeight * 0.04,),
+                Container(
+                  padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.08),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      RichText(
+                          softWrap: true,
+                          text:TextSpan(
+                              children: <TextSpan> [
+                                TextSpan(text: "Title :  ",
+                                  style: TextStyle(fontSize: fontNormalSize, fontWeight: FontWeight.bold, color: Colors.grey, letterSpacing: 0.8),),
+
+                                TextSpan(text: _servicess.where((serviceOrder) => serviceOrder.svc_id == service.id).elementAt(0).project,
+                                  style: TextStyle(fontSize: fontExtraSize, fontWeight: FontWeight.bold, color: Colors.black54, letterSpacing: 0.8),),
+                              ]
+                          )
+                      ),
+
+                      SizedBox(height: screenHeight * 0.01,),
+                      RichText(
+                          textAlign: TextAlign.justify,
+                          softWrap: true,
+                          text:TextSpan(
+                              children: <TextSpan> [
+                                TextSpan(text: "Description :  ",
+                                  style: TextStyle(fontSize: fontNormalSize, fontWeight: FontWeight.bold, color: Colors.grey, letterSpacing: 0.8),),
+
+                                TextSpan(text: _servicess.where((serviceOrder) => serviceOrder.svc_id == service.id).elementAt(0).project,
+                                  style: TextStyle(fontSize: fontExtraSize, color: Colors.black54, letterSpacing: 0.8),),
+                              ]
+                          )
+                      ),
+
+                      SizedBox(height: screenHeight * 0.01,),
+                      RichText(
+                          textAlign: TextAlign.justify,
+                          softWrap: true,
+                          text:TextSpan(
+                              children: <TextSpan> [
+                                TextSpan(text: "Requestor Name :  ",
+                                  style: TextStyle(fontSize: fontNormalSize, fontWeight: FontWeight.bold, color: Colors.grey, letterSpacing: 0.8),),
+
+                                TextSpan(text: _servicess.where((serviceOrder) => serviceOrder.svc_id == service.id).elementAt(0).project,
+                                  style: TextStyle(fontSize: fontExtraSize, color: Colors.black54, letterSpacing: 0.8),),
+                              ]
+                          )
+                      ),
+
+
+
+                      SizedBox(height: screenHeight * 0.01,),
+                      RichText(
+                          textAlign: TextAlign.justify,
+                          softWrap: true,
+                          text:TextSpan(
+                              children: <TextSpan> [
+                                TextSpan(text: "Designation :  ",
+                                  style: TextStyle(fontSize: fontNormalSize, fontWeight: FontWeight.bold, color: Colors.grey, letterSpacing: 0.8),),
+
+                                TextSpan(text: _servicess.where((serviceOrder) => serviceOrder.svc_id == service.id).elementAt(0).project,
+                                  style: TextStyle(fontSize: fontExtraSize, color: Colors.black54, letterSpacing: 0.8),),
+                              ]
+                          )
+                      ),
+                    ],
+                  ),
+                ),
+
+
+
+                SizedBox(height: screenHeight * 0.02,),
+                Container(
+                  padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.02),
+                  child: _bottomSheetButton(
+                    label: "Close",
+                    onTap: (){
+                      _dropdownError = null;
+                      valueChooseAccount = null;
+                      Navigator.pop(context);
+                    },
+                    clr: Colors.orangeAccent,
+                    context:context,
+                    isClose: true,
+                  ),
+                ),
+
+                SizedBox(height: screenHeight * 0.01,),
+              ],
+            ),
+          );
+        }
+    ).whenComplete(() {
+      valueChooseAccount = null;
+      _dropdownError = null;
+    });
+  }
+
+
+
+
 
   _bottomSheetButton ({
     required String label,
