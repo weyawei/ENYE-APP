@@ -133,7 +133,7 @@ class _StatusPageState extends State<StatusPage> with TickerProviderStateMixin {
   _getServicess(){
     TechnicalDataServices.getServiceOrder().then((ServiceOrder){
       setState(() {
-        _servicess = ServiceOrder;
+        _servicess = ServiceOrder.where((ServiceOrder) => ServiceOrder.stat == "Saved").toList();
       });
     });
   }
@@ -764,98 +764,6 @@ class _StatusPageState extends State<StatusPage> with TickerProviderStateMixin {
                 ),
 
                 SizedBox(height: screenHeight * 0.04,),
-
-
-
-                service.status == "On Process" ?
-                Container(
-                  padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.08),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      RichText(
-                          softWrap: true,
-                          text:TextSpan(
-                              children: <TextSpan> [
-                                TextSpan(text: "Title :  ",
-                                  style: TextStyle(fontSize: fontNormalSize, fontWeight: FontWeight.bold, color: Colors.grey, letterSpacing: 0.8),),
-
-                                TextSpan(text: () {
-                                  var filteredServices = _servicess.where((serviceOrder) => serviceOrder.svc_no == service.svcId).toList();
-                                  return filteredServices.isNotEmpty
-                                      ? filteredServices[0].project
-                                      : 'No matching project';
-                                }(),
-                                  style: TextStyle(fontSize: fontExtraSize, fontWeight: FontWeight.bold, color: Colors.black54, letterSpacing: 0.8),),
-                              ]
-                          )
-                      ),
-
-                      SizedBox(height: screenHeight * 0.01,),
-                      RichText(
-                          textAlign: TextAlign.justify,
-                          softWrap: true,
-                          text:TextSpan(
-                              children: <TextSpan> [
-                                TextSpan(text: "Description :  ",
-                                  style: TextStyle(fontSize: fontNormalSize, fontWeight: FontWeight.bold, color: Colors.grey, letterSpacing: 0.8),),
-
-                                TextSpan(text: () {
-                                  var filteredServices = _servicess.where((serviceOrder) => serviceOrder.svc_no == service.svcId).toList();
-                                  return filteredServices.isNotEmpty
-                                      ? filteredServices[0].project
-                                      : 'No matching project';
-                                }(),
-                                  style: TextStyle(fontSize: fontExtraSize, color: Colors.black54, letterSpacing: 0.8),),
-                              ]
-                          )
-                      ),
-
-                      SizedBox(height: screenHeight * 0.01,),
-                      RichText(
-                          textAlign: TextAlign.justify,
-                          softWrap: true,
-                          text:TextSpan(
-                              children: <TextSpan> [
-                                TextSpan(text: "Requestor Name :  ",
-                                  style: TextStyle(fontSize: fontNormalSize, fontWeight: FontWeight.bold, color: Colors.grey, letterSpacing: 0.8),),
-
-                                TextSpan(text: () {
-                                  var filteredServices = _servicess.where((serviceOrder) => serviceOrder.svc_no == service.svcId).toList();
-                                  return filteredServices.isNotEmpty
-                                      ? filteredServices[0].project
-                                      : 'No matching project';
-                                }(),
-                                  style: TextStyle(fontSize: fontExtraSize, color: Colors.black54, letterSpacing: 0.8),),
-                              ]
-                          )
-                      ),
-
-
-
-                      SizedBox(height: screenHeight * 0.01,),
-                      RichText(
-                          textAlign: TextAlign.justify,
-                          softWrap: true,
-                          text:TextSpan(
-                              children: <TextSpan> [
-                                TextSpan(text: "Designation :  ",
-                                  style: TextStyle(fontSize: fontNormalSize, fontWeight: FontWeight.bold, color: Colors.grey, letterSpacing: 0.8),),
-
-                                TextSpan(text: () {
-                                  var filteredServices = _servicess.where((serviceOrder) => serviceOrder.svc_no == service.svcId).toList();
-                                  return filteredServices.isNotEmpty
-                                      ? filteredServices[0].project
-                                      : 'No matching project';
-                                }(),
-                                  style: TextStyle(fontSize: fontExtraSize, color: Colors.black54, letterSpacing: 0.8),),
-                              ]
-                          )
-                      ),
-                    ],
-                  ),
-
-                ): SizedBox.shrink(),
 
                 ..._servicess.map((ServiceOrder) {
                   if(ServiceOrder.svc_id == service.id) {
