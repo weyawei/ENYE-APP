@@ -9,6 +9,7 @@ class TechnicalDataServices {
   static const GET_ALL_TECHNICAL = 'get_all_technical';
   static const GET_CLIENT_TECHNICAL = 'get_client_technical';
   static const GET_HANDLER_DATA = 'get_handler_data';
+  static const GET_HANDLER_DATA2 = 'get_handler_data2';
   static const GET_ALL_POSITIONS = 'get_all_pos';
   static const EDIT_TO_CANCELLED = 'edit_to_cancelled';
   static const EDIT_TO_ACCEPTED = 'edit_to_accepted';
@@ -101,6 +102,38 @@ class TechnicalDataServices {
     final parsed = json.decode(responseBody).cast<Map<String, dynamic>>();
     return parsed.map<UserAdminData>((json) => UserAdminData.fromJson(json)).toList();
   }
+
+
+  //get handler data from database
+  static Future <List<UserAdminData2>> handlerData2() async {
+    try{
+      var map = Map<String, dynamic>();
+      map['action'] = GET_HANDLER_DATA2;
+
+      //get all data of categories
+      final res = await http.post(Uri.parse(API.booking), body: map); //passing value to result
+      print('Handler Data Response: ${res.body}');
+
+      if(res.statusCode == 200){
+        List<UserAdminData2> list = parseResHandler2(res.body);
+        return list;
+      } else {
+        throw Exception('Failed to retrieve Handler Data2');
+        //return List<Categories>();
+      }
+    } catch (e) {
+      throw Exception('Failed to retrieve Handler Data2');
+      //return List<Categories>();
+    }
+  }
+
+  static List<UserAdminData2> parseResHandler2(String responseBody){
+    //conversion from web server into data by using categories.dart
+    final parsed = json.decode(responseBody).cast<Map<String, dynamic>>();
+    return parsed.map<UserAdminData2>((json) => UserAdminData2.fromJson(json)).toList();
+  }
+
+
 
   //get all bookings para sa date disabling from database
   static Future <List<TechnicalData>> getTechnicalData() async {

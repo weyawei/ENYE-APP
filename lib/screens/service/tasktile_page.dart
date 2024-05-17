@@ -172,7 +172,7 @@ class _TaskTileState extends State<TaskTile> {
                 )
                  : SizedBox.shrink(),
 
-                widget.services.status == "Completed" || widget.services.status == "On Process"
+               /* widget.services.status == "Completed" || widget.services.status == "On Process"
                  ? Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -248,7 +248,7 @@ class _TaskTileState extends State<TaskTile> {
                     ),
                   ],
                   )
-                  : SizedBox.shrink(),
+                  : SizedBox.shrink(),*/
 
                 widget.services.status == "Cancelled"
                   ? RichText(

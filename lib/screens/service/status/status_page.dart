@@ -9,6 +9,7 @@ import 'package:intl/intl.dart';
 import '../../../config/config.dart';
 import '../../../widget/widgets.dart';
 import '../../screens.dart';
+import 'SOPdfPage.dart';
 
 class StatusPage extends StatefulWidget {
   static const String routeName = '/status';
@@ -30,6 +31,7 @@ class StatusPage extends StatefulWidget {
 
 class _StatusPageState extends State<StatusPage> with TickerProviderStateMixin {
   clientInfo? ClientInfo;
+  UserAdminData2? UserAdminInfo;
   bool? userSessionFuture;
   String? _dropdownError; //kapag wala pa na-select sa option
 
@@ -47,6 +49,7 @@ class _StatusPageState extends State<StatusPage> with TickerProviderStateMixin {
     super.initState();
     _services = [];
     _servicess = [];
+    _users = [];
 
     //calling session data
     checkSession().getUserSessionStatus().then((bool) {
@@ -55,6 +58,7 @@ class _StatusPageState extends State<StatusPage> with TickerProviderStateMixin {
           ClientInfo = value;
           _getServices();
           _getServicess();
+          _getUsers();
         });
         userSessionFuture = bool;
       } else {
@@ -134,6 +138,16 @@ class _StatusPageState extends State<StatusPage> with TickerProviderStateMixin {
     TechnicalDataServices.getServiceOrder().then((ServiceOrder){
       setState(() {
         _servicess = ServiceOrder.where((ServiceOrder) => ServiceOrder.stat == "Saved").toList();
+      });
+    });
+  }
+
+  late List<UserAdminData2> _users;
+
+  _getUsers(){
+    TechnicalDataServices.handlerData2().then((UserAdminData2){
+      setState(() {
+        _users = UserAdminData2;
       });
     });
   }
@@ -765,10 +779,87 @@ class _StatusPageState extends State<StatusPage> with TickerProviderStateMixin {
 
                 SizedBox(height: screenHeight * 0.04,),
 
+                service.status == "On Process" ?
+                Container(
+                  padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.08),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      RichText(
+                          softWrap: true,
+                          text:TextSpan(
+                              children: <TextSpan> [
+                                TextSpan(text: "Handler : ",
+                                  style: TextStyle(fontSize: fontNormalSize, fontWeight: FontWeight.bold, color: Colors.grey, letterSpacing: 0.8),),
+
+                                TextSpan(text:  _users.where((users) => users.user_id == _servicess.where((servicess) => servicess.serviceBy == service.svcHandler).elementAt(0).serviceBy).elementAt(0).name,
+                                  style: TextStyle(fontSize: fontExtraSize, fontWeight: FontWeight.bold, color: Colors.black54, letterSpacing: 0.8),),
+                              ]
+                          )
+                      ),
+
+                      SizedBox(height: screenHeight * 0.01,),
+                      RichText(
+                          textAlign: TextAlign.justify,
+                          softWrap: true,
+                          text:TextSpan(
+                              children: <TextSpan> [
+                                TextSpan(text: "Position :  ",
+                                  style: TextStyle(fontSize: fontNormalSize, fontWeight: FontWeight.bold, color: Colors.grey, letterSpacing: 0.8),),
+
+                                TextSpan(text:  _users.where((users) => users.user_id == _servicess.where((servicess) => servicess.serviceBy == service.svcHandler).elementAt(0).serviceBy).elementAt(0).position,
+                                  style: TextStyle(fontSize: fontExtraSize, color: Colors.black54, letterSpacing: 0.8),),
+                              ]
+                          )
+                      ),
+
+                      SizedBox(height: screenHeight * 0.01,),
+                      RichText(
+                          textAlign: TextAlign.justify,
+                          softWrap: true,
+                          text:TextSpan(
+                              children: <TextSpan> [
+                                TextSpan(text: "Contact Number: ",
+                                  style: TextStyle(fontSize: fontNormalSize, fontWeight: FontWeight.bold, color: Colors.grey, letterSpacing: 0.8),),
+
+                                TextSpan(text:  _users.where((users) => users.user_id == _servicess.where((servicess) => servicess.serviceBy == service.svcHandler).elementAt(0).serviceBy).elementAt(0).contact,
+
+                                  style: TextStyle(fontSize: fontExtraSize, color: Colors.black54, letterSpacing: 0.8),),
+                              ]
+                          )
+                      ),
+
+
+
+                      SizedBox(height: screenHeight * 0.01,),
+                      RichText(
+                          textAlign: TextAlign.justify,
+                          softWrap: true,
+                          text:TextSpan(
+                              children: <TextSpan> [
+                                TextSpan(text: "Email: ",
+                                  style: TextStyle(fontSize: fontNormalSize, fontWeight: FontWeight.bold, color: Colors.grey, letterSpacing: 0.8),),
+
+                                TextSpan(text:  _users.where((users) => users.user_id == _servicess.where((servicess) => servicess.serviceBy == service.svcHandler).elementAt(0).serviceBy).elementAt(0).email,
+                                  style: TextStyle(fontSize: fontExtraSize, color: Colors.black54, letterSpacing: 0.8),),
+                              ]
+                          )
+                      ),
+                    ],
+                  ),
+
+                ): SizedBox.shrink(),
+
                 ..._servicess.map((ServiceOrder) {
                   if(ServiceOrder.svc_id == service.id) {
                     return TextButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) => SOPdfPreviewPage(serviceOrder: ServiceOrder),
+                          ),
+                        );
+                      },
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisSize: MainAxisSize.min,

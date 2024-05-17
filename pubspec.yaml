@@ -72,6 +72,9 @@ dependencies:
   units_converter:
   convert:
   math_expressions:
+  signature:
+  pdf: any
+  printing: any
 
   image_picker:
   file_picker:

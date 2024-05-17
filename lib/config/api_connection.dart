@@ -48,4 +48,8 @@ class API {
 
   //reset password
   static const resetPassword = "$hostConnect/enye/resetPassword.php";
+
+  //Service Order
+  static const conformeSig = "$hostConnect/admin/conforme_signature/";
+  static const userSign = "$hostConnect/admin/users_signature/";
 }

@@ -106,6 +106,36 @@ class UserAdminData {
   }
 }
 
+
+class UserAdminData2 {
+  String user_id;
+  String name;
+  String contact;
+  String email;
+  String position;
+  String image;
+
+  UserAdminData2({
+    required this.user_id,
+    required this.name,
+    required this.contact,
+    required this.email,
+    required this.position,
+    required this.image,
+  });
+
+  factory UserAdminData2.fromJson(Map<String, dynamic> json) {
+    return UserAdminData2(
+      user_id: json['user_id'] as String,
+      name: json['name'] as String,
+      contact: json['contact'] as String,
+      email: json['email'] as String,
+      position: json['position'] as String,
+      image: json['image'] as String,
+    );
+  }
+}
+
 //get positions ng user
 class Position {
   String id;
