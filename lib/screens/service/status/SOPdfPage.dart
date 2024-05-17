@@ -27,7 +27,7 @@ class _SOPdfPreviewPageState extends State<SOPdfPreviewPage> with TickerProvider
 
   List<ServiceOrder> _serviceOrder = [];
   _getServiceOrder(){
-    TechnicalDataServices.getServiceOrder().then((getServiceOrder) {
+    TechnicalDataServices.getServiceOrderData(widget.serviceOrder.id).then((getServiceOrder) {
       setState(() {
         _serviceOrder = getServiceOrder;
         if (_serviceOrder.isNotEmpty) {

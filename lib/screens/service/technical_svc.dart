@@ -16,6 +16,7 @@ class TechnicalDataServices {
   static const EDIT_TO_RESCHED = 'edit_to_resched';
   static const BOOKING = 'add_booking';
   static const GET_ALL_SERVICEORDER = 'get_all_serviceorder';
+  static const GET_SO_DATA = 'get_so_data';
 
 
   //get data users position from database
@@ -38,6 +39,31 @@ class TechnicalDataServices {
   }
 
   static List<ServiceOrder> parseServiceOrder(String responseBody){
+    //conversion from web server into data by using categories.dart
+    final parsed = json.decode(responseBody).cast<Map<String, dynamic>>();
+    return parsed.map<ServiceOrder>((json) => ServiceOrder.fromJson(json)).toList();
+  }
+
+  static Future<List<ServiceOrder>> getServiceOrderData(String so_id) async {
+
+    var map = Map<String, dynamic>();
+    map['action'] = GET_SO_DATA;
+    map['so_id'] = so_id;
+
+    //get all data of categories
+    final res = await http.post(Uri.parse(API.serviceOrderData), body: map); //passing value to result
+    print('getSO Response: ${res.body}');
+
+    if(res.statusCode == 200){
+      List<ServiceOrder> list = parseResponseSO(res.body);
+      return list;
+    } else {
+      throw Exception('Failed to retrieve Technical Data');
+      //return List<Categories>();
+    }
+  }
+
+  static List<ServiceOrder> parseResponseSO(String responseBody){
     //conversion from web server into data by using categories.dart
     final parsed = json.decode(responseBody).cast<Map<String, dynamic>>();
     return parsed.map<ServiceOrder>((json) => ServiceOrder.fromJson(json)).toList();

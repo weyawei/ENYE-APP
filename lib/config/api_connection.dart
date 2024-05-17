@@ -34,6 +34,9 @@ class API {
   //home
   static const dashboard = "$hostConnect/enye/home/dashboard/";
 
+  //service order data's
+  static const serviceOrderData = "$hostConnect/admin/technical/service_order.php";
+
   //booking
   static const booking = "$hostConnect/enye/booking/booking.php";
   static const ec_calendar = "$hostConnect/ec_calendar.php"; //calendar disable holidays and events
