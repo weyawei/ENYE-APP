@@ -59,6 +59,7 @@ class _StatusPageState extends State<StatusPage> with TickerProviderStateMixin {
           _getServices();
           _getServicess();
           _getUsers();
+          _getPosition();
         });
         userSessionFuture = bool;
       } else {
@@ -148,6 +149,17 @@ class _StatusPageState extends State<StatusPage> with TickerProviderStateMixin {
     TechnicalDataServices.handlerData2().then((UserAdminData2){
       setState(() {
         _users = UserAdminData2;
+      });
+    });
+  }
+
+
+  late List<Position> _position;
+
+  _getPosition(){
+    TechnicalDataServices.getPositions().then((Position){
+      setState(() {
+        _position = Position;
       });
     });
   }
@@ -792,7 +804,7 @@ class _StatusPageState extends State<StatusPage> with TickerProviderStateMixin {
                                 TextSpan(text: "Handler : ",
                                   style: TextStyle(fontSize: fontNormalSize, fontWeight: FontWeight.bold, color: Colors.grey, letterSpacing: 0.8),),
 
-                                TextSpan(text:  _users.where((users) => users.user_id == _servicess.where((servicess) => servicess.serviceBy == service.svcHandler).elementAt(0).serviceBy).elementAt(0).name,
+                                TextSpan(text:  _users.where((users) => users.user_id == service.svcHandler).elementAt(0).name,
                                   style: TextStyle(fontSize: fontExtraSize, fontWeight: FontWeight.bold, color: Colors.black54, letterSpacing: 0.8),),
                               ]
                           )
@@ -807,7 +819,7 @@ class _StatusPageState extends State<StatusPage> with TickerProviderStateMixin {
                                 TextSpan(text: "Position :  ",
                                   style: TextStyle(fontSize: fontNormalSize, fontWeight: FontWeight.bold, color: Colors.grey, letterSpacing: 0.8),),
 
-                                TextSpan(text:  _users.where((users) => users.user_id == _servicess.where((servicess) => servicess.serviceBy == service.svcHandler).elementAt(0).serviceBy).elementAt(0).position,
+                                TextSpan(text: _position.where((position) => position.id == _users.where((users) => users.user_id == service.svcHandler).elementAt(0).position).elementAt(0).position,
                                   style: TextStyle(fontSize: fontExtraSize, color: Colors.black54, letterSpacing: 0.8),),
                               ]
                           )
@@ -822,7 +834,7 @@ class _StatusPageState extends State<StatusPage> with TickerProviderStateMixin {
                                 TextSpan(text: "Contact Number: ",
                                   style: TextStyle(fontSize: fontNormalSize, fontWeight: FontWeight.bold, color: Colors.grey, letterSpacing: 0.8),),
 
-                                TextSpan(text:  _users.where((users) => users.user_id == _servicess.where((servicess) => servicess.serviceBy == service.svcHandler).elementAt(0).serviceBy).elementAt(0).contact,
+                                TextSpan(text:  _users.where((users) => users.user_id == service.svcHandler).elementAt(0).contact,
 
                                   style: TextStyle(fontSize: fontExtraSize, color: Colors.black54, letterSpacing: 0.8),),
                               ]
@@ -840,7 +852,7 @@ class _StatusPageState extends State<StatusPage> with TickerProviderStateMixin {
                                 TextSpan(text: "Email: ",
                                   style: TextStyle(fontSize: fontNormalSize, fontWeight: FontWeight.bold, color: Colors.grey, letterSpacing: 0.8),),
 
-                                TextSpan(text:  _users.where((users) => users.user_id == _servicess.where((servicess) => servicess.serviceBy == service.svcHandler).elementAt(0).serviceBy).elementAt(0).email,
+                                TextSpan(text: _users.where((users) => users.user_id == service.svcHandler).elementAt(0).email,
                                   style: TextStyle(fontSize: fontExtraSize, color: Colors.black54, letterSpacing: 0.8),),
                               ]
                           )
