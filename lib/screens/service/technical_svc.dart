@@ -17,6 +17,7 @@ class TechnicalDataServices {
   static const BOOKING = 'add_booking';
   static const GET_ALL_SERVICEORDER = 'get_all_serviceorder';
   static const GET_SO_DATA = 'get_so_data';
+  static const GET_ALL_USERS = 'get_all_users';
 
 
   //get data users position from database
@@ -69,6 +70,35 @@ class TechnicalDataServices {
     return parsed.map<ServiceOrder>((json) => ServiceOrder.fromJson(json)).toList();
   }
 
+
+  //get data categories from database
+  static Future <List<UsersInfo>> getUsersInfo() async {
+    try{
+      var map = Map<String, dynamic>();
+      map['action'] = GET_ALL_USERS;
+
+      //get all data of categories
+      final res = await http.post(Uri.parse(API.users), body: map); //passing value to result
+      print('getUsersInfo Response: ${res.body}');
+
+      if(res.statusCode == 200){
+        List<UsersInfo> list = parseUIResponse(res.body);
+        return list;
+      } else {
+        throw Exception('Failed to retrieve Users Info');
+        //return List<Categories>();
+      }
+    } catch (e) {
+      throw Exception('Failed to retrieve Users Info');
+      //return List<Categories>();
+    }
+  }
+
+  static List<UsersInfo> parseUIResponse(String responseBody){
+    //conversion from web server into data by using categories.dart
+    final parsed = json.decode(responseBody).cast<Map<String, dynamic>>();
+    return parsed.map<UsersInfo>((json) => UsersInfo.fromJson(json)).toList();
+  }
 
   //get data users position from database
   static Future <List<Position>> getPositions() async {

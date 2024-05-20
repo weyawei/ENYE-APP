@@ -31,7 +31,7 @@ class _SOPdfPreviewPageState extends State<SOPdfPreviewPage> with TickerProvider
       setState(() {
         _serviceOrder = getServiceOrder;
         if (_serviceOrder.isNotEmpty) {
-          _getAccounts(_serviceOrder[0].serviceBy);
+          _getUsers(_serviceOrder[0].serviceBy);
           _getServices(_serviceOrder[0].svc_id);
         } else {
           // Handle the case where no SO numbers are retrieved.
@@ -47,6 +47,15 @@ class _SOPdfPreviewPageState extends State<SOPdfPreviewPage> with TickerProvider
     TechnicalDataServices.handlerData2().then((UserAdminData){
       setState(() {
         _users = UserAdminData.where((account) => account.user_id == servicedBy).toList();
+      });
+    });
+  }
+
+  List<UsersInfo> _users2 = [];
+  _getUsers(String servicedBy){
+    TechnicalDataServices.getUsersInfo().then((accountInfo){
+      setState(() {
+        _users2 = accountInfo.where((account) => account.user_id == servicedBy).toList();
       });
     });
   }
@@ -103,7 +112,7 @@ class _SOPdfPreviewPageState extends State<SOPdfPreviewPage> with TickerProvider
         child: PdfPreview(
           pdfFileName: "SO_${_serviceOrder[0].so_no}-${_services[0].clientProjName}.pdf",
           loadingWidget: const CupertinoActivityIndicator(),
-          build: (context) => pdfBuilderSO(_serviceOrder[0], _users[0], _services[0]),
+          build: (context) => pdfBuilderSO(_serviceOrder[0], _users2[0], _services[0]),
         ),
       ),
     );

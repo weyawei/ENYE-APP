@@ -9,7 +9,7 @@ import 'package:http/http.dart' as http;
 import '../../../config/config.dart';
 import '../../screens.dart';
 
-Future<Uint8List> pdfBuilderSO(ServiceOrder serviceOrder, UserAdminData2 user, TechnicalData service) async {
+Future<Uint8List> pdfBuilderSO(ServiceOrder serviceOrder, UsersInfo user, TechnicalData service) async {
   final pdf = Document();
   final imageLogo = MemoryImage(
       (await rootBundle.load('assets/logo/enyecontrols.png')).buffer.asUint8List());
@@ -21,7 +21,7 @@ Future<Uint8List> pdfBuilderSO(ServiceOrder serviceOrder, UserAdminData2 user, T
       (await rootBundle.load('assets/icons/clipboard.png')).buffer.asUint8List());
 
   final imgConSign = await loadSignatureImage(API.conformeSig, serviceOrder.conformeSig);
-  //final imgUserSign = await loadSignatureImage(API.userSign, user.signImg);
+  final imgUserSign = await loadSignatureImage(API.userSign, user.signImg);
 
   pdf.addPage(
     MultiPage(
@@ -351,7 +351,7 @@ Future<Uint8List> pdfBuilderSO(ServiceOrder serviceOrder, UserAdminData2 user, T
               ],
             ),
 
-            /*Column(
+            Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 tableTextTitleStart("Service by : "),
@@ -399,7 +399,7 @@ Future<Uint8List> pdfBuilderSO(ServiceOrder serviceOrder, UserAdminData2 user, T
                   ),
                 )
               ],
-            ),*/
+            ),
           ],
         ),
       ],
