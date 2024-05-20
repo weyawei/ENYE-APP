@@ -798,20 +798,85 @@ class _StatusPageState extends State<StatusPage> with TickerProviderStateMixin {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       RichText(
-                          softWrap: true,
-                          text:TextSpan(
-                              children: <TextSpan> [
-                                TextSpan(text: "Handler : ",
-                                  style: TextStyle(fontSize: fontNormalSize, fontWeight: FontWeight.bold, color: Colors.grey, letterSpacing: 0.8),),
-
-                                TextSpan(text:  _users.where((users) => users.user_id == service.svcHandler).elementAt(0).name,
-                                  style: TextStyle(fontSize: fontExtraSize, fontWeight: FontWeight.bold, color: Colors.black54, letterSpacing: 0.8),),
-                              ]
-                          )
+                        softWrap: true,
+                        text: TextSpan(
+                          children: <TextSpan>[
+                            TextSpan(
+                              text: "Handler : ",
+                              style: TextStyle(
+                                fontSize: fontNormalSize,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.grey,
+                                letterSpacing: 0.8,
+                              ),
+                            ),
+                            ...service.svcHandler
+                                .split(',')
+                                .map((handlerId) {
+                              var user = _users.firstWhere((user) => user.user_id == handlerId.trim());
+                              var position = _position.firstWhere(
+                                      (position) => position.id == user.position.trim());
+                              return [
+                                TextSpan(
+                                  text: user.name,
+                                  style: TextStyle(
+                                    fontSize: fontExtraSize,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.black54,
+                                    letterSpacing: 0.8,
+                                  ),
+                                ),
+                                TextSpan(
+                                  text: " || ", // Separator between name and position
+                                  style: TextStyle(
+                                    fontSize: fontExtraSize,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.black54,
+                                    letterSpacing: 0.8,
+                                  ),
+                                ),
+                                if (position != null)
+                                  TextSpan(
+                                    text: position.position,
+                                    style: TextStyle(
+                                      fontSize: fontExtraSize,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.black54,
+                                      letterSpacing: 0.8,
+                                    ),
+                                  )
+                                else
+                                  TextSpan(
+                                    text: "Unknown Position",
+                                    style: TextStyle(
+                                      fontSize: fontExtraSize,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.red,
+                                      letterSpacing: 0.8,
+                                    ),
+                                  ),
+                                TextSpan(
+                                  text: ", ", // Separator between different handlers
+                                  style: TextStyle(
+                                    fontSize: fontExtraSize,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.black54,
+                                    letterSpacing: 0.8,
+                                  ),
+                                ),
+                              ];
+                            })
+                                .expand((span) => span)
+                                .toList()
+                              ..removeLast(), // Remove the last comma
+                          ],
+                        ),
                       ),
 
+
+
                       SizedBox(height: screenHeight * 0.01,),
-                      RichText(
+                     /* RichText(
                           textAlign: TextAlign.justify,
                           softWrap: true,
                           text:TextSpan(
@@ -823,10 +888,10 @@ class _StatusPageState extends State<StatusPage> with TickerProviderStateMixin {
                                   style: TextStyle(fontSize: fontExtraSize, color: Colors.black54, letterSpacing: 0.8),),
                               ]
                           )
-                      ),
+                      ),*/
 
                       SizedBox(height: screenHeight * 0.01,),
-                      RichText(
+                    /*  RichText(
                           textAlign: TextAlign.justify,
                           softWrap: true,
                           text:TextSpan(
@@ -839,12 +904,12 @@ class _StatusPageState extends State<StatusPage> with TickerProviderStateMixin {
                                   style: TextStyle(fontSize: fontExtraSize, color: Colors.black54, letterSpacing: 0.8),),
                               ]
                           )
-                      ),
+                      ),*/
 
 
 
                       SizedBox(height: screenHeight * 0.01,),
-                      RichText(
+                     /* RichText(
                           textAlign: TextAlign.justify,
                           softWrap: true,
                           text:TextSpan(
@@ -856,7 +921,7 @@ class _StatusPageState extends State<StatusPage> with TickerProviderStateMixin {
                                   style: TextStyle(fontSize: fontExtraSize, color: Colors.black54, letterSpacing: 0.8),),
                               ]
                           )
-                      ),
+                      ),*/
                     ],
                   ),
 
