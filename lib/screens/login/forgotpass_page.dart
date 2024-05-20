@@ -266,8 +266,8 @@ class _ForgotPassPageState extends State<ForgotPassPage> {
                   SizedBox(height: screenHeight * 0.2,),
                   Container(
                     alignment: Alignment.center,
-                    height: screenHeight * 0.06,
-                    width: screenWidth * 0.95,
+                    height: screenHeight * 0.042,
+                    width: screenWidth * 0.78,
                     decoration: BoxDecoration(
                         image: DecorationImage(image: AssetImage("assets/logo/enyecontrols.png"), fit: BoxFit.fill)
                     ),

@@ -318,8 +318,8 @@ class _registerPageState extends State<registerPage> {
                   SizedBox(height: screenHeight * 0.1,),
                   Container(
                     alignment: Alignment.center,
-                    height: screenHeight * 0.05,
-                    width: screenWidth * 0.85,
+                    height: screenHeight * 0.042,
+                    width: screenWidth * 0.78,
                     decoration: BoxDecoration(
                         image: DecorationImage(image: AssetImage("assets/logo/enyecontrols.png"), fit: BoxFit.fill)
                     ),
