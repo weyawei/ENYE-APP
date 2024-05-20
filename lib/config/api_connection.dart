@@ -55,4 +55,5 @@ class API {
   //Service Order
   static const conformeSig = "$hostConnect/admin/conforme_signature/";
   static const userSign = "$hostConnect/admin/users_signature/";
+  static const users = "$hostConnect/admin/features/users.php";
 }
