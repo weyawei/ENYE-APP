@@ -60,6 +60,7 @@ class _StatusPageState extends State<StatusPage> with TickerProviderStateMixin {
           _getServicess();
           _getUsers();
           _getPosition();
+          _getAppointment();
         });
         userSessionFuture = bool;
       } else {
@@ -164,6 +165,17 @@ class _StatusPageState extends State<StatusPage> with TickerProviderStateMixin {
     });
   }
 
+  late List<ServiceAppointment> _appointment;
+
+  _getAppointment(){
+    TechnicalDataServices.getServiceAppoint().then((ServiceAppointment){
+      setState(() {
+        _appointment = ServiceAppointment;
+      });
+    });
+  }
+
+
   List<TechnicalData> _filteredServices = [];
   void filterSystemsList() {
     _filteredServices = _services.where((technicalData) {
@@ -174,14 +186,26 @@ class _StatusPageState extends State<StatusPage> with TickerProviderStateMixin {
   }
 
 
-  List<ServiceOrder> _filteredService = [];
+  List<ServiceAppointment> _filteredService = [];
   void filterSystemsLists() {
-    _filteredService = _servicess.where((ServiceOrder) {
-      final svcId = ServiceOrder.svc_id.toLowerCase();
+    _filteredService = _appointment.where((ServiceAppointment) {
+      final svcId = ServiceAppointment.svc_id.toLowerCase();
       final searchQuery = searchController.text.toLowerCase();
       return svcId.contains(searchQuery);
     }).toList();
   }
+
+  bool _isUserAssigned(String usersInCharge, String userId) {
+    if (usersInCharge != null || usersInCharge != "") {
+      List<String> userInChargeList = usersInCharge.split(',').map((e) => e.trim()).toList();
+      return userInChargeList.contains(userId);
+    }
+
+    return false;
+  }
+
+
+
 
   _editToCancel(TechnicalData services){
     TechnicalDataServices.editCancelBooking(services.id, services.svcId, reasonController.text.trim()).then((result) {
@@ -530,6 +554,8 @@ class _StatusPageState extends State<StatusPage> with TickerProviderStateMixin {
                       itemBuilder: (_, index){
                         _filteredServices = searchController.text.isEmpty ? _services : _filteredServices;
 
+                        ServiceAppointment? appointment = _appointment.where((appoint) => _filteredServices[index].id == appoint.svc_id).elementAtOrNull(0);
+
                         return AnimationConfiguration.staggeredList(
                           position: index,
                           child: SlideAnimation(
@@ -538,16 +564,20 @@ class _StatusPageState extends State<StatusPage> with TickerProviderStateMixin {
                                 children: [
                                   GestureDetector(
                                     onTap: (){
-                                      if(_filteredServices[index].status == "Unread"){
-                                        _showBottomSheet(context, _filteredServices[index]);
-                                      }
+                                        if (_filteredServices[index].status ==
+                                            "Unread") {
+                                          _showBottomSheet(context,
+                                              _filteredServices[index]);
+                                        }
 
-                                      if(_filteredServices[index].status == "Set-sched"){
-                                        _showBottomSheet(context, _filteredServices[index]);
-                                      }
+                                        if (_filteredServices[index].status ==
+                                            "Set-sched") {
+                                          _showBottomSheet(context,
+                                              _filteredServices[index]);
+                                        }
 
                                       if(_filteredServices[index].status == "On Process"){
-                                        _showBottomSheet2(context, _filteredServices[index]);
+                                        _showBottomSheet2(context, _filteredServices[index], appointment!);
                                       }
                                     },
                                     child: TaskTile(services: _filteredServices[index]),
@@ -753,7 +783,7 @@ class _StatusPageState extends State<StatusPage> with TickerProviderStateMixin {
 
 
 
-  _showBottomSheet2 (BuildContext context, TechnicalData service) {
+  _showBottomSheet2 (BuildContext context, TechnicalData service, ServiceAppointment appointment) {
 
     showModalBottomSheet(
         isScrollControlled: true,
@@ -762,7 +792,8 @@ class _StatusPageState extends State<StatusPage> with TickerProviderStateMixin {
         builder: (context) {
           double screenHeight = MediaQuery.of(context).size.height;
           double screenWidth = MediaQuery.of(context).size.width;
-
+          var fontSmallSize = ResponsiveTextUtils.getSmallFontSize(screenWidth);
+          var fontXSmallSize = ResponsiveTextUtils.getXSmallFontSize(screenWidth);
           var fontNormalSize = ResponsiveTextUtils.getNormalFontSize(screenWidth);
           var fontExtraSize = ResponsiveTextUtils.getExtraFontSize(screenWidth);
 
@@ -789,143 +820,585 @@ class _StatusPageState extends State<StatusPage> with TickerProviderStateMixin {
                   ),
                 ),
 
-                SizedBox(height: screenHeight * 0.04,),
 
-                service.status == "On Process" ?
+                SizedBox(height: screenHeight * 0.03,),
                 Container(
-                  padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.08),
+                  padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.05),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       RichText(
-                        softWrap: true,
-                        text: TextSpan(
-                          children: <TextSpan>[
-                            TextSpan(
-                              text: "Handler : ",
-                              style: TextStyle(
-                                fontSize: fontNormalSize,
+                          softWrap: true,
+                          text:TextSpan(
+                              children: <TextSpan> [
+                                TextSpan(text: "Title :  ",
+                                  style: GoogleFonts.poppins(
+                                    textStyle: TextStyle(
+                                        fontSize: fontXSmallSize,
+                                        fontWeight: FontWeight.w800,
+                                        letterSpacing: 0.8,
+                                        color: Colors.grey
+                                    ),
+                                  ),
+                                ),
+
+                                TextSpan(text: service.svcTitle,
+                                  style: GoogleFonts.poppins(
+                                    textStyle: TextStyle(
+                                        fontSize: fontNormalSize,
+                                        fontWeight: FontWeight.w700,
+                                        letterSpacing: 0.8,
+                                        color: Colors.black54
+                                    ),
+                                  ),
+                                ),
+                              ]
+                          )
+                      ),
+
+                      SizedBox(height: screenHeight * 0.005,),
+                      RichText(
+                          textAlign: TextAlign.justify,
+                          softWrap: true,
+                          text:TextSpan(
+                              children: <TextSpan> [
+                                TextSpan(text: "Description :  ",
+                                  style: GoogleFonts.poppins(
+                                    textStyle: TextStyle(
+                                        fontSize: fontXSmallSize,
+                                        fontWeight: FontWeight.w800,
+                                        letterSpacing: 0.8,
+                                        color: Colors.grey
+                                    ),
+                                  ),
+                                ),
+
+                                TextSpan(text: service.svcDesc,
+                                  style: GoogleFonts.poppins(
+                                    textStyle: TextStyle(
+                                        fontSize: fontSmallSize,
+                                        fontWeight: FontWeight.w600,
+                                        letterSpacing: 0.8,
+                                        color: Colors.black54
+                                    ),
+                                  ),
+                                ),
+                              ]
+                          )
+                      ),
+
+                      SizedBox(height: screenHeight * 0.005,),
+                      RichText(
+                          textAlign: TextAlign.justify,
+                          softWrap: true,
+                          text:TextSpan(
+                              children: <TextSpan> [
+                                TextSpan(
+                                  text: 'Requestor : ',
+                                  style: GoogleFonts.poppins(
+                                    textStyle: TextStyle(
+                                        fontSize: fontXSmallSize,
+                                        fontWeight: FontWeight.w800,
+                                        letterSpacing: 0.8,
+                                        color: Colors.grey
+                                    ),
+                                  ),
+                                ),
+
+                                TextSpan(
+                                  text: '${service.reqName} | ${service.reqPosition}',
+                                  style: GoogleFonts.poppins(
+                                    textStyle: TextStyle(
+                                        fontSize: fontSmallSize,
+                                        fontWeight: FontWeight.w600,
+                                        letterSpacing: 0.8,
+                                        color: Colors.black54
+                                    ),
+                                  ),
+                                ),
+                              ]
+                          )
+                      ),
+
+                      SizedBox(height: screenHeight * 0.01,),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const Icon(
+                            Icons.calendar_month_rounded,
+                            size: 18,
+                            color: Colors.deepOrange,
+                          ),
+                          const SizedBox(width: 4),
+                          Text(
+                            '${DateFormat.yMMMMd().format(DateTime.parse(appointment.start_datetime))} TO ${DateFormat.yMMMMd().format(DateTime.parse(appointment.end_datetime))}',
+                            style: GoogleFonts.poppins(
+                              textStyle: TextStyle(
+                                fontSize: fontSmallSize,
                                 fontWeight: FontWeight.bold,
-                                color: Colors.grey,
                                 letterSpacing: 0.8,
                               ),
                             ),
-                            ...service.svcHandler
-                                .split(',')
-                                .map((handlerId) {
-                              var user = _users.firstWhere((user) => user.user_id == handlerId.trim());
-                              var position = _position.firstWhere(
-                                      (position) => position.id == user.position.trim());
-                              return [
-                                TextSpan(
-                                  text: user.name,
-                                  style: TextStyle(
-                                    fontSize: fontExtraSize,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.black54,
-                                    letterSpacing: 0.8,
-                                  ),
-                                ),
-                                TextSpan(
-                                  text: " || ", // Separator between name and position
-                                  style: TextStyle(
-                                    fontSize: fontExtraSize,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.black54,
-                                    letterSpacing: 0.8,
-                                  ),
-                                ),
-                                if (position != null)
-                                  TextSpan(
-                                    text: position.position,
-                                    style: TextStyle(
-                                      fontSize: fontExtraSize,
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.black54,
-                                      letterSpacing: 0.8,
-                                    ),
-                                  )
-                                else
-                                  TextSpan(
-                                    text: "Unknown Position",
-                                    style: TextStyle(
-                                      fontSize: fontExtraSize,
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.red,
-                                      letterSpacing: 0.8,
-                                    ),
-                                  ),
-                                TextSpan(
-                                  text: ", ", // Separator between different handlers
-                                  style: TextStyle(
-                                    fontSize: fontExtraSize,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.black54,
-                                    letterSpacing: 0.8,
-                                  ),
-                                ),
-                              ];
-                            })
-                                .expand((span) => span)
-                                .toList()
-                              ..removeLast(), // Remove the last comma
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
 
+                      SizedBox(height: screenHeight * 0.005,),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const Icon(
+                            Icons.access_time_filled_rounded,
+                            size: 18,
+                            color: Colors.deepOrange,
+                          ),
+                          const SizedBox(width: 4),
+                          Text(
+                            '${DateFormat.jm().format(DateTime.parse(appointment.start_datetime))} - ${DateFormat.jm().format(DateTime.parse(appointment.end_datetime))}',
+                            style: GoogleFonts.poppins(
+                              textStyle: TextStyle(
+                                fontSize: fontSmallSize,
+                                color: Colors.black87,
+                                fontWeight: FontWeight.bold,
+                                letterSpacing: 0.8,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
 
+                      SizedBox(height: screenHeight * 0.012,),
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          SizedBox(
+                            width: screenWidth * 0.52,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text("Client Name : ",
+                                  style: GoogleFonts.poppins(
+                                    textStyle: TextStyle(
+                                        fontSize: fontXSmallSize,
+                                        fontWeight: FontWeight.w800,
+                                        letterSpacing: 0.8,
+                                        color: Colors.grey
+                                    ),
+                                  ),
+                                ),
+                                RichText(
+                                  softWrap: true,
+                                  text: TextSpan(text: "\t${service.clientName}",
+                                    style: GoogleFonts.poppins(
+                                      textStyle: TextStyle(
+                                          fontSize: fontSmallSize,
+                                          fontWeight: FontWeight.w600,
+                                          letterSpacing: 0.8,
+                                          color: Colors.black54
+                                      ),
+                                    ),
+                                  ),
+                                ),
 
-                      SizedBox(height: screenHeight * 0.01,),
-                     /* RichText(
-                          textAlign: TextAlign.justify,
-                          softWrap: true,
-                          text:TextSpan(
-                              children: <TextSpan> [
-                                TextSpan(text: "Position :  ",
-                                  style: TextStyle(fontSize: fontNormalSize, fontWeight: FontWeight.bold, color: Colors.grey, letterSpacing: 0.8),),
+                                SizedBox(height: screenHeight * 0.0025,),
+                                Text("Contact : ",
+                                  style: GoogleFonts.poppins(
+                                    textStyle: TextStyle(
+                                        fontSize: fontXSmallSize,
+                                        fontWeight: FontWeight.w800,
+                                        letterSpacing: 0.8,
+                                        color: Colors.grey
+                                    ),
+                                  ),
+                                ),
+                                RichText(
+                                  softWrap: true,
+                                  text: TextSpan(text: "\t${service.clientContact}",
+                                    style: GoogleFonts.poppins(
+                                      textStyle: TextStyle(
+                                          fontSize: fontSmallSize,
+                                          fontWeight: FontWeight.w600,
+                                          letterSpacing: 0.8,
+                                          color: Colors.black54
+                                      ),
+                                    ),
+                                  ),
+                                ),
 
-                                TextSpan(text: _position.where((position) => position.id == _users.where((users) => users.user_id == service.svcHandler).elementAt(0).position).elementAt(0).position,
-                                  style: TextStyle(fontSize: fontExtraSize, color: Colors.black54, letterSpacing: 0.8),),
-                              ]
-                          )
-                      ),*/
+                                SizedBox(height: screenHeight * 0.0025,),
+                                Text("Email : ",
+                                  style: GoogleFonts.poppins(
+                                    textStyle: TextStyle(
+                                        fontSize: fontXSmallSize,
+                                        fontWeight: FontWeight.w800,
+                                        letterSpacing: 0.8,
+                                        color: Colors.grey
+                                    ),
+                                  ),
+                                ),
+                                RichText(
+                                  softWrap: true,
+                                  text: TextSpan(text: service.clientEmail,
+                                    style: GoogleFonts.poppins(
+                                      textStyle: TextStyle(
+                                          fontSize: fontSmallSize,
+                                          fontWeight: FontWeight.w600,
+                                          letterSpacing: 0.8,
+                                          color: Colors.black54
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                //Text(services.svcDesc, maxLines: 5, softWrap: false,),
+                              ],
+                            ),
+                          ),
 
-                      SizedBox(height: screenHeight * 0.01,),
-                    /*  RichText(
-                          textAlign: TextAlign.justify,
-                          softWrap: true,
-                          text:TextSpan(
-                              children: <TextSpan> [
-                                TextSpan(text: "Contact Number: ",
-                                  style: TextStyle(fontSize: fontNormalSize, fontWeight: FontWeight.bold, color: Colors.grey, letterSpacing: 0.8),),
+                          SizedBox(
+                            width: screenWidth * 0.38,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text("Project Name : ",
+                                  style: GoogleFonts.poppins(
+                                    textStyle: TextStyle(
+                                        fontSize: fontXSmallSize,
+                                        fontWeight: FontWeight.w800,
+                                        letterSpacing: 0.8,
+                                        color: Colors.grey
+                                    ),
+                                  ),
+                                ),
+                                RichText(
+                                  softWrap: true,
+                                  text: TextSpan(text: "\t${service.clientProjName}",
+                                    style: GoogleFonts.poppins(
+                                      textStyle: TextStyle(
+                                          fontSize: fontSmallSize,
+                                          fontWeight: FontWeight.w600,
+                                          letterSpacing: 0.8,
+                                          color: Colors.black54
+                                      ),
+                                    ),
+                                  ),
+                                ),
 
-                                TextSpan(text:  _users.where((users) => users.user_id == service.svcHandler).elementAt(0).contact,
+                                SizedBox(height: screenHeight * 0.0025,),
+                                Text("Company : ",
+                                  style: GoogleFonts.poppins(
+                                    textStyle: TextStyle(
+                                        fontSize: fontXSmallSize,
+                                        fontWeight: FontWeight.w800,
+                                        letterSpacing: 0.8,
+                                        color: Colors.grey
+                                    ),
+                                  ),
+                                ),
+                                RichText(
+                                  softWrap: true,
+                                  text: TextSpan(text: "\t${service.clientCompany}",
+                                    style: GoogleFonts.poppins(
+                                      textStyle: TextStyle(
+                                          fontSize: fontSmallSize,
+                                          fontWeight: FontWeight.w600,
+                                          letterSpacing: 0.8,
+                                          color: Colors.black54
+                                      ),
+                                    ),
+                                  ),
+                                ),
 
-                                  style: TextStyle(fontSize: fontExtraSize, color: Colors.black54, letterSpacing: 0.8),),
-                              ]
-                          )
-                      ),*/
-
-
-
-                      SizedBox(height: screenHeight * 0.01,),
-                     /* RichText(
-                          textAlign: TextAlign.justify,
-                          softWrap: true,
-                          text:TextSpan(
-                              children: <TextSpan> [
-                                TextSpan(text: "Email: ",
-                                  style: TextStyle(fontSize: fontNormalSize, fontWeight: FontWeight.bold, color: Colors.grey, letterSpacing: 0.8),),
-
-                                TextSpan(text: _users.where((users) => users.user_id == service.svcHandler).elementAt(0).email,
-                                  style: TextStyle(fontSize: fontExtraSize, color: Colors.black54, letterSpacing: 0.8),),
-                              ]
-                          )
-                      ),*/
+                                SizedBox(height: screenHeight * 0.0025,),
+                                Text("Location : ",
+                                  style: GoogleFonts.poppins(
+                                    textStyle: TextStyle(
+                                        fontSize: fontXSmallSize,
+                                        fontWeight: FontWeight.w800,
+                                        letterSpacing: 0.8,
+                                        color: Colors.grey
+                                    ),
+                                  ),
+                                ),
+                                RichText(
+                                  softWrap: true,
+                                  text: TextSpan(text: "\t${service.clientLocation}",
+                                    style: GoogleFonts.poppins(
+                                      textStyle: TextStyle(
+                                          fontSize: fontSmallSize,
+                                          fontWeight: FontWeight.w600,
+                                          letterSpacing: 0.8,
+                                          color: Colors.black54
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
                     ],
                   ),
+                ),
 
-                ): SizedBox.shrink(),
+
+
+                SizedBox(height: screenHeight * 0.04,),
+
+               // service.status == "On Process" ?
+                SizedBox(height: screenHeight * 0.02,),
+                appointment.engineer.isNotEmpty || appointment.engineer != ""
+                    ? Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Center(
+                      child: Container(
+                        padding: EdgeInsets.symmetric(vertical: 5.0, horizontal: screenWidth * 0.1),
+                        decoration: BoxDecoration(
+                          color: Colors.deepOrange.shade300,
+                          borderRadius: BorderRadius.circular(25.0),
+                          border: Border.all(color: Colors.white70, width: 1.5),
+                        ),
+                        child: Text(
+                          'Engineers',
+                          style: TextStyle(
+                            fontSize: fontSmallSize,
+                            letterSpacing: 0.8,
+                            color: Colors.white, // Optionally, set text color
+                          ),
+                        ),
+                      ),
+                    ),
+
+                    ..._users.map((engineer) {
+                      if(_isUserAssigned(appointment.engineer, engineer.user_id)) {
+                        return Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            Container(
+                              width: (screenWidth + screenHeight) / 25,
+                              height: (screenWidth + screenHeight) / 25,
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                image: DecorationImage(
+                                  image: engineer.image.isNotEmpty == true && engineer.image != ""
+                                      ? Image.network(API.usersImages + engineer.image).image
+                                      : const AssetImage("assets/icons/user.png"),
+                                ),
+                              ),
+                            ),
+                            Flexible(
+                              child: Container(
+                                width: MediaQuery.of(context).size.width * 0.75,
+                                child: RichText(
+                                  softWrap: true,
+                                  text: TextSpan(children: <TextSpan>
+                                  [
+                                    TextSpan(text: engineer.name,
+                                      style: GoogleFonts.poppins(
+                                        textStyle: TextStyle(
+                                            fontSize: fontSmallSize,
+                                            fontWeight: FontWeight.w800,
+                                            letterSpacing: 0.8,
+                                            color: Colors.black54
+                                        ),
+                                      ),
+                                    ),
+
+                                    TextSpan(text: "\n${_position.where((position) => position.id == engineer.position).elementAtOrNull(0)?.position}",
+                                      style: GoogleFonts.poppins(
+                                        textStyle: TextStyle(
+                                            fontSize: fontXSmallSize,
+                                            fontWeight: FontWeight.w800,
+                                            letterSpacing: 0.8,
+                                            color: Colors.grey
+                                        ),
+                                      ),
+                                    ),
+                                  ]
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        );
+                      } else {
+                        return SizedBox.shrink();
+                      }
+                    }).toList(),
+                  ],
+                )
+                    : const SizedBox.shrink(),
+
+
+                SizedBox(height: screenHeight * 0.01,),
+                appointment.technician.isNotEmpty || appointment.technician != ""
+                    ? Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Center(
+                      child: Container(
+                        padding: EdgeInsets.symmetric(vertical: 5.0, horizontal: screenWidth * 0.1),
+                        decoration: BoxDecoration(
+                          color: Colors.deepOrange.shade300,
+                          borderRadius: BorderRadius.circular(25.0),
+                          border: Border.all(color: Colors.white70, width: 1.5),
+                        ),
+                        child: Text(
+                          'Technicians',
+                          style: TextStyle(
+                            fontSize: fontSmallSize,
+                            letterSpacing: 0.8,
+                            color: Colors.white, // Optionally, set text color
+                          ),
+                        ),
+                      ),
+                    ),
+
+                    ..._users.map((technician) {
+                      if(_isUserAssigned(appointment.technician, technician.user_id)) {
+                        return Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            Container(
+                              width: (screenWidth + screenHeight) / 25,
+                              height: (screenWidth + screenHeight) / 25,
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                image: DecorationImage(
+                                  image: technician.image.isNotEmpty == true && technician.image != ""
+                                      ? Image.network(API.usersImages + technician.image).image
+                                      : const AssetImage("assets/icons/user.png"),
+                                ),
+                              ),
+                            ),
+                            Flexible(
+                              child: Container(
+                                width: MediaQuery.of(context).size.width * 0.75,
+                                child: RichText(
+                                  softWrap: true,
+                                  text: TextSpan(children: <TextSpan>
+                                  [
+                                    TextSpan(text: technician.name,
+                                      style: GoogleFonts.poppins(
+                                        textStyle: TextStyle(
+                                            fontSize: fontSmallSize,
+                                            fontWeight: FontWeight.w800,
+                                            letterSpacing: 0.8,
+                                            color: Colors.black54
+                                        ),
+                                      ),
+                                    ),
+
+                                    TextSpan(text: "\n${_position.where((position) => position.id == technician.position).elementAtOrNull(0)?.position}",
+                                      style: GoogleFonts.poppins(
+                                        textStyle: TextStyle(
+                                            fontSize: fontXSmallSize,
+                                            fontWeight: FontWeight.w800,
+                                            letterSpacing: 0.8,
+                                            color: Colors.grey
+                                        ),
+                                      ),
+                                    ),
+                                  ]
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        );
+                      } else {
+                        return SizedBox.shrink();
+                      }
+                    }).toList(),
+                  ],
+                )
+                    : const SizedBox.shrink(),
+
+                SizedBox(height: screenHeight * 0.01,),
+                appointment.in_charge.isNotEmpty || appointment.in_charge != ""
+                    ? Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Center(
+                      child: Container(
+                        padding: EdgeInsets.symmetric(vertical: 5.0, horizontal: screenWidth * 0.15),
+                        decoration: BoxDecoration(
+                          color: Colors.deepOrange.shade300,
+                          borderRadius: BorderRadius.circular(25.0),
+                          border: Border.all(color: Colors.white70, width: 1.5),
+                        ),
+                        child: Text(
+                          'Person In Charge',
+                          style: TextStyle(
+                            fontSize: fontSmallSize,
+                            letterSpacing: 0.8,
+                            color: Colors.white, // Optionally, set text color
+                          ),
+                        ),
+                      ),
+                    ),
+
+                    ..._users.map((incharge) {
+                      if(_isUserAssigned(appointment.in_charge, incharge.user_id)) {
+                        return Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            Container(
+                              width: (screenWidth + screenHeight) / 25,
+                              height: (screenWidth + screenHeight) / 25,
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                image: DecorationImage(
+                                  image: incharge.image.isNotEmpty == true && incharge.image != ""
+                                      ? Image.network(API.usersImages + incharge.image).image
+                                      : const AssetImage("assets/icons/user.png"),
+                                ),
+                              ),
+                            ),
+                            Flexible(
+                              child: Container(
+                                width: MediaQuery.of(context).size.width * 0.75,
+                                child: RichText(
+                                  softWrap: true,
+                                  text: TextSpan(children: <TextSpan>
+                                  [
+                                    TextSpan(text: incharge.name,
+                                      style: GoogleFonts.poppins(
+                                        textStyle: TextStyle(
+                                            fontSize: fontSmallSize,
+                                            fontWeight: FontWeight.w800,
+                                            letterSpacing: 0.8,
+                                            color: Colors.black54
+                                        ),
+                                      ),
+                                    ),
+
+                                    TextSpan(text: "\n${_position.where((position) => position.id == incharge.position).elementAtOrNull(0)?.position}",
+                                      style: GoogleFonts.poppins(
+                                        textStyle: TextStyle(
+                                            fontSize: fontXSmallSize,
+                                            fontWeight: FontWeight.w800,
+                                            letterSpacing: 0.8,
+                                            color: Colors.grey
+                                        ),
+                                      ),
+                                    ),
+                                  ]
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        );
+                      } else {
+                        return SizedBox.shrink();
+                      }
+                    }).toList(),
+                  ],
+                )
+                    : const SizedBox.shrink(),
+
 
                 ..._servicess.map((ServiceOrder) {
                   if(ServiceOrder.svc_id == service.id) {

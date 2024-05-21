@@ -279,3 +279,60 @@ class UsersInfo {
     );
   }
 }
+
+
+class ServiceAppointment {
+  String id;
+  String svc_id;
+  String start_datetime;
+  String end_datetime;
+  String agenda;
+  String location;
+  String in_charge;
+  String notes;
+  String attach_file;
+  String engineer;
+  String technician;
+  String assigned_by;
+  String status;
+  String category;
+  String date_modified;
+
+  ServiceAppointment({
+    required this.id,
+    required this.svc_id,
+    required this.start_datetime,
+    required this.end_datetime,
+    required this.agenda,
+    required this.location,
+    required this.in_charge,
+    required this.notes,
+    required this.attach_file,
+    required this.engineer,
+    required this.technician,
+    required this.assigned_by,
+    required this.status,
+    required this.category,
+    required this.date_modified,
+  });
+
+  factory ServiceAppointment.fromJson(Map<String, dynamic> json) {
+    return ServiceAppointment(
+      id: json['id'] as String,
+      svc_id: json['svc_id'] as String,
+      start_datetime: json['start_datetime'] as String,
+      end_datetime: json['end_datetime'] as String,
+      agenda: json['agenda'] as String,
+      location: json['location'] as String,
+      in_charge: json['in_charge'] as String,
+      notes: json['notes'] as String,
+      attach_file: json['attach_file'] as String,
+      engineer: json['engineer'] as String,
+      technician: json['technician'] as String,
+      assigned_by: json['assigned_by'] as String,
+      status: json['status'] as String,
+      category: json['category'] as String,
+      date_modified: json['date_modified'] as String,
+    );
+  }
+}
