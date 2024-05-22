@@ -104,7 +104,7 @@ class _HistoryPageState extends State<HistoryPage> with TickerProviderStateMixin
   _getServicess(){
     TechnicalDataServices.getServiceOrder().then((ServiceOrder){
       setState(() {
-        _servicess = ServiceOrder.where((ServiceOrder) => ServiceOrder.stat == "Saved").toList();
+        _servicess = ServiceOrder.where((ServiceOrder) => ServiceOrder.stat == "Saved" && ServiceOrder.stat == "Completed").toList();
       });
     });
   }
