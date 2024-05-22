@@ -5,6 +5,7 @@ import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../../config/config.dart';
 import '../../../widget/widgets.dart';
@@ -50,6 +51,8 @@ class _StatusPageState extends State<StatusPage> with TickerProviderStateMixin {
     _services = [];
     _servicess = [];
     _users = [];
+    _position = [];
+    _appointment = [];
 
     //calling session data
     checkSession().getUserSessionStatus().then((bool) {
@@ -233,8 +236,8 @@ class _StatusPageState extends State<StatusPage> with TickerProviderStateMixin {
   _editToAccepted(TechnicalData services){
     TechnicalDataServices.editToAccepted(
         services.id, services.svcId,
-        DateFormat('yyyy-MM-dd').format(selectedDate!.start),
-        DateFormat('yyyy-MM-dd').format(selectedDate!.end)).then((result) {
+       /* DateFormat('yyyy-MM-dd').format(selectedDate!.start),
+        DateFormat('yyyy-MM-dd').format(selectedDate!.end)*/).then((result) {
       if('success' == result){
         _getServices(); //refresh the list after update
         sendPushNotifications("Accepted", services.svcId);
@@ -256,6 +259,18 @@ class _StatusPageState extends State<StatusPage> with TickerProviderStateMixin {
     });
   }
 
+  Future<void> _launchURL (String url) async{
+    try {
+      bool launched = await launch(url, forceSafariVC: false); // Launch the app if installed!
+
+      if (!launched) {
+        launch(url); // Launch web view if app is not installed!
+      }
+    } catch (e) {
+      launch(url); // Launch web view if app is not installed!
+    }
+  }
+
   Future<void> sendPushNotifications(String status, String svcId) async {
     //final url = 'https://enye.com.ph/enyecontrols_app/login_user/send1.php'; // Replace this with the URL to your PHP script
     final response = await http.post(
@@ -274,7 +289,7 @@ class _StatusPageState extends State<StatusPage> with TickerProviderStateMixin {
     }
   }
 
-  _editToResched(TechnicalData services){
+ /* _editToResched(TechnicalData services){
     TechnicalDataServices.editToResched(
         services.id, services.svcId,
         DateFormat('yyyy-MM-dd').format(selectedDate!.start),
@@ -312,9 +327,9 @@ class _StatusPageState extends State<StatusPage> with TickerProviderStateMixin {
     if (pickedDate != null) {
       onDateSelected(pickedDate);
     }
-  }
+  }*/
 
-  void _showDatePicker(BuildContext context, TechnicalData services, String accORresched) {
+  /*void _showDatePicker(BuildContext context, TechnicalData services, String accORresched) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -475,7 +490,7 @@ class _StatusPageState extends State<StatusPage> with TickerProviderStateMixin {
       note.text = '';
       _dropdownError = null;
     });
-  }
+  }*/
 
   @override
   Widget build(BuildContext context) {
@@ -572,8 +587,8 @@ class _StatusPageState extends State<StatusPage> with TickerProviderStateMixin {
 
                                         if (_filteredServices[index].status ==
                                             "Set-sched") {
-                                          _showBottomSheet(context,
-                                              _filteredServices[index]);
+                                          _showBottomSheet1(context,
+                                              _filteredServices[index], appointment!);
                                         }
 
                                       if(_filteredServices[index].status == "On Process"){
@@ -597,6 +612,11 @@ class _StatusPageState extends State<StatusPage> with TickerProviderStateMixin {
     );
   }
 
+
+
+
+
+
   _showBottomSheet (BuildContext context, TechnicalData services) {
 
     showModalBottomSheet(
@@ -606,6 +626,10 @@ class _StatusPageState extends State<StatusPage> with TickerProviderStateMixin {
         builder: (context) {
           double screenHeight = MediaQuery.of(context).size.height;
           double screenWidth = MediaQuery.of(context).size.width;
+
+          var fontNormalSize = ResponsiveTextUtils.getNormalFontSize(screenWidth);
+          var fontSmallSize = ResponsiveTextUtils.getSmallFontSize(screenWidth);
+          var fontXSmallSize = ResponsiveTextUtils.getXSmallFontSize(screenWidth);
 
           EdgeInsets viewInsets = MediaQuery.of(context).viewInsets;
           return Padding(
@@ -632,7 +656,94 @@ class _StatusPageState extends State<StatusPage> with TickerProviderStateMixin {
 
                 SizedBox(height: screenHeight * 0.04,),
 
-                services.status == "Unread" ?
+                 services.status == "Unread" ?
+                  Container(
+                    padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.02),
+                    child: _bottomSheetButton(
+                      label: "CANCEL",
+                      onTap: (){
+                        setState(() {
+                          Navigator.pop(context);
+                          _showAnotherBottomSheet(context, services, "Cancel");
+                        });
+                      },
+                      clr: Colors.redAccent,
+                      context:context,
+                    ),
+                  ): SizedBox.shrink(),
+
+
+
+
+
+                const SizedBox(height: 20,),
+                Container(
+                  padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.02),
+                  child: _bottomSheetButton(
+                    label: "CLOSE",
+                    onTap: (){
+                      Navigator.pop(context);
+                    },
+                    clr: Colors.orangeAccent,
+                    context:context,
+                    isClose: true,
+                  ),
+                ),
+
+                SizedBox(height: screenHeight * 0.01,),
+              ],
+            ),
+          );
+        }
+    );
+  }
+
+
+
+
+
+
+
+  _showBottomSheet1 (BuildContext context, TechnicalData services, ServiceAppointment appointment) {
+
+    showModalBottomSheet(
+        isScrollControlled: true,
+        useRootNavigator: true,
+        context: context,
+        builder: (context) {
+          double screenHeight = MediaQuery.of(context).size.height;
+          double screenWidth = MediaQuery.of(context).size.width;
+
+          var fontNormalSize = ResponsiveTextUtils.getNormalFontSize(screenWidth);
+          var fontSmallSize = ResponsiveTextUtils.getSmallFontSize(screenWidth);
+          var fontXSmallSize = ResponsiveTextUtils.getXSmallFontSize(screenWidth);
+
+          EdgeInsets viewInsets = MediaQuery.of(context).viewInsets;
+          return Padding(
+            padding: EdgeInsets.only(bottom: viewInsets.bottom),
+            child: MasonryGridView(
+              physics: NeverScrollableScrollPhysics(),
+              shrinkWrap: true,
+              gridDelegate: SliverSimpleGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 1,
+              ),
+              children: <Widget> [
+                Container(
+                  height: screenHeight * 0.007,
+                  margin: EdgeInsets.only(
+                      left: MediaQuery.of(context).size.width * 0.2,
+                      right: MediaQuery.of(context).size.width * 0.2,
+                      top: 4
+                  ),
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      color: Colors.grey[300]
+                  ),
+                ),
+
+                SizedBox(height: screenHeight * 0.04,),
+                if (services.status == "Unread")
+              //  services.status == "Unread" ?
                 Container(
                   padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.02),
                   child: _bottomSheetButton(
@@ -646,27 +757,506 @@ class _StatusPageState extends State<StatusPage> with TickerProviderStateMixin {
                     clr: Colors.redAccent,
                     context:context,
                   ),
-                ): SizedBox.shrink(),
+                ),//: SizedBox.shrink(),
 
 
 
-                services.status == "Set-sched" ?
+             //   services.status == "Set-sched" ?
+
+                SizedBox(height: screenHeight * 0.03,),
+                Container(
+                  padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.05),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      RichText(
+                          softWrap: true,
+                          text:TextSpan(
+                              children: <TextSpan> [
+                                TextSpan(text: "Title :  ",
+                                  style: GoogleFonts.poppins(
+                                    textStyle: TextStyle(
+                                        fontSize: fontXSmallSize,
+                                        fontWeight: FontWeight.w800,
+                                        letterSpacing: 0.8,
+                                        color: Colors.grey
+                                    ),
+                                  ),
+                                ),
+
+                                TextSpan(text: services.svcTitle,
+                                  style: GoogleFonts.poppins(
+                                    textStyle: TextStyle(
+                                        fontSize: fontNormalSize,
+                                        fontWeight: FontWeight.w700,
+                                        letterSpacing: 0.8,
+                                        color: Colors.black54
+                                    ),
+                                  ),
+                                ),
+                              ]
+                          )
+                      ),
+
+                      SizedBox(height: screenHeight * 0.005,),
+                      RichText(
+                          textAlign: TextAlign.justify,
+                          softWrap: true,
+                          text:TextSpan(
+                              children: <TextSpan> [
+                                TextSpan(text: "Description :  ",
+                                  style: GoogleFonts.poppins(
+                                    textStyle: TextStyle(
+                                        fontSize: fontXSmallSize,
+                                        fontWeight: FontWeight.w800,
+                                        letterSpacing: 0.8,
+                                        color: Colors.grey
+                                    ),
+                                  ),
+                                ),
+
+                                TextSpan(text: services.svcDesc,
+                                  style: GoogleFonts.poppins(
+                                    textStyle: TextStyle(
+                                        fontSize: fontSmallSize,
+                                        fontWeight: FontWeight.w600,
+                                        letterSpacing: 0.8,
+                                        color: Colors.black54
+                                    ),
+                                  ),
+                                ),
+                              ]
+                          )
+                      ),
+
+                      SizedBox(height: screenHeight * 0.005,),
+                      RichText(
+                          textAlign: TextAlign.justify,
+                          softWrap: true,
+                          text:TextSpan(
+                              children: <TextSpan> [
+                                TextSpan(
+                                  text: 'Requestor : ',
+                                  style: GoogleFonts.poppins(
+                                    textStyle: TextStyle(
+                                        fontSize: fontXSmallSize,
+                                        fontWeight: FontWeight.w800,
+                                        letterSpacing: 0.8,
+                                        color: Colors.grey
+                                    ),
+                                  ),
+                                ),
+
+                                TextSpan(
+                                  text: '${services.reqName} | ${services.reqPosition}',
+                                  style: GoogleFonts.poppins(
+                                    textStyle: TextStyle(
+                                        fontSize: fontSmallSize,
+                                        fontWeight: FontWeight.w600,
+                                        letterSpacing: 0.8,
+                                        color: Colors.black54
+                                    ),
+                                  ),
+                                ),
+                              ]
+                          )
+                      ),
+
+                      SizedBox(height: screenHeight * 0.01,),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const Icon(
+                            Icons.calendar_month_rounded,
+                            size: 18,
+                            color: Colors.deepOrange,
+                          ),
+                          const SizedBox(width: 4),
+                          Text(
+                            '${DateFormat.yMMMMd().format(DateTime.parse(appointment.start_datetime))} TO ${DateFormat.yMMMMd().format(DateTime.parse(appointment.end_datetime))}',
+                            style: GoogleFonts.poppins(
+                              textStyle: TextStyle(
+                                fontSize: fontSmallSize,
+                                fontWeight: FontWeight.bold,
+                                letterSpacing: 0.8,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+
+                      SizedBox(height: screenHeight * 0.005,),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const Icon(
+                            Icons.access_time_filled_rounded,
+                            size: 18,
+                            color: Colors.deepOrange,
+                          ),
+                          const SizedBox(width: 4),
+                          Text(
+                            '${DateFormat.jm().format(DateTime.parse(appointment.start_datetime))} - ${DateFormat.jm().format(DateTime.parse(appointment.end_datetime))}',
+                            style: GoogleFonts.poppins(
+                              textStyle: TextStyle(
+                                fontSize: fontSmallSize,
+                                color: Colors.black87,
+                                fontWeight: FontWeight.bold,
+                                letterSpacing: 0.8,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+
+                    ],
+                  ),
+                ),
+
+
+                // service.status == "On Process" ?
+                SizedBox(height: screenHeight * 0.02,),
+                appointment.engineer.isNotEmpty || appointment.engineer != ""
+                    ? Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Center(
+                      child: Container(
+                        padding: EdgeInsets.symmetric(vertical: 5.0, horizontal: screenWidth * 0.1),
+                        decoration: BoxDecoration(
+                          color: Colors.deepOrange.shade300,
+                          borderRadius: BorderRadius.circular(25.0),
+                          border: Border.all(color: Colors.white70, width: 1.5),
+                        ),
+                        child: Text(
+                          'Engineers',
+                          style: TextStyle(
+                            fontSize: fontSmallSize,
+                            letterSpacing: 0.8,
+                            color: Colors.white, // Optionally, set text color
+                          ),
+                        ),
+                      ),
+                    ),
+
+                    ..._users.map((engineer) {
+                      if(_isUserAssigned(appointment.engineer, engineer.user_id)) {
+                        return Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            Container(
+                              width: (screenWidth + screenHeight) / 25,
+                              height: (screenWidth + screenHeight) / 25,
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                image: DecorationImage(
+                                  image: engineer.image.isNotEmpty == true && engineer.image != ""
+                                      ? Image.network(API.usersImages + engineer.image).image
+                                      : const AssetImage("assets/icons/user.png"),
+                                ),
+                              ),
+                            ),
+                            Flexible(
+                              child: Container(
+                                width: MediaQuery.of(context).size.width * 0.75,
+                                child: RichText(
+                                  softWrap: true,
+                                  text: TextSpan(children: <TextSpan>
+                                  [
+                                    TextSpan(text: engineer.name,
+                                      style: GoogleFonts.poppins(
+                                        textStyle: TextStyle(
+                                            fontSize: fontSmallSize,
+                                            fontWeight: FontWeight.w800,
+                                            letterSpacing: 0.8,
+                                            color: Colors.black54
+                                        ),
+                                      ),
+                                    ),
+
+                                    TextSpan(text: "\n${_position.where((position) => position.id == engineer.position).elementAtOrNull(0)?.position} ",
+                                      style: GoogleFonts.poppins(
+                                        textStyle: TextStyle(
+                                            fontSize: fontXSmallSize,
+                                            fontWeight: FontWeight.w800,
+                                            letterSpacing: 0.8,
+                                            color: Colors.grey
+                                        ),
+                                      ),
+                                    ),
+                                  ]
+                                  ),
+                                ),
+                              ),
+                            ),
+                            TextButton.icon(
+                              onPressed: (){
+                                final phoneNumber  = engineer.contact;
+                                final url = 'tel:$phoneNumber';
+
+                                _launchURL(url);
+                              },
+                              icon: Icon(Icons.call, size: fontNormalSize,),
+                              label: Text(engineer.contact,
+                                style: TextStyle(
+                                  color: Colors.black54,
+                                  letterSpacing: 1.0,
+                                  fontWeight: FontWeight.bold,),
+                              ),
+                            )
+                          ],
+                        );
+                      } else {
+                        return SizedBox.shrink();
+                      }
+                    }).toList(),
+                  ],
+                )
+                    : const SizedBox.shrink(),
+
+
+                SizedBox(height: screenHeight * 0.01,),
+                appointment.technician.isNotEmpty || appointment.technician != ""
+                    ? Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Center(
+                      child: Container(
+                        padding: EdgeInsets.symmetric(vertical: 5.0, horizontal: screenWidth * 0.1),
+                        decoration: BoxDecoration(
+                          color: Colors.deepOrange.shade300,
+                          borderRadius: BorderRadius.circular(25.0),
+                          border: Border.all(color: Colors.white70, width: 1.5),
+                        ),
+                        child: Text(
+                          'Technicians',
+                          style: TextStyle(
+                            fontSize: fontSmallSize,
+                            letterSpacing: 0.8,
+                            color: Colors.white, // Optionally, set text color
+                          ),
+                        ),
+                      ),
+                    ),
+
+                    ..._users.map((technician) {
+                      if(_isUserAssigned(appointment.technician, technician.user_id)) {
+                        return Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            Container(
+                              width: (screenWidth + screenHeight) / 25,
+                              height: (screenWidth + screenHeight) / 25,
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                image: DecorationImage(
+                                  image: technician.image.isNotEmpty == true && technician.image != ""
+                                      ? Image.network(API.usersImages + technician.image).image
+                                      : const AssetImage("assets/icons/user.png"),
+                                ),
+                              ),
+                            ),
+                            Flexible(
+                              child: Container(
+                                width: MediaQuery.of(context).size.width * 0.75,
+                                child: RichText(
+                                  softWrap: true,
+                                  text: TextSpan(children: <TextSpan>
+                                  [
+                                    TextSpan(text: technician.name,
+                                      style: GoogleFonts.poppins(
+                                        textStyle: TextStyle(
+                                            fontSize: fontSmallSize,
+                                            fontWeight: FontWeight.w800,
+                                            letterSpacing: 0.8,
+                                            color: Colors.black54
+                                        ),
+                                      ),
+                                    ),
+
+                                    TextSpan(text: "\n${_position.where((position) => position.id == technician.position).elementAtOrNull(0)?.position}",
+                                      style: GoogleFonts.poppins(
+                                        textStyle: TextStyle(
+                                            fontSize: fontXSmallSize,
+                                            fontWeight: FontWeight.w800,
+                                            letterSpacing: 0.8,
+                                            color: Colors.grey
+                                        ),
+                                      ),
+                                    ),
+                                  ]
+                                  ),
+                                ),
+                              ),
+                            ),
+                            TextButton.icon(
+                              onPressed: (){
+                                final phoneNumber  = technician.contact;
+                                final url = 'tel:$phoneNumber';
+
+                                _launchURL(url);
+                              },
+                              icon: Icon(Icons.call, size: fontNormalSize,),
+                              label: Text(technician.contact,
+                                style: TextStyle(
+                                  color: Colors.black54,
+                                  letterSpacing: 1.0,
+                                  fontWeight: FontWeight.bold,),
+                              ),
+                            )
+                          ],
+                        );
+                      } else {
+                        return SizedBox.shrink();
+                      }
+                    }).toList(),
+                  ],
+                )
+                    : const SizedBox.shrink(),
+
+                SizedBox(height: screenHeight * 0.01,),
+                appointment.in_charge.isNotEmpty || appointment.in_charge != ""
+                    ? Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Center(
+                      child: Container(
+                        padding: EdgeInsets.symmetric(vertical: 5.0, horizontal: screenWidth * 0.15),
+                        decoration: BoxDecoration(
+                          color: Colors.deepOrange.shade300,
+                          borderRadius: BorderRadius.circular(25.0),
+                          border: Border.all(color: Colors.white70, width: 1.5),
+                        ),
+                        child: Text(
+                          'Person In Charge',
+                          style: TextStyle(
+                            fontSize: fontSmallSize,
+                            letterSpacing: 0.8,
+                            color: Colors.white, // Optionally, set text color
+                          ),
+                        ),
+                      ),
+                    ),
+
+                    ..._users.map((incharge) {
+                      if(_isUserAssigned(appointment.in_charge, incharge.user_id)) {
+                        return Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            Container(
+                              width: (screenWidth + screenHeight) / 25,
+                              height: (screenWidth + screenHeight) / 25,
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                image: DecorationImage(
+                                  image: incharge.image.isNotEmpty == true && incharge.image != ""
+                                      ? Image.network(API.usersImages + incharge.image).image
+                                      : const AssetImage("assets/icons/user.png"),
+                                ),
+                              ),
+                            ),
+                            Flexible(
+                              child: Container(
+                                width: MediaQuery.of(context).size.width * 0.75,
+                                child: RichText(
+                                  softWrap: true,
+                                  text: TextSpan(children: <TextSpan>
+                                  [
+                                    TextSpan(text: incharge.name,
+                                      style: GoogleFonts.poppins(
+                                        textStyle: TextStyle(
+                                            fontSize: fontSmallSize,
+                                            fontWeight: FontWeight.w800,
+                                            letterSpacing: 0.8,
+                                            color: Colors.black54
+                                        ),
+                                      ),
+                                    ),
+
+                                    TextSpan(text: "\n${_position.where((position) => position.id == incharge.position).elementAtOrNull(0)?.position}",
+                                      style: GoogleFonts.poppins(
+                                        textStyle: TextStyle(
+                                            fontSize: fontXSmallSize,
+                                            fontWeight: FontWeight.w800,
+                                            letterSpacing: 0.8,
+                                            color: Colors.grey
+                                        ),
+                                      ),
+                                    ),
+                                  ]
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        );
+                      } else {
+                        return SizedBox.shrink();
+                      }
+                    }).toList(),
+                  ],
+                )
+                    : const SizedBox.shrink(),
+
+
+                ..._servicess.map((ServiceOrder) {
+                  if(ServiceOrder.svc_id == services.id) {
+                    return TextButton(
+                      onPressed: () {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) => SOPdfPreviewPage(serviceOrder: ServiceOrder),
+                          ),
+                        );
+                      },
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisSize: MainAxisSize.min,
+                        // Use min to prevent the Row from occupying more space than its children need.
+                        children: <Widget>[
+                          Icon(
+                            Icons.download_for_offline_rounded,
+                            color: Colors.deepOrange.shade300,
+                            size: (screenHeight + screenWidth) / 40,
+                          ), // Example icon
+                          SizedBox(width: 8), // Space between icon and text
+                          Text(
+                            "SO# " + ServiceOrder.so_no + " - " +
+                                ServiceOrder.date_so,
+                            style: TextStyle(
+                              height: 1.5,
+                              fontSize: 12,
+                              fontFamily: 'Rowdies',
+                              color: Colors.deepOrange.shade300,
+                              fontWeight: FontWeight.w700,
+                              letterSpacing: 1.2,
+                            ),
+                            textAlign: TextAlign.left,
+                          ),
+                        ],
+                      ),
+                    );
+                  } else {
+                    return SizedBox.shrink();
+                  }
+                }).toList(),
+                if (services.status == "Set-sched")
                 Container(
                   padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.02),
                   child: _bottomSheetButton(
                     label: "ACCEPT",
                     onTap: (){
                       setState(() {
+                        _editToAccepted(services);
                         Navigator.pop(context);
-                        _showDatePicker(context, services, "Accept");
                       });
                     },
                     clr: Colors.green,
                     context:context,
                   ),
-                ): SizedBox.shrink(),
+                ),
 
-                services.status == "Set-sched" ?
+              /*  services.status == "Set-sched" ?
                 Container(
                   padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.02),
                   child: _bottomSheetButton(
@@ -680,7 +1270,7 @@ class _StatusPageState extends State<StatusPage> with TickerProviderStateMixin {
                     clr: Colors.redAccent,
                     context:context,
                   ),
-                ): SizedBox.shrink(),
+                ): SizedBox.shrink(),*/
 
                 const SizedBox(height: 20,),
                 Container(
@@ -1142,9 +1732,6 @@ class _StatusPageState extends State<StatusPage> with TickerProviderStateMixin {
                 ),
 
 
-
-                SizedBox(height: screenHeight * 0.04,),
-
                // service.status == "On Process" ?
                 SizedBox(height: screenHeight * 0.02,),
                 appointment.engineer.isNotEmpty || appointment.engineer != ""
@@ -1220,6 +1807,22 @@ class _StatusPageState extends State<StatusPage> with TickerProviderStateMixin {
                                 ),
                               ),
                             ),
+                            TextButton.icon(
+                              onPressed: (){
+                                final phoneNumber  = engineer.contact;
+                                final url = 'tel:$phoneNumber';
+
+                                _launchURL(url);
+                              },
+                              icon: Icon(Icons.call, size: fontNormalSize,),
+                              label: Text(engineer.contact,
+                                style: TextStyle(
+                                  color: Colors.black54,
+                                  letterSpacing: 1.0,
+                                  fontWeight: FontWeight.bold,
+                                  overflow: TextOverflow.visible,),
+                              ),
+                            )
                           ],
                         );
                       } else {
@@ -1290,7 +1893,7 @@ class _StatusPageState extends State<StatusPage> with TickerProviderStateMixin {
                                       ),
                                     ),
 
-                                    TextSpan(text: "\n${_position.where((position) => position.id == technician.position).elementAtOrNull(0)?.position}",
+                                    TextSpan(text: "\n${_position.where((position) => position.id == technician.position).elementAtOrNull(0)?.position} ",
                                       style: GoogleFonts.poppins(
                                         textStyle: TextStyle(
                                             fontSize: fontXSmallSize,
@@ -1305,6 +1908,22 @@ class _StatusPageState extends State<StatusPage> with TickerProviderStateMixin {
                                 ),
                               ),
                             ),
+                            TextButton.icon(
+                              onPressed: (){
+                                final phoneNumber  = technician.contact;
+                                final url = 'tel:$phoneNumber';
+
+                                _launchURL(url);
+                              },
+                              icon: Icon(Icons.call, size: fontNormalSize,),
+                              label: Text(technician.contact,
+                                style: TextStyle(
+                                  color: Colors.black54,
+                                  letterSpacing: 1.0,
+                                  fontWeight: FontWeight.bold,
+                                  overflow: TextOverflow.visible,),
+                              ),
+                            )
                           ],
                         );
                       } else {
@@ -1417,7 +2036,7 @@ class _StatusPageState extends State<StatusPage> with TickerProviderStateMixin {
                         children: <Widget>[
                           Icon(
                             Icons.download_for_offline_rounded,
-                            color: Colors.deepOrange.shade300,
+                            color: Colors.green,
                             size: (screenHeight + screenWidth) / 40,
                           ), // Example icon
                           SizedBox(width: 8), // Space between icon and text
@@ -1428,7 +2047,7 @@ class _StatusPageState extends State<StatusPage> with TickerProviderStateMixin {
                               height: 1.5,
                               fontSize: 12,
                               fontFamily: 'Rowdies',
-                              color: Colors.deepOrange.shade300,
+                              color: Colors.green,
                               fontWeight: FontWeight.w700,
                               letterSpacing: 1.2,
                             ),

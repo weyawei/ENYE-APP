@@ -341,14 +341,14 @@ class TechnicalDataServices {
   }
 
   //edit TO ACCEPT THE BOOKING
-  static Future<String> editToAccepted(String id, String svcId, String sDateSched, String eDateSched) async {
+  static Future<String> editToAccepted(String id, String svcId/*, String sDateSched, String eDateSched*/) async {
     try{
       var map = Map<String, dynamic>();
       map['action'] = EDIT_TO_ACCEPTED;
       map['id'] = id;
       map['svcId'] = svcId;
-      map['sDateSched'] = sDateSched;
-      map['eDateSched'] = eDateSched;
+      /*map['sDateSched'] = sDateSched;
+      map['eDateSched'] = eDateSched;*/
 
       final res = await http.post(Uri.parse(API.booking), body: map); //passing value to result
       print('editToAcceptedResponse: ${res.body}');

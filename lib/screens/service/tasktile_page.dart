@@ -50,6 +50,7 @@ class _TaskTileState extends State<TaskTile> {
     double screenHeight = MediaQuery.of(context).size.height;
     double screenWidth = MediaQuery.of(context).size.width;
 
+    var fontExtra2Size = ResponsiveTextUtils.getXFontSize(screenWidth);
     var fontExtraSize = ResponsiveTextUtils.getExtraFontSize(screenWidth);
     var fontNormalSize = ResponsiveTextUtils.getNormalFontSize(screenWidth);
     var fontSmallSize = ResponsiveTextUtils.getSmallFontSize(screenWidth);
@@ -73,7 +74,7 @@ class _TaskTileState extends State<TaskTile> {
                   "#${widget.services.svcId}",
                   style: GoogleFonts.lato(
                     textStyle: TextStyle(
-                      fontSize: fontNormalSize,
+                      fontSize: fontExtra2Size,
                       fontWeight: FontWeight.bold,
                       color: Colors.white,
                       fontStyle: FontStyle.italic,
@@ -149,7 +150,7 @@ class _TaskTileState extends State<TaskTile> {
                   ),
                 ),
 
-                SizedBox(height: screenHeight * 0.01,),
+                /*SizedBox(height: screenHeight * 0.01,),
                 widget.services.status == "Set-sched"
                  ? Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -170,7 +171,7 @@ class _TaskTileState extends State<TaskTile> {
                     ),
                   ],
                 )
-                 : SizedBox.shrink(),
+                 : SizedBox.shrink(),*/
 
                /* widget.services.status == "Completed" || widget.services.status == "On Process"
                  ? Row(
@@ -250,7 +251,7 @@ class _TaskTileState extends State<TaskTile> {
                   )
                   : SizedBox.shrink(),*/
 
-                widget.services.status == "Cancelled"
+                /*widget.services.status == "Cancelled"
                   ? RichText(
                 softWrap: true,
                 text: TextSpan(children: <TextSpan>
@@ -267,10 +268,10 @@ class _TaskTileState extends State<TaskTile> {
                 ]
                 ),
               )
-                  : SizedBox.shrink(),
+                  : SizedBox.shrink(),*/
 
                 //once completed display dito yung note
-                SizedBox(height: 5),
+                /*SizedBox(height: 5),
                 widget.services.status == "Completed"
                   ? RichText(
                 softWrap: true,
@@ -288,7 +289,7 @@ class _TaskTileState extends State<TaskTile> {
                 ]
                 ),
               )
-                  : SizedBox.shrink(),
+                  : SizedBox.shrink(),*/
               ],
             ),
           ),
