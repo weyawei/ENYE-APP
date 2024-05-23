@@ -1,5 +1,6 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_file_downloader/flutter_file_downloader.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -163,6 +164,58 @@ class _HistoryPageState extends State<HistoryPage> with TickerProviderStateMixin
       launch(url); // Launch web view if app is not installed!
     }
   }
+
+
+
+  bool _isDownloading = false;
+  double? _progress;
+  String _filePath = '';
+
+  void _downloadFile() async {
+    setState(() {
+      _isDownloading = true;
+    });
+
+    final url = API.attachfile + _services.where((ser) => ser.id == _appointment.where((element) => element.status == "Completed").elementAtOrNull(0)?.svc_id).toString();  // Replace with your file URL
+
+    try {
+      await FileDownloader.downloadFile(
+        url: url,
+        name: 'downloaded-file.pdf',
+        onProgress: (name, progress) {
+          setState(() {
+            _progress = progress;
+          });
+        },
+        onDownloadCompleted: (path) {
+          setState(() {
+            _filePath = path;
+            _isDownloading = false;
+          });
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text('File downloaded to $_filePath')),
+          );
+        },
+        onDownloadError: (errorMessage) {
+          setState(() {
+            _isDownloading = false;
+          });
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text('Download error: $errorMessage')),
+          );
+        },
+      );
+    } catch (e) {
+      setState(() {
+        _isDownloading = false;
+      });
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Error: $e')),
+      );
+    }
+  }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -1033,6 +1086,34 @@ class _HistoryPageState extends State<HistoryPage> with TickerProviderStateMixin
                   return SizedBox.shrink();
                 }
               }).toList(),
+
+
+              Center(
+                child: _progress != null?
+                CircularProgressIndicator(): ElevatedButton(
+                  onPressed: (){
+                    String fileUrl = API.attachfile +
+                        _services.where((element) => element.id == appointment.svc_id).elementAt(0).atchFile.toString();
+                    print("Downloading file from: $fileUrl");
+
+                    FileDownloader.downloadFile(
+                        url: fileUrl,
+                        //  url: 'https://images.pexels.com/photos/1433052/pexels-photo-1433052.jpeg?auto=compress&cs=tinysrgb&w=600',
+                        onProgress: (name, progress){
+                      setState(() {
+                      _progress = progress;
+                      });
+                    },
+                  onDownloadCompleted: (value){
+                          print('path $value');
+                          setState(() {
+                            _progress = 0.0;
+                          });
+                  });
+                  }, //_downloadFile,
+                  child: Text('${_services.where((element) => element.id == appointment.svc_id).elementAt(0).atchFile}'),
+                ),
+              ),
 
           Container(
               margin: EdgeInsets.all(16.0), // Margin around the box

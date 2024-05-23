@@ -75,6 +75,7 @@ dependencies:
   signature:
   pdf: any
   printing: any
+  flutter_file_downloader:
 
   image_picker:
   file_picker:
