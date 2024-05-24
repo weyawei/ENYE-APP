@@ -261,7 +261,7 @@ class _homePageState extends State<homePage>{
                       children: [
 
                         ImageIcon(
-                          NetworkImage("${API.dashboard}market.png"),
+                          AssetImage("assets/icons/market.png"),
                           color: Colors.deepOrange.shade700,
                           size: (screenHeight + screenWidth) / 10,
                         ),
@@ -307,7 +307,7 @@ class _homePageState extends State<homePage>{
                         ),
 
                         ImageIcon(
-                          NetworkImage("${API.dashboard}customer.png"),
+                          AssetImage("assets/icons/customer.png"),
                           color: Colors.deepOrange.shade700,
                           size: (screenHeight + screenWidth) / 10,
                         ),
@@ -319,7 +319,7 @@ class _homePageState extends State<homePage>{
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         ImageIcon(
-                          NetworkImage("${API.dashboard}business_partner.png"),
+                          AssetImage("assets/icons/business_partner.png"),
                           color: Colors.deepOrange.shade700,
                           size: (screenHeight + screenWidth) / 10,
                         ),
