@@ -69,8 +69,7 @@ class MyApp extends StatelessWidget {
         //onGenerateRoute: AppRouter.onGenerateRoute,
         //initialRoute: SplashScreen.routeName,
         debugShowCheckedModeBanner: false,
-        home: NoInternetHandler(
-            child: SplashScreen()),
+        home: SplashScreen(),
       );
     }
     );
@@ -78,6 +77,13 @@ class MyApp extends StatelessWidget {
 }
 
 
-
+class MainScreen extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return NoInternetHandler(
+      child: CustomNavBar(),
+    );
+  }
+}
 
 
