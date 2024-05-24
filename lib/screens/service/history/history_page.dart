@@ -171,48 +171,52 @@ class _HistoryPageState extends State<HistoryPage> with TickerProviderStateMixin
   double? _progress;
   String _filePath = '';
 
-  void _downloadFile() async {
-    setState(() {
-      _isDownloading = true;
-    });
+  _custSnackbar(context, message, Color color, IconData iconData){
+    double screenHeight = MediaQuery.of(context).size.height;
+    double screenWidth = MediaQuery.of(context).size.width;
 
-    final url = API.attachfile + _services.where((ser) => ser.id == _appointment.where((element) => element.status == "Completed").elementAtOrNull(0)?.svc_id).toString();  // Replace with your file URL
+    var fontNormalSize = ResponsiveTextUtils.getNormalFontSize(screenWidth);
 
-    try {
-      await FileDownloader.downloadFile(
-        url: url,
-        name: 'downloaded-file.pdf',
-        onProgress: (name, progress) {
-          setState(() {
-            _progress = progress;
-          });
-        },
-        onDownloadCompleted: (path) {
-          setState(() {
-            _filePath = path;
-            _isDownloading = false;
-          });
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text('File downloaded to $_filePath')),
-          );
-        },
-        onDownloadError: (errorMessage) {
-          setState(() {
-            _isDownloading = false;
-          });
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text('Download error: $errorMessage')),
-          );
-        },
-      );
-    } catch (e) {
-      setState(() {
-        _isDownloading = false;
-      });
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Error: $e')),
-      );
-    }
+    ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          duration: Duration(seconds: 3),
+          backgroundColor: color,
+          behavior: SnackBarBehavior.floating,
+          margin: EdgeInsets.only(left: screenWidth * 0.05, right: screenWidth * 0.05, bottom: screenHeight * 0.82),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(4))),
+          content: Row(
+            children: [
+              Icon(
+                iconData,
+                color: Colors.white,
+                size: (screenHeight + screenWidth) / 50,
+              ),
+              SizedBox(width: screenWidth * 0.01,),
+              Expanded(
+                child: RichText(
+                  softWrap: true,
+                  textAlign: TextAlign.start,
+                  text: TextSpan(children: <TextSpan>
+                  [
+                    TextSpan(
+                      text: message,
+                      style: GoogleFonts.poppins(
+                        textStyle: TextStyle(
+                            fontSize: fontNormalSize,
+                            fontWeight: FontWeight.w800,
+                            letterSpacing: 0.8,
+                            color: Colors.white
+                        ),
+                      ),
+                    ),
+                  ]
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+    );
   }
 
 
@@ -1088,32 +1092,77 @@ class _HistoryPageState extends State<HistoryPage> with TickerProviderStateMixin
               }).toList(),
 
 
-              Center(
-                child: _progress != null?
-                CircularProgressIndicator(): ElevatedButton(
-                  onPressed: (){
-                    String fileUrl = API.attachfile +
-                        service.atchFile.toString();
-                    print("Downloading file from: $fileUrl");
+              SizedBox(height: screenHeight * 0.01,),
+              if (appointment.attach_file == "" || appointment.attach_file.isEmpty)
+                const SizedBox.shrink()
+              else
+                _progress != null
+                    ? SizedBox(
+                  width: screenWidth * 0.1,
+                  height: screenHeight * 0.1,
+                  child: Center(
+                    child: CircularProgressIndicator(),
+                  ),
+                )
+                    : GestureDetector(
+                  onTap: () {
+                    String url = API.attachfile + appointment.attach_file.toString();
 
                     FileDownloader.downloadFile(
-                        url: fileUrl,
-                        //  url: 'https://images.pexels.com/photos/1433052/pexels-photo-1433052.jpeg?auto=compress&cs=tinysrgb&w=600',
-                        onProgress: (name, progress){
-                      setState(() {
-                      _progress = progress;
-                      });
-                    },
-                  onDownloadCompleted: (value){
-                          print('path $value');
+                        url: url.trim(),
+                        onProgress: (name, progress) {
                           setState(() {
-                            _progress = 0.0;
+                            _progress = progress;
                           });
-                  });
-                  }, //_downloadFile,
-                  child: Text('${service.atchFile}'),
+                        },
+                        onDownloadCompleted: (value) {
+                          print('path  $value ');
+                          _custSnackbar(
+                              context,
+                              "File successfully downloaded.",
+                              Colors.green,
+                              Icons.check_box
+                          );
+                          setState(() {
+                            _progress = null;
+                          });
+                        });
+                  },
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.08),
+                    child: Row(
+                      children: [
+                        CircleAvatar(
+                          radius: fontSmallSize * 1.7,
+                          backgroundColor: Colors.green.shade100,
+                          child: Icon(Icons.insert_drive_file, color: Colors.green, size: fontSmallSize * 1.5),
+                        ),
+                        SizedBox(width: screenWidth * 0.05,),
+                        Expanded(
+                          child: RichText(
+                            softWrap: true,
+                            textAlign: TextAlign.start,
+                            text: TextSpan(children: <TextSpan>
+                            [
+                              TextSpan(
+                                text: "${appointment.attach_file} (Attached File)",
+                                style: GoogleFonts.poppins(
+                                  textStyle: TextStyle(
+                                    fontSize: fontXSmallSize,
+                                    fontWeight: FontWeight.w700,
+                                    letterSpacing: 0.8,
+                                    color: Colors.black54,
+                                  ),
+                                ),
+                              ),
+                            ]
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
                 ),
-              ),
 
           Container(
               margin: EdgeInsets.all(16.0), // Margin around the box
