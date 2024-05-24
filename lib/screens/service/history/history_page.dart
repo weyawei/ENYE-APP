@@ -1093,7 +1093,7 @@ class _HistoryPageState extends State<HistoryPage> with TickerProviderStateMixin
                 CircularProgressIndicator(): ElevatedButton(
                   onPressed: (){
                     String fileUrl = API.attachfile +
-                        _services.where((element) => element.id == appointment.svc_id).elementAt(0).atchFile.toString();
+                        service.atchFile.toString();
                     print("Downloading file from: $fileUrl");
 
                     FileDownloader.downloadFile(
@@ -1111,7 +1111,7 @@ class _HistoryPageState extends State<HistoryPage> with TickerProviderStateMixin
                           });
                   });
                   }, //_downloadFile,
-                  child: Text('${_services.where((element) => element.id == appointment.svc_id).elementAt(0).atchFile}'),
+                  child: Text('${service.atchFile}'),
                 ),
               ),
 

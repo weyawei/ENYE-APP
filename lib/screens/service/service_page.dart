@@ -181,8 +181,8 @@ class _ServicePageState extends State<ServicePage> {
             children: [
               Padding(
                 padding: EdgeInsets.only(top: screenHeight * 0.03),
-                child: Lottie.network(
-                    'https://lottie.host/e0b46b50-377a-4679-9f7d-d860fa44c7fd/2CntC1k3EB.json',
+                child: Lottie.asset(
+                    'assets/lottie/service_page.json',
                     frameRate: FrameRate.max,
                     alignment: Alignment.center,
                     height: screenHeight * 0.5,

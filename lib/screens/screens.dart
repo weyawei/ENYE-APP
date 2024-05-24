@@ -1,4 +1,3 @@
-export 'home/homepage.dart';
 export 'home/homepage2.dart';
 
 export 'home/home_page.dart';
@@ -9,8 +8,6 @@ export 'projects/list_projects.dart';
 export 'projects/categ_projects.dart';
 export 'projects/detailed_projects.dart';
 export 'projects/projectsvc.dart';
-
-export 'systems/system_page.dart';
 
 export 'systems/systems.dart';
 export 'systems/systems_tech_specs.dart';

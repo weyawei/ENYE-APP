@@ -34,8 +34,8 @@ class ContactsHome extends StatelessWidget {
       children: [
         Align(
           alignment: Alignment.topCenter,
-          child: Lottie.network(
-            'https://lottie.host/28ef9455-92ac-4a2c-a7f7-abe95224d844/N3o8vTHWbL.json',
+          child: Lottie.asset(
+            'assets/lottie/contacts_page.json',
             frameRate: FrameRate.max,
             height: screenHeight / 4.5,
           ),

@@ -106,7 +106,7 @@ class NoInternetPage extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Lottie.asset(
-                  'assets/lottie/Animation - 1693291610842.json',
+                  'assets/lottie/no_internet.json',
                   frameRate: FrameRate.max,
                   alignment: Alignment.center,
                   height: screenHeight * 0.5,

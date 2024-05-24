@@ -295,8 +295,8 @@ class _detailedSysPageState extends State<detailedSysPage> with TickerProviderSt
                         Column(
                           children: [
                             SizedBox(height: screenHeight * 0.035,),
-                            Lottie.network(
-                              'https://lottie.host/72bb063b-09e0-4a31-b7e4-cb941f3912e0/ISN4Y7fWVz.json',
+                            Lottie.asset(
+                              'assets/lottie/technical_specs.json',
                               height: screenHeight * 0.13,
                               width: screenWidth * 0.9,
                             ),

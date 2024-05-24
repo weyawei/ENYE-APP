@@ -261,7 +261,7 @@ class _detailedProjPageState extends State<detailedProjPage> with TickerProvider
                               ? Container()
                               : Row(
                             children: [
-                              Lottie.network("https://assets3.lottiefiles.com/packages/lf20_Sz5T65.json", height: screenHeight * 0.05,),
+                              Lottie.asset("assets/lottie/arrow_detailed_projects.json", height: screenHeight * 0.05,),
                               _progress != null
                                   ? const CircularProgressIndicator()
                                   :TextButton(

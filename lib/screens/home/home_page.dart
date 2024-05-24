@@ -248,8 +248,8 @@ class _homePageState extends State<homePage>{
                         letterSpacing: 1.2,
                       ),
                     ),
-                    Lottie.network(
-                      'https://lottie.host/68b583d9-5d17-4b1a-91fd-5ea004b4e059/vJsIqeClYC.json',
+                    Lottie.asset(
+                      'assets/lottie/mission_vision.json',
                       height: screenHeight / 10 ,
                       width: screenWidth / 5,
                     ),
@@ -350,8 +350,8 @@ class _homePageState extends State<homePage>{
 
               SizedBox(height: 60,),
               // follow us
-              Lottie.network(
-                  'https://lottie.host/b4271de5-63c3-47d2-b756-71bf41c8c643/ARaXZtHsJ8.json',
+              Lottie.asset(
+                  'assets/lottie/follow_us.json',
                   frameRate: FrameRate.max,
                   height: screenHeight * 0.2,
                   width: screenWidth * 0.6,
