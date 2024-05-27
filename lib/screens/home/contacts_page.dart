@@ -147,7 +147,7 @@ class ContactsHome extends StatelessWidget {
                             _launchURL(url);
                           },
                           icon: Icon(Icons.call, size: (screenHeight + screenWidth) / 55,),
-                          label: Text('+639 7616-5949',
+                          label: Text('(02)7616-5949',
                             style: TextStyle(
                               color: Colors.black54,
                               fontSize: fontNormalSize,
@@ -161,7 +161,7 @@ class ContactsHome extends StatelessWidget {
 
                         TextButton(
                           onPressed: (){
-                            final phoneNumber  = '(02)83523250';
+                            final phoneNumber  = '(02)8352-3250';
                             final url = 'tel:$phoneNumber';
 
                             _launchURL(url);
@@ -171,91 +171,6 @@ class ContactsHome extends StatelessWidget {
                               color: Colors.black54,
                               fontSize: fontNormalSize,
                               letterSpacing: 1.2,
-                              fontWeight: FontWeight.bold,
-                              overflow: TextOverflow.visible,),
-                          ),
-                        ),
-                      ],
-                    ),
-
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        TextButton.icon(
-                          onPressed: (){
-                            final phoneNumber  = '+63972194163';
-                            final url = 'tel:$phoneNumber';
-
-                            _launchURL(url);
-                          },
-                          icon: Icon(Icons.call, size: (screenHeight + screenWidth) / 55,),
-                          label: Text('+639 7219-4163',
-                            style: TextStyle(
-                              color: Colors.black54,
-                              fontSize: fontNormalSize,
-                              letterSpacing: 1.2,
-                              fontWeight: FontWeight.bold,
-                              overflow: TextOverflow.visible,),
-                          ),
-                        ),
-
-                        Text(' ', style: TextStyle(color: Colors.black54,fontSize: fontExtraSize, letterSpacing: 1.2,fontWeight: FontWeight.bold, overflow: TextOverflow.visible,),),
-
-                        TextButton(
-                          onPressed: (){
-                            final phoneNumber  = '(02)83523250';
-                            final url = 'tel:$phoneNumber';
-
-                            _launchURL(url);
-                          },
-                          child: Text('(02) 8352-3250',
-                            style: TextStyle(
-                              color: Colors.black54,
-                              fontSize: fontNormalSize,
-                              letterSpacing: 1.2,
-                              fontWeight: FontWeight.bold,
-                              overflow: TextOverflow.visible,),
-                          ),
-                        ),
-                      ],
-                    ),
-
-
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        TextButton.icon(
-                          onPressed: (){
-                            final phoneNumber  = '+63972185329';
-                            final url = 'tel:$phoneNumber';
-
-                            _launchURL(url);
-                          },
-                          icon: Icon(Icons.call, size: (screenHeight + screenWidth) / 55,),
-                          label: Text('+639 7218-5329',
-                            style: TextStyle(
-                              color: Colors.black54,
-                              fontSize: fontNormalSize,
-                              letterSpacing: 1.2,
-                              fontWeight: FontWeight.bold,
-                              overflow: TextOverflow.visible,),
-                          ),
-                        ),
-
-                        Text(' ', style: TextStyle(color: Colors.black54,fontSize: fontExtraSize,letterSpacing: 1.2,fontWeight: FontWeight.bold, overflow: TextOverflow.visible,),),
-
-                        TextButton(
-                          onPressed: (){
-                            final phoneNumber  = '(02)83523250';
-                            final url = 'tel:$phoneNumber';
-
-                            _launchURL(url);
-                          },
-                          child: Text('(02) 8352-3250',
-                            style: TextStyle(
-                              color: Colors.black54,
-                              fontSize: fontNormalSize,
-                              letterSpacing: 1.0,
                               fontWeight: FontWeight.bold,
                               overflow: TextOverflow.visible,),
                           ),
