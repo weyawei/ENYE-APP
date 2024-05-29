@@ -1,3 +1,5 @@
+import 'package:enye_app/screens/service/chat/chat_page.dart';
+import 'package:enye_app/screens/service/tracker/tracker_page.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_session_manager/flutter_session_manager.dart';
@@ -468,6 +470,84 @@ class _ServicePageState extends State<ServicePage> {
                 ),
               ),
 
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              GestureDetector(
+                onTap: (){
+                  if (userSessionFuture == true) {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => ChatPage( message: message,)),
+                    );
+                  } else {
+                    _errorSnackbar(context, "Login first !");
+                  }
+                },
+                child: Container(
+                  height: screenHeight * 0.12,
+                  width: screenWidth * 0.26,
+                  decoration: BoxDecoration(
+                      border: Border.all(width: 2, color: Colors.deepOrange.withOpacity(0.2)),
+                      borderRadius: BorderRadius.circular(10),
+                      image: DecorationImage(
+                        alignment: Alignment(0.0, -0.3),
+                        image: AssetImage("assets/icons/exclamation.png"),
+                        scale: screenLayout ? 3.1 : 1.7,
+                      )
+                  ),
+                  child: Align(
+                    alignment: Alignment.bottomCenter,
+                    child: Container(
+                      padding: EdgeInsets.only(bottom: 15),
+                      child: Text("Forum",
+                        style: GoogleFonts.rowdies(
+                          textStyle: TextStyle(fontSize: fontExtraSize, letterSpacing: 1.5, color: Colors.deepOrange.shade700),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+
+              GestureDetector(
+                onTap: (){
+                  if (userSessionFuture == true) {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => TrackerPage()),
+                    );
+                  } else {
+                    _errorSnackbar(context, "Login first !");
+                  }
+                },
+                child: Container(
+                  height: screenHeight * 0.12,
+                  width: screenWidth * 0.26,
+                  decoration: BoxDecoration(
+                      border: Border.all(width: 2, color: Colors.deepOrange.withOpacity(0.2)),
+                      borderRadius: BorderRadius.circular(10),
+                      image: DecorationImage(
+                        alignment: Alignment(0.0, -0.3),
+                        image: AssetImage("assets/icons/market.png"),
+                        scale: screenLayout ? 3.1 : 1.7,
+                      )
+                  ),
+                  child: Align(
+                    alignment: Alignment.bottomCenter,
+                    child: Container(
+                      padding: EdgeInsets.only(bottom: 15),
+                      child: Text("Tracker",
+                        style: GoogleFonts.rowdies(
+                          textStyle: TextStyle(fontSize: fontExtraSize, letterSpacing: 1.5, color: Colors.deepOrange.shade700),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
             ],
           ),
         ],

@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:math';
 import 'package:file_picker/file_picker.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
@@ -26,12 +27,15 @@ class _BookingSystemState extends State<BookingSystem> {
     _getServices();
     _getEcCalendar();
 
+
+
     //calling session data
     checkSession().getUserSessionStatus().then((bool) {
       if (bool == true) {
         checkSession().getClientsData().then((value) {
           setState(() {
             ClientInfo = value;
+            clientNameController.text = ClientInfo!.name.toString();
           });
         });
         userSessionFuture = bool;
@@ -53,8 +57,9 @@ class _BookingSystemState extends State<BookingSystem> {
   List<DateTime> unavailableDates = [];
 
 
-  bool isChecked = false;
-  bool isTextFieldEnabled = true;
+  bool isChecked = true;
+  bool isTextFieldEnabled = false;
+  RemoteMessage message = RemoteMessage();
 
   String? selectedConcern;
   List<String> availableConcerns = [
@@ -467,39 +472,9 @@ class _BookingSystemState extends State<BookingSystem> {
                   ),
                 ),
 
-                  SizedBox(height: screenHeight * 0.05),
-                  Column(
-                    children: [
-                      InkWell(
-                        onTap: (){
-                          if(disabling != false){
-                            selectFile();
-                          }
-                        },
-                        child: Stack(
-                          children: [
-                            if (filePath != null && _isImage(filePath!.path))
-                              CircleAvatar(
-                                radius: 40,
-                                backgroundImage: FileImage(filePath!),
-                              )
-                            else if (showData != null && showData!.isNotEmpty && _isImage(showData!))
-                              CircleAvatar(
-                                radius: 40,
-                                backgroundImage: FileImage(File(API.clientsImages + showData!)),
-                              )
-                            else
-                              CircleAvatar(
-                                radius: 40,
-                                foregroundColor: Colors.deepOrange,
-                                child: Icon(Icons.insert_drive_file, color: Colors.deepOrange, size: 50),
-                              ),
-                          ],
-                        ),
-                      ),
-                      SizedBox(height: 8), // Add some space between the avatar and the text
-                    ],
-                  ),
+              //    SizedBox(height: screenHeight * 0.05),
+
+
 
 
 
@@ -583,6 +558,69 @@ class _BookingSystemState extends State<BookingSystem> {
                       ),
                     )
                   : SizedBox.shrink(),
+
+                      SizedBox(height: screenHeight * 0.03),
+                  Column(
+                    children: [
+                      if (filePath != null || (showData != null && showData!.isNotEmpty))
+                        InkWell(
+                          onTap: () {
+                            if (disabling != false) {
+                              selectFile();
+                            }
+                          },
+                          child: Stack(
+                            alignment: Alignment.center,
+                            children: [
+                              if ((filePath != null && _isImage(filePath!.path)) ||
+                                  (showData != null && showData!.isNotEmpty && _isImage(showData!)))
+                                CircleAvatar(
+                                  radius: 40,
+                                  backgroundImage: (filePath != null && _isImage(filePath!.path))
+                                      ? FileImage(filePath!)
+                                      : (showData != null && showData!.isNotEmpty && _isImage(showData!))
+                                      ? FileImage(File(API.clientsImages + showData!))
+                                      : null,
+                                  child: null,
+                                ),
+                              
+                            ],
+                          ),
+                        ),
+                      if (filePath != null || (showData != null && showData!.isNotEmpty))
+                        SizedBox(height: 8), // Add some space between the avatar and the text
+                      if (filePath != null || (showData != null && showData!.isNotEmpty))
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            if (filePath != null && !_isImage(filePath!.path))
+                              Icon(Icons.insert_drive_file, color: Colors.deepOrange, size: 24)
+                            else if (showData != null && !_isImage(showData!))
+                              Icon(Icons.insert_drive_file, color: Colors.deepOrange, size: 24),
+                            SizedBox(width: 8),
+                            Flexible(
+                              child: Text(
+                                filePath != null ? filePath!.path.split('/').last : showData!.split('/').last,
+                                overflow: TextOverflow.ellipsis,
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: fontNormalSize,
+                                ),
+                              ),
+                            ),
+                          ],
+                        )
+                      else
+                        Text(
+                          "No Attachment",
+                          style: TextStyle(
+                            color: Colors.grey,
+                            fontSize: 16,
+                          ),
+                        ),
+                    ],
+                  ),
+
                 ],
               ),
             ),
@@ -611,6 +649,7 @@ class _BookingSystemState extends State<BookingSystem> {
                         );
                         clearFields();
                         Navigator.of(context).pop();
+
                       } else {
                         _custSnackbar(
                             context,
@@ -642,6 +681,7 @@ class _BookingSystemState extends State<BookingSystem> {
                         );
                         clearFields();
                         Navigator.of(context).pop();
+
                       } else {
                         _custSnackbar(
                             context,
@@ -673,6 +713,7 @@ class _BookingSystemState extends State<BookingSystem> {
                         );
                         clearFields();
                         Navigator.of(context).pop();
+
                       } else {
                         _custSnackbar(
                             context,
@@ -708,7 +749,7 @@ class _BookingSystemState extends State<BookingSystem> {
     }
   }
 
-  Future<void> sendPushNotifications() async {
+    Future<void> sendPushNotifications() async {
     //final url = 'https://enye.com.ph/enyecontrols_app/login_user/send1.php'; // Replace this with the URL to your PHP script
     String name = clientNameController.text;
 
@@ -850,7 +891,7 @@ class _BookingSystemState extends State<BookingSystem> {
                           isChecked = value ?? false;
                           if (isChecked) {
                             // Set the text from ClientInfo and disable the TextField
-                            clientNameController.text = ClientInfo!.name.toString();
+                            clientNameController.text = ClientInfo?.name.toString() ?? '';
                             isTextFieldEnabled = false;
                           } else {
                             // Clear the text and enable the TextField

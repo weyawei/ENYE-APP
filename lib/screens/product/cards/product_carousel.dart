@@ -51,7 +51,7 @@ class productCarousel extends StatelessWidget {
                         image: DecorationImage(
                           image: NetworkImage("${API.prodImg + products[index].image}"),
                           alignment: Alignment(0.0, -0.70),
-                          fit: BoxFit.fill,
+                          fit: BoxFit.contain,
                         ),
                       ),
                     ),

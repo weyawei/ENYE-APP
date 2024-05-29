@@ -392,7 +392,7 @@ class _detailedProductPageState extends State<detailedProductPage> with TickerPr
                     title: Text(
                       _productDetail[index].title,
                       style: TextStyle(
-                        fontSize: MediaQuery.of(context).size.width * 0.028,
+                        fontSize: MediaQuery.of(context).size.width * 0.029,
                         fontWeight: FontWeight.bold,
                       ),
                       textAlign: TextAlign.center,
@@ -404,7 +404,7 @@ class _detailedProductPageState extends State<detailedProductPage> with TickerPr
                             child: Container(
                               padding: EdgeInsets.symmetric(horizontal: 16.0),
                               child: Text(_productDetail[index].description, maxLines: null, textAlign: TextAlign.justify,
-                                style: TextStyle(fontSize: MediaQuery.of(context).size.width * 0.025, fontStyle: FontStyle.italic, letterSpacing: 1, color: Colors.grey.shade600),
+                                style: TextStyle(fontSize: MediaQuery.of(context).size.width * 0.029, fontStyle: FontStyle.normal, letterSpacing: 1, color: Colors.black),
                               ),
                             ),
                           ),

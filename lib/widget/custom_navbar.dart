@@ -134,7 +134,7 @@ class _CustomNavBarState extends State<CustomNavBar> {
       navBarStyle: NavBarStyle.style4, // Choose the nav bar style with this property.
     );
 
-      BottomAppBar(
+     /* BottomAppBar(
       color: Colors.deepOrange,
       child: SizedBox(
         height: 70,
@@ -172,6 +172,6 @@ class _CustomNavBarState extends State<CustomNavBar> {
           ],
         ),
       ),
-    );
+    );*/
   }
 }

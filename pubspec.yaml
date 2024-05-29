@@ -76,6 +76,7 @@ dependencies:
   pdf: any
   printing: any
   flutter_file_downloader:
+  casa_vertical_stepper:
 
   image_picker:
   file_picker:
