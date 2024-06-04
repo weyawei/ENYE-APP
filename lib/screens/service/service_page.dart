@@ -472,7 +472,7 @@ class _ServicePageState extends State<ServicePage> {
 
             ],
           ),
-          Row(
+         /* Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               GestureDetector(
@@ -549,7 +549,7 @@ class _ServicePageState extends State<ServicePage> {
                 ),
               ),
             ],
-          ),
+          ),*/
         ],
       ),
     );
