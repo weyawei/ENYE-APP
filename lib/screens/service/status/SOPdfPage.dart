@@ -125,7 +125,7 @@ class _SOPdfPreviewPageState extends State<SOPdfPreviewPage> with TickerProvider
         child: PdfPreview(
           pdfFileName: "SO_${_serviceOrder[0].so_no}-${_services[0].project}.pdf",
           loadingWidget: const CupertinoActivityIndicator(),
-          build: (context) => pdfBuilderSO(_serviceOrder[0], _users[0].signature, _services[0]),
+          build: (context) => pdfBuilderSO(_serviceOrder[0], _users[0], _services[0]),
         ),
       ),
     );

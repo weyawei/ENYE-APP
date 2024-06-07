@@ -829,7 +829,7 @@ class _StatusPageState extends State<StatusPage> with TickerProviderStateMixin {
                           softWrap: true,
                           text:TextSpan(
                               children: <TextSpan> [
-                                TextSpan(text: "Title :  ",
+                                TextSpan(text: "Subject :  ",
                                   style: GoogleFonts.poppins(
                                     textStyle: TextStyle(
                                         fontSize: fontXSmallSize,
@@ -1170,89 +1170,7 @@ class _StatusPageState extends State<StatusPage> with TickerProviderStateMixin {
                 )
                     : const SizedBox.shrink(),
 
-                SizedBox(height: screenHeight * 0.01,),
-                ecevent.engineer.isNotEmpty || ecevent.engineer != ""
-                    ? Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Center(
-                      child: Container(
-                        padding: EdgeInsets.symmetric(vertical: 5.0, horizontal: screenWidth * 0.15),
-                        decoration: BoxDecoration(
-                          color: Colors.deepOrange.shade300,
-                          borderRadius: BorderRadius.circular(25.0),
-                          border: Border.all(color: Colors.white70, width: 1.5),
-                        ),
-                        child: Text(
-                          'Person In Charge',
-                          style: TextStyle(
-                            fontSize: fontSmallSize,
-                            letterSpacing: 0.8,
-                            color: Colors.white, // Optionally, set text color
-                          ),
-                        ),
-                      ),
-                    ),
 
-                    ..._users.map((incharge) {
-                      if(_isUserAssigned(ecevent.engineer, incharge.user_id)) {
-                        return Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            Container(
-                              width: (screenWidth + screenHeight) / 25,
-                              height: (screenWidth + screenHeight) / 25,
-                              decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                image: DecorationImage(
-                                  image: incharge.image.isNotEmpty == true && incharge.image != ""
-                                      ? Image.network(API.usersImages + incharge.image).image
-                                      : const AssetImage("assets/icons/user.png"),
-                                ),
-                              ),
-                            ),
-                            Flexible(
-                              child: Container(
-                                width: MediaQuery.of(context).size.width * 0.75,
-                                child: RichText(
-                                  softWrap: true,
-                                  text: TextSpan(children: <TextSpan>
-                                  [
-                                    TextSpan(text: incharge.name,
-                                      style: GoogleFonts.poppins(
-                                        textStyle: TextStyle(
-                                            fontSize: fontSmallSize,
-                                            fontWeight: FontWeight.w800,
-                                            letterSpacing: 0.8,
-                                            color: Colors.black54
-                                        ),
-                                      ),
-                                    ),
-
-                                    TextSpan(text: "\n${_position.where((position) => position.id == incharge.position).elementAtOrNull(0)?.position}",
-                                      style: GoogleFonts.poppins(
-                                        textStyle: TextStyle(
-                                            fontSize: fontXSmallSize,
-                                            fontWeight: FontWeight.w800,
-                                            letterSpacing: 0.8,
-                                            color: Colors.grey
-                                        ),
-                                      ),
-                                    ),
-                                  ]
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ],
-                        );
-                      } else {
-                        return SizedBox.shrink();
-                      }
-                    }).toList(),
-                  ],
-                )
-                    : const SizedBox.shrink(),
 
 
                 ..._servicess.map((ServiceOrder) {
@@ -1477,7 +1395,7 @@ class _StatusPageState extends State<StatusPage> with TickerProviderStateMixin {
                           softWrap: true,
                           text:TextSpan(
                               children: <TextSpan> [
-                                TextSpan(text: "Title :  ",
+                                TextSpan(text: "Subject :  ",
                                   style: GoogleFonts.poppins(
                                     textStyle: TextStyle(
                                         fontSize: fontXSmallSize,
@@ -1980,90 +1898,6 @@ class _StatusPageState extends State<StatusPage> with TickerProviderStateMixin {
                                   overflow: TextOverflow.visible,),
                               ),
                             )
-                          ],
-                        );
-                      } else {
-                        return SizedBox.shrink();
-                      }
-                    }).toList(),
-                  ],
-                )
-                    : const SizedBox.shrink(),
-
-                SizedBox(height: screenHeight * 0.01,),
-                ecevent.engineer.isNotEmpty || ecevent.engineer != ""
-                    ? Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Center(
-                      child: Container(
-                        padding: EdgeInsets.symmetric(vertical: 5.0, horizontal: screenWidth * 0.15),
-                        decoration: BoxDecoration(
-                          color: Colors.deepOrange.shade300,
-                          borderRadius: BorderRadius.circular(25.0),
-                          border: Border.all(color: Colors.white70, width: 1.5),
-                        ),
-                        child: Text(
-                          'Person In Charge',
-                          style: TextStyle(
-                            fontSize: fontSmallSize,
-                            letterSpacing: 0.8,
-                            color: Colors.white, // Optionally, set text color
-                          ),
-                        ),
-                      ),
-                    ),
-
-                    ..._users.map((incharge) {
-                      if(_isUserAssigned(ecevent.engineer, incharge.user_id)) {
-                        return Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            Container(
-                              width: (screenWidth + screenHeight) / 25,
-                              height: (screenWidth + screenHeight) / 25,
-                              decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                image: DecorationImage(
-                                  image: incharge.image.isNotEmpty == true && incharge.image != ""
-                                      ? Image.network(API.usersImages + incharge.image).image
-                                      : const AssetImage("assets/icons/user.png"),
-                                ),
-                              ),
-                            ),
-                            Flexible(
-                              child: Container(
-                                width: MediaQuery.of(context).size.width * 0.75,
-                                child: RichText(
-                                  softWrap: true,
-                                  text: TextSpan(children: <TextSpan>
-                                  [
-                                    TextSpan(text: incharge.name,
-                                      style: GoogleFonts.poppins(
-                                        textStyle: TextStyle(
-                                            fontSize: fontSmallSize,
-                                            fontWeight: FontWeight.w800,
-                                            letterSpacing: 0.8,
-                                            color: Colors.black54
-                                        ),
-                                      ),
-                                    ),
-
-                                    TextSpan(text: "\n${_position.where((position) => position.id == incharge.position).elementAtOrNull(0)?.position}",
-                                      style: GoogleFonts.poppins(
-                                        textStyle: TextStyle(
-                                            fontSize: fontXSmallSize,
-                                            fontWeight: FontWeight.w800,
-                                            letterSpacing: 0.8,
-                                            color: Colors.grey
-                                        ),
-                                      ),
-                                    ),
-                                  ]
-                                  ),
-                                ),
-                              ),
-                            ),
                           ],
                         );
                       } else {

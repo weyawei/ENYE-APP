@@ -10,7 +10,7 @@ import 'package:http/http.dart' as http;
 import '../../../config/config.dart';
 import '../../screens.dart';
 
-Future<Uint8List> pdfBuilderSO(EcSO serviceOrder, String user, EcTSIS service) async {
+Future<Uint8List> pdfBuilderSO(EcSO serviceOrder, EcUsers user, EcTSIS service) async {
   final pdf = Document();
   final imageLogo = MemoryImage(
       (await rootBundle.load('assets/logo/enyecontrols.png')).buffer.asUint8List());
@@ -22,7 +22,7 @@ Future<Uint8List> pdfBuilderSO(EcSO serviceOrder, String user, EcTSIS service) a
       (await rootBundle.load('assets/icons/clipboard.png')).buffer.asUint8List());
 
   final imgConSign = await loadSignatureImage(API.ec_conformeSig, serviceOrder.conforme_signature);
-  final imgUserSign = await loadSignatureImage(API.ec_usersSig, user);
+  final imgUserSign = await loadSignatureImage(API.ec_usersSig, user.signature);
 
   pdf.addPage(
     MultiPage(
@@ -377,7 +377,7 @@ Future<Uint8List> pdfBuilderSO(EcSO serviceOrder, String user, EcTSIS service) a
                   child: Padding(
                     padding: const EdgeInsets.only(top: 4, bottom: 4, left: 5),
                     child: Text(
-                        service.client_name.toUpperCase(),
+                        user.username.toUpperCase(),
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           fontSize: 10,
