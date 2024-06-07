@@ -10,6 +10,8 @@ import 'package:url_launcher/url_launcher.dart';
 import '../../../config/config.dart';
 import '../../../widget/widgets.dart';
 import '../../screens.dart';
+import '../ec_technical_data.dart';
+import '../ec_technical_svc.dart';
 import '../status/SOPdfPage.dart';
 
 class HistoryPage extends StatefulWidget {
@@ -44,6 +46,8 @@ class _HistoryPageState extends State<HistoryPage> with TickerProviderStateMixin
     _appointment = [];
     _servicess = [];
 
+    _ecSO = [];
+
     //calling session data
     checkSession().getUserSessionStatus().then((bool) {
       if (bool == true) {
@@ -54,6 +58,8 @@ class _HistoryPageState extends State<HistoryPage> with TickerProviderStateMixin
           _getPosition();
           _getServicess();
           _getUsers();
+
+          _getEcSO();
         });
         userSessionFuture = bool;
       } else {
@@ -137,6 +143,16 @@ class _HistoryPageState extends State<HistoryPage> with TickerProviderStateMixin
     TechnicalDataServices.getServiceAppoint().then((ServiceAppointment){
       setState(() {
         _appointment = ServiceAppointment;
+      });
+    });
+  }
+
+  late List<EcSO> _ecSO;
+
+  _getEcSO(){
+    ECTechnicalDataServices.getEcSO().then((EcSO){
+      setState(() {
+        _ecSO = EcSO;
       });
     });
   }
@@ -1049,13 +1065,13 @@ class _HistoryPageState extends State<HistoryPage> with TickerProviderStateMixin
                   : const SizedBox.shrink(),
 
 
-              ..._servicess.map((ServiceOrder) {
-                if(ServiceOrder.svc_id == service.id) {
+              ..._ecSO.map((ServiceOrder) {
+                if(ServiceOrder.tsis_id == service.tsis_id) {
                   return TextButton(
                     onPressed: () {
                       Navigator.of(context).push(
                         MaterialPageRoute(
-                          builder: (context) => SOPdfPreviewPage(serviceOrder: ServiceOrder),
+                          builder: (context) => SOPdfPreviewPage(so_id: ServiceOrder.so_id),
                         ),
                       );
                     },

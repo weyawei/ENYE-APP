@@ -1,5 +1,6 @@
 import 'dart:typed_data';
 
+import 'package:enye_app/screens/service/ec_technical_data.dart';
 import 'package:pdf/pdf.dart';
 
 import 'package:pdf/widgets.dart';
@@ -9,7 +10,7 @@ import 'package:http/http.dart' as http;
 import '../../../config/config.dart';
 import '../../screens.dart';
 
-Future<Uint8List> pdfBuilderSO(ServiceOrder serviceOrder, UsersInfo user, TechnicalData service) async {
+Future<Uint8List> pdfBuilderSO(EcSO serviceOrder, String user, EcTSIS service) async {
   final pdf = Document();
   final imageLogo = MemoryImage(
       (await rootBundle.load('assets/logo/enyecontrols.png')).buffer.asUint8List());
@@ -20,8 +21,8 @@ Future<Uint8List> pdfBuilderSO(ServiceOrder serviceOrder, UsersInfo user, Techni
   final imgTesting = MemoryImage(
       (await rootBundle.load('assets/icons/clipboard.png')).buffer.asUint8List());
 
-  final imgConSign = await loadSignatureImage(API.conformeSig, serviceOrder.conformeSig);
-  final imgUserSign = await loadSignatureImage(API.userSign, user.signImg);
+  final imgConSign = await loadSignatureImage(API.ec_conformeSig, serviceOrder.conforme_signature);
+  final imgUserSign = await loadSignatureImage(API.ec_usersSig, user);
 
   pdf.addPage(
     MultiPage(
@@ -164,28 +165,28 @@ Future<Uint8List> pdfBuilderSO(ServiceOrder serviceOrder, UsersInfo user, Techni
                         children: [
                           tableTextTitleStart("SVC #"),
                           tableTextTitleStart(":"),
-                          tableTextBodyStart(service.svcId),
+                          tableTextBodyStart(service.tsis_no),
                         ],
                       ),
                       TableRow(
                         children: [
                           tableTextTitleStart("Project"),
                           tableTextTitleStart(":"),
-                          tableTextBodyStart(service.clientProjName)
+                          tableTextBodyStart(service.project)
                         ],
                       ),
                       TableRow(
                         children: [
                           tableTextTitleStart("Address"),
                           tableTextTitleStart(":"),
-                          tableTextBodyStart(service.clientLocation),
+                          tableTextBodyStart(service.location),
                         ],
                       ),
                       TableRow(
                         children: [
                           tableTextTitleStart("Client"),
                           tableTextTitleStart(":"),
-                          tableTextBodyStart(service.reqName),
+                          tableTextBodyStart(service.client_name),
                         ],
                       )
                     ]
@@ -376,7 +377,7 @@ Future<Uint8List> pdfBuilderSO(ServiceOrder serviceOrder, UsersInfo user, Techni
                   child: Padding(
                     padding: const EdgeInsets.only(top: 4, bottom: 4, left: 5),
                     child: Text(
-                        user.name.toUpperCase(),
+                        service.client_name.toUpperCase(),
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           fontSize: 10,

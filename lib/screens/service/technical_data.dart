@@ -1,6 +1,7 @@
 //values na meron si booking galing sa database
 class TechnicalData {
   String id;
+  String tsis_id;
   String svcId;
   String service;
   String svcTitle;
@@ -25,6 +26,7 @@ class TechnicalData {
 
   TechnicalData({
     required this.id,
+    required this.tsis_id,
     required this.svcId,
     required this.service,
     required this.svcTitle,
@@ -51,6 +53,7 @@ class TechnicalData {
   factory TechnicalData.fromJson(Map<String, dynamic> json) {
     return TechnicalData(
       id: json['id'] as String,
+      tsis_id: json['tsis_id'] as String,
       svcId: json['svc_id'] as String,
       service: json['service'] as String,
       svcTitle: json['svc_title'] as String,

@@ -1,3 +1,4 @@
+import 'package:enye_app/screens/service/ec_technical_data.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
@@ -10,6 +11,7 @@ import 'package:url_launcher/url_launcher.dart';
 import '../../../config/config.dart';
 import '../../../widget/widgets.dart';
 import '../../screens.dart';
+import '../ec_technical_svc.dart';
 import 'SOPdfPage.dart';
 
 class StatusPage extends StatefulWidget {
@@ -54,6 +56,11 @@ class _StatusPageState extends State<StatusPage> with TickerProviderStateMixin {
     _position = [];
     _appointment = [];
 
+    _ecUsers = [];
+    _ecEvent = [];
+    _ecSO = [];
+    _ecTSIS = [];
+
     //calling session data
     checkSession().getUserSessionStatus().then((bool) {
       if (bool == true) {
@@ -64,6 +71,11 @@ class _StatusPageState extends State<StatusPage> with TickerProviderStateMixin {
           _getUsers();
           _getPosition();
           _getAppointment();
+
+          _getEcUsers();
+          _getEcEvent();
+          _getEcSO();
+          _getEcTSIS();
         });
         userSessionFuture = bool;
       } else {
@@ -174,6 +186,47 @@ class _StatusPageState extends State<StatusPage> with TickerProviderStateMixin {
     TechnicalDataServices.getServiceAppoint().then((ServiceAppointment){
       setState(() {
         _appointment = ServiceAppointment;
+      });
+    });
+  }
+
+
+  late List<EcUsers> _ecUsers;
+
+  _getEcUsers(){
+    ECTechnicalDataServices.getEcUsers().then((EcUsers){
+      setState(() {
+        _ecUsers = EcUsers;
+      });
+    });
+  }
+
+  late List<EcEvent> _ecEvent;
+
+  _getEcEvent(){
+    ECTechnicalDataServices.getEcEvents().then((EcEvent){
+      setState(() {
+        _ecEvent = EcEvent;
+      });
+    });
+  }
+
+  late List<EcSO> _ecSO;
+
+  _getEcSO(){
+    ECTechnicalDataServices.getEcSO().then((EcSO){
+      setState(() {
+        _ecSO = EcSO;
+      });
+    });
+  }
+
+  late List<EcTSIS> _ecTSIS;
+
+  _getEcTSIS(){
+    ECTechnicalDataServices.getEcTSIS().then((EcTSIS){
+      setState(() {
+        _ecTSIS = EcTSIS;
       });
     });
   }
@@ -571,6 +624,9 @@ class _StatusPageState extends State<StatusPage> with TickerProviderStateMixin {
 
                         ServiceAppointment? appointment = _appointment.where((appoint) => _filteredServices[index].id == appoint.svc_id).elementAtOrNull(0);
 
+                        EcSO? ecServiceOrder = _ecSO.where((ecso) => _filteredServices[index].tsis_id == ecso.tsis_id).elementAtOrNull(0);
+                        EcEvent? ecEvent = _ecEvent.where((ecevent) => _filteredServices[index].tsis_id == ecevent.tsis_id).elementAtOrNull(0);
+
                         return AnimationConfiguration.staggeredList(
                           position: index,
                           child: SlideAnimation(
@@ -588,11 +644,11 @@ class _StatusPageState extends State<StatusPage> with TickerProviderStateMixin {
                                         if (_filteredServices[index].status ==
                                             "Set-sched") {
                                           _showBottomSheet1(context,
-                                              _filteredServices[index], appointment!);
+                                              _filteredServices[index], ecServiceOrder!, ecEvent!);
                                         }
 
                                       if(_filteredServices[index].status == "On Process"){
-                                        _showBottomSheet2(context, _filteredServices[index], appointment!);
+                                        _showBottomSheet2(context, _filteredServices[index], ecServiceOrder!, ecEvent!);
                                       }
                                     },
                                     child: TaskTile(services: _filteredServices[index]),
@@ -704,7 +760,7 @@ class _StatusPageState extends State<StatusPage> with TickerProviderStateMixin {
 
 
 
-  _showBottomSheet1 (BuildContext context, TechnicalData services, ServiceAppointment appointment) {
+  _showBottomSheet1 (BuildContext context, TechnicalData services, EcSO ecso, EcEvent ecevent) {
 
     showModalBottomSheet(
         isScrollControlled: true,
@@ -873,7 +929,7 @@ class _StatusPageState extends State<StatusPage> with TickerProviderStateMixin {
                           ),
                           const SizedBox(width: 4),
                           Text(
-                            '${DateFormat.yMMMMd().format(DateTime.parse(appointment.start_datetime))} TO ${DateFormat.yMMMMd().format(DateTime.parse(appointment.end_datetime))}',
+                            '${DateFormat.yMMMMd().format(DateTime.parse(ecso.time_in))} TO ${DateFormat.yMMMMd().format(DateTime.parse(ecso.time_out))}',
                             style: GoogleFonts.poppins(
                               textStyle: TextStyle(
                                 fontSize: fontSmallSize,
@@ -896,7 +952,7 @@ class _StatusPageState extends State<StatusPage> with TickerProviderStateMixin {
                           ),
                           const SizedBox(width: 4),
                           Text(
-                            '${DateFormat.jm().format(DateTime.parse(appointment.start_datetime))} - ${DateFormat.jm().format(DateTime.parse(appointment.end_datetime))}',
+                            '${DateFormat.jm().format(DateTime.parse(ecso.time_in))} - ${DateFormat.jm().format(DateTime.parse(ecso.time_out))}',
                             style: GoogleFonts.poppins(
                               textStyle: TextStyle(
                                 fontSize: fontSmallSize,
@@ -916,7 +972,7 @@ class _StatusPageState extends State<StatusPage> with TickerProviderStateMixin {
 
                 // service.status == "On Process" ?
                 SizedBox(height: screenHeight * 0.02,),
-                appointment.engineer.isNotEmpty || appointment.engineer != ""
+                ecevent.engineer.isNotEmpty || ecevent.engineer != ""
                     ? Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
@@ -939,8 +995,8 @@ class _StatusPageState extends State<StatusPage> with TickerProviderStateMixin {
                       ),
                     ),
 
-                    ..._users.map((engineer) {
-                      if(_isUserAssigned(appointment.engineer, engineer.user_id)) {
+                    ..._ecUsers.map((engineer) {
+                      if(_isUserAssigned(ecevent.engineer, engineer.username)) {
                         return Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
@@ -950,8 +1006,8 @@ class _StatusPageState extends State<StatusPage> with TickerProviderStateMixin {
                               decoration: BoxDecoration(
                                 shape: BoxShape.circle,
                                 image: DecorationImage(
-                                  image: engineer.image.isNotEmpty == true && engineer.image != ""
-                                      ? Image.network(API.usersImages + engineer.image).image
+                                  image: engineer.picture.isNotEmpty == true && engineer.picture != ""
+                                      ? Image.network(API.ec_usersImg + engineer.picture).image
                                       : const AssetImage("assets/icons/user.png"),
                                 ),
                               ),
@@ -963,7 +1019,7 @@ class _StatusPageState extends State<StatusPage> with TickerProviderStateMixin {
                                   softWrap: true,
                                   text: TextSpan(children: <TextSpan>
                                   [
-                                    TextSpan(text: engineer.name,
+                                    TextSpan(text: engineer.username,
                                       style: GoogleFonts.poppins(
                                         textStyle: TextStyle(
                                             fontSize: fontSmallSize,
@@ -974,7 +1030,7 @@ class _StatusPageState extends State<StatusPage> with TickerProviderStateMixin {
                                       ),
                                     ),
 
-                                    TextSpan(text: "\n${_position.where((position) => position.id == engineer.position).elementAtOrNull(0)?.position} ",
+                                    TextSpan(text: "\n${engineer.role_type} ",
                                       style: GoogleFonts.poppins(
                                         textStyle: TextStyle(
                                             fontSize: fontXSmallSize,
@@ -991,13 +1047,13 @@ class _StatusPageState extends State<StatusPage> with TickerProviderStateMixin {
                             ),
                             TextButton.icon(
                               onPressed: (){
-                                final phoneNumber  = engineer.contact;
+                                final phoneNumber  = engineer.mobile;
                                 final url = 'tel:$phoneNumber';
 
                                 _launchURL(url);
                               },
                               icon: Icon(Icons.call, size: fontNormalSize,),
-                              label: Text(engineer.contact,
+                              label: Text(engineer.mobile,
                                 style: TextStyle(
                                   color: Colors.black54,
                                   letterSpacing: 1.0,
@@ -1016,7 +1072,7 @@ class _StatusPageState extends State<StatusPage> with TickerProviderStateMixin {
 
 
                 SizedBox(height: screenHeight * 0.01,),
-                appointment.technician.isNotEmpty || appointment.technician != ""
+                ecevent.technician.isNotEmpty || ecevent.technician != ""
                     ? Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
@@ -1039,8 +1095,8 @@ class _StatusPageState extends State<StatusPage> with TickerProviderStateMixin {
                       ),
                     ),
 
-                    ..._users.map((technician) {
-                      if(_isUserAssigned(appointment.technician, technician.user_id)) {
+                    ..._ecUsers.map((technician) {
+                      if(_isUserAssigned(ecevent.technician, technician.username)) {
                         return Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
@@ -1050,8 +1106,8 @@ class _StatusPageState extends State<StatusPage> with TickerProviderStateMixin {
                               decoration: BoxDecoration(
                                 shape: BoxShape.circle,
                                 image: DecorationImage(
-                                  image: technician.image.isNotEmpty == true && technician.image != ""
-                                      ? Image.network(API.usersImages + technician.image).image
+                                  image: technician.picture.isNotEmpty == true && technician.picture != ""
+                                      ? Image.network(API.usersImages + technician.picture).image
                                       : const AssetImage("assets/icons/user.png"),
                                 ),
                               ),
@@ -1063,7 +1119,7 @@ class _StatusPageState extends State<StatusPage> with TickerProviderStateMixin {
                                   softWrap: true,
                                   text: TextSpan(children: <TextSpan>
                                   [
-                                    TextSpan(text: technician.name,
+                                    TextSpan(text: technician.username,
                                       style: GoogleFonts.poppins(
                                         textStyle: TextStyle(
                                             fontSize: fontSmallSize,
@@ -1074,7 +1130,7 @@ class _StatusPageState extends State<StatusPage> with TickerProviderStateMixin {
                                       ),
                                     ),
 
-                                    TextSpan(text: "\n${_position.where((position) => position.id == technician.position).elementAtOrNull(0)?.position}",
+                                    TextSpan(text: "\n${technician.role_type}",
                                       style: GoogleFonts.poppins(
                                         textStyle: TextStyle(
                                             fontSize: fontXSmallSize,
@@ -1091,13 +1147,13 @@ class _StatusPageState extends State<StatusPage> with TickerProviderStateMixin {
                             ),
                             TextButton.icon(
                               onPressed: (){
-                                final phoneNumber  = technician.contact;
+                                final phoneNumber  = technician.mobile;
                                 final url = 'tel:$phoneNumber';
 
                                 _launchURL(url);
                               },
                               icon: Icon(Icons.call, size: fontNormalSize,),
-                              label: Text(technician.contact,
+                              label: Text(technician.mobile,
                                 style: TextStyle(
                                   color: Colors.black54,
                                   letterSpacing: 1.0,
@@ -1115,7 +1171,7 @@ class _StatusPageState extends State<StatusPage> with TickerProviderStateMixin {
                     : const SizedBox.shrink(),
 
                 SizedBox(height: screenHeight * 0.01,),
-                appointment.in_charge.isNotEmpty || appointment.in_charge != ""
+                ecevent.engineer.isNotEmpty || ecevent.engineer != ""
                     ? Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
@@ -1139,7 +1195,7 @@ class _StatusPageState extends State<StatusPage> with TickerProviderStateMixin {
                     ),
 
                     ..._users.map((incharge) {
-                      if(_isUserAssigned(appointment.in_charge, incharge.user_id)) {
+                      if(_isUserAssigned(ecevent.engineer, incharge.user_id)) {
                         return Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
@@ -1205,7 +1261,7 @@ class _StatusPageState extends State<StatusPage> with TickerProviderStateMixin {
                       onPressed: () {
                         Navigator.of(context).push(
                           MaterialPageRoute(
-                            builder: (context) => SOPdfPreviewPage(serviceOrder: ServiceOrder),
+                            builder: (context) => SOPdfPreviewPage(so_id: ecso.so_id),
                           ),
                         );
                       },
@@ -1373,7 +1429,7 @@ class _StatusPageState extends State<StatusPage> with TickerProviderStateMixin {
 
 
 
-  _showBottomSheet2 (BuildContext context, TechnicalData service, ServiceAppointment appointment) {
+  _showBottomSheet2 (BuildContext context, TechnicalData service, EcSO ecso, EcEvent ecevent) {
 
     showModalBottomSheet(
         isScrollControlled: true,
@@ -1521,7 +1577,7 @@ class _StatusPageState extends State<StatusPage> with TickerProviderStateMixin {
                           ),
                           const SizedBox(width: 4),
                           Text(
-                            '${DateFormat.yMMMMd().format(DateTime.parse(appointment.start_datetime))} TO ${DateFormat.yMMMMd().format(DateTime.parse(appointment.end_datetime))}',
+                            '${DateFormat.yMMMMd().format(DateTime.parse(ecevent.start))} TO ${DateFormat.yMMMMd().format(DateTime.parse(ecevent.end))}',
                             style: GoogleFonts.poppins(
                               textStyle: TextStyle(
                                 fontSize: fontSmallSize,
@@ -1544,7 +1600,7 @@ class _StatusPageState extends State<StatusPage> with TickerProviderStateMixin {
                           ),
                           const SizedBox(width: 4),
                           Text(
-                            '${DateFormat.jm().format(DateTime.parse(appointment.start_datetime))} - ${DateFormat.jm().format(DateTime.parse(appointment.end_datetime))}',
+                            '${DateFormat.jm().format(DateTime.parse(ecevent.start))} - ${DateFormat.jm().format(DateTime.parse(ecevent.end))}',
                             style: GoogleFonts.poppins(
                               textStyle: TextStyle(
                                 fontSize: fontSmallSize,
@@ -1734,7 +1790,7 @@ class _StatusPageState extends State<StatusPage> with TickerProviderStateMixin {
 
                // service.status == "On Process" ?
                 SizedBox(height: screenHeight * 0.02,),
-                appointment.engineer.isNotEmpty || appointment.engineer != ""
+                ecevent.engineer.isNotEmpty || ecevent.engineer != ""
                     ? Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
@@ -1757,8 +1813,8 @@ class _StatusPageState extends State<StatusPage> with TickerProviderStateMixin {
                       ),
                     ),
 
-                    ..._users.map((engineer) {
-                      if(_isUserAssigned(appointment.engineer, engineer.user_id)) {
+                    ..._ecUsers.map((engineer) {
+                      if(_isUserAssigned(ecevent.engineer, engineer.username)) {
                         return Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
@@ -1768,8 +1824,8 @@ class _StatusPageState extends State<StatusPage> with TickerProviderStateMixin {
                               decoration: BoxDecoration(
                                 shape: BoxShape.circle,
                                 image: DecorationImage(
-                                  image: engineer.image.isNotEmpty == true && engineer.image != ""
-                                      ? Image.network(API.usersImages + engineer.image).image
+                                  image: engineer.picture.isNotEmpty == true && engineer.picture != ""
+                                      ? Image.network(API.ec_usersImg + engineer.picture).image
                                       : const AssetImage("assets/icons/user.png"),
                                 ),
                               ),
@@ -1781,7 +1837,7 @@ class _StatusPageState extends State<StatusPage> with TickerProviderStateMixin {
                                   softWrap: true,
                                   text: TextSpan(children: <TextSpan>
                                   [
-                                    TextSpan(text: engineer.name,
+                                    TextSpan(text: engineer.username,
                                       style: GoogleFonts.poppins(
                                         textStyle: TextStyle(
                                             fontSize: fontSmallSize,
@@ -1792,7 +1848,7 @@ class _StatusPageState extends State<StatusPage> with TickerProviderStateMixin {
                                       ),
                                     ),
 
-                                    TextSpan(text: "\n${_position.where((position) => position.id == engineer.position).elementAtOrNull(0)?.position}",
+                                    TextSpan(text: "\n${engineer.role_type}",
                                       style: GoogleFonts.poppins(
                                         textStyle: TextStyle(
                                             fontSize: fontXSmallSize,
@@ -1809,13 +1865,13 @@ class _StatusPageState extends State<StatusPage> with TickerProviderStateMixin {
                             ),
                             TextButton.icon(
                               onPressed: (){
-                                final phoneNumber  = engineer.contact;
+                                final phoneNumber  = engineer.mobile;
                                 final url = 'tel:$phoneNumber';
 
                                 _launchURL(url);
                               },
                               icon: Icon(Icons.call, size: fontNormalSize,),
-                              label: Text(engineer.contact,
+                              label: Text(engineer.mobile,
                                 style: TextStyle(
                                   color: Colors.black54,
                                   letterSpacing: 1.0,
@@ -1835,7 +1891,7 @@ class _StatusPageState extends State<StatusPage> with TickerProviderStateMixin {
 
 
                 SizedBox(height: screenHeight * 0.01,),
-                appointment.technician.isNotEmpty || appointment.technician != ""
+                ecevent.technician.isNotEmpty || ecevent.technician != ""
                     ? Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
@@ -1858,8 +1914,8 @@ class _StatusPageState extends State<StatusPage> with TickerProviderStateMixin {
                       ),
                     ),
 
-                    ..._users.map((technician) {
-                      if(_isUserAssigned(appointment.technician, technician.user_id)) {
+                    ..._ecUsers.map((technician) {
+                      if(_isUserAssigned(ecevent.technician, technician.username)) {
                         return Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
@@ -1869,8 +1925,8 @@ class _StatusPageState extends State<StatusPage> with TickerProviderStateMixin {
                               decoration: BoxDecoration(
                                 shape: BoxShape.circle,
                                 image: DecorationImage(
-                                  image: technician.image.isNotEmpty == true && technician.image != ""
-                                      ? Image.network(API.usersImages + technician.image).image
+                                  image: technician.picture.isNotEmpty == true && technician.picture != ""
+                                      ? Image.network(API.ec_usersImg + technician.picture).image
                                       : const AssetImage("assets/icons/user.png"),
                                 ),
                               ),
@@ -1882,7 +1938,7 @@ class _StatusPageState extends State<StatusPage> with TickerProviderStateMixin {
                                   softWrap: true,
                                   text: TextSpan(children: <TextSpan>
                                   [
-                                    TextSpan(text: technician.name,
+                                    TextSpan(text: technician.username,
                                       style: GoogleFonts.poppins(
                                         textStyle: TextStyle(
                                             fontSize: fontSmallSize,
@@ -1893,7 +1949,7 @@ class _StatusPageState extends State<StatusPage> with TickerProviderStateMixin {
                                       ),
                                     ),
 
-                                    TextSpan(text: "\n${_position.where((position) => position.id == technician.position).elementAtOrNull(0)?.position} ",
+                                    TextSpan(text: "\n${technician.role_type} ",
                                       style: GoogleFonts.poppins(
                                         textStyle: TextStyle(
                                             fontSize: fontXSmallSize,
@@ -1910,13 +1966,13 @@ class _StatusPageState extends State<StatusPage> with TickerProviderStateMixin {
                             ),
                             TextButton.icon(
                               onPressed: (){
-                                final phoneNumber  = technician.contact;
+                                final phoneNumber  = technician.mobile;
                                 final url = 'tel:$phoneNumber';
 
                                 _launchURL(url);
                               },
                               icon: Icon(Icons.call, size: fontNormalSize,),
-                              label: Text(technician.contact,
+                              label: Text(technician.mobile,
                                 style: TextStyle(
                                   color: Colors.black54,
                                   letterSpacing: 1.0,
@@ -1935,7 +1991,7 @@ class _StatusPageState extends State<StatusPage> with TickerProviderStateMixin {
                     : const SizedBox.shrink(),
 
                 SizedBox(height: screenHeight * 0.01,),
-                appointment.in_charge.isNotEmpty || appointment.in_charge != ""
+                ecevent.engineer.isNotEmpty || ecevent.engineer != ""
                     ? Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
@@ -1959,7 +2015,7 @@ class _StatusPageState extends State<StatusPage> with TickerProviderStateMixin {
                     ),
 
                     ..._users.map((incharge) {
-                      if(_isUserAssigned(appointment.in_charge, incharge.user_id)) {
+                      if(_isUserAssigned(ecevent.engineer, incharge.user_id)) {
                         return Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
@@ -2019,13 +2075,13 @@ class _StatusPageState extends State<StatusPage> with TickerProviderStateMixin {
                     : const SizedBox.shrink(),
 
 
-                ..._servicess.map((ServiceOrder) {
-                  if(ServiceOrder.svc_id == service.id) {
+                ..._ecSO.map((Ecso) {
+                  if(Ecso.tsis_id == service.tsis_id) {
                     return TextButton(
                       onPressed: () {
                         Navigator.of(context).push(
                           MaterialPageRoute(
-                            builder: (context) => SOPdfPreviewPage(serviceOrder: ServiceOrder),
+                            builder: (context) => SOPdfPreviewPage(so_id: ecso.so_id),
                           ),
                         );
                       },
@@ -2041,8 +2097,8 @@ class _StatusPageState extends State<StatusPage> with TickerProviderStateMixin {
                           ), // Example icon
                           SizedBox(width: 8), // Space between icon and text
                           Text(
-                            "SO# " + ServiceOrder.so_no + " - " +
-                                ServiceOrder.date_so,
+                            "SO# " + Ecso.so_no + " - " +
+                                Ecso.date_so,
                             style: TextStyle(
                               height: 1.5,
                               fontSize: 12,

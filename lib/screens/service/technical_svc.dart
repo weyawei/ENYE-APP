@@ -20,6 +20,11 @@ class TechnicalDataServices {
   static const GET_ALL_USERS = 'get_all_users';
   static const GET_ALL_SERVICEAPPOINT = 'get_all_serviceappoint';
 
+  static const GET_ALL_ECUSERS = 'get_all_ecusers';
+  static const GET_ALL_TSIS = 'get_all_tsis';
+  static const GET_ALL_ECSO = 'get_all_ecso';
+  static const GET_ALL_EVENTS = 'get_all_events';
+
 
   //get data users position from database
   static Future <List<ServiceOrder>> getServiceOrder() async {

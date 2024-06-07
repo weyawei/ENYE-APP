@@ -57,4 +57,9 @@ class API {
   static const conformeSig = "$hostConnect/admin/conforme_signature/";
   static const userSign = "$hostConnect/admin/users_signature/";
   static const users = "$hostConnect/admin/features/users.php";
+
+  static const ec_usersImg = "https://enyecontrols.com/enyecontrols_engineering/images/main_users/";
+  static const ec_conformeSig = "https://enyecontrols.com/enyecontrols_engineering/signs_conforme_by/";
+  static const ec_usersSig = "https://enyecontrols.com/enyecontrols_engineering/images/signatures/";
 }
+

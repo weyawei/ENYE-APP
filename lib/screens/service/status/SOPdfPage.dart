@@ -1,14 +1,16 @@
+import 'package:enye_app/screens/service/ec_technical_data.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:printing/printing.dart';
 import '../../../widget/widgets.dart';
 import '../../screens.dart';
+import '../ec_technical_svc.dart';
 import 'SOPdf_helper.dart';
 
 class SOPdfPreviewPage extends StatefulWidget {
-  final ServiceOrder serviceOrder;
-  const SOPdfPreviewPage({Key? key, required this.serviceOrder}) : super(key: key);
+  final String so_id;
+  const SOPdfPreviewPage({Key? key, required this.so_id}) : super(key: key);
 
   @override
   State<SOPdfPreviewPage> createState() => _SOPdfPreviewPageState();
@@ -25,14 +27,14 @@ class _SOPdfPreviewPageState extends State<SOPdfPreviewPage> with TickerProvider
 
   bool _isLoading = true;
 
-  List<ServiceOrder> _serviceOrder = [];
+  List<EcSO> _serviceOrder = [];
   _getServiceOrder(){
-    TechnicalDataServices.getServiceOrderData(widget.serviceOrder.id).then((getServiceOrder) {
+    ECTechnicalDataServices.getEcSOPDF(widget.so_id).then((getServiceOrder) {
       setState(() {
         _serviceOrder = getServiceOrder;
         if (_serviceOrder.isNotEmpty) {
-          _getUsers(_serviceOrder[0].serviceBy);
-          _getServices(_serviceOrder[0].svc_id);
+          _getAccounts(_serviceOrder[0].service_by);
+          _getTsis(_serviceOrder[0].tsis_id);
         } else {
           // Handle the case where no SO numbers are retrieved.
           _isLoading = false;
@@ -42,14 +44,24 @@ class _SOPdfPreviewPageState extends State<SOPdfPreviewPage> with TickerProvider
     });
   }
 
-  List<UserAdminData2> _users = [];
-  _getAccounts(String servicedBy){
-    TechnicalDataServices.handlerData2().then((UserAdminData){
+  List<EcUsers> _users = [];
+  _getAccounts(String serviced_by){
+    ECTechnicalDataServices.getEcUsers().then((ecUsers){
       setState(() {
-        _users = UserAdminData.where((account) => account.user_id == servicedBy).toList();
+        _users = ecUsers.where((account) => _isUserAssigned(serviced_by, account.username)).toList();
       });
     });
   }
+
+  bool _isUserAssigned(String usersInCharge, String userId) {
+    if (usersInCharge != null || usersInCharge != "") {
+      List<String> userInChargeList = usersInCharge.split(',').map((e) => e.trim()).toList();
+      return userInChargeList.contains(userId);
+    }
+
+    return false;
+  }
+
 
   List<UsersInfo> _users2 = [];
   _getUsers(String servicedBy){
@@ -60,15 +72,16 @@ class _SOPdfPreviewPageState extends State<SOPdfPreviewPage> with TickerProvider
     });
   }
 
-  List<TechnicalData> _services = [];
-  _getServices(String svcId){
-    TechnicalDataServices.getTechnicalData().then((technicalData){
+  List<EcTSIS> _services = [];
+  _getTsis(String TsisId){
+    ECTechnicalDataServices.getEcTSIS().then((ecTsis){
       setState(() {
-        _services = technicalData.where((service) => service.id == svcId).toList();
+        _services = ecTsis.where((service) => service.tsis_id == TsisId).toList();
         _isLoading = false;
       });
     });
   }
+
 
   late final AnimationController _controller = AnimationController(
     duration: const Duration(seconds: 60),
@@ -110,9 +123,9 @@ class _SOPdfPreviewPageState extends State<SOPdfPreviewPage> with TickerProvider
         minScale: 0.5,
         maxScale: 4,
         child: PdfPreview(
-          pdfFileName: "SO_${_serviceOrder[0].so_no}-${_services[0].clientProjName}.pdf",
+          pdfFileName: "SO_${_serviceOrder[0].so_no}-${_services[0].project}.pdf",
           loadingWidget: const CupertinoActivityIndicator(),
-          build: (context) => pdfBuilderSO(_serviceOrder[0], _users2[0], _services[0]),
+          build: (context) => pdfBuilderSO(_serviceOrder[0], _users[0].signature, _services[0]),
         ),
       ),
     );
