@@ -36,9 +36,15 @@ export 'service/booking_service.dart';
 export 'service/technical_data.dart';
 export 'service/technical_svc.dart';
 export 'service/tasktile_page.dart';
+export 'service/ec_technical_data.dart';
+export 'service/ec_technical_svc.dart';
 
 export 'service/status/status_page.dart';
+export 'service/status/SOPdfPage.dart';
+export 'service/status/SOPdf_helper.dart';
+
 export 'service/history/history_page.dart';
+export 'service/history/history_view_page.dart';
 
 export 'service/help/help_page.dart';
 export 'service/help/content_model.dart';
