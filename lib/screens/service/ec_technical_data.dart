@@ -122,7 +122,7 @@ class EcSO {
       status: json['status'] as String? ?? '',
       remark: json['remark'] as String? ?? '',
       service: json['service'] as String? ?? '',
-      service_by: json['service_by'] as String? ?? '',
+      service_by: json['serviced_by'] as String? ?? '',
       conforme: json['conforme'] as String? ?? '',
       conforme_signature: json['conforme_signature'] as String? ?? '',
       coc: json['coc'] as String? ?? '',
