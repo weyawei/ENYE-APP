@@ -219,13 +219,14 @@ class _PasswordTextFieldState extends State<PasswordTextField> {
 
   @override
   Widget build(BuildContext context) {
-
+    double screenHeight = MediaQuery.of(context).size.height;
     double screenWidth = MediaQuery.of(context).size.width;
 
     var fontNormalSize = ResponsiveTextUtils.getNormalFontSize(screenWidth);
 
-    return Padding(
+    return Container(
       padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.06),
+      height: screenHeight * 0.06,
       child: TextFormField(
         style: GoogleFonts.lato(
           textStyle:
@@ -249,14 +250,14 @@ class _PasswordTextFieldState extends State<PasswordTextField> {
               fontSize: fontNormalSize,
               letterSpacing: 0.8
           ),
-          prefixIcon: Icon(Icons.lock),
+          prefixIcon: Icon(Icons.lock, size: fontNormalSize * 1.5),
           suffixIcon: InkWell(
             onTap: (){
               setState((){
                 passToggle = !passToggle;
               });
             },
-            child: Icon(passToggle ? Icons.visibility : Icons.visibility_off),
+            child: Icon(passToggle ? Icons.visibility : Icons.visibility_off, size: fontNormalSize * 1.5),
           ),
           enabledBorder: OutlineInputBorder(
             borderSide: BorderSide(color: Colors.white),
@@ -270,7 +271,7 @@ class _PasswordTextFieldState extends State<PasswordTextField> {
           hintStyle: TextStyle(color: Colors.grey.shade400, fontSize: fontNormalSize, letterSpacing: 0.8),
         ),
       ),
-    ) ;
+    );
   }
 }
 
@@ -283,13 +284,14 @@ class EmailTextField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
+    double screenHeight = MediaQuery.of(context).size.height;
     double screenWidth = MediaQuery.of(context).size.width;
 
     var fontNormalSize = ResponsiveTextUtils.getNormalFontSize(screenWidth);
 
-    return Padding(
+    return Container(
       padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.06),
+      height: screenHeight * 0.06,
       child: TextFormField(
         style: GoogleFonts.lato(
           textStyle:
@@ -308,10 +310,10 @@ class EmailTextField extends StatelessWidget {
         controller: controller,
         decoration: InputDecoration(
           errorStyle: TextStyle(
-              fontSize: fontNormalSize,
-              letterSpacing: 0.8
+            fontSize: fontNormalSize,
+            letterSpacing: 0.8
           ),
-          prefixIcon: Icon(Icons.email),
+          prefixIcon: Icon(Icons.email, size: fontNormalSize * 1.5,),
           enabledBorder: OutlineInputBorder(
             borderSide: BorderSide(color: Colors.white),
           ),
@@ -413,7 +415,7 @@ class PersonNameTextField extends StatelessWidget {
               fontSize: fontNormalSize,
               letterSpacing: 0.8
           ),
-          prefixIcon: Icon(Icons.person),
+          prefixIcon: Icon(Icons.person, size: fontNormalSize * 1.5),
           enabledBorder: OutlineInputBorder(
             borderSide: BorderSide(color: Colors.white),
           ),
@@ -470,7 +472,7 @@ class Contact2TextField extends StatelessWidget {
               fontSize: fontNormalSize,
               letterSpacing: 0.8
           ),
-          prefixIcon: Icon(Icons.call),
+          prefixIcon: Icon(Icons.call, size: fontNormalSize * 1.5),
           enabledBorder: OutlineInputBorder(
             borderSide: BorderSide(color: Colors.white),
           ),
