@@ -42,6 +42,8 @@ class _StatusPageState extends State<StatusPage> with TickerProviderStateMixin {
   final searchController = TextEditingController();
   final reasonController = TextEditingController();
   bool _isLoading = true;
+  bool _isLoadingTSIS = true;
+  bool _isLoadingEvents = true;
 
   DateTimeRange? selectedDate;
   DateTime firstDate = DateTime.now().add(Duration(days: 5));
@@ -209,6 +211,7 @@ class _StatusPageState extends State<StatusPage> with TickerProviderStateMixin {
       setState(() {
         _ecEvent = EcEvent;
       });
+      _isLoadingEvents = false;
     });
   }
 
@@ -229,6 +232,7 @@ class _StatusPageState extends State<StatusPage> with TickerProviderStateMixin {
       setState(() {
         _ecTSIS = EcTSIS;
       });
+      _isLoadingTSIS = false;
     });
   }
 
