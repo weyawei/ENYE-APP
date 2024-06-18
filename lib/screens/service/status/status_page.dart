@@ -1,4 +1,5 @@
 import 'package:enye_app/screens/service/ec_technical_data.dart';
+import 'package:enye_app/screens/service/status/status_view_page.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
@@ -622,10 +623,15 @@ class _StatusPageState extends State<StatusPage> with TickerProviderStateMixin {
                       itemBuilder: (_, index){
                         _filteredServices = searchController.text.isEmpty ? _services : _filteredServices;
 
-                        ServiceAppointment? appointment = _appointment.where((appoint) => _filteredServices[index].id == appoint.svc_id).elementAtOrNull(0);
+                       /* ServiceAppointment? appointment = _appointment.where((appoint) => _filteredServices[index].id == appoint.svc_id).elementAtOrNull(0);
 
                         EcSO? ecServiceOrder = _ecSO.where((ecso) => _filteredServices[index].tsis_id == ecso.tsis_id).elementAtOrNull(0);
-                        EcEvent? ecEvent = _ecEvent.where((ecevent) => _filteredServices[index].tsis_id == ecevent.tsis_id).elementAtOrNull(0);
+                        EcEvent? ecEvent = _ecEvent.where((ecevent) => _filteredServices[index].tsis_id == ecevent.tsis_id).elementAtOrNull(0);*/
+
+                        TechnicalData service = _filteredServices[index];
+                        EcTSIS? tsis = _ecTSIS.where((tsis) => tsis.tsis_id == service.tsis_id).elementAtOrNull(0);
+                        List<EcEvent> events = _ecEvent.where((e) => e.tsis_id == service.tsis_id).toList();
+
 
                         return AnimationConfiguration.staggeredList(
                           position: index,
@@ -635,7 +641,7 @@ class _StatusPageState extends State<StatusPage> with TickerProviderStateMixin {
                                 children: [
                                   GestureDetector(
                                     onTap: (){
-                                        if (_filteredServices[index].status ==
+                                       /* if (_filteredServices[index].status ==
                                             "Unread") {
                                           _showBottomSheet(context,
                                               _filteredServices[index]);
@@ -649,9 +655,24 @@ class _StatusPageState extends State<StatusPage> with TickerProviderStateMixin {
 
                                       if(_filteredServices[index].status == "On Process"){
                                         _showBottomSheet2(context, _filteredServices[index], ecServiceOrder!, ecEvent!);
-                                      }
+                                      }*/
+
+                                    if(tsis != null) {
+                                      setState(() {
+                                        Navigator.of(context).push(
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  StatusViewPage(tsis: tsis,
+                                                    events: events,
+                                                    service: service,)),
+                                        );
+                                      });
+                                    }else{
+                                      Text('Null');
+                                    }
+
                                     },
-                                    child: TaskTile(services: _filteredServices[index]),
+                                    child: TaskTile(services: service),
                                   )
                                 ],
                               ),
