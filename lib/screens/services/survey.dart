@@ -4,7 +4,7 @@ import 'package:enye_app/screens/services/survey_data.dart';
 import 'package:enye_app/screens/services/survey_svc.dart';
 import 'package:flutter_session_manager/flutter_session_manager.dart';
 import 'package:google_fonts/google_fonts.dart';
-
+import 'dart:convert'; // Import for utf8 encoding
 import '../../widget/responsive_text_utils.dart';
 
 class SurveyPage extends StatefulWidget {
@@ -24,13 +24,21 @@ class _SurveyPageState extends State<SurveyPage> {
   @override
   void initState() {
     super.initState();
+    _initializeData();
+  }
+
+  Future<void> _initializeData() async {
+    await _fetchToken();
     _getSurvey();
     _getChoices();
-    _fetchToken();
   }
 
   Future<void> _fetchToken() async {
-    token = await checkSession().getToken();
+    String fetchedToken = await checkSession().getToken();
+    setState(() {
+      token = Uri.encodeComponent(fetchedToken); // URL-encode the token
+    });
+    print('Fetched Token: $token');
   }
 
   List<Survey> _survey = [];
@@ -101,8 +109,10 @@ class _SurveyPageState extends State<SurveyPage> {
   }
 
 
-  _addSurvey() async {
-    await _fetchToken(); // Ensure the token is fetched before proceeding
+  Future<void> _addSurvey() async {
+    if (token.isEmpty) {
+      await _fetchToken();
+    }
     print('User Token Response: ${token.toString()}');
 
     // Collect survey responses
@@ -115,7 +125,7 @@ class _SurveyPageState extends State<SurveyPage> {
       String selectedChoicesStr = selectedChoices.join(', ');
 
       return {
-        'token': token, //survey.sq_id
+        'token': token.toString(), //survey.sq_id
         'question': survey.sq_id,
         'selectedChoices': selectedChoicesStr.isEmpty ? commentController.text : selectedChoicesStr,
       };
@@ -141,8 +151,11 @@ class _SurveyPageState extends State<SurveyPage> {
 
 
 
-  _addUserInfo() async {
-    await _fetchToken(); // Ensure the token is fetched before proceeding
+  Future<void> _addUserInfo() async {
+    if (token.isEmpty) {
+      await _fetchToken();
+    }
+
     print('User Token Response: ${token.toString()}');
       SurveyDataServices.addUserInfo(
 
