@@ -13,4 +13,9 @@ class checkSession {
     return ClientInfo;
   }
 
+  Future <String> getToken() async {
+   dynamic token = await SessionManager().get("token");
+    return token.toString();
+  }
+
 }

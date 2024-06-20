@@ -62,5 +62,7 @@ class API {
   static const ec_conformeSig = "https://enyecontrols.com/enyecontrols_engineering/signs_conforme_by/";
   static const ec_usersSig = "https://enyecontrols.com/enyecontrols_engineering/images/signatures/";
   static const ECcompAtt = "https://enyecontrols.com/enyecontrols_engineering/attachment/";
+
+  static const survey = "$hostConnect/enye/booking/survey.php";
 }
 
