@@ -13,9 +13,7 @@ class SurveyDataServices {
   static const GET_ALL_SURVEYCHOICES = 'get_all_surveyChoices';
   static const ADD_SURVEY = 'add_survey';
   static const ADD_USERINFO = 'add_userinfo';
-
-
-
+  static const USER_SURVEY = 'user_survey';
 
   static Future <List<Survey>> getSurvey() async {
     var map = Map<String, dynamic>();
@@ -90,18 +88,22 @@ class SurveyDataServices {
   }
 
 
-  static Future<String> addUserInfo(String token_id, String name, String company_name, String designation, String email, String contact_no) async {
+  static Future<String> addUserInfo(String token_id, String name, String company_name, String designation, String email, String contact_no, List<Map<String, String>> surveyData) async {
     try{
       var map = Map<String, dynamic>();
-      map['action'] = ADD_USERINFO;
+      map['action'] = USER_SURVEY;
       map['token_id'] = token_id;
       map['name'] = name;
       map['company_name'] = company_name;
       map['designation'] = designation;
       map['email'] = email;
       map['contact_no'] = contact_no;
+      map['survey_data'] = jsonEncode(surveyData);
 
-      final res = await http.post(Uri.parse(API.survey), body: map); //passing value to result
+      final res = await http.post(
+        Uri.parse(API.survey), // replace with actual API endpoint
+        body: map,
+      );
       print('Add User Info Response: ${res.body}');
 
       if(res.statusCode == 200){

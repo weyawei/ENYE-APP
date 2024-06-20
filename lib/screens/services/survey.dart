@@ -19,6 +19,8 @@ class _SurveyPageState extends State<SurveyPage> {
   TextEditingController emailController = TextEditingController();
   TextEditingController contactNumberController = TextEditingController();
   TextEditingController commentController = TextEditingController();
+
+  List<TextEditingController> answersController = [];
   String token = '';
 
   @override
@@ -47,6 +49,8 @@ class _SurveyPageState extends State<SurveyPage> {
       setState(() {
         _survey = survey;
       });
+
+      answersController = List.generate(_survey.length, (index) => TextEditingController());
     });
   }
 
@@ -157,26 +161,32 @@ class _SurveyPageState extends State<SurveyPage> {
     }
 
     print('User Token Response: ${token.toString()}');
+    List<Map<String, String>> surveyData = collectSurveyData();
+
       SurveyDataServices.addUserInfo(
 
         token.toString(), nameController.text, companyNameController.text, designationController.text, emailController.text,
-        contactNumberController.text,
+        contactNumberController.text, surveyData
 
       ).then((result) {
-        if (result.contains("Successfully saved !")) {
-          // sendPushNotifications();
-          // _getServices();
-          // clearFields();
-          // Navigator.of(context).pop();
-
-          _custSnackbar(
-              context,
-              "Successfully saved !",
-              Colors.green,
-              Icons.check_box
-          );
-        }
+        print(result);
       });
+  }
+
+  String getSelectedChoices(String sqId) {
+    return _choices.where((choice) => choice.sq_id == sqId && choice.isSelected).map((choice) => choice.choices).join(', ');
+  }
+
+  List<Map<String, String>> collectSurveyData() {
+    List<Map<String, String>> surveyData = [];
+    for (int i = 0; i < _survey.length; i++) {
+      surveyData.add({
+        'sq_id': _survey[i].sq_id,
+        'question': _survey[i].question,
+        'answer': answersController[i].text,
+      });
+    }
+    return surveyData;
   }
 
   @override
@@ -269,7 +279,7 @@ class _SurveyPageState extends State<SurveyPage> {
                               style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                             ),
                             TextFormField(
-                              controller: commentController,
+                              controller: answersController[index],
                               maxLines: 3, // Adjust the number of lines for the answer input
                               decoration: InputDecoration(
                                 hintText: 'Write your answer here',
@@ -307,6 +317,7 @@ class _SurveyPageState extends State<SurveyPage> {
                                 onChanged: (bool? value) {
                                   setState(() {
                                     choice.isSelected = value ?? false;
+                                    answersController[index].text = getSelectedChoices(survey.sq_id);
                                   });
                                 },
                               );
@@ -337,15 +348,11 @@ class _SurveyPageState extends State<SurveyPage> {
           print('Email Address: ${emailController.text}');
           print('Contact Number: ${contactNumberController.text}');
 
-          _addUserInfo();
-          _addSurvey();
-          // Example: Printing selected survey choices
-          for (var survey in _survey) {
-            final selectedChoices = _choices.where((choice) => choice.sq_id == survey.sq_id && choice.isSelected).toList();
-            print('Question: ${survey.question}');
-            print('Selected answers: ${selectedChoices.map((choice) => choice.choices).join(', ')}');
-          }
+          List<Map<String, String>> surveyData = collectSurveyData();
+          print(surveyData);
 
+          _addUserInfo();
+          // _addSurvey();
           // Add logic to save or process the selected options and user information
         },
         child: Icon(Icons.check),
@@ -363,6 +370,10 @@ class _SurveyPageState extends State<SurveyPage> {
     designationController.dispose();
     emailController.dispose();
     contactNumberController.dispose();
+    for (var controller in answersController) {
+      controller.dispose();
+    }
+    answersController.clear(); // Optionally clear the list
     super.dispose();
   }
 }
