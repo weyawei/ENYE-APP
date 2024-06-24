@@ -14,6 +14,7 @@ class SurveyDataServices {
   static const ADD_SURVEY = 'add_survey';
   static const ADD_USERINFO = 'add_userinfo';
   static const USER_SURVEY = 'user_survey';
+  static const USER_ANSWER = 'get_all_answer';
 
   static Future <List<Survey>> getSurvey() async {
     var map = Map<String, dynamic>();
@@ -64,6 +65,34 @@ class SurveyDataServices {
     final parsed = json.decode(responseBody).cast<Map<String, dynamic>>();
     return parsed.map<SurveyChoices>((json) => SurveyChoices.fromJson(json)).toList();
   }
+
+
+
+  static Future <List<SurveyAnswer>> getAnswer() async {
+    var map = Map<String, dynamic>();
+    map['action'] = USER_ANSWER;
+
+    //get all data of categories
+    final res = await http.post(Uri.parse(API.survey), body: map); //passing value to result
+    print('get Answer Survey Response: ${res.body}');
+
+    if(res.statusCode == 200){
+      List<SurveyAnswer> list = parseAnswer(res.body);
+      return list;
+    } else {
+      throw Exception('Failed to retrieve SurveyAnswer');
+      //return List<Categories>();
+    }
+
+  }
+
+  static List<SurveyAnswer> parseAnswer(String responseBody){
+    //conversion from web server into data by using categories.dart
+    final parsed = json.decode(responseBody).cast<Map<String, dynamic>>();
+    return parsed.map<SurveyAnswer>((json) => SurveyAnswer.fromJson(json)).toList();
+  }
+
+
 
 
   static Future<String> addSurvey(String token_id, String question, String choices) async {

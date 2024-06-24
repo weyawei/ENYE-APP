@@ -51,6 +51,30 @@ class SurveyChoices {
   }
 }
 
+class SurveyAnswer {
+  String token_id;
+  String survey_id;
+  String question_id;
+  String answer;
 
+
+  SurveyAnswer({
+    required this.token_id,
+    required this.survey_id,
+    required this.question_id,
+    required this.answer,
+
+  });
+
+  factory SurveyAnswer.fromJson(Map<String, dynamic> json) {
+    return SurveyAnswer(
+      token_id: json['token_id'] as String? ?? '',
+      survey_id: json['survey_id'] as String? ?? '',
+      question_id: json['question_id'] as String? ?? '',
+      answer: json['answer'] as String? ?? '',
+
+    );
+  }
+}
 
 

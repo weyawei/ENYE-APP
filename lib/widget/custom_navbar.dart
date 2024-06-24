@@ -1,13 +1,21 @@
+import 'dart:async';
+
 import 'package:enye_app/screens/products/products1.dart';
 import 'package:enye_app/screens/screens.dart';
+import 'package:enye_app/screens/services/survey.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 
+import '../config/app_checksession.dart';
 import '../dashboardicon_icons.dart';
+import '../screens/services/survey_data.dart';
+import '../screens/services/survey_svc.dart';
 import 'widgets.dart';
 
 class CustomNavBar extends StatefulWidget {
+
   final RemoteMessage? initialMessage;
   static const String routeName = '/';
 
@@ -29,6 +37,158 @@ class CustomNavBar extends StatefulWidget {
 
 class _CustomNavBarState extends State<CustomNavBar> {
   int _initialIndex = 0;
+  // Declare the Timer
+  Timer? _modalTimer;
+  String token = '';
+
+  @override
+  void initState() {
+    super.initState();
+    _initializeData();
+    _startModalTimer(); // Start the timer when the widget is initialized
+  //  _startModalTimer(); // Start the timer when the widget is initialized
+  }
+
+  Future<void> _initializeData() async {
+    await _fetchToken();
+
+    _getAnswer();
+  }
+
+  Future<void> _fetchToken() async {
+    String fetchedToken = await checkSession().getToken();
+    setState(() {
+      token = Uri.encodeComponent(fetchedToken); // URL-encode the token
+    });
+    print('Fetched Token: $token');
+  }
+
+
+
+  void _startModalTimer() {
+
+    _modalTimer = Timer.periodic(Duration(minutes: 1), (timer) {
+      // _showModalDialog();
+      _checkIfUserHasAnswered();
+    });
+
+  }
+
+  void _checkIfUserHasAnswered() {
+    bool hasAnswered = _answer.any((answer) => answer.token_id == token);
+    // Debugging logs
+    print("Checking if user has answered:");
+    for (var answer in _answer) {
+      print("Answer token: ${answer.token_id}, User token: $token");
+    }
+    print("Has answered: $hasAnswered");
+
+
+    if (!hasAnswered) {
+      _showModalDialog();
+    }
+  }
+
+  List<SurveyAnswer> _answer = [];
+  _getAnswer() {
+    SurveyDataServices.getAnswer().then((answer) {
+      setState(() {
+        _answer = answer;
+       // _checkIfUserHasAnswered();
+      });
+    });
+  }
+
+  @override
+  void dispose() {
+    _modalTimer?.cancel(); // Cancel the timer when the widget is disposed
+    super.dispose();
+  }
+
+  void _showModalDialog() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20.0),
+          ),
+          title: Row(
+            children: [
+              Icon(Icons.add_alert_rounded, color: Colors.deepOrangeAccent),
+              SizedBox(width: 8.0),
+              Text(
+                "Survey",
+                style: GoogleFonts.poppins(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.deepOrangeAccent,
+                ),
+              ),
+            ],
+          ),
+          content: Text(
+            "Would you like to answer our survey now?",
+            style: GoogleFonts.poppins(
+              fontSize: 16,
+              fontWeight: FontWeight.normal,
+              color: Colors.black87,
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              style: TextButton.styleFrom(
+                primary: Colors.white,
+                backgroundColor: Colors.deepOrangeAccent,
+                padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10.0),
+                ),
+              ),
+              child: Text(
+                "OK",
+                style: GoogleFonts.poppins(
+                  fontSize: 14,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              onPressed: () {
+                Navigator.of(context).pop(); // Close the dialog
+                // Add additional functionality here if needed
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => SurveyPage()),
+                );
+              },
+            ),
+            TextButton(
+              style: TextButton.styleFrom(
+                primary: Colors.deepOrangeAccent,
+                padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10.0),
+                  side: BorderSide(color: Colors.deepOrangeAccent),
+                ),
+              ),
+              child: Text(
+                "Later",
+                style: GoogleFonts.poppins(
+                  fontSize: 14,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              onPressed: () {
+                Navigator.of(context).pop(); // Close the dialog
+                // Add additional functionality here if needed
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+
 
   @override
   Widget build(BuildContext context) {

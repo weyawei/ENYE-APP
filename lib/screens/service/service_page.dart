@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_session_manager/flutter_session_manager.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
+import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 
 import '../../config/config.dart';
 import '../../widget/widgets.dart';
@@ -554,27 +555,33 @@ class _ServicePageState extends State<ServicePage> {
 
 
 
-
+          SizedBox(height: screenHeight * 0.02,),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               GestureDetector(
                 onTap: (){
 
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => SurveyPage()),
-                    );
+                  PersistentNavBarNavigator
+                      .pushNewScreenWithRouteSettings(
+                    context,
+                    settings: RouteSettings(
+                        name: SurveyPage.routeName,),
+                    screen: SurveyPage(),
+                    withNavBar: false,
+                    pageTransitionAnimation: PageTransitionAnimation
+                        .cupertino,
+                  );
                 },
                 child: Container(
                   height: screenHeight * 0.12,
-                  width: screenWidth * 0.26,
+                  width: screenWidth * 0.40,
                   decoration: BoxDecoration(
                       border: Border.all(width: 2, color: Colors.deepOrange.withOpacity(0.2)),
                       borderRadius: BorderRadius.circular(10),
                       image: DecorationImage(
                         alignment: Alignment(0.0, -0.3),
-                        image: AssetImage("assets/icons/exclamation.png"),
+                        image: AssetImage("assets/icons/customer.png"),
                         scale: screenLayout ? 3.1 : 1.7,
                       )
                   ),
