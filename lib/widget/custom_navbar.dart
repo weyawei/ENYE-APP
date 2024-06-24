@@ -39,6 +39,7 @@ class _CustomNavBarState extends State<CustomNavBar> {
   int _initialIndex = 0;
   // Declare the Timer
   Timer? _modalTimer;
+ Timer? _refreshTimer;
   String token = '';
 
   @override
@@ -46,6 +47,7 @@ class _CustomNavBarState extends State<CustomNavBar> {
     super.initState();
     _initializeData();
     _startModalTimer(); // Start the timer when the widget is initialized
+    _startRefreshTimer();
   //  _startModalTimer(); // Start the timer when the widget is initialized
   }
 
@@ -74,7 +76,14 @@ class _CustomNavBarState extends State<CustomNavBar> {
 
   }
 
+  void _startRefreshTimer() {
+    _refreshTimer = Timer.periodic(Duration(seconds: 3), (timer) {
+      _getAnswer(); // Periodically refresh the answers
+    });
+  }
+
   void _checkIfUserHasAnswered() {
+    _getAnswer();
     bool hasAnswered = _answer.any((answer) => answer.token_id == token);
     // Debugging logs
     print("Checking if user has answered:");
@@ -94,7 +103,7 @@ class _CustomNavBarState extends State<CustomNavBar> {
     SurveyDataServices.getAnswer().then((answer) {
       setState(() {
         _answer = answer;
-       // _checkIfUserHasAnswered();
+      // _checkIfUserHasAnswered();
       });
     });
   }
@@ -102,6 +111,7 @@ class _CustomNavBarState extends State<CustomNavBar> {
   @override
   void dispose() {
     _modalTimer?.cancel(); // Cancel the timer when the widget is disposed
+    _refreshTimer?.cancel();
     super.dispose();
   }
 
