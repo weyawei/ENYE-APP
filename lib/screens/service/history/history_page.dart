@@ -271,8 +271,8 @@ class _HistoryPageState extends State<HistoryPage> with TickerProviderStateMixin
                   itemCount: _filteredServices.length,
                   itemBuilder: (context, index) {
                     TechnicalData service = _filteredServices[index];
-                    EcTSIS tsis = _ecTSIS.where((tsis) => tsis.tsis_id == service.tsis_id).elementAt(0);
-                    List<EcEvent> events = _ecEvent.where((e) => e.tsis_id == tsis.tsis_id).toList();
+                    EcTSIS? tsis = _ecTSIS.where((tsis) => tsis.tsis_id == service.tsis_id).elementAtOrNull(0);
+                    List<EcEvent> events = _ecEvent.where((e) => e.tsis_id == service.tsis_id).toList();
 
                     return AnimationConfiguration.staggeredList(
                         position: index,
@@ -294,12 +294,21 @@ class _HistoryPageState extends State<HistoryPage> with TickerProviderStateMixin
                                     //       _filteredServices[index], appointment!);
                                     // }
 
-                                    setState(() {
-                                      Navigator.of(context).push(
-                                        MaterialPageRoute(builder: (context) => HistoryViewPage(tsis: tsis, events: events, service: service,)),
-                                      );
-                                    });
+                                    if(tsis != null) {
+                                      setState(() {
+                                        Navigator.of(context).push(
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  HistoryViewPage(tsis: tsis,
+                                                    events: events,
+                                                    service: service,)),
+                                        );
+                                      });
+                                    }else{
+                                      Text('Null');
+                                    }
                                   },
+
                                   child: TaskTile(
                                       services: service),
                                 )

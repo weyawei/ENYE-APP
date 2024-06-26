@@ -555,7 +555,7 @@ class _ServicePageState extends State<ServicePage> {
 
 
 
-          SizedBox(height: screenHeight * 0.02,),
+         /* SizedBox(height: screenHeight * 0.02,),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
@@ -601,7 +601,7 @@ class _ServicePageState extends State<ServicePage> {
 
 
             ],
-          ),
+          ),*/
 
 
 

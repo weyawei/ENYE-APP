@@ -37,7 +37,7 @@ class CustomNavBar extends StatefulWidget {
 
 class _CustomNavBarState extends State<CustomNavBar> {
   int _initialIndex = 0;
-  // Declare the Timer
+ /* // Declare the Timer
   Timer? _modalTimer;
  Timer? _refreshTimer;
   String token = '';
@@ -197,7 +197,7 @@ class _CustomNavBarState extends State<CustomNavBar> {
       },
     );
   }
-
+*/
 
 
   @override
