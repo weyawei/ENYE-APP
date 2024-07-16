@@ -311,7 +311,7 @@ class _registerPageState extends State<registerPage> {
                 children: [
 
                   //logo application
-                  SizedBox(height: screenHeight * 0.13,),
+                  SizedBox(height: screenHeight * 0.12,),
                   Container(
                     alignment: Alignment.center,
                     height: screenHeight * 0.042,
@@ -375,7 +375,7 @@ class _registerPageState extends State<registerPage> {
                   ),
 
                   //tapping agree
-                  SizedBox(height: screenHeight * 0.02,),
+                  SizedBox(height: screenHeight * 0.05,),
                   RichText(
                     textAlign: TextAlign.center,
                     text: TextSpan(
