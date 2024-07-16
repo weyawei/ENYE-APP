@@ -2,7 +2,6 @@ import 'dart:math';
 
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:enye_app/screens/product/product_category_list_page.dart';
-import 'package:enye_app/screens/products/flash_deal.dart';
 import 'package:flutter/material.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import 'package:speech_to_text/speech_to_text.dart' as stt;

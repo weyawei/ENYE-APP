@@ -228,7 +228,8 @@ class _CustomNavBarState extends State<CustomNavBar> {
         systemsPage(),
         productsPage(),
         ProjectsPage(),
-        ServicePage(message: message as RemoteMessage),
+        AccountPage(),
+        // ServicePage(message: message as RemoteMessage),
       ];
     }
 
@@ -280,12 +281,19 @@ class _CustomNavBarState extends State<CustomNavBar> {
           textStyle: TextStyle(fontSize: fontExtraSmallSize, fontWeight: FontWeight.bold),
         ),
         PersistentBottomNavBarItem(
-          icon: Icon(Icons.calendar_month_rounded, size: (screenHeight + screenWidth) / 40),
-          title: ("Services"),
+          icon: Icon(Icons.person, size: (screenHeight + screenWidth) / 40),
+          title: ("Account"),
           activeColorPrimary: Colors.black,
           inactiveColorPrimary: Colors.black38,
           textStyle: TextStyle(fontSize: fontExtraSmallSize, fontWeight: FontWeight.bold),
         ),
+        // PersistentBottomNavBarItem(
+        //   icon: Icon(Icons.calendar_month_rounded, size: (screenHeight + screenWidth) / 40),
+        //   title: ("Services"),
+        //   activeColorPrimary: Colors.black,
+        //   inactiveColorPrimary: Colors.black38,
+        //   textStyle: TextStyle(fontSize: fontExtraSmallSize, fontWeight: FontWeight.bold),
+        // ),
 
       ];
     }
