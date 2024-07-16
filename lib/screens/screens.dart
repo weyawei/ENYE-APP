@@ -62,3 +62,7 @@ export 'ec_calendar/calendar.dart';
 export 'ec_calendar/calendar_svc.dart';
 
 export '/splash/splash_screen.dart';
+
+export 'account/account_page.dart';
+export 'account/login_page.dart';
+export 'account/main_acc_page.dart';

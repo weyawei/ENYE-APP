@@ -62,7 +62,7 @@ class MyApp extends StatelessWidget {
         title: 'ENYE CONTROLS',
         theme: ThemeData(
           primarySwatch: Colors.deepOrange,
-          fontFamily: 'Raleway',
+          fontFamily: 'Poppins',
         ),
         navigatorKey: navigatorKey,
         // splash screen preventing to go back

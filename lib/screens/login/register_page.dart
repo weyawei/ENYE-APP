@@ -150,13 +150,9 @@ class _registerPageState extends State<registerPage> {
     //get the action do by the user transfer it to POST method
     map['action'] = "SIGN UP";
     map['name'] = nameController.text.trim();
-    map['company_name'] = compnameController.text.trim();
-    map['location'] = locationController.text.trim();
-    map['project_name'] = projnameController.text.trim();
     map['contact_no'] = contactController.text.trim();
     map['email'] = emailController.text.trim();
     map['password'] = passwordController.text.trim();
-
 
     var res = await http.post( //pasiing value to result
       Uri.parse(API.register),
@@ -315,7 +311,7 @@ class _registerPageState extends State<registerPage> {
                 children: [
 
                   //logo application
-                  SizedBox(height: screenHeight * 0.1,),
+                  SizedBox(height: screenHeight * 0.12,),
                   Container(
                     alignment: Alignment.center,
                     height: screenHeight * 0.042,
@@ -340,31 +336,10 @@ class _registerPageState extends State<registerPage> {
                   ),
 
                   //fullname textfield
-                  SizedBox(height: screenHeight * 0.02,),
+                  SizedBox(height: screenHeight * 0.03,),
                   PersonNameTextField(
                     controller: nameController,
                     hintText: 'Fullname',
-                    disabling: disabling,
-                  ),
-
-                  SizedBox(height: screenHeight * 0.008,),
-                  NormalTextField(
-                    controller: compnameController,
-                    hintText: 'Company Name',
-                    disabling: disabling,
-                  ),
-
-                  SizedBox(height: screenHeight * 0.008,),
-                  NormalTextField(
-                    controller: locationController,
-                    hintText: 'Location',
-                    disabling: disabling,
-                  ),
-
-                  SizedBox(height: screenHeight * 0.008,),
-                  NormalTextField(
-                    controller: projnameController,
-                    hintText: 'Project Name',
                     disabling: disabling,
                   ),
 
@@ -400,7 +375,7 @@ class _registerPageState extends State<registerPage> {
                   ),
 
                   //tapping agree
-                  SizedBox(height: screenHeight * 0.02,),
+                  SizedBox(height: screenHeight * 0.05,),
                   RichText(
                     textAlign: TextAlign.center,
                     text: TextSpan(
@@ -527,43 +502,6 @@ class _registerPageState extends State<registerPage> {
                     clr: Colors.deepOrange,
                     fontSize: fontExtraSize,
                   ),
-
-                  //or continue with
-                  /*const SizedBox(height: 30,),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 25.0),
-                child: Row(
-                  children: [
-                    Expanded(
-                        child: Divider(
-                          thickness: 0.5,
-                          color: Colors.grey.shade500,)
-                    ),
-                    Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 10.0),
-                      child: Text('Or continue with', style: TextStyle(color: Colors.grey.shade800,),),
-                    ),
-                    Expanded(
-                        child: Divider(
-                          thickness: 0.5,
-                          color: Colors.grey.shade500,)
-                    ),
-                  ],
-                ),
-              ),*/
-
-
-                  //gmail + facebook sign in
-                  /*const SizedBox(height: 25,),
-              const Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Image(image: AssetImage('assets/icons/gmail.png'), height: 40, width: 40),
-                  SizedBox(width: 25,),
-                  Image(image: AssetImage('assets/icons/facebook-v2.png'), height: 40, width: 40,),
-                ],
-              ),*/
-
 
                   //already have an account
                   SizedBox(height: screenHeight * 0.008),

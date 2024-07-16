@@ -1,8 +1,5 @@
-import 'dart:convert';
 import 'dart:io';
 
-import 'package:enye_app/screens/service/chat/chat_page.dart';
-import 'package:enye_app/screens/service/tracker/tracker_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
@@ -40,12 +37,9 @@ class _ServicesPageState extends State<ServicesPage> {
     double screenHeight = MediaQuery.of(context).size.height;
     double screenWidth = MediaQuery.of(context).size.width;
 
-    bool screenLayout = ResponsiveTextUtils.getLayout(screenWidth);
-
     var fontXSmallSize = ResponsiveTextUtils.getXSmallFontSize(screenWidth);
     var fontSmallSize = ResponsiveTextUtils.getSmallFontSize(screenWidth);
     var fontExtraSize = ResponsiveTextUtils.getExtraFontSize(screenWidth);
-    var fontXSize = ResponsiveTextUtils.getXFontSize(screenWidth);
 
     return Scaffold(
       body: ListView(
@@ -226,10 +220,7 @@ class _ServicesPageState extends State<ServicesPage> {
                   // Set client data in session manager
                   await SessionManager().set("client_data", clientInfo(
                     client_id: user.uid.toString(),
-                    name: '', // Use fullName if not null, otherwise use an empty string
-                    company_name: '',
-                    location: '',
-                    project_name: '',
+                    name: '',
                     contact_no: '',
                     image: '', // Use photoURL if not null, otherwise use an empty string
                     email: user.email.toString(),
@@ -265,9 +256,6 @@ class _ServicesPageState extends State<ServicesPage> {
                   await SessionManager().set("client_data",  clientInfo(
                     client_id: FirebaseAuth.instance.currentUser!.uid.toString(),
                     name: FirebaseAuth.instance.currentUser!.displayName.toString(),
-                    company_name: '',
-                    location: '',
-                    project_name: '',
                     contact_no: '',
                     image: FirebaseAuth.instance.currentUser!.photoURL.toString(),
                     email: FirebaseAuth.instance.currentUser!.email.toString(),
