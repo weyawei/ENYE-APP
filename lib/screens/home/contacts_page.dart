@@ -50,7 +50,7 @@ class ContactsHome extends StatelessWidget {
                 child: Container(
                   margin: EdgeInsets.only(top: 25.0),
                   child: Text(
-                    'Quezon City Office',
+                    'MANILA Office',
                     style: TextStyle(
                       fontSize: fontXXSize,
                       fontFamily: 'Rowdies',
@@ -92,7 +92,7 @@ class ContactsHome extends StatelessWidget {
                             ),
                           ),
                           TextSpan(
-                            text: '  Lofice 1, 82 Scout Ojeda St., Brgy. Obrero Diliman, Quezon City. 1103 Philippines',
+                            text: '  LOFICE I, #82 Scout Ojeda St., Brgy. Obrero Diliman, Quezon City. 1103 Philippines',
                             style: TextStyle(color: Colors.black54, fontSize: fontNormalSize, fontWeight: FontWeight.bold, letterSpacing: 1.2, overflow: TextOverflow.visible,),
                           ),
                         ],
@@ -130,55 +130,28 @@ class ContactsHome extends StatelessWidget {
                 ),
               ),
 
-              //Contact Sales Eng.
-              Padding(
-                padding: EdgeInsets.only(top: 5.0, left: 20.0, right: 20.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        TextButton.icon(
-                          onPressed: (){
-                            final phoneNumber  = '+63976165949';
-                            final url = 'tel:$phoneNumber';
+              //Contact
+              Align(
+                alignment: Alignment.topLeft,
+                child: Container(
+                  margin: EdgeInsets.only(top: 5.0, left: 20.0, right: 20.0),
+                  child: TextButton.icon(
+                    onPressed: (){
+                      final phoneNumber  = '+639176317175';
+                      final url = 'tel:$phoneNumber';
 
-                            _launchURL(url);
-                          },
-                          icon: Icon(Icons.call, size: (screenHeight + screenWidth) / 55,),
-                          label: Text('(02)7616-5949',
-                            style: TextStyle(
-                              color: Colors.black54,
-                              fontSize: fontNormalSize,
-                              letterSpacing: 1.2,
-                              fontWeight: FontWeight.bold,
-                              overflow: TextOverflow.visible,),
-                          ),
-                        ),
-
-                        Text(' ', style: TextStyle(color: Colors.black54,fontSize: fontExtraSize,letterSpacing: 1.2,fontWeight: FontWeight.bold, overflow: TextOverflow.visible,),),
-
-                        TextButton(
-                          onPressed: (){
-                            final phoneNumber  = '(02)8352-3250';
-                            final url = 'tel:$phoneNumber';
-
-                            _launchURL(url);
-                          },
-                          child: Text('(02) 8352-3250',
-                            style: TextStyle(
-                              color: Colors.black54,
-                              fontSize: fontNormalSize,
-                              letterSpacing: 1.2,
-                              fontWeight: FontWeight.bold,
-                              overflow: TextOverflow.visible,),
-                          ),
-                        ),
-                      ],
+                      _launchURL(url);
+                    },
+                    icon: Icon(Icons.call, size: (screenHeight + screenWidth) / 55,),
+                    label: Text('+63 917 631 7175',
+                      style: TextStyle(
+                        color: Colors.black54,
+                        fontSize: fontNormalSize,
+                        letterSpacing: 1.2,
+                        fontWeight: FontWeight.bold,
+                        overflow: TextOverflow.visible,),
                     ),
-
-                  ],
+                  ),
                 ),
               ),
             ],
@@ -238,7 +211,7 @@ class ContactsHome extends StatelessWidget {
                             ),
                           ),
                           TextSpan(
-                            text: '  Lofice 2, Lot 5, Blk 7, Phase 2 Sta. Lucia Town Square Consolacion, Cebu 6001 Philippines',
+                            text: '  LOFICE II, Lot 5, Blk 7, Phase 2 Sta. Lucia Town Square Consolacion, Cebu 6001 Philippines',
                             style: TextStyle(color: Colors.black54, fontSize: fontNormalSize, fontWeight: FontWeight.bold, letterSpacing: 1.2, overflow: TextOverflow.visible,),
                           ),
                         ],
@@ -258,13 +231,13 @@ class ContactsHome extends StatelessWidget {
                   margin: EdgeInsets.only(top: 5.0, left: 20.0, right: 20.0),
                   child: TextButton.icon(
                     onPressed: (){
-                      final toEmail  = 'pearlguevarra.enyecontrols@gmail.com';
+                      final toEmail  = 'enyecontrols@enyecontrols.com';
                       final url = 'mailto:$toEmail';
 
                       _launchURL(url);
                     },
                     icon: Icon(Icons.mail, size: (screenHeight + screenWidth) / 55,),
-                    label: Text('pearlguevarra.enyecontrols@gmail.com',
+                    label: Text('enyecontrols@enyecontrols.com',
                       style: TextStyle(
                         color: Colors.black54,
                         fontSize: fontNormalSize,
@@ -283,13 +256,13 @@ class ContactsHome extends StatelessWidget {
                   margin: EdgeInsets.only(top: 5.0, left: 20.0, right: 20.0),
                   child: TextButton.icon(
                     onPressed: (){
-                      final phoneNumber  = '(+032)4231759';
+                      final phoneNumber  = '+63322658117';
                       final url = 'tel:$phoneNumber';
 
                       _launchURL(url);
                     },
                     icon: Icon(Icons.call, size: (screenHeight + screenWidth) / 55,),
-                    label: Text('(+032) 423-1759',
+                    label: Text('+63 32 265 8117',
                       style: TextStyle(
                         color: Colors.black54,
                         fontSize: fontNormalSize,
@@ -316,7 +289,7 @@ class ContactsHome extends StatelessWidget {
                 child: Container(
                   margin: EdgeInsets.only(top: 25.0),
                   child: Text(
-                    'LAGUNA Office',
+                    'SOUTH Office',
                     style: TextStyle(
                         fontSize: fontXXSize,
                         fontFamily: 'Rowdies',
@@ -338,7 +311,7 @@ class ContactsHome extends StatelessWidget {
                 ),
                 child: GestureDetector(
                   onTap: () async {
-                    _launchURL("https://www.google.com/maps/place/14%C2%B020'46.4%22N+121%C2%B003'20.7%22E/@14.3463273,121.0552596,18.75z/data=!4m4!3m3!8m2!3d14.3462222!4d121.05575?entry=ttu");
+                    _launchURL("https://www.google.com/maps/place/5,+12+P.+Ocampo+Ave,+San+Pedro,+Laguna/@14.3419666,121.0628213,17z/data=!4m9!1m2!2m1!1sLot+5,+Blk+12,+P.+Ocampo+St.,+Ph.+7+Pacita+San+Vicente+San+Pedro,+Laguna!3m5!1s0x3397d74f3c2103ad:0x85c44f2ca56fa9a6!8m2!3d14.3419146!4d121.0630895!15sCkhMb3QgNSwgQmxrIDEyLCBQLiBPY2FtcG8gU3QuLCBQaC4gNyBQYWNpdGEgU2FuIFZpY2VudGUgU2FuIFBlZHJvLCBMYWd1bmGSARBjb21wb3VuZF9zZWN0aW9u4AEA?entry=ttu");
                   },
                 ),
               ),
@@ -357,14 +330,14 @@ class ContactsHome extends StatelessWidget {
                             ),
                           ),
                           TextSpan(
-                            text: 'Lofice 3, Lot 6, Blk 17, Pacita Ave Pacita Complex, San Vicente San Pedro, Laguna 4023 Philippines',
+                            text: '  Lot 5, Blk 12, P. Ocampo St., Ph. 7 Pacita San Vicente San Pedro, Laguna 4023 Philippines',
                             style: TextStyle(color: Colors.black54, fontWeight: FontWeight.bold, fontSize: fontNormalSize, letterSpacing: 1.2, overflow: TextOverflow.visible,),
                           ),
                         ],
                       ),
                     ),
                     onPressed: () async {
-                      _launchURL("https://www.google.com/maps/place/Enye+Ltd+Corporation/@10.3729606,123.9570973,20z/data=!4m15!1m8!3m7!1s0x33a9a2a3893d39cf:0xd458b729586d3abe!2sSta.+Lucia+Town+Square,+Consolacion,+6001+Cebu!3b1!8m2!3d10.3736865!4d123.9580107!16s%2Fg%2F11c1_vj9rn!3m5!1s0x33a9a31aad4a80b7:0x99af3a18c21847f6!8m2!3d10.3728218!4d123.9569089!16s%2Fg%2F11rbx51pzj?entry=ttu");
+                      _launchURL("https://www.google.com/maps/place/5,+12+P.+Ocampo+Ave,+San+Pedro,+Laguna/@14.3419666,121.0628213,17z/data=!4m9!1m2!2m1!1sLot+5,+Blk+12,+P.+Ocampo+St.,+Ph.+7+Pacita+San+Vicente+San+Pedro,+Laguna!3m5!1s0x3397d74f3c2103ad:0x85c44f2ca56fa9a6!8m2!3d14.3419146!4d121.0630895!15sCkhMb3QgNSwgQmxrIDEyLCBQLiBPY2FtcG8gU3QuLCBQaC4gNyBQYWNpdGEgU2FuIFZpY2VudGUgU2FuIFBlZHJvLCBMYWd1bmGSARBjb21wb3VuZF9zZWN0aW9u4AEA?entry=ttu");
                     },
                   ),
                 ),
@@ -378,13 +351,13 @@ class ContactsHome extends StatelessWidget {
                   padding: EdgeInsets.only(top: 5.0),
                   child: TextButton.icon(
                     onPressed: (){
-                      final toEmail  = 'janice.capinpin@enyecontrols.com';
+                      final toEmail  = 'enyecontrols@enyecontrols.com';
                       final url = 'mailto:$toEmail';
 
                       _launchURL(url);
                     },
                     icon: Icon(Icons.mail, size: (screenHeight + screenWidth) / 55,),
-                    label: Text('janice.capinpin@enyecontrols.com',
+                    label: Text('enyecontrols@enyecontrols.com',
                       style: TextStyle(
                         color: Colors.black54,
                         fontSize: fontNormalSize,
@@ -403,13 +376,13 @@ class ContactsHome extends StatelessWidget {
                   margin: EdgeInsets.only(left: 20.0),
                   child: TextButton.icon(
                     onPressed: (){
-                      final phoneNumber  = '+639171387049';
+                      final phoneNumber  = '+639176345225';
                       final url = 'tel:$phoneNumber';
 
                       _launchURL(url);
                     },
                     icon: Icon(Icons.call, size: (screenHeight + screenWidth) / 55,),
-                    label: Text('(+63) 917 138-7049',
+                    label: Text('+63 917 634 5225',
                       style: TextStyle(
                         color: Colors.black54,
                         fontSize: fontNormalSize,
