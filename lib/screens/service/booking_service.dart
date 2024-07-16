@@ -149,7 +149,7 @@ class _BookingSystemState extends State<BookingSystem> {
       concern = 'SVC';
     }
 
-    generatedCode = '${concern}-${selectedDate?.month}${selectedDate?.day}${selectedDate?.year}$randomId';
+    generatedCode = '${concern}-${selectedDate.month}${selectedDate.day}${selectedDate.year}$randomId';
   }
 
   //initialDate configurator kapag naka-disable yung date +1 sa days and so on
@@ -212,60 +212,6 @@ class _BookingSystemState extends State<BookingSystem> {
       });
       print("Length ${CalendarData.length}");
     });
-  }
-
-  Future<void> _selectDate(BuildContext context) async {
-
-    //initialDate configurator kapag naka-disable yung date +1 sa days and so on
-    while (selectableDayPredicate(initialDate)) {
-      initialDate = initialDate.add(Duration(days: 1));
-    }
-
-    final DateTime? picked = await showDatePicker(
-      context: context,
-      initialDate: selectedDate ?? initialDate,
-      firstDate: firstDate,
-      lastDate: lastDate,
-      selectableDayPredicate: (DateTime date) {
-        if (date.weekday == DateTime.saturday || date.weekday == DateTime.sunday) {
-          return false;
-        }
-
-        //this code is from ChatGPT to disable dates came from ec calendar HR
-        bool isDateDisabled = _ecCalendar.any((CalendarData) {
-          DateTime startDate = DateTime.parse(CalendarData.start);
-          DateTime endDate = DateTime.parse(CalendarData.end);
-
-          for (DateTime currentDate = startDate;
-          currentDate.isBefore(endDate) || currentDate.isAtSameMomentAs(endDate);
-          currentDate = currentDate.add(Duration(days: 1))) {
-            if (currentDate.isAtSameMomentAs(date)) {
-              return true;
-            }
-          }
-          return false;
-        });
-
-        if (isDateDisabled) {
-          return false;
-        }
-
-        //database counting if may sched na disabled na sya
-        int scheduledServiceCount = _services.where((services) {
-          if (services.status != "Cancelled"){
-            return DateTime.parse(services.dateSched).isAtSameMomentAs(date);
-          } else {
-            return false;
-          }
-        }).length;
-        return scheduledServiceCount < 2;
-      }
-    );
-    if (picked != null) {
-      setState(() {
-        selectedDate = picked;
-      });
-    }
   }
 
   _custSnackbar(context, message, Color color, IconData iconData){
@@ -338,8 +284,6 @@ class _BookingSystemState extends State<BookingSystem> {
     });
   }
 
-  //kapag wala pa na-select na date
-  String? _dropdownError;
   addBooking() {
     double screenHeight = MediaQuery.of(context).size.height;
     double screenWidth = MediaQuery.of(context).size.width;
@@ -495,53 +439,47 @@ class _BookingSystemState extends State<BookingSystem> {
                 )
                 : SizedBox.shrink(),
 
-                ClientInfo?.company_name == ''
-                  ? Padding(
-                      padding: EdgeInsets.only(top: screenHeight * 0.008),
-                      child: Text(
-                        'Company Name: ${compnameController.text}',
-                        style: GoogleFonts.lato(
-                          textStyle: TextStyle(
-                              fontSize: fontNormalSize,
-                              color: Colors.black,
-                              letterSpacing: 0.8
-                          ),
-                        ),
+                Padding(
+                  padding: EdgeInsets.only(top: screenHeight * 0.008),
+                  child: Text(
+                    'Company Name: ${compnameController.text}',
+                    style: GoogleFonts.lato(
+                      textStyle: TextStyle(
+                          fontSize: fontNormalSize,
+                          color: Colors.black,
+                          letterSpacing: 0.8
                       ),
-                    )
-                  : SizedBox.shrink(),
+                    ),
+                  ),
+                ),
 
-                ClientInfo?.location == ''
-                  ? Padding(
-                      padding: EdgeInsets.only(top: screenHeight * 0.008),
-                      child: Text(
-                        'Location: ${locationController.text}',
-                        style: GoogleFonts.lato(
-                          textStyle: TextStyle(
-                              fontSize: fontNormalSize,
-                              color: Colors.black,
-                              letterSpacing: 0.8
-                          ),
-                        ),
+                Padding(
+                  padding: EdgeInsets.only(top: screenHeight * 0.008),
+                  child: Text(
+                    'Location: ${locationController.text}',
+                    style: GoogleFonts.lato(
+                      textStyle: TextStyle(
+                          fontSize: fontNormalSize,
+                          color: Colors.black,
+                          letterSpacing: 0.8
                       ),
-                    )
-                  : SizedBox.shrink(),
+                    ),
+                  ),
+                ),
 
-                ClientInfo?.project_name == ''
-                  ? Padding(
-                      padding: EdgeInsets.only(top: screenHeight * 0.008),
-                      child: Text(
-                        'Project Name: ${projnameController.text}',
-                        style: GoogleFonts.lato(
-                          textStyle: TextStyle(
-                              fontSize: fontNormalSize,
-                              color: Colors.black,
-                              letterSpacing: 0.8
-                          ),
-                        ),
+                Padding(
+                  padding: EdgeInsets.only(top: screenHeight * 0.008),
+                  child: Text(
+                    'Project Name: ${projnameController.text}',
+                    style: GoogleFonts.lato(
+                      textStyle: TextStyle(
+                          fontSize: fontNormalSize,
+                          color: Colors.black,
+                          letterSpacing: 0.8
                       ),
-                    )
-                  : SizedBox.shrink(),
+                    ),
+                  ),
+                ),
 
                 ClientInfo?.contact_no == ''
                   ? Padding(
@@ -634,8 +572,8 @@ class _BookingSystemState extends State<BookingSystem> {
                         clientNameController.text, clientPositionController.text,
                         clientRemarksController.text, fileName.toString(), fileData.toString(),
                         selectedDate.toString(), ClientInfo!.client_id,
-                        ClientInfo!.name, ClientInfo!.company_name,
-                        ClientInfo!.location, ClientInfo!.project_name,
+                        ClientInfo!.name, compnameController.text,
+                        locationController.text, projnameController.text,
                         ClientInfo!.contact_no, ClientInfo!.email
                     ).then((result) {
                       if('success' == result){
@@ -759,7 +697,7 @@ class _BookingSystemState extends State<BookingSystem> {
         'action' : 'Booking',
         'code' : generatedCode,
         'name' : name,
-        'company' : ClientInfo!.company_name.isEmpty ? compnameController.text : ClientInfo!.company_name,
+        'company' : compnameController.text,
         'date_booked' : selectedDate.toString(),
       },
     );
@@ -974,35 +912,29 @@ class _BookingSystemState extends State<BookingSystem> {
                     ),
 
 
-                    ClientInfo?.company_name == ''
-                     ? Padding(
-                       padding: const EdgeInsets.only(top: 8.0),
-                       child: Normal2TextField(
-                          controller: compnameController,
-                          hintText: 'Company Name *',
-                        ),
-                     )
-                     : SizedBox.shrink(),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 8.0),
+                      child: Normal2TextField(
+                        controller: compnameController,
+                        hintText: 'Company Name *',
+                      ),
+                    ),
 
-                    ClientInfo?.location == ''
-                     ? Padding(
-                        padding: const EdgeInsets.only(top: 8.0),
-                        child: Normal2TextField(
-                          controller: locationController,
-                          hintText: 'Location *',
-                        ),
-                      )
-                      : SizedBox.shrink(),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 8.0),
+                      child: Normal2TextField(
+                        controller: locationController,
+                        hintText: 'Location *',
+                      ),
+                    ),
 
-                    ClientInfo?.project_name == ''
-                     ? Padding(
-                        padding: const EdgeInsets.only(top: 8.0),
-                        child: Normal2TextField(
-                          controller: projnameController,
-                          hintText: 'Project Name *',
-                        ),
-                      )
-                     : SizedBox.shrink(),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 8.0),
+                      child: Normal2TextField(
+                        controller: projnameController,
+                        hintText: 'Project Name *',
+                      ),
+                    ),
 
                     ClientInfo?.contact_no == ''
                      ? Padding(
