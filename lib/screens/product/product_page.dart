@@ -1,6 +1,8 @@
 import 'dart:math';
 
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:enye_app/screens/product/product_category_list_page.dart';
+import 'package:enye_app/screens/products/flash_deal.dart';
 import 'package:flutter/material.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import 'package:speech_to_text/speech_to_text.dart' as stt;
@@ -321,6 +323,38 @@ class _productsPageState extends State<productsPage> with TickerProviderStateMix
                     ),
                   ),
 
+
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(15,0,15,0),
+                  child: Row(
+                    children: [
+                      Text(
+                        "Categories",
+                        style: TextStyle(
+                          fontFamily: 'Rowdies',
+                          fontStyle: FontStyle.italic,
+                          fontSize: MediaQuery.of(context).size.width * 0.05,
+                          color: Colors.deepOrange,
+                        ),
+                      ),
+                      Spacer(),
+                      Text("See all"),
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => ProductAllCategory(products: _products.where((product) => product.isPopular == "true").toList())), // Replace YourNewPage with the page you want to navigate to
+                          );
+                        },
+                        child: Icon(
+                          Icons.arrow_circle_right_outlined,
+                          size: MediaQuery.of(context).size.width * 0.08,
+                          color: Colors.deepOrange,
+                        ),
+                      ),
+                    ],
+                  ),
+                  ),
 
 
 

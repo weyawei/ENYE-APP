@@ -1,9 +1,12 @@
+import 'dart:math';
 import 'dart:ui';
 
 import 'package:animated_text_kit/animated_text_kit.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:lottie/lottie.dart';
+import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:video_player/video_player.dart';
@@ -75,11 +78,35 @@ class _homePageState extends State<homePage>{
     });
   }
 
+  void initState() {
+    super.initState();
+    // Initially, show all products
+    _projects = [];
+    _getProjects();
+  }
+
+  bool _isLoadingProj = true;
+  late List<Projects> _projects;
+  _getProjects(){
+    projectSVC.getProjects().then((Projects){
+      setState(() {
+        _projects = Projects;
+      });
+      _isLoadingProj = false;
+      print("Length ${Projects.length}");
+    });
+  }
+
+
+  int _currentIndex = 0;
+
   @override
   Widget build(BuildContext context) {
 
     double screenHeight = MediaQuery.of(context).size.height;
     double screenWidth = MediaQuery.of(context).size.width;
+
+    bool screenLayout = ResponsiveTextUtils.getLayout(screenWidth);
 
     var fontNormalSize = ResponsiveTextUtils.getNormalFontSize(screenWidth);
     var fontExtraSize = ResponsiveTextUtils.getExtraFontSize(screenWidth);
@@ -198,11 +225,11 @@ class _homePageState extends State<homePage>{
                         text: TextSpan(children: <TextSpan>
                         [
                           TextSpan(text: '  Enyecontrols',
-                            style: TextStyle(fontSize: fontExtraSize, fontWeight: FontWeight.bold, color: Colors.grey, letterSpacing: 0.8),),
+                            style: TextStyle(fontSize: fontNormalSize, fontWeight: FontWeight.bold, color: Colors.grey, letterSpacing: 0.8),),
                           TextSpan(text: " is a controls company which is actively involved in more than 90% of all major projects nationwide. Our wide range of clients includes commercial buildings, data centers, hotels, semiconductors, hospitals, and manufacturing plants, retail buildings, residential including fit-outs and retrofits.",
-                            style: TextStyle(fontSize: fontExtraSize, color: Colors.grey, letterSpacing: 0.8),),
+                            style: TextStyle(fontSize: fontNormalSize, color: Colors.grey, letterSpacing: 0.8),),
                           TextSpan(text: " We are known for project design, conceptualization, supply, installation of controls systems and devices but most importantly preventive maintenance and after-sales technical support.",
-                            style: TextStyle(fontSize: fontExtraSize, fontWeight: FontWeight.bold, color: Colors.grey, letterSpacing: 0.8),),
+                            style: TextStyle(fontSize: fontNormalSize, fontWeight: FontWeight.bold, color: Colors.grey, letterSpacing: 0.8),),
                         ]
                         ),
                       ),
@@ -224,7 +251,7 @@ class _homePageState extends State<homePage>{
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    SizedBox(height: 75,),
+                    SizedBox(height: 20,),
                     Text(
                       "Our Mission & Vision",
                       style: TextStyle(
@@ -250,7 +277,7 @@ class _homePageState extends State<homePage>{
                     ),
                     Lottie.asset(
                       'assets/lottie/mission_vision.json',
-                      height: screenHeight / 10 ,
+                      height: screenHeight / 12 ,
                       width: screenWidth / 5,
                     ),
 
@@ -263,7 +290,7 @@ class _homePageState extends State<homePage>{
                         ImageIcon(
                           AssetImage("assets/icons/market.png"),
                           color: Colors.deepOrange.shade700,
-                          size: (screenHeight + screenWidth) / 10,
+                          size: (screenHeight + screenWidth) / 12,
                         ),
 
                         Container(
@@ -274,9 +301,9 @@ class _homePageState extends State<homePage>{
                             text: TextSpan(children: <TextSpan>
                             [
                               TextSpan(text: '  TO BE A MARKET LEADER',
-                                style: TextStyle(fontSize: fontExtraSize, fontWeight: FontWeight.bold, color: Colors.grey, letterSpacing: 0.8),),
+                                style: TextStyle(fontSize: fontNormalSize, fontWeight: FontWeight.bold, color: Colors.grey, letterSpacing: 0.8),),
                               TextSpan(text: ' in all our business fields by continuing to "challenge our own success"',
-                                style: TextStyle(fontSize: fontExtraSize, color: Colors.grey, letterSpacing: 0.8),),
+                                style: TextStyle(fontSize: fontNormalSize, color: Colors.grey, letterSpacing: 0.8),),
                             ]
                             ),
                           ),
@@ -298,9 +325,9 @@ class _homePageState extends State<homePage>{
                             text: TextSpan(children: <TextSpan>
                             [
                               TextSpan(text: '  TO OUR CUSTOMERS',
-                                style: TextStyle(fontSize: fontExtraSize, fontWeight: FontWeight.bold, color: Colors.grey, letterSpacing: 0.8),),
+                                style: TextStyle(fontSize: fontNormalSize, fontWeight: FontWeight.bold, color: Colors.grey, letterSpacing: 0.8),),
                               TextSpan(text: ' , we will be a complete solution to their business requirements by giving "the BEST products, technical support and after-sales services"',
-                                style: TextStyle(fontSize: fontExtraSize, color: Colors.grey, letterSpacing: 0.8),),
+                                style: TextStyle(fontSize: fontNormalSize, color: Colors.grey, letterSpacing: 0.8),),
                             ]
                             ),
                           ),
@@ -309,7 +336,7 @@ class _homePageState extends State<homePage>{
                         ImageIcon(
                           AssetImage("assets/icons/customer.png"),
                           color: Colors.deepOrange.shade700,
-                          size: (screenHeight + screenWidth) / 10,
+                          size: (screenHeight + screenWidth) / 12,
                         ),
                       ],
                     ),
@@ -321,7 +348,7 @@ class _homePageState extends State<homePage>{
                         ImageIcon(
                           AssetImage("assets/icons/business_partner.png"),
                           color: Colors.deepOrange.shade700,
-                          size: (screenHeight + screenWidth) / 10,
+                          size: (screenHeight + screenWidth) / 12,
                         ),
 
                         Container(
@@ -332,9 +359,9 @@ class _homePageState extends State<homePage>{
                             text: TextSpan(children: <TextSpan>
                             [
                               TextSpan(text: '  TO OUR BUSINESS PARTNERS',
-                                style: TextStyle(fontSize: fontExtraSize, fontWeight: FontWeight.bold, color: Colors.grey, letterSpacing: 0.8),),
+                                style: TextStyle(fontSize: fontNormalSize, fontWeight: FontWeight.bold, color: Colors.grey, letterSpacing: 0.8),),
                               TextSpan(text: ' , a mutual benefit relationship.',
-                                style: TextStyle(fontSize: fontExtraSize, color: Colors.grey, letterSpacing: 0.8),),
+                                style: TextStyle(fontSize: fontNormalSize, color: Colors.grey, letterSpacing: 0.8),),
                             ]
                             ),
                           ),
@@ -345,15 +372,240 @@ class _homePageState extends State<homePage>{
                 ),
               ),
 
-              SizedBox(height: 40,),
-              ContactsHome(),
+              SizedBox(height: 20,),
+              /*ContactsHome(),*/
 
-              SizedBox(height: 60,),
+              Container(
+
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+                      child: Row(
+                        children: [
+                          Text(
+                            "Projects",
+                            style: TextStyle(
+                              fontFamily: "Rowdies",
+                              fontSize: MediaQuery.of(context).size.width * 0.065,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.red, // Adjust the color as needed
+                            ),
+                          ),
+                          Spacer(),
+                          Text("See all"),
+                          GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (context) => ProjectsPage()), // Replace YourNewPage with the page you want to navigate to
+                              );
+                            },
+                            child: Icon(
+                              Icons.arrow_circle_right_outlined,
+                              size: MediaQuery.of(context).size.width * 0.08,
+                              color: Colors.deepOrange,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    CarouselSlider(
+                      options: CarouselOptions(
+                        autoPlay: false,
+                        aspectRatio: 1.2,
+                        viewportFraction: 0.7,
+                        enlargeCenterPage: true,
+                        enlargeStrategy: CenterPageEnlargeStrategy.height,
+                        onPageChanged: (index, reason) {
+                          setState(() {
+                            _currentIndex = index;
+                          });
+                        },
+                      ),
+                      items: _projects.where((project) => project.status == "Active").map((project) =>
+                          InkWell(
+                            onTap: (){
+                              PersistentNavBarNavigator.pushNewScreenWithRouteSettings(
+                                context,
+                                settings: RouteSettings(name: detailedProjPage.routeName),
+                                screen: detailedProjPage(projects: project),
+                                withNavBar: true,
+                                pageTransitionAnimation: PageTransitionAnimation.cupertino,
+                              );
+                            },
+                            child: Container(
+                              color: Colors.white,
+                              margin: EdgeInsets.symmetric(horizontal: 5.0, vertical: 5.0),
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.all(Radius.circular(5.0)),
+                                child: Column(
+                                  children: [
+                                    Expanded(
+                                      child: Container(
+                                        width: MediaQuery.of(context).size.width * 0.7, // Adjust width as needed
+                                        height: MediaQuery.of(context).size.width * 0.7 * 1.3, // Adjust height as needed
+                                        child: Image.network(
+                                          "${API.projectsImage + project.images}",
+                                          fit: BoxFit.cover, // Adjust this to change how the image fits within the container
+                                        ),
+                                      ),
+                                    ),
+                                    Container(
+                                      decoration: BoxDecoration(
+                                        gradient: LinearGradient(
+                                          colors: [
+                                            Color.fromARGB(200, 0, 0, 0),
+                                            Color.fromARGB(0, 0, 0, 0),
+                                          ],
+                                          begin: Alignment.bottomCenter,
+                                          end: Alignment.topCenter,
+                                        ),
+                                      ),
+                                     /* child: Padding(
+                                        padding: EdgeInsets.symmetric(vertical: 5.0, horizontal: 0.0),
+                                        child: Text(
+                                          project.title,
+                                          style: TextStyle(
+                                            fontSize: MediaQuery.of(context).size.width * 0.05,
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                      ),*/
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          )
+                      ).toList(),
+                    ),
+                  ],
+                ),
+              ),
+
+
+              SizedBox(height: 40,),
+
+              Container(
+                child: Column(
+                  children: [
+                    Text(
+                      "News And Updates",
+                      style: TextStyle(
+                        fontFamily: "Rowdies",
+                        fontSize: MediaQuery.of(context).size.width * 0.065,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.red, // Adjust the color as needed
+                      ),
+                    ),
+                    SizedBox(height: 20,),
+                    GridView.builder(
+                      padding: EdgeInsets.symmetric(horizontal: 6.0),
+                      physics: const NeverScrollableScrollPhysics(),
+                      shrinkWrap: true,
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: screenLayout ? 1 : 3,
+                        crossAxisSpacing: (screenHeight + screenWidth) / 90,
+                        mainAxisSpacing: (screenHeight + screenWidth) / 90,
+                        mainAxisExtent: screenHeight * 0.2,
+                      ),
+                      itemCount: min(_projects.length, 3),
+                      itemBuilder: (context, index) {
+                        final project = _projects[index];
+                     //   final isExpanded = _isExpanded[index];
+
+                        return Card(
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Row(
+                              children: [
+                                // Image on the left
+                                Container(
+                                  width: MediaQuery.of(context).size.width * 0.4,
+                                  height: MediaQuery.of(context).size.height * 0.6,
+                                  child: Image.network(
+                                    "${API.projectsImage + project.images}",
+                                    fit: BoxFit.cover, // Adjust this to change how the image fits within the container
+                                  ),
+                                ),
+                                SizedBox(width: 8), // Space between image and details
+                                // Details on the right
+                                Expanded(
+                                  child: SingleChildScrollView(
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          project.title,
+                                          style: TextStyle(
+                                            fontSize: MediaQuery.of(context).size.width * 0.050,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                        SizedBox(height: 8),
+                                        Center(
+                                          child: Column(
+                                            crossAxisAlignment: CrossAxisAlignment.center,
+                                            children: [
+                                              Container(
+                                                padding: EdgeInsets.symmetric(horizontal: 8.0),
+                                                child: Text(
+                                                  _projects[index].isExpanded
+                                                      ? _projects[index].description2 // Show full description if expanded
+                                                      : _projects[index].description2.substring(0, 200) + '...', // Show truncated description
+                                                  textAlign: TextAlign.justify,
+                                                  style: TextStyle(
+                                                    fontSize: MediaQuery.of(context).size.width * 0.029,
+                                                    fontStyle: FontStyle.normal,
+                                                    letterSpacing: 1,
+                                                    color: Colors.black,
+                                                  ),
+                                                ),
+                                              ),
+                                              SizedBox(height: 2), // Adjust spacing between description and "See More" button
+                                              if (project.description2.length > 200) // Example condition for showing "See More"
+                                                GestureDetector(
+                                                  onTap: () {
+                                                    setState(() {
+                                                      // Toggle the expanded state
+                                                      _projects[index].isExpanded = !_projects[index].isExpanded;
+                                                    });
+                                                  },
+                                                  child: Text(
+                                                    _projects[index].isExpanded ? "See Less" : "See More",
+                                                    style: TextStyle(
+                                                      fontSize: MediaQuery.of(context).size.width * 0.028,
+                                                      color: Colors.blue, // Example color for the text button
+                                                      fontWeight: FontWeight.bold,
+                                                    ),
+                                                  ),
+                                                ),
+                                            ],
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+                  ],
+                ),
+              ),
+
+              SizedBox(height: 30,),
               // follow us
               Lottie.asset(
                   'assets/lottie/follow_us.json',
                   frameRate: FrameRate.max,
-                  height: screenHeight * 0.2,
+                  height: screenHeight * 0.12,
                   width: screenWidth * 0.6,
                   controller: lottieController
               ),

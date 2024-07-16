@@ -208,6 +208,8 @@ class _CustomNavBarState extends State<CustomNavBar> {
     double screenWidth = MediaQuery.of(context).size.width;
 
     var fontNormalSize = ResponsiveTextUtils.getNormalFontSize(screenWidth);
+    var fontSmallSize = ResponsiveTextUtils.getSmallFontSize(screenWidth);
+    var fontExtraSmallSize = ResponsiveTextUtils.getXSmallFontSize(screenWidth);
 
     if (widget.initialMessage != null) {
       message = widget.initialMessage;
@@ -235,37 +237,54 @@ class _CustomNavBarState extends State<CustomNavBar> {
         PersistentBottomNavBarItem(
           icon: Icon(Icons.home, size: (screenHeight + screenWidth) / 40,),
           title: ("Home"),
-          activeColorPrimary: Colors.white,
-          inactiveColorPrimary: Colors.white70,
-          textStyle: TextStyle(fontSize: fontNormalSize, fontWeight: FontWeight.bold),
+          activeColorPrimary: Colors.black,
+          inactiveColorPrimary: Colors.black38,
+          textStyle: TextStyle(fontSize: fontExtraSmallSize, fontWeight: FontWeight.bold),
         ),
         PersistentBottomNavBarItem(
           icon: Icon(Dashboardicon.systems_nav, size: (screenHeight + screenWidth) / 40),
           title: ("Systems"),
-          activeColorPrimary: Colors.white,
-          inactiveColorPrimary: Colors.white70,
-          textStyle: TextStyle(fontSize: fontNormalSize, fontWeight: FontWeight.bold),
+          activeColorPrimary: Colors.black,
+          inactiveColorPrimary: Colors.black38,
+          textStyle: TextStyle(fontSize: fontExtraSmallSize, fontWeight: FontWeight.bold),
         ),
         PersistentBottomNavBarItem(
-          icon: Icon(Icons.shopping_cart, size: (screenHeight + screenWidth) / 40),
-          title: ("Products"),
+          icon: Container(
+            width: (screenHeight + screenWidth) / 10,  // Set the width of the circle
+            height: (screenHeight + screenWidth) / 10, // Set the height of the circle
+            decoration: BoxDecoration(
+              color: Colors.black,
+              shape: BoxShape.circle, // Optional, if you want the background to be circular
+
+            ),
+            child: Icon(
+              Icons.shopping_bag,
+              size: (screenHeight + screenWidth) / 35,
+              color: Colors.white,
+            ),
+          ),
+          title: "Products",
           activeColorPrimary: Colors.white,
-          inactiveColorPrimary: Colors.white70,
-          textStyle: TextStyle(fontSize: fontNormalSize, fontWeight: FontWeight.bold),
+          inactiveColorPrimary: Colors.white,
+          textStyle: TextStyle(
+            fontSize: fontExtraSmallSize,
+            fontWeight: FontWeight.bold,
+          ),
         ),
+
         PersistentBottomNavBarItem(
           icon: Icon(Dashboardicon.projects_nav, size: (screenHeight + screenWidth) / 40),
           title: ("Projects"),
-          activeColorPrimary: Colors.white,
-          inactiveColorPrimary: Colors.white70,
-          textStyle: TextStyle(fontSize: fontNormalSize, fontWeight: FontWeight.bold),
+          activeColorPrimary: Colors.black,
+          inactiveColorPrimary: Colors.black38,
+          textStyle: TextStyle(fontSize: fontExtraSmallSize, fontWeight: FontWeight.bold),
         ),
         PersistentBottomNavBarItem(
           icon: Icon(Icons.calendar_month_rounded, size: (screenHeight + screenWidth) / 40),
-          title: ("Appointment"),
-          activeColorPrimary: Colors.white,
-          inactiveColorPrimary: Colors.white70,
-          textStyle: TextStyle(fontSize: fontNormalSize, fontWeight: FontWeight.bold),
+          title: ("Services"),
+          activeColorPrimary: Colors.black,
+          inactiveColorPrimary: Colors.black38,
+          textStyle: TextStyle(fontSize: fontExtraSmallSize, fontWeight: FontWeight.bold),
         ),
 
       ];
@@ -279,15 +298,16 @@ class _CustomNavBarState extends State<CustomNavBar> {
       context,
       controller: _controller,
       screens: _buildScreens(),
-      navBarHeight: screenHeight * 0.08,
+      navBarHeight: kBottomNavigationBarHeight,
       items: _navBarsItems(),
       confineInSafeArea: true,
-      backgroundColor: Colors.deepOrange, // Default is Colors.white.
+      backgroundColor: Colors.white, // Default is Colors.white.
       handleAndroidBackButtonPress: true, // Default is true.
       resizeToAvoidBottomInset: true, // This needs to be true if you want to move up the screen when keyboard appears. Default is true.
       stateManagement: true, // Default is true.
       hideNavigationBarWhenKeyboardShows: true, // Recommended to set 'resizeToAvoidBottomInset' as true while using this argument. Default is true.
-      decoration: const NavBarDecoration(
+      decoration: NavBarDecoration(
+        borderRadius: BorderRadius.circular(1.0),
         colorBehindNavBar: Colors.white,
       ),
       popAllScreensOnTapOfSelectedTab: true,
@@ -301,7 +321,7 @@ class _CustomNavBarState extends State<CustomNavBar> {
         curve: Curves.ease,
         duration: Duration(milliseconds: 200),
       ),
-      navBarStyle: NavBarStyle.style4, // Choose the nav bar style with this property.
+      navBarStyle: NavBarStyle.style15, // Choose the nav bar style with this property.
     );
 
      /* BottomAppBar(

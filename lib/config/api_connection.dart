@@ -30,6 +30,7 @@ class API {
   static const prodPdf = "$hostConnect/enye/products/products_pdf/";
   static const prodDetailsImg = "$hostConnect/enye/products/product_details/";
   static const products = "$hostConnect/enye/products/products.php";
+  static const prodThumb = "$hostConnect/enye/products/products_thumbnail/";
 
   //home
   static const dashboard = "$hostConnect/enye/home/dashboard/";

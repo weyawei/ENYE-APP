@@ -45,7 +45,7 @@ dependencies:
   cupertino_icons:
   carousel_slider:
   curved_navigation_bar:
-  persistent_bottom_nav_bar:
+  persistent_bottom_nav_bar: ^5.0.2
   url_launcher:
   smooth_page_indicator:
   equatable:
@@ -77,6 +77,7 @@ dependencies:
   printing: any
   flutter_file_downloader:
   casa_vertical_stepper:
+  flutter_svg :
 
   image_picker:
   file_picker:
@@ -125,6 +126,7 @@ flutter:
     - assets/backgrounds/
     - assets/logo/
     - assets/icons/
+    - assets/images/
 
     #   - images/images_1/wallpaper.jpg
     #   - images/a_dot_ham.jpeg
