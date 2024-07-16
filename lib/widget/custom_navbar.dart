@@ -1,17 +1,9 @@
-import 'dart:async';
-
-import 'package:enye_app/screens/products/products1.dart';
-import 'package:enye_app/screens/screens.dart';
-import 'package:enye_app/screens/services/survey.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 
-import '../config/app_checksession.dart';
 import '../dashboardicon_icons.dart';
-import '../screens/services/survey_data.dart';
-import '../screens/services/survey_svc.dart';
+import '../screens/screens.dart';
 import 'widgets.dart';
 
 class CustomNavBar extends StatefulWidget {
@@ -226,7 +218,8 @@ class _CustomNavBarState extends State<CustomNavBar> {
         systemsPage(),
         productsPage(),
         ProjectsPage(),
-        ServicePage(message: message as RemoteMessage),
+        AccountPage()
+        // ServicePage(message: message as RemoteMessage),
       ];
     }
 
@@ -261,12 +254,19 @@ class _CustomNavBarState extends State<CustomNavBar> {
           textStyle: TextStyle(fontSize: fontNormalSize, fontWeight: FontWeight.bold),
         ),
         PersistentBottomNavBarItem(
-          icon: Icon(Icons.calendar_month_rounded, size: (screenHeight + screenWidth) / 40),
-          title: ("Appointment"),
+          icon: Icon(Icons.person, size: (screenHeight + screenWidth) / 40),
+          title: ("Account"),
           activeColorPrimary: Colors.white,
           inactiveColorPrimary: Colors.white70,
           textStyle: TextStyle(fontSize: fontNormalSize, fontWeight: FontWeight.bold),
         ),
+        // PersistentBottomNavBarItem(
+        //   icon: Icon(Icons.calendar_month_rounded, size: (screenHeight + screenWidth) / 40),
+        //   title: ("Appointment"),
+        //   activeColorPrimary: Colors.white,
+        //   inactiveColorPrimary: Colors.white70,
+        //   textStyle: TextStyle(fontSize: fontNormalSize, fontWeight: FontWeight.bold),
+        // ),
 
       ];
     }
