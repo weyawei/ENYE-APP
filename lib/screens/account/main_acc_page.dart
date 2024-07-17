@@ -1,8 +1,10 @@
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_session_manager/flutter_session_manager.dart';
 
 import '../../config/config.dart';
 import '../../widget/widgets.dart';
+import '../screens.dart';
 
 class MainAccPage extends StatefulWidget {
   final Function onLogoutSuccess;
@@ -13,6 +15,36 @@ class MainAccPage extends StatefulWidget {
 }
 
 class _MainAccPageState extends State<MainAccPage> {
+  RemoteMessage message = RemoteMessage();
+  bool? userSessionFuture;
+  clientInfo? ClientInfo;
+
+  void initState(){
+    super.initState();
+
+    _checkSession();
+  }
+
+  _checkSession(){
+    checkSession().getUserSessionStatus().then((bool) {
+      if (bool == true) {
+        checkSession().getClientsData().then((value) {
+          setState(() {
+            ClientInfo = value;
+          });
+        });
+        userSessionFuture = bool;
+      } else {
+        userSessionFuture = bool;
+      }
+    });
+  }
+
+  void _handleClientInfo() {
+    setState(() {
+      _checkSession();
+    });
+  }
 
   Future<void> logoutClient() async {
     dynamic token = await SessionManager().get("token");
@@ -59,7 +91,9 @@ class _MainAccPageState extends State<MainAccPage> {
                     children: [
                       GestureDetector(
                         onTap: () {
-                          // Your onTap function here
+                          Navigator.of(context).push(
+                            MaterialPageRoute(builder: (context) => ProfilePage()),
+                          ).then((_) => _handleClientInfo());
                         },
                         child: Material(
                           elevation: 7.0, // Adjust the elevation to control the shadow
@@ -83,7 +117,7 @@ class _MainAccPageState extends State<MainAccPage> {
                   top: screenHeight * 0.09,
                   left: fontNormalSize * 5 + screenWidth * 0.1,
                   child: Text(
-                    "Hi, Wea Jinelette !",
+                    "Hi, " + (ClientInfo?.name ?? 'Guest') + " !",
                     style: TextStyle(
                       fontSize: fontExtraSize,
                       color: Colors.white,
@@ -124,8 +158,10 @@ class _MainAccPageState extends State<MainAccPage> {
                       child: CircleAvatar(
                         backgroundColor: Colors.white,
                         radius: fontNormalSize * 2.5, // Adjust radius to fit within the border
-                        backgroundImage: AssetImage('assets/icons/user_orange.png'), // Replace with your image asset
-                      ),
+                        backgroundImage: ClientInfo != null && ClientInfo!.image.isNotEmpty
+                            ? NetworkImage(API.clientsImages + ClientInfo!.image)
+                            : AssetImage('assets/icons/user_orange.png') as ImageProvider, // Cast AssetImage to ImageProvider
+                      )
                     ),
                   ),
                 ),
@@ -159,90 +195,115 @@ class _MainAccPageState extends State<MainAccPage> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                //status button
-                Container(
-                  height: screenHeight * 0.14,
-                  width: screenWidth * 0.35,
-                  decoration: BoxDecoration(
-                    border: Border.all(width: 2, color: Colors.deepOrange.withOpacity(0.2)),
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Image.asset(
-                        "assets/icons/service-appointment.png", // Replace with your image path
-                        height: screenHeight * 0.06, // Adjust the size as needed
-                      ),
-                      SizedBox(height: screenHeight * 0.01),  // Space between image and text
-                      Padding(
-                        padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.05),
-                        child: Text(
-                          'Create',
-                          style: TextStyle(
-                              fontSize: fontSmallSize,
-                              letterSpacing: 0.8,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.deepOrange.shade700
+
+                GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => BookingSystem()),
+                    );
+                  },
+                  child: Container(
+                    height: screenHeight * 0.14,
+                    width: screenWidth * 0.35,
+                    decoration: BoxDecoration(
+                      border: Border.all(width: 2, color: Colors.deepOrange.withOpacity(0.2)),
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Image.asset(
+                          "assets/icons/service-appointment.png",
+                          height: screenHeight * 0.06,
+                        ),
+                        SizedBox(height: screenHeight * 0.01),
+
+                        Flexible(
+                          child: RichText(
+                            textAlign: TextAlign.center,
+                            softWrap: true,
+                            text: TextSpan(children: <TextSpan>
+                            [
+                              TextSpan(text: 'Create',
+                                style: TextStyle(
+                                  fontSize: fontSmallSize,
+                                  letterSpacing: 1.2,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.deepOrange.shade700
+                                ),
+                              ),
+
+                              TextSpan(text: '\n Appointment',
+                                style: TextStyle(
+                                    fontSize: fontSmallSize,
+                                    letterSpacing: 1.2,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.deepOrange.shade700
+                                ),
+                              ),
+                            ]
+                            ),
                           ),
                         ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.05),
-                        child: Text(
-                          'Appointment',
-                          style: TextStyle(
-                              fontSize: fontSmallSize,
-                              letterSpacing: 0.8,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.deepOrange.shade700
-                          ),
-                        ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
 
-                Container(
-                  height: screenHeight * 0.14,
-                  width: screenWidth * 0.35,
-                  decoration: BoxDecoration(
-                    border: Border.all(width: 2, color: Colors.deepOrange.withOpacity(0.2)),
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Image.asset(
-                        "assets/icons/service-status.png", // Replace with your image path
-                        height: screenHeight * 0.06, // Adjust the size as needed
-                      ),
-                      SizedBox(height: screenHeight * 0.01), // Space between image and text
-                      Padding(
-                        padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.05),
-                        child: Text(
-                          'Appointment',
-                          style: TextStyle(
-                            fontSize: fontSmallSize,
-                            letterSpacing: 0.8,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.deepOrange.shade700
+                GestureDetector(
+                  onTap: () {
+                    // Navigator.of(context).push(
+                    //   MaterialPageRoute(builder: (context) => ProfilePage()),
+                    // ).then((_) => _getServices() );
+                    Navigator.of(context).push(
+                      MaterialPageRoute(builder: (context) => StatusPage(message: message)),
+                    );
+                  },
+                  child: Container(
+                    height: screenHeight * 0.14,
+                    width: screenWidth * 0.35,
+                    decoration: BoxDecoration(
+                      border: Border.all(width: 2, color: Colors.deepOrange.withOpacity(0.2)),
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Image.asset(
+                          "assets/icons/service-status.png", // Replace with your image path
+                          height: screenHeight * 0.06, // Adjust the size as needed
+                        ),
+                        SizedBox(height: screenHeight * 0.01), // Space between image and text
+                        Flexible(
+                          child: RichText(
+                            textAlign: TextAlign.center,
+                            softWrap: true,
+                            text: TextSpan(children: <TextSpan>
+                            [
+                              TextSpan(text: 'Appointment',
+                                style: TextStyle(
+                                    fontSize: fontSmallSize,
+                                    letterSpacing: 1.2,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.deepOrange.shade700
+                                ),
+                              ),
+
+                              TextSpan(text: '\n Status',
+                                style: TextStyle(
+                                    fontSize: fontSmallSize,
+                                    letterSpacing: 1.2,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.deepOrange.shade700
+                                ),
+                              ),
+                            ]
+                            ),
                           ),
                         ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.05),
-                        child: Text(
-                          'Status',
-                          style: TextStyle(
-                              fontSize: fontSmallSize,
-                              letterSpacing: 0.8,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.deepOrange.shade700
-                          ),
-                        ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 )
 
@@ -258,47 +319,57 @@ class _MainAccPageState extends State<MainAccPage> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                //status button
-                Container(
-                  height: screenHeight * 0.14,
-                  width: screenWidth * 0.35,
-                  decoration: BoxDecoration(
-                    border: Border.all(width: 2, color: Colors.deepOrange.withOpacity(0.2)),
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Image.asset(
-                        "assets/icons/technical-status.png", // Replace with your image path
-                        height: screenHeight * 0.06, // Adjust the size as needed
-                      ),
-                      SizedBox(height: screenHeight * 0.01),  // Space between image and text
-                      Padding(
-                        padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.05),
-                        child: Text(
-                          'Technical',
-                          style: TextStyle(
-                              fontSize: fontSmallSize,
-                              letterSpacing: 0.8,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.deepOrange.shade700
+                GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => TSIStatusPage(email: ClientInfo!.email)),
+                    );
+                  },
+                  child: Container(
+                    height: screenHeight * 0.14,
+                    width: screenWidth * 0.35,
+                    decoration: BoxDecoration(
+                      border: Border.all(width: 2, color: Colors.deepOrange.withOpacity(0.2)),
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Image.asset(
+                          "assets/icons/technical-status.png", // Replace with your image path
+                          height: screenHeight * 0.06, // Adjust the size as needed
+                        ),
+                        SizedBox(height: screenHeight * 0.01),  // Space between image and text
+                        Flexible(
+                          child: RichText(
+                            textAlign: TextAlign.center,
+                            softWrap: true,
+                            text: TextSpan(children: <TextSpan>
+                            [
+                              TextSpan(text: 'Technical',
+                                style: TextStyle(
+                                    fontSize: fontSmallSize,
+                                    letterSpacing: 1.2,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.deepOrange.shade700
+                                ),
+                              ),
+
+                              TextSpan(text: '\n Status',
+                                style: TextStyle(
+                                    fontSize: fontSmallSize,
+                                    letterSpacing: 1.2,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.deepOrange.shade700
+                                ),
+                              ),
+                            ]
+                            ),
                           ),
                         ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.05),
-                        child: Text(
-                          'Status',
-                          style: TextStyle(
-                              fontSize: fontSmallSize,
-                              letterSpacing: 0.8,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.deepOrange.shade700
-                          ),
-                        ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
 
@@ -317,34 +388,36 @@ class _MainAccPageState extends State<MainAccPage> {
                         height: screenHeight * 0.06, // Adjust the size as needed
                       ),
                       SizedBox(height: screenHeight * 0.01), // Space between image and text
-                      Padding(
-                        padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.05),
-                        child: Text(
-                          'Technical',
-                          style: TextStyle(
-                              fontSize: fontSmallSize,
-                              letterSpacing: 0.8,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.deepOrange.shade700
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.05),
-                        child: Text(
-                          'History',
-                          style: TextStyle(
-                              fontSize: fontSmallSize,
-                              letterSpacing: 0.8,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.deepOrange.shade700
+                      Flexible(
+                        child: RichText(
+                          textAlign: TextAlign.center,
+                          softWrap: true,
+                          text: TextSpan(children: <TextSpan>
+                          [
+                            TextSpan(text: 'Technical',
+                              style: TextStyle(
+                                  fontSize: fontSmallSize,
+                                  letterSpacing: 1.2,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.deepOrange.shade700
+                              ),
+                            ),
+
+                            TextSpan(text: '\n History',
+                              style: TextStyle(
+                                  fontSize: fontSmallSize,
+                                  letterSpacing: 1.2,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.deepOrange.shade700
+                              ),
+                            ),
+                          ]
                           ),
                         ),
                       ),
                     ],
                   ),
                 )
-
               ],
             ),
           ),

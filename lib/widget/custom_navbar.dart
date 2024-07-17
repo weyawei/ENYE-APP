@@ -238,53 +238,40 @@ class _CustomNavBarState extends State<CustomNavBar> {
         PersistentBottomNavBarItem(
           icon: Icon(Icons.home, size: (screenHeight + screenWidth) / 40,),
           title: ("Home"),
-          activeColorPrimary: Colors.black,
-          inactiveColorPrimary: Colors.black38,
+          activeColorPrimary: Colors.deepOrange,
+          inactiveColorPrimary: Colors.deepOrange.withOpacity(0.5),
           textStyle: TextStyle(fontSize: fontExtraSmallSize, fontWeight: FontWeight.bold),
         ),
         PersistentBottomNavBarItem(
           icon: Icon(Dashboardicon.systems_nav, size: (screenHeight + screenWidth) / 40),
           title: ("Systems"),
-          activeColorPrimary: Colors.black,
-          inactiveColorPrimary: Colors.black38,
+          activeColorPrimary: Colors.deepOrange,
+          inactiveColorPrimary: Colors.deepOrange.withOpacity(0.5),
           textStyle: TextStyle(fontSize: fontExtraSmallSize, fontWeight: FontWeight.bold),
         ),
         PersistentBottomNavBarItem(
-          icon: Container(
-            width: (screenHeight + screenWidth) / 10,  // Set the width of the circle
-            height: (screenHeight + screenWidth) / 10, // Set the height of the circle
-            decoration: BoxDecoration(
-              color: Colors.black,
-              shape: BoxShape.circle, // Optional, if you want the background to be circular
-
-            ),
-            child: Icon(
-              Icons.shopping_bag,
-              size: (screenHeight + screenWidth) / 35,
-              color: Colors.white,
-            ),
+          icon: Icon(
+            Icons.shopping_bag,
+            size: (screenHeight + screenWidth) / 35,
+            color: Colors.white,
           ),
-          title: "Products",
-          activeColorPrimary: Colors.white,
-          inactiveColorPrimary: Colors.white,
-          textStyle: TextStyle(
-            fontSize: fontExtraSmallSize,
-            fontWeight: FontWeight.bold,
-          ),
+          title: ("Products"),
+          activeColorPrimary: Colors.deepOrange,
+          inactiveColorPrimary: Colors.deepOrange.withOpacity(0.5),
+          textStyle: TextStyle(fontSize: fontExtraSmallSize, fontWeight: FontWeight.bold),
         ),
-
         PersistentBottomNavBarItem(
           icon: Icon(Dashboardicon.projects_nav, size: (screenHeight + screenWidth) / 40),
           title: ("Projects"),
-          activeColorPrimary: Colors.black,
-          inactiveColorPrimary: Colors.black38,
+          activeColorPrimary: Colors.deepOrange,
+          inactiveColorPrimary: Colors.deepOrange.withOpacity(0.5),
           textStyle: TextStyle(fontSize: fontExtraSmallSize, fontWeight: FontWeight.bold),
         ),
         PersistentBottomNavBarItem(
           icon: Icon(Icons.person, size: (screenHeight + screenWidth) / 40),
           title: ("Account"),
-          activeColorPrimary: Colors.black,
-          inactiveColorPrimary: Colors.black38,
+          activeColorPrimary: Colors.deepOrange,
+          inactiveColorPrimary: Colors.deepOrange.withOpacity(0.5),
           textStyle: TextStyle(fontSize: fontExtraSmallSize, fontWeight: FontWeight.bold),
         ),
         // PersistentBottomNavBarItem(

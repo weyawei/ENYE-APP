@@ -716,33 +716,17 @@ class _BookingSystemState extends State<BookingSystem> {
     double screenWidth = MediaQuery.of(context).size.width;
 
     var fontSmallSize = ResponsiveTextUtils.getSmallFontSize(screenWidth);
+    var fontNormalSize = ResponsiveTextUtils.getNormalFontSize(screenWidth);
     var fontExtraSize = ResponsiveTextUtils.getExtraFontSize(screenWidth);
-    var fontXXSize = ResponsiveTextUtils.getXXFontSize(screenWidth);
 
     return KeyboardVisibilityBuilder(
       builder: (context, isKeyboardVisible){
         return Scaffold(
-          appBar: CustomAppBar(title: 'Booking System', imagePath: '', appBarHeight: MediaQuery.of(context).size.height * 0.05),
+          appBar: CustomAppBar(title: 'Appointment', imagePath: '', appBarHeight: MediaQuery.of(context).size.height * 0.05),
           resizeToAvoidBottomInset: true,
           body: ListView(
             padding: EdgeInsets.all(16.0),
             children: [
-              SizedBox(height: screenHeight * 0.05),
-              Center(
-                child: Text(
-                  'APPOINTMENT :',
-                  style: GoogleFonts.rowdies(
-                    textStyle: TextStyle(
-                      fontSize: fontXXSize,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black54
-                    )
-                  )
-                ),
-              ),
-
-
-              SizedBox(height: screenHeight * 0.05),
               Form(
                 key: _formKey,
                 child: Column(
@@ -752,23 +736,19 @@ class _BookingSystemState extends State<BookingSystem> {
                     Padding(
                       padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.06),
                       child: DropdownButtonFormField<String>(
-                        style: GoogleFonts.lato(
-                          textStyle: TextStyle(
-                            fontSize: fontExtraSize,
-                            color: Colors.black,
-                            fontWeight: FontWeight.w500,
-                            letterSpacing: 0.8
-                          ),
+                        style: TextStyle(
+                          fontSize: fontNormalSize,
+                          color: Colors.black,
+                          fontWeight: FontWeight.w500,
+                          letterSpacing: 0.8
                         ),
                         decoration: InputDecoration(
                           labelText: 'Select Service*',
-                          labelStyle: GoogleFonts.lato(
-                            textStyle: TextStyle(
-                                fontSize: fontExtraSize,
-                                color: Colors.black,
-                                fontWeight: FontWeight.w500,
-                                letterSpacing: 0.8
-                            ),
+                          labelStyle: TextStyle(
+                            fontSize: fontNormalSize,
+                            color: Colors.black,
+                            fontWeight: FontWeight.w500,
+                            letterSpacing: 0.8
                           ),
                         ),
                         value: selectedConcern,
@@ -797,8 +777,6 @@ class _BookingSystemState extends State<BookingSystem> {
                       controller: subjectController,
                       hintText: 'Subject *',
                     ),
-
-
 
                     Padding(
                       padding: const EdgeInsets.only(top: 8.0),
@@ -842,6 +820,40 @@ class _BookingSystemState extends State<BookingSystem> {
 
                     Padding(
                       padding: const EdgeInsets.only(top: 8.0),
+                      child: Normal2TextField(
+                        controller: compnameController,
+                        hintText: 'Company Name *',
+                      ),
+                    ),
+
+                    Padding(
+                      padding: const EdgeInsets.only(top: 8.0),
+                      child: Normal2TextField(
+                        controller: locationController,
+                        hintText: 'Location *',
+                      ),
+                    ),
+
+                    Padding(
+                      padding: const EdgeInsets.only(top: 8.0),
+                      child: Normal2TextField(
+                        controller: projnameController,
+                        hintText: 'Project Name *',
+                      ),
+                    ),
+
+                    ClientInfo?.contact_no == ''
+                    ? Padding(
+                      padding: const EdgeInsets.only(top: 8.0),
+                      child: ContactTextField(
+                        controller: contactController,
+                        hintText: 'Contact # *',
+                      ),
+                    )
+                    : SizedBox.shrink(),
+
+                    Padding(
+                      padding: const EdgeInsets.only(top: 8.0),
                       child:Normal2TextField(
                       controller: clientPositionController,
                       hintText: 'Designated Position *',
@@ -875,34 +887,34 @@ class _BookingSystemState extends State<BookingSystem> {
                             children: [
                               if (filePath != null && _isImage(filePath!.path))
                                 CircleAvatar(
-                                  radius: 64,
+                                  radius: fontExtraSize * 3,
                                   backgroundImage: FileImage(filePath!),
                                 )
                               else if (showData != null && showData!.isNotEmpty && _isImage(showData!))
                                 CircleAvatar(
-                                  radius: 64,
+                                  radius: fontExtraSize * 3,
                                   backgroundImage: FileImage(File(API.clientsImages + showData!)),
                                 )
                               else
                                 CircleAvatar(
-                                  radius: 64,
+                                  radius: fontExtraSize * 3,
                                   foregroundColor: Colors.deepOrange,
-                                  child: Icon(Icons.insert_drive_file, color: Colors.deepOrange, size: 50),
+                                  child: Icon(Icons.insert_drive_file, color: Colors.deepOrange, size: fontExtraSize * 2),
                                 ),
                               if (!disabling)
                                 Positioned(
-                                  bottom: 2,
-                                  left: 90,
-                                  child: Icon(Icons.add_a_photo, color: Colors.deepOrange),
+                                  bottom: fontExtraSize / 5,
+                                  left: fontExtraSize * 4.5,
+                                  child: Icon(Icons.add_a_photo, color: Colors.deepOrange, weight: fontExtraSize * 5,),
                                 ),
                             ],
                           ),
                         ),
-                        SizedBox(height: 8), // Add some space between the avatar and the text
+                        SizedBox(height: screenHeight * 0.01), // Add some space between the avatar and the text
                         Text(
                           filePath != null ? filePath!.path.split('/').last : "Attach file", // Display file name if file is selected
                           style: TextStyle(
-                            fontSize: 14, // Adjust font size as needed
+                            fontSize: fontNormalSize, // Adjust font size as needed
                             fontWeight: FontWeight.w500,
                             letterSpacing: 0.8,
                             color: Colors.black54,
@@ -910,41 +922,6 @@ class _BookingSystemState extends State<BookingSystem> {
                         ),
                       ],
                     ),
-
-
-                    Padding(
-                      padding: const EdgeInsets.only(top: 8.0),
-                      child: Normal2TextField(
-                        controller: compnameController,
-                        hintText: 'Company Name *',
-                      ),
-                    ),
-
-                    Padding(
-                      padding: const EdgeInsets.only(top: 8.0),
-                      child: Normal2TextField(
-                        controller: locationController,
-                        hintText: 'Location *',
-                      ),
-                    ),
-
-                    Padding(
-                      padding: const EdgeInsets.only(top: 8.0),
-                      child: Normal2TextField(
-                        controller: projnameController,
-                        hintText: 'Project Name *',
-                      ),
-                    ),
-
-                    ClientInfo?.contact_no == ''
-                     ? Padding(
-                        padding: const EdgeInsets.only(top: 8.0),
-                        child: ContactTextField(
-                          controller: contactController,
-                          hintText: 'Contact # *',
-                        ),
-                      )
-                      : SizedBox.shrink(),
                   ],
                 ),
               ),

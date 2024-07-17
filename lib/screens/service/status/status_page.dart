@@ -645,17 +645,15 @@ class _StatusPageState extends State<StatusPage> with TickerProviderStateMixin {
                                 children: [
                                   GestureDetector(
                                     onTap: (){
-                                       /* if (_filteredServices[index].status ==
-                                            "Unread") {
-                                          _showBottomSheet(context,
-                                              _filteredServices[index]);
-                                        }
+                                      if (_filteredServices[index].status == "Unread") {
+                                        _showBottomSheet(context, service);
+                                      }
 
-                                        if (_filteredServices[index].status ==
-                                            "Set-sched") {
-                                          _showBottomSheet1(context,
-                                              _filteredServices[index], ecServiceOrder!, ecEvent!);
-                                        }
+                                      /*if (_filteredServices[index].status ==
+                                          "Set-sched") {
+                                        _showBottomSheet1(context,
+                                            _filteredServices[index], ecServiceOrder!, ecEvent!);
+                                      }
 
                                       if(_filteredServices[index].status == "On Process"){
                                         _showBottomSheet2(context, _filteredServices[index], ecServiceOrder!, ecEvent!);
@@ -737,25 +735,21 @@ class _StatusPageState extends State<StatusPage> with TickerProviderStateMixin {
 
                 SizedBox(height: screenHeight * 0.04,),
 
-                 services.status == "Unread" ?
-                  Container(
-                    padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.02),
-                    child: _bottomSheetButton(
-                      label: "CANCEL",
-                      onTap: (){
-                        setState(() {
-                          Navigator.pop(context);
-                          _showAnotherBottomSheet(context, services, "Cancel");
-                        });
-                      },
-                      clr: Colors.redAccent,
-                      context:context,
-                    ),
-                  ): SizedBox.shrink(),
-
-
-
-
+               services.status == "Unread" ?
+                Container(
+                  padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.02),
+                  child: _bottomSheetButton(
+                    label: "CANCEL",
+                    onTap: (){
+                      setState(() {
+                        Navigator.pop(context);
+                        _showAnotherBottomSheet(context, services, "Cancel");
+                      });
+                    },
+                    clr: Colors.redAccent,
+                    context:context,
+                  ),
+                ): SizedBox.shrink(),
 
                 const SizedBox(height: 20,),
                 Container(
@@ -2085,8 +2079,6 @@ class _StatusPageState extends State<StatusPage> with TickerProviderStateMixin {
                               ]
                           )
                       ),
-
-
 
                       SizedBox(height: screenHeight * 0.01,),
                       RichText(

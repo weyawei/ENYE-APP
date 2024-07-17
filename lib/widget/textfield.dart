@@ -61,14 +61,16 @@ class Normal2TextField extends StatelessWidget {
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
 
+    var fontSmallSize = ResponsiveTextUtils.getSmallFontSize(screenWidth);
     var fontNormalSize = ResponsiveTextUtils.getNormalFontSize(screenWidth);
 
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.06),
       child: TextFormField(
-        style: GoogleFonts.poppins(
-          textStyle:
-          TextStyle(fontSize: fontNormalSize, fontWeight: FontWeight.w500, letterSpacing: 0.8),
+        style: TextStyle(
+          fontSize: fontNormalSize,
+          fontWeight: FontWeight.w500,
+          letterSpacing: 0.8
         ),
         onEditingComplete: (){},
         validator: (value) {
@@ -82,12 +84,12 @@ class Normal2TextField extends StatelessWidget {
         controller: controller,
         decoration: InputDecoration(
           errorStyle: TextStyle(
-              fontSize: fontNormalSize,
+              fontSize: fontSmallSize,
               letterSpacing: 0.8
           ),
           labelText: hintText,
           labelStyle: TextStyle(
-            fontSize: fontNormalSize,
+            fontSize: fontSmallSize,
             letterSpacing: 0.8
           ),
         ),
