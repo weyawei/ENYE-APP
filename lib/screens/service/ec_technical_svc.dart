@@ -14,6 +14,7 @@ class ECTechnicalDataServices {
   static const GET_ALL_ECSOPDF = 'get_all_ecsoPdf';
   static const GET_ALL_EVENTS = 'get_all_events';
   static const GET_TSIS_EMAILBASED = 'get_tsis_emailbased';
+  static const GET_COMPLETE_TSIS_EMAILBASED = 'get_complete_tsis_emailbased';
 
 
   static Future <List<EcUsers>> getEcUsers() async {
@@ -140,6 +141,25 @@ class ECTechnicalDataServices {
   static Future <List<EcTSIS>> getEcTSISbasedEmail(String email) async {
     var map = Map<String, dynamic>();
     map['action'] = GET_TSIS_EMAILBASED;
+    map['email'] = email;
+
+    //get all data of categories
+    final res = await http.post(Uri.parse(API.booking), body: map); //passing value to result
+    print('get EcTSIS Email Based Response: ${res.body}');
+
+    if(res.statusCode == 200){
+      List<EcTSIS> list = parseEcTSIS(res.body);
+      return list;
+    } else {
+      throw Exception('Failed to retrieve EcTSIS');
+      //return List<Categories>();
+    }
+
+  }
+
+  static Future <List<EcTSIS>> getEcCompleteTSISbasedEmail(String email) async {
+    var map = Map<String, dynamic>();
+    map['action'] = GET_COMPLETE_TSIS_EMAILBASED;
     map['email'] = email;
 
     //get all data of categories

@@ -1,6 +1,7 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_session_manager/flutter_session_manager.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../config/config.dart';
 import '../../widget/widgets.dart';
@@ -62,6 +63,131 @@ class _MainAccPageState extends State<MainAccPage> {
     });
 
     widget.onLogoutSuccess();
+  }
+
+  Future<void> _launchURL (String url) async{
+    try {
+      bool launched = await launch(url, forceSafariVC: false); // Launch the app if installed!
+
+      if (!launched) {
+        launch(url); // Launch web view if app is not installed!
+      }
+    } catch (e) {
+      launch(url); // Launch web view if app is not installed!
+    }
+  }
+
+  void showSampleDialog(BuildContext context) {
+    double screenHeight = MediaQuery.of(context).size.height;
+    double screenWidth = MediaQuery.of(context).size.width;
+
+    var fontSmallSize = ResponsiveTextUtils.getSmallFontSize(screenWidth);
+    var fontNormalSize = ResponsiveTextUtils.getNormalFontSize(screenWidth);
+
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(
+                Icons.support_agent_outlined, // Replace with your desired icon
+                color: Colors.deepOrange,
+                size: fontNormalSize * 2, // Adjust icon size as needed
+              ),
+              SizedBox(width: screenWidth * 0.01,),
+              Text(
+                "Contact Us",
+                style: TextStyle(
+                  fontSize: fontNormalSize,
+                  fontWeight: FontWeight.bold,
+                  letterSpacing: 1.2,
+                  color: Colors.deepOrange
+                ),
+              )
+            ],
+          ),
+          content: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                "For services concern : ",
+                style: TextStyle(
+                    color: Colors.black26,
+                    fontSize: fontSmallSize,
+                    fontWeight: FontWeight.bold,
+                    letterSpacing: 1.2
+                ),
+              ),
+
+              TextButton.icon(
+                onPressed: (){
+                  final phoneNumber  = '(02) 7616-5949';
+                  final url = 'tel:$phoneNumber';
+
+                  _launchURL(url);
+                },
+                icon: Icon(Icons.fax, size: fontNormalSize * 1.5, color: Colors.deepOrange.withOpacity(0.5),),
+                label: Text('(02) 7616-5949',
+                  style: TextStyle(
+                    color: Colors.black54,
+                    fontSize: fontSmallSize,
+                    letterSpacing: 1.0,
+                    fontWeight: FontWeight.bold,
+                    overflow: TextOverflow.visible,),
+                ),
+              ),
+
+              TextButton.icon(
+                onPressed: (){
+                  final phoneNumber  = '+639171387114';
+                  final url = 'tel:$phoneNumber';
+
+                  _launchURL(url);
+                },
+                icon: Icon(Icons.phone, size: fontNormalSize * 1.5, color: Colors.deepOrange.withOpacity(0.5),),
+                label: Text('(+63) 917-138-7114',
+                  style: TextStyle(
+                    color: Colors.black54,
+                    fontSize: fontSmallSize,
+                    letterSpacing: 1.0,
+                    fontWeight: FontWeight.bold,
+                    overflow: TextOverflow.visible,),
+                ),
+              ),
+
+              TextButton.icon(
+                onPressed: (){
+                  final toEmail  = 'maureenjontilano.enyecontrols@gmail.com';
+                  final url = 'mailto:$toEmail';
+
+                  _launchURL(url);
+                },
+                icon: Icon(Icons.mail, size: fontNormalSize * 1.5, color: Colors.deepOrange.withOpacity(0.5),),
+                label: Text('maureenjontilano.enyecontrols@gmail.com',
+                  style: TextStyle(
+                    color: Colors.black54,
+                    fontSize: fontSmallSize,
+                    letterSpacing: 1.0,
+                    fontWeight: FontWeight.bold,
+                    overflow: TextOverflow.visible,),
+                ),
+              )
+            ],
+          ),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text('Close'),
+            ),
+          ],
+        );
+      },
+    );
   }
 
   @override
@@ -373,49 +499,57 @@ class _MainAccPageState extends State<MainAccPage> {
                   ),
                 ),
 
-                Container(
-                  height: screenHeight * 0.14,
-                  width: screenWidth * 0.35,
-                  decoration: BoxDecoration(
-                    border: Border.all(width: 2, color: Colors.deepOrange.withOpacity(0.2)),
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Image.asset(
-                        "assets/icons/service-history.png", // Replace with your image path
-                        height: screenHeight * 0.06, // Adjust the size as needed
-                      ),
-                      SizedBox(height: screenHeight * 0.01), // Space between image and text
-                      Flexible(
-                        child: RichText(
-                          textAlign: TextAlign.center,
-                          softWrap: true,
-                          text: TextSpan(children: <TextSpan>
-                          [
-                            TextSpan(text: 'Technical',
-                              style: TextStyle(
-                                  fontSize: fontSmallSize,
-                                  letterSpacing: 1.2,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.deepOrange.shade700
+                GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => HistoryPage(message: message, client: ClientInfo)),
+                    );
+                  },
+                  child: Container(
+                    height: screenHeight * 0.14,
+                    width: screenWidth * 0.35,
+                    decoration: BoxDecoration(
+                      border: Border.all(width: 2, color: Colors.deepOrange.withOpacity(0.2)),
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Image.asset(
+                          "assets/icons/service-history.png", // Replace with your image path
+                          height: screenHeight * 0.06, // Adjust the size as needed
+                        ),
+                        SizedBox(height: screenHeight * 0.01), // Space between image and text
+                        Flexible(
+                          child: RichText(
+                            textAlign: TextAlign.center,
+                            softWrap: true,
+                            text: TextSpan(children: <TextSpan>
+                            [
+                              TextSpan(text: 'Technical',
+                                style: TextStyle(
+                                    fontSize: fontSmallSize,
+                                    letterSpacing: 1.2,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.deepOrange.shade700
+                                ),
                               ),
-                            ),
 
-                            TextSpan(text: '\n History',
-                              style: TextStyle(
-                                  fontSize: fontSmallSize,
-                                  letterSpacing: 1.2,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.deepOrange.shade700
+                              TextSpan(text: '\n History',
+                                style: TextStyle(
+                                    fontSize: fontSmallSize,
+                                    letterSpacing: 1.2,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.deepOrange.shade700
+                                ),
                               ),
+                            ]
                             ),
-                          ]
                           ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 )
               ],
@@ -429,7 +563,7 @@ class _MainAccPageState extends State<MainAccPage> {
             padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.1),
             child: GestureDetector(
               onTap: () {
-
+                showSampleDialog(context);
               },
               child: Container(
                 margin: const EdgeInsets.symmetric(vertical: 4),

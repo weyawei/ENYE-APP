@@ -151,10 +151,7 @@ class _HistoryViewPageState extends State<HistoryViewPage> with TickerProviderSt
     var fontXSize = ResponsiveTextUtils.getXFontSize(screenWidth);
 
     return Scaffold(
-      appBar: CustomAppBar(title: 'Booking System', imagePath: 'assets/logo/enyecontrols.png', appBarHeight: MediaQuery
-          .of(context)
-          .size
-          .height * 0.05,),
+      appBar: CustomAppBar(title: 'Booking System', imagePath: 'assets/logo/enyecontrols.png', appBarHeight: screenHeight * 0.05,),
       resizeToAvoidBottomInset: true,
       body: _isLoadingAcc || _isLoadingSO
         ? Center(child: SpinningContainer(controller: _controller),)
@@ -213,30 +210,30 @@ class _HistoryViewPageState extends State<HistoryViewPage> with TickerProviderSt
                   RichText(
                     softWrap: true,
                     text:TextSpan(
-                          children: <TextSpan> [
-                            TextSpan(text: "Project :  ",
-                              style: GoogleFonts.poppins(
-                                textStyle: TextStyle(
-                                    fontSize: fontSmallSize,
-                                    fontWeight: FontWeight.w800,
-                                    letterSpacing: 0.8,
-                                    color: Colors.grey
-                                ),
-                              ),
+                      children: <TextSpan> [
+                        TextSpan(text: "Project :  ",
+                          style: GoogleFonts.poppins(
+                            textStyle: TextStyle(
+                                fontSize: fontSmallSize,
+                                fontWeight: FontWeight.w800,
+                                letterSpacing: 0.8,
+                                color: Colors.grey
                             ),
+                          ),
+                        ),
 
-                            TextSpan(text: widget.tsis.project,
-                              style: GoogleFonts.poppins(
-                                textStyle: TextStyle(
-                                    fontSize: fontNormalSize,
-                                    fontWeight: FontWeight.w700,
-                                    letterSpacing: 0.8,
-                                    color: Colors.black54
-                                ),
-                              ),
+                        TextSpan(text: widget.tsis.project,
+                          style: GoogleFonts.poppins(
+                            textStyle: TextStyle(
+                                fontSize: fontNormalSize,
+                                fontWeight: FontWeight.w700,
+                                letterSpacing: 0.8,
+                                color: Colors.black54
                             ),
-                          ]
-                      )
+                          ),
+                        ),
+                      ]
+                    )
                   ),
 
                   SizedBox(height: screenHeight * 0.01,),

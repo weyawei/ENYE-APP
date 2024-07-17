@@ -1,12 +1,8 @@
-import 'package:enye_app/screens/service/chat/chat_page.dart';
-import 'package:enye_app/screens/service/tracker/tracker_page.dart';
-import 'package:enye_app/screens/services/survey.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_session_manager/flutter_session_manager.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
-import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 
 import '../../config/config.dart';
 import '../../widget/widgets.dart';
@@ -15,7 +11,7 @@ import '../screens.dart';
 class ServicePage extends StatefulWidget {
   static const String routeName = '/service';
 
-  RemoteMessage? message;
+  final RemoteMessage? message;
 
   ServicePage({required this.message});
 
@@ -32,7 +28,6 @@ class ServicePage extends StatefulWidget {
 class _ServicePageState extends State<ServicePage> {
   RemoteMessage message = RemoteMessage();
   bool? userSessionFuture;
-  bool _isLoading = true;
   List<TechnicalData> _services = [];
 
   clientInfo? ClientInfo;
@@ -115,16 +110,16 @@ class _ServicePageState extends State<ServicePage> {
     super.initState();
     //calling session data
     if(widget.message!.data["goToPage"] == "Status"){
-      WidgetsBinding.instance?.addPostFrameCallback((_) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
         Navigator.of(context).push(
           MaterialPageRoute(builder: (BuildContext context) => StatusPage(message: widget.message!)),
         );
       });
     } else if(widget.message!.data["goToPage"] == "Completed"){
-      WidgetsBinding.instance?.addPostFrameCallback((_) {
-        Navigator.of(context).push(
-          MaterialPageRoute(builder: (BuildContext context) => HistoryPage(message: widget.message!)),
-        );
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        // Navigator.of(context).push(
+        //   MaterialPageRoute(builder: (BuildContext context) => HistoryPage(message: widget.message!)),
+        // );
       });
     }
 
@@ -164,7 +159,6 @@ class _ServicePageState extends State<ServicePage> {
       setState(() {
         _services = technicalData.where((element) => element.status == "Set-sched").toList();
       });
-      _isLoading = false;
     });
   }
 
@@ -403,7 +397,7 @@ class _ServicePageState extends State<ServicePage> {
               GestureDetector(
                 onTap: (){
                   if (userSessionFuture == true) {
-                    Navigator.of(context).push(MaterialPageRoute(builder: (context) => HistoryPage(message: message))).then((value) { setState(() {}); });
+                    // Navigator.of(context).push(MaterialPageRoute(builder: (context) => HistoryPage(message: message))).then((value) { setState(() {}); });
                   } else {
                     _errorSnackbar(context, "Login first !");
                   }

@@ -1,4 +1,3 @@
-import 'package:enye_app/screens/service/ec_technical_data.dart';
 import 'package:enye_app/screens/service/status/status_view_page.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
@@ -12,13 +11,11 @@ import 'package:url_launcher/url_launcher.dart';
 import '../../../config/config.dart';
 import '../../../widget/widgets.dart';
 import '../../screens.dart';
-import '../ec_technical_svc.dart';
-import 'SOPdfPage.dart';
 
 class StatusPage extends StatefulWidget {
   static const String routeName = '/status';
 
-  RemoteMessage? message;
+  final RemoteMessage? message;
 
   StatusPage({required this.message});
 
@@ -42,8 +39,6 @@ class _StatusPageState extends State<StatusPage> with TickerProviderStateMixin {
   final searchController = TextEditingController();
   final reasonController = TextEditingController();
   bool _isLoading = true;
-  bool _isLoadingTSIS = true;
-  bool _isLoadingEvents = true;
 
   DateTimeRange? selectedDate;
   DateTime firstDate = DateTime.now().add(Duration(days: 5));
@@ -55,9 +50,6 @@ class _StatusPageState extends State<StatusPage> with TickerProviderStateMixin {
     super.initState();
     _services = [];
     _servicess = [];
-    _users = [];
-    _position = [];
-    _appointment = [];
 
     _ecUsers = [];
     _ecEvent = [];
@@ -71,9 +63,6 @@ class _StatusPageState extends State<StatusPage> with TickerProviderStateMixin {
           ClientInfo = value;
           _getServices();
           _getServicess();
-          _getUsers();
-          _getPosition();
-          _getAppointment();
 
           _getEcUsers();
           _getEcEvent();
@@ -107,7 +96,6 @@ class _StatusPageState extends State<StatusPage> with TickerProviderStateMixin {
 
   //snackbars
   _custSnackbar(context, message, Color color, IconData iconData){
-    double screenHeight = MediaQuery.of(context).size.height;
     double screenWidth = MediaQuery.of(context).size.width;
 
     var fontNormalSize = ResponsiveTextUtils.getNormalFontSize(screenWidth);
@@ -146,7 +134,7 @@ class _StatusPageState extends State<StatusPage> with TickerProviderStateMixin {
   _getServices(){
     TechnicalDataServices.clientTechnicalData(ClientInfo!.client_id).then((technicalData){
       setState(() {
-        _services = technicalData.where((element) => element.status != "Completed" && element.status != "Cancelled").toList();
+        _services = technicalData.where((element) => element.status != "Complete" && element.status != "Cancelled").toList();
       });
       _isLoading = false;
     });
@@ -158,37 +146,6 @@ class _StatusPageState extends State<StatusPage> with TickerProviderStateMixin {
     TechnicalDataServices.getServiceOrder().then((ServiceOrder){
       setState(() {
         _servicess = ServiceOrder.where((ServiceOrder) => ServiceOrder.stat == "Saved" || ServiceOrder.stat == "Completed").toList();
-      });
-    });
-  }
-
-  late List<UserAdminData2> _users;
-
-  _getUsers(){
-    TechnicalDataServices.handlerData2().then((UserAdminData2){
-      setState(() {
-        _users = UserAdminData2;
-      });
-    });
-  }
-
-
-  late List<Position> _position;
-
-  _getPosition(){
-    TechnicalDataServices.getPositions().then((Position){
-      setState(() {
-        _position = Position;
-      });
-    });
-  }
-
-  late List<ServiceAppointment> _appointment;
-
-  _getAppointment(){
-    TechnicalDataServices.getServiceAppoint().then((ServiceAppointment){
-      setState(() {
-        _appointment = ServiceAppointment;
       });
     });
   }
@@ -211,7 +168,6 @@ class _StatusPageState extends State<StatusPage> with TickerProviderStateMixin {
       setState(() {
         _ecEvent = EcEvent;
       });
-      _isLoadingEvents = false;
     });
   }
 
@@ -232,7 +188,6 @@ class _StatusPageState extends State<StatusPage> with TickerProviderStateMixin {
       setState(() {
         _ecTSIS = EcTSIS;
       });
-      _isLoadingTSIS = false;
     });
   }
 
@@ -246,16 +201,6 @@ class _StatusPageState extends State<StatusPage> with TickerProviderStateMixin {
     }).toList();
   }
 
-
-  List<ServiceAppointment> _filteredService = [];
-  void filterSystemsLists() {
-    _filteredService = _appointment.where((ServiceAppointment) {
-      final svcId = ServiceAppointment.svc_id.toLowerCase();
-      final searchQuery = searchController.text.toLowerCase();
-      return svcId.contains(searchQuery);
-    }).toList();
-  }
-
   bool _isUserAssigned(String usersInCharge, String userId) {
     if (usersInCharge != null || usersInCharge != "") {
       List<String> userInChargeList = usersInCharge.split(',').map((e) => e.trim()).toList();
@@ -264,9 +209,6 @@ class _StatusPageState extends State<StatusPage> with TickerProviderStateMixin {
 
     return false;
   }
-
-
-
 
   _editToCancel(TechnicalData services){
     TechnicalDataServices.editCancelBooking(services.id, services.svcId, reasonController.text.trim()).then((result) {
@@ -582,15 +524,15 @@ class _StatusPageState extends State<StatusPage> with TickerProviderStateMixin {
                         labelText: 'Search SERVICE #',
                         prefixIcon: Icon(Icons.search),
                         suffixIcon: searchController.text.isNotEmpty
-                            ? IconButton(
-                          onPressed: () {
-                            searchController.clear();
-                            FocusScope.of(context).unfocus();
-                            filterSystemsList();
-                          },
-                          icon: const Icon(Icons.clear),
-                        )
-                            : null, // Set suffixIcon to null when text is empty
+                          ? IconButton(
+                            onPressed: () {
+                              searchController.clear();
+                              FocusScope.of(context).unfocus();
+                              filterSystemsList();
+                            },
+                            icon: const Icon(Icons.clear),
+                          )
+                          : null, // Set suffixIcon to null when text is empty
                       ),
                       onChanged: (value) {
                         setState(() {

@@ -16,6 +16,7 @@ class TSISTaskTile extends StatelessWidget {
 
     var fontSmallSize = ResponsiveTextUtils.getSmallFontSize(screenWidth);
     var fontNormalSize = ResponsiveTextUtils.getNormalFontSize(screenWidth);
+    var fontExtraSize = ResponsiveTextUtils.getExtraFontSize(screenWidth);
 
     return Container(
       padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.03),
@@ -36,16 +37,16 @@ class TSISTaskTile extends StatelessWidget {
                 Text(
                   "TSIS# ${tsis.tsis_no}",
                   style: TextStyle(
-                    fontSize: fontNormalSize,
+                    fontSize: fontExtraSize,
                     letterSpacing: 0.5,
                     fontWeight: FontWeight.bold,
                     color: Colors.white,
                     fontStyle: FontStyle.italic,
                   ),
                 ),
-                const SizedBox(height: 12,),
+                SizedBox(height: screenHeight * 0.01,),
                 Text(
-                  tsis.client_name,
+                  tsis.project,
                   style: TextStyle(
                     fontSize: fontNormalSize,
                     letterSpacing: 0.5,
@@ -63,7 +64,7 @@ class TSISTaskTile extends StatelessWidget {
                   ),
                 ),
 
-                const SizedBox(height: 12,),
+                SizedBox(height: screenHeight * 0.01,),
                 Text(
                   "Requestor : ",
                   style: TextStyle(
@@ -90,7 +91,7 @@ class TSISTaskTile extends StatelessWidget {
                     )
                 ),
 
-                const SizedBox(height: 12,),
+                SizedBox(height: screenHeight * 0.01,),
                 if (event.isNotEmpty)
                   ...event.map((events) {
                     return Row(
