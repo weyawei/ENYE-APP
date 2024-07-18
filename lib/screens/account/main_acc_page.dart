@@ -277,7 +277,7 @@ class _MainAccPageState extends State<MainAccPage> {
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
                         border: Border.all(
-                          color: Colors.deepOrange,
+                          color: Colors.deepOrange.shade100,
                           width: 4.0,
                         ),
                       ),

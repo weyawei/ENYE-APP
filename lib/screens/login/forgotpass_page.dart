@@ -9,16 +9,9 @@ import '../../config/config.dart';
 import '../../widget/widgets.dart';
 
 class ForgotPassPage extends StatefulWidget {
-  static const String routeName = '/forgotpass';
-
-  static Route route(){
-    return MaterialPageRoute(
-        settings: const RouteSettings(name: routeName),
-        builder: (_) => const ForgotPassPage()
-    );
-  }
-
-  const ForgotPassPage({super.key});
+  final bool verified;
+  final String email;
+  ForgotPassPage({super.key, required this.verified, required this.email});
 
   @override
   State<ForgotPassPage> createState() => _ForgotPassPageState();
@@ -36,7 +29,7 @@ class _ForgotPassPageState extends State<ForgotPassPage> {
   TextEditingController pin = TextEditingController();
 
   bool disabling = false;
-  bool verified = false;
+  bool verifiedEmail = false;
   EmailOTP myauth = EmailOTP();
 
   //snackbars
@@ -149,7 +142,7 @@ class _ForgotPassPageState extends State<ForgotPassPage> {
                     Navigator.of(context).pop(); // Close the dialog
                     if (await myauth.verifyOTP(otp: pin.text)) {
                       setState(() {
-                        verified = true;
+                        verifiedEmail = true;
                         disabling = false;
                       });
                       _successSnackbar(context, "OTP has been verified! ✅");
@@ -202,7 +195,7 @@ class _ForgotPassPageState extends State<ForgotPassPage> {
         var map = Map<String, dynamic>();
         //get the action do by the user transfer it to POST method
         map['action'] = "RESET PASSWORD";
-        map['email'] = emailController.text.trim();
+        map['email'] = widget.verified ? widget.email : emailController.text.trim();
         map['password'] = passwordController.text.trim();
 
         var res = await http.post( //pasiing value to result
@@ -210,7 +203,7 @@ class _ForgotPassPageState extends State<ForgotPassPage> {
           body: map,
         );
 
-        if (res.statusCode == 200){ //from flutter app the connection with API to server  - success
+        if (res.statusCode == 200){
           var resBodyOfSignUp = jsonDecode(res.body);
 
           //if email is already taken
@@ -235,7 +228,7 @@ class _ForgotPassPageState extends State<ForgotPassPage> {
             setState(() {
               disabling = false;
             });
-            _errorSnackbar(context, "Error occured!");
+            _errorSnackbar(context, resBodyOfSignUp['error']);
           }
         }
       }
@@ -281,8 +274,69 @@ class _ForgotPassPageState extends State<ForgotPassPage> {
                   ),
 
                   SizedBox(height: screenHeight * 0.05,),
-                  verified == true
+                  (widget.verified == false) && (verifiedEmail == false)
                   ? Column(
+                    children: [
+                      //email textfield
+                      EmailTextField(
+                        controller: emailController,
+                        hintText: 'Email',
+                        disabling: disabling,
+                      ),
+
+                      //sign-up button
+                      SizedBox(height: screenHeight * 0.03,),
+                      customButton(
+                          onTap: () async {
+                            _onButtonPressed();
+                            if (disabling == false) {
+                              // Validate returns true if the form is valid, or false otherwise.
+                              if (_formKey.currentState!.validate()) {
+                                disabling = true;
+                                var map = Map<String, dynamic>();
+                                //get the action do by the user transfer it to POST method
+                                map['action'] = "CHECK EMAIL";
+                                map['email'] = emailController.text.trim();
+
+                                var res = await http.post( //pasiing value to result
+                                  Uri.parse(API.resetPassword),
+                                  body: map,
+                                );
+
+                                if (res.statusCode == 200) { //from flutter app the connection with API to server  - success
+                                  var resBodyOfSignUp = jsonDecode(res.body);
+
+                                  //if email is already taken
+                                  if (resBodyOfSignUp['email_taken'] == true) {
+                                    myauth.setConfig(
+                                      appEmail: "ronfrancia.enye@gmail.com",
+                                      appName: "ENYE CONTROLS",
+                                      userEmail: emailController.text,
+                                      otpLength: 6,
+                                      otpType: OTPType.digitsOnly,
+                                    );
+                                    if (await myauth.sendOTP() == true) {
+                                      _successSnackbar(context, "OTP has been sent");
+                                      _showOTPDialog();
+                                    } else {
+                                      _errorSnackbar(context, "Oops, OTP send failed");
+                                      disabling = false;
+                                    }
+                                  } else {
+                                    _errorSnackbar(context, "Email NOT Found !");
+                                    disabling = false;
+                                  }
+                                }
+                              }
+                            }
+                          },
+                          text: "VERIFY EMAIL",
+                          clr: Colors.deepOrange,
+                          fontSize: fontExtraSize
+                      ),
+                    ],
+                  )
+                  : Column(
                     children: [
                       //password textfield
                       PasswordTextField(
@@ -313,71 +367,11 @@ class _ForgotPassPageState extends State<ForgotPassPage> {
                         fontSize: fontNormalSize,
                       ),
                     ],
-                  )
-                  : Column(
-                    children: [
-                      //email textfield
-                      EmailTextField(
-                        controller: emailController,
-                        hintText: 'Email',
-                        disabling: disabling,
-                      ),
-
-                      //sign-up button
-                      SizedBox(height: screenHeight * 0.03,),
-                      customButton(
-                        onTap: () async {
-                          _onButtonPressed();
-                          if (disabling == false) {
-                            // Validate returns true if the form is valid, or false otherwise.
-                            if (_formKey.currentState!.validate()) {
-                              disabling = true;
-                              var map = Map<String, dynamic>();
-                              //get the action do by the user transfer it to POST method
-                              map['action'] = "CHECK EMAIL";
-                              map['email'] = emailController.text.trim();
-
-                              var res = await http.post( //pasiing value to result
-                                Uri.parse(API.resetPassword),
-                                body: map,
-                              );
-
-                              if (res.statusCode == 200) { //from flutter app the connection with API to server  - success
-                                var resBodyOfSignUp = jsonDecode(res.body);
-
-                                //if email is already taken
-                                if (resBodyOfSignUp['email_taken'] == true) {
-                                  myauth.setConfig(
-                                    appEmail: "ronfrancia.enye@gmail.com",
-                                    appName: "ENYE CONTROLS",
-                                    userEmail: emailController.text,
-                                    otpLength: 6,
-                                    otpType: OTPType.digitsOnly,
-                                  );
-                                  if (await myauth.sendOTP() == true) {
-                                    _successSnackbar(context, "OTP has been sent");
-                                    _showOTPDialog();
-                                  } else {
-                                    _errorSnackbar(context, "Oops, OTP send failed");
-                                    disabling = false;
-                                  }
-                                } else {
-                                  _errorSnackbar(context, "Email NOT Found !");
-                                  disabling = false;
-                                }
-                              }
-                            }
-                          }
-                        },
-                        text: "VERIFY EMAIL",
-                        clr: Colors.deepOrange,
-                        fontSize: fontExtraSize
-                      ),
-                    ],
                   ),
 
                   //already have an account
                   SizedBox(height: screenHeight * 0.02,),
+                  if(widget.verified == false)
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [

@@ -34,6 +34,8 @@ class _LoginPageState extends State<LoginPage> {
 
   bool _isShowingErrorSnackbar = false; // Flag to track if error snackbar is already being displayed
   Future<void> signUserIn() async {
+    FocusScope.of(context).unfocus();
+    disabling = true;
     if (_isShowingErrorSnackbar) return; // If error snackbar is already visible, do nothing
     _isShowingErrorSnackbar = true; // Set the flag to indicate that error snackbar is being shown
 
@@ -60,6 +62,7 @@ class _LoginPageState extends State<LoginPage> {
         if(resBodyOfLogin['login'] == true){
 
           var clientData = resBodyOfLogin["clients_data"];
+
           await SessionManager().set("client_data",  clientInfo(
               client_id: clientData["client_id"],
               name: clientData["name"],
@@ -107,10 +110,18 @@ class _LoginPageState extends State<LoginPage> {
                 ),
               ),
             ).closed.then((value) {
-              widget.onLoginSuccess();
+              if(clientData["status"] == 'Inactive'){
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => ForgotPassPage(verified: true, email: emailController.text.trim())),
+                ).then((value) { widget.onLoginSuccess(); });;
+              } else {
+                widget.onLoginSuccess();
+              }
             });
           });
         } else {
+          disabling = false;
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               duration: Duration(seconds: 3),
@@ -199,7 +210,7 @@ class _LoginPageState extends State<LoginPage> {
                 children: [
                   TextButton(
                     onPressed: (){
-                      Navigator.of(context).push(MaterialPageRoute(builder: (context) => ForgotPassPage())).then((value) { setState(() {}); });
+                      Navigator.of(context).push(MaterialPageRoute(builder: (context) => ForgotPassPage(verified: false, email: '',))).then((value) { setState(() {}); });
                     },
                     child: Text(
                       'Forgot Password?',
@@ -266,7 +277,7 @@ class _LoginPageState extends State<LoginPage> {
               children: [
                 //apple id login
                 Platform.isIOS
-                    ? GestureDetector(
+                  ? GestureDetector(
                   onTap: () async {
 
                     final credential = await SignInWithApple.getAppleIDCredential(
