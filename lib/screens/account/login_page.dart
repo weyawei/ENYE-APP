@@ -35,7 +35,7 @@ class _LoginPageState extends State<LoginPage> {
   bool _isShowingErrorSnackbar = false; // Flag to track if error snackbar is already being displayed
   Future<void> signUserIn() async {
     FocusScope.of(context).unfocus();
-    disabling = true;
+
     if (_isShowingErrorSnackbar) return; // If error snackbar is already visible, do nothing
     _isShowingErrorSnackbar = true; // Set the flag to indicate that error snackbar is being shown
 
@@ -46,7 +46,7 @@ class _LoginPageState extends State<LoginPage> {
 
     // Validate returns true if the form is valid, or false otherwise.
     if (_formKey.currentState!.validate()) {
-
+      disabling = true;
       dynamic token = await SessionManager().get("token");
 
       var res = await http.post( //pasiing value to result
@@ -72,7 +72,7 @@ class _LoginPageState extends State<LoginPage> {
               login: 'SIGNIN'
           ));
 
-          TokenServices.updateToken(token.toString(), clientData["client_id"]).then((result) {
+          TokenServices.updateToken(token.toString(), clientData["email"]).then((result) {
             if('success' == result){
               print("Updated token successfully");
             } else {
@@ -87,13 +87,14 @@ class _LoginPageState extends State<LoginPage> {
                 duration: Duration(seconds: 2),
                 backgroundColor: Colors.green,
                 behavior: SnackBarBehavior.floating,
+                margin: EdgeInsets.only(left: screenWidth * 0.05, right: screenWidth * 0.05, bottom: screenHeight * 0.8),
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(4))),
                 content: Row(
                   children: [
                     Icon(
                       Icons.check,
                       color: Colors.greenAccent,
-                      size: (screenHeight + screenWidth) / 75,
+                      size: fontNormalSize * 1.5,
                     ),
                     SizedBox(width: 10,),
                     Text(
@@ -127,13 +128,14 @@ class _LoginPageState extends State<LoginPage> {
               duration: Duration(seconds: 3),
               backgroundColor: Colors.redAccent,
               behavior: SnackBarBehavior.floating,
+              margin: EdgeInsets.only(left: screenWidth * 0.05, right: screenWidth * 0.05, bottom: screenHeight * 0.8),
               shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(4))),
               content: Row(
                 children: [
                   Icon(
-                    Icons.close,
+                    Icons.dangerous_rounded,
                     color: Colors.white,
-                    size: (screenHeight + screenWidth) / 75,
+                    size: fontNormalSize * 1.5,
                   ),
                   SizedBox(width: 10,),
                   Text(
@@ -152,8 +154,7 @@ class _LoginPageState extends State<LoginPage> {
           ).closed.then((_) {
             // After snackbar is closed, reset the flag
             _isShowingErrorSnackbar = false;
-          }
-          );
+          });
         }
       }
     }

@@ -4,11 +4,11 @@ import '../../config/config.dart';
 
 class TokenServices {
 
-  static Future<String> updateToken(String fcmToken, String client_id) async {
+  static Future<String> updateToken(String fcmToken, String email) async {
     try{
       var map = Map<String, dynamic>();
       map['fcmToken'] = fcmToken;
-      map['client_id'] = client_id;
+      map['email'] = email;
 
       final res = await http.post(Uri.parse(API.token), body: map); //passing value to result
       print('Token Response: ${res.body}');

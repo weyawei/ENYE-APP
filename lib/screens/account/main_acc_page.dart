@@ -285,7 +285,9 @@ class _MainAccPageState extends State<MainAccPage> {
                         backgroundColor: Colors.white,
                         radius: fontNormalSize * 2.5, // Adjust radius to fit within the border
                         backgroundImage: ClientInfo != null && ClientInfo!.image.isNotEmpty
-                            ? NetworkImage(API.clientsImages + ClientInfo!.image)
+                            ? ClientInfo!.login == "GMAIL"
+                              ? Image.network("${ClientInfo!.image}").image
+                              : Image.network("${API.clientsImages + ClientInfo!.image}").image
                             : AssetImage('assets/icons/user_orange.png') as ImageProvider, // Cast AssetImage to ImageProvider
                       )
                     ),

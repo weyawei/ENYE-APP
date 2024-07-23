@@ -214,56 +214,18 @@ class _BookingSystemState extends State<BookingSystem> {
     });
   }
 
-  _custSnackbar(context, message, Color color, IconData iconData){
-    double screenHeight = MediaQuery.of(context).size.height;
-    double screenWidth = MediaQuery.of(context).size.width;
-
-    var fontNormalSize = ResponsiveTextUtils.getNormalFontSize(screenWidth);
-
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        duration: Duration(seconds: 3),
-        backgroundColor: color,
-        behavior: SnackBarBehavior.floating,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(4))),
-        content: Row(
-          children: [
-            Icon(
-              iconData,
-              color: Colors.white,
-              size: (screenHeight + screenWidth) / 75,
-            ),
-            SizedBox(width: screenWidth * 0.01,),
-            Text(
-              message.toString().toUpperCase(),
-              style: GoogleFonts.lato(
-                textStyle: TextStyle(
-                    fontSize: fontNormalSize,
-                    fontWeight: FontWeight.w800,
-                    letterSpacing: 1.2,
-                    color: Colors.white
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
   clearFields(){
     subjectController.clear();
     descriptionController.clear();
-    clientNameController.clear();
     clientPositionController.clear();
     clientRemarksController.clear();
+    compnameController.clear();
+    locationController.clear();
+    projnameController.clear();
     filePath = null;
 
 
     if(ClientInfo?.login == 'GMAIL' || ClientInfo?.login == 'APPLE'){
-      compnameController.clear();
-      locationController.clear();
-      projnameController.clear();
       contactController.clear();
     }
 
@@ -579,22 +541,12 @@ class _BookingSystemState extends State<BookingSystem> {
                       if('success' == result){
                         sendPushNotifications();
                         _getServices();
-                        _custSnackbar(
-                          context,
-                          "Successfully booked.",
-                          Colors.green,
-                          Icons.check_box
-                        );
+                        custSnackbar(context, "Successfully booked.", Colors.green, Icons.check, Colors.greenAccent);
                         clearFields();
                         Navigator.of(context).pop();
 
                       } else {
-                        _custSnackbar(
-                            context,
-                            "Error occured...",
-                            Colors.redAccent,
-                            Icons.dangerous_rounded
-                        );
+                        custSnackbar(context, "Error occured...", Colors.redAccent, Icons.dangerous_rounded, Colors.white);
                       }
                     });
                   } else if (ClientInfo?.login == 'GMAIL'){
@@ -611,22 +563,12 @@ class _BookingSystemState extends State<BookingSystem> {
                       if('success' == result){
                         sendPushNotifications();
                         _getServices();
-                        _custSnackbar(
-                            context,
-                            "Successfully booked.",
-                            Colors.green,
-                            Icons.check_box
-                        );
+                        custSnackbar(context, "Successfully booked.", Colors.green, Icons.check, Colors.greenAccent);
                         clearFields();
                         Navigator.of(context).pop();
 
                       } else {
-                        _custSnackbar(
-                            context,
-                            "Error occured...",
-                            Colors.redAccent,
-                            Icons.dangerous_rounded
-                        );
+                        custSnackbar(context, "Error occured...", Colors.redAccent, Icons.dangerous_rounded, Colors.white);
                       }
                     });
                   } else if (ClientInfo?.login == 'APPLE'){
@@ -643,31 +585,16 @@ class _BookingSystemState extends State<BookingSystem> {
                       if('success' == result){
                         sendPushNotifications();
                         _getServices();
-                        _custSnackbar(
-                            context,
-                            "Successfully booked.",
-                            Colors.green,
-                            Icons.check_box
-                        );
+                        custSnackbar(context, "Successfully booked.", Colors.green, Icons.check, Colors.greenAccent);
                         clearFields();
                         Navigator.of(context).pop();
 
                       } else {
-                        _custSnackbar(
-                            context,
-                            "Error occured...",
-                            Colors.redAccent,
-                            Icons.dangerous_rounded
-                        );
+                        custSnackbar(context, "Error occured...", Colors.redAccent, Icons.dangerous_rounded, Colors.white);
                       }
                     });
                   } else {
-                    _custSnackbar(
-                        context,
-                        "Error occured...",
-                        Colors.redAccent,
-                        Icons.dangerous_rounded
-                    );
+                    custSnackbar(context, "Error occured...", Colors.redAccent, Icons.dangerous_rounded, Colors.white);
                   }
                 },
                 child: Text(

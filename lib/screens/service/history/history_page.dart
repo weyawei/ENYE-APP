@@ -37,7 +37,6 @@ class _HistoryPageState extends State<HistoryPage> with TickerProviderStateMixin
 
     _getServices();
     _getEcTSIS();
-    _getEcEvent();
 
     if(widget.message!.data["goToPage"] == "Completed"){
       searchController.text = '${widget.message!.data["code"]}';
@@ -76,6 +75,11 @@ class _HistoryPageState extends State<HistoryPage> with TickerProviderStateMixin
         _filteredTSIS = EcTSIS;
       });
       _isLoadingTSIS = false;
+      if(_ecTSIS.length > 0){
+        _getEcEvent();
+      } else {
+        _isLoadingEvents = false;
+      }
     });
   }
 
@@ -124,7 +128,6 @@ class _HistoryPageState extends State<HistoryPage> with TickerProviderStateMixin
                 await Future.delayed(Duration(seconds: 2));
                 setState(() {
                   _getServices();
-                  _getEcEvent();
                   _getEcTSIS();
                 });
               },

@@ -66,40 +66,27 @@ class _TaskTileState extends State<TaskTile> {
                   softWrap: true,
                   text: TextSpan(children:
                   [
-                    TextSpan(text: "Description : ",
-                      style: TextStyle(fontSize: fontSmallSize, fontWeight: FontWeight.bold, color: Colors.grey[100], letterSpacing: 0.8),
-                    ),
-                    TextSpan(text: "${widget.services.svcDesc}",
+                    TextSpan(text: "\t - ${widget.services.svcDesc}",
                       style: TextStyle(fontSize: fontNormalSize, color: Colors.grey[100], letterSpacing: 0.8),
                     ),
                   ]
                   ),
                 ),
 
-                SizedBox(height: screenHeight * 0.01,),
+                SizedBox(height: screenHeight * 0.02,),
                 RichText(
                   softWrap: true,
                   text: TextSpan(children:
                   [
-                    TextSpan(text: "Requestor Name : ",
-                      style: TextStyle(fontSize: fontSmallSize, fontWeight: FontWeight.bold, color: Colors.grey[100], letterSpacing: 0.8),
-                    ),
-                    TextSpan(text: "${widget.services.reqName}",
+                    TextSpan(text: "${widget.services.clientProjName}",
                       style: TextStyle(fontSize: fontNormalSize, color: Colors.grey[100], letterSpacing: 0.8),
                     ),
-                  ]
-                  ),
-                ),
 
-                SizedBox(height: screenHeight * 0.01,),
-                RichText(
-                  softWrap: true,
-                  text: TextSpan(children:
-                  [
-                    TextSpan(text: "Designation : ",
-                      style: TextStyle(fontSize: fontSmallSize, fontWeight: FontWeight.bold, color: Colors.grey[100], letterSpacing: 0.8),
+                    TextSpan(text: " || ${widget.services.clientCompany}",
+                      style: TextStyle(fontSize: fontNormalSize, color: Colors.grey[100], letterSpacing: 0.8),
                     ),
-                    TextSpan(text: "${widget.services.reqPosition}",
+
+                    TextSpan(text: " || ${widget.services.clientLocation}",
                       style: TextStyle(fontSize: fontNormalSize, color: Colors.grey[100], letterSpacing: 0.8),
                     ),
                   ]

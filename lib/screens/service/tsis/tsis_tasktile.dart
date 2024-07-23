@@ -66,6 +66,35 @@ class TSISTaskTile extends StatelessWidget {
 
                 SizedBox(height: screenHeight * 0.01,),
                 Text(
+                  "Project : ",
+                  style: TextStyle(
+                      fontSize: fontSmallSize,
+                      letterSpacing: 0.5,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white
+                  ),
+                ),
+                RichText(
+                  softWrap: true,
+                  text: TextSpan(children:
+                  [
+                    TextSpan(text: "\t ${tsis.project}",
+                      style: TextStyle(fontSize: fontSmallSize, color: Colors.grey[100], letterSpacing: 0.8),
+                    ),
+
+                    TextSpan(text: " || ${tsis.client_name}",
+                      style: TextStyle(fontSize: fontSmallSize, color: Colors.grey[100], letterSpacing: 0.8),
+                    ),
+
+                    TextSpan(text: " || ${tsis.location}",
+                      style: TextStyle(fontSize: fontSmallSize, color: Colors.grey[100], letterSpacing: 0.8),
+                    ),
+                  ]
+                  ),
+                ),
+
+                SizedBox(height: screenHeight * 0.01,),
+                Text(
                   "Requestor : ",
                   style: TextStyle(
                     fontSize: fontSmallSize,

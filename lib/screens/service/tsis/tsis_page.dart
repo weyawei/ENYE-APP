@@ -26,8 +26,6 @@ class _TSIStatusPageState extends State<TSIStatusPage> with TickerProviderStateM
     _ecTSIS = [];
 
     _getEcTSISbasedEmail();
-    _getEcEvent();
-
     // if(widget.message!.data["goToPage"] == "Status"){
     //   searchController.text = '${widget.message!.data["code"]}';
     // }
@@ -63,18 +61,32 @@ class _TSIStatusPageState extends State<TSIStatusPage> with TickerProviderStateM
     ECTechnicalDataServices.getEcTSISbasedEmail(widget.email).then((EcTSIS){
       setState(() {
         _ecTSIS = EcTSIS;
+        _filteredTSIS = EcTSIS;
       });
       _isLoadingTSIS = false;
+      if(_ecTSIS.length > 0){
+        _getEcEvent();
+      } else {
+        _isLoadingEvents = false;
+      }
     });
   }
 
   List<EcTSIS> _filteredTSIS = [];
-  void filterTSISList() {
-    _filteredTSIS = _ecTSIS.where((tsis) {
-      final tsisNo = tsis.tsis_no.toLowerCase();
-      final searchQuery = searchController.text.toLowerCase();
-      return tsisNo.contains(searchQuery);
-    }).toList();
+  void _filterSearchResults(String query) {
+    if (query.isEmpty || query.length == 0) {
+      setState(() {
+        _filteredTSIS = List.from(_ecTSIS);
+      });
+    } else {
+      setState(() {
+        _filteredTSIS = _ecTSIS.where((tsis) => tsis.tsis_no.toLowerCase().contains(query.toLowerCase()) ||
+            tsis.problem.toLowerCase().contains(query.toLowerCase()) ||
+            tsis.project.toLowerCase().contains(query.toLowerCase()) ||
+            tsis.subject.toLowerCase().contains(query.toLowerCase()) ||
+            tsis.client_name.toLowerCase().contains(query.toLowerCase())).toList();
+      });
+    }
   }
 
   @override
@@ -90,7 +102,6 @@ class _TSIStatusPageState extends State<TSIStatusPage> with TickerProviderStateM
             await Future.delayed(Duration(seconds: 2));
             setState(() {
               _getEcTSISbasedEmail();
-              _getEcEvent();
             });
           },
           child: Column(
@@ -100,6 +111,7 @@ class _TSIStatusPageState extends State<TSIStatusPage> with TickerProviderStateM
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 18.0),
                 child: TextField(
+                  onChanged: _filterSearchResults,
                   controller: searchController,
                   decoration: InputDecoration(
                     labelText: 'Search SERVICE #',
@@ -108,24 +120,13 @@ class _TSIStatusPageState extends State<TSIStatusPage> with TickerProviderStateM
                       ? IconButton(
                       onPressed: () {
                         searchController.clear();
+                        _filterSearchResults('');
                         FocusScope.of(context).unfocus();
-                        filterTSISList();
                       },
                       icon: const Icon(Icons.clear),
                     )
                         : null, // Set suffixIcon to null when text is empty
-                  ),
-                  onChanged: (value) {
-                    setState(() {
-                      filterTSISList();
-                      if(searchController.text.isEmpty){
-                        FocusScope.of(context).unfocus();
-                      }
-                    });
-                  },
-                  onEditingComplete: (){
-                    filterTSISList();
-                  },
+                  )
                 ),
               ),
 
@@ -146,18 +147,11 @@ class _TSIStatusPageState extends State<TSIStatusPage> with TickerProviderStateM
               )
               : Expanded(
                 child: ListView.builder(
-                    itemCount: searchController.text.isEmpty ? _ecTSIS.length : _filteredTSIS.length,
+                    itemCount: _filteredTSIS.length,
                     itemBuilder: (_, index){
-                      _filteredTSIS = searchController.text.isEmpty ? _ecTSIS : _filteredTSIS;
-
-                      /* ServiceAppointment? appointment = _appointment.where((appoint) => _filteredServices[index].id == appoint.svc_id).elementAtOrNull(0);
-
-                        EcSO? ecServiceOrder = _ecSO.where((ecso) => _filteredServices[index].tsis_id == ecso.tsis_id).elementAtOrNull(0);
-                        EcEvent? ecEvent = _ecEvent.where((ecevent) => _filteredServices[index].tsis_id == ecevent.tsis_id).elementAtOrNull(0);*/
 
                       EcTSIS tsis = _filteredTSIS[index];
                       List<EcEvent> events = _ecEvent.where((e) => e.tsis_id == tsis.tsis_id).toList();
-
 
                       return AnimationConfiguration.staggeredList(
                         position: index,

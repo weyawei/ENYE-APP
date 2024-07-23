@@ -243,11 +243,11 @@ class TechnicalDataServices {
   }
 
   //get booking of certain client from database
-  static Future <List<TechnicalData>> clientTechnicalData(String client_id) async {
+  static Future <List<TechnicalData>> clientTechnicalData(String email) async {
     try{
       var map = Map<String, dynamic>();
       map['action'] = GET_CLIENT_TECHNICAL;
-      map['client_id'] = client_id;
+      map['email'] = email;
 
       //get all data of categories
       final res = await http.post(Uri.parse(API.booking), body: map); //passing value to result
