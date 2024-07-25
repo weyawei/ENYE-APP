@@ -1,10 +1,13 @@
 import 'dart:math';
+import 'dart:typed_data';
 import 'dart:ui';
 
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:lottie/lottie.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
@@ -29,7 +32,7 @@ class homePage extends StatefulWidget {
   State<homePage> createState() => _homePageState();
 }
 
-class _homePageState extends State<homePage>{
+class _homePageState extends State<homePage> with TickerProviderStateMixin{
   // final List<String> dashboard = [
   //   "${API.dashboard}BMS.png",
   //   "${API.dashboard}ems_ecbills.png",
@@ -40,13 +43,29 @@ class _homePageState extends State<homePage>{
   // ];
 
   final List<String> dashboard = [
-    "assets/backgrounds/ems_ecbills.png",
+   /* "assets/backgrounds/ems_ecbills.png",
     "assets/backgrounds/BMS.png",
     "assets/backgrounds/prod1.png",
     "assets/backgrounds/prod2.png",
     "assets/backgrounds/sys1.png",
-    "assets/backgrounds/sys2.png",
+    "assets/backgrounds/sys2.png",*/
+
+    "assets/backgrounds/EMS ECB.jpg",
+    "assets/backgrounds/BMS.jpg",
+    "assets/backgrounds/SYSTEM1.jpg",
+    "assets/backgrounds/SYSTEM2.jpg",
   ];
+
+
+  final ScrollController _scrollController = ScrollController();
+  List<String> _frames = [];
+  int _currentFrame = 0;
+
+
+  late AnimationController _handSwipeController;
+  late AnimationController _upwardController;
+  int _playCount = 0;
+  bool _isHandSwipeVisible = true;
 
   int currentIndex = 0;
   bool type = false;
@@ -83,7 +102,100 @@ class _homePageState extends State<homePage>{
     // Initially, show all products
     _projects = [];
     _getProjects();
+
+    _loadFrames();
+    _scrollController.addListener(_onScroll);
+
+    _handSwipeController = AnimationController(
+      duration: const Duration(seconds: 2),
+      vsync: this,
+    );
+
+    _upwardController = AnimationController(
+      duration: const Duration(seconds: 2),
+      vsync: this,
+    )..repeat();
+
+    _handSwipeController.addStatusListener((status) {
+      if (status == AnimationStatus.completed) {
+        _playCount++;
+        if (_playCount >= 4) {
+          setState(() {
+            _isHandSwipeVisible = false;
+          });
+        } else {
+          _handSwipeController.forward(from: 0.0);
+        }
+      }
+    });
+
+    _handSwipeController.forward();
   }
+
+  @override
+  void dispose() {
+    _handSwipeController.dispose();
+    _upwardController.dispose();
+    super.dispose();
+  }
+
+  void _loadFrames() async {
+   // List<Future<Uint8List>> frameFutures = [];
+    for (int i = 1; i <= 69; i++) {
+      final String path = 'assets/image/Layer ${i.toString().padLeft(1, '0')}.svg';
+      _frames.add(path);
+    }
+    setState(() {});
+  }
+
+  Future<Uint8List> _loadFrame(String path) async {
+    final ByteData data = await rootBundle.load(path);
+    return data.buffer.asUint8List();
+  }
+
+  void _onScroll() {
+    setState(() {
+      double maxScroll = _scrollController.position.maxScrollExtent;
+      double scrollFraction = _scrollController.offset / maxScroll;
+      int totalFrames = _frames.length - 1;
+      _currentFrame = (scrollFraction * totalFrames).round().clamp(0, totalFrames);
+    });
+  }
+
+ /* void _loadFrames() async {
+    for (int i = 1; i <= 10; i++) {
+      final String path = 'assets/images/Motorized Fan Coil Valve_2_out${i.toString().padLeft(4, '0')}.jpg';
+      final ByteData data = await rootBundle.load(path);
+      final Uint8List bytes = data.buffer.asUint8List();
+      _frames.add(bytes);
+    }
+    setState(() {});
+  }
+
+  void _onScroll() {
+    setState(() {
+      double maxScroll = _scrollController.position.maxScrollExtent;
+      double scrollFraction = _scrollController.offset / maxScroll;
+      int totalFrames = _frames.length - 3;
+      _currentFrame = (scrollFraction * totalFrames).round().clamp(0, totalFrames);
+    });
+  }
+*/
+
+ /* void _loadFrames() {
+    for (int i = 1; i <= 10; i++) {
+      _frames.add('assets/images/Motorized Fan Coil Valve_2_out${i.toString().padLeft(4, '0')}.jpg');
+    }
+  }
+
+  void _onScroll() {
+    setState(() {
+      double maxScroll = _scrollController.position.maxScrollExtent;
+      double scrollFraction = _scrollController.offset / maxScroll;
+      int totalFrames = _frames.length - 1;
+      _currentFrame = (scrollFraction * totalFrames).round().clamp(0, totalFrames);
+    });
+  }*/
 
   bool _isLoadingProj = true;
   late List<Projects> _projects;
@@ -187,6 +299,61 @@ class _homePageState extends State<homePage>{
                 ],
               ),
 
+              /*SizedBox(height: 10,),
+              Container(
+                height: MediaQuery.of(context).size.height * 0.7,
+                width: MediaQuery.of(context).size.width * 0.95,
+                child: Stack(
+                  children: [
+                    if (_frames.isNotEmpty)
+                      SvgPicture.asset(
+                        _frames[_currentFrame],
+                        fit: BoxFit.fill,
+                        height: double.infinity,
+                        width: double.infinity,
+                      ),
+                    if (_isHandSwipeVisible)
+                      Align(
+                        alignment: Alignment.center,
+                        child: SizedBox(
+                          width: MediaQuery.of(context).size.height * 0.4, // Set the width
+                          height: MediaQuery.of(context).size.height * 0.5, // Set the height
+                          child: Lottie.asset(
+                            'assets/lottie/hand_swipe.json',
+                            controller: _handSwipeController,
+                            onLoaded: (composition) {
+                              _handSwipeController.duration = composition.duration;
+                            },
+                          ),
+                        ),
+                      ),
+                    SingleChildScrollView(
+                      controller: _scrollController,
+                      child: Container(
+                        height: MediaQuery.of(context).size.height * 10,
+                      ),
+                    ),
+                    Align(
+                      alignment: Alignment.bottomCenter,
+                      child: Padding(
+                        padding: const EdgeInsets.only(bottom: 1.0),
+                        child: SizedBox(
+                          height: 50,
+                          child: Lottie.asset(
+                            'assets/lottie/upward2.json',
+                            controller: _upwardController,
+                            onLoaded: (composition) {
+                              _upwardController.duration = composition.duration;
+                            },
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+*/
+
               //who are we
               Container(
                 margin: EdgeInsets.symmetric(vertical: screenWidth / 7),
@@ -240,12 +407,34 @@ class _homePageState extends State<homePage>{
                       url: "https://enye.com.ph/enyecontrols_app/enye/corporate.mp4",
                       dataSourceType: DataSourceType.network
                     ),
+
+                   /* Container(
+                      height: MediaQuery.of(context).size.height * 0.7,
+                      width: MediaQuery.of(context).size.width * 0.95,
+                      child: Stack(
+                        children: [
+                          if (_frames.isNotEmpty)
+                            SvgPicture.asset(
+                              _frames[_currentFrame],
+                              fit: BoxFit.fill,
+                              height: double.infinity,
+                              width: double.infinity,
+                            ),
+                          SingleChildScrollView(
+                            controller: _scrollController,
+                            child: Container(
+                              height: MediaQuery.of(context).size.height * 40,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),*/
                   ],
                 ),
               ),
 
               //mission vission aims
-              Container(
+              /*Container(
                 margin: EdgeInsets.symmetric(vertical: screenWidth / 8),
                 width: screenWidth,
                 child: Column(
@@ -370,7 +559,7 @@ class _homePageState extends State<homePage>{
                     ),
                   ],
                 ),
-              ),
+              ),*/
 
               SizedBox(height: 20,),
               /*ContactsHome(),*/

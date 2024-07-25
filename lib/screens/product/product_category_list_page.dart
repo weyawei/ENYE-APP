@@ -26,18 +26,56 @@ class ProductAllCategory extends StatefulWidget {
 class _ProductAllCategoryState extends State<ProductAllCategory> with TickerProviderStateMixin {
 
   List<product> _prod = [];
+  List<product> _prod1 = [];
+  List<product> _prod2 = [];
+  List<product> _prod3= [];
+  List<product> _prod4 = [];
+  List<product> _prod5 = [];
+  List<product> _prod6 = [];
+  List<product> _prod7 = [];
+  List<product> _prod8 = [];
+  List<product> _prod9 = [];
+  List<product> _prod10 = [];
+
+  List<productCategory> _prodCategories = [];
   List<productCategory> _prodCategory = [];
   List<productCategory> _prodCategory2 = [];
   List<productCategory> _prodCategory3 = [];
   List<productCategory> _prodCategory4 = [];
+  List<productCategory> _prodCategory5 = [];
+  List<productCategory> _prodCategory6 = [];
+  List<productCategory> _prodCategory7 = [];
+  List<productCategory> _prodCategory8 = [];
+  List<productCategory> _prodCategory9 = [];
+  List<productCategory> _prodCategory10 = [];
+  List<productCategory> _prodCategory11 = [];
 
   @override
   void initState() {
+    _getProdCategories();
     _getProdCategory();
     _getProdCategory2();
     _getProdCategory3();
     _getProdCategory4();
+    _getProdCategory5();
+    _getProdCategory6();
+    _getProdCategory7();
+    _getProdCategory8();
+    _getProdCategory9();
+    _getProdCategory10();
+    _getProdCategory11();
+
     _getProd();
+    _getProd1();
+    _getProd2();
+    _getProd3();
+    _getProd4();
+    _getProd5();
+    _getProd6();
+    _getProd7();
+    _getProd8();
+    _getProd9();
+    _getProd10();
 
 
   }
@@ -53,11 +91,132 @@ class _ProductAllCategoryState extends State<ProductAllCategory> with TickerProv
     });
   }
 
+  _getProd1() {
+    productService.getProducts().then((product) {
+      setState(() {
+        List<String> targetIds = ["39"];
+        _prod1 = product.where((element) => targetIds.contains(element.category_id)).toList();
+      });
+
+      print("Length Products ${_prod.length}");
+    });
+  }
+
+  _getProd2() {
+    productService.getProducts().then((product) {
+      setState(() {
+        List<String> targetIds = ["40"];
+        _prod2 = product.where((element) => targetIds.contains(element.category_id)).toList();
+      });
+
+      print("Length Products ${_prod.length}");
+    });
+  }
+
+  _getProd3() {
+    productService.getProducts().then((product) {
+      setState(() {
+        List<String> targetIds = ["41"];
+        _prod3 = product.where((element) => targetIds.contains(element.category_id)).toList();
+      });
+
+      print("Length Products ${_prod.length}");
+    });
+  }
+
+  _getProd4() {
+    productService.getProducts().then((product) {
+      setState(() {
+        List<String> targetIds = ["42"];
+        _prod4 = product.where((element) => targetIds.contains(element.category_id)).toList();
+      });
+
+      print("Length Products ${_prod.length}");
+    });
+  }
+
+  _getProd5() {
+    productService.getProducts().then((product) {
+      setState(() {
+        List<String> targetIds = ["43"];
+        _prod5 = product.where((element) => targetIds.contains(element.category_id)).toList();
+      });
+
+      print("Length Products ${_prod.length}");
+    });
+  }
+
+  _getProd6() {
+    productService.getProducts().then((product) {
+      setState(() {
+        List<String> targetIds = ["44"];
+        _prod6 = product.where((element) => targetIds.contains(element.category_id)).toList();
+      });
+
+      print("Length Products ${_prod.length}");
+    });
+  }
+
+  _getProd7() {
+    productService.getProducts().then((product) {
+      setState(() {
+        List<String> targetIds = ["45"];
+        _prod7 = product.where((element) => targetIds.contains(element.category_id)).toList();
+      });
+
+      print("Length Products ${_prod.length}");
+    });
+  }
+
+  _getProd8() {
+    productService.getProducts().then((product) {
+      setState(() {
+        List<String> targetIds = ["46"];
+        _prod8 = product.where((element) => targetIds.contains(element.category_id)).toList();
+      });
+
+      print("Length Products ${_prod.length}");
+    });
+  }
+
+  _getProd9() {
+    productService.getProducts().then((product) {
+      setState(() {
+        List<String> targetIds = ["47"];
+        _prod9 = product.where((element) => targetIds.contains(element.category_id)).toList();
+      });
+
+      print("Length Products ${_prod.length}");
+    });
+  }
+
+  _getProd10() {
+    productService.getProducts().then((product) {
+      setState(() {
+        List<String> targetIds = ["48"];
+        _prod10 = product.where((element) => targetIds.contains(element.category_id)).toList();
+      });
+
+      print("Length Products ${_prod.length}");
+    });
+  }
+
+  _getProdCategories() {
+    productService.getProdCategory().then((productCategories) {
+      setState(() {
+        List<String> targetIds = ["38"];
+        _prodCategories = productCategories.where((element) => element.status == "Active").toList();
+      });
+
+      print("Length ${_prodCategory.length}");
+    });
+  }
+
   _getProdCategory() {
     productService.getProdCategory().then((productCategory) {
       setState(() {
-        List<String> targetIds = ["38", "39", "40", "41", "44", "45", "47", "46"];
-        _prodCategory = productCategory.where((element) => targetIds.contains(element.id)).toList();
+        List<String> targetIds = ["38"];
+        _prodCategory = productCategory.where((element) => element.id == "38").toList();
       });
 
       print("Length ${_prodCategory.length}");
@@ -67,8 +226,8 @@ class _ProductAllCategoryState extends State<ProductAllCategory> with TickerProv
   _getProdCategory2() {
     productService.getProdCategory().then((productCategory2) {
       setState(() {
-        List<String> targetIds2 = ["42", "43", "44", "45", "40", "41", "46", "47"];
-        _prodCategory2 = productCategory2.where((element) => targetIds2.contains(element.id)).toList();
+        List<String> targetIds2 = ["39"];
+        _prodCategory2 = productCategory2.where((element) => element.id == "39").toList();
       });
 
       print("Length ${_prodCategory.length}");
@@ -78,8 +237,8 @@ class _ProductAllCategoryState extends State<ProductAllCategory> with TickerProv
   _getProdCategory3() {
     productService.getProdCategory().then((productCategory3) {
       setState(() {
-        List<String> targetIds3 = ["46", "47", "48", "40", "38", "42", "41", "44"];
-        _prodCategory3 = productCategory3.where((element) => targetIds3.contains(element.id)).toList();
+        List<String> targetIds3 = ["40"];
+        _prodCategory3 = productCategory3.where((element) => element.id == "40").toList();
       });
 
       print("Length ${_prodCategory.length}");
@@ -89,13 +248,91 @@ class _ProductAllCategoryState extends State<ProductAllCategory> with TickerProv
   _getProdCategory4() {
     productService.getProdCategory().then((productCategory4) {
       setState(() {
-        List<String> targetIds4 = ["43", "47", "38", "42", "44", "45",];
+        List<String> targetIds4 = ["41"];
         _prodCategory4 = productCategory4.where((element) => targetIds4.contains(element.id)).toList();
       });
 
       print("Length ${_prodCategory.length}");
     });
   }
+
+  _getProdCategory5() {
+    productService.getProdCategory().then((productCategory5) {
+      setState(() {
+        List<String> targetIds5 = ["42"];
+        _prodCategory5 = productCategory5.where((element) => targetIds5.contains(element.id)).toList();
+      });
+
+      print("Length ${_prodCategory.length}");
+    });
+  }
+
+  _getProdCategory6() {
+    productService.getProdCategory().then((productCategory6) {
+      setState(() {
+        List<String> targetIds6 = ["43"];
+        _prodCategory6 = productCategory6.where((element) => targetIds6.contains(element.id)).toList();
+      });
+
+      print("Length ${_prodCategory.length}");
+    });
+  }
+
+  _getProdCategory7() {
+    productService.getProdCategory().then((productCategory7) {
+      setState(() {
+        List<String> targetIds7 = ["44"];
+        _prodCategory7 = productCategory7.where((element) => targetIds7.contains(element.id)).toList();
+      });
+
+      print("Length ${_prodCategory.length}");
+    });
+  }
+
+  _getProdCategory8() {
+    productService.getProdCategory().then((productCategory8) {
+      setState(() {
+        List<String> targetIds8 = ["45"];
+        _prodCategory8 = productCategory8.where((element) => targetIds8.contains(element.id)).toList();
+      });
+
+      print("Length ${_prodCategory.length}");
+    });
+  }
+
+  _getProdCategory9() {
+    productService.getProdCategory().then((productCategory9) {
+      setState(() {
+        List<String> targetIds9 = ["46"];
+        _prodCategory9 = productCategory9.where((element) => targetIds9.contains(element.id)).toList();
+      });
+
+      print("Length ${_prodCategory.length}");
+    });
+  }
+
+  _getProdCategory10() {
+    productService.getProdCategory().then((productCategory10) {
+      setState(() {
+        List<String> targetIds10 = ["47"];
+        _prodCategory10 = productCategory10.where((element) => targetIds10.contains(element.id)).toList();
+      });
+
+      print("Length ${_prodCategory.length}");
+    });
+  }
+
+  _getProdCategory11() {
+    productService.getProdCategory().then((productCategory11) {
+      setState(() {
+        List<String> targetIds11 = ["48"];
+        _prodCategory11 = productCategory11.where((element) => targetIds11.contains(element.id)).toList();
+      });
+
+      print("Length ${_prodCategory.length}");
+    });
+  }
+
 
 
   int _currentIndex = 0;
@@ -163,7 +400,7 @@ class _ProductAllCategoryState extends State<ProductAllCategory> with TickerProv
                                       end: Alignment.topCenter,
                                     ),
                                   ),
-                                  padding:
+                                 /* padding:
                                   EdgeInsets.symmetric(vertical: 5.0, horizontal: 0.0),
                                   child: Text(
                                     productCategory.name,
@@ -173,7 +410,7 @@ class _ProductAllCategoryState extends State<ProductAllCategory> with TickerProv
                                       fontWeight: FontWeight.bold,
 
                                     ),
-                                  ),
+                                  ),*/
                                 ),
                               ),
                             ],
@@ -189,16 +426,16 @@ class _ProductAllCategoryState extends State<ProductAllCategory> with TickerProv
             Container(
               padding: EdgeInsets.all(10), // Adjust padding as needed
               decoration: BoxDecoration(
-                color: Colors.deepOrange.withOpacity(0.03), // Background color
+                //color: Colors.deepOrange.withOpacity(0.03), // Background color
                 borderRadius: BorderRadius.circular(5), // Optional: Adds rounded corners
               ),
               child: Text(
                 "All Categories",
                 style: TextStyle(
-                  fontFamily: "DancingScript",
-                  fontSize: MediaQuery.of(context).size.width * 0.09,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.deepOrange,
+                  fontFamily: "Rowdies",
+                  fontSize: MediaQuery.of(context).size.width * 0.08,
+                  fontWeight: FontWeight.normal,
+                  color: Colors.black,
                 ),
                 textAlign: TextAlign.left,
                 overflow: TextOverflow.ellipsis, // Handles overflow by showing ellipsis
@@ -207,30 +444,30 @@ class _ProductAllCategoryState extends State<ProductAllCategory> with TickerProv
             ),
 
             Card(
-             color: Colors.orange.shade50.withOpacity(0.9),
+              color: Colors.white,
              child: Column(
                children: [
                  Row(
                    children: [
                      Expanded(
                        child: Card(
-                        /* shape: RoundedRectangleBorder(
+                         shape: RoundedRectangleBorder(
                            borderRadius: BorderRadius.circular(10.0),
                            side: BorderSide(
-                             color: Colors.deepOrange, // Border color
+                             color: Colors.black, // Border color
                              width: 1.0, // Border width
                            ),
-                         ),*/
+                         ),
                          child: Column(
                            crossAxisAlignment: CrossAxisAlignment.start,
                            children: [
                              Padding(
                                padding: const EdgeInsets.all(8.0),
                                child: Text(
-                                 "Equipments",
+                                 "Air Quality",
                                  style: TextStyle(
-                              //     fontFamily: 'DancingScript',
-                                   fontWeight: FontWeight.bold,
+                                //   fontFamily: 'Rowdies',
+                                   fontWeight: FontWeight.normal,
                                    fontSize: MediaQuery.of(context).size.width * 0.050, // Adjust the font size as needed
                                    color: Colors.black, // Adjust the text color
                                    shadows: [
@@ -246,7 +483,7 @@ class _ProductAllCategoryState extends State<ProductAllCategory> with TickerProv
                                ),
                              ),
                              GridView.builder(
-                                 padding: EdgeInsets.symmetric(horizontal: 5.0, vertical: 2.0),
+                                 padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 2.0),
                                  physics: const NeverScrollableScrollPhysics(),
                                  shrinkWrap: true,
                                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
@@ -267,7 +504,7 @@ class _ProductAllCategoryState extends State<ProductAllCategory> with TickerProv
                                            settings: RouteSettings(
                                                name: listProductsPage.routeName),
                                            screen: listProductsPage(
-                                               prodSubCat: _prodCategory[index]),
+                                               prodSubCat: _prodCategory[0]),
                                            withNavBar: true,
                                            pageTransitionAnimation: PageTransitionAnimation
                                                .cupertino,
@@ -292,11 +529,11 @@ class _ProductAllCategoryState extends State<ProductAllCategory> with TickerProv
                                                      alignment: Alignment(0.0, -0.70),
                                                      fit: BoxFit.contain,
                                                    ),
-                                                   border: Border.all(
-                                                     color: Colors.deepOrange, // Choose your desired border color
+                                                  /* border: Border.all(
+                                                     color: Colors.black, // Choose your desired border color
                                                      width: 0.4, // Choose your desired border width
-                                                   ),
-                                                   borderRadius: BorderRadius.circular(8.0), // Optional: Add border radius for rounded corners
+                                                   ),*/
+                                                   borderRadius: BorderRadius.circular(20.0), // Optional: Add border radius for rounded corners
                                                  ),
                                                ),
                                              ),
@@ -345,23 +582,23 @@ class _ProductAllCategoryState extends State<ProductAllCategory> with TickerProv
 
                      Expanded(
                        child: Card(
-                        /* shape: RoundedRectangleBorder(
+                         shape: RoundedRectangleBorder(
                            borderRadius: BorderRadius.circular(10.0),
                            side: BorderSide(
-                             color: Colors.deepOrange, // Border color
+                             color: Colors.black, // Border color
                              width: 1.0, // Border width
                            ),
-                         ),*/
+                         ),
                          child: Column(
                            crossAxisAlignment: CrossAxisAlignment.start,
                            children: [
                              Padding(
                                padding: const EdgeInsets.all(8.0),
                                child: Text(
-                                 "Valves",
+                                 "Current",
                                  style: TextStyle(
-                              //     fontFamily: 'DancingScript',
-                                   fontWeight: FontWeight.bold,
+                               //    fontFamily: 'Rowdies',
+                                   fontWeight: FontWeight.normal,
                                    fontSize: MediaQuery.of(context).size.width * 0.050, // Adjust the font size as needed
                                    color: Colors.black, // Adjust the text color
                                    shadows: [
@@ -377,7 +614,7 @@ class _ProductAllCategoryState extends State<ProductAllCategory> with TickerProv
                                ),
                              ),
                              GridView.builder(
-                                 padding: EdgeInsets.symmetric(horizontal: 2.0, vertical: 2.0),
+                                 padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 2.0),
                                  physics: const NeverScrollableScrollPhysics(),
                                  shrinkWrap: true,
                                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
@@ -386,7 +623,7 @@ class _ProductAllCategoryState extends State<ProductAllCategory> with TickerProv
                                    mainAxisSpacing: 2.0,
                                    childAspectRatio: 1.1,
                                  ),
-                                 itemCount: min(_prodCategory.length, 4),
+                                 itemCount: min(_prod1.length, 4),
                                  // Display only the first 4 items,
                                  itemBuilder: (BuildContext context, int index) {
                                    return InkWell(
@@ -398,7 +635,7 @@ class _ProductAllCategoryState extends State<ProductAllCategory> with TickerProv
                                          settings: RouteSettings(
                                              name: listProductsPage.routeName),
                                          screen: listProductsPage(
-                                             prodSubCat: _prodCategory[index]),
+                                             prodSubCat: _prodCategory2[0]),
                                          withNavBar: true,
                                          pageTransitionAnimation: PageTransitionAnimation
                                              .cupertino,
@@ -419,15 +656,15 @@ class _ProductAllCategoryState extends State<ProductAllCategory> with TickerProv
                                              child: DecoratedBox(
                                                decoration: BoxDecoration(
                                                  image: DecorationImage(
-                                                   image: NetworkImage("${API.prodCat + _prodCategory[index].image}"),
+                                                   image: NetworkImage("${API.prodImg + _prod1[index].image}"),
                                                    alignment: Alignment(0.0, -0.70),
                                                    fit: BoxFit.contain,
                                                  ),
-                                                 border: Border.all(
-                                                   color: Colors.deepOrange, // Choose your desired border color
+                                                 /*border: Border.all(
+                                                   color: Colors.black, // Choose your desired border color
                                                    width: 0.4, // Choose your desired border width
-                                                 ),
-                                                 borderRadius: BorderRadius.circular(8.0), // Optional: Add border radius for rounded corners
+                                                 ),*/
+                                                 borderRadius: BorderRadius.circular(20.0), // Optional: Add border radius for rounded corners
                                                ),
                                              ),
                                            ),
@@ -482,7 +719,7 @@ class _ProductAllCategoryState extends State<ProductAllCategory> with TickerProv
 
 
             Card(
-              color: Colors.orange.shade50.withOpacity(0.9),
+              color: Colors.white,
 
               child: Column(
                 children: [
@@ -490,23 +727,23 @@ class _ProductAllCategoryState extends State<ProductAllCategory> with TickerProv
                     children: [
                       Expanded(
                         child: Card(
-                          /*shape: RoundedRectangleBorder(
+                          shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10.0),
                             side: BorderSide(
-                              color: Colors.deepOrange, // Border color
+                              color: Colors.black, // Border color
                               width: 1.0, // Border width
                             ),
-                          ),*/
+                          ),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: Text(
-                                  "Power Meter",
+                                  "Flow",
                                   style: TextStyle(
-                                //    fontFamily: 'DancingScript',
-                                    fontWeight: FontWeight.bold,
+                                 //   fontFamily: 'Rowdies',
+                                    fontWeight: FontWeight.normal,
                                     fontSize: MediaQuery.of(context).size.width * 0.050, // Adjust the font size as needed
                                     color: Colors.black, // Adjust the text color
                                     shadows: [
@@ -522,7 +759,7 @@ class _ProductAllCategoryState extends State<ProductAllCategory> with TickerProv
                                 ),
                               ),
                               GridView.builder(
-                                  padding: EdgeInsets.symmetric(horizontal: 2.0, vertical: 2.0),
+                                  padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 2.0),
                                   physics: const NeverScrollableScrollPhysics(),
                                   shrinkWrap: true,
                                   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
@@ -531,23 +768,25 @@ class _ProductAllCategoryState extends State<ProductAllCategory> with TickerProv
                                     mainAxisSpacing: 2.0,
                                     childAspectRatio: 1.1,
                                   ),
-                                  itemCount: min(_prodCategory2.length, 4),
+                                  itemCount: min(_prod2.length, 4),
                                   // Display only the first 4 items,
                                   itemBuilder: (BuildContext context, int index) {
                                     return InkWell(
-                                            onTap: () {
-                                              PersistentNavBarNavigator
-                                                  .pushNewScreenWithRouteSettings(
-                                                context,
-                                                settings: RouteSettings(
-                                                    name: detailedProductPage.routeName),
-                                                screen: detailedProductPage(
-                                                  products: widget.products[index],),
-                                                withNavBar: true,
-                                                pageTransitionAnimation: PageTransitionAnimation
-                                                    .cupertino,
-                                              );
-                                            },
+                                      onTap: () {
+                                        setState(() {
+                                          PersistentNavBarNavigator
+                                              .pushNewScreenWithRouteSettings(
+                                            context,
+                                            settings: RouteSettings(
+                                                name: listProductsPage.routeName),
+                                            screen: listProductsPage(
+                                                prodSubCat: _prodCategory3[0]),
+                                            withNavBar: true,
+                                            pageTransitionAnimation: PageTransitionAnimation
+                                                .cupertino,
+                                          );
+                                        });
+                                      },
                                             child: Container(
                                       decoration: BoxDecoration(
                                         color: Colors.white,
@@ -562,15 +801,15 @@ class _ProductAllCategoryState extends State<ProductAllCategory> with TickerProv
                                               child: DecoratedBox(
                                                 decoration: BoxDecoration(
                                                   image: DecorationImage(
-                                                    image: NetworkImage("${API.prodCat + _prodCategory2[index].image}"),
+                                                    image: NetworkImage("${API.prodImg + _prod2[index].image}"),
                                                     alignment: Alignment(0.0, -0.70),
                                                     fit: BoxFit.contain,
                                                   ),
-                                                  border: Border.all(
-                                                    color: Colors.deepOrange, // Choose your desired border color
+                                                  /*border: Border.all(
+                                                    color: Colors.black, // Choose your desired border color
                                                     width: 0.4, // Choose your desired border width
-                                                  ),
-                                                  borderRadius: BorderRadius.circular(8.0), // Optional: Add border radius for rounded corners
+                                                  ),*/
+                                                  borderRadius: BorderRadius.circular(20.0), // Optional: Add border radius for rounded corners
                                                 ),
                                               ),
                                             ),
@@ -619,23 +858,23 @@ class _ProductAllCategoryState extends State<ProductAllCategory> with TickerProv
 
                       Expanded(
                         child: Card(
-                          /*shape: RoundedRectangleBorder(
+                          shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10.0),
                             side: BorderSide(
-                              color: Colors.deepOrange, // Border color
+                              color: Colors.black, // Border color
                               width: 1.0, // Border width
                             ),
-                          ),*/
+                          ),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: Text(
-                                  "Temperature",
+                                  "Gas",
                                   style: TextStyle(
-                                 //   fontFamily: 'DancingScript',
-                                    fontWeight: FontWeight.bold,
+                                //    fontFamily: 'Rowdies',
+                                    fontWeight: FontWeight.normal,
                                     fontSize: MediaQuery.of(context).size.width * 0.050, // Adjust the font size as needed
                                     color: Colors.black, // Adjust the text color
                                     shadows: [
@@ -651,7 +890,7 @@ class _ProductAllCategoryState extends State<ProductAllCategory> with TickerProv
                                 ),
                               ),
                               GridView.builder(
-                                  padding: EdgeInsets.symmetric(horizontal: 2.0, vertical: 2.0),
+                                  padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 2.0),
                                   physics: const NeverScrollableScrollPhysics(),
                                   shrinkWrap: true,
                                   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
@@ -660,23 +899,25 @@ class _ProductAllCategoryState extends State<ProductAllCategory> with TickerProv
                                     mainAxisSpacing: 2.0,
                                     childAspectRatio: 1.1,
                                   ),
-                                  itemCount: min(_prodCategory2.length, 4),
+                                  itemCount: min(_prod3.length, 4),
                                   // Display only the first 4 items,
                                   itemBuilder: (BuildContext context, int index) {
                                     return InkWell(
-                                        onTap: () {
+                                      onTap: () {
+                                        setState(() {
                                           PersistentNavBarNavigator
                                               .pushNewScreenWithRouteSettings(
                                             context,
                                             settings: RouteSettings(
-                                                name: detailedProductPage.routeName),
-                                            screen: detailedProductPage(
-                                              products: widget.products[index],),
+                                                name: listProductsPage.routeName),
+                                            screen: listProductsPage(
+                                                prodSubCat: _prodCategory4[0]),
                                             withNavBar: true,
                                             pageTransitionAnimation: PageTransitionAnimation
                                                 .cupertino,
                                           );
-                                        },
+                                        });
+                                      },
                                         child: Container(
                                       decoration: BoxDecoration(
                                         color: Colors.white,
@@ -691,15 +932,15 @@ class _ProductAllCategoryState extends State<ProductAllCategory> with TickerProv
                                               child: DecoratedBox(
                                                 decoration: BoxDecoration(
                                                   image: DecorationImage(
-                                                    image: NetworkImage("${API.prodCat + _prodCategory2[index].image}"),
+                                                    image: NetworkImage("${API.prodImg + _prod3[index].image}"),
                                                     alignment: Alignment(0.0, -0.70),
                                                     fit: BoxFit.contain,
                                                   ),
-                                                  border: Border.all(
-                                                    color: Colors.deepOrange, // Choose your desired border color
+                                                  /*border: Border.all(
+                                                    color: Colors.black, // Choose your desired border color
                                                     width: 0.4, // Choose your desired border width
-                                                  ),
-                                                  borderRadius: BorderRadius.circular(8.0), // Optional: Add border radius for rounded corners
+                                                  ),*/
+                                                  borderRadius: BorderRadius.circular(20.0), // Optional: Add border radius for rounded corners
                                                 ),
                                               ),
                                             ),
@@ -753,25 +994,32 @@ class _ProductAllCategoryState extends State<ProductAllCategory> with TickerProv
 
 
             Card(
-              color: Colors.orange.shade50.withOpacity(0.9),
+              color: Colors.white,
               child: Column(
                 children: [
                   Row(
                     children: [
                       Expanded(
                         child: Card(
-
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10.0),
+                            side: BorderSide(
+                              color: Colors.black, // Border color
+                              width: 1.0, // Border width
+                            ),
+                          ),
                           child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: Text(
-                                  "Power Meter",
+                                  "Humidity",
                                   style: TextStyle(
-                                    fontFamily: 'DancingScript',
-                                    fontWeight: FontWeight.bold,
+                               //     fontFamily: 'Rowdies',
+                                    fontWeight: FontWeight.normal,
                                     fontSize: MediaQuery.of(context).size.width * 0.050, // Adjust the font size as needed
-                                    color: Colors.deepOrangeAccent, // Adjust the text color
+                                    color: Colors.black, // Adjust the text color
                                     shadows: [
                                       Shadow(
                                         color: Colors.grey.withOpacity(0.5),
@@ -785,7 +1033,7 @@ class _ProductAllCategoryState extends State<ProductAllCategory> with TickerProv
                                 ),
                               ),
                               GridView.builder(
-                                  padding: EdgeInsets.symmetric(horizontal: 2.0, vertical: 2.0),
+                                  padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 2.0),
                                   physics: const NeverScrollableScrollPhysics(),
                                   shrinkWrap: true,
                                   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
@@ -794,24 +1042,26 @@ class _ProductAllCategoryState extends State<ProductAllCategory> with TickerProv
                                     mainAxisSpacing: 2.0,
                                     childAspectRatio: 1.1,
                                   ),
-                                  itemCount: min(_prodCategory3.length, 4),
+                                  itemCount: min(_prod4.length, 4),
                                   // Display only the first 4 items,
                                   itemBuilder: (BuildContext context, int index) {
-                                    return /*InkWell(
-                                            onTap: () {
-                                              PersistentNavBarNavigator
-                                                  .pushNewScreenWithRouteSettings(
-                                                context,
-                                                settings: RouteSettings(
-                                                    name: detailedProductPage.routeName),
-                                                screen: detailedProductPage(
-                                                  products: widget.products[index],),
-                                                withNavBar: true,
-                                                pageTransitionAnimation: PageTransitionAnimation
-                                                    .cupertino,
-                                              );
-                                            },
-                                            child: */Container(
+                                    return InkWell(
+                                        onTap: () {
+                                      setState(() {
+                                        PersistentNavBarNavigator
+                                            .pushNewScreenWithRouteSettings(
+                                          context,
+                                          settings: RouteSettings(
+                                              name: listProductsPage.routeName),
+                                          screen: listProductsPage(
+                                              prodSubCat: _prodCategory5[0]),
+                                          withNavBar: true,
+                                          pageTransitionAnimation: PageTransitionAnimation
+                                              .cupertino,
+                                        );
+                                      });
+                                    },
+                                            child: Container(
                                       decoration: BoxDecoration(
                                         color: Colors.white,
                                         borderRadius: BorderRadius.circular(5.0),
@@ -825,15 +1075,15 @@ class _ProductAllCategoryState extends State<ProductAllCategory> with TickerProv
                                               child: DecoratedBox(
                                                 decoration: BoxDecoration(
                                                   image: DecorationImage(
-                                                    image: NetworkImage("${API.prodCat + _prodCategory3[index].image}"),
+                                                    image: NetworkImage("${API.prodImg + _prod4[index].image}"),
                                                     alignment: Alignment(0.0, -0.70),
                                                     fit: BoxFit.contain,
                                                   ),
-                                                  border: Border.all(
-                                                    color: Colors.deepOrange, // Choose your desired border color
+                                                 /* border: Border.all(
+                                                    color: Colors.black, // Choose your desired border color
                                                     width: 0.4// Choose your desired border width
-                                                  ),
-                                                  borderRadius: BorderRadius.circular(8.0), // Optional: Add border radius for rounded corners
+                                                  ),*/
+                                                  borderRadius: BorderRadius.circular(20.0), // Optional: Add border radius for rounded corners
                                                 ),
                                               ),
                                             ),
@@ -871,7 +1121,7 @@ class _ProductAllCategoryState extends State<ProductAllCategory> with TickerProv
                                             ),*/
                                         ],
                                       ),
-                                      //    ),
+                                         ),
                                     );
                                   }),
                             ],
@@ -882,17 +1132,25 @@ class _ProductAllCategoryState extends State<ProductAllCategory> with TickerProv
 
                       Expanded(
                         child: Card(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10.0),
+                            side: BorderSide(
+                              color: Colors.black, // Border color
+                              width: 1.0, // Border width
+                            ),
+                          ),
                           child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: Text(
-                                  "Temperature",
+                                  "Level",
                                   style: TextStyle(
-                                    fontFamily: 'DancingScript',
-                                    fontWeight: FontWeight.bold,
+                                 //   fontFamily: 'Rowdies',
+                                    fontWeight: FontWeight.normal,
                                     fontSize: MediaQuery.of(context).size.width * 0.050, // Adjust the font size as needed
-                                    color: Colors.deepOrangeAccent, // Adjust the text color
+                                    color: Colors.black, // Adjust the text color
                                     shadows: [
                                       Shadow(
                                         color: Colors.grey.withOpacity(0.5),
@@ -906,7 +1164,7 @@ class _ProductAllCategoryState extends State<ProductAllCategory> with TickerProv
                                 ),
                               ),
                               GridView.builder(
-                                  padding: EdgeInsets.symmetric(horizontal: 2.0, vertical: 2.0),
+                                  padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 2.0),
                                   physics: const NeverScrollableScrollPhysics(),
                                   shrinkWrap: true,
                                   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
@@ -915,24 +1173,26 @@ class _ProductAllCategoryState extends State<ProductAllCategory> with TickerProv
                                     mainAxisSpacing: 2.0,
                                     childAspectRatio: 1.1,
                                   ),
-                                  itemCount: min(_prodCategory3.length, 4),
+                                  itemCount: min(_prod5.length, 4),
                                   // Display only the first 4 items,
                                   itemBuilder: (BuildContext context, int index) {
-                                    return /*InkWell(
+                                    return InkWell(
                                         onTap: () {
-                                          PersistentNavBarNavigator
-                                              .pushNewScreenWithRouteSettings(
-                                            context,
-                                            settings: RouteSettings(
-                                                name: detailedProductPage.routeName),
-                                            screen: detailedProductPage(
-                                              products: widget.products[index],),
-                                            withNavBar: true,
-                                            pageTransitionAnimation: PageTransitionAnimation
-                                                .cupertino,
-                                          );
-                                        },
-                                        child: */Container(
+                                      setState(() {
+                                        PersistentNavBarNavigator
+                                            .pushNewScreenWithRouteSettings(
+                                          context,
+                                          settings: RouteSettings(
+                                              name: listProductsPage.routeName),
+                                          screen: listProductsPage(
+                                              prodSubCat: _prodCategory6[0]),
+                                          withNavBar: true,
+                                          pageTransitionAnimation: PageTransitionAnimation
+                                              .cupertino,
+                                        );
+                                      });
+                                    },
+                                        child: Container(
                                       decoration: BoxDecoration(
                                         color: Colors.white,
                                         borderRadius: BorderRadius.circular(5.0),
@@ -946,15 +1206,15 @@ class _ProductAllCategoryState extends State<ProductAllCategory> with TickerProv
                                               child: DecoratedBox(
                                                 decoration: BoxDecoration(
                                                   image: DecorationImage(
-                                                    image: NetworkImage("${API.prodCat + _prodCategory3[index].image}"),
+                                                    image: NetworkImage("${API.prodImg + _prod5[index].image}"),
                                                     alignment: Alignment(0.0, -0.70),
                                                     fit: BoxFit.contain,
                                                   ),
-                                                  border: Border.all(
-                                                    color: Colors.deepOrange, // Choose your desired border color
+                                                 /* border: Border.all(
+                                                    color: Colors.black, // Choose your desired border color
                                                     width: 0.4, // Choose your desired border width
-                                                  ),
-                                                  borderRadius: BorderRadius.circular(8.0), // Optional: Add border radius for rounded corners
+                                                  ),*/
+                                                  borderRadius: BorderRadius.circular(20.0), // Optional: Add border radius for rounded corners
                                                 ),
                                               ),
                                             ),
@@ -992,7 +1252,7 @@ class _ProductAllCategoryState extends State<ProductAllCategory> with TickerProv
                                         ),*/
                                         ],
                                       ),
-                                      //    ),
+                                          ),
                                     );
                                   }),
                             ],
@@ -1007,25 +1267,32 @@ class _ProductAllCategoryState extends State<ProductAllCategory> with TickerProv
             ),
 
             Card(
-              color: Colors.orange.shade50.withOpacity(0.9),
+              color: Colors.white,
               child: Column(
                 children: [
                   Row(
                     children: [
                       Expanded(
                         child: Card(
-
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10.0),
+                            side: BorderSide(
+                              color: Colors.black, // Border color
+                              width: 1.0, // Border width
+                            ),
+                          ),
                           child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: Text(
                                   "Power Meter",
                                   style: TextStyle(
-                                    fontFamily: 'DancingScript',
-                                    fontWeight: FontWeight.bold,
+                                 //   fontFamily: 'Rowdies',
+                                    fontWeight: FontWeight.normal,
                                     fontSize: MediaQuery.of(context).size.width * 0.050, // Adjust the font size as needed
-                                    color: Colors.deepOrangeAccent, // Adjust the text color
+                                    color: Colors.black, // Adjust the text color
                                     shadows: [
                                       Shadow(
                                         color: Colors.grey.withOpacity(0.5),
@@ -1039,7 +1306,7 @@ class _ProductAllCategoryState extends State<ProductAllCategory> with TickerProv
                                 ),
                               ),
                               GridView.builder(
-                                  padding: EdgeInsets.symmetric(horizontal: 2.0, vertical: 2.0),
+                                  padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 2.0),
                                   physics: const NeverScrollableScrollPhysics(),
                                   shrinkWrap: true,
                                   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
@@ -1048,24 +1315,26 @@ class _ProductAllCategoryState extends State<ProductAllCategory> with TickerProv
                                     mainAxisSpacing: 2.0,
                                     childAspectRatio: 1.1,
                                   ),
-                                  itemCount: min(_prodCategory4.length, 4),
+                                  itemCount: min(_prod6.length, 4),
                                   // Display only the first 4 items,
                                   itemBuilder: (BuildContext context, int index) {
-                                    return /*InkWell(
-                                            onTap: () {
-                                              PersistentNavBarNavigator
-                                                  .pushNewScreenWithRouteSettings(
-                                                context,
-                                                settings: RouteSettings(
-                                                    name: detailedProductPage.routeName),
-                                                screen: detailedProductPage(
-                                                  products: widget.products[index],),
-                                                withNavBar: true,
-                                                pageTransitionAnimation: PageTransitionAnimation
-                                                    .cupertino,
-                                              );
-                                            },
-                                            child: */Container(
+                                    return InkWell(
+                                        onTap: () {
+                                      setState(() {
+                                        PersistentNavBarNavigator
+                                            .pushNewScreenWithRouteSettings(
+                                          context,
+                                          settings: RouteSettings(
+                                              name: listProductsPage.routeName),
+                                          screen: listProductsPage(
+                                              prodSubCat: _prodCategory7[0]),
+                                          withNavBar: true,
+                                          pageTransitionAnimation: PageTransitionAnimation
+                                              .cupertino,
+                                        );
+                                      });
+                                    },
+                                            child: Container(
                                       decoration: BoxDecoration(
                                         color: Colors.white,
                                         borderRadius: BorderRadius.circular(5.0),
@@ -1079,15 +1348,15 @@ class _ProductAllCategoryState extends State<ProductAllCategory> with TickerProv
                                               child: DecoratedBox(
                                                 decoration: BoxDecoration(
                                                   image: DecorationImage(
-                                                    image: NetworkImage("${API.prodCat + _prodCategory4[index].image}"),
+                                                    image: NetworkImage("${API.prodImg + _prod6[index].image}"),
                                                     alignment: Alignment(0.0, -0.70),
                                                     fit: BoxFit.contain,
                                                   ),
-                                                  border: Border.all(
-                                                      color: Colors.deepOrange, // Choose your desired border color
+                                                 /* border: Border.all(
+                                                      color: Colors.black, // Choose your desired border color
                                                       width: 0.4// Choose your desired border width
-                                                  ),
-                                                  borderRadius: BorderRadius.circular(8.0), // Optional: Add border radius for rounded corners
+                                                  ),*/
+                                                  borderRadius: BorderRadius.circular(20.0), // Optional: Add border radius for rounded corners
                                                 ),
                                               ),
                                             ),
@@ -1125,7 +1394,7 @@ class _ProductAllCategoryState extends State<ProductAllCategory> with TickerProv
                                             ),*/
                                         ],
                                       ),
-                                      //    ),
+                                         ),
                                     );
                                   }),
                             ],
@@ -1136,17 +1405,25 @@ class _ProductAllCategoryState extends State<ProductAllCategory> with TickerProv
 
                       Expanded(
                         child: Card(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10.0),
+                            side: BorderSide(
+                              color: Colors.black, // Border color
+                              width: 1.0, // Border width
+                            ),
+                          ),
                           child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: Text(
-                                  "Temperature",
+                                  "Pressure",
                                   style: TextStyle(
-                                    fontFamily: 'DancingScript',
-                                    fontWeight: FontWeight.bold,
+                                 //   fontFamily: 'Rowdies',
+                                    fontWeight: FontWeight.normal,
                                     fontSize: MediaQuery.of(context).size.width * 0.050, // Adjust the font size as needed
-                                    color: Colors.deepOrangeAccent, // Adjust the text color
+                                    color: Colors.black, // Adjust the text color
                                     shadows: [
                                       Shadow(
                                         color: Colors.grey.withOpacity(0.5),
@@ -1160,7 +1437,7 @@ class _ProductAllCategoryState extends State<ProductAllCategory> with TickerProv
                                 ),
                               ),
                               GridView.builder(
-                                  padding: EdgeInsets.symmetric(horizontal: 2.0, vertical: 2.0),
+                                  padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 2.0),
                                   physics: const NeverScrollableScrollPhysics(),
                                   shrinkWrap: true,
                                   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
@@ -1169,24 +1446,26 @@ class _ProductAllCategoryState extends State<ProductAllCategory> with TickerProv
                                     mainAxisSpacing: 2.0,
                                     childAspectRatio: 1.1,
                                   ),
-                                  itemCount: min(_prodCategory4.length, 4),
+                                  itemCount: min(_prod7.length, 4),
                                   // Display only the first 4 items,
                                   itemBuilder: (BuildContext context, int index) {
-                                    return /*InkWell(
+                                    return InkWell(
                                         onTap: () {
-                                          PersistentNavBarNavigator
-                                              .pushNewScreenWithRouteSettings(
-                                            context,
-                                            settings: RouteSettings(
-                                                name: detailedProductPage.routeName),
-                                            screen: detailedProductPage(
-                                              products: widget.products[index],),
-                                            withNavBar: true,
-                                            pageTransitionAnimation: PageTransitionAnimation
-                                                .cupertino,
-                                          );
-                                        },
-                                        child: */Container(
+                                      setState(() {
+                                        PersistentNavBarNavigator
+                                            .pushNewScreenWithRouteSettings(
+                                          context,
+                                          settings: RouteSettings(
+                                              name: listProductsPage.routeName),
+                                          screen: listProductsPage(
+                                              prodSubCat: _prodCategory8[0]),
+                                          withNavBar: true,
+                                          pageTransitionAnimation: PageTransitionAnimation
+                                              .cupertino,
+                                        );
+                                      });
+                                    },
+                                        child: Container(
                                       decoration: BoxDecoration(
                                         color: Colors.white,
                                         borderRadius: BorderRadius.circular(5.0),
@@ -1200,15 +1479,15 @@ class _ProductAllCategoryState extends State<ProductAllCategory> with TickerProv
                                               child: DecoratedBox(
                                                 decoration: BoxDecoration(
                                                   image: DecorationImage(
-                                                    image: NetworkImage("${API.prodCat + _prodCategory4[index].image}"),
+                                                    image: NetworkImage("${API.prodImg + _prod7[index].image}"),
                                                     alignment: Alignment(0.0, -0.70),
                                                     fit: BoxFit.contain,
                                                   ),
-                                                  border: Border.all(
-                                                    color: Colors.deepOrange, // Choose your desired border color
+                                                 /* border: Border.all(
+                                                    color: Colors.black, // Choose your desired border color
                                                     width: 0.4, // Choose your desired border width
-                                                  ),
-                                                  borderRadius: BorderRadius.circular(8.0), // Optional: Add border radius for rounded corners
+                                                  ),*/
+                                                  borderRadius: BorderRadius.circular(20.0), // Optional: Add border radius for rounded corners
                                                 ),
                                               ),
                                             ),
@@ -1246,7 +1525,7 @@ class _ProductAllCategoryState extends State<ProductAllCategory> with TickerProv
                                         ),*/
                                         ],
                                       ),
-                                      //    ),
+                                          ),
                                     );
                                   }),
                             ],
@@ -1259,6 +1538,429 @@ class _ProductAllCategoryState extends State<ProductAllCategory> with TickerProv
                 ],
               ),
             ),
+
+
+            Card(
+              color: Colors.white,
+              child: Column(
+                children: [
+                  Row(
+                    children: [
+                      Expanded(
+                        child: Card(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10.0),
+                            side: BorderSide(
+                              color: Colors.black, // Border color
+                              width: 1.0, // Border width
+                            ),
+                          ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Text(
+                                  "Temperature",
+                                  style: TextStyle(
+                                 //   fontFamily: 'Rowdies',
+                                    fontWeight: FontWeight.normal,
+                                    fontSize: MediaQuery.of(context).size.width * 0.050, // Adjust the font size as needed
+                                    color: Colors.black, // Adjust the text color
+                                    shadows: [
+                                      Shadow(
+                                        color: Colors.grey.withOpacity(0.5),
+                                        blurRadius: 2,
+                                        offset: Offset(1, 1),
+                                      ),
+                                    ],
+                                    // You can add more styles like letterSpacing, fontStyle, etc. here
+                                  ),
+                                  textAlign: TextAlign.left,
+                                ),
+                              ),
+                              GridView.builder(
+                                  padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 2.0),
+                                  physics: const NeverScrollableScrollPhysics(),
+                                  shrinkWrap: true,
+                                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                                    crossAxisCount: 2,
+                                    crossAxisSpacing: 2.0,
+                                    mainAxisSpacing: 2.0,
+                                    childAspectRatio: 1.1,
+                                  ),
+                                  itemCount: min(_prod8.length, 4),
+                                  // Display only the first 4 items,
+                                  itemBuilder: (BuildContext context, int index) {
+                                    return InkWell(
+                                      onTap: () {
+                                        setState(() {
+                                          PersistentNavBarNavigator
+                                              .pushNewScreenWithRouteSettings(
+                                            context,
+                                            settings: RouteSettings(
+                                                name: listProductsPage.routeName),
+                                            screen: listProductsPage(
+                                                prodSubCat: _prodCategory9[0]),
+                                            withNavBar: true,
+                                            pageTransitionAnimation: PageTransitionAnimation
+                                                .cupertino,
+                                          );
+                                        });
+                                      },
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                          color: Colors.white,
+                                          borderRadius: BorderRadius.circular(5.0),
+                                        ),
+                                        child: Column(
+                                          children: [
+                                            Expanded(
+                                              child: SizedBox(
+                                                width: MediaQuery.of(context).size.width * 0.2,
+                                                height: MediaQuery.of(context).size.height * 0.6,
+                                                child: DecoratedBox(
+                                                  decoration: BoxDecoration(
+                                                    image: DecorationImage(
+                                                      image: NetworkImage("${API.prodImg + _prod8[index].image}"),
+                                                      alignment: Alignment(0.0, -0.70),
+                                                      fit: BoxFit.contain,
+                                                    ),
+                                                   /* border: Border.all(
+                                                        color: Colors.black, // Choose your desired border color
+                                                        width: 0.4// Choose your desired border width
+                                                    ),*/
+                                                    borderRadius: BorderRadius.circular(20.0), // Optional: Add border radius for rounded corners
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+
+                                            /* Container(
+                                              padding: const EdgeInsets.all(8.0),
+                                              child: Row(
+                                                crossAxisAlignment: CrossAxisAlignment.end,
+                                                mainAxisSize: MainAxisSize.max,
+                                                children: [
+                                                  Expanded(
+                                                    child: Text(
+                                                      products[index].name,
+                                                      style: TextStyle(
+                                                        fontSize: MediaQuery
+                                                            .of(context)
+                                                            .size
+                                                            .width * 0.025,
+                                                        fontWeight: FontWeight.bold,
+                                                        color: Colors.deepOrange,
+                                                      ),
+                                                      maxLines: 3,
+                                                      softWrap: true,
+                                                    ),
+                                                  ),
+                                                  Icon(Icons.ads_click_sharp,
+                                                      color: Colors.deepOrange,
+                                                      size: MediaQuery
+                                                          .of(context)
+                                                          .size
+                                                          .width * 0.06),
+                                                ],
+                                              ),
+                                            ),*/
+                                          ],
+                                        ),
+                                      ),
+                                    );
+                                  }),
+                            ],
+                          ),
+
+                        ),
+                      ),
+
+                      Expanded(
+                        child: Card(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10.0),
+                            side: BorderSide(
+                              color: Colors.black, // Border color
+                              width: 1.0, // Border width
+                            ),
+                          ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Text(
+                                  "Test Equipment",
+                                  style: TextStyle(
+                                  //  fontFamily: 'Rowdies',
+                                    fontWeight: FontWeight.normal,
+                                    fontSize: MediaQuery.of(context).size.width * 0.050, // Adjust the font size as needed
+                                    color: Colors.black, // Adjust the text color
+                                    shadows: [
+                                      Shadow(
+                                        color: Colors.grey.withOpacity(0.5),
+                                        blurRadius: 2,
+                                        offset: Offset(1, 1),
+                                      ),
+                                    ],
+                                    // You can add more styles like letterSpacing, fontStyle, etc. here
+                                  ),
+                                  textAlign: TextAlign.left,
+                                ),
+                              ),
+                              GridView.builder(
+                                  padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 2.0),
+                                  physics: const NeverScrollableScrollPhysics(),
+                                  shrinkWrap: true,
+                                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                                    crossAxisCount: 2,
+                                    crossAxisSpacing: 2.0,
+                                    mainAxisSpacing: 2.0,
+                                    childAspectRatio: 1.1,
+                                  ),
+                                  itemCount: min(_prod9.length, 4),
+                                  // Display only the first 4 items,
+                                  itemBuilder: (BuildContext context, int index) {
+                                    return InkWell(
+                                        onTap: () {
+                                      setState(() {
+                                        PersistentNavBarNavigator
+                                            .pushNewScreenWithRouteSettings(
+                                          context,
+                                          settings: RouteSettings(
+                                              name: listProductsPage.routeName),
+                                          screen: listProductsPage(
+                                              prodSubCat: _prodCategory10[0]),
+                                          withNavBar: true,
+                                          pageTransitionAnimation: PageTransitionAnimation
+                                              .cupertino,
+                                        );
+                                      });
+                                    },
+                                        child: Container(
+                                      decoration: BoxDecoration(
+                                        color: Colors.white,
+                                        borderRadius: BorderRadius.circular(5.0),
+                                      ),
+                                      child: Column(
+                                        children: [
+                                          Expanded(
+                                            child: SizedBox(
+                                              width: MediaQuery.of(context).size.width * 0.2,
+                                              height: MediaQuery.of(context).size.height * 0.6,
+                                              child: DecoratedBox(
+                                                decoration: BoxDecoration(
+                                                  image: DecorationImage(
+                                                    image: NetworkImage("${API.prodImg + _prod9[index].image}"),
+                                                    alignment: Alignment(0.0, -0.70),
+                                                    fit: BoxFit.contain,
+                                                  ),
+                                                /*  border: Border.all(
+                                                    color: Colors.black, // Choose your desired border color
+                                                    width: 0.4, // Choose your desired border width
+                                                  ),*/
+                                                  borderRadius: BorderRadius.circular(20.0), // Optional: Add border radius for rounded corners
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+
+                                          /* Container(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Row(
+                                            crossAxisAlignment: CrossAxisAlignment.end,
+                                            mainAxisSize: MainAxisSize.max,
+                                            children: [
+                                              Expanded(
+                                                child: Text(
+                                                  products[index].name,
+                                                  style: TextStyle(
+                                                    fontSize: MediaQuery
+                                                        .of(context)
+                                                        .size
+                                                        .width * 0.025,
+                                                    fontWeight: FontWeight.bold,
+                                                    color: Colors.deepOrange,
+                                                  ),
+                                                  maxLines: 3,
+                                                  softWrap: true,
+                                                ),
+                                              ),
+                                              Icon(Icons.ads_click_sharp,
+                                                  color: Colors.deepOrange,
+                                                  size: MediaQuery
+                                                      .of(context)
+                                                      .size
+                                                      .width * 0.06),
+                                            ],
+                                          ),
+                                        ),*/
+                                        ],
+                                      ),
+                                         ),
+                                    );
+                                  }),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  //  Text(_prodCategory[0].name),
+                ],
+              ),
+            ),
+
+
+            Card(
+              color: Colors.white,
+              child: Column(
+                children: [
+                  Row(
+                    children: [
+                      Expanded(
+                        child: Card(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10.0),
+                            side: BorderSide(
+                              color: Colors.black, // Border color
+                              width: 1.0, // Border width
+                            ),
+                          ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Text(
+                                  "Valves",
+                                  style: TextStyle(
+                                //    fontFamily: 'Rowdies',
+                                    fontWeight: FontWeight.normal,
+                                    fontSize: MediaQuery.of(context).size.width * 0.050, // Adjust the font size as needed
+                                    color: Colors.black, // Adjust the text color
+                                    shadows: [
+                                      Shadow(
+                                        color: Colors.grey.withOpacity(0.5),
+                                        blurRadius: 2,
+                                        offset: Offset(1, 1),
+                                      ),
+                                    ],
+                                    // You can add more styles like letterSpacing, fontStyle, etc. here
+                                  ),
+                                  textAlign: TextAlign.left,
+                                ),
+                              ),
+                              GridView.builder(
+                                  padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 2.0),
+                                  physics: const NeverScrollableScrollPhysics(),
+                                  shrinkWrap: true,
+                                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                                    crossAxisCount: 2,
+                                    crossAxisSpacing: 2.0,
+                                    mainAxisSpacing: 2.0,
+                                    childAspectRatio: 1.1,
+                                  ),
+                                  itemCount: min(_prod10.length, 4),
+                                  // Display only the first 4 items,
+                                  itemBuilder: (BuildContext context, int index) {
+                                    return InkWell(
+                                      onTap: () {
+                                        setState(() {
+                                          PersistentNavBarNavigator
+                                              .pushNewScreenWithRouteSettings(
+                                            context,
+                                            settings: RouteSettings(
+                                                name: listProductsPage.routeName),
+                                            screen: listProductsPage(
+                                                prodSubCat: _prodCategory11[0]),
+                                            withNavBar: true,
+                                            pageTransitionAnimation: PageTransitionAnimation
+                                                .cupertino,
+                                          );
+                                        });
+                                      },
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                          color: Colors.white,
+                                          borderRadius: BorderRadius.circular(5.0),
+                                        ),
+                                        child: Column(
+                                          children: [
+                                            Expanded(
+                                              child: SizedBox(
+                                                width: MediaQuery.of(context).size.width * 0.2,
+                                                height: MediaQuery.of(context).size.height * 0.6,
+                                                child: DecoratedBox(
+                                                  decoration: BoxDecoration(
+                                                    image: DecorationImage(
+                                                      image: NetworkImage("${API.prodImg + _prod10[index].image}"),
+                                                      alignment: Alignment(0.0, -0.70),
+                                                      fit: BoxFit.contain,
+                                                    ),
+                                                    /*border: Border.all(
+                                                        color: Colors.black, // Choose your desired border color
+                                                        width: 0.4// Choose your desired border width
+                                                    ),*/
+                                                    borderRadius: BorderRadius.circular(20.0), // Optional: Add border radius for rounded corners
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+
+                                            /* Container(
+                                              padding: const EdgeInsets.all(8.0),
+                                              child: Row(
+                                                crossAxisAlignment: CrossAxisAlignment.end,
+                                                mainAxisSize: MainAxisSize.max,
+                                                children: [
+                                                  Expanded(
+                                                    child: Text(
+                                                      products[index].name,
+                                                      style: TextStyle(
+                                                        fontSize: MediaQuery
+                                                            .of(context)
+                                                            .size
+                                                            .width * 0.025,
+                                                        fontWeight: FontWeight.bold,
+                                                        color: Colors.deepOrange,
+                                                      ),
+                                                      maxLines: 3,
+                                                      softWrap: true,
+                                                    ),
+                                                  ),
+                                                  Icon(Icons.ads_click_sharp,
+                                                      color: Colors.deepOrange,
+                                                      size: MediaQuery
+                                                          .of(context)
+                                                          .size
+                                                          .width * 0.06),
+                                                ],
+                                              ),
+                                            ),*/
+                                          ],
+                                        ),
+                                      ),
+                                    );
+                                  }),
+                            ],
+                          ),
+
+                        ),
+                      ),
+
+                      Expanded(
+                        child: Container(),
+                      ),
+                    ],
+                  ),
+                  //  Text(_prodCategory[0].name),
+                ],
+              ),
+            ),
+
 
             SizedBox(height: 15,),
 
@@ -1285,9 +1987,9 @@ class _ProductAllCategoryState extends State<ProductAllCategory> with TickerProv
               height: MediaQuery.of(context).size.width * 0.3 * 1.3 + 60, // Adjust the height as needed
               child: ListView.builder(
                 scrollDirection: Axis.horizontal,
-                itemCount: _prodCategory.where((productCategory) => productCategory.status == "Active").length,
+                itemCount: _prodCategories.where((productCategory) => productCategory.status == "Active").length,
                 itemBuilder: (context, index) {
-                  var productCategory = _prodCategory.where((productCategory) => productCategory.status == "Active").toList()[index];
+                  var productCategory = _prodCategories.where((productCategory) => productCategory.status == "Active").toList()[index];
                   return InkWell(
                     onTap: () {
                       PersistentNavBarNavigator.pushNewScreenWithRouteSettings(
@@ -1326,7 +2028,7 @@ class _ProductAllCategoryState extends State<ProductAllCategory> with TickerProv
                                     end: Alignment.topCenter,
                                   ),
                                 ),
-                                padding: EdgeInsets.symmetric(vertical: 5.0, horizontal: 0.0),
+                               /* padding: EdgeInsets.symmetric(vertical: 5.0, horizontal: 0.0),
                                 child: Text(
                                   productCategory.name,
                                   style: TextStyle(
@@ -1334,7 +2036,7 @@ class _ProductAllCategoryState extends State<ProductAllCategory> with TickerProv
                                     color: Colors.white,
                                     fontWeight: FontWeight.bold,
                                   ),
-                                ),
+                                ),*/
                               ),
                             ),
                           ],

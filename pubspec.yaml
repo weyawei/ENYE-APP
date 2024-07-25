@@ -126,7 +126,14 @@ flutter:
     - assets/backgrounds/
     - assets/logo/
     - assets/icons/
+    - assets/svg/
     - assets/images/
+    - assets/image/
+    - assets/ems/
+    - assets/building/
+    - assets/life/
+    - assets/c_valve/
+    - assets/company/
 
     #   - images/images_1/wallpaper.jpg
     #   - images/a_dot_ham.jpeg
