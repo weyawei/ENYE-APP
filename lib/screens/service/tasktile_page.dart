@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import '../../widget/widgets.dart';
 import '../screens.dart';
 
 class TaskTile extends StatefulWidget {
   final TechnicalData services;
-  const TaskTile({super.key, required this.services});
+  final EcTSIS? tsis;
+  final List<EcEvent> event;
+  const TaskTile({super.key, required this.services, required this.tsis, required this.event});
 
   @override
   State<TaskTile> createState() => _TaskTileState();
@@ -92,6 +95,30 @@ class _TaskTileState extends State<TaskTile> {
                   ]
                   ),
                 ),
+
+                SizedBox(height: screenHeight * 0.01,),
+                if (widget.event.isNotEmpty)
+                  ...widget.event.map((events) {
+                    return Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Icon(
+                          Icons.calendar_month_rounded,
+                          color: Colors.grey[200],
+                          size: fontNormalSize * 1.5,
+                        ),
+                        const SizedBox(width: 4),
+                        Text(
+                          '${DateFormat.yMMMd().format(DateTime.parse(events.start))} TO ${DateFormat.yMMMd().format(DateTime.parse(events.end))}',
+                          style: TextStyle(
+                              fontSize: fontNormalSize,
+                              letterSpacing: 0.5,
+                              color: Colors.grey[100]
+                          ),
+                        ),
+                      ],
+                    );
+                  }).toList(),
               ],
             ),
           ),

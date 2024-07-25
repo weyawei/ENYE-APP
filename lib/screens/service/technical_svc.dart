@@ -270,7 +270,7 @@ class TechnicalDataServices {
       String svc_id, String service,
       String svc_title, String svc_desc,
       String req_name, String req_position,
-      String cli_remarks, String atch_file, String atch_data,
+      String cli_remarks,
       String date_sched, String client_id,
       String client_name, String client_company,
       String client_location, String client_projectname,
@@ -288,8 +288,6 @@ class TechnicalDataServices {
       map['req_name'] = req_name;
       map['req_position'] = req_position;
       map['cli_remarks'] = cli_remarks;
-      map['atch_file'] = atch_file;
-      map['atch_data'] = atch_data;
       map['client_id'] = client_id;
       map['name'] = client_name;
       map['company'] = client_company;

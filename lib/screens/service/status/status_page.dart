@@ -37,6 +37,8 @@ class _StatusPageState extends State<StatusPage> with TickerProviderStateMixin {
   final searchController = TextEditingController();
   final reasonController = TextEditingController();
   bool _isLoading = true;
+  bool _isLoadingTSIS = true;
+  bool _isLoadingEvents = true;
 
   DateTimeRange? selectedDate;
   DateTime firstDate = DateTime.now().add(Duration(days: 5));
@@ -57,9 +59,6 @@ class _StatusPageState extends State<StatusPage> with TickerProviderStateMixin {
         checkSession().getClientsData().then((value) {
           ClientInfo = value;
           _getServices();
-
-          _getEcEvent();
-          _getEcTSIS();
         });
         userSessionFuture = bool;
       } else {
@@ -127,29 +126,40 @@ class _StatusPageState extends State<StatusPage> with TickerProviderStateMixin {
     TechnicalDataServices.clientTechnicalData(ClientInfo!.email).then((technicalData){
       setState(() {
         _services = technicalData.where((element) => element.status != "Complete" && element.status != "Cancelled").toList();
-        _filteredServices = technicalData.where((element) => element.status != "Complete" && element.status != "Cancelled").toList();
+        _filteredServices = List.from(_services);
+
+        _services.forEach((element) {
+          if (element.tsis_id.isNotEmpty) {
+            _getEcEvent(element.tsis_id);
+            _getEcTSIS(element.tsis_id);
+          }
+        });
       });
       _isLoading = false;
+      _isLoadingTSIS = false;
+      _isLoadingEvents = false;
     });
   }
 
   late List<EcEvent> _ecEvent;
 
-  _getEcEvent(){
+  _getEcEvent(String tsis_id){
     ECTechnicalDataServices.getEcEvents().then((EcEvent){
       setState(() {
-        _ecEvent = EcEvent;
+        _ecEvent = EcEvent.where((element) => element.tsis_id == tsis_id).toList();
       });
+      _isLoadingEvents = false;
     });
   }
 
   late List<EcTSIS> _ecTSIS;
 
-  _getEcTSIS(){
+  _getEcTSIS(String tsis_id){
     ECTechnicalDataServices.getEcTSIS().then((EcTSIS){
       setState(() {
-        _ecTSIS = EcTSIS;
+        _ecTSIS = EcTSIS.where((element) => element.tsis_id == tsis_id).toList();
       });
+      _isLoadingTSIS = false;
     });
   }
 
@@ -229,7 +239,7 @@ class _StatusPageState extends State<StatusPage> with TickerProviderStateMixin {
       onTap: (){FocusScope.of(context).unfocus();},
       child: Scaffold(
         appBar: CustomAppBar(title: 'Status', imagePath: '', appBarHeight: MediaQuery.of(context).size.height * 0.05,),
-        body: _isLoading
+        body: _isLoading || _isLoadingTSIS || _isLoadingEvents
           ? Center(child: SpinningContainer(controller: _controller),)
           : RefreshIndicator(
             onRefresh: () async {
@@ -285,9 +295,10 @@ class _StatusPageState extends State<StatusPage> with TickerProviderStateMixin {
                       itemBuilder: (_, index){
 
                         TechnicalData service = _filteredServices[index];
-                        EcTSIS? tsis = _ecTSIS.where((tsis) => tsis.tsis_id == service.tsis_id).elementAtOrNull(0);
-                        List<EcEvent> events = _ecEvent.where((e) => e.tsis_id == service.tsis_id).toList();
 
+                        EcTSIS? tsis = _ecTSIS.where((tsis) => tsis.tsis_id == service.tsis_id).elementAtOrNull(0);
+                        
+                        List<EcEvent> events = _ecEvent.where((e) => e.tsis_id == service.tsis_id).toList();
 
                         return AnimationConfiguration.staggeredList(
                           position: index,
@@ -316,7 +327,7 @@ class _StatusPageState extends State<StatusPage> with TickerProviderStateMixin {
                                     }
 
                                     },
-                                    child: TaskTile(services: service),
+                                    child: TaskTile(services: service, tsis: tsis, event: events,),
                                   )
                                 ],
                               ),

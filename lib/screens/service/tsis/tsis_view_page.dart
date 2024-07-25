@@ -50,7 +50,7 @@ class _TSISViewPageState extends State<TSISViewPage> with TickerProviderStateMix
       setState(() {
         _serviceOrder = EcSO.where((so) =>
         widget.events.any((event) => event.id == so.event_id) && so.tsis_id == widget.tsis.tsis_id
-            && (so.stat == "Save" || so.stat == "Completed")
+            && (so.stat == "Save" || so.stat == "Completed" || so.stat == "Complete")
         ).toList();
       });
       _isLoadingSO = false;

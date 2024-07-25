@@ -195,7 +195,7 @@ class _HistoryPageState extends State<HistoryPage> with TickerProviderStateMixin
                                       },
                                       child: service.isEmpty
                                         ? TSISTaskTile(tsis: tsis, event: events)
-                                        : TaskTile(services: service[0]),
+                                        : TaskTile(services: service[0], tsis: tsis, event: events),
                                     )
                                   ],
                                 ),

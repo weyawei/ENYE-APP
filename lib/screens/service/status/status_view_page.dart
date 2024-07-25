@@ -163,7 +163,7 @@ class _StatusViewPageState extends State<StatusViewPage> with TickerProviderStat
           SizedBox(height: screenHeight * 0.03),
           Center(
             child: Text(
-                "SVC# ${widget.service.svcId}",
+                "#${widget.service.svcId}",
                 style: GoogleFonts.rowdies(
                     textStyle: TextStyle(
                         fontSize: fontXSize,
@@ -485,6 +485,17 @@ class _StatusViewPageState extends State<StatusViewPage> with TickerProviderStat
                                             fontWeight: FontWeight.w800,
                                             letterSpacing: 0.8,
                                             color: Colors.black54
+                                        ),
+                                      ),
+                                    ),
+
+                                    TextSpan(text: "\n${engineer.mobile}",
+                                      style: GoogleFonts.poppins(
+                                        textStyle: TextStyle(
+                                            fontSize: fontXSmallSize,
+                                            fontWeight: FontWeight.w800,
+                                            letterSpacing: 0.8,
+                                            color: Colors.grey
                                         ),
                                       ),
                                     ),

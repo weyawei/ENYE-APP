@@ -5,7 +5,6 @@ import 'package:file_picker/file_picker.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
@@ -458,69 +457,6 @@ class _BookingSystemState extends State<BookingSystem> {
                       ),
                     )
                   : SizedBox.shrink(),
-
-                      SizedBox(height: screenHeight * 0.03),
-                  Column(
-                    children: [
-                      if (filePath != null || (showData != null && showData!.isNotEmpty))
-                        InkWell(
-                          onTap: () {
-                            if (disabling != false) {
-                              selectFile();
-                            }
-                          },
-                          child: Stack(
-                            alignment: Alignment.center,
-                            children: [
-                              if ((filePath != null && _isImage(filePath!.path)) ||
-                                  (showData != null && showData!.isNotEmpty && _isImage(showData!)))
-                                CircleAvatar(
-                                  radius: 40,
-                                  backgroundImage: (filePath != null && _isImage(filePath!.path))
-                                      ? FileImage(filePath!)
-                                      : (showData != null && showData!.isNotEmpty && _isImage(showData!))
-                                      ? FileImage(File(API.clientsImages + showData!))
-                                      : null,
-                                  child: null,
-                                ),
-                              
-                            ],
-                          ),
-                        ),
-                      if (filePath != null || (showData != null && showData!.isNotEmpty))
-                        SizedBox(height: 8), // Add some space between the avatar and the text
-                      if (filePath != null || (showData != null && showData!.isNotEmpty))
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            if (filePath != null && !_isImage(filePath!.path))
-                              Icon(Icons.insert_drive_file, color: Colors.deepOrange, size: 24)
-                            else if (showData != null && !_isImage(showData!))
-                              Icon(Icons.insert_drive_file, color: Colors.deepOrange, size: 24),
-                            SizedBox(width: 8),
-                            Flexible(
-                              child: Text(
-                                filePath != null ? filePath!.path.split('/').last : showData!.split('/').last,
-                                overflow: TextOverflow.ellipsis,
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: fontNormalSize,
-                                ),
-                              ),
-                            ),
-                          ],
-                        )
-                      else
-                        Text(
-                          "No Attachment",
-                          style: TextStyle(
-                            color: Colors.grey,
-                            fontSize: 16,
-                          ),
-                        ),
-                    ],
-                  ),
-
                 ],
               ),
             ),
@@ -532,14 +468,13 @@ class _BookingSystemState extends State<BookingSystem> {
                         generatedCode!, selectedConcern!,
                         subjectController.text, descriptionController.text,
                         clientNameController.text, clientPositionController.text,
-                        clientRemarksController.text, fileName.toString(), fileData.toString(),
+                        clientRemarksController.text,
                         selectedDate.toString(), ClientInfo!.client_id,
                         ClientInfo!.name, compnameController.text,
                         locationController.text, projnameController.text,
                         ClientInfo!.contact_no, ClientInfo!.email
                     ).then((result) {
                       if('success' == result){
-                        sendPushNotifications();
                         _getServices();
                         custSnackbar(context, "Successfully booked.", Colors.green, Icons.check, Colors.greenAccent);
                         clearFields();
@@ -554,14 +489,13 @@ class _BookingSystemState extends State<BookingSystem> {
                         generatedCode!, selectedConcern!,
                         subjectController.text, descriptionController.text,
                         clientNameController.text, clientPositionController.text,
-                        clientRemarksController.text, fileName.toString(), fileData.toString(),
+                        clientRemarksController.text,
                         selectedDate.toString(), ClientInfo!.client_id,
                         ClientInfo!.name, compnameController.text,
                         locationController.text, projnameController.text,
                         contactController.text, ClientInfo!.email
                     ).then((result) {
                       if('success' == result){
-                        sendPushNotifications();
                         _getServices();
                         custSnackbar(context, "Successfully booked.", Colors.green, Icons.check, Colors.greenAccent);
                         clearFields();
@@ -576,14 +510,13 @@ class _BookingSystemState extends State<BookingSystem> {
                         generatedCode!, selectedConcern!,
                         subjectController.text, descriptionController.text,
                         clientNameController.text, clientPositionController.text,
-                        clientRemarksController.text, fileName.toString(), fileData.toString(),
+                        clientRemarksController.text,
                         selectedDate.toString(), ClientInfo!.client_id,
                         clientNameController.text, compnameController.text,
                         locationController.text, projnameController.text,
                         contactController.text, ClientInfo!.email
                     ).then((result) {
                       if('success' == result){
-                        sendPushNotifications();
                         _getServices();
                         custSnackbar(context, "Successfully booked.", Colors.green, Icons.check, Colors.greenAccent);
                         clearFields();
@@ -611,29 +544,6 @@ class _BookingSystemState extends State<BookingSystem> {
             ],
           ),
         );
-    }
-  }
-
-    Future<void> sendPushNotifications() async {
-    //final url = 'https://enye.com.ph/enyecontrols_app/login_user/send1.php'; // Replace this with the URL to your PHP script
-    String name = clientNameController.text;
-
-    final response = await http.post(
-      Uri.parse(API.pushNotif),
-      body: {
-        'action' : 'Booking',
-        'code' : generatedCode,
-        'name' : name,
-        'company' : compnameController.text,
-        'date_booked' : selectedDate.toString(),
-      },
-    );
-    if (response.statusCode == 200) {
-      if(response.body == "success"){
-        print('send push notifications.');
-      }
-    } else {
-      print('Failed to send push notifications.');
     }
   }
 
@@ -799,56 +709,6 @@ class _BookingSystemState extends State<BookingSystem> {
                       controller: clientRemarksController,
                       hintText: 'Remarks *',
                     ),
-
-
-                    SizedBox(height: screenHeight * 0.05),
-                    Column(
-                      children: [
-                        InkWell(
-                          onTap: (){
-                            if(disabling != true){
-                              selectFile();
-                            }
-                          },
-                          child: Stack(
-                            children: [
-                              if (filePath != null && _isImage(filePath!.path))
-                                CircleAvatar(
-                                  radius: fontExtraSize * 3,
-                                  backgroundImage: FileImage(filePath!),
-                                )
-                              else if (showData != null && showData!.isNotEmpty && _isImage(showData!))
-                                CircleAvatar(
-                                  radius: fontExtraSize * 3,
-                                  backgroundImage: FileImage(File(API.clientsImages + showData!)),
-                                )
-                              else
-                                CircleAvatar(
-                                  radius: fontExtraSize * 3,
-                                  foregroundColor: Colors.deepOrange,
-                                  child: Icon(Icons.insert_drive_file, color: Colors.deepOrange, size: fontExtraSize * 2),
-                                ),
-                              if (!disabling)
-                                Positioned(
-                                  bottom: fontExtraSize / 5,
-                                  left: fontExtraSize * 4.5,
-                                  child: Icon(Icons.add_a_photo, color: Colors.deepOrange, weight: fontExtraSize * 5,),
-                                ),
-                            ],
-                          ),
-                        ),
-                        SizedBox(height: screenHeight * 0.01), // Add some space between the avatar and the text
-                        Text(
-                          filePath != null ? filePath!.path.split('/').last : "Attach file", // Display file name if file is selected
-                          style: TextStyle(
-                            fontSize: fontNormalSize, // Adjust font size as needed
-                            fontWeight: FontWeight.w500,
-                            letterSpacing: 0.8,
-                            color: Colors.black54,
-                          ),
-                        ),
-                      ],
-                    ),
                   ],
                 ),
               ),
@@ -874,11 +734,4 @@ class _BookingSystemState extends State<BookingSystem> {
       }
     );
   }
-}
-
-// Function to check if a file path represents an image
-bool _isImage(String filePath) {
-  final imageExtensions = ['jpg', 'jpeg', 'png', 'gif', 'bmp'];
-  final ext = filePath.split('.').last.toLowerCase();
-  return imageExtensions.contains(ext);
 }
