@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'widgets.dart';
+
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String title;
   final String imagePath;
@@ -19,10 +21,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
     double screenHeight = MediaQuery.of(context).size.height;
     double screenWidth = MediaQuery.of(context).size.width;
 
-    //double appBarHeight = MediaQuery.of(context).size.height * 0.9; // AppBar height with system padding
-
-    var fontExtraSize = 20.0; // Change this as per your requirement
-    // You can modify fontExtraSize as you like. I set it to a constant value for demonstration purposes.
+    var fontExtraSize = ResponsiveTextUtils.getExtraFontSize(screenWidth);
 
     if (imagePath.isNotEmpty) {
       appBarTitle = Image.asset(
@@ -39,7 +38,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       elevation: 0,
       centerTitle: true,
       title: appBarTitle,
-      iconTheme: IconThemeData(color: Colors.white , size: MediaQuery.of(context).size.width * 0.03),
+      iconTheme: IconThemeData(color: Colors.white , size: fontExtraSize),
       actions: [
         /*IconButton(onPressed: () {}, icon: Icon(Icons.favorite))*/
       ],

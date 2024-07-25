@@ -20,7 +20,7 @@ class EnDisABLETextField extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.06),
       child: TextFormField(
-        style: GoogleFonts.lato(
+        style: GoogleFonts.poppins(
           textStyle:
           TextStyle(fontSize: fontNormalSize, fontWeight: FontWeight.w500, letterSpacing: 0.8),
         ),
@@ -61,14 +61,16 @@ class Normal2TextField extends StatelessWidget {
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
 
+    var fontSmallSize = ResponsiveTextUtils.getSmallFontSize(screenWidth);
     var fontNormalSize = ResponsiveTextUtils.getNormalFontSize(screenWidth);
 
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.06),
       child: TextFormField(
-        style: GoogleFonts.lato(
-          textStyle:
-          TextStyle(fontSize: fontNormalSize, fontWeight: FontWeight.w500, letterSpacing: 0.8),
+        style: TextStyle(
+          fontSize: fontNormalSize,
+          fontWeight: FontWeight.w500,
+          letterSpacing: 0.8
         ),
         onEditingComplete: (){},
         validator: (value) {
@@ -82,12 +84,12 @@ class Normal2TextField extends StatelessWidget {
         controller: controller,
         decoration: InputDecoration(
           errorStyle: TextStyle(
-              fontSize: fontNormalSize,
+              fontSize: fontSmallSize,
               letterSpacing: 0.8
           ),
           labelText: hintText,
           labelStyle: TextStyle(
-            fontSize: fontNormalSize,
+            fontSize: fontSmallSize,
             letterSpacing: 0.8
           ),
         ),
@@ -113,7 +115,7 @@ class ContactTextField extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.06),
       child: TextFormField(
-        style: GoogleFonts.lato(
+        style: GoogleFonts.poppins(
           textStyle:
           TextStyle(fontSize: fontNormalSize, fontWeight: FontWeight.w500, letterSpacing: 0.8),
         ),
@@ -163,7 +165,7 @@ class NormalTextField extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.06),
       child: TextFormField(
-        style: GoogleFonts.lato(
+        style: GoogleFonts.poppins(
           textStyle:
           TextStyle(fontSize: fontNormalSize, fontWeight: FontWeight.w500, letterSpacing: 0.8),
         ),
@@ -219,16 +221,14 @@ class _PasswordTextFieldState extends State<PasswordTextField> {
 
   @override
   Widget build(BuildContext context) {
-    double screenHeight = MediaQuery.of(context).size.height;
     double screenWidth = MediaQuery.of(context).size.width;
 
     var fontNormalSize = ResponsiveTextUtils.getNormalFontSize(screenWidth);
 
     return Container(
       padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.06),
-      height: screenHeight * 0.06,
       child: TextFormField(
-        style: GoogleFonts.lato(
+        style: GoogleFonts.poppins(
           textStyle:
           TextStyle(fontSize: fontNormalSize, fontWeight: FontWeight.w500, letterSpacing: 0.8),
         ),
@@ -284,16 +284,14 @@ class EmailTextField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double screenHeight = MediaQuery.of(context).size.height;
     double screenWidth = MediaQuery.of(context).size.width;
 
     var fontNormalSize = ResponsiveTextUtils.getNormalFontSize(screenWidth);
 
     return Container(
       padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.06),
-      height: screenHeight * 0.06,
       child: TextFormField(
-        style: GoogleFonts.lato(
+        style: GoogleFonts.poppins(
           textStyle:
           TextStyle(fontSize: fontNormalSize, fontWeight: FontWeight.w500, letterSpacing: 0.8),
         ),
@@ -347,7 +345,7 @@ class Email2TextField extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.06),
       child: TextFormField(
-        style: GoogleFonts.lato(
+        style: GoogleFonts.poppins(
           textStyle:
           TextStyle(fontSize: fontNormalSize, fontWeight: FontWeight.w500, letterSpacing: 0.8),
         ),
@@ -397,7 +395,7 @@ class PersonNameTextField extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.06),
       child: TextFormField(
-        style: GoogleFonts.lato(
+        style: GoogleFonts.poppins(
           textStyle:
           TextStyle(fontSize: fontNormalSize, fontWeight: FontWeight.w500, letterSpacing: 0.8),
         ),
@@ -452,7 +450,7 @@ class Contact2TextField extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.06),
       child: TextFormField(
-        style: GoogleFonts.lato(
+        style: GoogleFonts.poppins(
           textStyle:
           TextStyle(fontSize: fontNormalSize, fontWeight: FontWeight.w500, letterSpacing: 0.8),
         ),

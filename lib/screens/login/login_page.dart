@@ -76,9 +76,6 @@ class _loginPageState extends State<loginPage> {
           await SessionManager().set("client_data",  clientInfo(
               client_id: clientData["client_id"],
               name: clientData["name"],
-              company_name: clientData["company_name"],
-              location: clientData["location"],
-              project_name: clientData["project_name"],
               contact_no: clientData["contact_no"],
               image: clientData["image"],
               email: clientData["email"],
@@ -214,7 +211,7 @@ class _loginPageState extends State<loginPage> {
                   children: [
                     TextButton(
                       onPressed: (){
-                        Navigator.of(context).push(MaterialPageRoute(builder: (context) => ForgotPassPage())).then((value) { setState(() {}); });
+                        Navigator.of(context).push(MaterialPageRoute(builder: (context) => ForgotPassPage(verified: false, email: '',))).then((value) { setState(() {}); });
                       },
                       child: Text(
                         'Forgot Password?',
@@ -318,10 +315,7 @@ class _loginPageState extends State<loginPage> {
                       // Set client data in session manager
                       await SessionManager().set("client_data", clientInfo(
                         client_id: user.uid.toString(),
-                        name: '', // Use fullName if not null, otherwise use an empty string
-                        company_name: '',
-                        location: '',
-                        project_name: '',
+                        name: '',
                         contact_no: '',
                         image: '', // Use photoURL if not null, otherwise use an empty string
                         email: user.email.toString(),
@@ -357,9 +351,6 @@ class _loginPageState extends State<loginPage> {
                       await SessionManager().set("client_data",  clientInfo(
                         client_id: FirebaseAuth.instance.currentUser!.uid.toString(),
                         name: FirebaseAuth.instance.currentUser!.displayName.toString(),
-                        company_name: '',
-                        location: '',
-                        project_name: '',
                         contact_no: '',
                         image: FirebaseAuth.instance.currentUser!.photoURL.toString(),
                         email: FirebaseAuth.instance.currentUser!.email.toString(),

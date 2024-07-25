@@ -5,7 +5,6 @@ import 'package:file_picker/file_picker.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
@@ -149,7 +148,7 @@ class _BookingSystemState extends State<BookingSystem> {
       concern = 'SVC';
     }
 
-    generatedCode = '${concern}-${selectedDate?.month}${selectedDate?.day}${selectedDate?.year}$randomId';
+    generatedCode = '${concern}-${selectedDate.month}${selectedDate.day}${selectedDate.year}$randomId';
   }
 
   //initialDate configurator kapag naka-disable yung date +1 sa days and so on
@@ -214,110 +213,18 @@ class _BookingSystemState extends State<BookingSystem> {
     });
   }
 
-  Future<void> _selectDate(BuildContext context) async {
-
-    //initialDate configurator kapag naka-disable yung date +1 sa days and so on
-    while (selectableDayPredicate(initialDate)) {
-      initialDate = initialDate.add(Duration(days: 1));
-    }
-
-    final DateTime? picked = await showDatePicker(
-      context: context,
-      initialDate: selectedDate ?? initialDate,
-      firstDate: firstDate,
-      lastDate: lastDate,
-      selectableDayPredicate: (DateTime date) {
-        if (date.weekday == DateTime.saturday || date.weekday == DateTime.sunday) {
-          return false;
-        }
-
-        //this code is from ChatGPT to disable dates came from ec calendar HR
-        bool isDateDisabled = _ecCalendar.any((CalendarData) {
-          DateTime startDate = DateTime.parse(CalendarData.start);
-          DateTime endDate = DateTime.parse(CalendarData.end);
-
-          for (DateTime currentDate = startDate;
-          currentDate.isBefore(endDate) || currentDate.isAtSameMomentAs(endDate);
-          currentDate = currentDate.add(Duration(days: 1))) {
-            if (currentDate.isAtSameMomentAs(date)) {
-              return true;
-            }
-          }
-          return false;
-        });
-
-        if (isDateDisabled) {
-          return false;
-        }
-
-        //database counting if may sched na disabled na sya
-        int scheduledServiceCount = _services.where((services) {
-          if (services.status != "Cancelled"){
-            return DateTime.parse(services.dateSched).isAtSameMomentAs(date);
-          } else {
-            return false;
-          }
-        }).length;
-        return scheduledServiceCount < 2;
-      }
-    );
-    if (picked != null) {
-      setState(() {
-        selectedDate = picked;
-      });
-    }
-  }
-
-  _custSnackbar(context, message, Color color, IconData iconData){
-    double screenHeight = MediaQuery.of(context).size.height;
-    double screenWidth = MediaQuery.of(context).size.width;
-
-    var fontNormalSize = ResponsiveTextUtils.getNormalFontSize(screenWidth);
-
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        duration: Duration(seconds: 3),
-        backgroundColor: color,
-        behavior: SnackBarBehavior.floating,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(4))),
-        content: Row(
-          children: [
-            Icon(
-              iconData,
-              color: Colors.white,
-              size: (screenHeight + screenWidth) / 75,
-            ),
-            SizedBox(width: screenWidth * 0.01,),
-            Text(
-              message.toString().toUpperCase(),
-              style: GoogleFonts.lato(
-                textStyle: TextStyle(
-                    fontSize: fontNormalSize,
-                    fontWeight: FontWeight.w800,
-                    letterSpacing: 1.2,
-                    color: Colors.white
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
   clearFields(){
     subjectController.clear();
     descriptionController.clear();
-    clientNameController.clear();
     clientPositionController.clear();
     clientRemarksController.clear();
+    compnameController.clear();
+    locationController.clear();
+    projnameController.clear();
     filePath = null;
 
 
     if(ClientInfo?.login == 'GMAIL' || ClientInfo?.login == 'APPLE'){
-      compnameController.clear();
-      locationController.clear();
-      projnameController.clear();
       contactController.clear();
     }
 
@@ -338,8 +245,6 @@ class _BookingSystemState extends State<BookingSystem> {
     });
   }
 
-  //kapag wala pa na-select na date
-  String? _dropdownError;
   addBooking() {
     double screenHeight = MediaQuery.of(context).size.height;
     double screenWidth = MediaQuery.of(context).size.width;
@@ -495,53 +400,47 @@ class _BookingSystemState extends State<BookingSystem> {
                 )
                 : SizedBox.shrink(),
 
-                ClientInfo?.company_name == ''
-                  ? Padding(
-                      padding: EdgeInsets.only(top: screenHeight * 0.008),
-                      child: Text(
-                        'Company Name: ${compnameController.text}',
-                        style: GoogleFonts.lato(
-                          textStyle: TextStyle(
-                              fontSize: fontNormalSize,
-                              color: Colors.black,
-                              letterSpacing: 0.8
-                          ),
-                        ),
+                Padding(
+                  padding: EdgeInsets.only(top: screenHeight * 0.008),
+                  child: Text(
+                    'Company Name: ${compnameController.text}',
+                    style: GoogleFonts.lato(
+                      textStyle: TextStyle(
+                          fontSize: fontNormalSize,
+                          color: Colors.black,
+                          letterSpacing: 0.8
                       ),
-                    )
-                  : SizedBox.shrink(),
+                    ),
+                  ),
+                ),
 
-                ClientInfo?.location == ''
-                  ? Padding(
-                      padding: EdgeInsets.only(top: screenHeight * 0.008),
-                      child: Text(
-                        'Location: ${locationController.text}',
-                        style: GoogleFonts.lato(
-                          textStyle: TextStyle(
-                              fontSize: fontNormalSize,
-                              color: Colors.black,
-                              letterSpacing: 0.8
-                          ),
-                        ),
+                Padding(
+                  padding: EdgeInsets.only(top: screenHeight * 0.008),
+                  child: Text(
+                    'Location: ${locationController.text}',
+                    style: GoogleFonts.lato(
+                      textStyle: TextStyle(
+                          fontSize: fontNormalSize,
+                          color: Colors.black,
+                          letterSpacing: 0.8
                       ),
-                    )
-                  : SizedBox.shrink(),
+                    ),
+                  ),
+                ),
 
-                ClientInfo?.project_name == ''
-                  ? Padding(
-                      padding: EdgeInsets.only(top: screenHeight * 0.008),
-                      child: Text(
-                        'Project Name: ${projnameController.text}',
-                        style: GoogleFonts.lato(
-                          textStyle: TextStyle(
-                              fontSize: fontNormalSize,
-                              color: Colors.black,
-                              letterSpacing: 0.8
-                          ),
-                        ),
+                Padding(
+                  padding: EdgeInsets.only(top: screenHeight * 0.008),
+                  child: Text(
+                    'Project Name: ${projnameController.text}',
+                    style: GoogleFonts.lato(
+                      textStyle: TextStyle(
+                          fontSize: fontNormalSize,
+                          color: Colors.black,
+                          letterSpacing: 0.8
                       ),
-                    )
-                  : SizedBox.shrink(),
+                    ),
+                  ),
+                ),
 
                 ClientInfo?.contact_no == ''
                   ? Padding(
@@ -558,69 +457,6 @@ class _BookingSystemState extends State<BookingSystem> {
                       ),
                     )
                   : SizedBox.shrink(),
-
-                      SizedBox(height: screenHeight * 0.03),
-                  Column(
-                    children: [
-                      if (filePath != null || (showData != null && showData!.isNotEmpty))
-                        InkWell(
-                          onTap: () {
-                            if (disabling != false) {
-                              selectFile();
-                            }
-                          },
-                          child: Stack(
-                            alignment: Alignment.center,
-                            children: [
-                              if ((filePath != null && _isImage(filePath!.path)) ||
-                                  (showData != null && showData!.isNotEmpty && _isImage(showData!)))
-                                CircleAvatar(
-                                  radius: 40,
-                                  backgroundImage: (filePath != null && _isImage(filePath!.path))
-                                      ? FileImage(filePath!)
-                                      : (showData != null && showData!.isNotEmpty && _isImage(showData!))
-                                      ? FileImage(File(API.clientsImages + showData!))
-                                      : null,
-                                  child: null,
-                                ),
-                              
-                            ],
-                          ),
-                        ),
-                      if (filePath != null || (showData != null && showData!.isNotEmpty))
-                        SizedBox(height: 8), // Add some space between the avatar and the text
-                      if (filePath != null || (showData != null && showData!.isNotEmpty))
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            if (filePath != null && !_isImage(filePath!.path))
-                              Icon(Icons.insert_drive_file, color: Colors.deepOrange, size: 24)
-                            else if (showData != null && !_isImage(showData!))
-                              Icon(Icons.insert_drive_file, color: Colors.deepOrange, size: 24),
-                            SizedBox(width: 8),
-                            Flexible(
-                              child: Text(
-                                filePath != null ? filePath!.path.split('/').last : showData!.split('/').last,
-                                overflow: TextOverflow.ellipsis,
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: fontNormalSize,
-                                ),
-                              ),
-                            ),
-                          ],
-                        )
-                      else
-                        Text(
-                          "No Attachment",
-                          style: TextStyle(
-                            color: Colors.grey,
-                            fontSize: 16,
-                          ),
-                        ),
-                    ],
-                  ),
-
                 ],
               ),
             ),
@@ -632,31 +468,20 @@ class _BookingSystemState extends State<BookingSystem> {
                         generatedCode!, selectedConcern!,
                         subjectController.text, descriptionController.text,
                         clientNameController.text, clientPositionController.text,
-                        clientRemarksController.text, fileName.toString(), fileData.toString(),
+                        clientRemarksController.text,
                         selectedDate.toString(), ClientInfo!.client_id,
-                        ClientInfo!.name, ClientInfo!.company_name,
-                        ClientInfo!.location, ClientInfo!.project_name,
+                        ClientInfo!.name, compnameController.text,
+                        locationController.text, projnameController.text,
                         ClientInfo!.contact_no, ClientInfo!.email
                     ).then((result) {
                       if('success' == result){
-                        sendPushNotifications();
                         _getServices();
-                        _custSnackbar(
-                          context,
-                          "Successfully booked.",
-                          Colors.green,
-                          Icons.check_box
-                        );
+                        custSnackbar(context, "Successfully booked.", Colors.green, Icons.check, Colors.greenAccent);
                         clearFields();
                         Navigator.of(context).pop();
 
                       } else {
-                        _custSnackbar(
-                            context,
-                            "Error occured...",
-                            Colors.redAccent,
-                            Icons.dangerous_rounded
-                        );
+                        custSnackbar(context, "Error occured...", Colors.redAccent, Icons.dangerous_rounded, Colors.white);
                       }
                     });
                   } else if (ClientInfo?.login == 'GMAIL'){
@@ -664,31 +489,20 @@ class _BookingSystemState extends State<BookingSystem> {
                         generatedCode!, selectedConcern!,
                         subjectController.text, descriptionController.text,
                         clientNameController.text, clientPositionController.text,
-                        clientRemarksController.text, fileName.toString(), fileData.toString(),
+                        clientRemarksController.text,
                         selectedDate.toString(), ClientInfo!.client_id,
                         ClientInfo!.name, compnameController.text,
                         locationController.text, projnameController.text,
                         contactController.text, ClientInfo!.email
                     ).then((result) {
                       if('success' == result){
-                        sendPushNotifications();
                         _getServices();
-                        _custSnackbar(
-                            context,
-                            "Successfully booked.",
-                            Colors.green,
-                            Icons.check_box
-                        );
+                        custSnackbar(context, "Successfully booked.", Colors.green, Icons.check, Colors.greenAccent);
                         clearFields();
                         Navigator.of(context).pop();
 
                       } else {
-                        _custSnackbar(
-                            context,
-                            "Error occured...",
-                            Colors.redAccent,
-                            Icons.dangerous_rounded
-                        );
+                        custSnackbar(context, "Error occured...", Colors.redAccent, Icons.dangerous_rounded, Colors.white);
                       }
                     });
                   } else if (ClientInfo?.login == 'APPLE'){
@@ -696,40 +510,24 @@ class _BookingSystemState extends State<BookingSystem> {
                         generatedCode!, selectedConcern!,
                         subjectController.text, descriptionController.text,
                         clientNameController.text, clientPositionController.text,
-                        clientRemarksController.text, fileName.toString(), fileData.toString(),
+                        clientRemarksController.text,
                         selectedDate.toString(), ClientInfo!.client_id,
                         clientNameController.text, compnameController.text,
                         locationController.text, projnameController.text,
                         contactController.text, ClientInfo!.email
                     ).then((result) {
                       if('success' == result){
-                        sendPushNotifications();
                         _getServices();
-                        _custSnackbar(
-                            context,
-                            "Successfully booked.",
-                            Colors.green,
-                            Icons.check_box
-                        );
+                        custSnackbar(context, "Successfully booked.", Colors.green, Icons.check, Colors.greenAccent);
                         clearFields();
                         Navigator.of(context).pop();
 
                       } else {
-                        _custSnackbar(
-                            context,
-                            "Error occured...",
-                            Colors.redAccent,
-                            Icons.dangerous_rounded
-                        );
+                        custSnackbar(context, "Error occured...", Colors.redAccent, Icons.dangerous_rounded, Colors.white);
                       }
                     });
                   } else {
-                    _custSnackbar(
-                        context,
-                        "Error occured...",
-                        Colors.redAccent,
-                        Icons.dangerous_rounded
-                    );
+                    custSnackbar(context, "Error occured...", Colors.redAccent, Icons.dangerous_rounded, Colors.white);
                   }
                 },
                 child: Text(
@@ -749,62 +547,23 @@ class _BookingSystemState extends State<BookingSystem> {
     }
   }
 
-    Future<void> sendPushNotifications() async {
-    //final url = 'https://enye.com.ph/enyecontrols_app/login_user/send1.php'; // Replace this with the URL to your PHP script
-    String name = clientNameController.text;
-
-    final response = await http.post(
-      Uri.parse(API.pushNotif),
-      body: {
-        'action' : 'Booking',
-        'code' : generatedCode,
-        'name' : name,
-        'company' : ClientInfo!.company_name.isEmpty ? compnameController.text : ClientInfo!.company_name,
-        'date_booked' : selectedDate.toString(),
-      },
-    );
-    if (response.statusCode == 200) {
-      if(response.body == "success"){
-        print('send push notifications.');
-      }
-    } else {
-      print('Failed to send push notifications.');
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     double screenHeight = MediaQuery.of(context).size.height;
     double screenWidth = MediaQuery.of(context).size.width;
 
     var fontSmallSize = ResponsiveTextUtils.getSmallFontSize(screenWidth);
+    var fontNormalSize = ResponsiveTextUtils.getNormalFontSize(screenWidth);
     var fontExtraSize = ResponsiveTextUtils.getExtraFontSize(screenWidth);
-    var fontXXSize = ResponsiveTextUtils.getXXFontSize(screenWidth);
 
     return KeyboardVisibilityBuilder(
       builder: (context, isKeyboardVisible){
         return Scaffold(
-          appBar: CustomAppBar(title: 'Booking System', imagePath: '', appBarHeight: MediaQuery.of(context).size.height * 0.05),
+          appBar: CustomAppBar(title: 'Appointment', imagePath: '', appBarHeight: MediaQuery.of(context).size.height * 0.05),
           resizeToAvoidBottomInset: true,
           body: ListView(
             padding: EdgeInsets.all(16.0),
             children: [
-              SizedBox(height: screenHeight * 0.05),
-              Center(
-                child: Text(
-                  'APPOINTMENT :',
-                  style: GoogleFonts.rowdies(
-                    textStyle: TextStyle(
-                      fontSize: fontXXSize,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black54
-                    )
-                  )
-                ),
-              ),
-
-
-              SizedBox(height: screenHeight * 0.05),
               Form(
                 key: _formKey,
                 child: Column(
@@ -814,23 +573,19 @@ class _BookingSystemState extends State<BookingSystem> {
                     Padding(
                       padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.06),
                       child: DropdownButtonFormField<String>(
-                        style: GoogleFonts.lato(
-                          textStyle: TextStyle(
-                            fontSize: fontExtraSize,
-                            color: Colors.black,
-                            fontWeight: FontWeight.w500,
-                            letterSpacing: 0.8
-                          ),
+                        style: TextStyle(
+                          fontSize: fontNormalSize,
+                          color: Colors.black,
+                          fontWeight: FontWeight.w500,
+                          letterSpacing: 0.8
                         ),
                         decoration: InputDecoration(
                           labelText: 'Select Service*',
-                          labelStyle: GoogleFonts.lato(
-                            textStyle: TextStyle(
-                                fontSize: fontExtraSize,
-                                color: Colors.black,
-                                fontWeight: FontWeight.w500,
-                                letterSpacing: 0.8
-                            ),
+                          labelStyle: TextStyle(
+                            fontSize: fontNormalSize,
+                            color: Colors.black,
+                            fontWeight: FontWeight.w500,
+                            letterSpacing: 0.8
                           ),
                         ),
                         value: selectedConcern,
@@ -859,8 +614,6 @@ class _BookingSystemState extends State<BookingSystem> {
                       controller: subjectController,
                       hintText: 'Subject *',
                     ),
-
-
 
                     Padding(
                       padding: const EdgeInsets.only(top: 8.0),
@@ -904,6 +657,40 @@ class _BookingSystemState extends State<BookingSystem> {
 
                     Padding(
                       padding: const EdgeInsets.only(top: 8.0),
+                      child: Normal2TextField(
+                        controller: compnameController,
+                        hintText: 'Company Name *',
+                      ),
+                    ),
+
+                    Padding(
+                      padding: const EdgeInsets.only(top: 8.0),
+                      child: Normal2TextField(
+                        controller: locationController,
+                        hintText: 'Location *',
+                      ),
+                    ),
+
+                    Padding(
+                      padding: const EdgeInsets.only(top: 8.0),
+                      child: Normal2TextField(
+                        controller: projnameController,
+                        hintText: 'Project Name *',
+                      ),
+                    ),
+
+                    ClientInfo?.contact_no == ''
+                    ? Padding(
+                      padding: const EdgeInsets.only(top: 8.0),
+                      child: ContactTextField(
+                        controller: contactController,
+                        hintText: 'Contact # *',
+                      ),
+                    )
+                    : SizedBox.shrink(),
+
+                    Padding(
+                      padding: const EdgeInsets.only(top: 8.0),
                       child:Normal2TextField(
                       controller: clientPositionController,
                       hintText: 'Designated Position *',
@@ -922,97 +709,6 @@ class _BookingSystemState extends State<BookingSystem> {
                       controller: clientRemarksController,
                       hintText: 'Remarks *',
                     ),
-
-
-                    SizedBox(height: screenHeight * 0.05),
-                    Column(
-                      children: [
-                        InkWell(
-                          onTap: (){
-                            if(disabling != true){
-                              selectFile();
-                            }
-                          },
-                          child: Stack(
-                            children: [
-                              if (filePath != null && _isImage(filePath!.path))
-                                CircleAvatar(
-                                  radius: 64,
-                                  backgroundImage: FileImage(filePath!),
-                                )
-                              else if (showData != null && showData!.isNotEmpty && _isImage(showData!))
-                                CircleAvatar(
-                                  radius: 64,
-                                  backgroundImage: FileImage(File(API.clientsImages + showData!)),
-                                )
-                              else
-                                CircleAvatar(
-                                  radius: 64,
-                                  foregroundColor: Colors.deepOrange,
-                                  child: Icon(Icons.insert_drive_file, color: Colors.deepOrange, size: 50),
-                                ),
-                              if (!disabling)
-                                Positioned(
-                                  bottom: 2,
-                                  left: 90,
-                                  child: Icon(Icons.add_a_photo, color: Colors.deepOrange),
-                                ),
-                            ],
-                          ),
-                        ),
-                        SizedBox(height: 8), // Add some space between the avatar and the text
-                        Text(
-                          filePath != null ? filePath!.path.split('/').last : "Attach file", // Display file name if file is selected
-                          style: TextStyle(
-                            fontSize: 14, // Adjust font size as needed
-                            fontWeight: FontWeight.w500,
-                            letterSpacing: 0.8,
-                            color: Colors.black54,
-                          ),
-                        ),
-                      ],
-                    ),
-
-
-                    ClientInfo?.company_name == ''
-                     ? Padding(
-                       padding: const EdgeInsets.only(top: 8.0),
-                       child: Normal2TextField(
-                          controller: compnameController,
-                          hintText: 'Company Name *',
-                        ),
-                     )
-                     : SizedBox.shrink(),
-
-                    ClientInfo?.location == ''
-                     ? Padding(
-                        padding: const EdgeInsets.only(top: 8.0),
-                        child: Normal2TextField(
-                          controller: locationController,
-                          hintText: 'Location *',
-                        ),
-                      )
-                      : SizedBox.shrink(),
-
-                    ClientInfo?.project_name == ''
-                     ? Padding(
-                        padding: const EdgeInsets.only(top: 8.0),
-                        child: Normal2TextField(
-                          controller: projnameController,
-                          hintText: 'Project Name *',
-                        ),
-                      )
-                     : SizedBox.shrink(),
-
-                    ClientInfo?.contact_no == ''
-                     ? Padding(
-                        padding: const EdgeInsets.only(top: 8.0),
-                        child: ContactTextField(
-                          controller: contactController,
-                          hintText: 'Contact # *',
-                        ),
-                      )
-                      : SizedBox.shrink(),
                   ],
                 ),
               ),
@@ -1038,11 +734,4 @@ class _BookingSystemState extends State<BookingSystem> {
       }
     );
   }
-}
-
-// Function to check if a file path represents an image
-bool _isImage(String filePath) {
-  final imageExtensions = ['jpg', 'jpeg', 'png', 'gif', 'bmp'];
-  final ext = filePath.split('.').last.toLowerCase();
-  return imageExtensions.contains(ext);
 }

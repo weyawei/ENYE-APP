@@ -6,24 +6,21 @@ import 'package:intl/intl.dart';
 import '../../../config/config.dart';
 import '../../../widget/widgets.dart';
 import '../../screens.dart';
-
-class StatusViewPage extends StatefulWidget {
+class TSISViewPage extends StatefulWidget {
   final List<EcEvent> events;
   final EcTSIS tsis;
-  final TechnicalData service;
 
-  const StatusViewPage({super.key, required this.events, required this.tsis, required this.service});
+  const TSISViewPage({super.key, required this.events, required this.tsis});
 
   @override
-  State<StatusViewPage> createState() => _StatusViewPageState();
+  State<TSISViewPage> createState() => _TSISViewPageState();
 }
 
-class _StatusViewPageState extends State<StatusViewPage> with TickerProviderStateMixin {
+class _TSISViewPageState extends State<TSISViewPage> with TickerProviderStateMixin {
 
   bool _isLoadingAcc = true;
   bool _isLoadingSO = true;
 
-  clientInfo? ClientInfo;
   bool? userSessionFuture;
   double? _progress;
 
@@ -32,17 +29,6 @@ class _StatusViewPageState extends State<StatusViewPage> with TickerProviderStat
     super.initState();
     _engUsers = [];
     _serviceOrder = [];
-    //calling session data
-    checkSession().getUserSessionStatus().then((bool) {
-      if (bool == true) {
-        checkSession().getClientsData().then((value) {
-          ClientInfo = value;
-        });
-        userSessionFuture = bool;
-      } else {
-        userSessionFuture = bool;
-      }
-    });
 
     _getEngAccounts();
     _getServiceOrder();
@@ -64,7 +50,7 @@ class _StatusViewPageState extends State<StatusViewPage> with TickerProviderStat
       setState(() {
         _serviceOrder = EcSO.where((so) =>
         widget.events.any((event) => event.id == so.event_id) && so.tsis_id == widget.tsis.tsis_id
-            && (so.stat == "Save" || so.stat == "Completed")
+            && (so.stat == "Save" || so.stat == "Completed" || so.stat == "Complete")
         ).toList();
       });
       _isLoadingSO = false;
@@ -108,13 +94,11 @@ class _StatusViewPageState extends State<StatusViewPage> with TickerProviderStat
                 [
                   TextSpan(
                     text: message,
-                    style: GoogleFonts.poppins(
-                      textStyle: TextStyle(
-                          fontSize: fontNormalSize,
-                          fontWeight: FontWeight.w800,
-                          letterSpacing: 0.8,
-                          color: Colors.white
-                      ),
+                    style: TextStyle(
+                      fontSize: fontNormalSize,
+                      fontWeight: FontWeight.w800,
+                      letterSpacing: 0.8,
+                      color: Colors.white
                     ),
                   ),
                 ]
@@ -163,14 +147,14 @@ class _StatusViewPageState extends State<StatusViewPage> with TickerProviderStat
           SizedBox(height: screenHeight * 0.03),
           Center(
             child: Text(
-                "#${widget.service.svcId}",
-                style: GoogleFonts.rowdies(
-                    textStyle: TextStyle(
-                        fontSize: fontXSize,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black54
-                    )
+              "TSIS# ${widget.tsis.tsis_no}",
+              style: GoogleFonts.rowdies(
+                textStyle: TextStyle(
+                  fontSize: fontXSize,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black54
                 )
+              )
             ),
           ),
 
@@ -184,55 +168,21 @@ class _StatusViewPageState extends State<StatusViewPage> with TickerProviderStat
                     softWrap: true,
                     text:TextSpan(
                         children: <TextSpan> [
-                          TextSpan(text: "TSIS No :  ",
-                            style: GoogleFonts.poppins(
-                              textStyle: TextStyle(
-                                  fontSize: fontSmallSize,
-                                  fontWeight: FontWeight.w800,
-                                  letterSpacing: 0.8,
-                                  color: Colors.grey
-                              ),
-                            ),
-                          ),
-
-                          TextSpan(text: widget.tsis.tsis_no,
-                            style: GoogleFonts.poppins(
-                              textStyle: TextStyle(
-                                  fontSize: fontNormalSize,
-                                  fontWeight: FontWeight.w700,
-                                  letterSpacing: 0.8,
-                                  color: Colors.black54
-                              ),
-                            ),
-                          ),
-                        ]
-                    )
-                ),
-
-                SizedBox(height: screenHeight * 0.01,),
-                RichText(
-                    softWrap: true,
-                    text:TextSpan(
-                        children: <TextSpan> [
                           TextSpan(text: "Project :  ",
-                            style: GoogleFonts.poppins(
-                              textStyle: TextStyle(
-                                  fontSize: fontSmallSize,
-                                  fontWeight: FontWeight.w800,
-                                  letterSpacing: 0.8,
-                                  color: Colors.grey
-                              ),
+                            style: TextStyle(
+                              fontSize: fontSmallSize,
+                              fontWeight: FontWeight.w800,
+                              letterSpacing: 0.8,
+                              color: Colors.grey
                             ),
                           ),
 
                           TextSpan(text: widget.tsis.project,
-                            style: GoogleFonts.poppins(
-                              textStyle: TextStyle(
-                                  fontSize: fontNormalSize,
-                                  fontWeight: FontWeight.w700,
-                                  letterSpacing: 0.8,
-                                  color: Colors.black54
-                              ),
+                            style: TextStyle(
+                              fontSize: fontNormalSize,
+                              fontWeight: FontWeight.w700,
+                              letterSpacing: 0.8,
+                              color: Colors.black54
                             ),
                           ),
                         ]
@@ -245,24 +195,20 @@ class _StatusViewPageState extends State<StatusViewPage> with TickerProviderStat
                     text:TextSpan(
                         children: <TextSpan> [
                           TextSpan(text: "Location :  ",
-                            style: GoogleFonts.poppins(
-                              textStyle: TextStyle(
-                                  fontSize: fontSmallSize,
-                                  fontWeight: FontWeight.w800,
-                                  letterSpacing: 0.8,
-                                  color: Colors.grey
-                              ),
+                            style: TextStyle(
+                              fontSize: fontSmallSize,
+                              fontWeight: FontWeight.w800,
+                              letterSpacing: 0.8,
+                              color: Colors.grey
                             ),
                           ),
 
                           TextSpan(text: widget.tsis.location,
-                            style: GoogleFonts.poppins(
-                              textStyle: TextStyle(
-                                  fontSize: fontNormalSize,
-                                  fontWeight: FontWeight.w700,
-                                  letterSpacing: 0.8,
-                                  color: Colors.black54
-                              ),
+                            style: TextStyle(
+                              fontSize: fontNormalSize,
+                              fontWeight: FontWeight.w700,
+                              letterSpacing: 0.8,
+                              color: Colors.black54
                             ),
                           ),
                         ]
@@ -276,24 +222,20 @@ class _StatusViewPageState extends State<StatusViewPage> with TickerProviderStat
                     text:TextSpan(
                         children: <TextSpan> [
                           TextSpan(text: "Subject :  ",
-                            style: GoogleFonts.poppins(
-                              textStyle: TextStyle(
-                                  fontSize: fontSmallSize,
-                                  fontWeight: FontWeight.w800,
-                                  letterSpacing: 0.8,
-                                  color: Colors.grey
-                              ),
+                            style: TextStyle(
+                              fontSize: fontSmallSize,
+                              fontWeight: FontWeight.w800,
+                              letterSpacing: 0.8,
+                              color: Colors.grey
                             ),
                           ),
 
                           TextSpan(text: widget.tsis.subject,
-                            style: GoogleFonts.poppins(
-                              textStyle: TextStyle(
-                                  fontSize: fontNormalSize,
-                                  fontWeight: FontWeight.w600,
-                                  letterSpacing: 0.8,
-                                  color: Colors.black54
-                              ),
+                            style: TextStyle(
+                              fontSize: fontNormalSize,
+                              fontWeight: FontWeight.w600,
+                              letterSpacing: 0.8,
+                              color: Colors.black54
                             ),
                           ),
                         ]
@@ -307,24 +249,20 @@ class _StatusViewPageState extends State<StatusViewPage> with TickerProviderStat
                     text:TextSpan(
                         children: <TextSpan> [
                           TextSpan(text: "Problem :  ",
-                            style: GoogleFonts.poppins(
-                              textStyle: TextStyle(
-                                  fontSize: fontSmallSize,
-                                  fontWeight: FontWeight.w800,
-                                  letterSpacing: 0.8,
-                                  color: Colors.grey
-                              ),
+                            style: TextStyle(
+                              fontSize: fontSmallSize,
+                              fontWeight: FontWeight.w800,
+                              letterSpacing: 0.8,
+                              color: Colors.grey
                             ),
                           ),
 
                           TextSpan(text: "\n \t - ${widget.tsis.problem}",
-                            style: GoogleFonts.poppins(
-                              textStyle: TextStyle(
-                                  fontSize: fontSmallSize,
-                                  fontWeight: FontWeight.w600,
-                                  letterSpacing: 0.8,
-                                  color: Colors.black54
-                              ),
+                            style: TextStyle(
+                              fontSize: fontNormalSize,
+                              fontWeight: FontWeight.w600,
+                              letterSpacing: 0.8,
+                              color: Colors.black54
                             ),
                           ),
                         ]
@@ -339,24 +277,20 @@ class _StatusViewPageState extends State<StatusViewPage> with TickerProviderStat
                       text:TextSpan(
                           children: <TextSpan> [
                             TextSpan(text: "Remarks :  ",
-                              style: GoogleFonts.poppins(
-                                textStyle: TextStyle(
-                                    fontSize: fontSmallSize,
-                                    fontWeight: FontWeight.w800,
-                                    letterSpacing: 0.8,
-                                    color: Colors.grey
-                                ),
+                              style: TextStyle(
+                                fontSize: fontSmallSize,
+                                fontWeight: FontWeight.w800,
+                                letterSpacing: 0.8,
+                                color: Colors.grey
                               ),
                             ),
 
                             TextSpan(text: "\n \t - ${widget.tsis.remarks}",
-                              style: GoogleFonts.poppins(
-                                textStyle: TextStyle(
-                                    fontSize: fontNormalSize,
-                                    fontWeight: FontWeight.w600,
-                                    letterSpacing: 0.8,
-                                    color: Colors.black54
-                                ),
+                              style: TextStyle(
+                                fontSize: fontNormalSize,
+                                fontWeight: FontWeight.w600,
+                                letterSpacing: 0.8,
+                                color: Colors.black54
                               ),
                             ),
                           ]
@@ -370,37 +304,31 @@ class _StatusViewPageState extends State<StatusViewPage> with TickerProviderStat
                         children: <TextSpan> [
                           TextSpan(
                             text: 'Client : ',
-                            style: GoogleFonts.poppins(
-                              textStyle: TextStyle(
-                                  fontSize: fontSmallSize,
-                                  fontWeight: FontWeight.w800,
-                                  letterSpacing: 0.8,
-                                  color: Colors.grey
-                              ),
+                            style: TextStyle(
+                              fontSize: fontSmallSize,
+                              fontWeight: FontWeight.w800,
+                              letterSpacing: 0.8,
+                              color: Colors.grey
                             ),
                           ),
 
                           TextSpan(
                             text: "\n \t ${widget.tsis.client_name}",
-                            style: GoogleFonts.poppins(
-                              textStyle: TextStyle(
-                                  fontSize: fontSmallSize,
-                                  fontWeight: FontWeight.bold,
-                                  letterSpacing: 0.8,
-                                  color: Colors.black54
-                              ),
+                            style: TextStyle(
+                              fontSize: fontSmallSize,
+                              fontWeight: FontWeight.bold,
+                              letterSpacing: 0.8,
+                              color: Colors.black54
                             ),
                           ),
 
                           TextSpan(
                             text: ' | ${widget.tsis.contact_person} | ${widget.tsis.contact_number} | ${widget.tsis.email}',
-                            style: GoogleFonts.poppins(
-                              textStyle: TextStyle(
-                                  fontSize: fontSmallSize,
-                                  fontWeight: FontWeight.w600,
-                                  letterSpacing: 0.8,
-                                  color: Colors.black54
-                              ),
+                            style: TextStyle(
+                              fontSize: fontSmallSize,
+                              fontWeight: FontWeight.w600,
+                              letterSpacing: 0.8,
+                              color: Colors.black54
                             ),
                           ),
                         ]
@@ -424,20 +352,22 @@ class _StatusViewPageState extends State<StatusViewPage> with TickerProviderStat
                   SizedBox(width: screenWidth * 0.02),
                   Text(
                     '${DateFormat.yMMMd().format(DateTime.parse(event.start))} TO ${DateFormat.yMMMd().format(DateTime.parse(event.end))}',
-                    style: GoogleFonts.poppins(
-                      textStyle: TextStyle(fontSize: fontSmallSize, letterSpacing: 0.5, fontWeight: FontWeight.bold),
+                    style: TextStyle(
+                      fontSize: fontSmallSize,
+                      letterSpacing: 0.5,
+                      fontWeight: FontWeight.bold
                     ),
                   ),
                 ],
               ),
               children: [
                 event.engineer.isNotEmpty || event.engineer != ""
-                    ? Column(
+                ? Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     Center(
                       child: Container(
-                        padding: EdgeInsets.symmetric(vertical: 5.0, horizontal: screenWidth * 0.1),
+                        padding: EdgeInsets.symmetric(vertical: screenHeight * 0.0075, horizontal: screenWidth * 0.1),
                         decoration: BoxDecoration(
                           color: Colors.deepOrange.shade300,
                           borderRadius: BorderRadius.circular(25.0),
@@ -453,6 +383,8 @@ class _StatusViewPageState extends State<StatusViewPage> with TickerProviderStat
                         ),
                       ),
                     ),
+
+                    SizedBox(height: screenHeight * 0.01,),
 
                     ..._engUsers.map((engineer) {
                       if(_isUserAssigned(event.engineer, engineer.username)) {
@@ -479,35 +411,29 @@ class _StatusViewPageState extends State<StatusViewPage> with TickerProviderStat
                                   text: TextSpan(children: <TextSpan>
                                   [
                                     TextSpan(text: "${engineer.firstname} ${engineer.lastname}",
-                                      style: GoogleFonts.poppins(
-                                        textStyle: TextStyle(
-                                            fontSize: fontSmallSize,
-                                            fontWeight: FontWeight.w800,
-                                            letterSpacing: 0.8,
-                                            color: Colors.black54
-                                        ),
-                                      ),
-                                    ),
-
-                                    TextSpan(text: "\n${engineer.mobile}",
-                                      style: GoogleFonts.poppins(
-                                        textStyle: TextStyle(
-                                            fontSize: fontXSmallSize,
-                                            fontWeight: FontWeight.w800,
-                                            letterSpacing: 0.8,
-                                            color: Colors.grey
-                                        ),
+                                      style: TextStyle(
+                                        fontSize: fontSmallSize,
+                                        fontWeight: FontWeight.w800,
+                                        letterSpacing: 0.8,
+                                        color: Colors.black54
                                       ),
                                     ),
 
                                     TextSpan(text: "\n${engineer.role_type}",
-                                      style: GoogleFonts.poppins(
-                                        textStyle: TextStyle(
-                                            fontSize: fontXSmallSize,
-                                            fontWeight: FontWeight.w800,
-                                            letterSpacing: 0.8,
-                                            color: Colors.grey
-                                        ),
+                                      style: TextStyle(
+                                        fontSize: fontXSmallSize,
+                                        fontWeight: FontWeight.w800,
+                                        letterSpacing: 0.8,
+                                        color: Colors.grey
+                                      ),
+                                    ),
+
+                                    TextSpan(text: "\n${engineer.mobile}",
+                                      style: TextStyle(
+                                          fontSize: fontSmallSize,
+                                          fontWeight: FontWeight.w800,
+                                          letterSpacing: 0.8,
+                                          color: Colors.grey
                                       ),
                                     ),
                                   ]
@@ -575,24 +501,29 @@ class _StatusViewPageState extends State<StatusViewPage> with TickerProviderStat
                                   text: TextSpan(children: <TextSpan>
                                   [
                                     TextSpan(text: "${technician.firstname} ${technician.lastname}",
-                                      style: GoogleFonts.poppins(
-                                        textStyle: TextStyle(
-                                            fontSize: fontSmallSize,
-                                            fontWeight: FontWeight.w800,
-                                            letterSpacing: 0.8,
-                                            color: Colors.black54
-                                        ),
+                                      style: TextStyle(
+                                        fontSize: fontSmallSize,
+                                        fontWeight: FontWeight.w800,
+                                        letterSpacing: 0.8,
+                                        color: Colors.black54
                                       ),
                                     ),
 
                                     TextSpan(text: "\n${technician.role_type}",
-                                      style: GoogleFonts.poppins(
-                                        textStyle: TextStyle(
-                                            fontSize: fontXSmallSize,
-                                            fontWeight: FontWeight.w800,
-                                            letterSpacing: 0.8,
-                                            color: Colors.grey
-                                        ),
+                                      style: TextStyle(
+                                        fontSize: fontXSmallSize,
+                                        fontWeight: FontWeight.w800,
+                                        letterSpacing: 0.8,
+                                        color: Colors.grey
+                                      ),
+                                    ),
+
+                                    TextSpan(text: "\n${technician.mobile}",
+                                      style: TextStyle(
+                                          fontSize: fontXSmallSize,
+                                          fontWeight: FontWeight.w800,
+                                          letterSpacing: 0.8,
+                                          color: Colors.grey
                                       ),
                                     ),
                                   ]
@@ -628,7 +559,7 @@ class _StatusViewPageState extends State<StatusViewPage> with TickerProviderStat
                                 );
                               },
                               style: ButtonStyle(
-                                backgroundColor: MaterialStateProperty.all<Color>(Colors.green.shade500),
+                                backgroundColor: MaterialStateProperty.all<Color>(Colors.green.shade700),
                                 shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                                   RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(25.0),
@@ -652,13 +583,11 @@ class _StatusViewPageState extends State<StatusViewPage> with TickerProviderStat
                                         ),
 
                                         TextSpan(text: "SO# ${serviceOrder.so_no}",
-                                          style: GoogleFonts.poppins(
-                                            textStyle: TextStyle(
-                                              fontSize: fontXSmallSize,
-                                              fontWeight: FontWeight.w700,
-                                              letterSpacing: 0.8,
-                                              color: Colors.white,
-                                            ),
+                                          style: TextStyle(
+                                            fontSize: fontXSmallSize,
+                                            fontWeight: FontWeight.w700,
+                                            letterSpacing: 0.8,
+                                            color: Colors.white,
                                           ),
                                         ),
                                       ]
@@ -731,13 +660,11 @@ class _StatusViewPageState extends State<StatusViewPage> with TickerProviderStat
                                         [
                                           TextSpan(
                                             text: "${serviceOrder.coc} (Attached File)",
-                                            style: GoogleFonts.poppins(
-                                              textStyle: TextStyle(
-                                                fontSize: fontXSmallSize,
-                                                fontWeight: FontWeight.w700,
-                                                letterSpacing: 0.8,
-                                                color: Colors.black54,
-                                              ),
+                                            style: TextStyle(
+                                              fontSize: fontXSmallSize,
+                                              fontWeight: FontWeight.w700,
+                                              letterSpacing: 0.8,
+                                              color: Colors.black54,
                                             ),
                                           ),
                                         ]

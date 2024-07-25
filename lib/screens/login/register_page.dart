@@ -8,7 +8,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:pinput/pinput.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 import '../../widget/widgets.dart';
 
@@ -43,80 +42,45 @@ class _registerPageState extends State<registerPage> {
   final _formKey = GlobalKey<FormState>();
 
   bool disabling = false;
-  bool _isShowingErrorSnackbar = false; // Flag to track if error snackbar is already being displayed
-
-  _custSnackbar(context, message, Color color, IconData iconData){
-
-    if (_isShowingErrorSnackbar) return; // If error snackbar is already visible, do nothing
-    _isShowingErrorSnackbar = true; // Set the flag to indicate that error snackbar is being shown
-
-    double screenHeight = MediaQuery.of(context).size.height;
-    double screenWidth = MediaQuery.of(context).size.width;
-
-    var fontNormalSize = ResponsiveTextUtils.getNormalFontSize(screenWidth);
-
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        duration: Duration(seconds: 3),
-        backgroundColor: color,
-        behavior: SnackBarBehavior.floating,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(4))),
-        content: Row(
-          children: [
-            Icon(
-              iconData,
-              color: Colors.white,
-              size: (screenHeight + screenWidth) / 75,
-            ),
-            SizedBox(width: screenWidth * 0.01,),
-            Text(
-              message.toString().toUpperCase(),
-              style: GoogleFonts.lato(
-                textStyle: TextStyle(
-                    fontSize: fontNormalSize,
-                    fontWeight: FontWeight.w800,
-                    letterSpacing: 1.2,
-                    color: Colors.white
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-    ).closed.then((_) {
-      // After snackbar is closed, reset the flag
-      _isShowingErrorSnackbar = false;
-    });
-  }
+  bool _isShowingErrorSnackbar = false;
 
   _successSnackbar(context, message){
-    double screenHeight = MediaQuery.of(context).size.height;
     double screenWidth = MediaQuery.of(context).size.width;
+    double screenHeight = MediaQuery.of(context).size.height;
 
     var fontNormalSize = ResponsiveTextUtils.getNormalFontSize(screenWidth);
 
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         duration: Duration(seconds: 3),
-        backgroundColor: Colors.redAccent,
+        backgroundColor: Colors.green,
         behavior: SnackBarBehavior.floating,
+        margin: EdgeInsets.only(left: screenWidth * 0.05, right: screenWidth * 0.05, bottom: screenHeight * 0.8),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(4))),
         content: Row(
           children: [
             Icon(
               Icons.check,
               color: Colors.greenAccent,
-              size: (screenHeight + screenWidth) / 75,
+              size: fontNormalSize * 1.8,
             ),
             SizedBox(width: screenWidth * 0.01,),
-            Text(
-              message.toString().toUpperCase(),
-              style: GoogleFonts.lato(
-                textStyle: TextStyle(
-                    fontSize: fontNormalSize,
-                    fontWeight: FontWeight.w800,
-                    letterSpacing: 1.2,
-                    color: Colors.white
+            Expanded(
+              child: RichText(
+                softWrap: true,
+                textAlign: TextAlign.start,
+                text: TextSpan(
+                  children: <TextSpan>[
+                    TextSpan(
+                      text: message,
+                      style: TextStyle(
+                        fontSize: fontNormalSize,
+                        fontWeight: FontWeight.w800,
+                        letterSpacing: 0.8,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ),
@@ -126,19 +90,6 @@ class _registerPageState extends State<registerPage> {
     ).closed.then((value) => Navigator.of(context).pop());
   }
 
-  void _launchURL (String url) async{
-    try {
-      bool launched = await launch(url, forceSafariVC: false); // Launch the app if installed!
-
-      if (!launched) {
-        launch(url); // Launch web view if app is not installed!
-      }
-    } catch (e) {
-      launch(url); // Launch web view if app is not installed!
-    }
-  }
-
-  //close the keyboard if nakalabas
   void _onButtonPressed() {
     FocusScope.of(context).unfocus(); // Close the keyboard
   }
@@ -150,13 +101,9 @@ class _registerPageState extends State<registerPage> {
     //get the action do by the user transfer it to POST method
     map['action'] = "SIGN UP";
     map['name'] = nameController.text.trim();
-    map['company_name'] = compnameController.text.trim();
-    map['location'] = locationController.text.trim();
-    map['project_name'] = projnameController.text.trim();
     map['contact_no'] = contactController.text.trim();
     map['email'] = emailController.text.trim();
     map['password'] = passwordController.text.trim();
-
 
     var res = await http.post( //pasiing value to result
       Uri.parse(API.register),
@@ -176,12 +123,7 @@ class _registerPageState extends State<registerPage> {
 
         _successSnackbar(context, "OTP is verified! Congratulations, SignUp Successfully.");
       } else {
-        _custSnackbar(
-          context,
-          "Error occured !",
-          Colors.redAccent,
-          Icons.dangerous_rounded
-        );
+        custSnackbar(context, "Error occured !", Colors.redAccent, Icons.dangerous_rounded, Colors.white );
       }
     }
   }
@@ -260,12 +202,7 @@ class _registerPageState extends State<registerPage> {
                     if (await myauth.verifyOTP(otp: pin.text)) {
                       signUserUp();
                     } else {
-                      _custSnackbar(
-                          context,
-                          "Invalid OTP !",
-                          Colors.redAccent,
-                          Icons.dangerous_rounded
-                      );
+                      custSnackbar(context, "Invalid OTP !", Colors.redAccent, Icons.dangerous_rounded, Colors.white );
                     }
                   },
                   child: Container(
@@ -315,7 +252,7 @@ class _registerPageState extends State<registerPage> {
                 children: [
 
                   //logo application
-                  SizedBox(height: screenHeight * 0.1,),
+                  SizedBox(height: screenHeight * 0.12,),
                   Container(
                     alignment: Alignment.center,
                     height: screenHeight * 0.042,
@@ -340,31 +277,10 @@ class _registerPageState extends State<registerPage> {
                   ),
 
                   //fullname textfield
-                  SizedBox(height: screenHeight * 0.02,),
+                  SizedBox(height: screenHeight * 0.03,),
                   PersonNameTextField(
                     controller: nameController,
                     hintText: 'Fullname',
-                    disabling: disabling,
-                  ),
-
-                  SizedBox(height: screenHeight * 0.008,),
-                  NormalTextField(
-                    controller: compnameController,
-                    hintText: 'Company Name',
-                    disabling: disabling,
-                  ),
-
-                  SizedBox(height: screenHeight * 0.008,),
-                  NormalTextField(
-                    controller: locationController,
-                    hintText: 'Location',
-                    disabling: disabling,
-                  ),
-
-                  SizedBox(height: screenHeight * 0.008,),
-                  NormalTextField(
-                    controller: projnameController,
-                    hintText: 'Project Name',
                     disabling: disabling,
                   ),
 
@@ -400,7 +316,7 @@ class _registerPageState extends State<registerPage> {
                   ),
 
                   //tapping agree
-                  SizedBox(height: screenHeight * 0.02,),
+                  SizedBox(height: screenHeight * 0.05,),
                   RichText(
                     textAlign: TextAlign.center,
                     text: TextSpan(
@@ -424,7 +340,7 @@ class _registerPageState extends State<registerPage> {
                           ),
                           recognizer: TapGestureRecognizer()
                             ..onTap = () {
-                              _launchURL("https://www.enyecontrols.com/privacypolicy/terms.html");
+                              launchURL("https://www.enyecontrols.com/privacypolicy/terms.html");
                             },
                         ),
                         TextSpan(
@@ -446,7 +362,7 @@ class _registerPageState extends State<registerPage> {
                           ),
                           recognizer: TapGestureRecognizer()
                             ..onTap = () {
-                              _launchURL("https://www.enyecontrols.com/privacypolicy/policy.html");
+                              launchURL("https://www.enyecontrols.com/privacypolicy/policy.html");
                             },
                         ),
                       ],
@@ -458,17 +374,13 @@ class _registerPageState extends State<registerPage> {
                   customButton(
                     text: "Sign Up",
                     onTap: () async {
+                      FocusScope.of(context).unfocus();
                       if (disabling == false) {
                         // Validate returns true if the form is valid, or false otherwise.
                         if (_formKey.currentState!.validate()) {
                           //password doesn't match with confirmation password
                           if (passwordController.text.trim() != conpasswordController.text.trim()) {
-                            _custSnackbar(
-                                context,
-                                "Password doesn't match !",
-                                Colors.redAccent,
-                                Icons.dangerous_rounded
-                            );
+                            custSnackbar(context, "Password doesn't match !", Colors.redAccent, Icons.close, Colors.white );
                           } else {
                             //check email if meron na sa database
 
@@ -487,12 +399,7 @@ class _registerPageState extends State<registerPage> {
 
                               //if email is already taken
                               if (resBodyOfSignUp['email_taken'] == true) {
-                                _custSnackbar(
-                                    context,
-                                    "Warning: Email is already taken.",
-                                    Colors.orangeAccent,
-                                    Icons.info
-                                );
+                                custSnackbar(context, "Warning : Email is already taken.", Colors.orange, Icons.info, Colors.white );
                               } else {
                                 myauth.setConfig(
                                   appEmail: "ronfrancia.enye@gmail.com",
@@ -502,20 +409,10 @@ class _registerPageState extends State<registerPage> {
                                   otpType: OTPType.digitsOnly,
                                 );
                                 if (await myauth.sendOTP() == true) {
-                                  _custSnackbar(
-                                      context,
-                                      "OTP has been sent",
-                                      Colors.green,
-                                      Icons.check_box
-                                  );
+                                  custSnackbar(context, "OTP has been sent", Colors.green, Icons.check, Colors.greenAccent );
                                   _showOTPDialog();
                                 } else {
-                                  _custSnackbar(
-                                      context,
-                                      "Oops, OTP send failed !",
-                                      Colors.redAccent,
-                                      Icons.dangerous_rounded
-                                  );
+                                  custSnackbar(context, "Oops, OTP send failed !", Colors.redAccent, Icons.dangerous_rounded, Colors.white );
                                 }
                               }
                             }
@@ -527,43 +424,6 @@ class _registerPageState extends State<registerPage> {
                     clr: Colors.deepOrange,
                     fontSize: fontExtraSize,
                   ),
-
-                  //or continue with
-                  /*const SizedBox(height: 30,),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 25.0),
-                child: Row(
-                  children: [
-                    Expanded(
-                        child: Divider(
-                          thickness: 0.5,
-                          color: Colors.grey.shade500,)
-                    ),
-                    Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 10.0),
-                      child: Text('Or continue with', style: TextStyle(color: Colors.grey.shade800,),),
-                    ),
-                    Expanded(
-                        child: Divider(
-                          thickness: 0.5,
-                          color: Colors.grey.shade500,)
-                    ),
-                  ],
-                ),
-              ),*/
-
-
-                  //gmail + facebook sign in
-                  /*const SizedBox(height: 25,),
-              const Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Image(image: AssetImage('assets/icons/gmail.png'), height: 40, width: 40),
-                  SizedBox(width: 25,),
-                  Image(image: AssetImage('assets/icons/facebook-v2.png'), height: 40, width: 40,),
-                ],
-              ),*/
-
 
                   //already have an account
                   SizedBox(height: screenHeight * 0.008),

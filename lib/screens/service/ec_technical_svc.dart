@@ -13,7 +13,8 @@ class ECTechnicalDataServices {
   static const GET_ALL_ECSO = 'get_all_ecso';
   static const GET_ALL_ECSOPDF = 'get_all_ecsoPdf';
   static const GET_ALL_EVENTS = 'get_all_events';
-
+  static const GET_TSIS_EMAILBASED = 'get_tsis_emailbased';
+  static const GET_COMPLETE_TSIS_EMAILBASED = 'get_complete_tsis_emailbased';
 
 
   static Future <List<EcUsers>> getEcUsers() async {
@@ -64,7 +65,6 @@ class ECTechnicalDataServices {
     return parsed.map<EcEvent>((json) => EcEvent.fromJson(json)).toList();
   }
 
-
   static Future <List<EcSO>> getEcSO() async {
     var map = Map<String, dynamic>();
     map['action'] = GET_ALL_ECSO;
@@ -88,7 +88,6 @@ class ECTechnicalDataServices {
     final parsed = json.decode(responseBody).cast<Map<String, dynamic>>();
     return parsed.map<EcSO>((json) => EcSO.fromJson(json)).toList();
   }
-
 
   static Future <List<EcSO>> getEcSOPDF(String so_id) async {
     var map = Map<String, dynamic>();
@@ -115,7 +114,6 @@ class ECTechnicalDataServices {
     return parsed.map<EcSO>((json) => EcSO.fromJson(json)).toList();
   }
 
-
   static Future <List<EcTSIS>> getEcTSIS() async {
     var map = Map<String, dynamic>();
     map['action'] = GET_ALL_TSIS;
@@ -140,5 +138,42 @@ class ECTechnicalDataServices {
     return parsed.map<EcTSIS>((json) => EcTSIS.fromJson(json)).toList();
   }
 
+  static Future <List<EcTSIS>> getEcTSISbasedEmail(String email) async {
+    var map = Map<String, dynamic>();
+    map['action'] = GET_TSIS_EMAILBASED;
+    map['email'] = email;
+
+    //get all data of categories
+    final res = await http.post(Uri.parse(API.booking), body: map); //passing value to result
+    print('get EcTSIS Email Based Response: ${res.body}');
+
+    if(res.statusCode == 200){
+      List<EcTSIS> list = parseEcTSIS(res.body);
+      return list;
+    } else {
+      throw Exception('Failed to retrieve EcTSIS');
+      //return List<Categories>();
+    }
+
+  }
+
+  static Future <List<EcTSIS>> getEcCompleteTSISbasedEmail(String email) async {
+    var map = Map<String, dynamic>();
+    map['action'] = GET_COMPLETE_TSIS_EMAILBASED;
+    map['email'] = email;
+
+    //get all data of categories
+    final res = await http.post(Uri.parse(API.booking), body: map); //passing value to result
+    print('get EcTSIS Email Based Response: ${res.body}');
+
+    if(res.statusCode == 200){
+      List<EcTSIS> list = parseEcTSIS(res.body);
+      return list;
+    } else {
+      throw Exception('Failed to retrieve EcTSIS');
+      //return List<Categories>();
+    }
+
+  }
 
 }

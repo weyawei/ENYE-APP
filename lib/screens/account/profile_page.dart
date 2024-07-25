@@ -142,9 +142,6 @@ class _ProfilePageState extends State<ProfilePage> {
   _showValues(clientInfo ClientInfo){
     showimage = ClientInfo.image;
     nameController.text = ClientInfo.name;
-    compnameController.text = ClientInfo.company_name;
-    locationController.text = ClientInfo.location;
-    projnameController.text = ClientInfo.project_name;
     contactController.text = ClientInfo.contact_no;
     emailController.text = ClientInfo.email;
   }
@@ -165,9 +162,6 @@ class _ProfilePageState extends State<ProfilePage> {
         body: {
           'client_id' : ClientInfo?.client_id.toString(),
           'name' : nameController.text.trim(),
-          'company' : compnameController.text.trim(),
-          'location' : locationController.text.trim(),
-          'project' : projnameController.text.trim(),
           'contact' : contactController.text.trim(),
           'email' : emailController.text.trim(),
           'imagename' : imagename,
@@ -202,9 +196,6 @@ class _ProfilePageState extends State<ProfilePage> {
           await SessionManager().set("client_data",  clientInfo(
               client_id: ClientInfo!.client_id.toString(),
               name: nameController.text,
-              company_name: compnameController.text,
-              location: locationController.text,
-              project_name: projnameController.text,
               contact_no: contactController.text,
               image: imagename.toString(),
               email: emailController.text,
@@ -386,27 +377,6 @@ class _ProfilePageState extends State<ProfilePage> {
                     PersonNameTextField(
                       controller: nameController,
                       hintText: 'Fullname',
-                      disabling: disabling,
-                    ),
-
-                    SizedBox(height: screenHeight * 0.01,),
-                    NormalTextField(
-                      controller: compnameController,
-                      hintText: 'Company Name',
-                      disabling: disabling,
-                    ),
-
-                    SizedBox(height: screenHeight * 0.01,),
-                    NormalTextField(
-                      controller: locationController,
-                      hintText: 'Location',
-                      disabling: disabling,
-                    ),
-
-                    SizedBox(height: screenHeight * 0.01,),
-                    NormalTextField(
-                      controller: projnameController,
-                      hintText: 'Project Name',
                       disabling: disabling,
                     ),
 

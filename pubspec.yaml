@@ -165,6 +165,10 @@ flutter:
         - asset: assets/fonts/Rowdies-Regular.ttf
         - asset: assets/fonts/Rowdies-Bold.ttf
 
+    - family: Poppins
+      fonts:
+        - asset: assets/fonts/Poppins-Regular.ttf
+
     - family: DancingScript
       fonts:
         - asset: assets/fonts/DancingScript-Regular.ttf

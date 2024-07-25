@@ -54,7 +54,7 @@ export 'login/register_page.dart';
 export 'login/clientinfo.dart';
 export 'login/forgotpass_page.dart';
 
-export 'profile/profile_page.dart';
+export 'account/profile_page.dart';
 
 export 'contacts/contacts_page.dart';
 
@@ -62,3 +62,10 @@ export 'ec_calendar/calendar.dart';
 export 'ec_calendar/calendar_svc.dart';
 
 export '/splash/splash_screen.dart';
+
+export 'account/account_page.dart';
+export 'account/login_page.dart';
+export 'account/main_acc_page.dart';
+
+export 'service/tsis/tsis_page.dart';
+export 'service/tsis/tsis_tasktile.dart';

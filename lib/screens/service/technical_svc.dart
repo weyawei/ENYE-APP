@@ -20,12 +20,6 @@ class TechnicalDataServices {
   static const GET_ALL_USERS = 'get_all_users';
   static const GET_ALL_SERVICEAPPOINT = 'get_all_serviceappoint';
 
-  static const GET_ALL_ECUSERS = 'get_all_ecusers';
-  static const GET_ALL_TSIS = 'get_all_tsis';
-  static const GET_ALL_ECSO = 'get_all_ecso';
-  static const GET_ALL_EVENTS = 'get_all_events';
-
-
   //get data users position from database
   static Future <List<ServiceOrder>> getServiceOrder() async {
       var map = Map<String, dynamic>();
@@ -76,7 +70,6 @@ class TechnicalDataServices {
     return parsed.map<ServiceOrder>((json) => ServiceOrder.fromJson(json)).toList();
   }
 
-
   static Future <List<ServiceAppointment>> getServiceAppoint() async {
     var map = Map<String, dynamic>();
     map['action'] = GET_ALL_SERVICEAPPOINT;
@@ -100,7 +93,6 @@ class TechnicalDataServices {
     final parsed = json.decode(responseBody).cast<Map<String, dynamic>>();
     return parsed.map<ServiceAppointment>((json) => ServiceAppointment.fromJson(json)).toList();
   }
-
 
   //get data categories from database
   static Future <List<UsersInfo>> getUsersInfo() async {
@@ -190,7 +182,6 @@ class TechnicalDataServices {
     return parsed.map<UserAdminData>((json) => UserAdminData.fromJson(json)).toList();
   }
 
-
   //get handler data from database
   static Future <List<UserAdminData2>> handlerData2() async {
     try{
@@ -252,11 +243,11 @@ class TechnicalDataServices {
   }
 
   //get booking of certain client from database
-  static Future <List<TechnicalData>> clientTechnicalData(String client_id) async {
+  static Future <List<TechnicalData>> clientTechnicalData(String email) async {
     try{
       var map = Map<String, dynamic>();
       map['action'] = GET_CLIENT_TECHNICAL;
-      map['client_id'] = client_id;
+      map['email'] = email;
 
       //get all data of categories
       final res = await http.post(Uri.parse(API.booking), body: map); //passing value to result
@@ -279,7 +270,7 @@ class TechnicalDataServices {
       String svc_id, String service,
       String svc_title, String svc_desc,
       String req_name, String req_position,
-      String cli_remarks, String atch_file, String atch_data,
+      String cli_remarks,
       String date_sched, String client_id,
       String client_name, String client_company,
       String client_location, String client_projectname,
@@ -297,8 +288,6 @@ class TechnicalDataServices {
       map['req_name'] = req_name;
       map['req_position'] = req_position;
       map['cli_remarks'] = cli_remarks;
-      map['atch_file'] = atch_file;
-      map['atch_data'] = atch_data;
       map['client_id'] = client_id;
       map['name'] = client_name;
       map['company'] = client_company;
