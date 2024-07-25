@@ -226,7 +226,7 @@ class _homePageState extends State<homePage> with TickerProviderStateMixin{
     var fontXXXSize = ResponsiveTextUtils.getXXXFontSize(screenWidth);
 
     return Scaffold(
-      appBar: CustomAppBar(title: '', imagePath: 'assets/logo/enyecontrols.png', appBarHeight: MediaQuery.of(context).size.height * 0.05,),
+    //  appBar: CustomAppBar(title: '', imagePath: 'assets/logo/enyecontrols.png', appBarHeight: MediaQuery.of(context).size.height * 0.05,),
       body: ListView(
         children: [
           MasonryGridView(

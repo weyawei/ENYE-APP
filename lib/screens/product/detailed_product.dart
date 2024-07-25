@@ -73,3 +73,26 @@ class size {
     );
   }
 }
+
+class banner {
+  String id;
+  String banner_name;
+  String banner_image;
+  String status;
+
+  banner({
+    required this.id,
+    required this.banner_name,
+    required this.banner_image,
+    required this.status,
+  });
+
+  factory banner.fromJson(Map<String, dynamic> json) {
+    return banner(
+      id: json['id'] as String,
+      banner_name: json['banner_name'] as String,
+      banner_image: json['banner_image'] as String,
+      status: json['status'] as String,
+    );
+  }
+}

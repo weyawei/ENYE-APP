@@ -11,8 +11,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
+import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 import '../../config/api_connection.dart';
+import 'detailed_product.dart';
 import 'detailed_product_page.dart';
 
 class ProductAllCategory extends StatefulWidget {
@@ -37,6 +39,7 @@ class _ProductAllCategoryState extends State<ProductAllCategory> with TickerProv
   List<product> _prod9 = [];
   List<product> _prod10 = [];
 
+  List<banner> _banner = [];
   List<productCategory> _prodCategories = [];
   List<productCategory> _prodCategory = [];
   List<productCategory> _prodCategory2 = [];
@@ -65,6 +68,7 @@ class _ProductAllCategoryState extends State<ProductAllCategory> with TickerProv
     _getProdCategory10();
     _getProdCategory11();
 
+    _getBanner();
     _getProd();
     _getProd1();
     _getProd2();
@@ -79,6 +83,18 @@ class _ProductAllCategoryState extends State<ProductAllCategory> with TickerProv
 
 
   }
+
+  _getBanner() {
+    productService.getProductBanner().then((banner) {
+      setState(() {
+        List<String> targetIds = ["1"];
+        _banner = banner.where((element) => element.status == "Active").toList();
+      });
+
+      print("Length ${_banner.length}");
+    });
+  }
+
 
   _getProd() {
     productService.getProducts().then((product) {
@@ -338,89 +354,123 @@ class _ProductAllCategoryState extends State<ProductAllCategory> with TickerProv
   int _currentIndex = 0;
   @override
   Widget build(BuildContext context) {
+    final activeBanners = _banner.where((bann) => bann.status == "Active").toList();
     return Scaffold(
 
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Container(
-              child: CarouselSlider(
-                options: CarouselOptions(
-                  autoPlay: false,
-                  aspectRatio: 2.0,
-                  viewportFraction: 1.1,
-                  enlargeCenterPage: true,
-                  enlargeStrategy: CenterPageEnlargeStrategy.height,
-                  onPageChanged: (index, reason) {
-                    setState(() {
-                      _currentIndex = index;
-                    });
-                  },
-                ),
-                items: _prodCategory.where((productCategory) => productCategory.status == "Active").map((productCategory) =>
-                    InkWell(
-                      onTap: (){
-                        setState(() {
-                          PersistentNavBarNavigator.pushNewScreenWithRouteSettings(
-                            context,
-                            settings: RouteSettings(name: listProductsPage.routeName),
-                            screen: listProductsPage(prodSubCat: productCategory,),
-                            withNavBar: true,
-                            pageTransitionAnimation: PageTransitionAnimation.cupertino,
-                          );
-                        });
-                      },
-                      child: Container(
-                        color: Colors.white,
-                        margin: EdgeInsets.symmetric(horizontal: 5.0, vertical: 20),
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.all(Radius.circular(5.0)),
-                          child: Stack(
-                            children: <Widget>[
-                              Image.network(
-                                //"${API.prodCategIcon + widget.productcategory.icon}",
-                                "${API.prodCat + productCategory.image}",
-                                fit: BoxFit.contain,
-                                width: MediaQuery.of(context).size.width * 1.5,
-                                height: MediaQuery.of(context).size.width * 0.3 * 1.3,
-                              ),
-                              Positioned(
-                                bottom: 0.0,
-                                left: 0.0,
-                                right: 0.0,
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                    gradient: LinearGradient(
-                                      colors: [
-                                        Color.fromARGB(200, 0, 0, 0),
-                                        Color.fromARGB(0, 0, 0, 0),
-                                      ],
-                                      begin: Alignment.bottomCenter,
-                                      end: Alignment.topCenter,
-                                    ),
+        Container(
+        padding: EdgeInsets.all(0.01),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(8.0),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey.withOpacity(0.5),
+              spreadRadius: 2,
+              blurRadius: 7,
+              offset: Offset(0, 3), // changes position of shadow
+            ),
+          ],
+        ),
+        child: Stack(
+          children: [
+            CarouselSlider(
+              options: CarouselOptions(
+                autoPlay: false,
+                aspectRatio: 1.6,
+                viewportFraction: 1.03,
+                enlargeCenterPage: true,
+                enlargeStrategy: CenterPageEnlargeStrategy.height,
+                onPageChanged: (index, reason) {
+                  setState(() {
+                    _currentIndex = index;
+                  });
+                },
+              ),
+              items: activeBanners.map((bann) =>
+                  InkWell(
+                    onTap: () {
+                      /* setState(() {
+                      PersistentNavBarNavigator.pushNewScreenWithRouteSettings(
+                        context,
+                        settings: RouteSettings(name: listProductsPage.routeName),
+                        screen: listProductsPage(prodSubCat: productCategory,),
+                        withNavBar: true,
+                        pageTransitionAnimation: PageTransitionAnimation.cupertino,
+                      );
+                    });*/
+                    },
+                    child: Container(
+                      color: Colors.white,
+                      margin: EdgeInsets.symmetric(horizontal: 5.0, vertical: 0.1),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.all(Radius.circular(5.0)),
+                        child: Stack(
+                          children: <Widget>[
+                            Image.network(
+                              //"${API.prodCategIcon + widget.productcategory.icon}",
+                              "${API.prodCat + bann.banner_image}",
+                              fit: BoxFit.fill,
+                              width: MediaQuery.of(context).size.width,
+                              height: MediaQuery.of(context).size.height * 0.3,
+                            ),
+                            Positioned(
+                              bottom: 0.0,
+                              left: 0.0,
+                              right: 0.0,
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  gradient: LinearGradient(
+                                    colors: [
+                                      Color.fromARGB(200, 0, 0, 0),
+                                      Color.fromARGB(0, 0, 0, 0),
+                                    ],
+                                    begin: Alignment.bottomCenter,
+                                    end: Alignment.topCenter,
                                   ),
-                                 /* padding:
-                                  EdgeInsets.symmetric(vertical: 5.0, horizontal: 0.0),
-                                  child: Text(
-                                    productCategory.name,
-                                    style: TextStyle(
-                                      fontSize: MediaQuery.of(context).size.width * 0.025,
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.bold,
-
-                                    ),
-                                  ),*/
                                 ),
+                                /* padding:
+                              EdgeInsets.symmetric(vertical: 5.0, horizontal: 0.0),
+                              child: Text(
+                                productCategory.name,
+                                style: TextStyle(
+                                  fontSize: MediaQuery.of(context).size.width * 0.025,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),*/
                               ),
-                            ],
-                          ),
+                            ),
+                          ],
                         ),
                       ),
-                    )
-                ).toList(),
+                    ),
+                  )
+              ).toList(),
+            ),
+            Positioned(
+              bottom: 10.0,
+              left: 0.0,
+              right: 0.0,
+              child: Center(
+                child: AnimatedSmoothIndicator(
+                  activeIndex: _currentIndex,
+                  count: activeBanners.length,
+                  effect: ScrollingDotsEffect(
+                    activeDotColor: Colors.blueAccent,
+                    dotColor: Colors.grey,
+                    dotHeight: 10,
+                    dotWidth: 10,
+                  ),
+                ),
               ),
             ),
+          ],
+        ),
+        ),
 
 
             Container(
