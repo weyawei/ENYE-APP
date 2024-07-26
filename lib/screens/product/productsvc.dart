@@ -13,6 +13,7 @@ class productService {
   static const GET_ALL_PRODUCT_THUMBNAILS = 'get_all_product_thumbnails';
   static const GET_ALL_PRODUCT_SIZES = 'get_all_product_sizes';
   static const GET_ALL_PRODUCT_BANNER = 'get_all_product_banner';
+  static const GET_ALL_PRODUCT_NEWS = 'get_all_product_news';
 
   //get data categories from database
   static Future <List<productCategory>> getProdCategory() async {
@@ -214,7 +215,31 @@ class productService {
     return parsed.map<banner>((json) => banner.fromJson(json)).toList();
   }
 
+  static Future <List<news>> getProductNews() async {
+    try{
+      var map = Map<String, dynamic>();
+      map['action'] = GET_ALL_PRODUCT_NEWS;
 
+      //get all data of categories
+      final res = await http.post(Uri.parse(API.products), body: map); //passing value to result
+      print('getProduct News Response: ${res.body}');
+
+      if(res.statusCode == 200){
+        List<news> list = parseResNews(res.body);
+        return list;
+      } else {
+        throw Exception('Failed to retrieve Product Details');
+      }
+    } catch (e) {
+      throw Exception('Failed to retrieve Product Details');
+    }
+  }
+
+  static List<news> parseResNews(String responseBody){
+    //conversion from web server into data by using categories.dart
+    final parsed = json.decode(responseBody).cast<Map<String, dynamic>>();
+    return parsed.map<news>((json) => news.fromJson(json)).toList();
+  }
 
 }
 

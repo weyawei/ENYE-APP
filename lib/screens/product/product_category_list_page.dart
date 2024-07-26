@@ -2012,7 +2012,7 @@ class _ProductAllCategoryState extends State<ProductAllCategory> with TickerProv
             ),
 
 
-            SizedBox(height: 15,),
+           /* SizedBox(height: 15,),
 
             Text(
               "New Items",
@@ -2078,7 +2078,7 @@ class _ProductAllCategoryState extends State<ProductAllCategory> with TickerProv
                                     end: Alignment.topCenter,
                                   ),
                                 ),
-                               /* padding: EdgeInsets.symmetric(vertical: 5.0, horizontal: 0.0),
+                               *//* padding: EdgeInsets.symmetric(vertical: 5.0, horizontal: 0.0),
                                 child: Text(
                                   productCategory.name,
                                   style: TextStyle(
@@ -2086,7 +2086,7 @@ class _ProductAllCategoryState extends State<ProductAllCategory> with TickerProv
                                     color: Colors.white,
                                     fontWeight: FontWeight.bold,
                                   ),
-                                ),*/
+                                ),*//*
                               ),
                             ),
                           ],
@@ -2096,7 +2096,7 @@ class _ProductAllCategoryState extends State<ProductAllCategory> with TickerProv
                   );
                 },
               ),
-            )
+            )*/
 
 
 

@@ -4,6 +4,7 @@ import 'dart:ui';
 
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
@@ -17,6 +18,7 @@ import 'package:video_player/video_player.dart';
 import '../../config/api_connection.dart';
 import '../../widget/widgets.dart';
 import '../screens.dart';
+import 'news.dart';
 
 class homePage extends StatefulWidget {
   static const String routeName = '/home';
@@ -102,6 +104,9 @@ class _homePageState extends State<homePage> with TickerProviderStateMixin{
     // Initially, show all products
     _projects = [];
     _getProjects();
+
+    _news = [];
+    _getNews();
 
     _loadFrames();
     _scrollController.addListener(_onScroll);
@@ -206,6 +211,17 @@ class _homePageState extends State<homePage> with TickerProviderStateMixin{
       });
       _isLoadingProj = false;
       print("Length ${Projects.length}");
+    });
+  }
+
+  late List<news> _news;
+  _getNews(){
+    productService.getProductNews().then((News){
+      setState(() {
+        _news = News;
+      });
+      _isLoadingProj = false;
+      print("Length ${News.length}");
     });
   }
 
@@ -679,7 +695,9 @@ class _homePageState extends State<homePage> with TickerProviderStateMixin{
               SizedBox(height: 40,),
 
               Container(
+                padding: EdgeInsets.all(16.0),
                 child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
                       "News And Updates",
@@ -687,96 +705,121 @@ class _homePageState extends State<homePage> with TickerProviderStateMixin{
                         fontFamily: "Rowdies",
                         fontSize: MediaQuery.of(context).size.width * 0.065,
                         fontWeight: FontWeight.bold,
-                        color: Colors.red, // Adjust the color as needed
+                        color: Colors.red,
                       ),
                     ),
-                    SizedBox(height: 20,),
-                    GridView.builder(
+                    SizedBox(height: 20),
+                    ListView.builder(
                       padding: EdgeInsets.symmetric(horizontal: 6.0),
                       physics: const NeverScrollableScrollPhysics(),
                       shrinkWrap: true,
-                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: screenLayout ? 1 : 3,
-                        crossAxisSpacing: (screenHeight + screenWidth) / 90,
-                        mainAxisSpacing: (screenHeight + screenWidth) / 90,
-                        mainAxisExtent: screenHeight * 0.2,
-                      ),
-                      itemCount: min(_projects.length, 3),
+                      itemCount: min(_news.length, 3),
                       itemBuilder: (context, index) {
-                        final project = _projects[index];
-                     //   final isExpanded = _isExpanded[index];
+                        final news = _news[index];
 
-                        return Card(
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Row(
+                        return GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => FullArticleNews(newsletter: news, selectedIndex: index),
+                              ),
+                            );
+                          },
+                          child: Card(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10.0),
+                            ),
+                            elevation: 5,
+                            margin: EdgeInsets.symmetric(vertical: 8.0),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                // Image on the left
+                                // Image at the top
                                 Container(
-                                  width: MediaQuery.of(context).size.width * 0.4,
-                                  height: MediaQuery.of(context).size.height * 0.6,
-                                  child: Image.network(
-                                    "${API.projectsImage + project.images}",
-                                    fit: BoxFit.cover, // Adjust this to change how the image fits within the container
+                                  width: double.infinity,
+                                  height: MediaQuery.of(context).size.height * 0.2,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.vertical(top: Radius.circular(10.0)),
+                                    image: DecorationImage(
+                                      image: NetworkImage("${API.projectsImage + news.news_image}"),
+                                      fit: BoxFit.cover,
+                                    ),
                                   ),
                                 ),
-                                SizedBox(width: 8), // Space between image and details
-                                // Details on the right
-                                Expanded(
-                                  child: SingleChildScrollView(
-                                    child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          project.title,
+                                // Text below the image
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        news.title,
+                                        style: TextStyle(
+                                          fontSize: MediaQuery.of(context).size.width * 0.045,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                      SizedBox(height: 8),
+                                      news.isExpanded
+                                          ? Text(
+                                        news.description,
+                                        textAlign: TextAlign.justify,
+                                        style: TextStyle(
+                                          fontSize: MediaQuery.of(context).size.width * 0.03,
+                                          fontStyle: FontStyle.normal,
+                                          letterSpacing: 1,
+                                          color: Colors.black,
+                                        ),
+                                      )
+                                          : RichText(
+                                        text: TextSpan(
+                                          text: news.description.length > 100
+                                              ? news.description.substring(0, 100)
+                                              : news.description,
                                           style: TextStyle(
-                                            fontSize: MediaQuery.of(context).size.width * 0.050,
-                                            fontWeight: FontWeight.bold,
+                                            fontSize: MediaQuery.of(context).size.width * 0.03,
+                                            fontStyle: FontStyle.normal,
+                                            letterSpacing: 1,
+                                            color: Colors.black,
                                           ),
-                                        ),
-                                        SizedBox(height: 8),
-                                        Center(
-                                          child: Column(
-                                            crossAxisAlignment: CrossAxisAlignment.center,
-                                            children: [
-                                              Container(
-                                                padding: EdgeInsets.symmetric(horizontal: 8.0),
-                                                child: Text(
-                                                  _projects[index].isExpanded
-                                                      ? _projects[index].description2 // Show full description if expanded
-                                                      : _projects[index].description2.substring(0, 200) + '...', // Show truncated description
-                                                  textAlign: TextAlign.justify,
-                                                  style: TextStyle(
-                                                    fontSize: MediaQuery.of(context).size.width * 0.029,
-                                                    fontStyle: FontStyle.normal,
-                                                    letterSpacing: 1,
-                                                    color: Colors.black,
-                                                  ),
-                                                ),
+                                          children: news.description.length > 100
+                                              ? [
+                                            TextSpan(
+                                              text: '... See More',
+                                              style: TextStyle(
+                                                fontSize: MediaQuery.of(context).size.width * 0.03,
+                                                color: Colors.blue,
+                                                fontWeight: FontWeight.bold,
                                               ),
-                                              SizedBox(height: 2), // Adjust spacing between description and "See More" button
-                                              if (project.description2.length > 200) // Example condition for showing "See More"
-                                                GestureDetector(
-                                                  onTap: () {
-                                                    setState(() {
-                                                      // Toggle the expanded state
-                                                      _projects[index].isExpanded = !_projects[index].isExpanded;
-                                                    });
-                                                  },
-                                                  child: Text(
-                                                    _projects[index].isExpanded ? "See Less" : "See More",
-                                                    style: TextStyle(
-                                                      fontSize: MediaQuery.of(context).size.width * 0.028,
-                                                      color: Colors.blue, // Example color for the text button
-                                                      fontWeight: FontWeight.bold,
-                                                    ),
-                                                  ),
-                                                ),
-                                            ],
+                                              recognizer: TapGestureRecognizer()
+                                                ..onTap = () {
+                                                  setState(() {
+                                                    news.isExpanded = true;
+                                                  });
+                                                },
+                                            ),
+                                          ]
+                                              : [],
+                                        ),
+                                      ),
+                                      if (news.description.length > 100 && news.isExpanded)
+                                        GestureDetector(
+                                          onTap: () {
+                                            setState(() {
+                                              news.isExpanded = !news.isExpanded;
+                                            });
+                                          },
+                                          child: Text(
+                                            news.isExpanded ? "See Less" : "",
+                                            style: TextStyle(
+                                              fontSize: MediaQuery.of(context).size.width * 0.028,
+                                              color: Colors.blue,
+                                              fontWeight: FontWeight.bold,
+                                            ),
                                           ),
                                         ),
-                                      ],
-                                    ),
+                                    ],
                                   ),
                                 ),
                               ],
@@ -788,6 +831,7 @@ class _homePageState extends State<homePage> with TickerProviderStateMixin{
                   ],
                 ),
               ),
+
 
               SizedBox(height: 30,),
               // follow us

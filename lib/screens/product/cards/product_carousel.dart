@@ -18,7 +18,7 @@ class productCarousel extends StatelessWidget {
         physics: const NeverScrollableScrollPhysics(),
         shrinkWrap: true,
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 3,
+          crossAxisCount: 2,
           crossAxisSpacing: 12.0,
           mainAxisSpacing: 12.0,
           childAspectRatio: 1.1,
@@ -44,7 +44,7 @@ class productCarousel extends StatelessWidget {
                 children: [
 		Expanded(
                    child: SizedBox(
-                    width: MediaQuery.of(context).size.width * 0.2,
+                    width: MediaQuery.of(context).size.width * 0.4,
                     height: MediaQuery.of(context).size.height * 0.6,
                     child: DecoratedBox(
                       decoration: BoxDecoration(
