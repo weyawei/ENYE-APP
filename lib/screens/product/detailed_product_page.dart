@@ -630,8 +630,8 @@ class _detailedProductPageState extends State<detailedProductPage> with TickerPr
                 borderRadius: BorderRadius.circular(5), // Optional: Adds rounded corners
               ),
               child: Text(
-                'A product catalog is a document enlisting essential product information such as product dimensions, pricing, material and more. Both B2B and B2C industries leverage product catalogs. And, they arent limited to the eCommerce space. Service-based businesses and offline shops use product catalogs too',
-                style: TextStyle(
+                _productsInfo[0].prod_desc,
+               style: TextStyle(
                   fontSize: MediaQuery.of(context).size.width * 0.035,
                   fontWeight: FontWeight.normal,
                   color: Colors.black,

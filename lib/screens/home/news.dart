@@ -99,7 +99,7 @@ class _FullArticleNewsState extends State<FullArticleNews> {
               ),
             ),
 
-            SizedBox(height: 20),
+            SizedBox(height: 40),
             Container(
               padding: EdgeInsets.all(5.0),
               child: Column(
