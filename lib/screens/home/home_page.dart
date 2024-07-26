@@ -577,11 +577,10 @@ class _homePageState extends State<homePage> with TickerProviderStateMixin{
                 ),
               ),*/
 
-              SizedBox(height: 20,),
+              SizedBox(height: screenHeight * 0.125,),
               /*ContactsHome(),*/
 
               Container(
-
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -619,7 +618,7 @@ class _homePageState extends State<homePage> with TickerProviderStateMixin{
                     CarouselSlider(
                       options: CarouselOptions(
                         autoPlay: false,
-                        aspectRatio: 1.2,
+                        aspectRatio: 1.175,
                         viewportFraction: 0.7,
                         enlargeCenterPage: true,
                         enlargeStrategy: CenterPageEnlargeStrategy.height,
@@ -692,7 +691,7 @@ class _homePageState extends State<homePage> with TickerProviderStateMixin{
               ),
 
 
-              SizedBox(height: 40,),
+              SizedBox(height: screenHeight * 0.125,),
 
               Container(
                 padding: EdgeInsets.all(16.0),
@@ -838,7 +837,7 @@ class _homePageState extends State<homePage> with TickerProviderStateMixin{
               Lottie.asset(
                   'assets/lottie/follow_us.json',
                   frameRate: FrameRate.max,
-                  height: screenHeight * 0.12,
+                  height: screenHeight * 0.15,
                   width: screenWidth * 0.6,
                   controller: lottieController
               ),
@@ -896,64 +895,59 @@ class _homePageState extends State<homePage> with TickerProviderStateMixin{
                 ],
               ),
 
+              SizedBox(height: screenHeight * 0.05,),
+
+              GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => ContactsHome()),
+                  );
+                },
+                child: Container(
+                  margin: EdgeInsets.symmetric(horizontal: screenWidth * 0.075),
+                  height: screenHeight * 0.07,
+                  width: screenWidth * 0.9,
+                  decoration: BoxDecoration(
+                    border: Border.all(width: 2, color: Colors.deepOrange),
+                    borderRadius: BorderRadius.circular(30),
+                    color: Colors.white,
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black26,
+                        blurRadius: 10,
+                        offset: Offset(0, 5),
+                      ),
+                    ],
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(
+                        Icons.phone,
+                        size: fontExtraSize * 1.3,
+                        color: Colors.deepOrange,
+                      ),
+                      SizedBox(width: 10),
+                      Text(
+                        "Contact Us",
+                        style: TextStyle(
+                          fontSize: fontExtraSize,
+                          letterSpacing: 0.5,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.deepOrange,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+
               SizedBox(height: 60,),
             ],
           ),
         ]
       ),
-
-      /*floatingActionButton: SpeedDial(
-        icon: Icons.share,
-        backgroundColor: Colors.deepOrange,
-        overlayColor: Colors.deepOrange,
-        overlayOpacity: 0.4,
-        children: [
-          SpeedDialChild(
-              child: Image(image: AssetImage("assets/icons/facebook-v2.png"),),
-              onTap: () async{
-                setState(() {
-                  _launchURL("https://www.facebook.com/EnyeControl/");
-                });
-              }
-          ),
-
-          SpeedDialChild(
-              child: Image(image: AssetImage("assets/icons/instagram.png"),),
-              onTap: () async{
-                setState(() {
-                  _launchURL("https://www.instagram.com/enyecontrols/");
-                });
-              }
-          ),
-
-          SpeedDialChild(
-              child: Image(image: AssetImage("assets/icons/twitter.png"),),
-              onTap: () async{
-                setState(() {
-                  _launchURL("https://twitter.com/enyecontrols");
-                });
-              }
-          ),
-
-          SpeedDialChild(
-              child: Image(image: AssetImage("assets/icons/youtube-round-2.png"),),
-              onTap: () async{
-                setState(() {
-                  _launchURL("https://www.youtube.com/channel/UCTPwjwa1YioMkHZCvYjrAnw");
-                });
-              }
-          ),
-
-          SpeedDialChild(
-              child: Image(image: AssetImage("assets/icons/linkedin.png"),),
-              onTap: () async{
-                setState(() {
-                  _launchURL("https://www.linkedin.com/company/enyecontrols");
-                });
-              }
-          ),
-        ],
-      ),*/
     );
   }
 }

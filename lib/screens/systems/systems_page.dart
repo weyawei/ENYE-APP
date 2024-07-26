@@ -93,39 +93,39 @@ class _systemsPageState extends State<systemsPage> with TickerProviderStateMixin
                   ),
                   child: Column(
                     children: [
-                      const SizedBox(height: 10,),
-                      TextField(
-                        controller: searchController,
-                        decoration: InputDecoration(
-                          labelText: 'Search',
-                          labelStyle: TextStyle(fontSize: fontExtraSize),
-                          prefixIcon: Icon(Icons.search),
-                          suffixIcon: searchController.text.isNotEmpty
-                            ? IconButton(
-                              onPressed: () {
-                                searchController.clear();
-                                FocusScope.of(context).unfocus();
-                                filterSystemsList();
-                              },
-                              icon: Icon(Icons.clear, size: (screenHeight + screenWidth) / 40,),
-                            )
-                            : null, // Set suffixIcon to null when text is empty
-                        ),
-                        onChanged: (value) {
-                          setState(() {
-                            filterSystemsList();
-                            if(searchController.text.isEmpty){
-                              FocusScope.of(context).unfocus();
-                            }
-                          });
-                        },
-                        onEditingComplete: (){
-                          filterSystemsList();
-                          if(searchController.text.isEmpty){
-                            FocusScope.of(context).unfocus();
-                          }
-                        },
-                      ),
+                      // const SizedBox(height: 10,),
+                      // TextField(
+                      //   controller: searchController,
+                      //   decoration: InputDecoration(
+                      //     labelText: 'Search',
+                      //     labelStyle: TextStyle(fontSize: fontExtraSize),
+                      //     prefixIcon: Icon(Icons.search),
+                      //     suffixIcon: searchController.text.isNotEmpty
+                      //       ? IconButton(
+                      //         onPressed: () {
+                      //           searchController.clear();
+                      //           FocusScope.of(context).unfocus();
+                      //           filterSystemsList();
+                      //         },
+                      //         icon: Icon(Icons.clear, size: (screenHeight + screenWidth) / 40,),
+                      //       )
+                      //       : null, // Set suffixIcon to null when text is empty
+                      //   ),
+                      //   onChanged: (value) {
+                      //     setState(() {
+                      //       filterSystemsList();
+                      //       if(searchController.text.isEmpty){
+                      //         FocusScope.of(context).unfocus();
+                      //       }
+                      //     });
+                      //   },
+                      //   onEditingComplete: (){
+                      //     filterSystemsList();
+                      //     if(searchController.text.isEmpty){
+                      //       FocusScope.of(context).unfocus();
+                      //     }
+                      //   },
+                      // ),
 
                       const SizedBox(height: 10,),
                       // ListView.builder(
