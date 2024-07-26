@@ -705,7 +705,7 @@ class _BookingSystemState extends State<BookingSystem> {
 
 
                     SizedBox(height: screenHeight * 0.01),
-                    Normal2TextField(
+                    NormalNotRequiredTextField(
                       controller: clientRemarksController,
                       hintText: 'Remarks *',
                     ),

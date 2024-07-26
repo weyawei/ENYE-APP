@@ -404,39 +404,47 @@ class _TSISViewPageState extends State<TSISViewPage> with TickerProviderStateMix
                               ),
                             ),
                             Flexible(
-                              child: Container(
-                                width: MediaQuery.of(context).size.width * 0.75,
-                                child: RichText(
-                                  softWrap: true,
-                                  text: TextSpan(children: <TextSpan>
-                                  [
-                                    TextSpan(text: "${engineer.firstname} ${engineer.lastname}",
-                                      style: TextStyle(
-                                        fontSize: fontSmallSize,
-                                        fontWeight: FontWeight.w800,
-                                        letterSpacing: 0.8,
-                                        color: Colors.black54
-                                      ),
-                                    ),
+                              child: GestureDetector(
+                                onTap: (){
+                                  final phoneNumber  = engineer.mobile;
+                                  final url = 'tel:$phoneNumber';
 
-                                    TextSpan(text: "\n${engineer.role_type}",
-                                      style: TextStyle(
-                                        fontSize: fontXSmallSize,
-                                        fontWeight: FontWeight.w800,
-                                        letterSpacing: 0.8,
-                                        color: Colors.grey
-                                      ),
-                                    ),
-
-                                    TextSpan(text: "\n${engineer.mobile}",
-                                      style: TextStyle(
+                                  launchURL(url);
+                                },
+                                child: Container(
+                                  width: MediaQuery.of(context).size.width * 0.75,
+                                  child: RichText(
+                                    softWrap: true,
+                                    text: TextSpan(children: <TextSpan>
+                                    [
+                                      TextSpan(text: "${engineer.firstname} ${engineer.lastname}",
+                                        style: TextStyle(
                                           fontSize: fontSmallSize,
                                           fontWeight: FontWeight.w800,
                                           letterSpacing: 0.8,
-                                          color: Colors.grey
+                                          color: Colors.black54
+                                        ),
                                       ),
+
+                                      TextSpan(text: "\n${engineer.role_type}",
+                                        style: TextStyle(
+                                          fontSize: fontXSmallSize,
+                                          fontWeight: FontWeight.w800,
+                                          letterSpacing: 0.8,
+                                          color: Colors.grey
+                                        ),
+                                      ),
+
+                                      TextSpan(text: "\n${engineer.mobile}",
+                                        style: TextStyle(
+                                            fontSize: fontSmallSize,
+                                            fontWeight: FontWeight.w800,
+                                            letterSpacing: 0.8,
+                                            color: Colors.grey
+                                        ),
+                                      ),
+                                    ]
                                     ),
-                                  ]
                                   ),
                                 ),
                               ),
@@ -494,39 +502,47 @@ class _TSISViewPageState extends State<TSISViewPage> with TickerProviderStateMix
                               ),
                             ),
                             Flexible(
-                              child: Container(
-                                width: MediaQuery.of(context).size.width * 0.75,
-                                child: RichText(
-                                  softWrap: true,
-                                  text: TextSpan(children: <TextSpan>
-                                  [
-                                    TextSpan(text: "${technician.firstname} ${technician.lastname}",
-                                      style: TextStyle(
-                                        fontSize: fontSmallSize,
-                                        fontWeight: FontWeight.w800,
-                                        letterSpacing: 0.8,
-                                        color: Colors.black54
-                                      ),
-                                    ),
+                              child: GestureDetector(
+                                onTap: (){
+                                  final phoneNumber  = technician.mobile;
+                                  final url = 'tel:$phoneNumber';
 
-                                    TextSpan(text: "\n${technician.role_type}",
-                                      style: TextStyle(
-                                        fontSize: fontXSmallSize,
-                                        fontWeight: FontWeight.w800,
-                                        letterSpacing: 0.8,
-                                        color: Colors.grey
+                                  launchURL(url);
+                                },
+                                child: Container(
+                                  width: MediaQuery.of(context).size.width * 0.75,
+                                  child: RichText(
+                                    softWrap: true,
+                                    text: TextSpan(children: <TextSpan>
+                                    [
+                                      TextSpan(text: "${technician.firstname} ${technician.lastname}",
+                                        style: TextStyle(
+                                          fontSize: fontSmallSize,
+                                          fontWeight: FontWeight.w800,
+                                          letterSpacing: 0.8,
+                                          color: Colors.black54
+                                        ),
                                       ),
-                                    ),
 
-                                    TextSpan(text: "\n${technician.mobile}",
-                                      style: TextStyle(
+                                      TextSpan(text: "\n${technician.role_type}",
+                                        style: TextStyle(
                                           fontSize: fontXSmallSize,
                                           fontWeight: FontWeight.w800,
                                           letterSpacing: 0.8,
                                           color: Colors.grey
+                                        ),
                                       ),
+
+                                      TextSpan(text: "\n${technician.mobile}",
+                                        style: TextStyle(
+                                            fontSize: fontXSmallSize,
+                                            fontWeight: FontWeight.w800,
+                                            letterSpacing: 0.8,
+                                            color: Colors.grey
+                                        ),
+                                      ),
+                                    ]
                                     ),
-                                  ]
                                   ),
                                 ),
                               ),

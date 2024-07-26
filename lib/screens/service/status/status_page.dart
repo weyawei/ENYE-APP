@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:http/http.dart' as http;
 
 import '../../../config/config.dart';
 import '../../../widget/widgets.dart';
@@ -165,13 +164,6 @@ class _StatusPageState extends State<StatusPage> with TickerProviderStateMixin {
 
 
   List<TechnicalData> _filteredServices = [];
-  void filterSystemsList() {
-    _filteredServices = _services.where((technicalData) {
-      final svcId = technicalData.svcId.toLowerCase();
-      final searchQuery = searchController.text.toLowerCase();
-      return svcId.contains(searchQuery);
-    }).toList();
-  }
 
   void _filterSearchResults(String query) {
     if (query.isEmpty || query.length == 0) {
@@ -211,29 +203,11 @@ class _StatusPageState extends State<StatusPage> with TickerProviderStateMixin {
     });
   }
 
-  Future<void> sendPushNotifications(String status, String svcId) async {
-    //final url = 'https://enye.com.ph/enyecontrols_app/login_user/send1.php'; // Replace this with the URL to your PHP script
-    final response = await http.post(
-      Uri.parse(API.pushNotif),
-      body: {
-        'action' : status,
-        'svc_id' : svcId,
-      },
-    );
-    if (response.statusCode == 200) {
-      if(response.body == "success"){
-        print('send push notifications.');
-      }
-    } else {
-      print('Failed to send push notifications.');
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
-    if(widget.message!.data["goToPage"] == "Status"){
-      filterSystemsList();
-    }
+    // if(widget.message!.data["goToPage"] == "Status"){
+    //   filterSystemsList();
+    // }
 
     return GestureDetector(
       onTap: (){FocusScope.of(context).unfocus();},
