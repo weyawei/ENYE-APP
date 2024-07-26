@@ -4,6 +4,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:enye_app/screens/product/product_category_list_page.dart';
 import 'package:flutter/material.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
+import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:speech_to_text/speech_to_text.dart' as stt;
 import 'package:speech_to_text/speech_recognition_result.dart' as stt;
 
@@ -32,7 +33,7 @@ class _productsPageState extends State<productsPage> with TickerProviderStateMix
   List<productCategory> _prodCategory = [];
   List<productCategory> _filteredprodCategory = [];
   List<product> _products = [];
-
+  List<banner> _banner = [];
   List<product> searchResults = [];
   List<product> displayedProducts = []; // Initialize as an empty list
   TextEditingController searchController = TextEditingController();
@@ -47,6 +48,17 @@ class _productsPageState extends State<productsPage> with TickerProviderStateMix
   bool _isLoadingCategory = true;
   bool _isLoadingProducts = true;
 
+  final CarouselController _carouselController = CarouselController();
+  _getBanner() {
+    productService.getProductBanner().then((banner) {
+      setState(() {
+        List<String> targetIds = ["1"];
+        _banner = banner.where((element) => element.status == "Active").toList();
+      });
+
+      print("Length ${_banner.length}");
+    });
+  }
 
   @override
   void initState() {
@@ -55,6 +67,7 @@ class _productsPageState extends State<productsPage> with TickerProviderStateMix
     searchFocusNode = FocusNode();
     _getProdCategory();
     _getProducts();
+    _getBanner();
     loadMoreProducts();
     _speech = stt.SpeechToText();
   }
@@ -191,9 +204,13 @@ class _productsPageState extends State<productsPage> with TickerProviderStateMix
     );
   }
 
+  int _currentIndex = 0;
   @override
   Widget build(BuildContext context) {
-    _prodCategory.shuffle();
+
+    final activeBanners = _banner.where((bann) => bann.status == "Active").toList();
+
+   // _prodCategory.shuffle();
 
 	double screenHeight = MediaQuery.of(context).size.height;
         double screenWidth = MediaQuery.of(context).size.width;
@@ -213,7 +230,7 @@ class _productsPageState extends State<productsPage> with TickerProviderStateMix
         handleScreenTap();
       },
       child: Scaffold(
-        appBar: CustomAppBar(title: 'PRODUCTS', imagePath: 'assets/logo/enyecontrols.png', appBarHeight: MediaQuery.of(context).size.height * 0.05,),
+     //   appBar: CustomAppBar(title: 'PRODUCTS', imagePath: 'assets/logo/enyecontrols.png', appBarHeight: MediaQuery.of(context).size.height * 0.05,),
         drawer: productDrawer(),
         body: _isLoadingCategory || _isLoadingProducts
           ? Center(child: SpinningContainer(controller: _controller),)
@@ -228,7 +245,7 @@ class _productsPageState extends State<productsPage> with TickerProviderStateMix
             child: ListView(
               children: [
                 Padding(
-                  padding: const EdgeInsets.all(8.0),
+                  padding: const EdgeInsets.all(1.0),
                   child: TextField(
                     focusNode: searchFocusNode,
                     controller: searchController,
@@ -322,7 +339,142 @@ class _productsPageState extends State<productsPage> with TickerProviderStateMix
                     ),
                   ),
 
+                SizedBox(height: 5,),
+                Container(
+                  padding: EdgeInsets.all(0.01),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(8.0),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey.withOpacity(0.5),
+                        spreadRadius: 2,
+                        blurRadius: 7,
+                        offset: Offset(0, 3), // changes position of shadow
+                      ),
+                    ],
+                  ),
+                  child: Stack(
+                    children: [
+                      CarouselSlider(
+                        carouselController: _carouselController,
+                        options: CarouselOptions(
+                          autoPlay: false,
+                          aspectRatio: 1.8,
+                          viewportFraction: 1.03,
+                          enlargeCenterPage: true,
+                          enlargeStrategy: CenterPageEnlargeStrategy.height,
+                          onPageChanged: (index, reason) {
+                            setState(() {
+                              _currentIndex = index;
+                            });
+                          },
+                        ),
+                        items: activeBanners.map((bann) =>
+                            InkWell(
+                              onTap: () {
+                                /* setState(() {
+                      PersistentNavBarNavigator.pushNewScreenWithRouteSettings(
+                        context,
+                        settings: RouteSettings(name: listProductsPage.routeName),
+                        screen: listProductsPage(prodSubCat: productCategory,),
+                        withNavBar: true,
+                        pageTransitionAnimation: PageTransitionAnimation.cupertino,
+                      );
+                    });*/
+                              },
+                              child: Container(
+                                color: Colors.white,
+                                margin: EdgeInsets.symmetric(horizontal: 5.0, vertical: 0.1),
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.all(Radius.circular(5.0)),
+                                  child: Stack(
+                                    children: <Widget>[
+                                      Image.network(
+                                        //"${API.prodCategIcon + widget.productcategory.icon}",
+                                        "${API.prodCat + bann.banner_image}",
+                                        fit: BoxFit.fill,
+                                        width: MediaQuery.of(context).size.width,
+                                        height: MediaQuery.of(context).size.height * 0.3,
+                                      ),
+                                      Positioned(
+                                        bottom: 0.0,
+                                        left: 0.0,
+                                        right: 0.0,
+                                        child: Container(
+                                          decoration: BoxDecoration(
+                                            gradient: LinearGradient(
+                                              colors: [
+                                                Color.fromARGB(200, 0, 0, 0),
+                                                Color.fromARGB(0, 0, 0, 0),
+                                              ],
+                                              begin: Alignment.bottomCenter,
+                                              end: Alignment.topCenter,
+                                            ),
+                                          ),
+                                          /* padding:
+                              EdgeInsets.symmetric(vertical: 5.0, horizontal: 0.0),
+                              child: Text(
+                                productCategory.name,
+                                style: TextStyle(
+                                  fontSize: MediaQuery.of(context).size.width * 0.025,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),*/
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            )
+                        ).toList(),
+                      ),
+                      Positioned(
+                        bottom: 10.0,
+                        left: 0.0,
+                        right: 0.0,
+                        child: Center(
+                          child: AnimatedSmoothIndicator(
+                            activeIndex: _currentIndex,
+                            count: activeBanners.length,
+                            effect: ScrollingDotsEffect(
+                              activeDotColor: Colors.blueAccent,
+                              dotColor: Colors.grey,
+                              dotHeight: 10,
+                              dotWidth: 10,
+                            ),
+                          ),
+                        ),
+                      ),
+                      Positioned(
+                        top: 0,
+                        bottom: 0,
+                        left: 10,
+                        child: IconButton(
+                          icon: Icon(Icons.arrow_back_ios_new, size: 40, color: Colors.deepOrange),
+                          onPressed: () {
+                            _carouselController.previousPage();
+                          },
+                        ),
+                      ),
+                      Positioned(
+                        top: 0,
+                        bottom: 0,
+                        right: 10,
+                        child: IconButton(
+                          icon: Icon(Icons.arrow_forward_ios, size: 40, color: Colors.deepOrange),
+                          onPressed: () {
+                            _carouselController.nextPage();
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
 
+                SizedBox(height: 15,),
                 Padding(
                   padding: const EdgeInsets.fromLTRB(15,0,15,0),
                   child: Row(
@@ -332,7 +484,7 @@ class _productsPageState extends State<productsPage> with TickerProviderStateMix
                         style: TextStyle(
                           fontFamily: 'Rowdies',
                           fontStyle: FontStyle.italic,
-                          fontSize: MediaQuery.of(context).size.width * 0.05,
+                          fontSize: MediaQuery.of(context).size.width * 0.07,
                           color: Colors.deepOrange,
                         ),
                       ),
@@ -365,14 +517,14 @@ class _productsPageState extends State<productsPage> with TickerProviderStateMix
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: screenLayout ? 4 : 5,
                     childAspectRatio: 0.8,
-                    crossAxisSpacing: 6.0,
+                    crossAxisSpacing: 4.0,
                     mainAxisSpacing: 6.0,
                   ),
                   /*gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 4  ,
                     childAspectRatio: 0.8,
                   ),*/
-                  itemCount: screenLayout ? 8 : 10,
+                  itemCount: screenLayout ? 11 : 10,
                   itemBuilder: (context, index) {
                     if (index < _prodCategory.length) {
                       return InkWell(
@@ -434,17 +586,44 @@ class _productsPageState extends State<productsPage> with TickerProviderStateMix
                   decoration: BoxDecoration(color: Colors.orange.shade50.withOpacity(0.7), borderRadius: BorderRadius.circular(15)),
                   child: Column(
                     children: [
-                      SizedBox(height: 20,),
+                      SizedBox(height: 15,),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Text("most", style: TextStyle(fontFamily: 'DancingScript', fontStyle: FontStyle.italic, letterSpacing: 2.5, fontWeight: FontWeight.w900, fontSize: MediaQuery.of(context).size.width * 0.09, color: Colors.deepOrange.shade300,),),
+                          Text(" ", style: TextStyle(fontFamily: 'DancingScript', fontStyle: FontStyle.italic, letterSpacing: 2.5, fontWeight: FontWeight.w900, fontSize: MediaQuery.of(context).size.width * 0.09, color: Colors.deepOrange.shade300,),),
                           SizedBox(width: 13,),
-                          Text("POPULAR", style: TextStyle(fontFamily: 'Rowdies', fontStyle: FontStyle.italic, fontSize: MediaQuery.of(context).size.width * 0.09, color: Colors.deepOrange,),),
-                        ],
+                          Center(
+                            child: Text(
+                              "Enyecontrols \nProducts",
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                fontFamily: 'Rowdies',
+                                fontStyle: FontStyle.italic,
+                                fontSize: MediaQuery.of(context).size.width * 0.08,
+                                color: Colors.deepOrange,
+                                shadows: [
+                                  Shadow(
+                                    blurRadius: 10.0,
+                                    color: Colors.deepOrangeAccent.withOpacity(0.1),
+                                    offset: Offset(0, 0),
+                                  ),
+                                  Shadow(
+                                    blurRadius: 20.0,
+                                    color: Colors.deepOrangeAccent.withOpacity(0.1),
+                                    offset: Offset(0, 0),
+                                  ),
+                                  Shadow(
+                                    blurRadius: 30.0,
+                                    color: Colors.deepOrangeAccent.withOpacity(0.1),
+                                    offset: Offset(0, 0),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),],
                       ),
 
-                      SizedBox(height: 20,),
+                      SizedBox(height: 15,),
                       productCarousel(
                         products: _products.where((product) => product.isPopular == "true").toList(),
                       ),
@@ -452,7 +631,7 @@ class _productsPageState extends State<productsPage> with TickerProviderStateMix
                   ),
                 ),
 
-                Container(
+              /*  Container(
                   child: CarouselSlider(
                     options: CarouselOptions(
                       autoPlay: true,
@@ -523,7 +702,7 @@ class _productsPageState extends State<productsPage> with TickerProviderStateMix
                         )
                     ).toList(),
                   ),
-                ),
+                ),*/
 
 
 

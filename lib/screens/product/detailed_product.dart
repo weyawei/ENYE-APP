@@ -96,3 +96,38 @@ class banner {
     );
   }
 }
+
+
+class news {
+  String id;
+  String title;
+  String description;
+  String content;
+  String news_image;
+  String content_image;
+  String status;
+  bool isExpanded;
+
+  news({
+    required this.id,
+    required this.title,
+    required this.description,
+    required this.content,
+    required this.news_image,
+    required this.content_image,
+    required this.status,
+    this.isExpanded = false,
+  });
+
+  factory news.fromJson(Map<String, dynamic> json) {
+    return news(
+      id: json['id'] as String,
+      title: json['title'] as String,
+      description: json['description'] as String,
+      content: json['content'] as String,
+      news_image: json['news_image'] as String,
+      content_image: json['content_image'] as String,
+      status: json['status'] as String,
+    );
+  }
+}
