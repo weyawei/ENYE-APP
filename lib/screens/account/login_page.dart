@@ -324,7 +324,7 @@ class _LoginPageState extends State<LoginPage> {
 
 
                     dynamic token = await SessionManager().get("token");
-                    TokenServices.updateToken(token.toString(), FirebaseAuth.instance.currentUser!.uid.toString()).then((result) {
+                    TokenServices.updateToken(token.toString(), user.email.toString()).then((result) {
                       if('success' == result){
                         print("Updated token successfully");
                       } else {
@@ -359,7 +359,7 @@ class _LoginPageState extends State<LoginPage> {
                     ));
 
                     dynamic token = await SessionManager().get("token");
-                    TokenServices.updateToken(token.toString(), FirebaseAuth.instance.currentUser!.uid.toString()).then((result) {
+                    TokenServices.updateToken(token.toString(), FirebaseAuth.instance.currentUser!.email.toString()).then((result) {
                       if('success' == result){
                         print("Updated token successfully");
                       } else {
