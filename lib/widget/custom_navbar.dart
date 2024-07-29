@@ -237,6 +237,20 @@ class _CustomNavBarState extends State<CustomNavBar> {
       return [
         PersistentBottomNavBarItem(
           icon: Icon(Icons.home, size: (screenHeight + screenWidth) / 40,),
+          // Column(
+          //   children: [
+          //     Icon(Icons.home, size: (screenHeight + screenWidth) / 40,),
+          //     Text(
+          //         "Home",
+          //         style:  GoogleFonts.poppins(
+          //             textStyle: TextStyle(
+          //               fontSize: fontExtraSmallSize,
+          //               decoration: TextDecoration.none,
+          //             )
+          //         )
+          //     )
+          //   ],
+          // ),
           title: ("Home"),
           activeColorPrimary: Colors.deepOrange,
           inactiveColorPrimary: Colors.deepOrange.withOpacity(0.5),
@@ -244,17 +258,41 @@ class _CustomNavBarState extends State<CustomNavBar> {
         ),
         PersistentBottomNavBarItem(
           icon: Icon(Dashboardicon.systems_nav, size: (screenHeight + screenWidth) / 40),
+          // Column(
+          //   children: [
+          //     Icon(Dashboardicon.systems_nav, size: (screenHeight + screenWidth) / 40),
+          //     Text(
+          //         "Systems",
+          //         style:  GoogleFonts.poppins(
+          //             textStyle: TextStyle(
+          //               fontSize: fontExtraSmallSize,
+          //               decoration: TextDecoration.none,
+          //             )
+          //         )
+          //     )
+          //   ],
+          // ),
           title: ("Systems"),
           activeColorPrimary: Colors.deepOrange,
           inactiveColorPrimary: Colors.deepOrange.withOpacity(0.5),
           textStyle: TextStyle(fontSize: fontExtraSmallSize, fontWeight: FontWeight.bold),
         ),
         PersistentBottomNavBarItem(
-          icon: Icon(
-            Icons.shopping_bag,
-            size: (screenHeight + screenWidth) / 35,
-            color: Colors.white,
-          ),
+          icon: Icon(Icons.shopping_bag,size: (screenHeight + screenWidth) / 40,),
+          // Column(
+          //   children: [
+          //     Icon(Icons.shopping_bag,size: (screenHeight + screenWidth) / 40,),
+          //     Text(
+          //       "Products",
+          //       style:  GoogleFonts.poppins(
+          //         textStyle: TextStyle(
+          //           fontSize: fontExtraSmallSize,
+          //           decoration: TextDecoration.none,
+          //         )
+          //       )
+          //     )
+          //   ],
+          // ),
           title: ("Products"),
           activeColorPrimary: Colors.deepOrange,
           inactiveColorPrimary: Colors.deepOrange.withOpacity(0.5),
@@ -262,6 +300,20 @@ class _CustomNavBarState extends State<CustomNavBar> {
         ),
         PersistentBottomNavBarItem(
           icon: Icon(Dashboardicon.projects_nav, size: (screenHeight + screenWidth) / 40),
+          // Column(
+          //   children: [
+          //     Icon(Dashboardicon.projects_nav, size: (screenHeight + screenWidth) / 40),
+          //     Text(
+          //         "Projects",
+          //         style:  GoogleFonts.poppins(
+          //             textStyle: TextStyle(
+          //               fontSize: fontExtraSmallSize,
+          //               decoration: TextDecoration.none,
+          //             )
+          //         )
+          //     )
+          //   ],
+          // ),
           title: ("Projects"),
           activeColorPrimary: Colors.deepOrange,
           inactiveColorPrimary: Colors.deepOrange.withOpacity(0.5),
@@ -269,6 +321,20 @@ class _CustomNavBarState extends State<CustomNavBar> {
         ),
         PersistentBottomNavBarItem(
           icon: Icon(Icons.person, size: (screenHeight + screenWidth) / 40),
+          // Column(
+          //   children: [
+          //     Icon(Icons.person, size: (screenHeight + screenWidth) / 40),
+          //     Text(
+          //         "Account",
+          //         style:  GoogleFonts.poppins(
+          //             textStyle: TextStyle(
+          //               fontSize: fontExtraSmallSize,
+          //               decoration: TextDecoration.none,
+          //             )
+          //         )
+          //     )
+          //   ],
+          // ),
           title: ("Account"),
           activeColorPrimary: Colors.deepOrange,
           inactiveColorPrimary: Colors.deepOrange.withOpacity(0.5),
@@ -296,14 +362,14 @@ class _CustomNavBarState extends State<CustomNavBar> {
       navBarHeight: kBottomNavigationBarHeight,
       items: _navBarsItems(),
       confineInSafeArea: true,
-      backgroundColor: Colors.white, // Default is Colors.white.
+      backgroundColor: Colors.white70, // Default is Colors.white.
       handleAndroidBackButtonPress: true, // Default is true.
       resizeToAvoidBottomInset: true, // This needs to be true if you want to move up the screen when keyboard appears. Default is true.
       stateManagement: true, // Default is true.
       hideNavigationBarWhenKeyboardShows: true, // Recommended to set 'resizeToAvoidBottomInset' as true while using this argument. Default is true.
       decoration: NavBarDecoration(
         borderRadius: BorderRadius.circular(1.0),
-        colorBehindNavBar: Colors.white,
+        colorBehindNavBar: Colors.white70,
       ),
       popAllScreensOnTapOfSelectedTab: true,
       popActionScreens: PopActionScreensType.all,
@@ -316,7 +382,7 @@ class _CustomNavBarState extends State<CustomNavBar> {
         curve: Curves.ease,
         duration: Duration(milliseconds: 200),
       ),
-      navBarStyle: NavBarStyle.style15, // Choose the nav bar style with this property.
+      navBarStyle: NavBarStyle.style6, // Choose the nav bar style with this property.
     );
 
      /* BottomAppBar(
