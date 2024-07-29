@@ -236,7 +236,7 @@ class _CustomNavBarState extends State<CustomNavBar> {
     List<PersistentBottomNavBarItem> _navBarsItems() {
       return [
         PersistentBottomNavBarItem(
-          icon: Icon(Icons.home, size: (screenHeight + screenWidth) / 40,),
+          icon: Icon(Icons.home, size: fontNormalSize * 1.9),
           // Column(
           //   children: [
           //     Icon(Icons.home, size: (screenHeight + screenWidth) / 40,),
@@ -257,7 +257,7 @@ class _CustomNavBarState extends State<CustomNavBar> {
           textStyle: TextStyle(fontSize: fontExtraSmallSize, fontWeight: FontWeight.bold),
         ),
         PersistentBottomNavBarItem(
-          icon: Icon(Dashboardicon.systems_nav, size: (screenHeight + screenWidth) / 40),
+          icon: Icon(Dashboardicon.systems_nav, size: fontNormalSize * 1.9),
           // Column(
           //   children: [
           //     Icon(Dashboardicon.systems_nav, size: (screenHeight + screenWidth) / 40),
@@ -278,7 +278,7 @@ class _CustomNavBarState extends State<CustomNavBar> {
           textStyle: TextStyle(fontSize: fontExtraSmallSize, fontWeight: FontWeight.bold),
         ),
         PersistentBottomNavBarItem(
-          icon: Icon(Icons.shopping_bag,size: (screenHeight + screenWidth) / 40,),
+          icon: Icon(Icons.shopping_bag,size: fontNormalSize * 1.9),
           // Column(
           //   children: [
           //     Icon(Icons.shopping_bag,size: (screenHeight + screenWidth) / 40,),
@@ -299,7 +299,7 @@ class _CustomNavBarState extends State<CustomNavBar> {
           textStyle: TextStyle(fontSize: fontExtraSmallSize, fontWeight: FontWeight.bold),
         ),
         PersistentBottomNavBarItem(
-          icon: Icon(Dashboardicon.projects_nav, size: (screenHeight + screenWidth) / 40),
+          icon: Icon(Dashboardicon.projects_nav, size: fontNormalSize * 1.9),
           // Column(
           //   children: [
           //     Icon(Dashboardicon.projects_nav, size: (screenHeight + screenWidth) / 40),
@@ -320,7 +320,8 @@ class _CustomNavBarState extends State<CustomNavBar> {
           textStyle: TextStyle(fontSize: fontExtraSmallSize, fontWeight: FontWeight.bold),
         ),
         PersistentBottomNavBarItem(
-          icon: Icon(Icons.person, size: (screenHeight + screenWidth) / 40),
+          contentPadding: fontExtraSmallSize * 1.5,
+          icon: Icon(Icons.person, size: fontNormalSize * 1.9),
           // Column(
           //   children: [
           //     Icon(Icons.person, size: (screenHeight + screenWidth) / 40),
