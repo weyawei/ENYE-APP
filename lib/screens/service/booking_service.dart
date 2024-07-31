@@ -21,13 +21,6 @@ class BookingSystem extends StatefulWidget {
 class _BookingSystemState extends State<BookingSystem> {
   void initState(){
     super.initState();
-    _services = [];
-    _ecCalendar = [];
-    _getServices();
-    _getEcCalendar();
-
-
-
     //calling session data
     checkSession().getUserSessionStatus().then((bool) {
       if (bool == true) {
@@ -245,7 +238,8 @@ class _BookingSystemState extends State<BookingSystem> {
     });
   }
 
-  addBooking() {
+  bool isLoading = false;
+  void addBooking() {
     double screenHeight = MediaQuery.of(context).size.height;
     double screenWidth = MediaQuery.of(context).size.width;
 
@@ -253,299 +247,252 @@ class _BookingSystemState extends State<BookingSystem> {
     var fontExtraSize = ResponsiveTextUtils.getExtraFontSize(screenWidth);
 
     if (_formKey.currentState!.validate()) {
-        generateCode();
-        showDialog(
-          context: context,
-          builder: (context) => AlertDialog(
-            title: Text(
-              'CONFIRMATION',
-              textAlign: TextAlign.center,
-              style: GoogleFonts.rowdies(
-                textStyle: TextStyle(
-                    fontSize: fontExtraSize,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.black54,
-                    letterSpacing: 0.8
-                ),
-              ),
-            ),
-            content: SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  SizedBox(height: screenHeight * 0.02),
-                  Text(
-                    'You have booked the following appointment:',
-                    textAlign: TextAlign.center,
-                    style: GoogleFonts.lato(
-                      textStyle: TextStyle(
-                          fontSize: fontNormalSize,
-                          color: Colors.black,
-                          fontWeight: FontWeight.bold,
-                          letterSpacing: 0.8
-                      ),
-                    ),
-                  ),
-                  SizedBox(height: screenHeight * 0.02),
-                  Text('Date Booked: ${DateFormat.yMMMd().format(DateTime.parse(selectedDate.toString()))}',
-                    style: GoogleFonts.lato(
-                      textStyle: TextStyle(
-                        fontSize: fontNormalSize,
-                        color: Colors.black,
-                        letterSpacing: 0.8
-                      ),
-                    ),
-                  ),
-                  SizedBox(height: screenHeight * 0.008),
-                  Text('Generated Code: $generatedCode',
-                    style: GoogleFonts.lato(
-                      textStyle: TextStyle(
-                          fontSize: fontNormalSize,
-                          color: Colors.black,
-                          letterSpacing: 0.8
-                      ),
-                    ),
-                  ),
-                  SizedBox(height: screenHeight * 0.008),
-                  Text(
-                    'Service: $selectedConcern',
-                    style: GoogleFonts.lato(
-                      textStyle: TextStyle(
-                          fontSize: fontNormalSize,
-                          color: Colors.black,
-                          letterSpacing: 0.8
-                      ),
-                    ),
-                  ),
-                  SizedBox(height: screenHeight * 0.008),
-                  Text(
-                    'Subject: ${subjectController.text}',
-                    style: GoogleFonts.lato(
-                      textStyle: TextStyle(
-                          fontSize: fontNormalSize,
-                          color: Colors.black,
-                          letterSpacing: 0.8
-                      ),
-                    ),
-                  ),
+      generateCode();
+      showDialog(
+        context: context,
+        builder: (context) {
+          bool isLoading = false;
 
-
-                SizedBox(height: screenHeight * 0.008),
-                Text(
-                  'Requestor: ${clientNameController.text}',
-                  style: GoogleFonts.lato(
+          return StatefulBuilder(
+            builder: (context, setState) {
+              return AlertDialog(
+                title: Text(
+                  'CONFIRMATION',
+                  textAlign: TextAlign.center,
+                  style: GoogleFonts.rowdies(
                     textStyle: TextStyle(
-                        fontSize: fontNormalSize,
-                        color: Colors.black,
-                        letterSpacing: 0.8
-                    ),
+                        fontSize: fontExtraSize,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black54,
+                        letterSpacing: 0.8),
                   ),
                 ),
-                  SizedBox(height: screenHeight * 0.008),
-                  Text(
-                    'Designated Position: ${clientPositionController.text}',
-                    style: GoogleFonts.lato(
-                      textStyle: TextStyle(
-                          fontSize: fontNormalSize,
-                          color: Colors.black,
-                          letterSpacing: 0.8
-                      ),
-                    ),
-                  ),
-                  SizedBox(height: screenHeight * 0.008),
-                  Text(
-                    'Problem/Concern: ${descriptionController.text}',
-                    style: GoogleFonts.lato(
-                      textStyle: TextStyle(
-                          fontSize: fontNormalSize,
-                          color: Colors.black,
-                          letterSpacing: 0.8
-                      ),
-                    ),
-                  ),
-
-                SizedBox(height: screenHeight * 0.008),
-                Text(
-                  'Remarks: ${clientRemarksController.text}',
-                  style: GoogleFonts.lato(
-                    textStyle: TextStyle(
-                        fontSize: fontNormalSize,
-                        color: Colors.black,
-                        letterSpacing: 0.8
-                    ),
-                  ),
-                ),
-
-              //    SizedBox(height: screenHeight * 0.05),
-
-
-
-
-
-
-                ClientInfo?.name == '' || ClientInfo?.name == null
-                ? Padding(
-                  padding: EdgeInsets.only(top: screenHeight * 0.008),
-                  child: Text(
-                    'Name: ${clientNameController.text}',
-                    style: GoogleFonts.lato(
-                      textStyle: TextStyle(
-                          fontSize: fontNormalSize,
-                          color: Colors.black,
-                          letterSpacing: 0.8
-                      ),
-                    ),
-                  ),
-                )
-                : SizedBox.shrink(),
-
-                Padding(
-                  padding: EdgeInsets.only(top: screenHeight * 0.008),
-                  child: Text(
-                    'Company Name: ${compnameController.text}',
-                    style: GoogleFonts.lato(
-                      textStyle: TextStyle(
-                          fontSize: fontNormalSize,
-                          color: Colors.black,
-                          letterSpacing: 0.8
-                      ),
-                    ),
-                  ),
-                ),
-
-                Padding(
-                  padding: EdgeInsets.only(top: screenHeight * 0.008),
-                  child: Text(
-                    'Location: ${locationController.text}',
-                    style: GoogleFonts.lato(
-                      textStyle: TextStyle(
-                          fontSize: fontNormalSize,
-                          color: Colors.black,
-                          letterSpacing: 0.8
-                      ),
-                    ),
-                  ),
-                ),
-
-                Padding(
-                  padding: EdgeInsets.only(top: screenHeight * 0.008),
-                  child: Text(
-                    'Project Name: ${projnameController.text}',
-                    style: GoogleFonts.lato(
-                      textStyle: TextStyle(
-                          fontSize: fontNormalSize,
-                          color: Colors.black,
-                          letterSpacing: 0.8
-                      ),
-                    ),
-                  ),
-                ),
-
-                ClientInfo?.contact_no == ''
-                  ? Padding(
-                      padding: EdgeInsets.only(top: screenHeight * 0.008),
-                      child: Text(
-                        'Contact #: ${contactController.text}',
+                content: SingleChildScrollView(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      SizedBox(height: screenHeight * 0.02),
+                      Text(
+                        'You have booked the following appointment:',
+                        textAlign: TextAlign.center,
                         style: GoogleFonts.lato(
                           textStyle: TextStyle(
                               fontSize: fontNormalSize,
                               color: Colors.black,
-                              letterSpacing: 0.8
+                              fontWeight: FontWeight.bold,
+                              letterSpacing: 0.8),
+                        ),
+                      ),
+                      SizedBox(height: screenHeight * 0.02),
+                      Text(
+                        'Date Booked: ${DateFormat.yMMMd().format(DateTime.parse(selectedDate.toString()))}',
+                        style: GoogleFonts.lato(
+                          textStyle: TextStyle(
+                              fontSize: fontNormalSize,
+                              color: Colors.black,
+                              letterSpacing: 0.8),
+                        ),
+                      ),
+                      SizedBox(height: screenHeight * 0.008),
+                      Text(
+                        'Generated Code: $generatedCode',
+                        style: GoogleFonts.lato(
+                          textStyle: TextStyle(
+                              fontSize: fontNormalSize,
+                              color: Colors.black,
+                              letterSpacing: 0.8),
+                        ),
+                      ),
+                      SizedBox(height: screenHeight * 0.008),
+                      Text(
+                        'Service: $selectedConcern',
+                        style: GoogleFonts.lato(
+                          textStyle: TextStyle(
+                              fontSize: fontNormalSize,
+                              color: Colors.black,
+                              letterSpacing: 0.8),
+                        ),
+                      ),
+                      SizedBox(height: screenHeight * 0.008),
+                      Text(
+                        'Subject: ${subjectController.text}',
+                        style: GoogleFonts.lato(
+                          textStyle: TextStyle(
+                              fontSize: fontNormalSize,
+                              color: Colors.black,
+                              letterSpacing: 0.8),
+                        ),
+                      ),
+                      SizedBox(height: screenHeight * 0.008),
+                      Text(
+                        'Requestor: ${clientNameController.text}',
+                        style: GoogleFonts.lato(
+                          textStyle: TextStyle(
+                              fontSize: fontNormalSize,
+                              color: Colors.black,
+                              letterSpacing: 0.8),
+                        ),
+                      ),
+                      SizedBox(height: screenHeight * 0.008),
+                      Text(
+                        'Designated Position: ${clientPositionController.text}',
+                        style: GoogleFonts.lato(
+                          textStyle: TextStyle(
+                              fontSize: fontNormalSize,
+                              color: Colors.black,
+                              letterSpacing: 0.8),
+                        ),
+                      ),
+                      SizedBox(height: screenHeight * 0.008),
+                      Text(
+                        'Problem/Concern: ${descriptionController.text}',
+                        style: GoogleFonts.lato(
+                          textStyle: TextStyle(
+                              fontSize: fontNormalSize,
+                              color: Colors.black,
+                              letterSpacing: 0.8),
+                        ),
+                      ),
+                      SizedBox(height: screenHeight * 0.008),
+                      Text(
+                        'Remarks: ${clientRemarksController.text}',
+                        style: GoogleFonts.lato(
+                          textStyle: TextStyle(
+                              fontSize: fontNormalSize,
+                              color: Colors.black,
+                              letterSpacing: 0.8),
+                        ),
+                      ),
+                      ClientInfo?.name == '' || ClientInfo?.name == null
+                          ? Padding(
+                        padding: EdgeInsets.only(top: screenHeight * 0.008),
+                        child: Text(
+                          'Name: ${clientNameController.text}',
+                          style: GoogleFonts.lato(
+                            textStyle: TextStyle(
+                                fontSize: fontNormalSize,
+                                color: Colors.black,
+                                letterSpacing: 0.8),
+                          ),
+                        ),
+                      )
+                          : SizedBox.shrink(),
+                      Padding(
+                        padding: EdgeInsets.only(top: screenHeight * 0.008),
+                        child: Text(
+                          'Company Name: ${compnameController.text}',
+                          style: GoogleFonts.lato(
+                            textStyle: TextStyle(
+                                fontSize: fontNormalSize,
+                                color: Colors.black,
+                                letterSpacing: 0.8),
                           ),
                         ),
                       ),
-                    )
-                  : SizedBox.shrink(),
-                ],
-              ),
-            ),
-            actions: [
-              TextButton(
-                onPressed: () {
-                  if (ClientInfo?.login == 'SIGNIN'){
-                    TechnicalDataServices.addBooking(
-                        generatedCode!, selectedConcern!,
-                        subjectController.text, descriptionController.text,
-                        clientNameController.text, clientPositionController.text,
-                        clientRemarksController.text,
-                        selectedDate.toString(), ClientInfo!.client_id,
-                        ClientInfo!.name, compnameController.text,
-                        locationController.text, projnameController.text,
-                        ClientInfo!.contact_no, ClientInfo!.email
-                    ).then((result) {
-                      if('success' == result){
-                        _getServices();
-                        custSnackbar(context, "Successfully booked.", Colors.green, Icons.check, Colors.greenAccent);
-                        clearFields();
-                        Navigator.of(context).pop();
-
-                      } else {
-                        custSnackbar(context, "Error occured...", Colors.redAccent, Icons.dangerous_rounded, Colors.white);
-                      }
-                    });
-                  } else if (ClientInfo?.login == 'GMAIL'){
-                    TechnicalDataServices.addBooking(
-                        generatedCode!, selectedConcern!,
-                        subjectController.text, descriptionController.text,
-                        clientNameController.text, clientPositionController.text,
-                        clientRemarksController.text,
-                        selectedDate.toString(), ClientInfo!.client_id,
-                        ClientInfo!.name, compnameController.text,
-                        locationController.text, projnameController.text,
-                        contactController.text, ClientInfo!.email
-                    ).then((result) {
-                      if('success' == result){
-                        _getServices();
-                        custSnackbar(context, "Successfully booked.", Colors.green, Icons.check, Colors.greenAccent);
-                        clearFields();
-                        Navigator.of(context).pop();
-
-                      } else {
-                        custSnackbar(context, "Error occured...", Colors.redAccent, Icons.dangerous_rounded, Colors.white);
-                      }
-                    });
-                  } else if (ClientInfo?.login == 'APPLE'){
-                    TechnicalDataServices.addBooking(
-                        generatedCode!, selectedConcern!,
-                        subjectController.text, descriptionController.text,
-                        clientNameController.text, clientPositionController.text,
-                        clientRemarksController.text,
-                        selectedDate.toString(), ClientInfo!.client_id,
-                        clientNameController.text, compnameController.text,
-                        locationController.text, projnameController.text,
-                        contactController.text, ClientInfo!.email
-                    ).then((result) {
-                      if('success' == result){
-                        _getServices();
-                        custSnackbar(context, "Successfully booked.", Colors.green, Icons.check, Colors.greenAccent);
-                        clearFields();
-                        Navigator.of(context).pop();
-
-                      } else {
-                        custSnackbar(context, "Error occured...", Colors.redAccent, Icons.dangerous_rounded, Colors.white);
-                      }
-                    });
-                  } else {
-                    custSnackbar(context, "Error occured...", Colors.redAccent, Icons.dangerous_rounded, Colors.white);
-                  }
-                },
-                child: Text(
-                  'OK',
-                  style: GoogleFonts.rowdies(
-                    textStyle: TextStyle(
-                        fontSize: fontExtraSize,
-                        color: Colors.deepOrange,
-                        letterSpacing: 0.8
-                    ),
+                      Padding(
+                        padding: EdgeInsets.only(top: screenHeight * 0.008),
+                        child: Text(
+                          'Location: ${locationController.text}',
+                          style: GoogleFonts.lato(
+                            textStyle: TextStyle(
+                                fontSize: fontNormalSize,
+                                color: Colors.black,
+                                letterSpacing: 0.8),
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(top: screenHeight * 0.008),
+                        child: Text(
+                          'Project Name: ${projnameController.text}',
+                          style: GoogleFonts.lato(
+                            textStyle: TextStyle(
+                                fontSize: fontNormalSize,
+                                color: Colors.black,
+                                letterSpacing: 0.8),
+                          ),
+                        ),
+                      ),
+                      ClientInfo?.contact_no == ''
+                          ? Padding(
+                        padding: EdgeInsets.only(top: screenHeight * 0.008),
+                        child: Text(
+                          'Contact #: ${contactController.text}',
+                          style: GoogleFonts.lato(
+                            textStyle: TextStyle(
+                                fontSize: fontNormalSize,
+                                color: Colors.black,
+                                letterSpacing: 0.8),
+                          ),
+                        ),
+                      )
+                          : SizedBox.shrink(),
+                    ],
                   ),
                 ),
-              ),
-            ],
-          ),
-        );
+                actions: [
+                  TextButton(
+                    onPressed: isLoading ? null : () async {
+                      setState(() {
+                        isLoading = true;
+                      });
+
+                      final String contactNumber = (ClientInfo?.login == 'SIGNIN' || ClientInfo?.login == 'APPLE')
+                          ? ClientInfo!.contact_no
+                          : contactController.text;
+
+                      String result = await TechnicalDataServices.addBooking(
+                        generatedCode!,
+                        selectedConcern!,
+                        subjectController.text,
+                        descriptionController.text,
+                        clientNameController.text,
+                        clientPositionController.text,
+                        clientRemarksController.text,
+                        selectedDate.toString(),
+                        ClientInfo!.client_id,
+                        ClientInfo!.name,
+                        compnameController.text,
+                        locationController.text,
+                        projnameController.text,
+                        contactNumber,
+                        ClientInfo!.email,
+                      );
+
+                      setState(() {
+                        isLoading = false;
+                      });
+
+                      if (result == 'success') {
+                        custSnackbar(context, "Successfully booked.", Colors.green, Icons.check, Colors.greenAccent);
+                        clearFields();
+                        Navigator.of(context).pop();
+                      } else {
+                        custSnackbar(context, "Error occurred...", Colors.redAccent, Icons.dangerous_rounded, Colors.white);
+                      }
+                    },
+                    child: isLoading
+                        ? CircularProgressIndicator()
+                        : Text(
+                      'OK',
+                      style: GoogleFonts.rowdies(
+                        textStyle: TextStyle(
+                            fontSize: fontExtraSize,
+                            color: Colors.deepOrange,
+                            letterSpacing: 0.8),
+                      ),
+                    ),
+                  ),
+                ],
+              );
+            },
+          );
+        },
+      );
     }
   }
+
 
   @override
   Widget build(BuildContext context) {
