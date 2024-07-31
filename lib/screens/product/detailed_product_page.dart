@@ -663,7 +663,7 @@ class _detailedProductPageState extends State<detailedProductPage> with TickerPr
                     title: Container(
                       padding: EdgeInsets.all(10), // Adjust padding as needed
                       decoration: BoxDecoration(
-                        color: Colors.transparent.withOpacity(0.2), // Background color
+                        color: Colors.grey.withOpacity(0.2), // Background color
                         borderRadius: BorderRadius.circular(5), // Optional: Adds rounded corners
                       ),
                       child: Text(
@@ -764,7 +764,7 @@ class _detailedProductPageState extends State<detailedProductPage> with TickerPr
                      title: Container(
                         padding: EdgeInsets.all(10), // Adjust padding as needed
                         decoration: BoxDecoration(
-                         color: Colors.black.withOpacity(0.2), // Background color
+                         color: Colors.grey.withOpacity(0.2), // Background color
                            borderRadius: BorderRadius.circular(5), // Optional: Adds rounded corners
                         ),
 

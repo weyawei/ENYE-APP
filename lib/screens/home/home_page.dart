@@ -17,6 +17,7 @@ import 'package:video_player/video_player.dart';
 
 import '../../config/api_connection.dart';
 import '../../widget/widgets.dart';
+import '../projects/project_page2.dart';
 import '../screens.dart';
 import 'news.dart';
 
@@ -603,7 +604,7 @@ class _homePageState extends State<homePage> with TickerProviderStateMixin{
                             onTap: () {
                               Navigator.push(
                                 context,
-                                MaterialPageRoute(builder: (context) => ProjectsPage()), // Replace YourNewPage with the page you want to navigate to
+                                MaterialPageRoute(builder: (context) => ProjectPage2()), // Replace YourNewPage with the page you want to navigate to
                               );
                             },
                             child: Icon(

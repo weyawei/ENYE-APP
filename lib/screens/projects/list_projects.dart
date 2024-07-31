@@ -3,6 +3,7 @@ class Projects {
   String title;
   String images;
   String category;
+  String proj_system;
   String description1;
   String description2;
   String projCatalogs;
@@ -14,6 +15,7 @@ class Projects {
     required this.title,
     required this.images,
     required this.category,
+    required this.proj_system,
     required this.description1,
     required this.description2,
     required this.projCatalogs,
@@ -27,6 +29,7 @@ class Projects {
       title: json['proj_name'] as String,
       images: json['proj_image'] as String,
       category: json['projCateg_id'] as String,
+      proj_system: json['proj_system'] as String,
       description1: json['proj_sys'] as String,
       description2: json['proj_description'] as String,
       projCatalogs: json['proj_catalogs'] as String,

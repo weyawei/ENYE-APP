@@ -588,20 +588,20 @@ class _productsPageState extends State<productsPage> with TickerProviderStateMix
                     children: [
                       SizedBox(height: 15,),
                       Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.start,
                         children: [
                           Text(" ", style: TextStyle(fontFamily: 'DancingScript', fontStyle: FontStyle.italic, letterSpacing: 2.5, fontWeight: FontWeight.w900, fontSize: MediaQuery.of(context).size.width * 0.09, color: Colors.deepOrange.shade300,),),
                           SizedBox(width: 13,),
                           Center(
                             child: Text(
-                              "Enyecontrols \nProducts",
+                              "Products",
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                 fontFamily: 'Rowdies',
                                 fontStyle: FontStyle.italic,
                                 fontSize: MediaQuery.of(context).size.width * 0.08,
                                 color: Colors.deepOrange,
-                                shadows: [
+                               /* shadows: [
                                   Shadow(
                                     blurRadius: 10.0,
                                     color: Colors.deepOrangeAccent.withOpacity(0.1),
@@ -617,7 +617,7 @@ class _productsPageState extends State<productsPage> with TickerProviderStateMix
                                     color: Colors.deepOrangeAccent.withOpacity(0.1),
                                     offset: Offset(0, 0),
                                   ),
-                                ],
+                                ],*/
                               ),
                             ),
                           ),],
