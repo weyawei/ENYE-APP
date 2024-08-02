@@ -1,8 +1,10 @@
 import 'dart:math';
+import 'dart:ui';
 
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:enye_app/screens/product/product_category_list_page.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:speech_to_text/speech_to_text.dart' as stt;
@@ -218,15 +220,15 @@ class _productsPageState extends State<productsPage> with TickerProviderStateMix
 
     bool screenLayout = ResponsiveTextUtils.getLayout(screenWidth);
 
+    var fontSmallSize = ResponsiveTextUtils.getSmallFontSize(screenWidth);
+    var fontNormalSize = ResponsiveTextUtils.getNormalFontSize(screenWidth);
     var fontExtraSize = ResponsiveTextUtils.getExtraFontSize(screenWidth);
 
   //  _filteredprodCategory = _prodCategory.where((productCategory) => productCategory.id == widget.category.id).toList();
 
     return GestureDetector(
-      // onTap callback will be triggered when tapping anywhere on the screen
       onTap: () {
-        // Remove keyboard focus when tapping outside the text field
-        handleScreenTap();
+        FocusScope.of(context).unfocus();
       },
       child: Scaffold(
      //   appBar: CustomAppBar(title: 'PRODUCTS', imagePath: 'assets/logo/enyecontrols.png', appBarHeight: MediaQuery.of(context).size.height * 0.05,),
@@ -243,245 +245,254 @@ class _productsPageState extends State<productsPage> with TickerProviderStateMix
           },
             child: ListView(
               children: [
-                Padding(
-                  padding: const EdgeInsets.all(1.0),
-                  child: TextField(
-                    focusNode: searchFocusNode,
-                    controller: searchController,
-                    decoration: InputDecoration(
-                      labelText: 'Search name of products',
-		    labelStyle: TextStyle(
-			color: Colors.black,
-			fontSize: MediaQuery.of(context).size.width * 0.03,
-			fontStyle: FontStyle.italic,
-			),
-                      prefixIcon: Icon(Icons.search, size: MediaQuery.of(context).size.width * 				0.06,),
-                      suffixIcon: IconButton(
-                       /* icon: Icon(_isListening ? Icons.mic_off : Icons.mic),
-                        onPressed: _isListening ? _stopListening : _showStartSpeakingDialog,*/
-
-                        icon: Icon(Icons.mic, size: MediaQuery.of(context).size.width * 0.06,),
-                        onPressed:  (){
-                          _startListening();
-                          _showStartSpeakingDialog();
+                Stack(
+                  children: [
+                    CarouselSlider(
+                      carouselController: _carouselController,
+                      options: CarouselOptions(
+                        autoPlay: false,
+                        aspectRatio: 1.45,
+                        viewportFraction: 1,
+                        enlargeCenterPage: true,
+                        enlargeStrategy: CenterPageEnlargeStrategy.height,
+                        onPageChanged: (index, reason) {
+                          setState(() {
+                            _currentIndex = index;
+                          });
                         },
-
                       ),
-                    ),
-                    onChanged: (value) {
-                      filterProducts(value);
-                     // filterProducts(_text);
-
-                      setState(() {
-                        visibleProductCount = 10;
-                      });
-                    },
-                  ),
-                ),
-                if (searchPerformed && searchResults.isNotEmpty)
-                  Visibility(
-                    visible: searchResults.isNotEmpty,
-                    child: ListView.builder(
-                        shrinkWrap: true,
-                        physics: NeverScrollableScrollPhysics(),
-                        //itemCount: searchResults.length,
-                        itemCount: searchResults.length < visibleProductCount
-                            ? searchResults.length
-                            : visibleProductCount,
-                        itemBuilder: (context, index) {
-                          final product = searchResults[index];
-                          productCategory prodCategory = _prodCategory.where((element) => element.id == searchResults[index].category_id).elementAt(0);
-
-                          return Center(
-                              child: InkWell(
-                                onTap: () {
+                      items: activeBanners.map((bann) =>
+                          InkWell(
+                            onTap: () {
+                              /* setState(() {
                                   PersistentNavBarNavigator.pushNewScreenWithRouteSettings(
                                     context,
-                                    settings: RouteSettings(name: detailedProductPage.routeName),
-                                    // screen: detailedProductPage(products: widget.products[index],),
-                                    screen: ProductItemScreen(products: product, category: prodCategory),
+                                    settings: RouteSettings(name: listProductsPage.routeName),
+                                    screen: listProductsPage(prodSubCat: productCategory,),
                                     withNavBar: true,
                                     pageTransitionAnimation: PageTransitionAnimation.cupertino,
                                   );
-
-                                  // PersistentNavBarNavigator
-                                  //     .pushNewScreenWithRouteSettings(
-                                  //   context,
-                                  //   settings: RouteSettings(
-                                  //       name: detailedProductPage.routeName,
-                                  //       arguments: {product.name: product}),
-                                  //   screen: detailedProductPage(products: product,),
-                                  //   withNavBar: true,
-                                  //   pageTransitionAnimation: PageTransitionAnimation
-                                  //       .cupertino,
-                                  // );
-                                  // ProductCarouselCard(product: categoryProducts[index]);
-                                },
-
-                                child: ListTile(
-                                  title: Text(product.name, style: TextStyle(fontSize: MediaQuery.of(context).size.width * 0.03),),
-                                  // Add additional widgets or customize the display of each product
-                                ),
-                              )
-                          );
-
-                        }
+                                });*/
+                            },
+                            child: Container(
+                              color: Colors.white,
+                              child: Stack(
+                                children: <Widget>[
+                                  Image.network(
+                                    //"${API.prodCategIcon + widget.productcategory.icon}",
+                                    "${API.prodCat + bann.banner_image}",
+                                    fit: BoxFit.fill,
+                                    width: screenWidth,
+                                    height: screenHeight * 0.5,
+                                  ),
+                                  Positioned(
+                                    bottom: 0.0,
+                                    left: 0.0,
+                                    right: 0.0,
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                        gradient: LinearGradient(
+                                          colors: [
+                                            Color.fromARGB(200, 0, 0, 0),
+                                            Color.fromARGB(0, 0, 0, 0),
+                                          ],
+                                          begin: Alignment.bottomCenter,
+                                          end: Alignment.topCenter,
+                                        ),
+                                      ),
+                                      /* padding:
+                                          EdgeInsets.symmetric(vertical: 5.0, horizontal: 0.0),
+                                          child: Text(
+                                            productCategory.name,
+                                            style: TextStyle(
+                                              fontSize: MediaQuery.of(context).size.width * 0.025,
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),*/
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          )
+                      ).toList(),
                     ),
-                  ),
 
-                if (!searchPerformed && searchResults.isEmpty)
-                  Visibility(
-                    visible: displayedProducts.isNotEmpty,
-                    child: ListView.builder(
-                      shrinkWrap: true,
-                      physics: NeverScrollableScrollPhysics(),
-                      itemCount: displayedProducts.length,
-                      itemBuilder: (context, index) {
-                        final product = displayedProducts[index];
-                        if (index == displayedProducts.length - 1) {
-                          if (displayedProducts.length < visibleProductCount) {
-                            WidgetsBinding.instance!.addPostFrameCallback((_) {
-                              loadMoreProducts();
-                            });
-                          }
-                        }
-                      },
-                    ),
-                  ),
-
-                SizedBox(height: 5,),
-                Container(
-                  padding: EdgeInsets.all(0.01),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(8.0),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.grey.withOpacity(0.5),
-                        spreadRadius: 2,
-                        blurRadius: 7,
-                        offset: Offset(0, 3), // changes position of shadow
-                      ),
-                    ],
-                  ),
-                  child: Stack(
-                    children: [
-                      CarouselSlider(
-                        carouselController: _carouselController,
-                        options: CarouselOptions(
-                          autoPlay: false,
-                          aspectRatio: 1.8,
-                          viewportFraction: 1.03,
-                          enlargeCenterPage: true,
-                          enlargeStrategy: CenterPageEnlargeStrategy.height,
-                          onPageChanged: (index, reason) {
+                    Positioned(
+                      top: 10.0,
+                      left: 16.0,
+                      right: 16.0,
+                      child: Container(
+                        padding: EdgeInsets.symmetric(vertical: 2.0), // Adjusted padding
+                        decoration: BoxDecoration(
+                          color: Colors.white.withOpacity(0.5),
+                          borderRadius: BorderRadius.circular(8.0),
+                        ),
+                        child: TextField(
+                          focusNode: searchFocusNode,
+                          controller: searchController,
+                          decoration: InputDecoration(
+                            filled: true,
+                            fillColor: Colors.white.withOpacity(0.5),
+                            labelText: 'Search name of products',
+                            labelStyle: GoogleFonts.poppins(
+                              textStyle: TextStyle(
+                                letterSpacing: 1.2,
+                                color: Colors.black26,
+                                fontWeight: FontWeight.bold,
+                                fontSize: fontSmallSize,
+                              ),
+                            ),
+                            prefixIcon: Icon(
+                              Icons.search,
+                              size: fontSmallSize * 1.5, // Reduced icon size
+                              color: Colors.black.withOpacity(0.6),
+                            ),
+                            suffixIcon: IconButton(
+                              icon: Icon(
+                                Icons.mic,
+                                size: fontSmallSize * 1.5, // Reduced icon size
+                                color: Colors.black.withOpacity(0.6),
+                              ),
+                              onPressed: () {
+                                _startListening();
+                                _showStartSpeakingDialog();
+                              },
+                            ),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(8.0),
+                              borderSide: BorderSide.none,
+                            ),
+                            contentPadding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
+                          ),
+                          onChanged: (value) {
+                            filterProducts(value);
                             setState(() {
-                              _currentIndex = index;
+                              visibleProductCount = 10;
                             });
                           },
                         ),
-                        items: activeBanners.map((bann) =>
-                            InkWell(
-                              onTap: () {
-                                /* setState(() {
-                                    PersistentNavBarNavigator.pushNewScreenWithRouteSettings(
-                                      context,
-                                      settings: RouteSettings(name: listProductsPage.routeName),
-                                      screen: listProductsPage(prodSubCat: productCategory,),
-                                      withNavBar: true,
-                                      pageTransitionAnimation: PageTransitionAnimation.cupertino,
-                                    );
-                                  });*/
-                              },
-                              child: Container(
-                                color: Colors.white,
-                                margin: EdgeInsets.symmetric(horizontal: 5.0, vertical: 0.1),
-                                child: ClipRRect(
-                                  borderRadius: BorderRadius.all(Radius.circular(5.0)),
-                                  child: Stack(
-                                    children: <Widget>[
-                                      Image.network(
-                                        //"${API.prodCategIcon + widget.productcategory.icon}",
-                                        "${API.prodCat + bann.banner_image}",
-                                        fit: BoxFit.fill,
-                                        width: MediaQuery.of(context).size.width,
-                                        height: MediaQuery.of(context).size.height * 0.3,
-                                      ),
-                                      Positioned(
-                                        bottom: 0.0,
-                                        left: 0.0,
-                                        right: 0.0,
-                                        child: Container(
-                                          decoration: BoxDecoration(
-                                            gradient: LinearGradient(
-                                              colors: [
-                                                Color.fromARGB(200, 0, 0, 0),
-                                                Color.fromARGB(0, 0, 0, 0),
-                                              ],
-                                              begin: Alignment.bottomCenter,
-                                              end: Alignment.topCenter,
-                                            ),
+                      ),
+                    ),
+
+                    Positioned(
+                      bottom: 10.0,
+                      left: 0.0,
+                      right: 0.0,
+                      child: Center(
+                        child: AnimatedSmoothIndicator(
+                          activeIndex: _currentIndex,
+                          count: activeBanners.length,
+                          effect: ScrollingDotsEffect(
+                            activeDotColor: Colors.blueAccent,
+                            dotColor: Colors.grey,
+                            dotHeight: 10,
+                            dotWidth: 10,
+                          ),
+                        ),
+                      ),
+                    ),
+                    Positioned(
+                      top: 0,
+                      bottom: 0,
+                      left: 10,
+                      child: IconButton(
+                        icon: Icon(Icons.arrow_back_ios_new, size: 40, color: Colors.deepOrange),
+                        onPressed: () {
+                          _carouselController.previousPage();
+                        },
+                      ),
+                    ),
+                    Positioned(
+                      top: 0,
+                      bottom: 0,
+                      right: 10,
+                      child: IconButton(
+                        icon: Icon(Icons.arrow_forward_ios, size: 40, color: Colors.deepOrange),
+                        onPressed: () {
+                          _carouselController.nextPage();
+                        },
+                      ),
+                    ),
+
+
+                    if (searchPerformed && searchResults.isNotEmpty)
+                      Positioned(
+                        top: 61.0,
+                        left: 16.0,
+                        right: 16.0,
+                        child: Visibility(
+                          visible: searchResults.isNotEmpty,
+                          child: Container(
+                            height: MediaQuery.of(context).size.height * 0.2, // Adjusted height
+                            color: Colors.white.withOpacity(0.9),
+                            child: Scrollbar(
+                              thumbVisibility: true,
+                              thickness: 10.0,
+                              radius: Radius.circular(8.0),
+                              child: ListView.builder(
+                                shrinkWrap: true,
+                                physics: AlwaysScrollableScrollPhysics(),
+                                itemCount: searchResults.length < visibleProductCount
+                                    ? searchResults.length
+                                    : visibleProductCount,
+                                itemBuilder: (context, index) {
+                                  final product = searchResults[index];
+                                  productCategory prodCategory = _prodCategory.where(
+                                          (element) => element.id == searchResults[index].category_id)
+                                      .elementAt(0);
+
+                                  return Center(
+                                    child: InkWell(
+                                      onTap: () {
+                                        PersistentNavBarNavigator.pushNewScreenWithRouteSettings(
+                                          context,
+                                          settings: RouteSettings(name: detailedProductPage.routeName),
+                                          screen: ProductItemScreen(products: product, category: prodCategory),
+                                          withNavBar: true,
+                                          pageTransitionAnimation: PageTransitionAnimation.cupertino,
+                                        );
+                                      },
+                                      child: ListTile(
+                                        title: Text(
+                                          product.name,
+                                          style: TextStyle(
+                                            fontSize: fontSmallSize,
+                                            fontWeight: FontWeight.bold,
+                                            letterSpacing: 1.2,
                                           ),
-                                          /* padding:
-                                              EdgeInsets.symmetric(vertical: 5.0, horizontal: 0.0),
-                                              child: Text(
-                                                productCategory.name,
-                                                style: TextStyle(
-                                                  fontSize: MediaQuery.of(context).size.width * 0.025,
-                                                  color: Colors.white,
-                                                  fontWeight: FontWeight.bold,
-                                                ),
-                                              ),*/
                                         ),
                                       ),
-                                    ],
-                                  ),
-                                ),
+                                    ),
+                                  );
+                                },
                               ),
-                            )
-                        ).toList(),
-                      ),
-                      Positioned(
-                        bottom: 10.0,
-                        left: 0.0,
-                        right: 0.0,
-                        child: Center(
-                          child: AnimatedSmoothIndicator(
-                            activeIndex: _currentIndex,
-                            count: activeBanners.length,
-                            effect: ScrollingDotsEffect(
-                              activeDotColor: Colors.blueAccent,
-                              dotColor: Colors.grey,
-                              dotHeight: 10,
-                              dotWidth: 10,
                             ),
                           ),
                         ),
                       ),
-                      Positioned(
-                        top: 0,
-                        bottom: 0,
-                        left: 10,
-                        child: IconButton(
-                          icon: Icon(Icons.arrow_back_ios_new, size: 40, color: Colors.deepOrange),
-                          onPressed: () {
-                            _carouselController.previousPage();
+
+                    if (!searchPerformed && searchResults.isEmpty)
+                      Visibility(
+                        visible: displayedProducts.isNotEmpty,
+                        child: ListView.builder(
+                          shrinkWrap: true,
+                          physics: NeverScrollableScrollPhysics(),
+                          itemCount: displayedProducts.length,
+                          itemBuilder: (context, index) {
+                            final product = displayedProducts[index];
+                            if (index == displayedProducts.length - 1) {
+                              if (displayedProducts.length < visibleProductCount) {
+                                WidgetsBinding.instance!.addPostFrameCallback((_) {
+                                  loadMoreProducts();
+                                });
+                              }
+                            }
                           },
                         ),
                       ),
-                      Positioned(
-                        top: 0,
-                        bottom: 0,
-                        right: 10,
-                        child: IconButton(
-                          icon: Icon(Icons.arrow_forward_ios, size: 40, color: Colors.deepOrange),
-                          onPressed: () {
-                            _carouselController.nextPage();
-                          },
-                        ),
-                      ),
-                    ],
-                  ),
+                  ],
                 ),
 
                 SizedBox(height: 15,),
