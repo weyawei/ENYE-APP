@@ -68,8 +68,14 @@ class _listProductsPageState extends State<listProductsPage> with TickerProvider
 
   @override
   Widget build(BuildContext context) {
+    double screenHeight = MediaQuery.of(context).size.height;
+    double screenWidth = MediaQuery.of(context).size.width;
+
+    var fontXXSize = ResponsiveTextUtils.getXXFontSize(screenWidth);
+    var fontXXXSize = ResponsiveTextUtils.getXXXFontSize(screenWidth);
+
     return Scaffold(
-        appBar: CustomAppBar(title: '', imagePath: 'assets/logo/enyecontrols.png', appBarHeight: MediaQuery.of(context).size.height * 0.05,),
+        appBar: CustomAppBar(title: '', imagePath: 'assets/logo/enyecontrols.png', appBarHeight: screenHeight * 0.05,),
         body: _isLoadingProd
             ? Center(child: SpinningContainer(controller: _controller),)
             : RefreshIndicator(
@@ -84,11 +90,23 @@ class _listProductsPageState extends State<listProductsPage> with TickerProvider
             children: [
               SizedBox(height: 25,),
               Text(
-                'Type of ${widget.prodSubCat.name}'.toUpperCase(),
+                '${widget.prodSubCat.name}'.toUpperCase(),
                 style: TextStyle(
-                  fontSize: MediaQuery.of(context).size.width * 0.03,
+                  fontSize: fontXXXSize,
+                  letterSpacing: 1.2,
                   fontFamily: 'Rowdies',
-                  color: Colors.deepOrange,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.grey.shade600,
+                  shadows: [
+                    Shadow(
+                      offset: Offset(-1.5, -1.5),
+                      color: Colors.white,
+                    ),
+                    Shadow(
+                      offset: Offset(1.5, 1.5),
+                      color: Colors.black38,
+                    ),
+                  ],
                 ),
                 textAlign: TextAlign.center,
               ),

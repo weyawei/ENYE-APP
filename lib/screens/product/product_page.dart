@@ -13,6 +13,7 @@ import '../../widget/widgets.dart';
 import '../products/category_model.dart';
 import '../products/product_model.dart';
 import '../screens.dart';
+import 'detailed_product_page2.dart';
 
 class productsPage extends StatefulWidget {
   static const String routeName = '/products';
@@ -97,7 +98,7 @@ class _productsPageState extends State<productsPage> with TickerProviderStateMix
     } else {
       final filteredProducts = _products
           .where((product) =>
-          product.name.toLowerCase().contains(searchText.toLowerCase()))
+          product.name.toLowerCase().contains(searchText.toLowerCase()) || product.prod_desc.toLowerCase().contains(searchText.toLowerCase()))
           .toList();
       setState(() {
         searchResults = filteredProducts;
@@ -135,7 +136,7 @@ class _productsPageState extends State<productsPage> with TickerProviderStateMix
   _getProdCategory(){
     productService.getProdCategory().then((productCategory){
       setState(() {
-        _prodCategory = productCategory.where((element) => element.status == "Active").toList();
+        _prodCategory = productCategory;
       });
       _isLoadingCategory = false;
       print("Length ${productCategory.length}");
@@ -212,13 +213,11 @@ class _productsPageState extends State<productsPage> with TickerProviderStateMix
 
    // _prodCategory.shuffle();
 
-	double screenHeight = MediaQuery.of(context).size.height;
-        double screenWidth = MediaQuery.of(context).size.width;
+	  double screenHeight = MediaQuery.of(context).size.height;
+    double screenWidth = MediaQuery.of(context).size.width;
 
-        bool screenLayout = ResponsiveTextUtils.getLayout(screenWidth);
+    bool screenLayout = ResponsiveTextUtils.getLayout(screenWidth);
 
-	var fontSmallSize = ResponsiveTextUtils.getSmallFontSize(screenWidth);
-    var fontNormalSize = ResponsiveTextUtils.getNormalFontSize(screenWidth);
     var fontExtraSize = ResponsiveTextUtils.getExtraFontSize(screenWidth);
 
   //  _filteredprodCategory = _prodCategory.where((productCategory) => productCategory.id == widget.category.id).toList();
@@ -291,20 +290,31 @@ class _productsPageState extends State<productsPage> with TickerProviderStateMix
                             : visibleProductCount,
                         itemBuilder: (context, index) {
                           final product = searchResults[index];
+                          productCategory prodCategory = _prodCategory.where((element) => element.id == searchResults[index].category_id).elementAt(0);
+
                           return Center(
                               child: InkWell(
                                 onTap: () {
-                                  PersistentNavBarNavigator
-                                      .pushNewScreenWithRouteSettings(
+                                  PersistentNavBarNavigator.pushNewScreenWithRouteSettings(
                                     context,
-                                    settings: RouteSettings(
-                                        name: detailedProductPage.routeName,
-                                        arguments: {product.name: product}),
-                                    screen: detailedProductPage(products: product,),
+                                    settings: RouteSettings(name: detailedProductPage.routeName),
+                                    // screen: detailedProductPage(products: widget.products[index],),
+                                    screen: ProductItemScreen(products: product, category: prodCategory),
                                     withNavBar: true,
-                                    pageTransitionAnimation: PageTransitionAnimation
-                                        .cupertino,
+                                    pageTransitionAnimation: PageTransitionAnimation.cupertino,
                                   );
+
+                                  // PersistentNavBarNavigator
+                                  //     .pushNewScreenWithRouteSettings(
+                                  //   context,
+                                  //   settings: RouteSettings(
+                                  //       name: detailedProductPage.routeName,
+                                  //       arguments: {product.name: product}),
+                                  //   screen: detailedProductPage(products: product,),
+                                  //   withNavBar: true,
+                                  //   pageTransitionAnimation: PageTransitionAnimation
+                                  //       .cupertino,
+                                  // );
                                   // ProductCarouselCard(product: categoryProducts[index]);
                                 },
 
@@ -374,14 +384,14 @@ class _productsPageState extends State<productsPage> with TickerProviderStateMix
                             InkWell(
                               onTap: () {
                                 /* setState(() {
-                      PersistentNavBarNavigator.pushNewScreenWithRouteSettings(
-                        context,
-                        settings: RouteSettings(name: listProductsPage.routeName),
-                        screen: listProductsPage(prodSubCat: productCategory,),
-                        withNavBar: true,
-                        pageTransitionAnimation: PageTransitionAnimation.cupertino,
-                      );
-                    });*/
+                                    PersistentNavBarNavigator.pushNewScreenWithRouteSettings(
+                                      context,
+                                      settings: RouteSettings(name: listProductsPage.routeName),
+                                      screen: listProductsPage(prodSubCat: productCategory,),
+                                      withNavBar: true,
+                                      pageTransitionAnimation: PageTransitionAnimation.cupertino,
+                                    );
+                                  });*/
                               },
                               child: Container(
                                 color: Colors.white,
@@ -413,15 +423,15 @@ class _productsPageState extends State<productsPage> with TickerProviderStateMix
                                             ),
                                           ),
                                           /* padding:
-                              EdgeInsets.symmetric(vertical: 5.0, horizontal: 0.0),
-                              child: Text(
-                                productCategory.name,
-                                style: TextStyle(
-                                  fontSize: MediaQuery.of(context).size.width * 0.025,
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),*/
+                                              EdgeInsets.symmetric(vertical: 5.0, horizontal: 0.0),
+                                              child: Text(
+                                                productCategory.name,
+                                                style: TextStyle(
+                                                  fontSize: MediaQuery.of(context).size.width * 0.025,
+                                                  color: Colors.white,
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                              ),*/
                                         ),
                                       ),
                                     ],
@@ -526,7 +536,9 @@ class _productsPageState extends State<productsPage> with TickerProviderStateMix
                   ),*/
                   itemCount: screenLayout ? 11 : 10,
                   itemBuilder: (context, index) {
-                    if (index < _prodCategory.length) {
+                    List<productCategory> category = _prodCategory.where((element) => element.status == "Active").toList();
+
+                    if (index < category.length) {
                       return InkWell(
                         onTap: () {
                           setState(() {
@@ -536,7 +548,7 @@ class _productsPageState extends State<productsPage> with TickerProviderStateMix
                               settings: RouteSettings(
                                   name: listProductsPage.routeName),
                               screen: listProductsPage(
-                                  prodSubCat: _prodCategory[index]),
+                                  prodSubCat: category[index]),
                               withNavBar: true,
                               pageTransitionAnimation: PageTransitionAnimation
                                   .cupertino,
@@ -556,15 +568,15 @@ class _productsPageState extends State<productsPage> with TickerProviderStateMix
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Image.network(
-                                "${API.prodCategIcon + _prodCategory[index].icon}",
-                                height: MediaQuery.of(context).size.width * 0.2, // Adjust as needed
-                                width: MediaQuery.of(context).size.width * 0.15, // Adjust as needed
+                                "${API.prodCategIcon + category[index].icon}",
+                                height: fontExtraSize * 4, // Adjust as needed
+                                width: fontExtraSize * 4, // Adjust as needed
                               ),
                               // SizedBox(height: 15.0, width: 15,),
                               Flexible(
                                 child: Text(
                                   textAlign: TextAlign.center,
-                                  _prodCategory[index].name,
+                                  category[index].name,
                                   style: TextStyle(
                                     fontSize: MediaQuery.of(context).size.width * 0.028,
                                     color: Colors.black,
@@ -587,40 +599,53 @@ class _productsPageState extends State<productsPage> with TickerProviderStateMix
                   child: Column(
                     children: [
                       SizedBox(height: 15,),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Text(" ", style: TextStyle(fontFamily: 'DancingScript', fontStyle: FontStyle.italic, letterSpacing: 2.5, fontWeight: FontWeight.w900, fontSize: MediaQuery.of(context).size.width * 0.09, color: Colors.deepOrange.shade300,),),
-                          SizedBox(width: 13,),
-                          Center(
-                            child: Text(
-                              "Products",
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                fontFamily: 'Rowdies',
-                                fontStyle: FontStyle.italic,
-                                fontSize: MediaQuery.of(context).size.width * 0.08,
-                                color: Colors.deepOrange,
-                               /* shadows: [
-                                  Shadow(
-                                    blurRadius: 10.0,
-                                    color: Colors.deepOrangeAccent.withOpacity(0.1),
-                                    offset: Offset(0, 0),
-                                  ),
-                                  Shadow(
-                                    blurRadius: 20.0,
-                                    color: Colors.deepOrangeAccent.withOpacity(0.1),
-                                    offset: Offset(0, 0),
-                                  ),
-                                  Shadow(
-                                    blurRadius: 30.0,
-                                    color: Colors.deepOrangeAccent.withOpacity(0.1),
-                                    offset: Offset(0, 0),
-                                  ),
-                                ],*/
-                              ),
-                            ),
-                          ),],
+                      // Row(
+                      //   mainAxisAlignment: MainAxisAlignment.center,
+                      //   children: [
+                      //     Text(" ", style: TextStyle(fontFamily: 'DancingScript', fontStyle: FontStyle.italic, letterSpacing: 2.5, fontWeight: FontWeight.w900, fontSize: MediaQuery.of(context).size.width * 0.09, color: Colors.deepOrange.shade300,),),
+                      //     SizedBox(width: 13,),
+                      //     Center(
+                      //       child: Text(
+                      //         "Products",
+                      //         textAlign: TextAlign.center,
+                      //         style: TextStyle(
+                      //           fontFamily: 'Rowdies',
+                      //           fontStyle: FontStyle.italic,
+                      //           fontSize: MediaQuery.of(context).size.width * 0.08,
+                      //           color: Colors.deepOrange,
+                      //          /* shadows: [
+                      //             Shadow(
+                      //               blurRadius: 10.0,
+                      //               color: Colors.deepOrangeAccent.withOpacity(0.1),
+                      //               offset: Offset(0, 0),
+                      //             ),
+                      //             Shadow(
+                      //               blurRadius: 20.0,
+                      //               color: Colors.deepOrangeAccent.withOpacity(0.1),
+                      //               offset: Offset(0, 0),
+                      //             ),
+                      //             Shadow(
+                      //               blurRadius: 30.0,
+                      //               color: Colors.deepOrangeAccent.withOpacity(0.1),
+                      //               offset: Offset(0, 0),
+                      //             ),
+                      //           ],*/
+                      //         ),
+                      //       ),
+                      //     ),],
+                      // ),
+
+                      Center(
+                        child: Text(
+                          "Products",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontFamily: 'Rowdies',
+                            fontStyle: FontStyle.italic,
+                            fontSize: MediaQuery.of(context).size.width * 0.08,
+                            color: Colors.deepOrange,
+                          ),
+                        ),
                       ),
 
                       SizedBox(height: 15,),

@@ -14,11 +14,14 @@ class FullScreenImage extends StatelessWidget {
           Navigator.pop(context);
         },
         child: Center(
-          child: SizedBox(
+          child: Container(
             height: MediaQuery.of(context).size.height, // Specify a fixed height for the SizedBox
             child: RepaintBoundary(
               child: PhotoView(
                 imageProvider: NetworkImage(imagePath),
+                backgroundDecoration: BoxDecoration(
+                  color: Color(0xFFEAE7E6),
+                ),
               ),
             ),
           ),
