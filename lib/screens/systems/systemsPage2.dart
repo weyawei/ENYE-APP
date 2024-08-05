@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_options.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
@@ -66,6 +67,8 @@ class _systemsPage2State extends State<systemsPage2> with TickerProviderStateMix
     }).toList();
   }
 
+  bool _isExpanded = false;
+
   @override
   Widget build(BuildContext context) {
     screenHeight = MediaQuery.of(context).size.height;
@@ -102,7 +105,12 @@ class _systemsPage2State extends State<systemsPage2> with TickerProviderStateMix
                 height: MediaQuery.of(context).size.height,
                 child: Stack(
                   children: [
-                    Image.network("${API.systemsImg + _systems[0].image}", fit: BoxFit.fill),
+                    CachedNetworkImage(
+                      imageUrl: "${API.systemsImg + _systems[_current].image}",
+                      placeholder: (context, url) => Center(child: CircularProgressIndicator()),
+                      errorWidget: (context, url, error) => Center(child: Icon(Icons.error)),
+                      fit: BoxFit.fill,
+                    ),
                     Positioned(
                         child: Container(
                           decoration: BoxDecoration(
@@ -131,23 +139,82 @@ class _systemsPage2State extends State<systemsPage2> with TickerProviderStateMix
                       child: CarouselSlider.builder(
                         carouselController: _carouselController,
                       options: CarouselOptions(
-                        height: 500,
+                        height: MediaQuery.of(context).size.height * 0.8,
                          aspectRatio:  16/9,
                         viewportFraction: 0.70,
                         enlargeCenterPage: true,
                         onPageChanged: (index, reason){
-                          _current = index;
+                          setState(() {
+                            _current = index;
+                          });
                         }
                       ),
                         itemCount: _systems.length,
                         itemBuilder: (context, index, realIndex) {
-                        return Container(
-                           width: MediaQuery.of(context).size.width,
-                          decoration: BoxDecoration(
-                         color: Colors.white,
-                            borderRadius: BorderRadius.circular(20),
+                        return GestureDetector(
+                          onTap: () {
+                            // Navigate to the detailed view
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => detailedSysPage(systems: _systems[index]),
+                              ),
+                            );
+                          },
+                          child: SingleChildScrollView(
+                            child: Column(
+                              children: [
+                                Container(
+                                  height: 320,
+                                  width: MediaQuery.of(context).size.width,
+                                  margin: EdgeInsets.only(top: 30),
+                                  clipBehavior: Clip.hardEdge,
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(20),
+                                  ),
+                                  child: CachedNetworkImage(
+                                    imageUrl: "${API.systemsImg + _systems[index].image}",
+                                    placeholder: (context, url) =>
+                                        Center(child: CircularProgressIndicator()),
+                                    errorWidget: (context, url, error) =>
+                                        Center(child: Icon(Icons.error)),
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
+                                SizedBox(height: 20),
+                                Text(
+                                  _systems[index].title,
+                                  style: TextStyle(
+                                    fontSize: fontExtraSize,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                Text(
+                                  _isExpanded ? _systems[index].description : _systems[index].description.substring(0, 100) + "...",
+                                  style: TextStyle(
+                                    fontSize: fontNormalSize,
+                                    fontWeight: FontWeight.normal,
+                                  ),
+                                ),
+                                GestureDetector(
+                                  onTap: () {
+                                    setState(() {
+                                      _isExpanded = !_isExpanded;
+                                    });
+                                  },
+                                  child: Text(
+                                    _isExpanded ? "See less" : "See more",
+                                    style: TextStyle(
+                                      fontSize: fontNormalSize,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.blue,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
-                          child: Image.network("${API.systemsImg + _systems[0].image}"),
                         );
                          }
                       ),
