@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'dart:ui';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/gestures.dart';
@@ -300,11 +301,18 @@ class _ProductItemScreenState extends State<ProductItemScreen> {
                     ),
                     Row(
                       children: [
-                        Image(
-                          image: NetworkImage("${API.prodCategIcon + prodCategory.icon}"),
-                          height: fontXSize * 3, // Adjust as needed
-                          width: fontXSize * 3,
-                        ),
+                       CachedNetworkImage(
+                              imageUrl: "${API.prodCategIcon + prodCategory.icon}",
+                         height: fontXSize * 3, // Adjust as needed
+                         width: fontXSize * 3,
+                            placeholder: (context, url) =>
+                                Center(child: CircularProgressIndicator()),
+                            errorWidget: (context, url, error) =>
+                                Center(child: Icon(Icons.error)),
+                            fit: BoxFit.cover,
+                          ),
+
+
                         const SizedBox(
                           width: 10,
                         ),
@@ -456,8 +464,13 @@ class _ProductItemScreenState extends State<ProductItemScreen> {
                                   },
                                   child: Container(
                                     padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                                    child: Image.network(
-                                      "${API.prodDetailsImg + detail.image}",
+                                    child: CachedNetworkImage(
+                                      imageUrl: "${API.prodDetailsImg + detail.image}",
+                                      placeholder: (context, url) =>
+                                          Center(child: CircularProgressIndicator()),
+                                      errorWidget: (context, url, error) =>
+                                          Center(child: Icon(Icons.error)),
+                                      fit: BoxFit.cover,
                                     ),
                                   ),
                                 ),
@@ -600,12 +613,17 @@ class _ProductItemScreenState extends State<ProductItemScreen> {
                                       borderRadius: BorderRadius.all(Radius.circular(5.0)),
                                       child: Stack(
                                         children: <Widget>[
-                                          Image.network(
+                                          CachedNetworkImage(
                                             //"${API.prodCategIcon + widget.productcategory.icon}",
-                                            "${API.prodImg + product.image}",
+                                           imageUrl: "${API.prodImg + product.image}",
                                             fit: BoxFit.contain,
                                             width: MediaQuery.of(context).size.width * 0.6,
                                             height: MediaQuery.of(context).size.width * 0.3 * 1.3,
+
+                                            placeholder: (context, url) =>
+                                                Center(child: CircularProgressIndicator()),
+                                            errorWidget: (context, url, error) =>
+                                                Center(child: Icon(Icons.error)),
                                           ),
                                           Positioned(
                                             bottom: 0.0,

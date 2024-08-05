@@ -2,6 +2,7 @@
 
 import 'dart:math';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:enye_app/screens/product/product.dart';
 import 'package:enye_app/screens/product/product_category.dart';
@@ -486,6 +487,7 @@ class _ProductAllCategoryState extends State<ProductAllCategory> with TickerProv
                     aspectRatio: 1.7,
                     viewportFraction: 1,
                     enlargeCenterPage: true,
+                    enableInfiniteScroll: false,
                     enlargeStrategy: CenterPageEnlargeStrategy.height,
                     onPageChanged: (index, reason) {
                       setState(() {
@@ -510,12 +512,16 @@ class _ProductAllCategoryState extends State<ProductAllCategory> with TickerProv
                           color: Colors.white,
                           child: Stack(
                             children: <Widget>[
-                              Image.network(
+                              CachedNetworkImage(
                                 //"${API.prodCategIcon + widget.productcategory.icon}",
-                                "${API.prodCat + bann.banner_image}",
+                                imageUrl: "${API.prodCat + bann.banner_image}",
                                 fit: BoxFit.fill,
                                 width: screenWidth,
                                 height: screenHeight * 0.3,
+                                placeholder: (context, url) =>
+                                    Center(child: CircularProgressIndicator()),
+                                errorWidget: (context, url, error) =>
+                                    Center(child: Icon(Icons.error)),
                               ),
                               Positioned(
                                 bottom: 0.0,
@@ -673,18 +679,20 @@ class _ProductAllCategoryState extends State<ProductAllCategory> with TickerProv
                                                child: DecoratedBox(
                                                  decoration: BoxDecoration(
                                                    image: DecorationImage(
-                                                     image: NetworkImage("${API.prodImg + _prod[index].image}"),
+                                                     image: CachedNetworkImageProvider("${API.prodImg + _prod[index].image}"),
                                                      alignment: Alignment(0.0, -0.70),
                                                      fit: BoxFit.contain,
                                                    ),
-                                                  /* border: Border.all(
-                                                     color: Colors.black, // Choose your desired border color
-                                                     width: 0.4, // Choose your desired border width
-                                                   ),*/
                                                    borderRadius: BorderRadius.circular(20.0), // Optional: Add border radius for rounded corners
                                                  ),
+                                                 child: CachedNetworkImage(
+                                                   imageUrl: "${API.prodImg + _prod[index].image}",
+                                                   fit: BoxFit.cover,
+                                                   placeholder: (context, url) => Center(child: CircularProgressIndicator()),
+                                                   errorWidget: (context, url, error) => Center(child: Icon(Icons.error)),
+                                                 ),
                                                ),
-                                             ),
+                                             )
                                            ),
 
                                            /* Container(
@@ -804,18 +812,20 @@ class _ProductAllCategoryState extends State<ProductAllCategory> with TickerProv
                                              child: DecoratedBox(
                                                decoration: BoxDecoration(
                                                  image: DecorationImage(
-                                                   image: NetworkImage("${API.prodImg + _prod1[index].image}"),
+                                                   image: CachedNetworkImageProvider("${API.prodImg + _prod1[index].image}"),
                                                    alignment: Alignment(0.0, -0.70),
                                                    fit: BoxFit.contain,
                                                  ),
-                                                 /*border: Border.all(
-                                                   color: Colors.black, // Choose your desired border color
-                                                   width: 0.4, // Choose your desired border width
-                                                 ),*/
                                                  borderRadius: BorderRadius.circular(20.0), // Optional: Add border radius for rounded corners
                                                ),
+                                               child: CachedNetworkImage(
+                                                 imageUrl: "${API.prodImg + _prod1[index].image}",
+                                                 fit: BoxFit.cover,
+                                                 placeholder: (context, url) => Center(child: CircularProgressIndicator()),
+                                                 errorWidget: (context, url, error) => Center(child: Icon(Icons.error)),
+                                               ),
                                              ),
-                                           ),
+                                           )
                                          ),
 
                                          /* Container(
@@ -949,18 +959,20 @@ class _ProductAllCategoryState extends State<ProductAllCategory> with TickerProv
                                               child: DecoratedBox(
                                                 decoration: BoxDecoration(
                                                   image: DecorationImage(
-                                                    image: NetworkImage("${API.prodImg + _prod2[index].image}"),
+                                                    image: CachedNetworkImageProvider("${API.prodImg + _prod2[index].image}"),
                                                     alignment: Alignment(0.0, -0.70),
                                                     fit: BoxFit.contain,
                                                   ),
-                                                  /*border: Border.all(
-                                                    color: Colors.black, // Choose your desired border color
-                                                    width: 0.4, // Choose your desired border width
-                                                  ),*/
                                                   borderRadius: BorderRadius.circular(20.0), // Optional: Add border radius for rounded corners
                                                 ),
+                                                child: CachedNetworkImage(
+                                                  imageUrl: "${API.prodImg + _prod2[index].image}",
+                                                  fit: BoxFit.cover,
+                                                  placeholder: (context, url) => Center(child: CircularProgressIndicator()),
+                                                  errorWidget: (context, url, error) => Center(child: Icon(Icons.error)),
+                                                ),
                                               ),
-                                            ),
+                                            )
                                           ),
 
                                           /* Container(
@@ -1080,18 +1092,20 @@ class _ProductAllCategoryState extends State<ProductAllCategory> with TickerProv
                                               child: DecoratedBox(
                                                 decoration: BoxDecoration(
                                                   image: DecorationImage(
-                                                    image: NetworkImage("${API.prodImg + _prod3[index].image}"),
+                                                    image: CachedNetworkImageProvider("${API.prodImg + _prod3[index].image}"),
                                                     alignment: Alignment(0.0, -0.70),
                                                     fit: BoxFit.contain,
                                                   ),
-                                                  /*border: Border.all(
-                                                    color: Colors.black, // Choose your desired border color
-                                                    width: 0.4, // Choose your desired border width
-                                                  ),*/
                                                   borderRadius: BorderRadius.circular(20.0), // Optional: Add border radius for rounded corners
                                                 ),
+                                                child: CachedNetworkImage(
+                                                  imageUrl: "${API.prodImg + _prod3[index].image}",
+                                                  fit: BoxFit.cover,
+                                                  placeholder: (context, url) => Center(child: CircularProgressIndicator()),
+                                                  errorWidget: (context, url, error) => Center(child: Icon(Icons.error)),
+                                                ),
                                               ),
-                                            ),
+                                            )
                                           ),
 
                                           /* Container(
@@ -1223,18 +1237,20 @@ class _ProductAllCategoryState extends State<ProductAllCategory> with TickerProv
                                               child: DecoratedBox(
                                                 decoration: BoxDecoration(
                                                   image: DecorationImage(
-                                                    image: NetworkImage("${API.prodImg + _prod4[index].image}"),
+                                                    image: CachedNetworkImageProvider("${API.prodImg + _prod4[index].image}"),
                                                     alignment: Alignment(0.0, -0.70),
                                                     fit: BoxFit.contain,
                                                   ),
-                                                 /* border: Border.all(
-                                                    color: Colors.black, // Choose your desired border color
-                                                    width: 0.4// Choose your desired border width
-                                                  ),*/
                                                   borderRadius: BorderRadius.circular(20.0), // Optional: Add border radius for rounded corners
                                                 ),
+                                                child: CachedNetworkImage(
+                                                  imageUrl: "${API.prodImg + _prod4[index].image}",
+                                                  fit: BoxFit.cover,
+                                                  placeholder: (context, url) => Center(child: CircularProgressIndicator()),
+                                                  errorWidget: (context, url, error) => Center(child: Icon(Icons.error)),
+                                                ),
                                               ),
-                                            ),
+                                            )
                                           ),
 
                                           /* Container(
@@ -1354,18 +1370,20 @@ class _ProductAllCategoryState extends State<ProductAllCategory> with TickerProv
                                               child: DecoratedBox(
                                                 decoration: BoxDecoration(
                                                   image: DecorationImage(
-                                                    image: NetworkImage("${API.prodImg + _prod5[index].image}"),
+                                                    image: CachedNetworkImageProvider("${API.prodImg + _prod5[index].image}"),
                                                     alignment: Alignment(0.0, -0.70),
                                                     fit: BoxFit.contain,
                                                   ),
-                                                 /* border: Border.all(
-                                                    color: Colors.black, // Choose your desired border color
-                                                    width: 0.4, // Choose your desired border width
-                                                  ),*/
                                                   borderRadius: BorderRadius.circular(20.0), // Optional: Add border radius for rounded corners
                                                 ),
+                                                child: CachedNetworkImage(
+                                                  imageUrl: "${API.prodImg + _prod5[index].image}",
+                                                  fit: BoxFit.cover,
+                                                  placeholder: (context, url) => Center(child: CircularProgressIndicator()),
+                                                  errorWidget: (context, url, error) => Center(child: Icon(Icons.error)),
+                                                ),
                                               ),
-                                            ),
+                                            )
                                           ),
 
                                           /* Container(
@@ -1496,18 +1514,20 @@ class _ProductAllCategoryState extends State<ProductAllCategory> with TickerProv
                                               child: DecoratedBox(
                                                 decoration: BoxDecoration(
                                                   image: DecorationImage(
-                                                    image: NetworkImage("${API.prodImg + _prod6[index].image}"),
+                                                    image: CachedNetworkImageProvider("${API.prodImg + _prod6[index].image}"),
                                                     alignment: Alignment(0.0, -0.70),
                                                     fit: BoxFit.contain,
                                                   ),
-                                                 /* border: Border.all(
-                                                      color: Colors.black, // Choose your desired border color
-                                                      width: 0.4// Choose your desired border width
-                                                  ),*/
                                                   borderRadius: BorderRadius.circular(20.0), // Optional: Add border radius for rounded corners
                                                 ),
+                                                child: CachedNetworkImage(
+                                                  imageUrl: "${API.prodImg + _prod6[index].image}",
+                                                  fit: BoxFit.cover,
+                                                  placeholder: (context, url) => Center(child: CircularProgressIndicator()),
+                                                  errorWidget: (context, url, error) => Center(child: Icon(Icons.error)),
+                                                ),
                                               ),
-                                            ),
+                                            )
                                           ),
 
                                           /* Container(
@@ -1627,18 +1647,20 @@ class _ProductAllCategoryState extends State<ProductAllCategory> with TickerProv
                                               child: DecoratedBox(
                                                 decoration: BoxDecoration(
                                                   image: DecorationImage(
-                                                    image: NetworkImage("${API.prodImg + _prod7[index].image}"),
+                                                    image: CachedNetworkImageProvider("${API.prodImg + _prod7[index].image}"),
                                                     alignment: Alignment(0.0, -0.70),
                                                     fit: BoxFit.contain,
                                                   ),
-                                                 /* border: Border.all(
-                                                    color: Colors.black, // Choose your desired border color
-                                                    width: 0.4, // Choose your desired border width
-                                                  ),*/
                                                   borderRadius: BorderRadius.circular(20.0), // Optional: Add border radius for rounded corners
                                                 ),
+                                                child: CachedNetworkImage(
+                                                  imageUrl: "${API.prodImg + _prod7[index].image}",
+                                                  fit: BoxFit.cover,
+                                                  placeholder: (context, url) => Center(child: CircularProgressIndicator()),
+                                                  errorWidget: (context, url, error) => Center(child: Icon(Icons.error)),
+                                                ),
                                               ),
-                                            ),
+                                            )
                                           ),
 
                                           /* Container(
@@ -1764,24 +1786,26 @@ class _ProductAllCategoryState extends State<ProductAllCategory> with TickerProv
                                         child: Column(
                                           children: [
                                             Expanded(
-                                              child: SizedBox(
+                                              child:SizedBox(
                                                 width: MediaQuery.of(context).size.width * 0.2,
                                                 height: MediaQuery.of(context).size.height * 0.6,
                                                 child: DecoratedBox(
                                                   decoration: BoxDecoration(
                                                     image: DecorationImage(
-                                                      image: NetworkImage("${API.prodImg + _prod8[index].image}"),
+                                                      image: CachedNetworkImageProvider("${API.prodImg + _prod8[index].image}"),
                                                       alignment: Alignment(0.0, -0.70),
                                                       fit: BoxFit.contain,
                                                     ),
-                                                   /* border: Border.all(
-                                                        color: Colors.black, // Choose your desired border color
-                                                        width: 0.4// Choose your desired border width
-                                                    ),*/
                                                     borderRadius: BorderRadius.circular(20.0), // Optional: Add border radius for rounded corners
                                                   ),
+                                                  child: CachedNetworkImage(
+                                                    imageUrl: "${API.prodImg + _prod8[index].image}",
+                                                    fit: BoxFit.cover,
+                                                    placeholder: (context, url) => Center(child: CircularProgressIndicator()),
+                                                    errorWidget: (context, url, error) => Center(child: Icon(Icons.error)),
+                                                  ),
                                                 ),
-                                              ),
+                                              )
                                             ),
 
                                             /* Container(
@@ -1901,18 +1925,20 @@ class _ProductAllCategoryState extends State<ProductAllCategory> with TickerProv
                                               child: DecoratedBox(
                                                 decoration: BoxDecoration(
                                                   image: DecorationImage(
-                                                    image: NetworkImage("${API.prodImg + _prod9[index].image}"),
+                                                    image: CachedNetworkImageProvider("${API.prodImg + _prod9[index].image}"),
                                                     alignment: Alignment(0.0, -0.70),
                                                     fit: BoxFit.contain,
                                                   ),
-                                                /*  border: Border.all(
-                                                    color: Colors.black, // Choose your desired border color
-                                                    width: 0.4, // Choose your desired border width
-                                                  ),*/
                                                   borderRadius: BorderRadius.circular(20.0), // Optional: Add border radius for rounded corners
                                                 ),
+                                                child: CachedNetworkImage(
+                                                  imageUrl: "${API.prodImg + _prod9[index].image}",
+                                                  fit: BoxFit.cover,
+                                                  placeholder: (context, url) => Center(child: CircularProgressIndicator()),
+                                                  errorWidget: (context, url, error) => Center(child: Icon(Icons.error)),
+                                                ),
                                               ),
-                                            ),
+                                            )
                                           ),
 
                                           /* Container(
@@ -2044,18 +2070,20 @@ class _ProductAllCategoryState extends State<ProductAllCategory> with TickerProv
                                                 child: DecoratedBox(
                                                   decoration: BoxDecoration(
                                                     image: DecorationImage(
-                                                      image: NetworkImage("${API.prodImg + _prod10[index].image}"),
+                                                      image: CachedNetworkImageProvider("${API.prodImg + _prod10[index].image}"),
                                                       alignment: Alignment(0.0, -0.70),
                                                       fit: BoxFit.contain,
                                                     ),
-                                                    /*border: Border.all(
-                                                        color: Colors.black, // Choose your desired border color
-                                                        width: 0.4// Choose your desired border width
-                                                    ),*/
                                                     borderRadius: BorderRadius.circular(20.0), // Optional: Add border radius for rounded corners
                                                   ),
+                                                  child: CachedNetworkImage(
+                                                    imageUrl: "${API.prodImg + _prod10[index].image}",
+                                                    fit: BoxFit.cover,
+                                                    placeholder: (context, url) => Center(child: CircularProgressIndicator()),
+                                                    errorWidget: (context, url, error) => Center(child: Icon(Icons.error)),
+                                                  ),
                                                 ),
-                                              ),
+                                              )
                                             ),
 
                                             /* Container(

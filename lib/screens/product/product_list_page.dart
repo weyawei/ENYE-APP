@@ -92,7 +92,7 @@ class _listProductsPageState extends State<listProductsPage> with TickerProvider
               Text(
                 '${widget.prodSubCat.name}'.toUpperCase(),
                 style: TextStyle(
-                  fontSize: fontXXXSize,
+                  fontSize: fontXXSize,
                   letterSpacing: 1.2,
                   fontFamily: 'Rowdies',
                   fontWeight: FontWeight.bold,

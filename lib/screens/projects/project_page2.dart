@@ -117,61 +117,65 @@ class _ProjectPage2State extends State<ProjectPage2> {
                       ? CachedNetworkImage(
                     imageUrl: "${API.projectsImage + _projectsTop[_current].images}",
                     fit: BoxFit.fill,
-                    placeholder: (context, url) => Center(
-                      child: CircularProgressIndicator(),
-                    ),
-                    errorWidget: (context, url, error) => Container(
-                      color: Colors.black, // Fallback color if image fails to load
-                    ),
+                    placeholder: (context, url) => Center(child: CircularProgressIndicator()),
+                    errorWidget: (context, url, error) => Container(color: Colors.black),
                   )
-                      : Container(color: Colors.black), // Fallback color while loading
+                      : Container(color: Colors.black),
                 ),
                 // Carousel Overflowing Below Background Image
                 Positioned(
-                  top: 95.0, // Adjust this value to place the image as needed
+                  top: 95.0,
                   left: 0,
                   right: -150.0,
                   child: Container(
                     padding: EdgeInsets.only(top: 5.0),
                     child: Image.asset(
-                      'assets/icons/ec_project.png', // Path to your custom image
-                      width: MediaQuery.of(context).size.width * 0.04, // Adjust width as needed
-                      height: MediaQuery.of(context).size.width * 0.1, // Adjust height as needed
+                      'assets/icons/ec_project.png',
+                      width: MediaQuery.of(context).size.width * 0.04,
+                      height: MediaQuery.of(context).size.width * 0.1,
                       fit: BoxFit.contain,
                     ),
                   ),
                 ),
                 Container(
-                  margin: EdgeInsets.only(top: backgroundHeight * 0.9), // Position carousel below the background
+                  margin: EdgeInsets.only(top: backgroundHeight * 0.9),
                   height: carouselHeight,
                   child: CarouselSlider.builder(
                     itemCount: _projectsTop.length,
                     itemBuilder: (context, index, realIndex) {
-                      return Container(
-                        margin: EdgeInsets.symmetric(horizontal: 10.0),
-                        decoration: BoxDecoration(
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.black26,
-                              blurRadius: 5.0,
-                              offset: Offset(0, 3),
+                      return GestureDetector(
+                        onTap: () {
+                          // Define what happens when an image is clicked
+                          // Example: Navigate to a detail page
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => detailedProjPage(projects: _projectsTop[index]),
                             ),
-                          ],
-                        ),
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(10.0),
-                          child: Container(
-                            color: Colors.white,
-                            padding: EdgeInsets.all(4.0),
-                            child: CachedNetworkImage(
-                              imageUrl: "${API.projectsImage + _projectsTop[index].images}",
-                              fit: BoxFit.fill,
-                              width: double.infinity,
-                              placeholder: (context, url) => Center(
-                                child: CircularProgressIndicator(),
+                          );
+                        },
+                        child: Container(
+                          margin: EdgeInsets.symmetric(horizontal: 10.0),
+                          decoration: BoxDecoration(
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black26,
+                                blurRadius: 5.0,
+                                offset: Offset(0, 3),
                               ),
-                              errorWidget: (context, url, error) => Container(
-                                color: Colors.black, // Fallback color if image fails to load
+                            ],
+                          ),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(10.0),
+                            child: Container(
+                              color: Colors.white,
+                              padding: EdgeInsets.all(4.0),
+                              child: CachedNetworkImage(
+                                imageUrl: "${API.projectsImage + _projectsTop[index].images}",
+                                fit: BoxFit.fill,
+                                width: double.infinity,
+                                placeholder: (context, url) => Center(child: CircularProgressIndicator()),
+                                errorWidget: (context, url, error) => Container(color: Colors.black),
                               ),
                             ),
                           ),
@@ -184,7 +188,7 @@ class _ProjectPage2State extends State<ProjectPage2> {
                       aspectRatio: 1.45,
                       viewportFraction: 0.7,
                       autoPlayInterval: Duration(seconds: 3),
-                      enableInfiniteScroll: false, // Disable looping
+                      enableInfiniteScroll: false,
                       onPageChanged: (index, reason) {
                         setState(() {
                           _current = index;
@@ -195,6 +199,7 @@ class _ProjectPage2State extends State<ProjectPage2> {
                 ),
               ],
             ),
+
 
             // Fixed Details Section
             Card(
