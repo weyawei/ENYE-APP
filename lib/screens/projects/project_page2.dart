@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:enye_app/screens/projects/projectsvc.dart';
 import 'package:flutter/cupertino.dart';
@@ -19,6 +20,7 @@ class ProjectPage2 extends StatefulWidget {
 
 class _ProjectPage2State extends State<ProjectPage2> {
   late List<Projects> _projects;
+  late List<Projects> _projectsTop;
   final CarouselController _carouselController = CarouselController();
   int _current = 0;
   int _currentIndex = 0;
@@ -40,11 +42,22 @@ class _ProjectPage2State extends State<ProjectPage2> {
     });
   }
 
+  _getProjectsTop() {
+    projectSVC.getProjects().then((ProjectsTop) {
+      setState(() {
+        _projectsTop = ProjectsTop.where((proj) => proj.proj_system == '1').toList();
+      });
+      print("Length ${ProjectsTop.length}");
+    });
+  }
+
   @override
   void initState() {
     super.initState();
     _projects = [];
     _getProjects();
+    _projectsTop = [];
+    _getProjectsTop();
   }
 
   String selectedCategory = "Active";
@@ -100,54 +113,39 @@ class _ProjectPage2State extends State<ProjectPage2> {
                 Container(
                   height: backgroundHeight * 1.6,
                   width: double.infinity,
-                  child: _projects.isNotEmpty
-                      ? Image.network(
-                    "${API.projectsImage + _projects[_current].images}",
-                    fit: BoxFit.cover,
+                  child: _projectsTop.isNotEmpty
+                      ? CachedNetworkImage(
+                    imageUrl: "${API.projectsImage + _projectsTop[_current].images}",
+                    fit: BoxFit.fill,
+                    placeholder: (context, url) => Center(
+                      child: CircularProgressIndicator(),
+                    ),
+                    errorWidget: (context, url, error) => Container(
+                      color: Colors.black, // Fallback color if image fails to load
+                    ),
                   )
                       : Container(color: Colors.black), // Fallback color while loading
                 ),
                 // Carousel Overflowing Below Background Image
                 Positioned(
-                  top: 20.0, // Adjust this value to place the text as needed
-                  left: 16.0,
-                  right: 16.0,
+                  top: 65.0, // Adjust this value to place the image as needed
+                  left: 0,
+                  right: -150.0,
                   child: Container(
-                    padding: EdgeInsets.only(top: 40.0),
-                    child: Stack(
-                      children: <Widget>[
-                        // Border Text
-                        Text(
-                          ' Projects',
-                          style: TextStyle(
-                          //  fontFamily: "Rowdies",
-                            fontSize: 25.0,
-                            fontWeight: FontWeight.normal,
-                            foreground: Paint()
-                              ..style = PaintingStyle.stroke
-                              ..strokeWidth = 6
-                              ..color = Colors.black.withOpacity(0.5),
-                          ),
-                        ),
-                        // Solid Text
-                        Text(
-                          ' Projects',
-                          style: TextStyle(
-                          //  fontFamily: "Rowdies",
-                            fontSize: 25.0,
-                            fontWeight: FontWeight.normal,
-                            color: Colors.white,
-                          ),
-                        ),
-                      ],
-                    )
+                    padding: EdgeInsets.only(top: 5.0),
+                    child: Image.asset(
+                      'assets/icons/ec_project.png', // Path to your custom image
+                      width: MediaQuery.of(context).size.width * 0.04, // Adjust width as needed
+                      height: MediaQuery.of(context).size.width * 0.1, // Adjust height as needed
+                      fit: BoxFit.contain,
+                    ),
                   ),
                 ),
                 Container(
                   margin: EdgeInsets.only(top: backgroundHeight * 0.6), // Position carousel below the background
                   height: carouselHeight,
                   child: CarouselSlider.builder(
-                    itemCount: _projects.length,
+                    itemCount: _projectsTop.length,
                     itemBuilder: (context, index, realIndex) {
                       return Container(
                         margin: EdgeInsets.symmetric(horizontal: 10.0),
@@ -165,10 +163,16 @@ class _ProjectPage2State extends State<ProjectPage2> {
                           child: Container(
                             color: Colors.white,
                             padding: EdgeInsets.all(4.0),
-                            child: Image.network(
-                              "${API.projectsImage + _projects[index].images}",
+                            child: CachedNetworkImage(
+                              imageUrl: "${API.projectsImage + _projectsTop[index].images}",
                               fit: BoxFit.fill,
                               width: double.infinity,
+                              placeholder: (context, url) => Center(
+                                child: CircularProgressIndicator(),
+                              ),
+                              errorWidget: (context, url, error) => Container(
+                                color: Colors.black, // Fallback color if image fails to load
+                              ),
                             ),
                           ),
                         ),
@@ -180,7 +184,7 @@ class _ProjectPage2State extends State<ProjectPage2> {
                       aspectRatio: 1.6,
                       viewportFraction: 0.7,
                       autoPlayInterval: Duration(seconds: 3),
-                      enableInfiniteScroll: false,  // Disable looping
+                      enableInfiniteScroll: false, // Disable looping
                       onPageChanged: (index, reason) {
                         setState(() {
                           _current = index;
@@ -191,32 +195,38 @@ class _ProjectPage2State extends State<ProjectPage2> {
                 ),
               ],
             ),
+
             // Fixed Details Section
             Card(
-              child: Container(
-                width: double.infinity,
-                color: Colors.white,
-                child: Padding(
-                  padding: EdgeInsets.all(16.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        _projects.isNotEmpty ? _projects[_current].title : '',
-                        style: TextStyle(
-                          fontSize: 24.0,
-                          fontWeight: FontWeight.bold,
+              elevation: 5.0,
+              color: Colors.white.withOpacity(0.7),
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Container(
+                  width: double.infinity,
+                  color: Colors.white,
+                  child: Padding(
+                    padding: EdgeInsets.all(16.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          _projectsTop.isNotEmpty ? _projectsTop[_current].title : '',
+                          style: TextStyle(
+                            fontSize: MediaQuery.of(context).size.width * 0.06,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
-                      ),
-                      SizedBox(height: 10.0),
-                      Text(
-                        _projects.isNotEmpty ? _projects[_current].description1 : '',
-                        style: TextStyle(
-                          fontSize: 16.0,
-                          color: Colors.grey[600],
+                        SizedBox(height: 10.0),
+                        Text(
+                          _projectsTop.isNotEmpty ? _projectsTop[_current].description1 : '',
+                          style: TextStyle(
+                            fontSize: MediaQuery.of(context).size.width * 0.032,
+                            color: Colors.grey[800],
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
               ),
@@ -254,22 +264,24 @@ class _ProjectPage2State extends State<ProjectPage2> {
                     children: [
                       SizedBox(width: 20),
                       _buildCategoryIcon('assets/icons/select-all.png', "All", "Active"),
+                      /*SizedBox(width: 10),
+                      _buildCategoryIcon('assets/icons/proj_condo.png', "BMS", "11"),*/
                       SizedBox(width: 10),
-                      _buildCategoryIcon('assets/icons/proj_mall.png', "Malls", "8"),
+                      _buildCategoryIcon('assets/icons/proj_school.png', "Schools", "1"),
                       SizedBox(width: 10),
-                      _buildCategoryIcon('assets/icons/proj_airport.png', "Industries", "7"),
+                      _buildCategoryIcon('assets/icons/proj_buildings.png', "Buildings", "5"),
                       SizedBox(width: 10),
-                      _buildCategoryIcon('assets/icons/proj_resort.png', "Resorts", "6"),
+                      _buildCategoryIcon('assets/icons/proj_hospital.png', "Hospitals", "6"),
                       SizedBox(width: 10),
-                      _buildCategoryIcon('assets/icons/proj_condo.png', "Condominium", "5"),
+                      _buildCategoryIcon('assets/icons/proj_condo.png', "Condominium", "7"),
                       SizedBox(width: 10),
-                      _buildCategoryIcon('assets/icons/proj_hospital.png', "Hospitals", "4"),
+                      _buildCategoryIcon('assets/icons/proj_resort.png', "Hotels", "8"),
                       SizedBox(width: 10),
-                      _buildCategoryIcon('assets/icons/proj_buildings.png', "Buildings", "3"),
+                      _buildCategoryIcon('assets/icons/proj_airport.png', "Industries", "9"),
                       SizedBox(width: 10),
-                      _buildCategoryIcon('assets/icons/proj_school.png', "Schools", "2"),
-                      SizedBox(width: 10),
-                      _buildCategoryIcon('assets/icons/proj_condo.png', "BMS", "1"),
+                      _buildCategoryIcon('assets/icons/proj_mall.png', "Malls", "10"),
+                      SizedBox(width: 20),
+
                       // Add more icons as needed
                     ],
                   ),
@@ -359,7 +371,7 @@ class _ProjectPage2State extends State<ProjectPage2> {
                   //  SizedBox(height: 10.0),
                     // Constrained Grid View
                     SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.5, // Set a fixed height or use a fraction
+                      height: MediaQuery.of(context).size.height * 0.62, // Set a fixed height or use a fraction
                       child: GridView.builder(
                         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                           crossAxisCount: 2, // Number of columns
@@ -402,9 +414,15 @@ class _ProjectPage2State extends State<ProjectPage2> {
                                   children: [
                                     // Image
                                     Positioned.fill(
-                                      child: Image.network(
-                                        "${API.projectsImage + project.images}",
+                                      child: CachedNetworkImage(
+                                        imageUrl: "${API.projectsImage + project.images}",
                                         fit: BoxFit.cover,
+                                        placeholder: (context, url) => Center(
+                                          child: CircularProgressIndicator(),
+                                        ),
+                                        errorWidget: (context, url, error) => Container(
+                                          color: Colors.black, // Fallback color if image fails to load
+                                        ),
                                       ),
                                     ),
                                     // Gradient overlay
@@ -457,7 +475,7 @@ class _ProjectPage2State extends State<ProjectPage2> {
 
 
 
-            if(selectedCategory == "1")
+            if(selectedCategory == "11")
             Container(
               color: Colors.grey[100], // Light background color for the entire section
               padding: EdgeInsets.symmetric(vertical: 20.0),
@@ -489,164 +507,116 @@ class _ProjectPage2State extends State<ProjectPage2> {
                             ),
                           ],
                         ),
-                        GestureDetector(
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(builder: (context) => ProjectPage2()),
-                            );
-                          },
-                          child: Row(
-                            children: [
-                              Text(
-                                "See all",
-                                style: TextStyle(
-                                  fontSize: 16.0,
-                                  color: Colors.deepOrange,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              SizedBox(width: 4.0),
-                              Icon(
-                                Icons.arrow_forward_ios,
-                                size: 16.0,
-                                color: Colors.deepOrange,
-                              ),
-                            ],
-                          ),
-                        ),
                       ],
                     ),
                   ),
-                  SizedBox(height: 10.0),
-                  // Carousel with Gradient Overlay
-                  Stack(
-                    children: [
-                      // Background for gradient and shadow
-                      Positioned.fill(
+                  SizedBox(
+                  height: MediaQuery.of(context).size.height * 0.62, // Set a fixed height or use a fraction
+                  child: GridView.builder(
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2, // Number of columns
+                      crossAxisSpacing: 8.0, // Horizontal spacing
+                      mainAxisSpacing: 8.0, // Vertical spacing
+                      childAspectRatio: 1.0, // Aspect ratio of each grid item
+                    ),
+                    itemCount: _projects
+                        .where((project) => project.category == "11")
+                        .length,
+                    itemBuilder: (context, index) {
+                      var project = _projects
+                          .where((project) => project.category == "11")
+                          .toList()[index];
+                      return GestureDetector(
+                        onTap: () {
+                          PersistentNavBarNavigator.pushNewScreenWithRouteSettings(
+                            context,
+                            settings: RouteSettings(name: detailedProjPage.routeName),
+                            screen: detailedProjPage(projects: project),
+                            withNavBar: true,
+                            pageTransitionAnimation: PageTransitionAnimation.cupertino,
+                          );
+                        },
                         child: Container(
                           decoration: BoxDecoration(
-                            gradient: LinearGradient(
-                              colors: [Colors.white, Colors.grey[100]!],
-                              begin: Alignment.topCenter,
-                              end: Alignment.bottomCenter,
-                            ),
+                            borderRadius: BorderRadius.circular(10.0),
                             boxShadow: [
                               BoxShadow(
-                                color: Colors.grey.shade300,
-                                spreadRadius: 5.0,
-                                blurRadius: 10.0,
+                                color: Colors.black.withOpacity(0.1),
+                                blurRadius: 8.0,
+                                spreadRadius: 1.0,
                                 offset: Offset(0, 5),
                               ),
                             ],
                           ),
-                        ),
-                      ),
-                      CarouselSlider.builder(
-                        itemCount: _projects
-                            .where((project) => project.proj_system == "1")
-                            .length,
-                        itemBuilder: (context, index, realIndex) {
-                          var project = _projects
-                              .where((project) => project.proj_system == "1")
-                              .toList()[index];
-                          return GestureDetector(
-                            onTap: () {
-                              PersistentNavBarNavigator.pushNewScreenWithRouteSettings(
-                                context,
-                                settings: RouteSettings(name: detailedProjPage.routeName),
-                                screen: detailedProjPage(projects: project),
-                                withNavBar: true,
-                                pageTransitionAnimation: PageTransitionAnimation.cupertino,
-                              );
-                            },
-                            child: Container(
-                              margin: EdgeInsets.symmetric(horizontal: 8.0),
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10.0),
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.black.withOpacity(0.1),
-                                    blurRadius: 8.0,
-                                    spreadRadius: 1.0,
-                                    offset: Offset(0, 5),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                            child: Stack(
+                              children: [
+                                // Image
+                                Positioned.fill(
+                                  child: CachedNetworkImage(
+                                    imageUrl: "${API.projectsImage + project.images}",
+                                    fit: BoxFit.cover,
+                                    placeholder: (context, url) => Center(
+                                      child: CircularProgressIndicator(),
+                                    ),
+                                    errorWidget: (context, url, error) => Container(
+                                      color: Colors.black, // Fallback color if image fails to load
+                                    ),
                                   ),
-                                ],
-                              ),
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                                child: Stack(
-                                  children: [
-                                    // Image
-                                    Positioned.fill(
-                                      child: Image.network(
-                                        "${API.projectsImage + project.images}",
-                                        fit: BoxFit.cover,
-                                      ),
-                                    ),
-                                    // Gradient overlay
-                                    Positioned.fill(
-                                      child: Container(
-                                        decoration: BoxDecoration(
-                                          gradient: LinearGradient(
-                                            colors: [
-                                              Colors.black.withOpacity(0.5),
-                                              Colors.transparent
-                                            ],
-                                            begin: Alignment.bottomCenter,
-                                            end: Alignment.topCenter,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    // Text Overlay
-                                    Positioned(
-                                      bottom: 10.0,
-                                      left: 10.0,
-                                      right: 10.0,
-                                      child: Text(
-                                        project.title,
-                                        style: TextStyle(
-                                          fontSize: 18.0,
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.bold,
-                                          shadows: [
-                                            Shadow(
-                                              blurRadius: 10.0,
-                                              color: Colors.black,
-                                              offset: Offset(0, 5),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                  ],
                                 ),
-                              ),
+                                // Gradient overlay
+                                Positioned.fill(
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      gradient: LinearGradient(
+                                        colors: [
+                                          Colors.black.withOpacity(0.5),
+                                          Colors.transparent
+                                        ],
+                                        begin: Alignment.bottomCenter,
+                                        end: Alignment.topCenter,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                // Text Overlay
+                                Positioned(
+                                  bottom: 10.0,
+                                  left: 10.0,
+                                  right: 10.0,
+                                  child: Text(
+                                    project.title,
+                                    style: TextStyle(
+                                      fontSize: 14.0,
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                      shadows: [
+                                        Shadow(
+                                          blurRadius: 10.0,
+                                          color: Colors.black,
+                                          offset: Offset(0, 5),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ],
                             ),
-                          );
-                        },
-                        options: CarouselOptions(
-                          autoPlay: false,
-                          aspectRatio: 1.9,
-                          viewportFraction: 0.6,
-                          enlargeCenterPage: true,
-                          enableInfiniteScroll: false,
-                          onPageChanged: (index1, reason) {
-                            setState(() {
-                              _currentIndex = index1;
-                            });
-                          },
+                          ),
                         ),
-                      ),
-                    ],
+                      );
+                    },
                   ),
+                  ),
+
+
                 ],
               ),
             ),
 
 
-            if(selectedCategory == "2")
+            if(selectedCategory == "1")
             Container(
               color: Colors.grey[100], // Light background color for the entire section
               padding: EdgeInsets.symmetric(vertical: 20.0),
@@ -678,164 +648,114 @@ class _ProjectPage2State extends State<ProjectPage2> {
                             ),
                           ],
                         ),
-                        GestureDetector(
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(builder: (context) => ProjectPage2()),
-                            );
-                          },
-                          child: Row(
-                            children: [
-                              Text(
-                                "See all",
-                                style: TextStyle(
-                                  fontSize: 16.0,
-                                  color: Colors.deepOrange,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              SizedBox(width: 4.0),
-                              Icon(
-                                Icons.arrow_forward_ios,
-                                size: 16.0,
-                                color: Colors.deepOrange,
-                              ),
-                            ],
-                          ),
-                        ),
                       ],
                     ),
                   ),
-                  SizedBox(height: 10.0),
-                  // Carousel with Gradient Overlay
-                  Stack(
-                    children: [
-                      // Background for gradient and shadow
-                      Positioned.fill(
-                        child: Container(
-                          decoration: BoxDecoration(
-                            gradient: LinearGradient(
-                              colors: [Colors.white, Colors.grey[100]!],
-                              begin: Alignment.topCenter,
-                              end: Alignment.bottomCenter,
-                            ),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.grey.shade300,
-                                spreadRadius: 5.0,
-                                blurRadius: 10.0,
-                                offset: Offset(0, 5),
-                              ),
-                            ],
-                          ),
-                        ),
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.62, // Set a fixed height or use a fraction
+                    child: GridView.builder(
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2, // Number of columns
+                        crossAxisSpacing: 8.0, // Horizontal spacing
+                        mainAxisSpacing: 8.0, // Vertical spacing
+                        childAspectRatio: 1.0, // Aspect ratio of each grid item
                       ),
-                      CarouselSlider.builder(
-                        itemCount: _projects
-                            .where((project) => project.proj_system == "2")
-                            .length,
-                        itemBuilder: (context, index, realIndex) {
-                          var project = _projects
-                              .where((project) => project.proj_system == "2")
-                              .toList()[index];
-                          return GestureDetector(
-                            onTap: () {
-                              PersistentNavBarNavigator.pushNewScreenWithRouteSettings(
-                                context,
-                                settings: RouteSettings(name: detailedProjPage.routeName),
-                                screen: detailedProjPage(projects: project),
-                                withNavBar: true,
-                                pageTransitionAnimation: PageTransitionAnimation.cupertino,
-                              );
-                            },
-                            child: Container(
-                              margin: EdgeInsets.symmetric(horizontal: 8.0),
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10.0),
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.black.withOpacity(0.1),
-                                    blurRadius: 8.0,
-                                    spreadRadius: 1.0,
-                                    offset: Offset(0, 5),
+                      itemCount: _projects
+                          .where((project) => project.category == "1")
+                          .length,
+                      itemBuilder: (context, index) {
+                        var project = _projects
+                            .where((project) => project.category == "1")
+                            .toList()[index];
+                        return GestureDetector(
+                          onTap: () {
+                            PersistentNavBarNavigator.pushNewScreenWithRouteSettings(
+                              context,
+                              settings: RouteSettings(name: detailedProjPage.routeName),
+                              screen: detailedProjPage(projects: project),
+                              withNavBar: true,
+                              pageTransitionAnimation: PageTransitionAnimation.cupertino,
+                            );
+                          },
+                          child: Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10.0),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.black.withOpacity(0.1),
+                                  blurRadius: 8.0,
+                                  spreadRadius: 1.0,
+                                  offset: Offset(0, 5),
+                                ),
+                              ],
+                            ),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                              child: Stack(
+                                children: [
+                                  // Image
+                                  Positioned.fill(
+                                    child: CachedNetworkImage(
+                                      imageUrl: "${API.projectsImage + project.images}",
+                                      fit: BoxFit.cover,
+                                      placeholder: (context, url) => Center(
+                                        child: CircularProgressIndicator(),
+                                      ),
+                                      errorWidget: (context, url, error) => Container(
+                                        color: Colors.black, // Fallback color if image fails to load
+                                      ),
+                                    ),
+                                  ),
+                                  // Gradient overlay
+                                  Positioned.fill(
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                        gradient: LinearGradient(
+                                          colors: [
+                                            Colors.black.withOpacity(0.5),
+                                            Colors.transparent
+                                          ],
+                                          begin: Alignment.bottomCenter,
+                                          end: Alignment.topCenter,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  // Text Overlay
+                                  Positioned(
+                                    bottom: 10.0,
+                                    left: 10.0,
+                                    right: 10.0,
+                                    child: Text(
+                                      project.title,
+                                      style: TextStyle(
+                                        fontSize: 14.0,
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold,
+                                        shadows: [
+                                          Shadow(
+                                            blurRadius: 10.0,
+                                            color: Colors.black,
+                                            offset: Offset(0, 5),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
                                   ),
                                 ],
                               ),
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                                child: Stack(
-                                  children: [
-                                    // Image
-                                    Positioned.fill(
-                                      child: Image.network(
-                                        "${API.projectsImage + project.images}",
-                                        fit: BoxFit.cover,
-                                      ),
-                                    ),
-                                    // Gradient overlay
-                                    Positioned.fill(
-                                      child: Container(
-                                        decoration: BoxDecoration(
-                                          gradient: LinearGradient(
-                                            colors: [
-                                              Colors.black.withOpacity(0.5),
-                                              Colors.transparent
-                                            ],
-                                            begin: Alignment.bottomCenter,
-                                            end: Alignment.topCenter,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    // Text Overlay
-                                    Positioned(
-                                      bottom: 10.0,
-                                      left: 10.0,
-                                      right: 10.0,
-                                      child: Text(
-                                        project.title,
-                                        style: TextStyle(
-                                          fontSize: 18.0,
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.bold,
-                                          shadows: [
-                                            Shadow(
-                                              blurRadius: 10.0,
-                                              color: Colors.black,
-                                              offset: Offset(0, 5),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
                             ),
-                          );
-                        },
-                        options: CarouselOptions(
-                          autoPlay: false,
-                          aspectRatio: 1.9,
-                          viewportFraction: 0.6,
-                          enlargeCenterPage: true,
-                          enableInfiniteScroll: false,
-                          onPageChanged: (index1, reason) {
-                            setState(() {
-                              _currentIndex = index1;
-                            });
-                          },
-                        ),
-                      ),
-                    ],
+                          ),
+                        );
+                      },
+                    ),
                   ),
                 ],
               ),
             ),
 
 
-            if(selectedCategory == "3")
+            if(selectedCategory == "5")
             Container(
               color: Colors.grey[100], // Light background color for the entire section
               padding: EdgeInsets.symmetric(vertical: 20.0),
@@ -867,157 +787,107 @@ class _ProjectPage2State extends State<ProjectPage2> {
                             ),
                           ],
                         ),
-                        GestureDetector(
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(builder: (context) => ProjectPage2()),
-                            );
-                          },
-                          child: Row(
-                            children: [
-                              Text(
-                                "See all",
-                                style: TextStyle(
-                                  fontSize: 16.0,
-                                  color: Colors.deepOrange,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              SizedBox(width: 4.0),
-                              Icon(
-                                Icons.arrow_forward_ios,
-                                size: 16.0,
-                                color: Colors.deepOrange,
-                              ),
-                            ],
-                          ),
-                        ),
                       ],
                     ),
                   ),
-                  SizedBox(height: 10.0),
-                  // Carousel with Gradient Overlay
-                  Stack(
-                    children: [
-                      // Background for gradient and shadow
-                      Positioned.fill(
-                        child: Container(
-                          decoration: BoxDecoration(
-                            gradient: LinearGradient(
-                              colors: [Colors.white, Colors.grey[100]!],
-                              begin: Alignment.topCenter,
-                              end: Alignment.bottomCenter,
-                            ),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.grey.shade300,
-                                spreadRadius: 5.0,
-                                blurRadius: 10.0,
-                                offset: Offset(0, 5),
-                              ),
-                            ],
-                          ),
-                        ),
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.62, // Set a fixed height or use a fraction
+                    child: GridView.builder(
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2, // Number of columns
+                        crossAxisSpacing: 8.0, // Horizontal spacing
+                        mainAxisSpacing: 8.0, // Vertical spacing
+                        childAspectRatio: 1.0, // Aspect ratio of each grid item
                       ),
-                      CarouselSlider.builder(
-                        itemCount: _projects
-                            .where((project) => project.proj_system == "3")
-                            .length,
-                        itemBuilder: (context, index, realIndex) {
-                          var project = _projects
-                              .where((project) => project.proj_system == "3")
-                              .toList()[index];
-                          return GestureDetector(
-                            onTap: () {
-                              PersistentNavBarNavigator.pushNewScreenWithRouteSettings(
-                                context,
-                                settings: RouteSettings(name: detailedProjPage.routeName),
-                                screen: detailedProjPage(projects: project),
-                                withNavBar: true,
-                                pageTransitionAnimation: PageTransitionAnimation.cupertino,
-                              );
-                            },
-                            child: Container(
-                              margin: EdgeInsets.symmetric(horizontal: 8.0),
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10.0),
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.black.withOpacity(0.1),
-                                    blurRadius: 8.0,
-                                    spreadRadius: 1.0,
-                                    offset: Offset(0, 5),
+                      itemCount: _projects
+                          .where((project) => project.category == "5")
+                          .length,
+                      itemBuilder: (context, index) {
+                        var project = _projects
+                            .where((project) => project.category == "5")
+                            .toList()[index];
+                        return GestureDetector(
+                          onTap: () {
+                            PersistentNavBarNavigator.pushNewScreenWithRouteSettings(
+                              context,
+                              settings: RouteSettings(name: detailedProjPage.routeName),
+                              screen: detailedProjPage(projects: project),
+                              withNavBar: true,
+                              pageTransitionAnimation: PageTransitionAnimation.cupertino,
+                            );
+                          },
+                          child: Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10.0),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.black.withOpacity(0.1),
+                                  blurRadius: 8.0,
+                                  spreadRadius: 1.0,
+                                  offset: Offset(0, 5),
+                                ),
+                              ],
+                            ),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                              child: Stack(
+                                children: [
+                                  // Image
+                                  Positioned.fill(
+                                    child: CachedNetworkImage(
+                                      imageUrl: "${API.projectsImage + project.images}",
+                                      fit: BoxFit.cover,
+                                      placeholder: (context, url) => Center(
+                                        child: CircularProgressIndicator(),
+                                      ),
+                                      errorWidget: (context, url, error) => Container(
+                                        color: Colors.black, // Fallback color if image fails to load
+                                      ),
+                                    ),
+                                  ),
+                                  // Gradient overlay
+                                  Positioned.fill(
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                        gradient: LinearGradient(
+                                          colors: [
+                                            Colors.black.withOpacity(0.5),
+                                            Colors.transparent
+                                          ],
+                                          begin: Alignment.bottomCenter,
+                                          end: Alignment.topCenter,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  // Text Overlay
+                                  Positioned(
+                                    bottom: 10.0,
+                                    left: 10.0,
+                                    right: 10.0,
+                                    child: Text(
+                                      project.title,
+                                      style: TextStyle(
+                                        fontSize: 14.0,
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold,
+                                        shadows: [
+                                          Shadow(
+                                            blurRadius: 10.0,
+                                            color: Colors.black,
+                                            offset: Offset(0, 5),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
                                   ),
                                 ],
                               ),
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                                child: Stack(
-                                  children: [
-                                    // Image
-                                    Positioned.fill(
-                                      child: Image.network(
-                                        "${API.projectsImage + project.images}",
-                                        fit: BoxFit.cover,
-                                      ),
-                                    ),
-                                    // Gradient overlay
-                                    Positioned.fill(
-                                      child: Container(
-                                        decoration: BoxDecoration(
-                                          gradient: LinearGradient(
-                                            colors: [
-                                              Colors.black.withOpacity(0.5),
-                                              Colors.transparent
-                                            ],
-                                            begin: Alignment.bottomCenter,
-                                            end: Alignment.topCenter,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    // Text Overlay
-                                    Positioned(
-                                      bottom: 10.0,
-                                      left: 10.0,
-                                      right: 10.0,
-                                      child: Text(
-                                        project.title,
-                                        style: TextStyle(
-                                          fontSize: 18.0,
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.bold,
-                                          shadows: [
-                                            Shadow(
-                                              blurRadius: 10.0,
-                                              color: Colors.black,
-                                              offset: Offset(0, 5),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
                             ),
-                          );
-                        },
-                        options: CarouselOptions(
-                          autoPlay: false,
-                          aspectRatio: 1.9,
-                          viewportFraction: 0.6,
-                          enlargeCenterPage: true,
-                          enableInfiniteScroll: false,
-                          onPageChanged: (index1, reason) {
-                            setState(() {
-                              _currentIndex = index1;
-                            });
-                          },
-                        ),
-                      ),
-                    ],
+                          ),
+                        );
+                      },
+                    ),
                   ),
                 ],
               ),
@@ -1025,7 +895,7 @@ class _ProjectPage2State extends State<ProjectPage2> {
 
 
 
-            if(selectedCategory == "4")
+            if(selectedCategory == "6")
             Container(
               color: Colors.grey[100], // Light background color for the entire section
               padding: EdgeInsets.symmetric(vertical: 20.0),
@@ -1057,164 +927,114 @@ class _ProjectPage2State extends State<ProjectPage2> {
                             ),
                           ],
                         ),
-                        GestureDetector(
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(builder: (context) => ProjectPage2()),
-                            );
-                          },
-                          child: Row(
-                            children: [
-                              Text(
-                                "See all",
-                                style: TextStyle(
-                                  fontSize: 16.0,
-                                  color: Colors.deepOrange,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              SizedBox(width: 4.0),
-                              Icon(
-                                Icons.arrow_forward_ios,
-                                size: 16.0,
-                                color: Colors.deepOrange,
-                              ),
-                            ],
-                          ),
-                        ),
                       ],
                     ),
                   ),
-                  SizedBox(height: 10.0),
-                  // Carousel with Gradient Overlay
-                  Stack(
-                    children: [
-                      // Background for gradient and shadow
-                      Positioned.fill(
-                        child: Container(
-                          decoration: BoxDecoration(
-                            gradient: LinearGradient(
-                              colors: [Colors.white, Colors.grey[100]!],
-                              begin: Alignment.topCenter,
-                              end: Alignment.bottomCenter,
-                            ),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.grey.shade300,
-                                spreadRadius: 5.0,
-                                blurRadius: 10.0,
-                                offset: Offset(0, 5),
-                              ),
-                            ],
-                          ),
-                        ),
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.62, // Set a fixed height or use a fraction
+                    child: GridView.builder(
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2, // Number of columns
+                        crossAxisSpacing: 8.0, // Horizontal spacing
+                        mainAxisSpacing: 8.0, // Vertical spacing
+                        childAspectRatio: 1.0, // Aspect ratio of each grid item
                       ),
-                      CarouselSlider.builder(
-                        itemCount: _projects
-                            .where((project) => project.proj_system == "4")
-                            .length,
-                        itemBuilder: (context, index, realIndex) {
-                          var project = _projects
-                              .where((project) => project.proj_system == "4")
-                              .toList()[index];
-                          return GestureDetector(
-                            onTap: () {
-                              PersistentNavBarNavigator.pushNewScreenWithRouteSettings(
-                                context,
-                                settings: RouteSettings(name: detailedProjPage.routeName),
-                                screen: detailedProjPage(projects: project),
-                                withNavBar: true,
-                                pageTransitionAnimation: PageTransitionAnimation.cupertino,
-                              );
-                            },
-                            child: Container(
-                              margin: EdgeInsets.symmetric(horizontal: 8.0),
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10.0),
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.black.withOpacity(0.1),
-                                    blurRadius: 8.0,
-                                    spreadRadius: 1.0,
-                                    offset: Offset(0, 5),
+                      itemCount: _projects
+                          .where((project) => project.category == "6")
+                          .length,
+                      itemBuilder: (context, index) {
+                        var project = _projects
+                            .where((project) => project.category == "6")
+                            .toList()[index];
+                        return GestureDetector(
+                          onTap: () {
+                            PersistentNavBarNavigator.pushNewScreenWithRouteSettings(
+                              context,
+                              settings: RouteSettings(name: detailedProjPage.routeName),
+                              screen: detailedProjPage(projects: project),
+                              withNavBar: true,
+                              pageTransitionAnimation: PageTransitionAnimation.cupertino,
+                            );
+                          },
+                          child: Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10.0),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.black.withOpacity(0.1),
+                                  blurRadius: 8.0,
+                                  spreadRadius: 1.0,
+                                  offset: Offset(0, 5),
+                                ),
+                              ],
+                            ),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                              child: Stack(
+                                children: [
+                                  // Image
+                                  Positioned.fill(
+                                    child: CachedNetworkImage(
+                                      imageUrl: "${API.projectsImage + project.images}",
+                                      fit: BoxFit.cover,
+                                      placeholder: (context, url) => Center(
+                                        child: CircularProgressIndicator(),
+                                      ),
+                                      errorWidget: (context, url, error) => Container(
+                                        color: Colors.black, // Fallback color if image fails to load
+                                      ),
+                                    ),
+                                  ),
+                                  // Gradient overlay
+                                  Positioned.fill(
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                        gradient: LinearGradient(
+                                          colors: [
+                                            Colors.black.withOpacity(0.5),
+                                            Colors.transparent
+                                          ],
+                                          begin: Alignment.bottomCenter,
+                                          end: Alignment.topCenter,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  // Text Overlay
+                                  Positioned(
+                                    bottom: 10.0,
+                                    left: 10.0,
+                                    right: 10.0,
+                                    child: Text(
+                                      project.title,
+                                      style: TextStyle(
+                                        fontSize: 14.0,
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold,
+                                        shadows: [
+                                          Shadow(
+                                            blurRadius: 10.0,
+                                            color: Colors.black,
+                                            offset: Offset(0, 5),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
                                   ),
                                 ],
                               ),
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                                child: Stack(
-                                  children: [
-                                    // Image
-                                    Positioned.fill(
-                                      child: Image.network(
-                                        "${API.projectsImage + project.images}",
-                                        fit: BoxFit.cover,
-                                      ),
-                                    ),
-                                    // Gradient overlay
-                                    Positioned.fill(
-                                      child: Container(
-                                        decoration: BoxDecoration(
-                                          gradient: LinearGradient(
-                                            colors: [
-                                              Colors.black.withOpacity(0.5),
-                                              Colors.transparent
-                                            ],
-                                            begin: Alignment.bottomCenter,
-                                            end: Alignment.topCenter,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    // Text Overlay
-                                    Positioned(
-                                      bottom: 10.0,
-                                      left: 10.0,
-                                      right: 10.0,
-                                      child: Text(
-                                        project.title,
-                                        style: TextStyle(
-                                          fontSize: 18.0,
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.bold,
-                                          shadows: [
-                                            Shadow(
-                                              blurRadius: 10.0,
-                                              color: Colors.black,
-                                              offset: Offset(0, 5),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
                             ),
-                          );
-                        },
-                        options: CarouselOptions(
-                          autoPlay: false,
-                          aspectRatio: 1.9,
-                          viewportFraction: 0.6,
-                          enlargeCenterPage: true,
-                          enableInfiniteScroll: false,
-                          onPageChanged: (index1, reason) {
-                            setState(() {
-                              _currentIndex = index1;
-                            });
-                          },
-                        ),
-                      ),
-                    ],
+                          ),
+                        );
+                      },
+                    ),
                   ),
                 ],
               ),
             ),
 
 
-            if(selectedCategory == "5")
+            if(selectedCategory == "7")
             Container(
               color: Colors.grey[100], // Light background color for the entire section
               padding: EdgeInsets.symmetric(vertical: 20.0),
@@ -1246,163 +1066,113 @@ class _ProjectPage2State extends State<ProjectPage2> {
                             ),
                           ],
                         ),
-                        GestureDetector(
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(builder: (context) => ProjectPage2()),
-                            );
-                          },
-                          child: Row(
-                            children: [
-                              Text(
-                                "See all",
-                                style: TextStyle(
-                                  fontSize: 16.0,
-                                  color: Colors.deepOrange,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              SizedBox(width: 4.0),
-                              Icon(
-                                Icons.arrow_forward_ios,
-                                size: 16.0,
-                                color: Colors.deepOrange,
-                              ),
-                            ],
-                          ),
-                        ),
                       ],
                     ),
                   ),
-                  SizedBox(height: 10.0),
-                  // Carousel with Gradient Overlay
-                  Stack(
-                    children: [
-                      // Background for gradient and shadow
-                      Positioned.fill(
-                        child: Container(
-                          decoration: BoxDecoration(
-                            gradient: LinearGradient(
-                              colors: [Colors.white, Colors.grey[100]!],
-                              begin: Alignment.topCenter,
-                              end: Alignment.bottomCenter,
-                            ),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.grey.shade300,
-                                spreadRadius: 5.0,
-                                blurRadius: 10.0,
-                                offset: Offset(0, 5),
-                              ),
-                            ],
-                          ),
-                        ),
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.62, // Set a fixed height or use a fraction
+                    child: GridView.builder(
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2, // Number of columns
+                        crossAxisSpacing: 8.0, // Horizontal spacing
+                        mainAxisSpacing: 8.0, // Vertical spacing
+                        childAspectRatio: 1.0, // Aspect ratio of each grid item
                       ),
-                      CarouselSlider.builder(
-                        itemCount: _projects
-                            .where((project) => project.proj_system == "5")
-                            .length,
-                        itemBuilder: (context, index, realIndex) {
-                          var project = _projects
-                              .where((project) => project.proj_system == "5")
-                              .toList()[index];
-                          return GestureDetector(
-                            onTap: () {
-                              PersistentNavBarNavigator.pushNewScreenWithRouteSettings(
-                                context,
-                                settings: RouteSettings(name: detailedProjPage.routeName),
-                                screen: detailedProjPage(projects: project),
-                                withNavBar: true,
-                                pageTransitionAnimation: PageTransitionAnimation.cupertino,
-                              );
-                            },
-                            child: Container(
-                              margin: EdgeInsets.symmetric(horizontal: 8.0),
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10.0),
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.black.withOpacity(0.1),
-                                    blurRadius: 8.0,
-                                    spreadRadius: 1.0,
-                                    offset: Offset(0, 5),
+                      itemCount: _projects
+                          .where((project) => project.category == "7")
+                          .length,
+                      itemBuilder: (context, index) {
+                        var project = _projects
+                            .where((project) => project.category == "7")
+                            .toList()[index];
+                        return GestureDetector(
+                          onTap: () {
+                            PersistentNavBarNavigator.pushNewScreenWithRouteSettings(
+                              context,
+                              settings: RouteSettings(name: detailedProjPage.routeName),
+                              screen: detailedProjPage(projects: project),
+                              withNavBar: true,
+                              pageTransitionAnimation: PageTransitionAnimation.cupertino,
+                            );
+                          },
+                          child: Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10.0),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.black.withOpacity(0.1),
+                                  blurRadius: 8.0,
+                                  spreadRadius: 1.0,
+                                  offset: Offset(0, 5),
+                                ),
+                              ],
+                            ),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                              child: Stack(
+                                children: [
+                                  // Image
+                                  Positioned.fill(
+                                    child: CachedNetworkImage(
+                                      imageUrl: "${API.projectsImage + project.images}",
+                                      fit: BoxFit.cover,
+                                      placeholder: (context, url) => Center(
+                                        child: CircularProgressIndicator(),
+                                      ),
+                                      errorWidget: (context, url, error) => Container(
+                                        color: Colors.black, // Fallback color if image fails to load
+                                      ),
+                                    ),
+                                  ),
+                                  // Gradient overlay
+                                  Positioned.fill(
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                        gradient: LinearGradient(
+                                          colors: [
+                                            Colors.black.withOpacity(0.5),
+                                            Colors.transparent
+                                          ],
+                                          begin: Alignment.bottomCenter,
+                                          end: Alignment.topCenter,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  // Text Overlay
+                                  Positioned(
+                                    bottom: 10.0,
+                                    left: 10.0,
+                                    right: 10.0,
+                                    child: Text(
+                                      project.title,
+                                      style: TextStyle(
+                                        fontSize: 14.0,
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold,
+                                        shadows: [
+                                          Shadow(
+                                            blurRadius: 10.0,
+                                            color: Colors.black,
+                                            offset: Offset(0, 5),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
                                   ),
                                 ],
                               ),
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                                child: Stack(
-                                  children: [
-                                    // Image
-                                    Positioned.fill(
-                                      child: Image.network(
-                                        "${API.projectsImage + project.images}",
-                                        fit: BoxFit.cover,
-                                      ),
-                                    ),
-                                    // Gradient overlay
-                                    Positioned.fill(
-                                      child: Container(
-                                        decoration: BoxDecoration(
-                                          gradient: LinearGradient(
-                                            colors: [
-                                              Colors.black.withOpacity(0.5),
-                                              Colors.transparent
-                                            ],
-                                            begin: Alignment.bottomCenter,
-                                            end: Alignment.topCenter,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    // Text Overlay
-                                    Positioned(
-                                      bottom: 10.0,
-                                      left: 10.0,
-                                      right: 10.0,
-                                      child: Text(
-                                        project.title,
-                                        style: TextStyle(
-                                          fontSize: 18.0,
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.bold,
-                                          shadows: [
-                                            Shadow(
-                                              blurRadius: 10.0,
-                                              color: Colors.black,
-                                              offset: Offset(0, 5),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
                             ),
-                          );
-                        },
-                        options: CarouselOptions(
-                          autoPlay: false,
-                          aspectRatio: 1.9,
-                          viewportFraction: 0.6,
-                          enlargeCenterPage: true,
-                          enableInfiniteScroll: false,
-                          onPageChanged: (index1, reason) {
-                            setState(() {
-                              _currentIndex = index1;
-                            });
-                          },
-                        ),
-                      ),
-                    ],
+                          ),
+                        );
+                      },
+                    ),
                   ),
                 ],
               ),
             ),
 
-            if(selectedCategory == "6")
+            if(selectedCategory == "8")
             Container(
               color: Colors.grey[100], // Light background color for the entire section
               padding: EdgeInsets.symmetric(vertical: 20.0),
@@ -1434,163 +1204,113 @@ class _ProjectPage2State extends State<ProjectPage2> {
                             ),
                           ],
                         ),
-                        GestureDetector(
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(builder: (context) => ProjectPage2()),
-                            );
-                          },
-                          child: Row(
-                            children: [
-                              Text(
-                                "See all",
-                                style: TextStyle(
-                                  fontSize: 16.0,
-                                  color: Colors.deepOrange,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              SizedBox(width: 4.0),
-                              Icon(
-                                Icons.arrow_forward_ios,
-                                size: 16.0,
-                                color: Colors.deepOrange,
-                              ),
-                            ],
-                          ),
-                        ),
                       ],
                     ),
                   ),
-                  SizedBox(height: 10.0),
-                  // Carousel with Gradient Overlay
-                  Stack(
-                    children: [
-                      // Background for gradient and shadow
-                      Positioned.fill(
-                        child: Container(
-                          decoration: BoxDecoration(
-                            gradient: LinearGradient(
-                              colors: [Colors.white, Colors.grey[100]!],
-                              begin: Alignment.topCenter,
-                              end: Alignment.bottomCenter,
-                            ),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.grey.shade300,
-                                spreadRadius: 5.0,
-                                blurRadius: 10.0,
-                                offset: Offset(0, 5),
-                              ),
-                            ],
-                          ),
-                        ),
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.62, // Set a fixed height or use a fraction
+                    child: GridView.builder(
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2, // Number of columns
+                        crossAxisSpacing: 8.0, // Horizontal spacing
+                        mainAxisSpacing: 8.0, // Vertical spacing
+                        childAspectRatio: 1.0, // Aspect ratio of each grid item
                       ),
-                      CarouselSlider.builder(
-                        itemCount: _projects
-                            .where((project) => project.proj_system == "6")
-                            .length,
-                        itemBuilder: (context, index, realIndex) {
-                          var project = _projects
-                              .where((project) => project.proj_system == "6")
-                              .toList()[index];
-                          return GestureDetector(
-                            onTap: () {
-                              PersistentNavBarNavigator.pushNewScreenWithRouteSettings(
-                                context,
-                                settings: RouteSettings(name: detailedProjPage.routeName),
-                                screen: detailedProjPage(projects: project),
-                                withNavBar: true,
-                                pageTransitionAnimation: PageTransitionAnimation.cupertino,
-                              );
-                            },
-                            child: Container(
-                              margin: EdgeInsets.symmetric(horizontal: 8.0),
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10.0),
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.black.withOpacity(0.1),
-                                    blurRadius: 8.0,
-                                    spreadRadius: 1.0,
-                                    offset: Offset(0, 5),
+                      itemCount: _projects
+                          .where((project) => project.category == "8")
+                          .length,
+                      itemBuilder: (context, index) {
+                        var project = _projects
+                            .where((project) => project.category == "8")
+                            .toList()[index];
+                        return GestureDetector(
+                          onTap: () {
+                            PersistentNavBarNavigator.pushNewScreenWithRouteSettings(
+                              context,
+                              settings: RouteSettings(name: detailedProjPage.routeName),
+                              screen: detailedProjPage(projects: project),
+                              withNavBar: true,
+                              pageTransitionAnimation: PageTransitionAnimation.cupertino,
+                            );
+                          },
+                          child: Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10.0),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.black.withOpacity(0.1),
+                                  blurRadius: 8.0,
+                                  spreadRadius: 1.0,
+                                  offset: Offset(0, 5),
+                                ),
+                              ],
+                            ),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                              child: Stack(
+                                children: [
+                                  // Image
+                                  Positioned.fill(
+                                    child: CachedNetworkImage(
+                                      imageUrl: "${API.projectsImage + project.images}",
+                                      fit: BoxFit.cover,
+                                      placeholder: (context, url) => Center(
+                                        child: CircularProgressIndicator(),
+                                      ),
+                                      errorWidget: (context, url, error) => Container(
+                                        color: Colors.black, // Fallback color if image fails to load
+                                      ),
+                                    ),
+                                  ),
+                                  // Gradient overlay
+                                  Positioned.fill(
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                        gradient: LinearGradient(
+                                          colors: [
+                                            Colors.black.withOpacity(0.5),
+                                            Colors.transparent
+                                          ],
+                                          begin: Alignment.bottomCenter,
+                                          end: Alignment.topCenter,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  // Text Overlay
+                                  Positioned(
+                                    bottom: 10.0,
+                                    left: 10.0,
+                                    right: 10.0,
+                                    child: Text(
+                                      project.title,
+                                      style: TextStyle(
+                                        fontSize: 14.0,
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold,
+                                        shadows: [
+                                          Shadow(
+                                            blurRadius: 10.0,
+                                            color: Colors.black,
+                                            offset: Offset(0, 5),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
                                   ),
                                 ],
                               ),
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                                child: Stack(
-                                  children: [
-                                    // Image
-                                    Positioned.fill(
-                                      child: Image.network(
-                                        "${API.projectsImage + project.images}",
-                                        fit: BoxFit.cover,
-                                      ),
-                                    ),
-                                    // Gradient overlay
-                                    Positioned.fill(
-                                      child: Container(
-                                        decoration: BoxDecoration(
-                                          gradient: LinearGradient(
-                                            colors: [
-                                              Colors.black.withOpacity(0.5),
-                                              Colors.transparent
-                                            ],
-                                            begin: Alignment.bottomCenter,
-                                            end: Alignment.topCenter,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    // Text Overlay
-                                    Positioned(
-                                      bottom: 10.0,
-                                      left: 10.0,
-                                      right: 10.0,
-                                      child: Text(
-                                        project.title,
-                                        style: TextStyle(
-                                          fontSize: 18.0,
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.bold,
-                                          shadows: [
-                                            Shadow(
-                                              blurRadius: 10.0,
-                                              color: Colors.black,
-                                              offset: Offset(0, 5),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
                             ),
-                          );
-                        },
-                        options: CarouselOptions(
-                          autoPlay: false,
-                          aspectRatio: 1.9,
-                          viewportFraction: 0.6,
-                          enlargeCenterPage: true,
-                          enableInfiniteScroll: false,
-                          onPageChanged: (index1, reason) {
-                            setState(() {
-                              _currentIndex = index1;
-                            });
-                          },
-                        ),
-                      ),
-                    ],
+                          ),
+                        );
+                      },
+                    ),
                   ),
                 ],
               ),
             ),
 
-            if(selectedCategory == "7")
+            if(selectedCategory == "9")
             Container(
               color: Colors.grey[100], // Light background color for the entire section
               padding: EdgeInsets.symmetric(vertical: 20.0),
@@ -1622,163 +1342,113 @@ class _ProjectPage2State extends State<ProjectPage2> {
                             ),
                           ],
                         ),
-                        GestureDetector(
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(builder: (context) => ProjectPage2()),
-                            );
-                          },
-                          child: Row(
-                            children: [
-                              Text(
-                                "See all",
-                                style: TextStyle(
-                                  fontSize: 16.0,
-                                  color: Colors.deepOrange,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              SizedBox(width: 4.0),
-                              Icon(
-                                Icons.arrow_forward_ios,
-                                size: 16.0,
-                                color: Colors.deepOrange,
-                              ),
-                            ],
-                          ),
-                        ),
                       ],
                     ),
                   ),
-                  SizedBox(height: 10.0),
-                  // Carousel with Gradient Overlay
-                  Stack(
-                    children: [
-                      // Background for gradient and shadow
-                      Positioned.fill(
-                        child: Container(
-                          decoration: BoxDecoration(
-                            gradient: LinearGradient(
-                              colors: [Colors.white, Colors.grey[100]!],
-                              begin: Alignment.topCenter,
-                              end: Alignment.bottomCenter,
-                            ),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.grey.shade300,
-                                spreadRadius: 5.0,
-                                blurRadius: 10.0,
-                                offset: Offset(0, 5),
-                              ),
-                            ],
-                          ),
-                        ),
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.62, // Set a fixed height or use a fraction
+                    child: GridView.builder(
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2, // Number of columns
+                        crossAxisSpacing: 8.0, // Horizontal spacing
+                        mainAxisSpacing: 8.0, // Vertical spacing
+                        childAspectRatio: 1.0, // Aspect ratio of each grid item
                       ),
-                      CarouselSlider.builder(
-                        itemCount: _projects
-                            .where((project) => project.proj_system == "7")
-                            .length,
-                        itemBuilder: (context, index, realIndex) {
-                          var project = _projects
-                              .where((project) => project.proj_system == "7")
-                              .toList()[index];
-                          return GestureDetector(
-                            onTap: () {
-                              PersistentNavBarNavigator.pushNewScreenWithRouteSettings(
-                                context,
-                                settings: RouteSettings(name: detailedProjPage.routeName),
-                                screen: detailedProjPage(projects: project),
-                                withNavBar: true,
-                                pageTransitionAnimation: PageTransitionAnimation.cupertino,
-                              );
-                            },
-                            child: Container(
-                              margin: EdgeInsets.symmetric(horizontal: 8.0),
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10.0),
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.black.withOpacity(0.1),
-                                    blurRadius: 8.0,
-                                    spreadRadius: 1.0,
-                                    offset: Offset(0, 5),
+                      itemCount: _projects
+                          .where((project) => project.category == "9")
+                          .length,
+                      itemBuilder: (context, index) {
+                        var project = _projects
+                            .where((project) => project.category == "9")
+                            .toList()[index];
+                        return GestureDetector(
+                          onTap: () {
+                            PersistentNavBarNavigator.pushNewScreenWithRouteSettings(
+                              context,
+                              settings: RouteSettings(name: detailedProjPage.routeName),
+                              screen: detailedProjPage(projects: project),
+                              withNavBar: true,
+                              pageTransitionAnimation: PageTransitionAnimation.cupertino,
+                            );
+                          },
+                          child: Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10.0),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.black.withOpacity(0.1),
+                                  blurRadius: 8.0,
+                                  spreadRadius: 1.0,
+                                  offset: Offset(0, 5),
+                                ),
+                              ],
+                            ),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                              child: Stack(
+                                children: [
+                                  // Image
+                                  Positioned.fill(
+                                    child: CachedNetworkImage(
+                                      imageUrl: "${API.projectsImage + project.images}",
+                                      fit: BoxFit.cover,
+                                      placeholder: (context, url) => Center(
+                                        child: CircularProgressIndicator(),
+                                      ),
+                                      errorWidget: (context, url, error) => Container(
+                                        color: Colors.black, // Fallback color if image fails to load
+                                      ),
+                                    ),
+                                  ),
+                                  // Gradient overlay
+                                  Positioned.fill(
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                        gradient: LinearGradient(
+                                          colors: [
+                                            Colors.black.withOpacity(0.5),
+                                            Colors.transparent
+                                          ],
+                                          begin: Alignment.bottomCenter,
+                                          end: Alignment.topCenter,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  // Text Overlay
+                                  Positioned(
+                                    bottom: 10.0,
+                                    left: 10.0,
+                                    right: 10.0,
+                                    child: Text(
+                                      project.title,
+                                      style: TextStyle(
+                                        fontSize: 14.0,
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold,
+                                        shadows: [
+                                          Shadow(
+                                            blurRadius: 10.0,
+                                            color: Colors.black,
+                                            offset: Offset(0, 5),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
                                   ),
                                 ],
                               ),
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                                child: Stack(
-                                  children: [
-                                    // Image
-                                    Positioned.fill(
-                                      child: Image.network(
-                                        "${API.projectsImage + project.images}",
-                                        fit: BoxFit.cover,
-                                      ),
-                                    ),
-                                    // Gradient overlay
-                                    Positioned.fill(
-                                      child: Container(
-                                        decoration: BoxDecoration(
-                                          gradient: LinearGradient(
-                                            colors: [
-                                              Colors.black.withOpacity(0.5),
-                                              Colors.transparent
-                                            ],
-                                            begin: Alignment.bottomCenter,
-                                            end: Alignment.topCenter,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    // Text Overlay
-                                    Positioned(
-                                      bottom: 10.0,
-                                      left: 10.0,
-                                      right: 10.0,
-                                      child: Text(
-                                        project.title,
-                                        style: TextStyle(
-                                          fontSize: 18.0,
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.bold,
-                                          shadows: [
-                                            Shadow(
-                                              blurRadius: 10.0,
-                                              color: Colors.black,
-                                              offset: Offset(0, 5),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
                             ),
-                          );
-                        },
-                        options: CarouselOptions(
-                          autoPlay: false,
-                          aspectRatio: 1.9,
-                          viewportFraction: 0.6,
-                          enlargeCenterPage: true,
-                          enableInfiniteScroll: false,
-                          onPageChanged: (index1, reason) {
-                            setState(() {
-                              _currentIndex = index1;
-                            });
-                          },
-                        ),
-                      ),
-                    ],
+                          ),
+                        );
+                      },
+                    ),
                   ),
                 ],
               ),
             ),
 
-          //  if(selectedCategory == "8")
+            if(selectedCategory == "10")
             Container(
               color: Colors.grey[100], // Light background color for the entire section
               padding: EdgeInsets.symmetric(vertical: 20.0),
@@ -1810,157 +1480,107 @@ class _ProjectPage2State extends State<ProjectPage2> {
                             ),
                           ],
                         ),
-                        GestureDetector(
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(builder: (context) => ProjectPage2()),
-                            );
-                          },
-                          child: Row(
-                            children: [
-                              Text(
-                                "See all",
-                                style: TextStyle(
-                                  fontSize: 16.0,
-                                  color: Colors.deepOrange,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              SizedBox(width: 4.0),
-                              Icon(
-                                Icons.arrow_forward_ios,
-                                size: 16.0,
-                                color: Colors.deepOrange,
-                              ),
-                            ],
-                          ),
-                        ),
                       ],
                     ),
                   ),
-                  SizedBox(height: 10.0),
-                  // Carousel with Gradient Overlay
-                  Stack(
-                    children: [
-                      // Background for gradient and shadow
-                      Positioned.fill(
-                        child: Container(
-                          decoration: BoxDecoration(
-                            gradient: LinearGradient(
-                              colors: [Colors.white, Colors.grey[100]!],
-                              begin: Alignment.topCenter,
-                              end: Alignment.bottomCenter,
-                            ),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.grey.shade300,
-                                spreadRadius: 5.0,
-                                blurRadius: 10.0,
-                                offset: Offset(0, 5),
-                              ),
-                            ],
-                          ),
-                        ),
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.62, // Set a fixed height or use a fraction
+                    child: GridView.builder(
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2, // Number of columns
+                        crossAxisSpacing: 8.0, // Horizontal spacing
+                        mainAxisSpacing: 8.0, // Vertical spacing
+                        childAspectRatio: 1.0, // Aspect ratio of each grid item
                       ),
-                      CarouselSlider.builder(
-                        itemCount:  _projects
-                            .where((project) => project.proj_system == selectedCategory)
-                            .length,
-                        itemBuilder: (context, index, realIndex) {
-                          var project = _projects
-                              .where((project) => project.proj_system == selectedCategory)
-                              .toList()[index];
-                          return GestureDetector(
-                            onTap: () {
-                              PersistentNavBarNavigator.pushNewScreenWithRouteSettings(
-                                context,
-                                settings: RouteSettings(name: detailedProjPage.routeName),
-                                screen: detailedProjPage(projects: project),
-                                withNavBar: true,
-                                pageTransitionAnimation: PageTransitionAnimation.cupertino,
-                              );
-                            },
-                            child: Container(
-                              margin: EdgeInsets.symmetric(horizontal: 8.0),
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10.0),
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.black.withOpacity(0.1),
-                                    blurRadius: 8.0,
-                                    spreadRadius: 1.0,
-                                    offset: Offset(0, 5),
+                      itemCount: _projects
+                          .where((project) => project.category == "10")
+                          .length,
+                      itemBuilder: (context, index) {
+                        var project = _projects
+                            .where((project) => project.category == "10")
+                            .toList()[index];
+                        return GestureDetector(
+                          onTap: () {
+                            PersistentNavBarNavigator.pushNewScreenWithRouteSettings(
+                              context,
+                              settings: RouteSettings(name: detailedProjPage.routeName),
+                              screen: detailedProjPage(projects: project),
+                              withNavBar: true,
+                              pageTransitionAnimation: PageTransitionAnimation.cupertino,
+                            );
+                          },
+                          child: Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10.0),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.black.withOpacity(0.1),
+                                  blurRadius: 8.0,
+                                  spreadRadius: 1.0,
+                                  offset: Offset(0, 5),
+                                ),
+                              ],
+                            ),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                              child: Stack(
+                                children: [
+                                  // Image
+                                  Positioned.fill(
+                                    child: CachedNetworkImage(
+                                      imageUrl: "${API.projectsImage + project.images}",
+                                      fit: BoxFit.cover,
+                                      placeholder: (context, url) => Center(
+                                        child: CircularProgressIndicator(),
+                                      ),
+                                      errorWidget: (context, url, error) => Container(
+                                        color: Colors.black, // Fallback color if image fails to load
+                                      ),
+                                    ),
+                                  ),
+                                  // Gradient overlay
+                                  Positioned.fill(
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                        gradient: LinearGradient(
+                                          colors: [
+                                            Colors.black.withOpacity(0.5),
+                                            Colors.transparent
+                                          ],
+                                          begin: Alignment.bottomCenter,
+                                          end: Alignment.topCenter,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  // Text Overlay
+                                  Positioned(
+                                    bottom: 10.0,
+                                    left: 10.0,
+                                    right: 10.0,
+                                    child: Text(
+                                      project.title,
+                                      style: TextStyle(
+                                        fontSize: 14.0,
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold,
+                                        shadows: [
+                                          Shadow(
+                                            blurRadius: 10.0,
+                                            color: Colors.black,
+                                            offset: Offset(0, 5),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
                                   ),
                                 ],
                               ),
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                                child: Stack(
-                                  children: [
-                                    // Image
-                                    Positioned.fill(
-                                      child: Image.network(
-                                        "${API.projectsImage + project.images}",
-                                        fit: BoxFit.cover,
-                                      ),
-                                    ),
-                                    // Gradient overlay
-                                    Positioned.fill(
-                                      child: Container(
-                                        decoration: BoxDecoration(
-                                          gradient: LinearGradient(
-                                            colors: [
-                                              Colors.black.withOpacity(0.5),
-                                              Colors.transparent
-                                            ],
-                                            begin: Alignment.bottomCenter,
-                                            end: Alignment.topCenter,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    // Text Overlay
-                                    Positioned(
-                                      bottom: 10.0,
-                                      left: 10.0,
-                                      right: 10.0,
-                                      child: Text(
-                                        project.title,
-                                        style: TextStyle(
-                                          fontSize: 18.0,
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.bold,
-                                          shadows: [
-                                            Shadow(
-                                              blurRadius: 10.0,
-                                              color: Colors.black,
-                                              offset: Offset(0, 5),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
                             ),
-                          );
-                        },
-                        options: CarouselOptions(
-                          autoPlay: false,
-                          aspectRatio: 1.9,
-                          viewportFraction: 0.6,
-                          enlargeCenterPage: true,
-                          enableInfiniteScroll: false,
-                          onPageChanged: (index1, reason) {
-                            setState(() {
-                              _currentIndex = index1;
-                            });
-                          },
-                        ),
-                      ),
-                    ],
+                          ),
+                        );
+                      },
+                    ),
                   ),
                 ],
               ),

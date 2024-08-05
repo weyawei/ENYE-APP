@@ -3,6 +3,7 @@ import 'dart:typed_data';
 import 'dart:ui';
 
 import 'package:animated_text_kit/animated_text_kit.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -59,6 +60,8 @@ class _homePageState extends State<homePage> with TickerProviderStateMixin{
     "assets/backgrounds/SYSTEM2.jpg",
   ];
 
+  late List<Projects> _projectsTop;
+  int _current = 0;
 
   final ScrollController _scrollController = ScrollController();
   List<String> _frames = [];
@@ -100,11 +103,23 @@ class _homePageState extends State<homePage> with TickerProviderStateMixin{
     });
   }
 
+  _getProjectsTop() {
+    projectSVC.getProjects().then((ProjectsTop) {
+      setState(() {
+        _projectsTop = ProjectsTop.where((proj) => proj.proj_system == '1').toList();
+      });
+      print("Length ${ProjectsTop.length}");
+    });
+  }
+
   void initState() {
     super.initState();
     // Initially, show all products
     _projects = [];
     _getProjects();
+
+    _projectsTop = [];
+    _getProjectsTop();
 
     _news = [];
     _getNews();
@@ -142,6 +157,8 @@ class _homePageState extends State<homePage> with TickerProviderStateMixin{
   void dispose() {
     _handSwipeController.dispose();
     _upwardController.dispose();
+    _projects = [];
+    _projectsTop = [];
     super.dispose();
   }
 
@@ -231,6 +248,9 @@ class _homePageState extends State<homePage> with TickerProviderStateMixin{
 
   @override
   Widget build(BuildContext context) {
+
+    final double backgroundHeight = MediaQuery.of(context).size.width * 0.5;
+    final double carouselHeight = MediaQuery.of(context).size.width * 0.7;
 
     double screenHeight = MediaQuery.of(context).size.height;
     double screenWidth = MediaQuery.of(context).size.width;
@@ -578,6 +598,69 @@ class _homePageState extends State<homePage> with TickerProviderStateMixin{
                 ),
               ),*/
 
+
+              SingleChildScrollView(
+    child: Column(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: [
+    Container(
+    padding: EdgeInsets.all(16.0),
+    child: Text(
+    'Our Achievements',
+    style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+    ),
+    ),
+    CarouselSlider(
+    options: CarouselOptions(
+    height: 200.0,
+    enlargeCenterPage: true,
+    autoPlay: true,
+    ),
+    items: [1, 2, 5].map((i) {
+    return Builder(
+    builder: (BuildContext context) {
+    return Card(
+    elevation: 5,
+    child: SingleChildScrollView(
+      child: Column(
+      children: [
+      Image.asset('assets/backgrounds/awards_bg$i.jpg', fit: BoxFit.cover),
+      Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Text('Award Title $i'),
+      ),
+      Text('Year $i'),
+      ],
+      ),
+    ),
+    );
+    },
+    );
+    }).toList(),
+    ),
+    Padding(
+    padding: EdgeInsets.all(16.0),
+    child: Text(
+    'Detailed Recognition',
+    style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+    ),
+    ),
+    ...[1, 2, 5].map((i) {
+    return Card(
+    margin: EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+    child: ListTile(
+    contentPadding: EdgeInsets.all(16.0),
+    leading: Image.asset('assets/backgrounds/awards_bg$i.jpg', width: 50, height: 50),
+    title: Text('Award Title $i'),
+    subtitle: Text('Year $i\nDescription of the award'),
+    ),
+    );
+    }).toList(),
+    ],
+    ),
+    ),
+
+
               SizedBox(height: screenHeight * 0.125,),
               /*ContactsHome(),*/
 
@@ -623,13 +706,14 @@ class _homePageState extends State<homePage> with TickerProviderStateMixin{
                         viewportFraction: 0.7,
                         enlargeCenterPage: true,
                         enlargeStrategy: CenterPageEnlargeStrategy.height,
+                        enableInfiniteScroll: false,
                         onPageChanged: (index, reason) {
                           setState(() {
                             _currentIndex = index;
                           });
                         },
                       ),
-                      items: _projects.where((project) => project.status == "Active").map((project) =>
+                      items: _projects.where((project) => project.proj_system == "1").map((project) =>
                           InkWell(
                             onTap: (){
                               PersistentNavBarNavigator.pushNewScreenWithRouteSettings(
@@ -651,12 +735,26 @@ class _homePageState extends State<homePage> with TickerProviderStateMixin{
                                       child: Container(
                                         width: MediaQuery.of(context).size.width * 0.7, // Adjust width as needed
                                         height: MediaQuery.of(context).size.width * 0.7 * 1.3, // Adjust height as needed
-                                        child: Image.network(
-                                          "${API.projectsImage + project.images}",
-                                          fit: BoxFit.cover, // Adjust this to change how the image fits within the container
+                                        child: CachedNetworkImage(
+                                          imageUrl: "${API.projectsImage + project.images}", // Main image URL
+                                          fit: BoxFit.fill, // Adjust this to change how the image fits within the container
+                                          placeholder: (context, url) => Center(
+                                            child: CircularProgressIndicator(),
+                                          ),
+                                          errorWidget: (context, url, error) => Container(
+                                            color: Colors.black,
+                                            child: Center(
+                                              child: Icon(
+                                                Icons.error,
+                                                color: Colors.red,
+                                                size: 40.0,
+                                              ),
+                                            ),
+                                          ),
                                         ),
                                       ),
                                     ),
+
                                     Container(
                                       decoration: BoxDecoration(
                                         gradient: LinearGradient(
@@ -742,11 +840,37 @@ class _homePageState extends State<homePage> with TickerProviderStateMixin{
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.vertical(top: Radius.circular(10.0)),
                                     image: DecorationImage(
-                                      image: NetworkImage("${API.projectsImage + news.news_image}"),
+                                      image: CachedNetworkImageProvider("${API.projectsImage + news.news_image}"),
                                       fit: BoxFit.cover,
                                     ),
                                   ),
+                                  child: Stack(
+                                    children: [
+                                      Positioned.fill(
+                                        child: Container(
+                                          child: CachedNetworkImage(
+                                            imageUrl: "${API.projectsImage + news.news_image}",
+                                            fit: BoxFit.cover,
+                                            placeholder: (context, url) => Center(
+                                              child: CircularProgressIndicator(),
+                                            ),
+                                            errorWidget: (context, url, error) => Container(
+                                              color: Colors.black,
+                                              child: Center(
+                                                child: Icon(
+                                                  Icons.error,
+                                                  color: Colors.red,
+                                                  size: 40.0,
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
                                 ),
+
                                 // Text below the image
                                 Padding(
                                   padding: const EdgeInsets.all(8.0),

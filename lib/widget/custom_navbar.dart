@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:enye_app/screens/products/products1.dart';
+import 'package:enye_app/screens/projects/project_page2.dart';
 import 'package:enye_app/screens/screens.dart';
 import 'package:enye_app/screens/services/survey.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -12,6 +13,7 @@ import '../config/app_checksession.dart';
 import '../dashboardicon_icons.dart';
 import '../screens/services/survey_data.dart';
 import '../screens/services/survey_svc.dart';
+import '../screens/systems/systemsPage2.dart';
 import 'widgets.dart';
 
 class CustomNavBar extends StatefulWidget {
@@ -225,9 +227,9 @@ class _CustomNavBarState extends State<CustomNavBar> {
     List<Widget> _buildScreens() {
       return [
         homePage(),
-        systemsPage(),
+        systemsPage2(),
         productsPage(),
-        ProjectsPage(),
+        ProjectPage2(),
         AccountPage(),
         // ServicePage(message: message as RemoteMessage),
       ];

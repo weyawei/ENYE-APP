@@ -1,4 +1,6 @@
 import 'dart:io';
+import 'dart:ui';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dio/dio.dart';
 import 'package:open_file_plus/open_file_plus.dart';
 import 'package:path_provider/path_provider.dart';
@@ -123,175 +125,204 @@ class _detailedProjPageState extends State<detailedProjPage> with TickerProvider
                 _getProjects();
               });
             },
-            child: Stack(
-              children: [
-                Positioned.fill(
-                  child: DecoratedBox(
-                    decoration: BoxDecoration(
-                      image: DecorationImage(
-                        image: NetworkImage("${API.projectsImage + _projects[0].images.toString()}"),
-                        fit: BoxFit.fill,
-                      ),
-                    ),
+            child:SingleChildScrollView(
+              child: Stack(
+                children: [
+                  // Blurred Background Image
+                  Positioned.fill(
                     child: Container(
-                      decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                          colors: [Colors.blue.withOpacity(0.2), Colors.deepOrange.shade100.withOpacity(0.2)],
-                          stops: [0.0, 1],
-                          begin: Alignment.topCenter,
-                        ),
+                      color: Colors.transparent, // Ensure container is transparent
+                      child: Stack(
+                        children: [
+                          // Original Background Image
+                          Positioned.fill(
+                            child: CachedNetworkImage(
+                              imageUrl: "${API.projectsImage + _projects[0].images.toString()}",
+                              imageBuilder: (context, imageProvider) => DecoratedBox(
+                                decoration: BoxDecoration(
+                                  image: DecorationImage(
+                                    image: imageProvider,
+                                    fit: BoxFit.fill, // Ensure the image covers the container
+                                  ),
+                                ),
+                              ),
+                              placeholder: (context, url) => Center(
+                                child: CircularProgressIndicator(),
+                              ),
+                              errorWidget: (context, url, error) => DecoratedBox(
+                                decoration: BoxDecoration(
+                                  color: Colors.black, // Fallback color if image fails to load
+                                ),
+                                child: Center(
+                                  child: Icon(
+                                    Icons.error,
+                                    color: Colors.red,
+                                    size: 40.0,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+
+                          // Blur Effect
+                          BackdropFilter(
+                            filter: ImageFilter.blur(sigmaX: 2.0, sigmaY: 2.0),
+                            child: Container(
+                              color: Colors.black.withOpacity(0.3), // Semi-transparent overlay
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                   ),
-                ),
-                // Container(
-                //   decoration: BoxDecoration(
-                //     image: DecorationImage(image: NetworkImage("${API.projectsImage + _projects[0].images.toString()}"), fit: BoxFit.fill),
-                //   ),
-                //   child: Container(
-                //     decoration: BoxDecoration(
-                //       gradient: LinearGradient(
-                //         colors: [Colors.blue.withOpacity(0.2), Colors.deepOrange.shade100.withOpacity(0.2)],
-                //         stops: [0.0, 1],
-                //         begin: Alignment.topCenter,
-                //       ),
-                //     ),
-                //   )
-                // ),
 
-                ListView(
-                  children: [
-                    //PROJECT TITLE
-                    Align(
-                      alignment: Alignment.topRight,
-                      child: Container(
-                        width: screenWidth * 1,
-                        margin: EdgeInsets.only(top: screenHeight * 0.12),
-                        padding: EdgeInsets.all(16.0),
-                        decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                            begin: Alignment.centerRight,
-                            end: Alignment.centerLeft,
-                            colors: [Colors.deepOrange.shade300, Colors.deepOrange.withOpacity(0.1)],
+                  // Main Image and Details Card
+                  Align(
+                    alignment: Alignment.center,
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        // Main Image (centered)
+                        Container(
+                          height: screenHeight * 0.4, // Adjust height as needed
+                          width: screenWidth * 0.8, // Adjust width as needed
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10.0), // Optional: Add border radius
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black.withOpacity(0.5),
+                                blurRadius: 10.0,
+                              ),
+                            ], // Optional: Add shadow
                           ),
-                        ),
-                        child: Text(
-                          "${_projects[0].title.toString()}",
-                          style: TextStyle(fontSize: fontXXSize, color: Colors.white, fontWeight: FontWeight.bold, letterSpacing: 1.2,),
-                          textAlign: TextAlign.right,
-                        ),
-                      ),
-                    ),
-
-                    //PROJECT DESCRIPTION 1
-                    Align(
-                      alignment: Alignment.topLeft,
-                      child: Container(
-                        width: screenWidth * 1,
-                        padding: EdgeInsets.all(17.0),
-                        decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                            begin: Alignment.centerRight,
-                            end: Alignment.centerLeft,
-                            colors: [Colors.deepOrange.shade300, Colors.deepOrange.withOpacity(0.1)],
-                          ),
-                        ),
-                        child: Text(
-                          "${_projects[0].description1.toString()}",
-                          style: TextStyle(
-                            fontSize: fontExtraSize,
-                            color: Colors.white,
-                            fontWeight: FontWeight.w500,
-                            wordSpacing: 2.0,
-                            letterSpacing: 1.2,
-                          ),
-                          textAlign: TextAlign.left,
-                        ),
-                      ),
-                    ),
-
-
-                    //PROJECT DESCRIPTION 2
-                    Align(
-                      alignment: Alignment.topRight,
-                      child: Container(
-                        width: screenWidth * 1,
-                        padding: EdgeInsets.all(16.0),
-                        decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                            begin: Alignment.centerRight,
-                            end: Alignment.centerLeft,
-                            colors: [Colors.deepOrange.shade300, Colors.deepOrange.withOpacity(0.1)],
-                          ),
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.only(top: 20),
-                          child: Text(
-                            "${_projects[0].description2.toString()}",
-                            style: TextStyle(
-                                fontSize: fontNormalSize,
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                                wordSpacing: 2.0,
-                                letterSpacing: 1.2,
-                                height: 1.5
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(10.0), // Ensure border radius is applied to the image
+                            child: CachedNetworkImage(
+                              imageUrl: "${API.projectsImage + _projects[0].images.toString()}", // Main image URL
+                              imageBuilder: (context, imageProvider) => Container(
+                                decoration: BoxDecoration(
+                                  image: DecorationImage(
+                                    image: imageProvider,
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
+                              ),
+                              placeholder: (context, url) => Center(
+                                child: CircularProgressIndicator(),
+                              ),
+                              errorWidget: (context, url, error) => Container(
+                                color: Colors.black,
+                                child: Center(
+                                  child: Icon(
+                                    Icons.error,
+                                    color: Colors.red,
+                                    size: 40.0,
+                                  ),
+                                ),
+                              ),
                             ),
-                            textAlign: TextAlign.right,
                           ),
                         ),
-                      ),
-                    ),
 
-                    Align(
-                      alignment: Alignment.topRight,
-                      child: Container(
-                        width: screenWidth * 1,
-                        padding: EdgeInsets.all(16.0),
-                        decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                            begin: Alignment.centerRight,
-                            end: Alignment.centerLeft,
-                            colors: [Colors.deepOrange.shade300, Colors.deepOrange.withOpacity(0.1)],
-                          ),
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.only(top: 20, left: 60),
-                          child:
-                          _projects[0].projCatalogs.toString() == null ||  _projects[0].projCatalogs.isEmpty
-                              ? Container()
-                              : Row(
-                            children: [
-                              Lottie.asset("assets/lottie/arrow_detailed_projects.json", height: screenHeight * 0.05,),
-                              _progress != null
-                                  ? const CircularProgressIndicator()
-                                  :TextButton(
-                                child: Text("View Catalog",
-                                  style: TextStyle(
-                                      fontSize: fontExtraSize,
-                                      color: Colors.white,
+
+                        SizedBox(height: 20), // Space between main image and details card
+
+                        // Details Card
+                        Container(
+                          width: screenWidth * 1, // Adjust width as needed
+                          padding: EdgeInsets.all(1.0),
+                          child: Card(
+                            elevation: 0.0,
+                            color: Colors.white.withOpacity(0.7), // Semi-transparent card background
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12.0),
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.all(5.0),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  // Project Title
+                                  Text(
+                                    "${_projects[0].title.toString()}",
+                                    style: TextStyle(
+                                      fontSize: fontXXSize,
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.bold,
+                                    //  letterSpacing: 1.2,
+                                    ),
+                                  ),
+
+                                  // Project Description 1
+                                  SizedBox(height: 8.0),
+                                  Text(
+                                    "${_projects[0].description1.toString()}",
+                                    style: TextStyle(
+                                      fontSize: fontNormalSize,
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.w500,
+                                      wordSpacing: 2.0,
+                                      letterSpacing: 1.2,
+                                    ),
+                                  ),
+
+                                  // Project Description 2
+                                  SizedBox(height: 8.0),
+                                  Text(
+                                    "${_projects[0].description2.toString()}",
+                                    style: TextStyle(
+                                      fontSize: fontNormalSize,
+                                      color: Colors.black,
                                       fontWeight: FontWeight.bold,
                                       wordSpacing: 2.0,
                                       letterSpacing: 1.2,
-                                      decoration: TextDecoration.underline
-                                  ),),
-                                onPressed: () => openFile(
-                                  url: "${API.fileCatalogsPdf + _projects[0].projCatalogs.toString()}",
-                                  filename: "${_projects[0].projCatalogs.toString()}",
-                                ),
+                                      height: 1.5,
+                                    ),
+                                  ),
+
+                                  // View Catalog Button
+                                  _projects[0].projCatalogs == null || _projects[0].projCatalogs.isEmpty
+                                      ? Container()
+                                      : Padding(
+                                    padding: const EdgeInsets.only(top: 20),
+                                    child: Row(
+                                      children: [
+                                        Lottie.asset("assets/lottie/arrow_detailed_projects.json", height: screenHeight * 0.05),
+                                        _progress != null
+                                            ? const CircularProgressIndicator()
+                                            : TextButton(
+                                          child: Text(
+                                            "View Catalog",
+                                            style: TextStyle(
+                                              fontSize: fontExtraSize,
+                                              color: Colors.deepOrange,
+                                              fontWeight: FontWeight.bold,
+                                              wordSpacing: 2.0,
+                                              letterSpacing: 1.2,
+                                              decoration: TextDecoration.underline,
+                                            ),
+                                          ),
+                                          onPressed: () => openFile(
+                                            url: "${API.fileCatalogsPdf + _projects[0].projCatalogs.toString()}",
+                                            filename: "${_projects[0].projCatalogs.toString()}",
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
                               ),
-                            ],
+                            ),
                           ),
                         ),
-                      ),
+                      ],
                     ),
+                  ),
+                ],
+              ),
+            )
 
-                    SizedBox(height: screenHeight * 0.12,)
-                  ],
-                ),
-
-              ]
-            ),
-          )
+      )
     );
   }
 }
