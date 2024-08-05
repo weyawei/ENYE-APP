@@ -599,7 +599,7 @@ class _homePageState extends State<homePage> with TickerProviderStateMixin{
               ),*/
 
 
-              SingleChildScrollView(
+            /*  SingleChildScrollView(
     child: Column(
     crossAxisAlignment: CrossAxisAlignment.start,
     children: [
@@ -658,10 +658,10 @@ class _homePageState extends State<homePage> with TickerProviderStateMixin{
     }).toList(),
     ],
     ),
-    ),
+    ),*/
 
 
-              SizedBox(height: screenHeight * 0.125,),
+        //      SizedBox(height: screenHeight * 0.125,),
               /*ContactsHome(),*/
 
               Container(

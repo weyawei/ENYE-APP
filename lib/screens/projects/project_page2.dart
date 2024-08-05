@@ -111,7 +111,7 @@ class _ProjectPage2State extends State<ProjectPage2> {
               children: [
                 // Background Image
                 Container(
-                  height: backgroundHeight * 1.6,
+                  height: backgroundHeight * 2.1,
                   width: double.infinity,
                   child: _projectsTop.isNotEmpty
                       ? CachedNetworkImage(
@@ -128,7 +128,7 @@ class _ProjectPage2State extends State<ProjectPage2> {
                 ),
                 // Carousel Overflowing Below Background Image
                 Positioned(
-                  top: 65.0, // Adjust this value to place the image as needed
+                  top: 95.0, // Adjust this value to place the image as needed
                   left: 0,
                   right: -150.0,
                   child: Container(
@@ -142,7 +142,7 @@ class _ProjectPage2State extends State<ProjectPage2> {
                   ),
                 ),
                 Container(
-                  margin: EdgeInsets.only(top: backgroundHeight * 0.6), // Position carousel below the background
+                  margin: EdgeInsets.only(top: backgroundHeight * 0.9), // Position carousel below the background
                   height: carouselHeight,
                   child: CarouselSlider.builder(
                     itemCount: _projectsTop.length,
@@ -181,7 +181,7 @@ class _ProjectPage2State extends State<ProjectPage2> {
                     options: CarouselOptions(
                       enlargeCenterPage: true,
                       autoPlay: false,
-                      aspectRatio: 1.6,
+                      aspectRatio: 1.45,
                       viewportFraction: 0.7,
                       autoPlayInterval: Duration(seconds: 3),
                       enableInfiniteScroll: false, // Disable looping
