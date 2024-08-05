@@ -1,6 +1,7 @@
 import 'dart:math';
 import 'dart:ui';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:enye_app/screens/product/product_category_list_page.dart';
 import 'package:flutter/material.dart';
@@ -113,8 +114,11 @@ class _productsPageState extends State<productsPage> with TickerProviderStateMix
   }
   late FocusNode searchFocusNode;
 
+  final ScrollController _scrollController = ScrollController();
+
   @override
   void dispose() {
+    _scrollController.dispose();
     _controller.dispose();
     _speech.cancel();
     searchFocusNode.dispose();
@@ -278,10 +282,24 @@ class _productsPageState extends State<productsPage> with TickerProviderStateMix
                               color: Colors.white,
                               child: Stack(
                                 children: <Widget>[
-                                  Image.network(
-                                    //"${API.prodCategIcon + widget.productcategory.icon}",
-                                    "${API.prodCat + bann.banner_image}",
+                                  CachedNetworkImage(
+                                    imageUrl: "${API.prodCat + bann.banner_image}",
                                     fit: BoxFit.fill,
+                                    placeholder: (context, url) => Center(
+                                      child: CircularProgressIndicator(),
+                                    ),
+                                    errorWidget: (context, url, error) => Container(
+                                      color: Colors.black,
+                                      child: Center(
+                                        child: Text(
+                                          "FAILED TO LOAD THE IMAGE",
+                                          style: TextStyle(
+                                            fontSize: fontSmallSize,
+                                            color: Colors.black54
+                                          ),
+                                        ),
+                                      ),
+                                    ),
                                     width: screenWidth,
                                     height: screenHeight * 0.5,
                                   ),
@@ -425,13 +443,15 @@ class _productsPageState extends State<productsPage> with TickerProviderStateMix
                         child: Visibility(
                           visible: searchResults.isNotEmpty,
                           child: Container(
-                            height: MediaQuery.of(context).size.height * 0.2, // Adjusted height
+                            height: MediaQuery.of(context).size.height * 0.25, // Adjusted height
                             color: Colors.white.withOpacity(0.9),
                             child: Scrollbar(
                               thumbVisibility: true,
                               thickness: 10.0,
                               radius: Radius.circular(8.0),
+                              controller: _scrollController, // Provide the ScrollController here
                               child: ListView.builder(
+                                controller: _scrollController, // And here
                                 shrinkWrap: true,
                                 physics: AlwaysScrollableScrollPhysics(),
                                 itemCount: searchResults.length < visibleProductCount
@@ -439,8 +459,8 @@ class _productsPageState extends State<productsPage> with TickerProviderStateMix
                                     : visibleProductCount,
                                 itemBuilder: (context, index) {
                                   final product = searchResults[index];
-                                  productCategory prodCategory = _prodCategory.where(
-                                          (element) => element.id == searchResults[index].category_id)
+                                  productCategory prodCategory = _prodCategory
+                                      .where((element) => element.id == searchResults[index].category_id)
                                       .elementAt(0);
 
                                   return Center(
@@ -578,12 +598,26 @@ class _productsPageState extends State<productsPage> with TickerProviderStateMix
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Image.network(
-                                "${API.prodCategIcon + category[index].icon}",
-                                height: fontExtraSize * 4, // Adjust as needed
-                                width: fontExtraSize * 4, // Adjust as needed
+                              CachedNetworkImage(
+                                imageUrl: "${API.prodCategIcon + category[index].icon}",
+                                placeholder: (context, url) => Center(
+                                  child: CircularProgressIndicator(),
+                                ),
+                                errorWidget: (context, url, error) => Container(
+                                  color: Colors.black,
+                                  child: Center(
+                                    child: Text(
+                                      "FAILED TO LOAD THE IMAGE",
+                                      style: TextStyle(
+                                          fontSize: fontSmallSize,
+                                          color: Colors.black54
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                height: fontExtraSize * 4,
+                                width: fontExtraSize * 4,
                               ),
-                              // SizedBox(height: 15.0, width: 15,),
                               Flexible(
                                 child: Text(
                                   textAlign: TextAlign.center,
