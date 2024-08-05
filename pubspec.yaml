@@ -91,7 +91,11 @@ dependencies:
   firebase_auth:
 
   sign_in_with_apple:
+  iconly:
 
+#    this is for 3d purposes
+  model_viewer_plus:
+#  flutter_3d_controller:
 
 dev_dependencies:
   flutter_test:
@@ -128,6 +132,7 @@ flutter:
     - assets/backgrounds/
     - assets/logo/
     - assets/icons/
+    - assets/imges/
 #    - assets/svg/
 #    - assets/images/
 #    - assets/image/

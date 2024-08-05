@@ -83,13 +83,13 @@ class ResponsiveTextUtils {
 
   static double getXXXFontSize(double width) {
     if (width <= 500) {
-      return 36.0;
+      return 30.0;
     } else if (width > 500 && width <= 800) {
-      return 43.0;
+      return 37.0;
     } else if (width > 800 && width <= 1100) {
-      return 50.0;
+      return 47.0;
     } else {
-      return 56.0;
+      return 57.0;
     }
   }
 }
