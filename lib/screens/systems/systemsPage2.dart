@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_options.dart';
 import 'package:carousel_slider/carousel_slider.dart';
@@ -111,6 +113,12 @@ class _systemsPage2State extends State<systemsPage2> with TickerProviderStateMix
                       errorWidget: (context, url, error) => Center(child: Icon(Icons.error)),
                       fit: BoxFit.fill,
                     ),
+                    BackdropFilter(
+                      filter: ImageFilter.blur(sigmaX: 2.0, sigmaY: 2.0),
+                      child: Container(
+                        color: Colors.black.withOpacity(0.3), // Semi-transparent overlay
+                      ),
+                    ),
                     Positioned(
                         child: Container(
                           decoration: BoxDecoration(
@@ -183,13 +191,18 @@ class _systemsPage2State extends State<systemsPage2> with TickerProviderStateMix
                                   ),
                                 ),
                                 SizedBox(height: 20),
-                                Text(
-                                  _systems[index].title,
-                                  style: TextStyle(
-                                    fontSize: fontExtraSize,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
+                                Container(
+                                  padding: EdgeInsets.all(8.0),
+                                  color: Colors.white.withOpacity(0.5),
+                                  child: Column(
+                                    children: [
+                                      Text(
+                                        _systems[index].title,
+                                        style: TextStyle(
+                                          fontSize: fontExtraSize,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
                                 Text(
                                   _isExpanded ? _systems[index].description : _systems[index].description.substring(0, 100) + "...",
                                   style: TextStyle(
@@ -210,6 +223,9 @@ class _systemsPage2State extends State<systemsPage2> with TickerProviderStateMix
                                       fontWeight: FontWeight.bold,
                                       color: Colors.blue,
                                     ),
+                                  ),
+                                ),
+                                    ],
                                   ),
                                 ),
                               ],
