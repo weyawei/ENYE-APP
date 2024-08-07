@@ -74,7 +74,7 @@ class _productCarouselState extends State<productCarousel> {
             PersistentNavBarNavigator.pushNewScreenWithRouteSettings(
               context,
               settings: RouteSettings(name: detailedProductPage.routeName),
-              screen: ProductItemScreen(products: product, category: prodCategory),
+              screen: ProductItemScreen(products: product),
               withNavBar: true,
               pageTransitionAnimation: PageTransitionAnimation.cupertino,
             );

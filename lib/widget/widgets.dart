@@ -1,3 +1,4 @@
+export 'global_data.dart';
 export 'global_controller.dart';
 export 'custom_appbar.dart';
 export 'custom_navbar.dart';

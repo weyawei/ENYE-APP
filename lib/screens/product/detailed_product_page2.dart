@@ -21,8 +21,7 @@ import '../screens.dart';
 class ProductItemScreen extends StatefulWidget {
   static const String routeName = '/ProductItemScreen';
   final product products;
-  final productCategory category;
-  const ProductItemScreen({required this.products, required this.category});
+  const ProductItemScreen({required this.products});
 
   @override
   State<ProductItemScreen> createState() => _ProductItemScreenState();
@@ -38,6 +37,7 @@ class _ProductItemScreenState extends State<ProductItemScreen> {
   void initState() {
     _getProductDetails();
     _getAllProducts();
+    _getProdCategory();
   }
 
   bool _isLoadingProdDetails = true;
@@ -59,6 +59,18 @@ class _ProductItemScreenState extends State<ProductItemScreen> {
       });
       _isLoadingRelatedProducts = false;
       print("Length ${product.length}");
+    });
+  }
+
+  List<productCategory> _prodCategory = [];
+  bool _isLoadingCategory = true;
+  _getProdCategory(){
+    productService.getProdCategory().then((productCategory){
+      setState(() {
+        _prodCategory = productCategory;
+      });
+      _isLoadingCategory = false;
+      print("Length ${productCategory.length}");
     });
   }
 
@@ -108,7 +120,7 @@ class _ProductItemScreenState extends State<ProductItemScreen> {
 
     return SafeArea(
         child: Scaffold(
-          body: _isLoadingProdDetails || _isLoadingRelatedProducts
+          body: _isLoadingProdDetails || _isLoadingRelatedProducts || _isLoadingCategory
           ? Center(child: CircularProgressIndicator())
           : Stack(
             children: [
@@ -168,7 +180,7 @@ class _ProductItemScreenState extends State<ProductItemScreen> {
                   ),
                 ),
               buttonArrow(context),
-              scroll(widget.category),
+              scroll(_prodCategory[0]),
             ],
           ),
           // Stack(
@@ -585,7 +597,7 @@ class _ProductItemScreenState extends State<ProductItemScreen> {
                               enlargeCenterPage: true,
                               enlargeStrategy: CenterPageEnlargeStrategy.height,
                             ),
-                            items: _relatedProducts.where((product) => product.category_id == widget.category.id).map((product) =>
+                            items: _relatedProducts.where((product) => product.category_id == prodCategory.id).map((product) =>
                                 InkWell(
                                   onTap: (){
                                     setState(() {
@@ -601,7 +613,7 @@ class _ProductItemScreenState extends State<ProductItemScreen> {
                                         context,
                                         settings: RouteSettings(name: detailedProductPage.routeName),
                                         // screen: detailedProductPage(products: widget.products[index],),
-                                        screen: ProductItemScreen(products: product, category: prodCategory),
+                                        screen: ProductItemScreen(products: product),
                                         withNavBar: true,
                                         pageTransitionAnimation: PageTransitionAnimation.cupertino,
                                       );

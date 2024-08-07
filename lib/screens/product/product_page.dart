@@ -64,6 +64,8 @@ class _productsPageState extends State<productsPage> with TickerProviderStateMix
     });
   }
 
+  String data = GlobalData.productId;
+
   @override
   void initState() {
     //allProducts = Product.products;
@@ -149,13 +151,34 @@ class _productsPageState extends State<productsPage> with TickerProviderStateMix
     });
   }
 
-  _getProducts(){
+  _getProducts() async {
+    await Future.delayed(Duration(seconds: 2));
     productService.getProducts().then((product){
       setState(() {
         _products = product;
       });
       _isLoadingProducts = false;
       print("Length ${product.length}");
+
+      // Check and navigate after products are loaded
+      if (data.isNotEmpty && _products.isNotEmpty) {
+        final productFrSystem = _products.firstWhere(
+              (element) => element.id == data,
+          orElse: () => throw ArgumentError('Product not found'),
+        );
+
+        if (productFrSystem != null) {
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            PersistentNavBarNavigator.pushNewScreenWithRouteSettings(
+              context,
+              settings: RouteSettings(name: ProductItemScreen.routeName),
+              screen: ProductItemScreen(products: productFrSystem),
+              withNavBar: true,
+              pageTransitionAnimation: PageTransitionAnimation.cupertino,
+            );
+          });
+        }
+      }
     });
   }
 
@@ -469,7 +492,7 @@ class _productsPageState extends State<productsPage> with TickerProviderStateMix
                                         PersistentNavBarNavigator.pushNewScreenWithRouteSettings(
                                           context,
                                           settings: RouteSettings(name: detailedProductPage.routeName),
-                                          screen: ProductItemScreen(products: product, category: prodCategory),
+                                          screen: ProductItemScreen(products: product),
                                           withNavBar: true,
                                           pageTransitionAnimation: PageTransitionAnimation.cupertino,
                                         );
