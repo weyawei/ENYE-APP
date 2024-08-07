@@ -39,6 +39,15 @@ class CustomNavBar extends StatefulWidget {
 
 class _CustomNavBarState extends State<CustomNavBar> {
   int _initialIndex = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    // Optionally set the initial index based on initialMessage
+    int initialIndex = 0; // Default or set based on initialMessage
+    navBarController.jumpToTab(initialIndex);
+  }
+
  /* // Declare the Timer
   Timer? _modalTimer;
  Timer? _refreshTimer;
@@ -360,7 +369,7 @@ class _CustomNavBarState extends State<CustomNavBar> {
 
     return PersistentTabView(
       context,
-      controller: _controller,
+      controller: navBarController,
       screens: _buildScreens(),
       navBarHeight: kBottomNavigationBarHeight,
       items: _navBarsItems(),
