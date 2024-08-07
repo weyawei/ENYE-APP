@@ -19,6 +19,7 @@ import '../../widget/widgets.dart';
 import '../screens.dart';
 
 class ProductItemScreen extends StatefulWidget {
+  static const String routeName = '/ProductItemScreen';
   final product products;
   final productCategory category;
   const ProductItemScreen({required this.products, required this.category});
