@@ -215,6 +215,7 @@ class _ProductItemScreenState extends State<ProductItemScreen> {
     double screenWidth = MediaQuery.of(context).size.width;
 
     var fontNormalSize = ResponsiveTextUtils.getNormalFontSize(screenWidth);
+    var fontSmallSize = ResponsiveTextUtils.getSmallFontSize(screenWidth);
 
     return Padding(
       padding: EdgeInsets.symmetric(vertical: screenHeight * 0.005, horizontal: screenWidth * 0.01),
@@ -269,6 +270,7 @@ class _ProductItemScreenState extends State<ProductItemScreen> {
             var fontExtraSize = ResponsiveTextUtils.getExtraFontSize(screenWidth);
             var fontXSize = ResponsiveTextUtils.getXFontSize(screenWidth);
             var fontXXSize = ResponsiveTextUtils.getXXFontSize(screenWidth);
+            var fontSmallSize = ResponsiveTextUtils.getSmallFontSize(screenWidth);
 
             return Container(
               padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -333,7 +335,8 @@ class _ProductItemScreenState extends State<ProductItemScreen> {
                           child: Text(
                             prodCategory.name,
                             style: TextStyle(
-                              fontSize: fontNormalSize
+                              fontSize: fontNormalSize,
+                              overflow: TextOverflow.ellipsis,
                             ),
                           ),
                         ),

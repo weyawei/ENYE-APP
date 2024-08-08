@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:model_viewer_plus/model_viewer_plus.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 
+import '../../widget/global_controller.dart';
+import '../../widget/global_data.dart';
 import '../product/detailed_product_page2.dart';
 import '../product/product.dart';
 
@@ -97,7 +99,11 @@ class _InteractiveImageState extends State<InteractiveImage> with TickerProvider
                             ),
                         InkWell(
                         onTap: () {
-                        setState(() {
+                          Navigator.of(context).pop();
+                          // Update the global data
+                          GlobalData.productId = '54';
+                          navBarController.jumpToTab(2); // Navigate to the Products tab
+                        /*setState(() {
                         PersistentNavBarNavigator
                             .pushNewScreenWithRouteSettings(
                         context,
@@ -108,7 +114,7 @@ class _InteractiveImageState extends State<InteractiveImage> with TickerProvider
                         pageTransitionAnimation: PageTransitionAnimation
                             .cupertino,
                         );
-                        });
+                        });*/
                         },
                           child: Text("View Details"),
                         ),
