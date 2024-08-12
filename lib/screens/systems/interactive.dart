@@ -105,7 +105,7 @@ class _InteractiveImageState extends State<InteractiveImage> with TickerProvider
                             navBarController.jumpToTab(2); // Navigate to the Products tab
                             setState(() {
                               GlobalData.productId = '54';
-                            });
+                            }); //comment
 
                         /*setState(() {
                         PersistentNavBarNavigator
