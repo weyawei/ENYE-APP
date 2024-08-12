@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:enye_app/screens/systems/interactive.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:lottie/lottie.dart';
@@ -10,6 +11,7 @@ import 'package:path_provider/path_provider.dart';
 import '../../config/api_connection.dart';
 import '../../widget/widgets.dart';
 import '../screens.dart';
+import 'InteractiveImagepage.dart';
 
 class detailedSysPage extends StatefulWidget {
   static const String routeName = '/detailedsystem';
@@ -234,7 +236,10 @@ class _detailedSysPageState extends State<detailedSysPage> with TickerProviderSt
                         ),
                       ),
 
-
+                     /* Container(
+                        height: 400,
+                          child: InteractiveImage()
+                      ),*/
                       SizedBox(height: screenHeight * 0.035,),
                       Padding(
                         padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.1),
@@ -290,6 +295,18 @@ class _detailedSysPageState extends State<detailedSysPage> with TickerProviderSt
                             ).toList(),
                           ),
                         ),
+
+                      TextButton(
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => InteractiveImagePage(systemId: widget.systems.id),
+                            ),
+                          );
+                        },
+                        child: Text('Go to Interactive Image'),
+                      ),
 
                       if (_sysTechSpecs != null && _sysTechSpecs!.isNotEmpty)
                         Column(

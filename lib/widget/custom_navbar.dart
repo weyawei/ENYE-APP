@@ -237,7 +237,7 @@ class _CustomNavBarState extends State<CustomNavBar> {
     List<Widget> _buildScreens() {
       return [
         homePage(),
-        systemsPage2(),
+        InteractiveImage(),
         productsPage(),
         ProjectPage2(),
         AccountPage(),

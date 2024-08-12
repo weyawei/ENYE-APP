@@ -64,7 +64,8 @@ class _InteractiveImageState extends State<InteractiveImage> with TickerProvider
   Widget build(BuildContext context) {
     double screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
-      appBar: AppBar(title: Text('Interactive Image Example')),
+      backgroundColor: Colors.black,
+    //  appBar: AppBar(title: Text('Interactive Image Example')),
       body: Center(
         child: InteractiveViewer(
           panEnabled: true, // Enable panning
@@ -79,6 +80,7 @@ class _InteractiveImageState extends State<InteractiveImage> with TickerProvider
                 //  width: 300, // Set desired width
                 fit: BoxFit.fill, // How the image should be inscribed into the space
               ),
+
               Positioned(
                 top: 180, // Position from top
                 left: 76, // Position from left
@@ -97,12 +99,14 @@ class _InteractiveImageState extends State<InteractiveImage> with TickerProvider
                               },
                               child: Text('Close'),
                             ),
-                        InkWell(
-                        onTap: () {
-                          Navigator.of(context).pop();
-                          // Update the global data
-                          GlobalData.productId = '54';
-                          navBarController.jumpToTab(2); // Navigate to the Products tab
+                          TextButton(
+                            onPressed: () {
+                            Navigator.of(context).pop();
+                            navBarController.jumpToTab(2); // Navigate to the Products tab
+                            setState(() {
+                              GlobalData.productId = '54';
+                            });
+
                         /*setState(() {
                         PersistentNavBarNavigator
                             .pushNewScreenWithRouteSettings(
@@ -151,6 +155,7 @@ class _InteractiveImageState extends State<InteractiveImage> with TickerProvider
                   ),
                 ),
               ),
+
               Positioned(
                 top: 290, // Position from top
                 left: 47, // Position from left
@@ -215,11 +220,11 @@ class _InteractiveImageState extends State<InteractiveImage> with TickerProvider
                             ),
                             TextButton(
                               onPressed: () {
-                                Navigator.of(context).push(
-                                  MaterialPageRoute(
-                                    builder: (context) => productsPage(),
-                                  ),
-                                );
+                                Navigator.of(context).pop();
+                                navBarController.jumpToTab(2); // Navigate to the Products tab
+                                setState(() {
+                                  GlobalData.productId = '55';
+                                });
                               },
                               child: Text('View Details'),
                             ),
@@ -256,6 +261,7 @@ class _InteractiveImageState extends State<InteractiveImage> with TickerProvider
                   ),
                 ),
               ),
+
               Positioned(
                 top: 150, // Position from top
                 left: 310, // Position from left
@@ -266,6 +272,68 @@ class _InteractiveImageState extends State<InteractiveImage> with TickerProvider
                       builder: (BuildContext context) {
                         return AlertDialog(
                           title: Text('Details of OMNI'),
+                          actions: <Widget>[
+                            TextButton(
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+                              child: Text('Close'),
+                            ),
+                            TextButton(
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                                navBarController.jumpToTab(2); // Navigate to the Products tab
+                                setState(() {
+                                  GlobalData.productId = '56';
+                                });
+                              },
+                              child: Text('View Details'),
+                            ),
+                          ],
+                        );
+                      },
+                    );
+                  },
+                  child: AnimatedBuilder(
+                    animation: _colorAnimation,
+                    builder: (context, child) {
+                      return Container(
+                        width: 30, // Width of the clickable area
+                        height: 30, // Height of the clickable area
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle, // Make the container a circle
+                          gradient: RadialGradient(
+                            colors: [
+                              _colorAnimation.value ?? Colors.transparent,
+                              Colors.transparent,
+                            ],
+                            stops: [0.5, 1],
+                          ),
+                          boxShadow: [
+                            BoxShadow(
+                              color: _colorAnimation.value ?? Colors.transparent,
+                              blurRadius: 10,
+                              spreadRadius: 5,
+                            ),
+                          ],
+                        ),
+                      );
+                    },
+                  ),
+                ),
+              ),
+
+              Positioned(
+                top: 150, // Position from top
+                left: 270, // Position from left
+                child: GestureDetector(
+                  onTap: () {
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          title: Text('VFD'),
+                          content: Text('Details of VFD'),
                           actions: <Widget>[
                             TextButton(
                               onPressed: () {
@@ -316,17 +384,328 @@ class _InteractiveImageState extends State<InteractiveImage> with TickerProvider
                   ),
                 ),
               ),
+
               Positioned(
-                top: 150, // Position from top
-                left: 270, // Position from left
+                top: 270, // Position from top
+                left: 110, // Position from left
                 child: GestureDetector(
                   onTap: () {
                     showDialog(
                       context: context,
                       builder: (BuildContext context) {
                         return AlertDialog(
-                          title: Text('VFD'),
-                          content: Text('Details of VFD'),
+                          title: Text('Differential Pressure Sensor'),
+                          content: Text('Details of DFS'),
+                          actions: <Widget>[
+                            TextButton(
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+                              child: Text('Close'),
+                            ),
+                            TextButton(
+                              onPressed: () {
+                                Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                    builder: (context) => productsPage(),
+                                  ),
+                                );
+                              },
+                              child: Text('View Details'),
+                            ),
+                          ],
+                        );
+                      },
+                    );
+                  },
+                  child: AnimatedBuilder(
+                    animation: _colorAnimation,
+                    builder: (context, child) {
+                      return Container(
+                        width: 30, // Width of the clickable area
+                        height: 30, // Height of the clickable area
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle, // Make the container a circle
+                          gradient: RadialGradient(
+                            colors: [
+                              _colorAnimation.value ?? Colors.transparent,
+                              Colors.transparent,
+                            ],
+                            stops: [0.5, 1],
+                          ),
+                          boxShadow: [
+                            BoxShadow(
+                              color: _colorAnimation.value ?? Colors.transparent,
+                              blurRadius: 10,
+                              spreadRadius: 5,
+                            ),
+                          ],
+                        ),
+                      );
+                    },
+                  ),
+                ),
+              ),
+
+              Positioned(
+                top: 290, // Position from top
+                left: 185, // Position from left
+                child: GestureDetector(
+                  onTap: () {
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          title: Text('Pressure Independent Balancing and Control Valve'),
+                          content: Text('Details of PIBCV'),
+                          actions: <Widget>[
+                            TextButton(
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+                              child: Text('Close'),
+                            ),
+                            TextButton(
+                              onPressed: () {
+                                Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                    builder: (context) => productsPage(),
+                                  ),
+                                );
+                              },
+                              child: Text('View Details'),
+                            ),
+                          ],
+                        );
+                      },
+                    );
+                  },
+                  child: AnimatedBuilder(
+                    animation: _colorAnimation,
+                    builder: (context, child) {
+                      return Container(
+                        width: 30, // Width of the clickable area
+                        height: 30, // Height of the clickable area
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle, // Make the container a circle
+                          gradient: RadialGradient(
+                            colors: [
+                              _colorAnimation.value ?? Colors.transparent,
+                              Colors.transparent,
+                            ],
+                            stops: [0.5, 1],
+                          ),
+                          boxShadow: [
+                            BoxShadow(
+                              color: _colorAnimation.value ?? Colors.transparent,
+                              blurRadius: 10,
+                              spreadRadius: 5,
+                            ),
+                          ],
+                        ),
+                      );
+                    },
+                  ),
+                ),
+              ),
+
+              Positioned(
+                top: 190, // Position from top
+                left: 200, // Position from left
+                child: GestureDetector(
+                  onTap: () {
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          title: Text('Temperature Sensor'),
+                          content: Text('Details of TS'),
+                          actions: <Widget>[
+                            TextButton(
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+                              child: Text('Close'),
+                            ),
+                            TextButton(
+                              onPressed: () {
+                                Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                    builder: (context) => productsPage(),
+                                  ),
+                                );
+                              },
+                              child: Text('View Details'),
+                            ),
+                          ],
+                        );
+                      },
+                    );
+                  },
+                  child: AnimatedBuilder(
+                    animation: _colorAnimation,
+                    builder: (context, child) {
+                      return Container(
+                        width: 30, // Width of the clickable area
+                        height: 30, // Height of the clickable area
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle, // Make the container a circle
+                          gradient: RadialGradient(
+                            colors: [
+                              _colorAnimation.value ?? Colors.transparent,
+                              Colors.transparent,
+                            ],
+                            stops: [0.5, 1],
+                          ),
+                          boxShadow: [
+                            BoxShadow(
+                              color: _colorAnimation.value ?? Colors.transparent,
+                              blurRadius: 10,
+                              spreadRadius: 5,
+                            ),
+                          ],
+                        ),
+                      );
+                    },
+                  ),
+                ),
+              ),
+
+              Positioned(
+                top: 195, // Position from top
+                left: 180, // Position from left
+                child: GestureDetector(
+                  onTap: () {
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          title: Text('Air Velocity Sensor'),
+                          content: Text('Details of AVS'),
+                          actions: <Widget>[
+                            TextButton(
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+                              child: Text('Close'),
+                            ),
+                            TextButton(
+                              onPressed: () {
+                                Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                    builder: (context) => productsPage(),
+                                  ),
+                                );
+                              },
+                              child: Text('View Details'),
+                            ),
+                          ],
+                        );
+                      },
+                    );
+                  },
+                  child: AnimatedBuilder(
+                    animation: _colorAnimation,
+                    builder: (context, child) {
+                      return Container(
+                        width: 30, // Width of the clickable area
+                        height: 30, // Height of the clickable area
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle, // Make the container a circle
+                          gradient: RadialGradient(
+                            colors: [
+                              _colorAnimation.value ?? Colors.transparent,
+                              Colors.transparent,
+                            ],
+                            stops: [0.5, 1],
+                          ),
+                          boxShadow: [
+                            BoxShadow(
+                              color: _colorAnimation.value ?? Colors.transparent,
+                              blurRadius: 10,
+                              spreadRadius: 5,
+                            ),
+                          ],
+                        ),
+                      );
+                    },
+                  ),
+                ),
+              ),
+
+              Positioned(
+                top: 105, // Position from top
+                left: 125, // Position from left
+                child: GestureDetector(
+                  onTap: () {
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          title: Text('Air Velocity Sensor'),
+                          content: Text('Details of AVS'),
+                          actions: <Widget>[
+                            TextButton(
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+                              child: Text('Close'),
+                            ),
+                            TextButton(
+                              onPressed: () {
+                                Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                    builder: (context) => productsPage(),
+                                  ),
+                                );
+                              },
+                              child: Text('View Details'),
+                            ),
+                          ],
+                        );
+                      },
+                    );
+                  },
+                  child: AnimatedBuilder(
+                    animation: _colorAnimation,
+                    builder: (context, child) {
+                      return Container(
+                        width: 30, // Width of the clickable area
+                        height: 30, // Height of the clickable area
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle, // Make the container a circle
+                          gradient: RadialGradient(
+                            colors: [
+                              _colorAnimation.value ?? Colors.transparent,
+                              Colors.transparent,
+                            ],
+                            stops: [0.5, 1],
+                          ),
+                          boxShadow: [
+                            BoxShadow(
+                              color: _colorAnimation.value ?? Colors.transparent,
+                              blurRadius: 10,
+                              spreadRadius: 5,
+                            ),
+                          ],
+                        ),
+                      );
+                    },
+                  ),
+                ),
+              ),
+
+              Positioned(
+                top: 113, // Position from top
+                left: 100, // Position from left
+                child: GestureDetector(
+                  onTap: () {
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          title: Text('Temperature Sensor'),
+                          content: Text('Details of TS'),
                           actions: <Widget>[
                             TextButton(
                               onPressed: () {
