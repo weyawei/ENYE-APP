@@ -543,8 +543,8 @@ class _ProductZoomPageState extends State<ProductZoomPage> {
                       Positioned(
                         left: MediaQuery.of(context).size.width * 0.28,
                         top: MediaQuery.of(context).size.height * 0.14,
-                        width: 30,
-                        height: 30,
+                        width: MediaQuery.of(context).size.width * 0.06, // Relative size
+                        height: MediaQuery.of(context).size.height * 0.04, // Relative size
                         child: GestureDetector(
                           onTap: () {
                            /* _zoomToProduct(
@@ -564,8 +564,8 @@ class _ProductZoomPageState extends State<ProductZoomPage> {
                       Positioned(
                         left: MediaQuery.of(context).size.width * 0.2,
                         top: MediaQuery.of(context).size.height * 0.23,
-                        width: 30,
-                        height: 30,
+                        width: MediaQuery.of(context).size.width * 0.06, // Relative size
+                        height: MediaQuery.of(context).size.height * 0.04, // Relative size
                         child: GestureDetector(
                           onTap: () {
                           /*  _zoomToProduct(
@@ -584,8 +584,8 @@ class _ProductZoomPageState extends State<ProductZoomPage> {
                       Positioned(
                         left: MediaQuery.of(context).size.width * 0.13,
                         top: MediaQuery.of(context).size.height * 0.38,
-                        width: 30,
-                        height: 30,
+                        width: MediaQuery.of(context).size.width * 0.06, // Relative size
+                        height: MediaQuery.of(context).size.height * 0.04, // Relative size
                         child: GestureDetector(
                           onTap: () {
                            /* _zoomToProduct(
@@ -605,8 +605,8 @@ class _ProductZoomPageState extends State<ProductZoomPage> {
                       Positioned(
                         left: MediaQuery.of(context).size.width * 0.36,
                         top: MediaQuery.of(context).size.height * 0.135,
-                        width: 30,
-                        height: 30,
+                        width: MediaQuery.of(context).size.width * 0.06, // Relative size
+                        height: MediaQuery.of(context).size.height * 0.04, // Relative size
                         child: GestureDetector(
                           onTap: () {
                            /* _zoomToProduct(
@@ -626,8 +626,8 @@ class _ProductZoomPageState extends State<ProductZoomPage> {
                       Positioned(
                         left: MediaQuery.of(context).size.width * 0.3,
                         top: MediaQuery.of(context).size.height * 0.34,
-                        width: 30,
-                        height: 30,
+                        width: MediaQuery.of(context).size.width * 0.06, // Relative size
+                        height: MediaQuery.of(context).size.height * 0.04, // Relative size
                         child: GestureDetector(
                           onTap: () {
                             /* _zoomToProduct(
@@ -647,8 +647,8 @@ class _ProductZoomPageState extends State<ProductZoomPage> {
                       Positioned(
                         left: MediaQuery.of(context).size.width * 0.5,
                         top: MediaQuery.of(context).size.height * 0.38,
-                        width: 30,
-                        height: 30,
+                        width: MediaQuery.of(context).size.width * 0.06, // Relative size
+                        height: MediaQuery.of(context).size.height * 0.04, // Relative size
                         child: GestureDetector(
                           onTap: () {
                             /* _zoomToProduct(
@@ -668,8 +668,8 @@ class _ProductZoomPageState extends State<ProductZoomPage> {
                       Positioned(
                         left: MediaQuery.of(context).size.width * 0.57,
                         top: MediaQuery.of(context).size.height * 0.25,
-                        width: 30,
-                        height: 30,
+                        width: MediaQuery.of(context).size.width * 0.06, // Relative size
+                        height: MediaQuery.of(context).size.height * 0.04, // Relative size
                         child: GestureDetector(
                           onTap: () {
                             /* _zoomToProduct(
@@ -689,8 +689,8 @@ class _ProductZoomPageState extends State<ProductZoomPage> {
                       Positioned(
                         left: MediaQuery.of(context).size.width * 0.75,
                         top: MediaQuery.of(context).size.height * 0.19,
-                        width: 30,
-                        height: 30,
+                        width: MediaQuery.of(context).size.width * 0.06, // Relative size
+                        height: MediaQuery.of(context).size.height * 0.04, // Relative size
                         child: GestureDetector(
                           onTap: () {
                             /* _zoomToProduct(
@@ -710,8 +710,8 @@ class _ProductZoomPageState extends State<ProductZoomPage> {
                       Positioned(
                         left: MediaQuery.of(context).size.width * 0.85,
                         top: MediaQuery.of(context).size.height * 0.18,
-                        width: 30,
-                        height: 30,
+                        width: MediaQuery.of(context).size.width * 0.06, // Relative size
+                        height: MediaQuery.of(context).size.height * 0.04, // Relative size
                         child: GestureDetector(
                           onTap: () {
                             /* _zoomToProduct(
