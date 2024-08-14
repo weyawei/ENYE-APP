@@ -518,6 +518,7 @@ class _ProductZoomPageState extends State<ProductZoomPage> {
   Widget build(BuildContext context) {
     double screenHeight = MediaQuery.of(context).size.height;
     double heightFraction = 400 / screenHeight;
+    double heightFraction1 = 50 / screenHeight;
     return Scaffold(
       appBar: AppBar(title: Text('Schematic Diagram'),
       backgroundColor: Colors.transparent,
@@ -528,7 +529,7 @@ class _ProductZoomPageState extends State<ProductZoomPage> {
           // Main Image with InteractiveViewer and GestureDetectors
           Column(
             children: [
-              SizedBox(height: 50,),
+              SizedBox(height: MediaQuery.of(context).size.height * heightFraction1),
               Expanded(
                 child: InteractiveViewer(
                   transformationController: _transformationController,
