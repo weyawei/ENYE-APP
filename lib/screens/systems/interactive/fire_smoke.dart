@@ -321,12 +321,12 @@ class _FireSmokePageState extends State<FireSmokePage> {
                       onPressed: () {
                         _zoomToProduct(
                           Rect.fromLTWH(
-                            MediaQuery.of(context).size.width * 0.46,
+                            MediaQuery.of(context).size.width * 0.48,
                             MediaQuery.of(context).size.height * 0.01,
                             MediaQuery.of(context).size.width * 0.1,
                             MediaQuery.of(context).size.height * 0.1,
                           ),
-                          Offset(MediaQuery.of(context).size.width * -0.28, MediaQuery.of(context).size.height * 0.2),
+                          Offset(MediaQuery.of(context).size.width * -0.28, MediaQuery.of(context).size.height * 0.25),
                           Offset(MediaQuery.of(context).size.width * -0.01, MediaQuery.of(context).size.height * 0.07),
                               () => _showProduct1Details(context),
                         );
@@ -349,11 +349,11 @@ class _FireSmokePageState extends State<FireSmokePage> {
                         _zoomToProduct(
                           Rect.fromLTWH(
                             MediaQuery.of(context).size.width * 0.4,
-                            MediaQuery.of(context).size.height * 0.08,
+                            MediaQuery.of(context).size.height * 0.35,
                             MediaQuery.of(context).size.width * 0.1,
                             MediaQuery.of(context).size.height * 0.1,
                           ),
-                          Offset(MediaQuery.of(context).size.width * -0.15, MediaQuery.of(context).size.height * 0.3),
+                          Offset(MediaQuery.of(context).size.width * -0.15, MediaQuery.of(context).size.height * -0.2),
                           Offset(MediaQuery.of(context).size.width * -0.01, MediaQuery.of(context).size.height * 0.07),
                               () => _showProduct2Details(context),
                         );
@@ -376,11 +376,11 @@ class _FireSmokePageState extends State<FireSmokePage> {
                         _zoomToProduct(
                           Rect.fromLTWH(
                             MediaQuery.of(context).size.width * 0.3,
-                            MediaQuery.of(context).size.height * 0.07,
+                            MediaQuery.of(context).size.height * 0.15,
                             MediaQuery.of(context).size.width * 0.1,
                             MediaQuery.of(context).size.height * 0.1,
                           ),
-                          Offset(MediaQuery.of(context).size.width * -0.1, MediaQuery.of(context).size.height * 0.28),
+                          Offset(MediaQuery.of(context).size.width * -0.05, MediaQuery.of(context).size.height * 0.1),
                           Offset(MediaQuery.of(context).size.width * -0.01, MediaQuery.of(context).size.height * 0.07),
                               () => _showProduct3Details(context),
                         );
