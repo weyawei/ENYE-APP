@@ -536,7 +536,7 @@ class _ProductZoomPageState extends State<ProductZoomPage> {
                     children: [
                       Image.asset(
                         'assets/systems/ahu/ahu_1.png',
-                        height: MediaQuery.of(context).size.height * 0.4,
+                        height: MediaQuery.of(context).size.height * 0.52,
                         fit: BoxFit.fill,
                       ),
                       // GestureDetector for Product 1
