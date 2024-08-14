@@ -862,7 +862,7 @@ class _ProductZoomPageState extends State<ProductZoomPage> {
                           ),
                           Offset(MediaQuery.of(context).size.width * -0.06, MediaQuery.of(context).size.height * -0.01),
                           Offset(MediaQuery.of(context).size.width * -0.01, MediaQuery.of(context).size.height * 0.07),
-                              () => _showProduct2Details(context),
+                              () => _showProduct5Details(context),
                         );
                       /*  _zoomToProduct(
                           Rect.fromLTWH(135, 250, 100, 100),
@@ -943,7 +943,7 @@ class _ProductZoomPageState extends State<ProductZoomPage> {
                           ),
                           Offset(MediaQuery.of(context).size.width * -0.43, MediaQuery.of(context).size.height * 0.15),
                           Offset(MediaQuery.of(context).size.width * -0.01, MediaQuery.of(context).size.height * 0.07),
-                              () => _showProduct7Details(context),
+                              () => _showProduct8Details(context),
                         );
                        /* _zoomToProduct(
                           Rect.fromLTWH(250, 105, 100, 100),
