@@ -45,13 +45,6 @@ class _SmokeExtractPageState extends State<SmokeExtractPage> {
       _floatingButtonPosition = _arrowPosition! + buttonOffset;
     });
 
-    _showFloatingButton = true;
-    _floatingButtonPosition = _arrowPosition! + buttonOffset;
-
-    // Set action for the floating button
-    setState(() {
-      _showFloatingButton = true;
-    });
     _floatingButtonAction = onDetailsPressed;
   }
 
@@ -59,16 +52,16 @@ class _SmokeExtractPageState extends State<SmokeExtractPage> {
 
   // Separate methods for each product's details
   void _showProduct1Details(BuildContext context) {
-    // Code to display image or other details for Product 1
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: Text("EC Smoke Extraction System Controller (EC-SES)",
+        title: Text(
+          "EC Smoke Extraction System Controller (EC-SES)",
           style: TextStyle(
-              fontSize: MediaQuery.of(context).size.width * 0.045,
-              letterSpacing: 0.8,
-              fontWeight: FontWeight.bold,
-              color: Color(0xFF2E3E5C)
+            fontSize: MediaQuery.of(context).size.width * 0.045,
+            letterSpacing: 0.8,
+            fontWeight: FontWeight.bold,
+            color: Color(0xFF2E3E5C),
           ),
         ),
         content: SingleChildScrollView(
@@ -76,28 +69,26 @@ class _SmokeExtractPageState extends State<SmokeExtractPage> {
             children: [
               Image.asset(
                 'assets/systems/smoke_extract/omni.png',
-                width: MediaQuery.of(context).size.width * 1,
+                width: MediaQuery.of(context).size.width,
                 height: MediaQuery.of(context).size.width * 0.5,
                 fit: BoxFit.fill,
               ),
               Text(
                 "EC Smoke Extraction System Controller (EC-SES)",
                 style: TextStyle(
-                    fontSize: MediaQuery.of(context).size.width * 0.035,
-                    letterSpacing: 0.8,
-                    fontWeight: FontWeight.bold,
-                    color: Color(0xFF2E3E5C)
+                  fontSize: MediaQuery.of(context).size.width * 0.035,
+                  letterSpacing: 0.8,
+                  fontWeight: FontWeight.bold,
+                  color: Color(0xFF2E3E5C),
                 ),
-
               ),
-              //   SizedBox(height: 10,),
               Text(
                 "\n Features \n\n• 40, 20 or 14 Point (UI/O) models with the ability to use any point  as an input or output, allowing greater flexibility \n• UI/O update rates up to 500Hz (2ms) \n• Individual UI/O LEDs for status indication and fault diagnostics \n• Ethernet, RS-485 and USB communications \n• Battery backed Real Time Clock for memory 5 years. \n• Feature rich multi -platform Web-server \n• Polarity independent AC or DC Power Supply \n• User replaceable log data memory via MicroSD \n• Reporting of controller and programmable point self -diagnostics \n• Click and drag programming \n• Easily accessible USB ports offer a fast localised configuration interface and access to logged data.",
                 style: TextStyle(
-                    fontSize: MediaQuery.of(context).size.width * 0.036,
-                    letterSpacing: 0.8,
-                    fontWeight: FontWeight.normal,
-                    color: Color(0xFF2E3E5C)
+                  fontSize: MediaQuery.of(context).size.width * 0.036,
+                  letterSpacing: 0.8,
+                  fontWeight: FontWeight.normal,
+                  color: Color(0xFF2E3E5C),
                 ),
               ),
             ],
@@ -117,7 +108,6 @@ class _SmokeExtractPageState extends State<SmokeExtractPage> {
   }
 
   void _showProduct2Details(BuildContext context) {
-    // Code to display 3D model for Product 2
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
@@ -126,7 +116,7 @@ class _SmokeExtractPageState extends State<SmokeExtractPage> {
           child: Column(
             children: [
               SizedBox(
-                width: MediaQuery.of(context).size.width * 1,
+                width: MediaQuery.of(context).size.width,
                 height: MediaQuery.of(context).size.width * 0.7,
                 child: ModelViewer(
                   src: 'assets/systems/smoke_extract/smoke_damper.png',
@@ -138,21 +128,19 @@ class _SmokeExtractPageState extends State<SmokeExtractPage> {
               Text(
                 "Fire and Smoke Damper Actuator",
                 style: TextStyle(
-                    fontSize: MediaQuery.of(context).size.width * 0.045,
-                    letterSpacing: 0.8,
-                    fontWeight: FontWeight.bold,
-                    color: Color(0xFF2E3E5C)
+                  fontSize: MediaQuery.of(context).size.width * 0.045,
+                  letterSpacing: 0.8,
+                  fontWeight: FontWeight.bold,
+                  color: Color(0xFF2E3E5C),
                 ),
-
               ),
-              //   SizedBox(height: 10,),
               Text(
                 "\n Features \n\n• Selectable direction of rotation \n• Manual over-ride by crank handle when required \n• Thermal sensor option available \n• Anti-rotation bracket provided \n• 2 Fixed auxiliary switches (SPDT) \n• Maintenance free",
                 style: TextStyle(
-                    fontSize: MediaQuery.of(context).size.width * 0.036,
-                    letterSpacing: 0.8,
-                    fontWeight: FontWeight.normal,
-                    color: Color(0xFF2E3E5C)
+                  fontSize: MediaQuery.of(context).size.width * 0.036,
+                  letterSpacing: 0.8,
+                  fontWeight: FontWeight.normal,
+                  color: Color(0xFF2E3E5C),
                 ),
               ),
             ],
@@ -171,13 +159,11 @@ class _SmokeExtractPageState extends State<SmokeExtractPage> {
     );
   }
 
-
-
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Schematic Diagram'),
+      appBar: AppBar(
+        title: Text('Schematic Diagram'),
         backgroundColor: Colors.transparent,
       ),
       backgroundColor: Colors.black,
@@ -186,7 +172,7 @@ class _SmokeExtractPageState extends State<SmokeExtractPage> {
           // Main Image with InteractiveViewer and GestureDetectors
           Column(
             children: [
-              SizedBox(height: 50,),
+              SizedBox(height: 50),
               Expanded(
                 child: InteractiveViewer(
                   transformationController: _transformationController,
@@ -196,57 +182,44 @@ class _SmokeExtractPageState extends State<SmokeExtractPage> {
                     children: [
                       Image.asset(
                         'assets/systems/smoke_extract/smoke.png',
-                        height: 400,
+                        height: MediaQuery.of(context).size.height * 0.4, // Relative height
                         fit: BoxFit.fill,
                       ),
                       // GestureDetector for Product 1
                       Positioned(
                         left: MediaQuery.of(context).size.width * 0.59,
-                        top: MediaQuery.of(context).size.width * 0.13,
-                        width: 30,
-                        height: 30,
+                        top: MediaQuery.of(context).size.height * 0.05, // Adjusted for relative positioning
+                        width: MediaQuery.of(context).size.width * 0.05, // Relative size
+                        height: MediaQuery.of(context).size.height * 0.03, // Relative size
                         child: GestureDetector(
                           onTap: () {
-                            /* _zoomToProduct(
-                              Rect.fromLTWH(55, 70, 100, 100),
-                              Offset(-30, -30),
-                              Offset(-40, 50),
-                                  () => _showProduct1Details(context),
-                            );*/
                             _showProduct1Details(context);
                           },
                           child: Container(
-                            color: Colors.transparent,
+                            color: Colors.white,
                           ),
                         ),
                       ),
-                      // GestureDetector for Product 2s
+                      // GestureDetector for Product 2
                       Positioned(
-                        left: MediaQuery.of(context).size.width * 0.53,
-                        top: MediaQuery.of(context).size.width * 0.45,
-                        width: 30,
-                        height: 30,
+                        left: MediaQuery.of(context).size.width * 0.55,
+                        top: MediaQuery.of(context).size.height * 0.17, // Adjusted for relative positioning
+                        width: MediaQuery.of(context).size.width * 0.05, // Relative size
+                        height: MediaQuery.of(context).size.height * 0.03, // Relative size
                         child: GestureDetector(
                           onTap: () {
-                            /*  _zoomToProduct(
-                              Rect.fromLTWH(40, 110, 100, 100),
-                              Offset(-30, -40),
-                              Offset(-40, 50),
-                                  () => _showProduct2Details(context),
-                            );*/
                             _showProduct2Details(context);
                           },
                           child: Container(
-                            color: Colors.transparent,
+                            color: Colors.white,
                           ),
                         ),
                       ),
-
                     ],
                   ),
                 ),
               ),
-              // Small image buttons corresponding to different productsxxx
+              // Small image buttons corresponding to different products
               SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
                 child: Row(
@@ -255,15 +228,20 @@ class _SmokeExtractPageState extends State<SmokeExtractPage> {
                     IconButton(
                       icon: Image.asset(
                         'assets/systems/smoke_extract/omni.png',
-                        height: 150,
+                        height: MediaQuery.of(context).size.height * 0.2, // Relative height
                         fit: BoxFit.fill,
                       ),
-                      iconSize: 80,
+                      iconSize: MediaQuery.of(context).size.width * 0.2, // Relative size
                       onPressed: () {
                         _zoomToProduct(
-                          Rect.fromLTWH(160, -10, 100, 100),
-                          Offset(-90, 270),
-                          Offset(-40, 50),
+                          Rect.fromLTWH(
+                            MediaQuery.of(context).size.width * 0.46,
+                            MediaQuery.of(context).size.height * 0.01,
+                            MediaQuery.of(context).size.width * 0.15,
+                            MediaQuery.of(context).size.height * 0.2,
+                          ),
+                          Offset(MediaQuery.of(context).size.width * -0.3, MediaQuery.of(context).size.height * 0.2),
+                          Offset(MediaQuery.of(context).size.width * -0.1, MediaQuery.of(context).size.height * 0.1),
                               () => _showProduct1Details(context),
                         );
                       },
@@ -271,46 +249,49 @@ class _SmokeExtractPageState extends State<SmokeExtractPage> {
                     IconButton(
                       icon: Image.asset(
                         'assets/systems/smoke_extract/smoke_damper.png',
-                        height: 150,
+                        height: MediaQuery.of(context).size.height * 0.2, // Relative height
                         fit: BoxFit.fill,
                       ),
-                      iconSize: 80,
+                      iconSize: MediaQuery.of(context).size.width * 0.2, // Relative size
                       onPressed: () {
                         _zoomToProduct(
-                          Rect.fromLTWH(118, 115, 100, 100),
-                          Offset(30, 60),
-                          Offset(-40, 50),
+                          Rect.fromLTWH(
+                            MediaQuery.of(context).size.width * 0.4,
+                            MediaQuery.of(context).size.height * 0.07,
+                            MediaQuery.of(context).size.width * 0.1,
+                            MediaQuery.of(context).size.height * 0.1,
+                          ),
+                          Offset(MediaQuery.of(context).size.width * -0.17, MediaQuery.of(context).size.height * 0.3),
+                          Offset(MediaQuery.of(context).size.width * -0.1, MediaQuery.of(context).size.height * 0.1),
                               () => _showProduct2Details(context),
                         );
                       },
                     ),
-
                   ],
                 ),
               ),
             ],
           ),
-          // Arrow indicator and Floating Action Button
-          if (_arrowPosition != null)
-            Stack(
-              children: [
-                if (_showArrow)
-                  Positioned(
-                    left: _arrowPosition!.dx,
-                    top: _arrowPosition!.dy,
-                    child: Icon(Icons.arrow_drop_up, size: 100, color: Colors.red),
-                  ),
-                if (_showFloatingButton)
-                  Positioned(
-                    left: _floatingButtonPosition!.dx,
-                    top: _floatingButtonPosition!.dy,
-                    child: FloatingActionButton.extended(
-                      onPressed: _floatingButtonAction,
-                      label: Text('View Details'),
-                      icon: Icon(Icons.info_outline),
-                    ),
-                  ),
-              ],
+          // Arrow and Floating Button
+          if (_showArrow && _arrowPosition != null)
+            Positioned(
+              left: _arrowPosition!.dx,
+              top: _arrowPosition!.dy,
+              child: Icon(
+                Icons.arrow_drop_up,
+                color: Colors.red,
+                size: 100,
+              ),
+            ),
+          if (_showFloatingButton && _floatingButtonPosition != null)
+            Positioned(
+              left: _floatingButtonPosition!.dx,
+              top: _floatingButtonPosition!.dy,
+              child: FloatingActionButton.extended(
+                onPressed: _floatingButtonAction,
+                label: Text('View Details'),
+                icon: Icon(Icons.info_outline),
+              ),
             ),
         ],
       ),
