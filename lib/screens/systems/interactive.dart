@@ -516,6 +516,8 @@ class _ProductZoomPageState extends State<ProductZoomPage> {
 
   @override
   Widget build(BuildContext context) {
+    double screenHeight = MediaQuery.of(context).size.height;
+    double heightFraction = 400 / screenHeight;
     return Scaffold(
       appBar: AppBar(title: Text('Schematic Diagram'),
       backgroundColor: Colors.transparent,
@@ -536,7 +538,7 @@ class _ProductZoomPageState extends State<ProductZoomPage> {
                     children: [
                       Image.asset(
                         'assets/systems/ahu/ahu_1.png',
-                        height: 400,
+                        height: MediaQuery.of(context).size.height * heightFraction,
                         fit: BoxFit.fill,
                       ),
                       // GestureDetector for Product 1
