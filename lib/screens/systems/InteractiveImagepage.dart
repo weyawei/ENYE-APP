@@ -1,6 +1,13 @@
 // lib/interactive_image_page.dart
+import 'package:enye_app/screens/systems/interactive/chiller.dart';
+import 'package:enye_app/screens/systems/interactive/fdas.dart';
+import 'package:enye_app/screens/systems/interactive/smart_vav.dart';
+import 'package:enye_app/screens/systems/interactive/smoke_extract.dart';
+import 'package:enye_app/screens/systems/interactive/stairwell.dart';
 import 'package:flutter/material.dart';
 import 'interactive.dart';
+import 'interactive/fire_smoke.dart';
+import 'interactive/smart.dart';
 // Add more imports as needed
 
 class InteractiveImagePage extends StatelessWidget {
@@ -14,29 +21,32 @@ class InteractiveImagePage extends StatelessWidget {
 
     // Determine which InteractiveImage widget to display based on systemId
     switch (systemId) {
-      case '10':
-        interactiveImage = InteractiveImage();
+      case '100':
+        interactiveImage = Smart();
         break;
       case '11':
-        interactiveImage = InteractiveImage();
+        interactiveImage = SmartVavPage();
         break;
       case '12':
-        interactiveImage = InteractiveImage();
+        interactiveImage = ProductZoomPage();
         break;
       case '13':
-        interactiveImage = InteractiveImage();
+        interactiveImage = ChillerPage();
         break;
       case '14':
-        interactiveImage = InteractiveImage();
+        interactiveImage = SmokeExtractPage();
         break;
       case '15':
-        interactiveImage = InteractiveImage();
+        interactiveImage = FireSmokePage();
         break;
       case '16':
-        interactiveImage = InteractiveImage();
+        interactiveImage = StairwellPage();
         break;
       case '17':
-        interactiveImage = InteractiveImage();
+        interactiveImage = FiremanControlPage();
+        break;
+      case '180':
+        interactiveImage = Smart();
         break;
     // Add more cases as needed
       default:
@@ -44,9 +54,9 @@ class InteractiveImagePage extends StatelessWidget {
     }
 
     return Scaffold(
-      appBar: AppBar(
+    /*  appBar: AppBar(
         title: Text('Interactive Image'),
-      ),
+      ),*/
       body: interactiveImage,
     );
   }

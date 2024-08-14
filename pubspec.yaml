@@ -132,7 +132,14 @@ flutter:
     - assets/backgrounds/
     - assets/logo/
     - assets/icons/
-    - assets/images/
+    - assets/systems/
+    - assets/systems/ahu/
+    - assets/systems/stairwell/
+    - assets/systems/smart/
+    - assets/systems/smoke_extract/
+    - assets/systems/fire_smoke/
+    - assets/systems/chiller/
+    - assets/systems/fdas/
 #    - assets/svg/
 #    - assets/images/
 #    - assets/image/
