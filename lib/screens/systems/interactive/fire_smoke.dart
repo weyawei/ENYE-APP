@@ -251,7 +251,7 @@ class _FireSmokePageState extends State<FireSmokePage> {
                       // GestureDetector for Product 1
                       Positioned(
                         left: MediaQuery.of(context).size.width * 0.60,
-                        top: MediaQuery.of(context).size.height * 0.05, // Adjusted for relative positioning
+                        top: MediaQuery.of(context).size.height * 0.07, // Adjusted for relative positioning
                         width: MediaQuery.of(context).size.width * 0.05, // Relative size
                         height: MediaQuery.of(context).size.height * 0.03, // Relative size
                         child: GestureDetector(
@@ -266,7 +266,21 @@ class _FireSmokePageState extends State<FireSmokePage> {
                       // GestureDetector for Product 2
                       Positioned(
                         left: MediaQuery.of(context).size.width * 0.56,
-                        top: MediaQuery.of(context).size.height * 0.18, // Adjusted for relative positioning
+                        top: MediaQuery.of(context).size.height * 0.25, // Adjusted for relative positioning
+                        width: MediaQuery.of(context).size.width * 0.05, // Relative size
+                        height: MediaQuery.of(context).size.height * 0.03, // Relative size
+                        child: GestureDetector(
+                          onTap: () {
+                            _showProduct2Details(context);
+                          },
+                          child: Container(
+                            color: Colors.transparent,
+                          ),
+                        ),
+                      ),
+                      Positioned(
+                        left: MediaQuery.of(context).size.width * 0.56,
+                        top: MediaQuery.of(context).size.height * 0.43, // Adjusted for relative positioning
                         width: MediaQuery.of(context).size.width * 0.05, // Relative size
                         height: MediaQuery.of(context).size.height * 0.03, // Relative size
                         child: GestureDetector(
@@ -281,7 +295,7 @@ class _FireSmokePageState extends State<FireSmokePage> {
 
                       Positioned(
                         left: MediaQuery.of(context).size.width * 0.44,
-                        top: MediaQuery.of(context).size.width * 0.37,
+                        top: MediaQuery.of(context).size.height * 0.23,
                         width: MediaQuery.of(context).size.width * 0.05, // Relative size
                         height: MediaQuery.of(context).size.height * 0.03, // Relative size
                         child: GestureDetector(
@@ -299,6 +313,27 @@ class _FireSmokePageState extends State<FireSmokePage> {
                           ),
                         ),
                       ),
+                      Positioned(
+                        left: MediaQuery.of(context).size.width * 0.44,
+                        top: MediaQuery.of(context).size.height * 0.40,
+                        width: MediaQuery.of(context).size.width * 0.05, // Relative size
+                        height: MediaQuery.of(context).size.height * 0.03, // Relative size
+                        child: GestureDetector(
+                          onTap: () {
+                            /* _zoomToProduct(
+                              Rect.fromLTWH(55, 70, 100, 100),
+                              Offset(-30, -30),
+                              Offset(-40, 50),
+                                  () => _showProduct3Details(context),
+                            );*/
+                            _showProduct3Details(context);
+                          },
+                          child: Container(
+                            color: Colors.transparent,
+                          ),
+                        ),
+                      ),
+
 
 
                     ],
