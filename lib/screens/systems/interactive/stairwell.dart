@@ -319,7 +319,7 @@ class _StairwellPageState extends State<StairwellPage> {
                             _showProduct1Details(context);
                           },
                           child: Container(
-                            color: Colors.white,
+                            color: Colors.transparent,
                           ),
                         ),
                       ),
@@ -340,7 +340,7 @@ class _StairwellPageState extends State<StairwellPage> {
                             _showProduct2Details(context);
                           },
                           child: Container(
-                            color: Colors.white,
+                            color: Colors.transparent,
                           ),
                         ),
                       ),
@@ -361,7 +361,7 @@ class _StairwellPageState extends State<StairwellPage> {
                             _showProduct3Details(context);
                           },
                           child: Container(
-                            color: Colors.white,
+                            color: Colors.transparent,
                           ),
                         ),
                       ),
@@ -382,7 +382,7 @@ class _StairwellPageState extends State<StairwellPage> {
                             _showProduct4Details(context);
                           },
                           child: Container(
-                            color: Colors.white,
+                            color: Colors.transparent,
                           ),
                         ),
                       ),
@@ -442,7 +442,7 @@ class _StairwellPageState extends State<StairwellPage> {
                           ),
                           Offset(MediaQuery.of(context).size.width * 0.22, MediaQuery.of(context).size.height * 0.35),
                           Offset(MediaQuery.of(context).size.width * -0.01, MediaQuery.of(context).size.height * 0.07),
-                              () => _showProduct1Details(context),
+                              () => _showProduct2Details(context),
                         );
                        /* _zoomToProduct(
                           Rect.fromLTWH(40, 125, 100, 100),
@@ -469,7 +469,7 @@ class _StairwellPageState extends State<StairwellPage> {
                           ),
                           Offset(MediaQuery.of(context).size.width * -0.28, MediaQuery.of(context).size.height * 0.3),
                           Offset(MediaQuery.of(context).size.width * -0.01, MediaQuery.of(context).size.height * 0.07),
-                              () => _showProduct1Details(context),
+                              () => _showProduct3Details(context),
                         );
                       /*  _zoomToProduct(
                           Rect.fromLTWH(65, 50, 100, 100),
@@ -496,7 +496,7 @@ class _StairwellPageState extends State<StairwellPage> {
                           ),
                           Offset(MediaQuery.of(context).size.width * -0.2, MediaQuery.of(context).size.height * 0.1),
                           Offset(MediaQuery.of(context).size.width * -0.01, MediaQuery.of(context).size.height * 0.07),
-                              () => _showProduct1Details(context),
+                              () => _showProduct4Details(context),
                         );
                        /* _zoomToProduct(
                           Rect.fromLTWH(65, 200, 100, 100),
