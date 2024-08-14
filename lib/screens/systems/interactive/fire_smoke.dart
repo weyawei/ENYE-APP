@@ -63,7 +63,7 @@ class _FireSmokePageState extends State<FireSmokePage> {
       context: context,
       builder: (context) => AlertDialog(
         title: Text(
-          "EC Smoke Extraction System Controller (EC-SES)",
+          "OMNI Controller",
           style: TextStyle(
             fontSize: MediaQuery.of(context).size.width * 0.045,
             letterSpacing: 0.8,
