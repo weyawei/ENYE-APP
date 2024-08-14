@@ -262,7 +262,7 @@ class _SmokeExtractPageState extends State<SmokeExtractPage> {
                             MediaQuery.of(context).size.height * 0.1,
                           ),
                           Offset(MediaQuery.of(context).size.width * -0.15, MediaQuery.of(context).size.height * 0.3),
-                          Offset(MediaQuery.of(context).size.width * -0.1, MediaQuery.of(context).size.height * 0.07),
+                          Offset(MediaQuery.of(context).size.width * -0.01, MediaQuery.of(context).size.height * 0.07),
                               () => _showProduct2Details(context),
                         );
                       },

@@ -536,7 +536,7 @@ class _ProductZoomPageState extends State<ProductZoomPage> {
                     children: [
                       Image.asset(
                         'assets/systems/ahu/ahu_1.png',
-                        height: 400,
+                        height: MediaQuery.of(context).size.height * 0.4,
                         fit: BoxFit.fill,
                       ),
                       // GestureDetector for Product 1
@@ -556,7 +556,7 @@ class _ProductZoomPageState extends State<ProductZoomPage> {
                             _showProduct1Details(context);
                           },
                           child: Container(
-                            color: Colors.transparent,
+                            color: Colors.white,
                           ),
                         ),
                       ),
@@ -577,7 +577,7 @@ class _ProductZoomPageState extends State<ProductZoomPage> {
                             _showProduct2Details(context);
                           },
                           child: Container(
-                            color: Colors.transparent,
+                            color: Colors.white,
                           ),
                         ),
                       ),
@@ -597,7 +597,7 @@ class _ProductZoomPageState extends State<ProductZoomPage> {
                             _showProduct2Details(context);
                           },
                           child: Container(
-                            color: Colors.transparent,
+                            color: Colors.white,
                           ),
                         ),
                       ),
@@ -618,7 +618,7 @@ class _ProductZoomPageState extends State<ProductZoomPage> {
                             _showProduct3Details(context);
                           },
                           child: Container(
-                            color: Colors.transparent,
+                            color: Colors.white,
                           ),
                         ),
                       ),
@@ -639,7 +639,7 @@ class _ProductZoomPageState extends State<ProductZoomPage> {
                             _showProduct4Details(context);
                           },
                           child: Container(
-                            color: Colors.transparent,
+                            color: Colors.white,
                           ),
                         ),
                       ),
@@ -660,7 +660,7 @@ class _ProductZoomPageState extends State<ProductZoomPage> {
                             _showProduct5Details(context);
                           },
                           child: Container(
-                            color: Colors.transparent,
+                            color: Colors.white,
                           ),
                         ),
                       ),
@@ -681,7 +681,7 @@ class _ProductZoomPageState extends State<ProductZoomPage> {
                             _showProduct6Details(context);
                           },
                           child: Container(
-                            color: Colors.transparent,
+                            color: Colors.white,
                           ),
                         ),
                       ),
@@ -702,7 +702,7 @@ class _ProductZoomPageState extends State<ProductZoomPage> {
                             _showProduct7Details(context);
                           },
                           child: Container(
-                            color: Colors.transparent,
+                            color: Colors.white,
                           ),
                         ),
                       ),
@@ -723,7 +723,7 @@ class _ProductZoomPageState extends State<ProductZoomPage> {
                             _showProduct8Details(context);
                           },
                           child: Container(
-                            color: Colors.transparent,
+                            color: Colors.white,
                           ),
                         ),
                       ),
