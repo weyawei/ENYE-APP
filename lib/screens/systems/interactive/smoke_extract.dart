@@ -279,7 +279,7 @@ class _SmokeExtractPageState extends State<SmokeExtractPage> {
               top: _arrowPosition!.dy,
               child: Icon(
                 Icons.arrow_drop_up,
-                color: Colors.red,
+                color: Colors.transparent,
                 size: 100,
               ),
             ),

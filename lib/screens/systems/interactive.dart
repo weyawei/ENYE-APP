@@ -743,7 +743,7 @@ class _ProductZoomPageState extends State<ProductZoomPage> {
                         height: 150,
                         fit: BoxFit.fill,
                       ),
-                      iconSize: 80,
+                      iconSize: MediaQuery.of(context).size.width * 0.2, // Relative size
                       onPressed: () {
                         _zoomToProduct(
                           Rect.fromLTWH(
@@ -770,7 +770,7 @@ class _ProductZoomPageState extends State<ProductZoomPage> {
                         height: 150,
                         fit: BoxFit.fill,
                       ),
-                      iconSize: 80,
+                      iconSize: MediaQuery.of(context).size.width * 0.2, // Relative size
                       onPressed: () {
                         _zoomToProduct(
                           Rect.fromLTWH(
@@ -797,7 +797,7 @@ class _ProductZoomPageState extends State<ProductZoomPage> {
                         height: 150,
                         fit: BoxFit.fill,
                       ),
-                      iconSize: 80,
+                      iconSize: MediaQuery.of(context).size.width * 0.2, // Relative size
                       onPressed: () {
                         _zoomToProduct(
                           Rect.fromLTWH(
@@ -824,7 +824,7 @@ class _ProductZoomPageState extends State<ProductZoomPage> {
                         height: 150,
                         fit: BoxFit.fill,
                       ),
-                      iconSize: 80,
+                      iconSize: MediaQuery.of(context).size.width * 0.2, // Relative size
                       onPressed: () {
                         _zoomToProduct(
                           Rect.fromLTWH(
@@ -851,7 +851,7 @@ class _ProductZoomPageState extends State<ProductZoomPage> {
                         height: 150,
                         fit: BoxFit.fill,
                       ),
-                      iconSize: 80,
+                      iconSize: MediaQuery.of(context).size.width * 0.2, // Relative size
                       onPressed: () {
                         _zoomToProduct(
                           Rect.fromLTWH(
@@ -878,7 +878,7 @@ class _ProductZoomPageState extends State<ProductZoomPage> {
                         height: 150,
                         fit: BoxFit.fill,
                       ),
-                      iconSize: 80,
+                      iconSize: MediaQuery.of(context).size.width * 0.2, // Relative size
                       onPressed: () {
                         _zoomToProduct(
                           Rect.fromLTWH(
@@ -905,7 +905,7 @@ class _ProductZoomPageState extends State<ProductZoomPage> {
                         height: 150,
                         fit: BoxFit.fill,
                       ),
-                      iconSize: 80,
+                      iconSize: MediaQuery.of(context).size.width * 0.2, // Relative size
                       onPressed: () {
                         _zoomToProduct(
                           Rect.fromLTWH(
@@ -932,7 +932,7 @@ class _ProductZoomPageState extends State<ProductZoomPage> {
                         height: 150,
                         fit: BoxFit.fill,
                       ),
-                      iconSize: 80,
+                      iconSize: MediaQuery.of(context).size.width * 0.2, // Relative size
                       onPressed: () {
                         _zoomToProduct(
                           Rect.fromLTWH(
@@ -967,7 +967,7 @@ class _ProductZoomPageState extends State<ProductZoomPage> {
                   Positioned(
                     left: _arrowPosition!.dx,
                     top: _arrowPosition!.dy,
-                    child: Icon(Icons.arrow_drop_up, size: 100, color: Colors.red),
+                    child: Icon(Icons.arrow_drop_up, size: 100, color: Colors.transparent),
                   ),
                 if (_showFloatingButton)
                   Positioned(
