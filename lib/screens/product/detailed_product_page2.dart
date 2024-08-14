@@ -67,7 +67,7 @@ class _ProductItemScreenState extends State<ProductItemScreen> {
   _getProdCategory(){
     productService.getProdCategory().then((productCategory){
       setState(() {
-        _prodCategory = productCategory;
+        _prodCategory = productCategory.where((element) => element.id == widget.products.category_id).toList();;
       });
       _isLoadingCategory = false;
       print("Length ${productCategory.length}");
