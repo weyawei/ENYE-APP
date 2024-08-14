@@ -541,7 +541,7 @@ class _ProductZoomPageState extends State<ProductZoomPage> {
                       ),
                       // GestureDetector for Product 1
                       Positioned(
-                        left: MediaQuery.of(context).size.width * 0.28,
+                        left: MediaQuery.of(context).size.width * 0.29,
                         top: MediaQuery.of(context).size.height * 0.14,
                         width: MediaQuery.of(context).size.width * 0.06, // Relative size
                         height: MediaQuery.of(context).size.height * 0.04, // Relative size
@@ -556,13 +556,13 @@ class _ProductZoomPageState extends State<ProductZoomPage> {
                             _showProduct1Details(context);
                           },
                           child: Container(
-                            color: Colors.white,
+                            color: Colors.transparent,
                           ),
                         ),
                       ),
                       // GestureDetector for Product 2
                       Positioned(
-                        left: MediaQuery.of(context).size.width * 0.2,
+                        left: MediaQuery.of(context).size.width * 0.22,
                         top: MediaQuery.of(context).size.height * 0.23,
                         width: MediaQuery.of(context).size.width * 0.06, // Relative size
                         height: MediaQuery.of(context).size.height * 0.04, // Relative size
@@ -577,12 +577,12 @@ class _ProductZoomPageState extends State<ProductZoomPage> {
                             _showProduct2Details(context);
                           },
                           child: Container(
-                            color: Colors.white,
+                            color: Colors.transparent,
                           ),
                         ),
                       ),
                       Positioned(
-                        left: MediaQuery.of(context).size.width * 0.13,
+                        left: MediaQuery.of(context).size.width * 0.14,
                         top: MediaQuery.of(context).size.height * 0.38,
                         width: MediaQuery.of(context).size.width * 0.06, // Relative size
                         height: MediaQuery.of(context).size.height * 0.04, // Relative size
@@ -597,7 +597,7 @@ class _ProductZoomPageState extends State<ProductZoomPage> {
                             _showProduct2Details(context);
                           },
                           child: Container(
-                            color: Colors.white,
+                            color: Colors.transparent,
                           ),
                         ),
                       ),
@@ -618,13 +618,13 @@ class _ProductZoomPageState extends State<ProductZoomPage> {
                             _showProduct3Details(context);
                           },
                           child: Container(
-                            color: Colors.white,
+                            color: Colors.transparent,
                           ),
                         ),
                       ),
 
                       Positioned(
-                        left: MediaQuery.of(context).size.width * 0.3,
+                        left: MediaQuery.of(context).size.width * 0.305,
                         top: MediaQuery.of(context).size.height * 0.34,
                         width: MediaQuery.of(context).size.width * 0.06, // Relative size
                         height: MediaQuery.of(context).size.height * 0.04, // Relative size
@@ -639,13 +639,13 @@ class _ProductZoomPageState extends State<ProductZoomPage> {
                             _showProduct4Details(context);
                           },
                           child: Container(
-                            color: Colors.white,
+                            color: Colors.transparent,
                           ),
                         ),
                       ),
 
                       Positioned(
-                        left: MediaQuery.of(context).size.width * 0.5,
+                        left: MediaQuery.of(context).size.width * 0.51,
                         top: MediaQuery.of(context).size.height * 0.38,
                         width: MediaQuery.of(context).size.width * 0.06, // Relative size
                         height: MediaQuery.of(context).size.height * 0.04, // Relative size
@@ -660,7 +660,7 @@ class _ProductZoomPageState extends State<ProductZoomPage> {
                             _showProduct5Details(context);
                           },
                           child: Container(
-                            color: Colors.white,
+                            color: Colors.transparent,
                           ),
                         ),
                       ),
@@ -681,13 +681,13 @@ class _ProductZoomPageState extends State<ProductZoomPage> {
                             _showProduct6Details(context);
                           },
                           child: Container(
-                            color: Colors.white,
+                            color: Colors.transparent,
                           ),
                         ),
                       ),
 
                       Positioned(
-                        left: MediaQuery.of(context).size.width * 0.75,
+                        left: MediaQuery.of(context).size.width * 0.76,
                         top: MediaQuery.of(context).size.height * 0.19,
                         width: MediaQuery.of(context).size.width * 0.06, // Relative size
                         height: MediaQuery.of(context).size.height * 0.04, // Relative size
@@ -702,14 +702,14 @@ class _ProductZoomPageState extends State<ProductZoomPage> {
                             _showProduct7Details(context);
                           },
                           child: Container(
-                            color: Colors.white,
+                            color: Colors.transparent,
                           ),
                         ),
                       ),
 
                       Positioned(
-                        left: MediaQuery.of(context).size.width * 0.85,
-                        top: MediaQuery.of(context).size.height * 0.18,
+                        left: MediaQuery.of(context).size.width * 0.86,
+                        top: MediaQuery.of(context).size.height * 0.19,
                         width: MediaQuery.of(context).size.width * 0.06, // Relative size
                         height: MediaQuery.of(context).size.height * 0.04, // Relative size
                         child: GestureDetector(
@@ -723,7 +723,7 @@ class _ProductZoomPageState extends State<ProductZoomPage> {
                             _showProduct8Details(context);
                           },
                           child: Container(
-                            color: Colors.white,
+                            color: Colors.transparent,
                           ),
                         ),
                       ),
@@ -746,11 +746,22 @@ class _ProductZoomPageState extends State<ProductZoomPage> {
                       iconSize: 80,
                       onPressed: () {
                         _zoomToProduct(
+                          Rect.fromLTWH(
+                            MediaQuery.of(context).size.width * 0.2,
+                            MediaQuery.of(context).size.height * 0.05,
+                            MediaQuery.of(context).size.width * 0.1,
+                            MediaQuery.of(context).size.height * 0.1,
+                          ),
+                          Offset(MediaQuery.of(context).size.width * -0.05, MediaQuery.of(context).size.height * 0.3),
+                          Offset(MediaQuery.of(context).size.width * -0.01, MediaQuery.of(context).size.height * 0.07),
+                              () => _showProduct2Details(context),
+                        );
+                       /* _zoomToProduct(
                           Rect.fromLTWH(55, 50, 100, 100),
                           Offset(55, 185),
                           Offset(-40, 50),
                               () => _showProduct1Details(context),
-                        );
+                        );*/
                       },
                     ),
                     IconButton(
