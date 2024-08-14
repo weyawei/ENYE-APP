@@ -542,7 +542,7 @@ class _ProductZoomPageState extends State<ProductZoomPage> {
                       // GestureDetector for Product 1
                       Positioned(
                         left: MediaQuery.of(context).size.width * 0.28,
-                        top: MediaQuery.of(context).size.width * 0.31,
+                        top: MediaQuery.of(context).size.height * 0.31,
                         width: 30,
                         height: 30,
                         child: GestureDetector(
@@ -563,7 +563,7 @@ class _ProductZoomPageState extends State<ProductZoomPage> {
                       // GestureDetector for Product 2
                       Positioned(
                         left: MediaQuery.of(context).size.width * 0.2,
-                        top: MediaQuery.of(context).size.width * 0.5,
+                        top: MediaQuery.of(context).size.height * 0.5,
                         width: 30,
                         height: 30,
                         child: GestureDetector(
@@ -583,7 +583,7 @@ class _ProductZoomPageState extends State<ProductZoomPage> {
                       ),
                       Positioned(
                         left: MediaQuery.of(context).size.width * 0.13,
-                        top: MediaQuery.of(context).size.width * 0.84,
+                        top: MediaQuery.of(context).size.height * 0.84,
                         width: 30,
                         height: 30,
                         child: GestureDetector(
@@ -604,7 +604,7 @@ class _ProductZoomPageState extends State<ProductZoomPage> {
 
                       Positioned(
                         left: MediaQuery.of(context).size.width * 0.36,
-                        top: MediaQuery.of(context).size.width * 0.3,
+                        top: MediaQuery.of(context).size.height * 0.3,
                         width: 30,
                         height: 30,
                         child: GestureDetector(
@@ -625,7 +625,7 @@ class _ProductZoomPageState extends State<ProductZoomPage> {
 
                       Positioned(
                         left: MediaQuery.of(context).size.width * 0.3,
-                        top: MediaQuery.of(context).size.width * 0.75,
+                        top: MediaQuery.of(context).size.height * 0.75,
                         width: 30,
                         height: 30,
                         child: GestureDetector(
@@ -646,7 +646,7 @@ class _ProductZoomPageState extends State<ProductZoomPage> {
 
                       Positioned(
                         left: MediaQuery.of(context).size.width * 0.5,
-                        top: MediaQuery.of(context).size.width * 0.8,
+                        top: MediaQuery.of(context).size.height * 0.8,
                         width: 30,
                         height: 30,
                         child: GestureDetector(
@@ -667,7 +667,7 @@ class _ProductZoomPageState extends State<ProductZoomPage> {
 
                       Positioned(
                         left: MediaQuery.of(context).size.width * 0.57,
-                        top: MediaQuery.of(context).size.width * 0.52,
+                        top: MediaQuery.of(context).size.height * 0.52,
                         width: 30,
                         height: 30,
                         child: GestureDetector(
@@ -688,7 +688,7 @@ class _ProductZoomPageState extends State<ProductZoomPage> {
 
                       Positioned(
                         left: MediaQuery.of(context).size.width * 0.75,
-                        top: MediaQuery.of(context).size.width * 0.40,
+                        top: MediaQuery.of(context).size.height * 0.40,
                         width: 30,
                         height: 30,
                         child: GestureDetector(
@@ -709,7 +709,7 @@ class _ProductZoomPageState extends State<ProductZoomPage> {
 
                       Positioned(
                         left: MediaQuery.of(context).size.width * 0.85,
-                        top: MediaQuery.of(context).size.width * 0.40,
+                        top: MediaQuery.of(context).size.height * 0.40,
                         width: 30,
                         height: 30,
                         child: GestureDetector(
