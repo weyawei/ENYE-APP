@@ -800,11 +800,22 @@ class _ProductZoomPageState extends State<ProductZoomPage> {
                       iconSize: 80,
                       onPressed: () {
                         _zoomToProduct(
+                          Rect.fromLTWH(
+                            MediaQuery.of(context).size.width * 0.2,
+                            MediaQuery.of(context).size.height * 0.05,
+                            MediaQuery.of(context).size.width * 0.1,
+                            MediaQuery.of(context).size.height * 0.1,
+                          ),
+                          Offset(MediaQuery.of(context).size.width * 0.14, MediaQuery.of(context).size.height * 0.3),
+                          Offset(MediaQuery.of(context).size.width * -0.01, MediaQuery.of(context).size.height * 0.07),
+                              () => _showProduct3Details(context),
+                        );
+                        /*_zoomToProduct(
                           Rect.fromLTWH(65, 50, 100, 100),
                           Offset(60, 170),
                           Offset(-40, 50),
                               () => _showProduct3Details(context),
-                        );
+                        );*/
                       },
                     ),
                     IconButton(
@@ -816,11 +827,22 @@ class _ProductZoomPageState extends State<ProductZoomPage> {
                       iconSize: 80,
                       onPressed: () {
                         _zoomToProduct(
+                          Rect.fromLTWH(
+                            MediaQuery.of(context).size.width * 0.16,
+                            MediaQuery.of(context).size.height * 0.28,
+                            MediaQuery.of(context).size.width * 0.1,
+                            MediaQuery.of(context).size.height * 0.1,
+                          ),
+                          Offset(MediaQuery.of(context).size.width * 0.19, MediaQuery.of(context).size.height * -0.07),
+                          Offset(MediaQuery.of(context).size.width * -0.01, MediaQuery.of(context).size.height * 0.07),
+                              () => _showProduct4Details(context),
+                        );
+                       /* _zoomToProduct(
                           Rect.fromLTWH(65, 200, 100, 100),
                           Offset(20, 10),
                           Offset(-40, 50),
                               () => _showProduct4Details(context),
-                        );
+                        );*/
                       },
                     ),
                     IconButton(
@@ -832,11 +854,22 @@ class _ProductZoomPageState extends State<ProductZoomPage> {
                       iconSize: 80,
                       onPressed: () {
                         _zoomToProduct(
+                          Rect.fromLTWH(
+                            MediaQuery.of(context).size.width * 0.36,
+                            MediaQuery.of(context).size.height * 0.3,
+                            MediaQuery.of(context).size.width * 0.1,
+                            MediaQuery.of(context).size.height * 0.1,
+                          ),
+                          Offset(MediaQuery.of(context).size.width * -0.06, MediaQuery.of(context).size.height * -0.01),
+                          Offset(MediaQuery.of(context).size.width * -0.01, MediaQuery.of(context).size.height * 0.07),
+                              () => _showProduct2Details(context),
+                        );
+                      /*  _zoomToProduct(
                           Rect.fromLTWH(135, 250, 100, 100),
                           Offset(-60, -90),
                           Offset(-40, 50),
                               () => _showProduct5Details(context),
-                        );
+                        );*/
                       },
                     ),
                     IconButton(
@@ -848,11 +881,22 @@ class _ProductZoomPageState extends State<ProductZoomPage> {
                       iconSize: 80,
                       onPressed: () {
                         _zoomToProduct(
+                          Rect.fromLTWH(
+                            MediaQuery.of(context).size.width * 0.4,
+                            MediaQuery.of(context).size.height * 0.16,
+                            MediaQuery.of(context).size.width * 0.1,
+                            MediaQuery.of(context).size.height * 0.1,
+                          ),
+                          Offset(MediaQuery.of(context).size.width * -0.13, MediaQuery.of(context).size.height * 0.15),
+                          Offset(MediaQuery.of(context).size.width * -0.01, MediaQuery.of(context).size.height * 0.07),
+                              () => _showProduct6Details(context),
+                        );
+                       /* _zoomToProduct(
                           Rect.fromLTWH(150, 135, 100, 100),
                           Offset(-90, 50),
                           Offset(-40, 50),
                               () => _showProduct6Details(context),
-                        );
+                        );*/
                       },
                     ),
                     IconButton(
@@ -864,11 +908,22 @@ class _ProductZoomPageState extends State<ProductZoomPage> {
                       iconSize: 80,
                       onPressed: () {
                         _zoomToProduct(
+                          Rect.fromLTWH(
+                            MediaQuery.of(context).size.width * 0.6,
+                            MediaQuery.of(context).size.height * 0.12,
+                            MediaQuery.of(context).size.width * 0.1,
+                            MediaQuery.of(context).size.height * 0.1,
+                          ),
+                          Offset(MediaQuery.of(context).size.width * -0.33, MediaQuery.of(context).size.height * 0.19),
+                          Offset(MediaQuery.of(context).size.width * -0.01, MediaQuery.of(context).size.height * 0.07),
+                              () => _showProduct7Details(context),
+                        );
+                       /* _zoomToProduct(
                           Rect.fromLTWH(220, 105, 100, 100),
                           Offset(-160, 50),
                           Offset(-40, 50),
                               () => _showProduct7Details(context),
-                        );
+                        );*/
                       },
                     ),
                     IconButton(
@@ -880,11 +935,22 @@ class _ProductZoomPageState extends State<ProductZoomPage> {
                       iconSize: 80,
                       onPressed: () {
                         _zoomToProduct(
+                          Rect.fromLTWH(
+                            MediaQuery.of(context).size.width * 0.7,
+                            MediaQuery.of(context).size.height * 0.12,
+                            MediaQuery.of(context).size.width * 0.1,
+                            MediaQuery.of(context).size.height * 0.1,
+                          ),
+                          Offset(MediaQuery.of(context).size.width * -0.43, MediaQuery.of(context).size.height * 0.15),
+                          Offset(MediaQuery.of(context).size.width * -0.01, MediaQuery.of(context).size.height * 0.07),
+                              () => _showProduct7Details(context),
+                        );
+                       /* _zoomToProduct(
                           Rect.fromLTWH(250, 105, 100, 100),
                           Offset(-180, 50),
                           Offset(-40, 50),
                               () => _showProduct8Details(context),
-                        );
+                        );*/
                       },
                     ),
 
