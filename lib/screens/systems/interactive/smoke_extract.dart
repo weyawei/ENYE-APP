@@ -220,7 +220,7 @@ class _SmokeExtractPageState extends State<SmokeExtractPage> {
                           ),
                         ),
                       ),
-                      // GestureDetector for Product 2
+                      // GestureDetector for Product 2s
                       Positioned(
                         left: MediaQuery.of(context).size.width * 0.53,
                         top: MediaQuery.of(context).size.width * 0.45,
