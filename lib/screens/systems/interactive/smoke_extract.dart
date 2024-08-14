@@ -246,7 +246,7 @@ class _SmokeExtractPageState extends State<SmokeExtractPage> {
                   ),
                 ),
               ),
-              // Small image buttons corresponding to different products
+              // Small image buttons corresponding to different productsxx
               SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
                 child: Row(
