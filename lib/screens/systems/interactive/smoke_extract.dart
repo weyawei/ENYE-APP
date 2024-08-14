@@ -237,11 +237,11 @@ class _SmokeExtractPageState extends State<SmokeExtractPage> {
                           Rect.fromLTWH(
                             MediaQuery.of(context).size.width * 0.46,
                             MediaQuery.of(context).size.height * 0.01,
-                            MediaQuery.of(context).size.width * 0.15,
-                            MediaQuery.of(context).size.height * 0.2,
+                            MediaQuery.of(context).size.width * 0.1,
+                            MediaQuery.of(context).size.height * 0.1,
                           ),
-                          Offset(MediaQuery.of(context).size.width * -0.3, MediaQuery.of(context).size.height * 0.2),
-                          Offset(MediaQuery.of(context).size.width * -0.1, MediaQuery.of(context).size.height * 0.1),
+                          Offset(MediaQuery.of(context).size.width * -0.28, MediaQuery.of(context).size.height * 0.2),
+                          Offset(MediaQuery.of(context).size.width * -0.01, MediaQuery.of(context).size.height * 0.07),
                               () => _showProduct1Details(context),
                         );
                       },
@@ -261,8 +261,8 @@ class _SmokeExtractPageState extends State<SmokeExtractPage> {
                             MediaQuery.of(context).size.width * 0.1,
                             MediaQuery.of(context).size.height * 0.1,
                           ),
-                          Offset(MediaQuery.of(context).size.width * -0.17, MediaQuery.of(context).size.height * 0.3),
-                          Offset(MediaQuery.of(context).size.width * -0.1, MediaQuery.of(context).size.height * 0.1),
+                          Offset(MediaQuery.of(context).size.width * -0.15, MediaQuery.of(context).size.height * 0.3),
+                          Offset(MediaQuery.of(context).size.width * -0.1, MediaQuery.of(context).size.height * 0.07),
                               () => _showProduct2Details(context),
                         );
                       },
