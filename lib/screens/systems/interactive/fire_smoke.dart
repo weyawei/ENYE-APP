@@ -245,7 +245,7 @@ class _FireSmokePageState extends State<FireSmokePage> {
                     children: [
                       Image.asset(
                         'assets/systems/fire_smoke/fire_smoke.png',
-                        height: MediaQuery.of(context).size.height * 0.4, // Relative height
+                        height: MediaQuery.of(context).size.height * 0.52, // Relative height
                         fit: BoxFit.fill,
                       ),
                       // GestureDetector for Product 1
@@ -317,7 +317,7 @@ class _FireSmokePageState extends State<FireSmokePage> {
                         height: 150,
                         fit: BoxFit.fill,
                       ),
-                      iconSize: 80,
+                      iconSize: MediaQuery.of(context).size.width * 0.2, // Relative size
                       onPressed: () {
                         _zoomToProduct(
                           Rect.fromLTWH(
@@ -344,7 +344,7 @@ class _FireSmokePageState extends State<FireSmokePage> {
                         height: 150,
                         fit: BoxFit.fill,
                       ),
-                      iconSize: 80,
+                      iconSize: MediaQuery.of(context).size.width * 0.2, // Relative size
                       onPressed: () {
                         _zoomToProduct(
                           Rect.fromLTWH(
@@ -371,7 +371,7 @@ class _FireSmokePageState extends State<FireSmokePage> {
                         height: 150,
                         fit: BoxFit.fill,
                       ),
-                      iconSize: 80,
+                      iconSize: MediaQuery.of(context).size.width * 0.2, // Relative size
                       onPressed: () {
                         _zoomToProduct(
                           Rect.fromLTWH(
