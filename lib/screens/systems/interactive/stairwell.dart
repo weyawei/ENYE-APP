@@ -6,12 +6,30 @@ class StairwellPage extends StatefulWidget {
   _StairwellPageState createState() => _StairwellPageState();
 }
 
-class _StairwellPageState extends State<StairwellPage> {
+class _StairwellPageState extends State<StairwellPage> with TickerProviderStateMixin {
   final TransformationController _transformationController = TransformationController();
   Offset? _arrowPosition;
   Offset? _floatingButtonPosition;
   bool _showFloatingButton = false;
   bool _showArrow = false;
+
+  late AnimationController _animationController;
+
+  @override
+  void initState() {
+    super.initState();
+    _animationController = AnimationController(
+      vsync: this,
+      duration: Duration(seconds: 2),
+    )..repeat(reverse: true);
+  }
+
+  @override
+  void dispose() {
+    _animationController.dispose();
+    super.dispose();
+  }
+
 
   // Reset the view to the initial state
   void _resetView() {
@@ -318,8 +336,29 @@ class _StairwellPageState extends State<StairwellPage> {
                             );*/
                             _showProduct1Details(context);
                           },
-                          child: Container(
-                            color: Colors.transparent,
+                          child: Stack(
+                            alignment: Alignment.center,
+                            children: [
+                              // Glowing Circle Effect with Transparent Center
+                              AnimatedBuilder(
+                                animation: _animationController,
+                                builder: (context, child) {
+                                  return Container(
+                                    width: MediaQuery.of(context).size.width * 0.2,
+                                    height: MediaQuery.of(context).size.height * 0.12,
+                                    child: CustomPaint(
+                                      painter: GlowingCirclePainter(_animationController.value),
+                                    ),
+                                  );
+                                },
+                              ),
+                              // Transparent Container for interaction
+                              Container(
+                                width: MediaQuery.of(context).size.width * 0.15,
+                                height: MediaQuery.of(context).size.height * 0.09,
+                                color: Colors.transparent,
+                              ),
+                            ],
                           ),
                         ),
                       ),
@@ -339,8 +378,29 @@ class _StairwellPageState extends State<StairwellPage> {
                             );*/
                             _showProduct2Details(context);
                           },
-                          child: Container(
-                            color: Colors.transparent,
+                          child: Stack(
+                            alignment: Alignment.center,
+                            children: [
+                              // Glowing Circle Effect with Transparent Center
+                              AnimatedBuilder(
+                                animation: _animationController,
+                                builder: (context, child) {
+                                  return Container(
+                                    width: MediaQuery.of(context).size.width * 0.2,
+                                    height: MediaQuery.of(context).size.height * 0.12,
+                                    child: CustomPaint(
+                                      painter: GlowingCirclePainter(_animationController.value),
+                                    ),
+                                  );
+                                },
+                              ),
+                              // Transparent Container for interaction
+                              Container(
+                                width: MediaQuery.of(context).size.width * 0.15,
+                                height: MediaQuery.of(context).size.height * 0.09,
+                                color: Colors.transparent,
+                              ),
+                            ],
                           ),
                         ),
                       ),
@@ -360,8 +420,29 @@ class _StairwellPageState extends State<StairwellPage> {
                             );*/
                             _showProduct3Details(context);
                           },
-                          child: Container(
-                            color: Colors.transparent,
+                          child: Stack(
+                            alignment: Alignment.center,
+                            children: [
+                              // Glowing Circle Effect with Transparent Center
+                              AnimatedBuilder(
+                                animation: _animationController,
+                                builder: (context, child) {
+                                  return Container(
+                                    width: MediaQuery.of(context).size.width * 0.2,
+                                    height: MediaQuery.of(context).size.height * 0.12,
+                                    child: CustomPaint(
+                                      painter: GlowingCirclePainter(_animationController.value),
+                                    ),
+                                  );
+                                },
+                              ),
+                              // Transparent Container for interaction
+                              Container(
+                                width: MediaQuery.of(context).size.width * 0.15,
+                                height: MediaQuery.of(context).size.height * 0.09,
+                                color: Colors.transparent,
+                              ),
+                            ],
                           ),
                         ),
                       ),
@@ -381,8 +462,29 @@ class _StairwellPageState extends State<StairwellPage> {
                             );*/
                             _showProduct4Details(context);
                           },
-                          child: Container(
-                            color: Colors.transparent,
+                          child: Stack(
+                            alignment: Alignment.center,
+                            children: [
+                              // Glowing Circle Effect with Transparent Center
+                              AnimatedBuilder(
+                                animation: _animationController,
+                                builder: (context, child) {
+                                  return Container(
+                                    width: MediaQuery.of(context).size.width * 0.2,
+                                    height: MediaQuery.of(context).size.height * 0.12,
+                                    child: CustomPaint(
+                                      painter: GlowingCirclePainter(_animationController.value),
+                                    ),
+                                  );
+                                },
+                              ),
+                              // Transparent Container for interaction
+                              Container(
+                                width: MediaQuery.of(context).size.width * 0.15,
+                                height: MediaQuery.of(context).size.height * 0.09,
+                                color: Colors.transparent,
+                              ),
+                            ],
                           ),
                         ),
                       ),
@@ -398,113 +500,165 @@ class _StairwellPageState extends State<StairwellPage> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    IconButton(
-                      icon: Image.asset(
-                        'assets/systems/stairwell/omni.png',
-                        height: 150,
-                        fit: BoxFit.fill,
-                      ),
-                      iconSize: MediaQuery.of(context).size.width * 0.2, // Relative size
-                      onPressed: () {
-                        _zoomToProduct(
-                          Rect.fromLTWH(
-                            MediaQuery.of(context).size.width * 0.1,
-                            MediaQuery.of(context).size.height * 0.05,
-                            MediaQuery.of(context).size.width * 0.1,
-                            MediaQuery.of(context).size.height * 0.1,
+                    Column(
+                      children: [
+                        IconButton(
+                          icon: Image.asset(
+                            'assets/systems/stairwell/omni.png',
+                            height: 150,
+                            fit: BoxFit.fill,
                           ),
-                          Offset(MediaQuery.of(context).size.width * 0.22, MediaQuery.of(context).size.height * 0.23),
-                          Offset(MediaQuery.of(context).size.width * -0.01, MediaQuery.of(context).size.height * 0.07),
-                              () => _showProduct1Details(context),
-                        );
-                       /* _zoomToProduct(
-                          Rect.fromLTWH(55, 50, 100, 100),
-                          Offset(55, 185),
-                          Offset(-40, 50),
-                              () => _showProduct1Details(context),
-                        );*/
-                      },
+                          iconSize: MediaQuery.of(context).size.width * 0.2, // Relative size
+                          onPressed: () {
+                            _zoomToProduct(
+                              Rect.fromLTWH(
+                                MediaQuery.of(context).size.width * 0.1,
+                                MediaQuery.of(context).size.height * 0.05,
+                                MediaQuery.of(context).size.width * 0.1,
+                                MediaQuery.of(context).size.height * 0.1,
+                              ),
+                              Offset(MediaQuery.of(context).size.width * 0.22, MediaQuery.of(context).size.height * 0.23),
+                              Offset(MediaQuery.of(context).size.width * -0.01, MediaQuery.of(context).size.height * 0.07),
+                                  () => _showProduct1Details(context),
+                            );
+                           /* _zoomToProduct(
+                              Rect.fromLTWH(55, 50, 100, 100),
+                              Offset(55, 185),
+                              Offset(-40, 50),
+                                  () => _showProduct1Details(context),
+                            );*/
+                          },
+                        ),
+                        Text(
+                          'OMNI',
+                          style: TextStyle(
+                            fontSize: MediaQuery.of(context).size.width * 0.025,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                      ],
                     ),
-                    IconButton(
-                      icon: Image.asset(
-                        'assets/systems/stairwell/vfd.png',
-                        height: 150,
-                        fit: BoxFit.fill,
-                      ),
-                      iconSize: MediaQuery.of(context).size.width * 0.2, // Relative size
-                      onPressed: () {
-                        _zoomToProduct(
-                          Rect.fromLTWH(
-                            MediaQuery.of(context).size.width * 0.1,
-                            MediaQuery.of(context).size.height * 0.05,
-                            MediaQuery.of(context).size.width * 0.1,
-                            MediaQuery.of(context).size.height * 0.1,
+                    Column(
+                      children: [
+                        IconButton(
+                          icon: Image.asset(
+                            'assets/systems/stairwell/vfd.png',
+                            height: 150,
+                            fit: BoxFit.fill,
                           ),
-                          Offset(MediaQuery.of(context).size.width * 0.22, MediaQuery.of(context).size.height * 0.35),
-                          Offset(MediaQuery.of(context).size.width * -0.01, MediaQuery.of(context).size.height * 0.07),
-                              () => _showProduct2Details(context),
-                        );
-                       /* _zoomToProduct(
-                          Rect.fromLTWH(40, 125, 100, 100),
-                          Offset(30, 60),
-                          Offset(-40, 50),
-                              () => _showProduct2Details(context),
-                        );*/
-                      },
+                          iconSize: MediaQuery.of(context).size.width * 0.2, // Relative size
+                          onPressed: () {
+                            _zoomToProduct(
+                              Rect.fromLTWH(
+                                MediaQuery.of(context).size.width * 0.1,
+                                MediaQuery.of(context).size.height * 0.05,
+                                MediaQuery.of(context).size.width * 0.1,
+                                MediaQuery.of(context).size.height * 0.1,
+                              ),
+                              Offset(MediaQuery.of(context).size.width * 0.22, MediaQuery.of(context).size.height * 0.35),
+                              Offset(MediaQuery.of(context).size.width * -0.01, MediaQuery.of(context).size.height * 0.07),
+                                  () => _showProduct2Details(context),
+                            );
+                           /* _zoomToProduct(
+                              Rect.fromLTWH(40, 125, 100, 100),
+                              Offset(30, 60),
+                              Offset(-40, 50),
+                                  () => _showProduct2Details(context),
+                            );*/
+                          },
+                        ),
+                        Text(
+                          'VFD',
+                          style: TextStyle(
+                            fontSize: MediaQuery.of(context).size.width * 0.025,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                      ],
                     ),
-                    IconButton(
-                      icon: Image.asset(
-                        'assets/systems/stairwell/duct_smoke.png',
-                        height: 150,
-                        fit: BoxFit.fill,
-                      ),
-                      iconSize: MediaQuery.of(context).size.width * 0.2, // Relative size
-                      onPressed: () {
-                        _zoomToProduct(
-                          Rect.fromLTWH(
-                            MediaQuery.of(context).size.width * 0.48,
-                            MediaQuery.of(context).size.height * 0.01,
-                            MediaQuery.of(context).size.width * 0.1,
-                            MediaQuery.of(context).size.height * 0.1,
+                    Column(
+                      children: [
+                        IconButton(
+                          icon: Image.asset(
+                            'assets/systems/stairwell/duct_smoke.png',
+                            height: 150,
+                            fit: BoxFit.fill,
                           ),
-                          Offset(MediaQuery.of(context).size.width * -0.28, MediaQuery.of(context).size.height * 0.3),
-                          Offset(MediaQuery.of(context).size.width * -0.01, MediaQuery.of(context).size.height * 0.07),
-                              () => _showProduct3Details(context),
-                        );
-                      /*  _zoomToProduct(
-                          Rect.fromLTWH(65, 50, 100, 100),
-                          Offset(60, 170),
-                          Offset(-40, 50),
-                              () => _showProduct3Details(context),
-                        );*/
-                      },
+                          iconSize: MediaQuery.of(context).size.width * 0.2, // Relative size
+                          onPressed: () {
+                            _zoomToProduct(
+                              Rect.fromLTWH(
+                                MediaQuery.of(context).size.width * 0.48,
+                                MediaQuery.of(context).size.height * 0.01,
+                                MediaQuery.of(context).size.width * 0.1,
+                                MediaQuery.of(context).size.height * 0.1,
+                              ),
+                              Offset(MediaQuery.of(context).size.width * -0.28, MediaQuery.of(context).size.height * 0.3),
+                              Offset(MediaQuery.of(context).size.width * -0.01, MediaQuery.of(context).size.height * 0.07),
+                                  () => _showProduct3Details(context),
+                            );
+                          /*  _zoomToProduct(
+                              Rect.fromLTWH(65, 50, 100, 100),
+                              Offset(60, 170),
+                              Offset(-40, 50),
+                                  () => _showProduct3Details(context),
+                            );*/
+                          },
+                        ),
+                        Text(
+                          'SMOKE DETECTOR',
+                          style: TextStyle(
+                            fontSize: MediaQuery.of(context).size.width * 0.025,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                      ],
                     ),
-                    IconButton(
-                      icon: Image.asset(
-                        'assets/systems/stairwell/pressure.png',
-                        height: 150,
-                        fit: BoxFit.fill,
-                      ),
-                      iconSize: MediaQuery.of(context).size.width * 0.2, // Relative size
-                      onPressed: () {
-                        _zoomToProduct(
-                          Rect.fromLTWH(
-                            MediaQuery.of(context).size.width * 0.3,
-                            MediaQuery.of(context).size.height * 0.18,
-                            MediaQuery.of(context).size.width * 0.1,
-                            MediaQuery.of(context).size.height * 0.1,
+                    Column(
+                      children: [
+                        IconButton(
+                          icon: Image.asset(
+                            'assets/systems/stairwell/pressure.png',
+                            height: 150,
+                            fit: BoxFit.fill,
                           ),
-                          Offset(MediaQuery.of(context).size.width * -0.2, MediaQuery.of(context).size.height * 0.1),
-                          Offset(MediaQuery.of(context).size.width * -0.01, MediaQuery.of(context).size.height * 0.07),
-                              () => _showProduct4Details(context),
-                        );
-                       /* _zoomToProduct(
-                          Rect.fromLTWH(65, 200, 100, 100),
-                          Offset(20, 10),
-                          Offset(-40, 50),
-                              () => _showProduct4Details(context),
-                        );*/
-                      },
+                          iconSize: MediaQuery.of(context).size.width * 0.2, // Relative size
+                          onPressed: () {
+                            _zoomToProduct(
+                              Rect.fromLTWH(
+                                MediaQuery.of(context).size.width * 0.3,
+                                MediaQuery.of(context).size.height * 0.18,
+                                MediaQuery.of(context).size.width * 0.1,
+                                MediaQuery.of(context).size.height * 0.1,
+                              ),
+                              Offset(MediaQuery.of(context).size.width * -0.2, MediaQuery.of(context).size.height * 0.1),
+                              Offset(MediaQuery.of(context).size.width * -0.01, MediaQuery.of(context).size.height * 0.07),
+                                  () => _showProduct4Details(context),
+                            );
+                           /* _zoomToProduct(
+                              Rect.fromLTWH(65, 200, 100, 100),
+                              Offset(20, 10),
+                              Offset(-40, 50),
+                                  () => _showProduct4Details(context),
+                            );*/
+                          },
+                        ),
+                        Text(
+                          ' DIFFERENTIAL PRESSURE',
+                          style: TextStyle(
+                            fontSize: MediaQuery.of(context).size.width * 0.025,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                      ],
                     ),
 
                   ],
@@ -538,4 +692,30 @@ class _StairwellPageState extends State<StairwellPage> {
       ),
     );
   }
+}
+
+
+class GlowingCirclePainter extends CustomPainter {
+  final double progress;
+
+  GlowingCirclePainter(this.progress);
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final Paint paint = Paint()
+      ..color = Colors.blue.withOpacity(progress)
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 5 + progress * 5;
+
+    final double glowRadius = size.width / 2 + (progress * 10);
+
+    canvas.drawCircle(
+      Offset(size.width / 2, size.height / 2),
+      glowRadius,
+      paint,
+    );
+  }
+
+  @override
+  bool shouldRepaint(CustomPainter oldDelegate) => true;
 }

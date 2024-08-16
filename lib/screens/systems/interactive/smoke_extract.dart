@@ -6,12 +6,30 @@ class SmokeExtractPage extends StatefulWidget {
   _SmokeExtractPageState createState() => _SmokeExtractPageState();
 }
 
-class _SmokeExtractPageState extends State<SmokeExtractPage> {
+class _SmokeExtractPageState extends State<SmokeExtractPage> with TickerProviderStateMixin {
   final TransformationController _transformationController = TransformationController();
   Offset? _arrowPosition;
   Offset? _floatingButtonPosition;
   bool _showFloatingButton = false;
   bool _showArrow = false;
+
+  late AnimationController _animationController;
+
+  @override
+  void initState() {
+    super.initState();
+    _animationController = AnimationController(
+      vsync: this,
+      duration: Duration(seconds: 2),
+    )..repeat(reverse: true);
+  }
+
+  @override
+  void dispose() {
+    _animationController.dispose();
+    super.dispose();
+  }
+
 
   // Reset the view to the initial state
   void _resetView() {
@@ -178,36 +196,114 @@ class _SmokeExtractPageState extends State<SmokeExtractPage> {
                     children: [
                       Image.asset(
                         'assets/systems/smoke_extract/smoke.png',
-                        height: MediaQuery.of(context).size.height * 0.4, // Relative height
+                        height: MediaQuery.of(context).size.height * 0.52, // Relative height
                         fit: BoxFit.fill,
                       ),
                       // GestureDetector for Product 1
                       Positioned(
                         left: MediaQuery.of(context).size.width * 0.59,
-                        top: MediaQuery.of(context).size.height * 0.05, // Adjusted for relative positioning
+                        top: MediaQuery.of(context).size.height * 0.075, // Adjusted for relative positioning
                         width: MediaQuery.of(context).size.width * 0.05, // Relative size
                         height: MediaQuery.of(context).size.height * 0.03, // Relative size
                         child: GestureDetector(
                           onTap: () {
                             _showProduct1Details(context);
                           },
-                          child: Container(
-                            color: Colors.white,
+                          child: Stack(
+                            alignment: Alignment.center,
+                            children: [
+                              // Glowing Circle Effect with Transparent Center
+                              AnimatedBuilder(
+                                animation: _animationController,
+                                builder: (context, child) {
+                                  return Container(
+                                    width: MediaQuery.of(context).size.width * 0.2,
+                                    height: MediaQuery.of(context).size.height * 0.12,
+                                    child: CustomPaint(
+                                      painter: GlowingCirclePainter(_animationController.value),
+                                    ),
+                                  );
+                                },
+                              ),
+                              // Transparent Container for interaction
+                              Container(
+                                width: MediaQuery.of(context).size.width * 0.15,
+                                height: MediaQuery.of(context).size.height * 0.09,
+                                color: Colors.transparent,
+                              ),
+                            ],
                           ),
                         ),
                       ),
                       // GestureDetector for Product 2
                       Positioned(
-                        left: MediaQuery.of(context).size.width * 0.55,
-                        top: MediaQuery.of(context).size.height * 0.17, // Adjusted for relative positioning
+                        left: MediaQuery.of(context).size.width * 0.545,
+                        top: MediaQuery.of(context).size.height * 0.22, // Adjusted for relative positioning
                         width: MediaQuery.of(context).size.width * 0.05, // Relative size
                         height: MediaQuery.of(context).size.height * 0.03, // Relative size
                         child: GestureDetector(
                           onTap: () {
                             _showProduct2Details(context);
                           },
-                          child: Container(
-                            color: Colors.white,
+                          child: Stack(
+                            alignment: Alignment.center,
+                            children: [
+                              // Glowing Circle Effect with Transparent Center
+                              AnimatedBuilder(
+                                animation: _animationController,
+                                builder: (context, child) {
+                                  return Container(
+                                    width: MediaQuery.of(context).size.width * 0.2,
+                                    height: MediaQuery.of(context).size.height * 0.12,
+                                    child: CustomPaint(
+                                      painter: GlowingCirclePainter(_animationController.value),
+                                    ),
+                                  );
+                                },
+                              ),
+                              // Transparent Container for interaction
+                              Container(
+                                width: MediaQuery.of(context).size.width * 0.15,
+                                height: MediaQuery.of(context).size.height * 0.09,
+                                color: Colors.transparent,
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+
+                      Positioned(
+                        left: MediaQuery.of(context).size.width * 0.545,
+                        top: MediaQuery.of(context).size.height * 0.39, // Adjusted for relative positioning
+                        width: MediaQuery.of(context).size.width * 0.05, // Relative size
+                        height: MediaQuery.of(context).size.height * 0.03, // Relative size
+                        child: GestureDetector(
+                          onTap: () {
+                            _showProduct2Details(context);
+                          },
+                          child: Stack(
+                            alignment: Alignment.center,
+                            children: [
+                              // Glowing Circle Effect with Transparent Center
+                              AnimatedBuilder(
+                                animation: _animationController,
+                                builder: (context, child) {
+                                  return Container(
+                                    width: MediaQuery.of(context).size.width * 0.2,
+                                    height: MediaQuery.of(context).size.height * 0.12,
+                                    child: CustomPaint(
+                                      painter: GlowingCirclePainter(_animationController.value),
+                                    ),
+                                  );
+                                },
+                              ),
+                              // Transparent Container for interaction
+                              Container(
+                                width: MediaQuery.of(context).size.width * 0.15,
+                                height: MediaQuery.of(context).size.height * 0.09,
+                                color: Colors.transparent,
+                              ),
+                            ],
                           ),
                         ),
                       ),
@@ -221,47 +317,73 @@ class _SmokeExtractPageState extends State<SmokeExtractPage> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    IconButton(
-                      icon: Image.asset(
-                        'assets/systems/smoke_extract/omni.png',
-                        height: MediaQuery.of(context).size.height * 0.2, // Relative height
-                        fit: BoxFit.fill,
-                      ),
-                      iconSize: MediaQuery.of(context).size.width * 0.2, // Relative size
-                      onPressed: () {
-                        _zoomToProduct(
-                          Rect.fromLTWH(
-                            MediaQuery.of(context).size.width * 0.46,
-                            MediaQuery.of(context).size.height * 0.01,
-                            MediaQuery.of(context).size.width * 0.1,
-                            MediaQuery.of(context).size.height * 0.1,
+                    Column(
+                      children: [
+                        IconButton(
+                          icon: Image.asset(
+                            'assets/systems/smoke_extract/omni.png',
+                            height: MediaQuery.of(context).size.height * 0.2, // Relative height
+                            fit: BoxFit.fill,
                           ),
-                          Offset(MediaQuery.of(context).size.width * -0.28, MediaQuery.of(context).size.height * 0.2),
-                          Offset(MediaQuery.of(context).size.width * -0.01, MediaQuery.of(context).size.height * 0.07),
-                              () => _showProduct1Details(context),
-                        );
-                      },
+                          iconSize: MediaQuery.of(context).size.width * 0.2, // Relative size
+                          onPressed: () {
+                            _zoomToProduct(
+                              Rect.fromLTWH(
+                                MediaQuery.of(context).size.width * 0.46,
+                                MediaQuery.of(context).size.height * 0.01,
+                                MediaQuery.of(context).size.width * 0.1,
+                                MediaQuery.of(context).size.height * 0.1,
+                              ),
+                              Offset(MediaQuery.of(context).size.width * -0.28, MediaQuery.of(context).size.height * 0.25),
+                              Offset(MediaQuery.of(context).size.width * -0.01, MediaQuery.of(context).size.height * 0.07),
+                                  () => _showProduct1Details(context),
+                            );
+                          },
+                        ),
+                        Text(
+                          'OMNI',
+                          style: TextStyle(
+                            fontSize: MediaQuery.of(context).size.width * 0.025,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                      ],
                     ),
-                    IconButton(
-                      icon: Image.asset(
-                        'assets/systems/smoke_extract/smoke_damper.png',
-                        height: MediaQuery.of(context).size.height * 0.2, // Relative height
-                        fit: BoxFit.fill,
-                      ),
-                      iconSize: MediaQuery.of(context).size.width * 0.2, // Relative size
-                      onPressed: () {
-                        _zoomToProduct(
-                          Rect.fromLTWH(
-                            MediaQuery.of(context).size.width * 0.4,
-                            MediaQuery.of(context).size.height * 0.07,
-                            MediaQuery.of(context).size.width * 0.1,
-                            MediaQuery.of(context).size.height * 0.1,
+                    Column(
+                      children: [
+                        IconButton(
+                          icon: Image.asset(
+                            'assets/systems/smoke_extract/smoke_damper.png',
+                            height: MediaQuery.of(context).size.height * 0.2, // Relative height
+                            fit: BoxFit.fill,
                           ),
-                          Offset(MediaQuery.of(context).size.width * -0.15, MediaQuery.of(context).size.height * 0.3),
-                          Offset(MediaQuery.of(context).size.width * -0.01, MediaQuery.of(context).size.height * 0.07),
-                              () => _showProduct2Details(context),
-                        );
-                      },
+                          iconSize: MediaQuery.of(context).size.width * 0.2, // Relative size
+                          onPressed: () {
+                            _zoomToProduct(
+                              Rect.fromLTWH(
+                                MediaQuery.of(context).size.width * 0.4,
+                                MediaQuery.of(context).size.height * 0.07,
+                                MediaQuery.of(context).size.width * 0.1,
+                                MediaQuery.of(context).size.height * 0.1,
+                              ),
+                              Offset(MediaQuery.of(context).size.width * -0.15, MediaQuery.of(context).size.height * 0.42),
+                              Offset(MediaQuery.of(context).size.width * -0.01, MediaQuery.of(context).size.height * 0.07),
+                                  () => _showProduct2Details(context),
+                            );
+                          },
+                        ),
+                        Text(
+                          '  FIRE AND SMOKE DAMPER ACTUATOR',
+                          style: TextStyle(
+                            fontSize: MediaQuery.of(context).size.width * 0.025,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                      ],
                     ),
                   ],
                 ),
@@ -293,4 +415,30 @@ class _SmokeExtractPageState extends State<SmokeExtractPage> {
       ),
     );
   }
+}
+
+
+class GlowingCirclePainter extends CustomPainter {
+  final double progress;
+
+  GlowingCirclePainter(this.progress);
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final Paint paint = Paint()
+      ..color = Colors.blue.withOpacity(progress)
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 5 + progress * 5;
+
+    final double glowRadius = size.width / 2 + (progress * 10);
+
+    canvas.drawCircle(
+      Offset(size.width / 2, size.height / 2),
+      glowRadius,
+      paint,
+    );
+  }
+
+  @override
+  bool shouldRepaint(CustomPainter oldDelegate) => true;
 }

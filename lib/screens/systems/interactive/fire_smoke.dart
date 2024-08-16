@@ -6,12 +6,30 @@ class FireSmokePage extends StatefulWidget {
   _FireSmokePageState createState() => _FireSmokePageState();
 }
 
-class _FireSmokePageState extends State<FireSmokePage> {
+class _FireSmokePageState extends State<FireSmokePage> with TickerProviderStateMixin {
   final TransformationController _transformationController = TransformationController();
   Offset? _arrowPosition;
   Offset? _floatingButtonPosition;
   bool _showFloatingButton = false;
   bool _showArrow = false;
+
+  late AnimationController _animationController;
+
+  @override
+  void initState() {
+    super.initState();
+    _animationController = AnimationController(
+      vsync: this,
+      duration: Duration(seconds: 2),
+    )..repeat(reverse: true);
+  }
+
+  @override
+  void dispose() {
+    _animationController.dispose();
+    super.dispose();
+  }
+
 
   // Reset the view to the initial state
   void _resetView() {
@@ -258,8 +276,29 @@ class _FireSmokePageState extends State<FireSmokePage> {
                           onTap: () {
                             _showProduct1Details(context);
                           },
-                          child: Container(
-                            color: Colors.transparent,
+                          child: Stack(
+                            alignment: Alignment.center,
+                            children: [
+                              // Glowing Circle Effect with Transparent Center
+                              AnimatedBuilder(
+                                animation: _animationController,
+                                builder: (context, child) {
+                                  return Container(
+                                    width: MediaQuery.of(context).size.width * 0.2,
+                                    height: MediaQuery.of(context).size.height * 0.12,
+                                    child: CustomPaint(
+                                      painter: GlowingCirclePainter(_animationController.value),
+                                    ),
+                                  );
+                                },
+                              ),
+                              // Transparent Container for interaction
+                              Container(
+                                width: MediaQuery.of(context).size.width * 0.15,
+                                height: MediaQuery.of(context).size.height * 0.09,
+                                color: Colors.transparent,
+                              ),
+                            ],
                           ),
                         ),
                       ),
@@ -273,8 +312,29 @@ class _FireSmokePageState extends State<FireSmokePage> {
                           onTap: () {
                             _showProduct2Details(context);
                           },
-                          child: Container(
-                            color: Colors.transparent,
+                          child: Stack(
+                            alignment: Alignment.center,
+                            children: [
+                              // Glowing Circle Effect with Transparent Center
+                              AnimatedBuilder(
+                                animation: _animationController,
+                                builder: (context, child) {
+                                  return Container(
+                                    width: MediaQuery.of(context).size.width * 0.2,
+                                    height: MediaQuery.of(context).size.height * 0.12,
+                                    child: CustomPaint(
+                                      painter: GlowingCirclePainter(_animationController.value),
+                                    ),
+                                  );
+                                },
+                              ),
+                              // Transparent Container for interaction
+                              Container(
+                                width: MediaQuery.of(context).size.width * 0.15,
+                                height: MediaQuery.of(context).size.height * 0.09,
+                                color: Colors.transparent,
+                              ),
+                            ],
                           ),
                         ),
                       ),
@@ -287,15 +347,36 @@ class _FireSmokePageState extends State<FireSmokePage> {
                           onTap: () {
                             _showProduct2Details(context);
                           },
-                          child: Container(
-                            color: Colors.transparent,
+                          child: Stack(
+                            alignment: Alignment.center,
+                            children: [
+                              // Glowing Circle Effect with Transparent Center
+                              AnimatedBuilder(
+                                animation: _animationController,
+                                builder: (context, child) {
+                                  return Container(
+                                    width: MediaQuery.of(context).size.width * 0.2,
+                                    height: MediaQuery.of(context).size.height * 0.12,
+                                    child: CustomPaint(
+                                      painter: GlowingCirclePainter(_animationController.value),
+                                    ),
+                                  );
+                                },
+                              ),
+                              // Transparent Container for interaction
+                              Container(
+                                width: MediaQuery.of(context).size.width * 0.15,
+                                height: MediaQuery.of(context).size.height * 0.09,
+                                color: Colors.transparent,
+                              ),
+                            ],
                           ),
                         ),
                       ),
 
                       Positioned(
                         left: MediaQuery.of(context).size.width * 0.44,
-                        top: MediaQuery.of(context).size.height * 0.23,
+                        top: MediaQuery.of(context).size.height * 0.22,
                         width: MediaQuery.of(context).size.width * 0.05, // Relative size
                         height: MediaQuery.of(context).size.height * 0.03, // Relative size
                         child: GestureDetector(
@@ -308,8 +389,29 @@ class _FireSmokePageState extends State<FireSmokePage> {
                             );*/
                             _showProduct3Details(context);
                           },
-                          child: Container(
-                            color: Colors.transparent,
+                          child: Stack(
+                            alignment: Alignment.center,
+                            children: [
+                              // Glowing Circle Effect with Transparent Center
+                              AnimatedBuilder(
+                                animation: _animationController,
+                                builder: (context, child) {
+                                  return Container(
+                                    width: MediaQuery.of(context).size.width * 0.2,
+                                    height: MediaQuery.of(context).size.height * 0.12,
+                                    child: CustomPaint(
+                                      painter: GlowingCirclePainter(_animationController.value),
+                                    ),
+                                  );
+                                },
+                              ),
+                              // Transparent Container for interaction
+                              Container(
+                                width: MediaQuery.of(context).size.width * 0.15,
+                                height: MediaQuery.of(context).size.height * 0.09,
+                                color: Colors.transparent,
+                              ),
+                            ],
                           ),
                         ),
                       ),
@@ -328,8 +430,29 @@ class _FireSmokePageState extends State<FireSmokePage> {
                             );*/
                             _showProduct3Details(context);
                           },
-                          child: Container(
-                            color: Colors.transparent,
+                          child: Stack(
+                            alignment: Alignment.center,
+                            children: [
+                              // Glowing Circle Effect with Transparent Center
+                              AnimatedBuilder(
+                                animation: _animationController,
+                                builder: (context, child) {
+                                  return Container(
+                                    width: MediaQuery.of(context).size.width * 0.2,
+                                    height: MediaQuery.of(context).size.height * 0.12,
+                                    child: CustomPaint(
+                                      painter: GlowingCirclePainter(_animationController.value),
+                                    ),
+                                  );
+                                },
+                              ),
+                              // Transparent Container for interaction
+                              Container(
+                                width: MediaQuery.of(context).size.width * 0.15,
+                                height: MediaQuery.of(context).size.height * 0.09,
+                                color: Colors.transparent,
+                              ),
+                            ],
                           ),
                         ),
                       ),
@@ -460,4 +583,30 @@ class _FireSmokePageState extends State<FireSmokePage> {
       ),
     );
   }
+}
+
+
+class GlowingCirclePainter extends CustomPainter {
+  final double progress;
+
+  GlowingCirclePainter(this.progress);
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final Paint paint = Paint()
+      ..color = Colors.blue.withOpacity(progress)
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 5 + progress * 5;
+
+    final double glowRadius = size.width / 2 + (progress * 10);
+
+    canvas.drawCircle(
+      Offset(size.width / 2, size.height / 2),
+      glowRadius,
+      paint,
+    );
+  }
+
+  @override
+  bool shouldRepaint(CustomPainter oldDelegate) => true;
 }

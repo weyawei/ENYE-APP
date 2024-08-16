@@ -6,12 +6,29 @@ class ProductZoomPage extends StatefulWidget {
   _ProductZoomPageState createState() => _ProductZoomPageState();
 }
 
-class _ProductZoomPageState extends State<ProductZoomPage> {
+class _ProductZoomPageState extends State<ProductZoomPage> with TickerProviderStateMixin {
   final TransformationController _transformationController = TransformationController();
   Offset? _arrowPosition;
   Offset? _floatingButtonPosition;
   bool _showFloatingButton = false;
   bool _showArrow = false;
+
+  late AnimationController _animationController;
+
+  @override
+  void initState() {
+    super.initState();
+    _animationController = AnimationController(
+      vsync: this,
+      duration: Duration(seconds: 2),
+    )..repeat(reverse: true);
+  }
+
+  @override
+  void dispose() {
+    _animationController.dispose();
+    super.dispose();
+  }
 
   // Reset the view to the initial state
   void _resetView() {
@@ -541,10 +558,10 @@ class _ProductZoomPageState extends State<ProductZoomPage> {
                       ),
                       // GestureDetector for Product 1
                       Positioned(
-                        left: MediaQuery.of(context).size.width * 0.29,
-                        top: MediaQuery.of(context).size.height * 0.14,
-                        width: MediaQuery.of(context).size.width * 0.06, // Relative size
-                        height: MediaQuery.of(context).size.height * 0.04, // Relative size
+                        left: MediaQuery.of(context).size.width * 0.32,
+                        top: MediaQuery.of(context).size.height * 0.16,
+                        width: MediaQuery.of(context).size.width * 0.03, // Relative size
+                        height: MediaQuery.of(context).size.height * 0.02, // Relative size
                         child: GestureDetector(
                           onTap: () {
                            /* _zoomToProduct(
@@ -555,8 +572,29 @@ class _ProductZoomPageState extends State<ProductZoomPage> {
                             );*/
                             _showProduct1Details(context);
                           },
-                          child: Container(
-                            color: Colors.transparent,
+                          child: Stack(
+                            alignment: Alignment.center,
+                            children: [
+                              // Glowing Circle Effect with Transparent Center
+                              AnimatedBuilder(
+                                animation: _animationController,
+                                builder: (context, child) {
+                                  return Container(
+                                    width: MediaQuery.of(context).size.width * 0.2,
+                                    height: MediaQuery.of(context).size.height * 0.12,
+                                    child: CustomPaint(
+                                      painter: GlowingCirclePainter(_animationController.value),
+                                    ),
+                                  );
+                                },
+                              ),
+                              // Transparent Container for interaction
+                              Container(
+                                width: MediaQuery.of(context).size.width * 0.15,
+                                height: MediaQuery.of(context).size.height * 0.09,
+                                color: Colors.transparent,
+                              ),
+                            ],
                           ),
                         ),
                       ),
@@ -576,8 +614,29 @@ class _ProductZoomPageState extends State<ProductZoomPage> {
                             );*/
                             _showProduct2Details(context);
                           },
-                          child: Container(
-                            color: Colors.transparent,
+                          child: Stack(
+                            alignment: Alignment.center,
+                            children: [
+                              // Glowing Circle Effect with Transparent Center
+                              AnimatedBuilder(
+                                animation: _animationController,
+                                builder: (context, child) {
+                                  return Container(
+                                    width: MediaQuery.of(context).size.width * 0.2,
+                                    height: MediaQuery.of(context).size.height * 0.12,
+                                    child: CustomPaint(
+                                      painter: GlowingCirclePainter(_animationController.value),
+                                    ),
+                                  );
+                                },
+                              ),
+                              // Transparent Container for interaction
+                              Container(
+                                width: MediaQuery.of(context).size.width * 0.15,
+                                height: MediaQuery.of(context).size.height * 0.09,
+                                color: Colors.transparent,
+                              ),
+                            ],
                           ),
                         ),
                       ),
@@ -596,17 +655,38 @@ class _ProductZoomPageState extends State<ProductZoomPage> {
                             );*/
                             _showProduct2Details(context);
                           },
-                          child: Container(
-                            color: Colors.transparent,
+                          child: Stack(
+                            alignment: Alignment.center,
+                            children: [
+                              // Glowing Circle Effect with Transparent Center
+                              AnimatedBuilder(
+                                animation: _animationController,
+                                builder: (context, child) {
+                                  return Container(
+                                    width: MediaQuery.of(context).size.width * 0.2,
+                                    height: MediaQuery.of(context).size.height * 0.12,
+                                    child: CustomPaint(
+                                      painter: GlowingCirclePainter(_animationController.value),
+                                    ),
+                                  );
+                                },
+                              ),
+                              // Transparent Container for interaction
+                              Container(
+                                width: MediaQuery.of(context).size.width * 0.15,
+                                height: MediaQuery.of(context).size.height * 0.09,
+                                color: Colors.transparent,
+                              ),
+                            ],
                           ),
                         ),
                       ),
 
                       Positioned(
                         left: MediaQuery.of(context).size.width * 0.36,
-                        top: MediaQuery.of(context).size.height * 0.135,
-                        width: MediaQuery.of(context).size.width * 0.06, // Relative size
-                        height: MediaQuery.of(context).size.height * 0.04, // Relative size
+                        top: MediaQuery.of(context).size.height * 0.15,
+                        width: MediaQuery.of(context).size.width * 0.03, // Relative size
+                        height: MediaQuery.of(context).size.height * 0.02, // Relative size
                         child: GestureDetector(
                           onTap: () {
                            /* _zoomToProduct(
@@ -617,8 +697,29 @@ class _ProductZoomPageState extends State<ProductZoomPage> {
                             );*/
                             _showProduct3Details(context);
                           },
-                          child: Container(
-                            color: Colors.transparent,
+                          child: Stack(
+                            alignment: Alignment.center,
+                            children: [
+                              // Glowing Circle Effect with Transparent Center
+                              AnimatedBuilder(
+                                animation: _animationController,
+                                builder: (context, child) {
+                                  return Container(
+                                    width: MediaQuery.of(context).size.width * 0.2,
+                                    height: MediaQuery.of(context).size.height * 0.12,
+                                    child: CustomPaint(
+                                      painter: GlowingCirclePainter(_animationController.value),
+                                    ),
+                                  );
+                                },
+                              ),
+                              // Transparent Container for interaction
+                              Container(
+                                width: MediaQuery.of(context).size.width * 0.15,
+                                height: MediaQuery.of(context).size.height * 0.09,
+                                color: Colors.transparent,
+                              ),
+                            ],
                           ),
                         ),
                       ),
@@ -638,8 +739,29 @@ class _ProductZoomPageState extends State<ProductZoomPage> {
                             );*/
                             _showProduct4Details(context);
                           },
-                          child: Container(
-                            color: Colors.transparent,
+                          child: Stack(
+                            alignment: Alignment.center,
+                            children: [
+                              // Glowing Circle Effect with Transparent Center
+                              AnimatedBuilder(
+                                animation: _animationController,
+                                builder: (context, child) {
+                                  return Container(
+                                    width: MediaQuery.of(context).size.width * 0.2,
+                                    height: MediaQuery.of(context).size.height * 0.12,
+                                    child: CustomPaint(
+                                      painter: GlowingCirclePainter(_animationController.value),
+                                    ),
+                                  );
+                                },
+                              ),
+                              // Transparent Container for interaction
+                              Container(
+                                width: MediaQuery.of(context).size.width * 0.15,
+                                height: MediaQuery.of(context).size.height * 0.09,
+                                color: Colors.transparent,
+                              ),
+                            ],
                           ),
                         ),
                       ),
@@ -659,17 +781,38 @@ class _ProductZoomPageState extends State<ProductZoomPage> {
                             );*/
                             _showProduct5Details(context);
                           },
-                          child: Container(
-                            color: Colors.transparent,
+                          child: Stack(
+                            alignment: Alignment.center,
+                            children: [
+                              // Glowing Circle Effect with Transparent Center
+                              AnimatedBuilder(
+                                animation: _animationController,
+                                builder: (context, child) {
+                                  return Container(
+                                    width: MediaQuery.of(context).size.width * 0.2,
+                                    height: MediaQuery.of(context).size.height * 0.12,
+                                    child: CustomPaint(
+                                      painter: GlowingCirclePainter(_animationController.value),
+                                    ),
+                                  );
+                                },
+                              ),
+                              // Transparent Container for interaction
+                              Container(
+                                width: MediaQuery.of(context).size.width * 0.15,
+                                height: MediaQuery.of(context).size.height * 0.09,
+                                color: Colors.transparent,
+                              ),
+                            ],
                           ),
                         ),
                       ),
 
                       Positioned(
                         left: MediaQuery.of(context).size.width * 0.57,
-                        top: MediaQuery.of(context).size.height * 0.25,
-                        width: MediaQuery.of(context).size.width * 0.06, // Relative size
-                        height: MediaQuery.of(context).size.height * 0.04, // Relative size
+                        top: MediaQuery.of(context).size.height * 0.26,
+                        width: MediaQuery.of(context).size.width * 0.03, // Relative size
+                        height: MediaQuery.of(context).size.height * 0.02, // Relative size
                         child: GestureDetector(
                           onTap: () {
                             /* _zoomToProduct(
@@ -680,8 +823,29 @@ class _ProductZoomPageState extends State<ProductZoomPage> {
                             );*/
                             _showProduct6Details(context);
                           },
-                          child: Container(
-                            color: Colors.transparent,
+                          child: Stack(
+                            alignment: Alignment.center,
+                            children: [
+                              // Glowing Circle Effect with Transparent Center
+                              AnimatedBuilder(
+                                animation: _animationController,
+                                builder: (context, child) {
+                                  return Container(
+                                    width: MediaQuery.of(context).size.width * 0.2,
+                                    height: MediaQuery.of(context).size.height * 0.12,
+                                    child: CustomPaint(
+                                      painter: GlowingCirclePainter(_animationController.value),
+                                    ),
+                                  );
+                                },
+                              ),
+                              // Transparent Container for interaction
+                              Container(
+                                width: MediaQuery.of(context).size.width * 0.15,
+                                height: MediaQuery.of(context).size.height * 0.09,
+                                color: Colors.transparent,
+                              ),
+                            ],
                           ),
                         ),
                       ),
@@ -701,8 +865,29 @@ class _ProductZoomPageState extends State<ProductZoomPage> {
                             );*/
                             _showProduct7Details(context);
                           },
-                          child: Container(
-                            color: Colors.transparent,
+                          child: Stack(
+                            alignment: Alignment.center,
+                            children: [
+                              // Glowing Circle Effect with Transparent Center
+                              AnimatedBuilder(
+                                animation: _animationController,
+                                builder: (context, child) {
+                                  return Container(
+                                    width: MediaQuery.of(context).size.width * 0.2,
+                                    height: MediaQuery.of(context).size.height * 0.12,
+                                    child: CustomPaint(
+                                      painter: GlowingCirclePainter(_animationController.value),
+                                    ),
+                                  );
+                                },
+                              ),
+                              // Transparent Container for interaction
+                              Container(
+                                width: MediaQuery.of(context).size.width * 0.15,
+                                height: MediaQuery.of(context).size.height * 0.09,
+                                color: Colors.transparent,
+                              ),
+                            ],
                           ),
                         ),
                       ),
@@ -722,8 +907,29 @@ class _ProductZoomPageState extends State<ProductZoomPage> {
                             );*/
                             _showProduct8Details(context);
                           },
-                          child: Container(
-                            color: Colors.transparent,
+                          child: Stack(
+                            alignment: Alignment.center,
+                            children: [
+                              // Glowing Circle Effect with Transparent Center
+                              AnimatedBuilder(
+                                animation: _animationController,
+                                builder: (context, child) {
+                                  return Container(
+                                    width: MediaQuery.of(context).size.width * 0.2,
+                                    height: MediaQuery.of(context).size.height * 0.12,
+                                    child: CustomPaint(
+                                      painter: GlowingCirclePainter(_animationController.value),
+                                    ),
+                                  );
+                                },
+                              ),
+                              // Transparent Container for interaction
+                              Container(
+                                width: MediaQuery.of(context).size.width * 0.15,
+                                height: MediaQuery.of(context).size.height * 0.09,
+                                color: Colors.transparent,
+                              ),
+                            ],
                           ),
                         ),
                       ),
@@ -737,221 +943,325 @@ class _ProductZoomPageState extends State<ProductZoomPage> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    IconButton(
-                      icon: Image.asset(
-                        'assets/systems/ahu/temp_sensor.png',
-                        height: 150,
-                        fit: BoxFit.fill,
-                      ),
-                      iconSize: MediaQuery.of(context).size.width * 0.2, // Relative size
-                      onPressed: () {
-                        _zoomToProduct(
-                          Rect.fromLTWH(
-                            MediaQuery.of(context).size.width * 0.2,
-                            MediaQuery.of(context).size.height * 0.055,
-                            MediaQuery.of(context).size.width * 0.1,
-                            MediaQuery.of(context).size.height * 0.1,
+                    Column(
+                      children: [
+                        IconButton(
+                          icon: Image.asset(
+                            'assets/systems/ahu/temp_sensor.png',
+                            height: 150,
+                            fit: BoxFit.fill,
                           ),
-                          Offset(MediaQuery.of(context).size.width * 0.01, MediaQuery.of(context).size.height * 0.3),
-                          Offset(MediaQuery.of(context).size.width * -0.01, MediaQuery.of(context).size.height * 0.07),
-                              () => _showProduct1Details(context),
-                        );
-                       /* _zoomToProduct(
-                          Rect.fromLTWH(55, 50, 100, 100),
-                          Offset(55, 185),
-                          Offset(-40, 50),
-                              () => _showProduct1Details(context),
-                        );*/
-                      },
+                          iconSize: MediaQuery.of(context).size.width * 0.2, // Relative size
+                          onPressed: () {
+                            _zoomToProduct(
+                              Rect.fromLTWH(
+                                MediaQuery.of(context).size.width * 0.2,
+                                MediaQuery.of(context).size.height * 0.055,
+                                MediaQuery.of(context).size.width * 0.1,
+                                MediaQuery.of(context).size.height * 0.1,
+                              ),
+                              Offset(MediaQuery.of(context).size.width * 0.01, MediaQuery.of(context).size.height * 0.3),
+                              Offset(MediaQuery.of(context).size.width * -0.01, MediaQuery.of(context).size.height * 0.07),
+                                  () => _showProduct1Details(context),
+                            );
+                           /* _zoomToProduct(
+                              Rect.fromLTWH(55, 50, 100, 100),
+                              Offset(55, 185),
+                              Offset(-40, 50),
+                                  () => _showProduct1Details(context),
+                            );*/
+                          },
+                        ),
+                        Text(
+                          'TEMP SENSOR',
+                          style: TextStyle(
+                            fontSize: MediaQuery.of(context).size.width * 0.025,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                      ],
                     ),
-                    IconButton(
-                      icon: Image.asset(
-                        'assets/systems/ahu/damper.png',
-                        height: 150,
-                        fit: BoxFit.fill,
-                      ),
-                      iconSize: MediaQuery.of(context).size.width * 0.2, // Relative size
-                      onPressed: () {
-                        _zoomToProduct(
-                          Rect.fromLTWH(
-                            MediaQuery.of(context).size.width * 0.1,
-                            MediaQuery.of(context).size.height * 0.15,
-                            MediaQuery.of(context).size.width * 0.1,
-                            MediaQuery.of(context).size.height * 0.1,
+                    Column(
+                      children: [
+                        IconButton(
+                          icon: Image.asset(
+                            'assets/systems/ahu/damper.png',
+                            height: 150,
+                            fit: BoxFit.fill,
                           ),
-                          Offset(MediaQuery.of(context).size.width * 0.2, MediaQuery.of(context).size.height * 0.15),
-                          Offset(MediaQuery.of(context).size.width * -0.01, MediaQuery.of(context).size.height * 0.07),
-                              () => _showProduct2Details(context),
-                        );
-                       /* _zoomToProduct(
-                          Rect.fromLTWH(40, 125, 100, 100),
-                          Offset(30, 60),
-                          Offset(-40, 50),
-                              () => _showProduct2Details(context),
-                        );*/
-                      },
+                          iconSize: MediaQuery.of(context).size.width * 0.2, // Relative size
+                          onPressed: () {
+                            _zoomToProduct(
+                              Rect.fromLTWH(
+                                MediaQuery.of(context).size.width * 0.1,
+                                MediaQuery.of(context).size.height * 0.15,
+                                MediaQuery.of(context).size.width * 0.1,
+                                MediaQuery.of(context).size.height * 0.1,
+                              ),
+                              Offset(MediaQuery.of(context).size.width * 0.2, MediaQuery.of(context).size.height * 0.15),
+                              Offset(MediaQuery.of(context).size.width * -0.01, MediaQuery.of(context).size.height * 0.07),
+                                  () => _showProduct2Details(context),
+                            );
+                           /* _zoomToProduct(
+                              Rect.fromLTWH(40, 125, 100, 100),
+                              Offset(30, 60),
+                              Offset(-40, 50),
+                                  () => _showProduct2Details(context),
+                            );*/
+                          },
+                        ),
+                        Text(
+                          'DAMPER ACTUATOR',
+                          style: TextStyle(
+                            fontSize: MediaQuery.of(context).size.width * 0.025,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                      ],
                     ),
-                    IconButton(
-                      icon: Image.asset(
-                        'assets/systems/ahu/co2.png',
-                        height: 150,
-                        fit: BoxFit.fill,
-                      ),
-                      iconSize: MediaQuery.of(context).size.width * 0.2, // Relative size
-                      onPressed: () {
-                        _zoomToProduct(
-                          Rect.fromLTWH(
-                            MediaQuery.of(context).size.width * 0.2,
-                            MediaQuery.of(context).size.height * 0.05,
-                            MediaQuery.of(context).size.width * 0.1,
-                            MediaQuery.of(context).size.height * 0.1,
+                    Column(
+                      children: [
+                        IconButton(
+                          icon: Image.asset(
+                            'assets/systems/ahu/co2.png',
+                            height: 150,
+                            fit: BoxFit.fill,
                           ),
-                          Offset(MediaQuery.of(context).size.width * 0.14, MediaQuery.of(context).size.height * 0.3),
-                          Offset(MediaQuery.of(context).size.width * -0.01, MediaQuery.of(context).size.height * 0.07),
-                              () => _showProduct3Details(context),
-                        );
-                        /*_zoomToProduct(
-                          Rect.fromLTWH(65, 50, 100, 100),
-                          Offset(60, 170),
-                          Offset(-40, 50),
-                              () => _showProduct3Details(context),
-                        );*/
-                      },
+                          iconSize: MediaQuery.of(context).size.width * 0.2, // Relative size
+                          onPressed: () {
+                            _zoomToProduct(
+                              Rect.fromLTWH(
+                                MediaQuery.of(context).size.width * 0.2,
+                                MediaQuery.of(context).size.height * 0.05,
+                                MediaQuery.of(context).size.width * 0.1,
+                                MediaQuery.of(context).size.height * 0.1,
+                              ),
+                              Offset(MediaQuery.of(context).size.width * 0.14, MediaQuery.of(context).size.height * 0.3),
+                              Offset(MediaQuery.of(context).size.width * -0.01, MediaQuery.of(context).size.height * 0.07),
+                                  () => _showProduct3Details(context),
+                            );
+                            /*_zoomToProduct(
+                              Rect.fromLTWH(65, 50, 100, 100),
+                              Offset(60, 170),
+                              Offset(-40, 50),
+                                  () => _showProduct3Details(context),
+                            );*/
+                          },
+                        ),
+                        Text(
+                          'DUCT CO2',
+                          style: TextStyle(
+                            fontSize: MediaQuery.of(context).size.width * 0.025,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                      ],
                     ),
-                    IconButton(
-                      icon: Image.asset(
-                        'assets/systems/ahu/pressure.png',
-                        height: 150,
-                        fit: BoxFit.fill,
-                      ),
-                      iconSize: MediaQuery.of(context).size.width * 0.2, // Relative size
-                      onPressed: () {
-                        _zoomToProduct(
-                          Rect.fromLTWH(
-                            MediaQuery.of(context).size.width * 0.16,
-                            MediaQuery.of(context).size.height * 0.28,
-                            MediaQuery.of(context).size.width * 0.1,
-                            MediaQuery.of(context).size.height * 0.1,
+                    Column(
+                      children: [
+                        IconButton(
+                          icon: Image.asset(
+                            'assets/systems/ahu/pressure.png',
+                            height: 150,
+                            fit: BoxFit.fill,
                           ),
-                          Offset(MediaQuery.of(context).size.width * 0.19, MediaQuery.of(context).size.height * -0.07),
-                          Offset(MediaQuery.of(context).size.width * -0.01, MediaQuery.of(context).size.height * 0.07),
-                              () => _showProduct4Details(context),
-                        );
-                       /* _zoomToProduct(
-                          Rect.fromLTWH(65, 200, 100, 100),
-                          Offset(20, 10),
-                          Offset(-40, 50),
-                              () => _showProduct4Details(context),
-                        );*/
-                      },
+                          iconSize: MediaQuery.of(context).size.width * 0.2, // Relative size
+                          onPressed: () {
+                            _zoomToProduct(
+                              Rect.fromLTWH(
+                                MediaQuery.of(context).size.width * 0.16,
+                                MediaQuery.of(context).size.height * 0.28,
+                                MediaQuery.of(context).size.width * 0.1,
+                                MediaQuery.of(context).size.height * 0.1,
+                              ),
+                              Offset(MediaQuery.of(context).size.width * 0.19, MediaQuery.of(context).size.height * -0.07),
+                              Offset(MediaQuery.of(context).size.width * -0.01, MediaQuery.of(context).size.height * 0.07),
+                                  () => _showProduct4Details(context),
+                            );
+                           /* _zoomToProduct(
+                              Rect.fromLTWH(65, 200, 100, 100),
+                              Offset(20, 10),
+                              Offset(-40, 50),
+                                  () => _showProduct4Details(context),
+                            );*/
+                          },
+                        ),
+                        Text(
+                          'DIFFERENTIAL PRESSURE',
+                          style: TextStyle(
+                            fontSize: MediaQuery.of(context).size.width * 0.025,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                      ],
                     ),
-                    IconButton(
-                      icon: Image.asset(
-                        'assets/systems/ahu/picv.png',
-                        height: 150,
-                        fit: BoxFit.fill,
-                      ),
-                      iconSize: MediaQuery.of(context).size.width * 0.2, // Relative size
-                      onPressed: () {
-                        _zoomToProduct(
-                          Rect.fromLTWH(
-                            MediaQuery.of(context).size.width * 0.36,
-                            MediaQuery.of(context).size.height * 0.3,
-                            MediaQuery.of(context).size.width * 0.1,
-                            MediaQuery.of(context).size.height * 0.1,
+                    Column(
+                      children: [
+                        IconButton(
+                          icon: Image.asset(
+                            'assets/systems/ahu/picv.png',
+                            height: 150,
+                            fit: BoxFit.fill,
                           ),
-                          Offset(MediaQuery.of(context).size.width * -0.06, MediaQuery.of(context).size.height * -0.01),
-                          Offset(MediaQuery.of(context).size.width * -0.01, MediaQuery.of(context).size.height * 0.07),
-                              () => _showProduct5Details(context),
-                        );
-                      /*  _zoomToProduct(
-                          Rect.fromLTWH(135, 250, 100, 100),
-                          Offset(-60, -90),
-                          Offset(-40, 50),
-                              () => _showProduct5Details(context),
-                        );*/
-                      },
+                          iconSize: MediaQuery.of(context).size.width * 0.2, // Relative size
+                          onPressed: () {
+                            _zoomToProduct(
+                              Rect.fromLTWH(
+                                MediaQuery.of(context).size.width * 0.36,
+                                MediaQuery.of(context).size.height * 0.3,
+                                MediaQuery.of(context).size.width * 0.1,
+                                MediaQuery.of(context).size.height * 0.1,
+                              ),
+                              Offset(MediaQuery.of(context).size.width * -0.06, MediaQuery.of(context).size.height * -0.01),
+                              Offset(MediaQuery.of(context).size.width * -0.01, MediaQuery.of(context).size.height * 0.07),
+                                  () => _showProduct5Details(context),
+                            );
+                          /*  _zoomToProduct(
+                              Rect.fromLTWH(135, 250, 100, 100),
+                              Offset(-60, -90),
+                              Offset(-40, 50),
+                                  () => _showProduct5Details(context),
+                            );*/
+                          },
+                        ),
+                        Text(
+                          'PICV',
+                          style: TextStyle(
+                            fontSize: MediaQuery.of(context).size.width * 0.025,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                      ],
                     ),
-                    IconButton(
-                      icon: Image.asset(
-                        'assets/systems/ahu/air_velocity.png',
-                        height: 150,
-                        fit: BoxFit.fill,
-                      ),
-                      iconSize: MediaQuery.of(context).size.width * 0.2, // Relative size
-                      onPressed: () {
-                        _zoomToProduct(
-                          Rect.fromLTWH(
-                            MediaQuery.of(context).size.width * 0.4,
-                            MediaQuery.of(context).size.height * 0.16,
-                            MediaQuery.of(context).size.width * 0.1,
-                            MediaQuery.of(context).size.height * 0.1,
+                    Column(
+                      children: [
+                        IconButton(
+                          icon: Image.asset(
+                            'assets/systems/ahu/air_velocity.png',
+                            height: 150,
+                            fit: BoxFit.fill,
                           ),
-                          Offset(MediaQuery.of(context).size.width * -0.13, MediaQuery.of(context).size.height * 0.15),
-                          Offset(MediaQuery.of(context).size.width * -0.01, MediaQuery.of(context).size.height * 0.07),
-                              () => _showProduct6Details(context),
-                        );
-                       /* _zoomToProduct(
-                          Rect.fromLTWH(150, 135, 100, 100),
-                          Offset(-90, 50),
-                          Offset(-40, 50),
-                              () => _showProduct6Details(context),
-                        );*/
-                      },
+                          iconSize: MediaQuery.of(context).size.width * 0.2, // Relative size
+                          onPressed: () {
+                            _zoomToProduct(
+                              Rect.fromLTWH(
+                                MediaQuery.of(context).size.width * 0.4,
+                                MediaQuery.of(context).size.height * 0.16,
+                                MediaQuery.of(context).size.width * 0.1,
+                                MediaQuery.of(context).size.height * 0.1,
+                              ),
+                              Offset(MediaQuery.of(context).size.width * -0.13, MediaQuery.of(context).size.height * 0.15),
+                              Offset(MediaQuery.of(context).size.width * -0.01, MediaQuery.of(context).size.height * 0.07),
+                                  () => _showProduct6Details(context),
+                            );
+                           /* _zoomToProduct(
+                              Rect.fromLTWH(150, 135, 100, 100),
+                              Offset(-90, 50),
+                              Offset(-40, 50),
+                                  () => _showProduct6Details(context),
+                            );*/
+                          },
+                        ),
+                        Text(
+                          'AIR VELOCITY',
+                          style: TextStyle(
+                            fontSize: MediaQuery.of(context).size.width * 0.025,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                      ],
                     ),
-                    IconButton(
-                      icon: Image.asset(
-                        'assets/systems/ahu/vfd.png',
-                        height: 150,
-                        fit: BoxFit.fill,
-                      ),
-                      iconSize: MediaQuery.of(context).size.width * 0.2, // Relative size
-                      onPressed: () {
-                        _zoomToProduct(
-                          Rect.fromLTWH(
-                            MediaQuery.of(context).size.width * 0.6,
-                            MediaQuery.of(context).size.height * 0.12,
-                            MediaQuery.of(context).size.width * 0.1,
-                            MediaQuery.of(context).size.height * 0.1,
+                    Column(
+                      children: [
+                        IconButton(
+                          icon: Image.asset(
+                            'assets/systems/ahu/vfd.png',
+                            height: 150,
+                            fit: BoxFit.fill,
                           ),
-                          Offset(MediaQuery.of(context).size.width * -0.33, MediaQuery.of(context).size.height * 0.19),
-                          Offset(MediaQuery.of(context).size.width * -0.01, MediaQuery.of(context).size.height * 0.07),
-                              () => _showProduct7Details(context),
-                        );
-                       /* _zoomToProduct(
-                          Rect.fromLTWH(220, 105, 100, 100),
-                          Offset(-160, 50),
-                          Offset(-40, 50),
-                              () => _showProduct7Details(context),
-                        );*/
-                      },
+                          iconSize: MediaQuery.of(context).size.width * 0.2, // Relative size
+                          onPressed: () {
+                            _zoomToProduct(
+                              Rect.fromLTWH(
+                                MediaQuery.of(context).size.width * 0.6,
+                                MediaQuery.of(context).size.height * 0.12,
+                                MediaQuery.of(context).size.width * 0.1,
+                                MediaQuery.of(context).size.height * 0.1,
+                              ),
+                              Offset(MediaQuery.of(context).size.width * -0.33, MediaQuery.of(context).size.height * 0.19),
+                              Offset(MediaQuery.of(context).size.width * -0.01, MediaQuery.of(context).size.height * 0.07),
+                                  () => _showProduct7Details(context),
+                            );
+                           /* _zoomToProduct(
+                              Rect.fromLTWH(220, 105, 100, 100),
+                              Offset(-160, 50),
+                              Offset(-40, 50),
+                                  () => _showProduct7Details(context),
+                            );*/
+                          },
+                        ),
+                        Text(
+                          'VFD',
+                          style: TextStyle(
+                            fontSize: MediaQuery.of(context).size.width * 0.025,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                      ],
                     ),
-                    IconButton(
-                      icon: Image.asset(
-                        'assets/systems/ahu/omni.png',
-                        height: 150,
-                        fit: BoxFit.fill,
-                      ),
-                      iconSize: MediaQuery.of(context).size.width * 0.2, // Relative size
-                      onPressed: () {
-                        _zoomToProduct(
-                          Rect.fromLTWH(
-                            MediaQuery.of(context).size.width * 0.7,
-                            MediaQuery.of(context).size.height * 0.12,
-                            MediaQuery.of(context).size.width * 0.1,
-                            MediaQuery.of(context).size.height * 0.1,
+                    Column(
+                      children: [
+                        IconButton(
+                          icon: Image.asset(
+                            'assets/systems/ahu/omni.png',
+                            height: 150,
+                            fit: BoxFit.fill,
                           ),
-                          Offset(MediaQuery.of(context).size.width * -0.43, MediaQuery.of(context).size.height * 0.15),
-                          Offset(MediaQuery.of(context).size.width * -0.01, MediaQuery.of(context).size.height * 0.07),
-                              () => _showProduct8Details(context),
-                        );
-                       /* _zoomToProduct(
-                          Rect.fromLTWH(250, 105, 100, 100),
-                          Offset(-180, 50),
-                          Offset(-40, 50),
-                              () => _showProduct8Details(context),
-                        );*/
-                      },
+                          iconSize: MediaQuery.of(context).size.width * 0.2, // Relative size
+                          onPressed: () {
+                            _zoomToProduct(
+                              Rect.fromLTWH(
+                                MediaQuery.of(context).size.width * 0.7,
+                                MediaQuery.of(context).size.height * 0.12,
+                                MediaQuery.of(context).size.width * 0.1,
+                                MediaQuery.of(context).size.height * 0.1,
+                              ),
+                              Offset(MediaQuery.of(context).size.width * -0.43, MediaQuery.of(context).size.height * 0.15),
+                              Offset(MediaQuery.of(context).size.width * -0.01, MediaQuery.of(context).size.height * 0.07),
+                                  () => _showProduct8Details(context),
+                            );
+                           /* _zoomToProduct(
+                              Rect.fromLTWH(250, 105, 100, 100),
+                              Offset(-180, 50),
+                              Offset(-40, 50),
+                                  () => _showProduct8Details(context),
+                            );*/
+                          },
+                        ),
+                        Text(
+                          'OMNI',
+                          style: TextStyle(
+                            fontSize: MediaQuery.of(context).size.width * 0.025,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                      ],
                     ),
 
                   ],
@@ -985,4 +1295,31 @@ class _ProductZoomPageState extends State<ProductZoomPage> {
       ),
     );
   }
+}
+
+
+
+class GlowingCirclePainter extends CustomPainter {
+  final double progress;
+
+  GlowingCirclePainter(this.progress);
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final Paint paint = Paint()
+      ..color = Colors.blue.withOpacity(progress)
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 5 + progress * 5;
+
+    final double glowRadius = size.width / 2 + (progress * 10);
+
+    canvas.drawCircle(
+      Offset(size.width / 2, size.height / 2),
+      glowRadius,
+      paint,
+    );
+  }
+
+  @override
+  bool shouldRepaint(CustomPainter oldDelegate) => true;
 }
