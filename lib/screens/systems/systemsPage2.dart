@@ -104,7 +104,7 @@ class _systemsPage2State extends State<systemsPage2> with TickerProviderStateMix
                 horizontal: screenWidth / 50,
               ),*/
               child: Container(
-                height: MediaQuery.of(context).size.height * 1,
+                height: screenHeight * 0.9,
                 child: Stack(
                   children: [
                     CachedNetworkImage(
@@ -141,13 +141,13 @@ class _systemsPage2State extends State<systemsPage2> with TickerProviderStateMix
                         ),
                     ),
                     Positioned(
-                      bottom: 50,
-                      height: MediaQuery.of(context).size.height,
+                      bottom: screenLayout ? -25 : -60,
+                      height: screenHeight,
                       width: MediaQuery.of(context).size.width,
                       child: CarouselSlider.builder(
                         carouselController: _carouselController,
                       options: CarouselOptions(
-                        height: MediaQuery.of(context).size.height * 0.8,
+                        height: screenHeight * 0.8,
                          aspectRatio:  16/9,
                         viewportFraction: 0.70,
                         enlargeCenterPage: true,
@@ -173,7 +173,7 @@ class _systemsPage2State extends State<systemsPage2> with TickerProviderStateMix
                             child: Column(
                               children: [
                                 Container(
-                                  height: 320,
+                                  height: screenLayout ? screenHeight * 0.47 : screenHeight * 0.53,
                                   width: MediaQuery.of(context).size.width,
                                   margin: EdgeInsets.only(top: 30),
                                   clipBehavior: Clip.hardEdge,
