@@ -104,7 +104,7 @@ class _systemsPage2State extends State<systemsPage2> with TickerProviderStateMix
                 horizontal: screenWidth / 50,
               ),*/
               child: Container(
-                height: MediaQuery.of(context).size.height,
+                height: MediaQuery.of(context).size.height * 1,
                 child: Stack(
                   children: [
                     CachedNetworkImage(
