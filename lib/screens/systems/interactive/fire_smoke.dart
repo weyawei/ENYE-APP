@@ -96,7 +96,7 @@ class _FireSmokePageState extends State<FireSmokePage> with TickerProviderStateM
                 'assets/systems/fire_smoke/omni.png',
                 width: MediaQuery.of(context).size.width,
                 height: MediaQuery.of(context).size.width * 0.5,
-                fit: BoxFit.fill,
+                fit: BoxFit.contain,
               ),
               Text(
                 "EC Smoke Extraction System Controller (EC-SES)",
@@ -144,7 +144,7 @@ class _FireSmokePageState extends State<FireSmokePage> with TickerProviderStateM
                 'assets/systems/fire_smoke/smoke_damper.png',
                 width: MediaQuery.of(context).size.width,
                 height: MediaQuery.of(context).size.width * 0.5,
-                fit: BoxFit.fill,
+                fit: BoxFit.contain,
               ),
               Text(
                 "Fire and Smoke Damper Actuator",
@@ -200,7 +200,7 @@ class _FireSmokePageState extends State<FireSmokePage> with TickerProviderStateM
                 'assets/systems/fire_smoke/duct_smoke.png',
                 width: MediaQuery.of(context).size.width * 1,
                 height: MediaQuery.of(context).size.width * 0.5,
-                fit: BoxFit.fill,
+                fit: BoxFit.contain,
               ),
               Text(
                 "DUCT SMOKE DETECTOR",

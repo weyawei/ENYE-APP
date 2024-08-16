@@ -78,7 +78,7 @@ class _ChillerPageState extends State<ChillerPage> {
                 'assets/systems/ahu/temp_sensor.png',
                 width: MediaQuery.of(context).size.width * 1,
                 height: MediaQuery.of(context).size.width * 0.5,
-                fit: BoxFit.fill,
+                fit: BoxFit.contain,
               ),
               Text(
                 "DUCT TEMPERATURE SENSOR",
@@ -191,7 +191,7 @@ class _ChillerPageState extends State<ChillerPage> {
                 'assets/systems/ahu/co2.png',
                 width: MediaQuery.of(context).size.width * 1,
                 height: MediaQuery.of(context).size.width * 0.5,
-                fit: BoxFit.fill,
+                fit: BoxFit.contain,
               ),
               Text(
                 "DUCT CARBON DIOXIDE TRANSMITTER",
@@ -242,7 +242,7 @@ class _ChillerPageState extends State<ChillerPage> {
                 'assets/systems/ahu/pressure.png',
                 width: MediaQuery.of(context).size.width * 1,
                 height: MediaQuery.of(context).size.width * 0.5,
-                fit: BoxFit.fill,
+                fit: BoxFit.contain,
               ),
               Text(
                 "Differential Pressure Transmitter",
@@ -293,7 +293,7 @@ class _ChillerPageState extends State<ChillerPage> {
                 'assets/systems/ahu/picv.png',
                 width: MediaQuery.of(context).size.width * 1,
                 height: MediaQuery.of(context).size.width * 0.5,
-                fit: BoxFit.fill,
+                fit: BoxFit.contain,
               ),
               Text(
                 "Veriflow Valve",
@@ -321,7 +321,7 @@ class _ChillerPageState extends State<ChillerPage> {
                 'assets/systems/ahu/logica.png',
                 width: MediaQuery.of(context).size.width * 1,
                 height: MediaQuery.of(context).size.width * 0.5,
-                fit: BoxFit.fill,
+                fit: BoxFit.contain,
               ),
               Text(
                 "Logica Actuator",
@@ -372,7 +372,7 @@ class _ChillerPageState extends State<ChillerPage> {
                 'assets/systems/ahu/air_velocity.png',
                 width: MediaQuery.of(context).size.width * 1,
                 height: MediaQuery.of(context).size.width * 0.5,
-                fit: BoxFit.fill,
+                fit: BoxFit.contain,
               ),
               Text(
                 "AIR VELOCITY TRANSMITTER",
@@ -423,7 +423,7 @@ class _ChillerPageState extends State<ChillerPage> {
                 'assets/systems/ahu/vfd.png',
                 width: MediaQuery.of(context).size.width * 1,
                 height: MediaQuery.of(context).size.width * 0.5,
-                fit: BoxFit.fill,
+                fit: BoxFit.contain,
               ),
               Text(
                 "Variable Frequency Drive (VFD)",
@@ -474,7 +474,7 @@ class _ChillerPageState extends State<ChillerPage> {
                 'assets/systems/ahu/omni.png',
                 width: MediaQuery.of(context).size.width * 1,
                 height: MediaQuery.of(context).size.width * 0.5,
-                fit: BoxFit.fill,
+                fit: BoxFit.contain,
               ),
               Text(
                 "Networkable Stand-Alone Controller (NSAC)",

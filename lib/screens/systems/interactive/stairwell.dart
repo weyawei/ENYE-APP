@@ -97,7 +97,7 @@ class _StairwellPageState extends State<StairwellPage> with TickerProviderStateM
                 'assets/systems/stairwell/omni.png',
                 width: MediaQuery.of(context).size.width,
                 height: MediaQuery.of(context).size.width * 0.5,
-                fit: BoxFit.fill,
+                fit: BoxFit.contain,
               ),
               Text(
                 "OMNI Controller",
@@ -146,7 +146,7 @@ class _StairwellPageState extends State<StairwellPage> with TickerProviderStateM
                 'assets/systems/stairwell/vfd.png',
                 width: MediaQuery.of(context).size.width * 1,
                 height: MediaQuery.of(context).size.width * 0.5,
-                fit: BoxFit.fill,
+                fit: BoxFit.contain,
               ),
               Text(
                 "Variable Frequency Drive (VFD)",
@@ -204,7 +204,7 @@ class _StairwellPageState extends State<StairwellPage> with TickerProviderStateM
                 'assets/systems/fire_smoke/duct_smoke.png',
                 width: MediaQuery.of(context).size.width * 1,
                 height: MediaQuery.of(context).size.width * 0.5,
-                fit: BoxFit.fill,
+                fit: BoxFit.contain,
               ),
               Text(
                 "DUCT SMOKE DETECTOR",
@@ -255,7 +255,7 @@ class _StairwellPageState extends State<StairwellPage> with TickerProviderStateM
                 'assets/systems/stairwell/pressure.png',
                 width: MediaQuery.of(context).size.width * 1,
                 height: MediaQuery.of(context).size.width * 0.5,
-                fit: BoxFit.fill,
+                fit: BoxFit.contain,
               ),
               Text(
                 "Differential Pressure Transmitter",

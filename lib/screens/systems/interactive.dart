@@ -95,7 +95,7 @@ class _ProductZoomPageState extends State<ProductZoomPage> with TickerProviderSt
                 'assets/systems/ahu/temp_sensor.png',
                 width: MediaQuery.of(context).size.width * 1,
                 height: MediaQuery.of(context).size.width * 0.5,
-                fit: BoxFit.fill,
+                fit: BoxFit.contain,
               ),
               Text(
                 "DUCT TEMPERATURE SENSOR",
@@ -122,7 +122,7 @@ class _ProductZoomPageState extends State<ProductZoomPage> with TickerProviderSt
         ),
         actions: <Widget>[
           TextButton(
-                onPressed: () {
+            onPressed: () {
               Navigator.of(context).pop();
               _resetView();
             },
@@ -208,7 +208,7 @@ class _ProductZoomPageState extends State<ProductZoomPage> with TickerProviderSt
                 'assets/systems/ahu/co2.png',
                 width: MediaQuery.of(context).size.width * 1,
                 height: MediaQuery.of(context).size.width * 0.5,
-                fit: BoxFit.fill,
+                fit: BoxFit.contain,
               ),
               Text(
                 "DUCT CARBON DIOXIDE TRANSMITTER",
@@ -259,7 +259,7 @@ class _ProductZoomPageState extends State<ProductZoomPage> with TickerProviderSt
                 'assets/systems/ahu/pressure.png',
                 width: MediaQuery.of(context).size.width * 1,
                 height: MediaQuery.of(context).size.width * 0.5,
-                fit: BoxFit.fill,
+                fit: BoxFit.contain,
               ),
               Text(
                 "Differential Pressure Transmitter",
@@ -310,7 +310,7 @@ class _ProductZoomPageState extends State<ProductZoomPage> with TickerProviderSt
                 'assets/systems/ahu/picv.png',
                 width: MediaQuery.of(context).size.width * 1,
                 height: MediaQuery.of(context).size.width * 0.5,
-                fit: BoxFit.fill,
+                fit: BoxFit.contain,
               ),
               Text(
                 "Veriflow Valve",
@@ -338,7 +338,7 @@ class _ProductZoomPageState extends State<ProductZoomPage> with TickerProviderSt
                 'assets/systems/ahu/logica.png',
                 width: MediaQuery.of(context).size.width * 1,
                 height: MediaQuery.of(context).size.width * 0.5,
-                fit: BoxFit.fill,
+                fit: BoxFit.contain,
               ),
               Text(
                 "Logica Actuator",
@@ -389,7 +389,7 @@ class _ProductZoomPageState extends State<ProductZoomPage> with TickerProviderSt
                 'assets/systems/ahu/air_velocity.png',
                 width: MediaQuery.of(context).size.width * 1,
                 height: MediaQuery.of(context).size.width * 0.5,
-                fit: BoxFit.fill,
+                fit: BoxFit.contain,
               ),
               Text(
                 "AIR VELOCITY TRANSMITTER",
@@ -440,7 +440,7 @@ class _ProductZoomPageState extends State<ProductZoomPage> with TickerProviderSt
                 'assets/systems/ahu/vfd.png',
                 width: MediaQuery.of(context).size.width * 1,
                 height: MediaQuery.of(context).size.width * 0.5,
-                fit: BoxFit.fill,
+                fit: BoxFit.contain,
               ),
               Text(
                 "Variable Frequency Drive (VFD)",
@@ -491,7 +491,7 @@ class _ProductZoomPageState extends State<ProductZoomPage> with TickerProviderSt
                 'assets/systems/ahu/omni.png',
                 width: MediaQuery.of(context).size.width * 1,
                 height: MediaQuery.of(context).size.width * 0.5,
-                fit: BoxFit.fill,
+                fit: BoxFit.contain,
               ),
               Text(
                 "Networkable Stand-Alone Controller (NSAC)",

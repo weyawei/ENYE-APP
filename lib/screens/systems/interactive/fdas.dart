@@ -96,7 +96,7 @@ class _FiremanControlPageState extends State<FiremanControlPage> with TickerProv
                 'assets/systems/fire_smoke/omni.png',
                 width: MediaQuery.of(context).size.width,
                 height: MediaQuery.of(context).size.width * 0.5,
-                fit: BoxFit.fill,
+                fit: BoxFit.contain,
               ),
               Text(
                 "EC Smoke Extraction System Controller (EC-SES)",
