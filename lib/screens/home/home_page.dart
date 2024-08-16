@@ -990,7 +990,7 @@ class _homePageState extends State<homePage> with TickerProviderStateMixin{
 
                   SizedBox(width: 18,),
                   GestureDetector(
-                      child: Image(image: AssetImage("assets/icons/twitter.png"), height: (screenHeight + screenWidth) / 25, width: (screenHeight + screenWidth) / 25,),
+                      child: Image(image: AssetImage("assets/icons/twitter-new.png"), height: (screenHeight + screenWidth) / 25, width: (screenHeight + screenWidth) / 25,),
                       onTap: () async{
                         setState(() {
                           _launchURL("https://twitter.com/enyecontrols");
