@@ -177,7 +177,7 @@ class _SmokeExtractPageState extends State<SmokeExtractPage> with TickerProvider
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Schematic Diagram'),
+        title: Text('Smoke Extraction System'),
         backgroundColor: Colors.transparent,
       ),
       backgroundColor: Colors.black,
@@ -235,6 +235,17 @@ class _SmokeExtractPageState extends State<SmokeExtractPage> with TickerProvider
                           ),
                         ),
                       ),
+                      Positioned(
+                        left: MediaQuery.of(context).size.width * 0.59,
+                        top: MediaQuery.of(context).size.height * 0.11, // Adjusted for relative positioning
+                        child: Text(
+                          'OMNI', // Replace with the actual product name or identifier
+                          style: TextStyle(
+                            fontSize: MediaQuery.of(context).size.width * 0.02, // Adjust the font size accordingly
+                            color: Colors.white, // Adjust the color if needed
+                          ),
+                        ),
+                      ),
                       // GestureDetector for Product 2
                       Positioned(
                         left: MediaQuery.of(context).size.width * 0.545,
@@ -268,6 +279,17 @@ class _SmokeExtractPageState extends State<SmokeExtractPage> with TickerProvider
                                 color: Colors.transparent,
                               ),
                             ],
+                          ),
+                        ),
+                      ),
+                      Positioned(
+                        left: MediaQuery.of(context).size.width * 0.545,
+                        top: MediaQuery.of(context).size.height * 0.25, // Adjusted for relative positioning
+                        child: Text(
+                          'Damper Actuator', // Replace with the actual product name or identifier
+                          style: TextStyle(
+                            fontSize: MediaQuery.of(context).size.width * 0.02, // Adjust the font size accordingly
+                            color: Colors.white, // Adjust the color if needed
                           ),
                         ),
                       ),
@@ -307,6 +329,18 @@ class _SmokeExtractPageState extends State<SmokeExtractPage> with TickerProvider
                           ),
                         ),
                       ),
+                      Positioned(
+                        left: MediaQuery.of(context).size.width * 0.545,
+                        top: MediaQuery.of(context).size.height * 0.42, // Adjusted for relative positioning
+                        child: Text(
+                          'Damper Actuator', // Replace with the actual product name or identifier
+                          style: TextStyle(
+                            fontSize: MediaQuery.of(context).size.width * 0.02, // Adjust the font size accordingly
+                            color: Colors.white, // Adjust the color if needed
+                          ),
+                        ),
+                      ),
+
                     ],
                   ),
                 ),
@@ -334,7 +368,7 @@ class _SmokeExtractPageState extends State<SmokeExtractPage> with TickerProvider
                                 MediaQuery.of(context).size.width * 0.1,
                                 MediaQuery.of(context).size.height * 0.1,
                               ),
-                              Offset(MediaQuery.of(context).size.width * -0.28, MediaQuery.of(context).size.height * 0.25),
+                              Offset(MediaQuery.of(context).size.width * -0.28, MediaQuery.of(context).size.height * 0.31),
                               Offset(MediaQuery.of(context).size.width * -0.01, MediaQuery.of(context).size.height * 0.07),
                                   () => _showProduct1Details(context),
                             );
@@ -364,11 +398,11 @@ class _SmokeExtractPageState extends State<SmokeExtractPage> with TickerProvider
                             _zoomToProduct(
                               Rect.fromLTWH(
                                 MediaQuery.of(context).size.width * 0.4,
-                                MediaQuery.of(context).size.height * 0.07,
+                                MediaQuery.of(context).size.height * 0.12,
                                 MediaQuery.of(context).size.width * 0.1,
                                 MediaQuery.of(context).size.height * 0.1,
                               ),
-                              Offset(MediaQuery.of(context).size.width * -0.15, MediaQuery.of(context).size.height * 0.42),
+                              Offset(MediaQuery.of(context).size.width * -0.15, MediaQuery.of(context).size.height * 0.26),
                               Offset(MediaQuery.of(context).size.width * -0.01, MediaQuery.of(context).size.height * 0.07),
                                   () => _showProduct2Details(context),
                             );

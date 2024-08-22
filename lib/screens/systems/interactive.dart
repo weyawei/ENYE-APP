@@ -13,6 +13,9 @@ class _ProductZoomPageState extends State<ProductZoomPage> with TickerProviderSt
   bool _showFloatingButton = false;
   bool _showArrow = false;
 
+  late AnimationController _controller;
+  late Animation<Color?> _colorAnimation;
+
   late AnimationController _animationController;
 
   @override
@@ -22,11 +25,25 @@ class _ProductZoomPageState extends State<ProductZoomPage> with TickerProviderSt
       vsync: this,
       duration: Duration(seconds: 2),
     )..repeat(reverse: true);
+
+    _controller = AnimationController(
+      duration: const Duration(seconds: 3), // Duration of the glow cycle
+      vsync: this,
+    )..repeat(reverse: true); // Repeat the animation forward and backward
+
+    _colorAnimation = ColorTween(
+      begin: Colors.transparent,
+      end: Colors.yellowAccent.withOpacity(0.5),
+    ).animate(CurvedAnimation(
+      parent: _controller,
+      curve: Curves.easeInOut,
+    ));
   }
 
   @override
   void dispose() {
     _animationController.dispose();
+    _controller.dispose();
     super.dispose();
   }
 
@@ -577,27 +594,47 @@ class _ProductZoomPageState extends State<ProductZoomPage> with TickerProviderSt
                             children: [
                               // Glowing Circle Effect with Transparent Center
                               AnimatedBuilder(
-                                animation: _animationController,
+                                animation: _colorAnimation,
                                 builder: (context, child) {
                                   return Container(
-                                    width: MediaQuery.of(context).size.width * 0.2,
-                                    height: MediaQuery.of(context).size.height * 0.12,
-                                    child: CustomPaint(
-                                      painter: GlowingCirclePainter(_animationController.value),
+                                    width: MediaQuery.of(context).size.width * 0.3, // Width of the clickable area
+                                    height: MediaQuery.of(context).size.height * 0.3, // Height of the clickable area
+                                    decoration: BoxDecoration(
+                                      shape: BoxShape.circle, // Make the container a circle
+                                      gradient: RadialGradient(
+                                        colors: [
+                                          _colorAnimation.value ?? Colors.transparent,
+                                          Colors.transparent,
+                                        ],
+                                        stops: [0.5, 1],
+                                      ),
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: _colorAnimation.value ?? Colors.transparent,
+                                          blurRadius: 10,
+                                          spreadRadius: 5,
+                                        ),
+                                      ],
                                     ),
                                   );
                                 },
-                              ),
-                              // Transparent Container for interaction
-                              Container(
-                                width: MediaQuery.of(context).size.width * 0.15,
-                                height: MediaQuery.of(context).size.height * 0.09,
-                                color: Colors.transparent,
                               ),
                             ],
                           ),
                         ),
                       ),
+                      Positioned(
+                        left: MediaQuery.of(context).size.width * 0.26,
+                        top: MediaQuery.of(context).size.height * 0.18, // Adjusted for relative positioning
+                        child: Text(
+                          'Temp Sensor', // Replace with the actual product name or identifier
+                          style: TextStyle(
+                            fontSize: MediaQuery.of(context).size.width * 0.02, // Adjust the font size accordingly
+                            color: Colors.white, // Adjust the color if needed
+                          ),
+                        ),
+                      ),
+
                       // GestureDetector for Product 2
                       Positioned(
                         left: MediaQuery.of(context).size.width * 0.22,
@@ -619,27 +656,47 @@ class _ProductZoomPageState extends State<ProductZoomPage> with TickerProviderSt
                             children: [
                               // Glowing Circle Effect with Transparent Center
                               AnimatedBuilder(
-                                animation: _animationController,
+                                animation: _colorAnimation,
                                 builder: (context, child) {
                                   return Container(
-                                    width: MediaQuery.of(context).size.width * 0.2,
-                                    height: MediaQuery.of(context).size.height * 0.12,
-                                    child: CustomPaint(
-                                      painter: GlowingCirclePainter(_animationController.value),
+                                    width: MediaQuery.of(context).size.width * 0.3, // Width of the clickable area
+                                    height: MediaQuery.of(context).size.height * 0.3, // Height of the clickable area
+                                    decoration: BoxDecoration(
+                                      shape: BoxShape.circle, // Make the container a circle
+                                      gradient: RadialGradient(
+                                        colors: [
+                                          _colorAnimation.value ?? Colors.transparent,
+                                          Colors.transparent,
+                                        ],
+                                        stops: [0.5, 1],
+                                      ),
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: _colorAnimation.value ?? Colors.transparent,
+                                          blurRadius: 10,
+                                          spreadRadius: 5,
+                                        ),
+                                      ],
                                     ),
                                   );
                                 },
-                              ),
-                              // Transparent Container for interaction
-                              Container(
-                                width: MediaQuery.of(context).size.width * 0.15,
-                                height: MediaQuery.of(context).size.height * 0.09,
-                                color: Colors.transparent,
                               ),
                             ],
                           ),
                         ),
                       ),
+                      Positioned(
+                        left: MediaQuery.of(context).size.width * 0.22,
+                        top: MediaQuery.of(context).size.height * 0.26, // Adjusted for relative positioning
+                        child: Text(
+                          'Damper Actuator', // Replace with the actual product name or identifier
+                          style: TextStyle(
+                            fontSize: MediaQuery.of(context).size.width * 0.02, // Adjust the font size accordingly
+                            color: Colors.white, // Adjust the color if needed
+                          ),
+                        ),
+                      ),
+
                       Positioned(
                         left: MediaQuery.of(context).size.width * 0.14,
                         top: MediaQuery.of(context).size.height * 0.38,
@@ -660,24 +717,43 @@ class _ProductZoomPageState extends State<ProductZoomPage> with TickerProviderSt
                             children: [
                               // Glowing Circle Effect with Transparent Center
                               AnimatedBuilder(
-                                animation: _animationController,
+                                animation: _colorAnimation,
                                 builder: (context, child) {
                                   return Container(
-                                    width: MediaQuery.of(context).size.width * 0.2,
-                                    height: MediaQuery.of(context).size.height * 0.12,
-                                    child: CustomPaint(
-                                      painter: GlowingCirclePainter(_animationController.value),
+                                    width: MediaQuery.of(context).size.width * 0.3, // Width of the clickable area
+                                    height: MediaQuery.of(context).size.height * 0.3, // Height of the clickable area
+                                    decoration: BoxDecoration(
+                                      shape: BoxShape.circle, // Make the container a circle
+                                      gradient: RadialGradient(
+                                        colors: [
+                                          _colorAnimation.value ?? Colors.transparent,
+                                          Colors.transparent,
+                                        ],
+                                        stops: [0.5, 1],
+                                      ),
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: _colorAnimation.value ?? Colors.transparent,
+                                          blurRadius: 10,
+                                          spreadRadius: 5,
+                                        ),
+                                      ],
                                     ),
                                   );
                                 },
                               ),
-                              // Transparent Container for interaction
-                              Container(
-                                width: MediaQuery.of(context).size.width * 0.15,
-                                height: MediaQuery.of(context).size.height * 0.09,
-                                color: Colors.transparent,
-                              ),
                             ],
+                          ),
+                        ),
+                      ),
+                      Positioned(
+                        left: MediaQuery.of(context).size.width * 0.14,
+                        top: MediaQuery.of(context).size.height * 0.41, // Adjusted for relative positioning
+                        child: Text(
+                          'Damper Actuator', // Replace with the actual product name or identifier
+                          style: TextStyle(
+                            fontSize: MediaQuery.of(context).size.width * 0.02, // Adjust the font size accordingly
+                            color: Colors.white, // Adjust the color if needed
                           ),
                         ),
                       ),
@@ -702,24 +778,43 @@ class _ProductZoomPageState extends State<ProductZoomPage> with TickerProviderSt
                             children: [
                               // Glowing Circle Effect with Transparent Center
                               AnimatedBuilder(
-                                animation: _animationController,
+                                animation: _colorAnimation,
                                 builder: (context, child) {
                                   return Container(
-                                    width: MediaQuery.of(context).size.width * 0.2,
-                                    height: MediaQuery.of(context).size.height * 0.12,
-                                    child: CustomPaint(
-                                      painter: GlowingCirclePainter(_animationController.value),
+                                    width: MediaQuery.of(context).size.width * 0.3, // Width of the clickable area
+                                    height: MediaQuery.of(context).size.height * 0.3, // Height of the clickable area
+                                    decoration: BoxDecoration(
+                                      shape: BoxShape.circle, // Make the container a circle
+                                      gradient: RadialGradient(
+                                        colors: [
+                                          _colorAnimation.value ?? Colors.transparent,
+                                          Colors.transparent,
+                                        ],
+                                        stops: [0.5, 1],
+                                      ),
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: _colorAnimation.value ?? Colors.transparent,
+                                          blurRadius: 10,
+                                          spreadRadius: 5,
+                                        ),
+                                      ],
                                     ),
                                   );
                                 },
                               ),
-                              // Transparent Container for interaction
-                              Container(
-                                width: MediaQuery.of(context).size.width * 0.15,
-                                height: MediaQuery.of(context).size.height * 0.09,
-                                color: Colors.transparent,
-                              ),
                             ],
+                          ),
+                        ),
+                      ),
+                      Positioned(
+                        left: MediaQuery.of(context).size.width * 0.38,
+                        top: MediaQuery.of(context).size.height * 0.17, // Adjusted for relative positioning
+                        child: Text(
+                          'Duct CO2', // Replace with the actual product name or identifier
+                          style: TextStyle(
+                            fontSize: MediaQuery.of(context).size.width * 0.02, // Adjust the font size accordingly
+                            color: Colors.white, // Adjust the color if needed
                           ),
                         ),
                       ),
@@ -744,24 +839,43 @@ class _ProductZoomPageState extends State<ProductZoomPage> with TickerProviderSt
                             children: [
                               // Glowing Circle Effect with Transparent Center
                               AnimatedBuilder(
-                                animation: _animationController,
+                                animation: _colorAnimation,
                                 builder: (context, child) {
                                   return Container(
-                                    width: MediaQuery.of(context).size.width * 0.2,
-                                    height: MediaQuery.of(context).size.height * 0.12,
-                                    child: CustomPaint(
-                                      painter: GlowingCirclePainter(_animationController.value),
+                                    width: MediaQuery.of(context).size.width * 0.3, // Width of the clickable area
+                                    height: MediaQuery.of(context).size.height * 0.3, // Height of the clickable area
+                                    decoration: BoxDecoration(
+                                      shape: BoxShape.circle, // Make the container a circle
+                                      gradient: RadialGradient(
+                                        colors: [
+                                          _colorAnimation.value ?? Colors.transparent,
+                                          Colors.transparent,
+                                        ],
+                                        stops: [0.5, 1],
+                                      ),
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: _colorAnimation.value ?? Colors.transparent,
+                                          blurRadius: 10,
+                                          spreadRadius: 5,
+                                        ),
+                                      ],
                                     ),
                                   );
                                 },
                               ),
-                              // Transparent Container for interaction
-                              Container(
-                                width: MediaQuery.of(context).size.width * 0.15,
-                                height: MediaQuery.of(context).size.height * 0.09,
-                                color: Colors.transparent,
-                              ),
                             ],
+                          ),
+                        ),
+                      ),
+                      Positioned(
+                        left: MediaQuery.of(context).size.width * 0.31,
+                        top: MediaQuery.of(context).size.height * 0.38, // Adjusted for relative positioning
+                        child: Text(
+                          'Differential Pressure', // Replace with the actual product name or identifier
+                          style: TextStyle(
+                            fontSize: MediaQuery.of(context).size.width * 0.02, // Adjust the font size accordingly
+                            color: Colors.white, // Adjust the color if needed
                           ),
                         ),
                       ),
@@ -786,24 +900,43 @@ class _ProductZoomPageState extends State<ProductZoomPage> with TickerProviderSt
                             children: [
                               // Glowing Circle Effect with Transparent Center
                               AnimatedBuilder(
-                                animation: _animationController,
+                                animation: _colorAnimation,
                                 builder: (context, child) {
                                   return Container(
-                                    width: MediaQuery.of(context).size.width * 0.2,
-                                    height: MediaQuery.of(context).size.height * 0.12,
-                                    child: CustomPaint(
-                                      painter: GlowingCirclePainter(_animationController.value),
+                                    width: MediaQuery.of(context).size.width * 0.3, // Width of the clickable area
+                                    height: MediaQuery.of(context).size.height * 0.3, // Height of the clickable area
+                                    decoration: BoxDecoration(
+                                      shape: BoxShape.circle, // Make the container a circle
+                                      gradient: RadialGradient(
+                                        colors: [
+                                          _colorAnimation.value ?? Colors.transparent,
+                                          Colors.transparent,
+                                        ],
+                                        stops: [0.5, 1],
+                                      ),
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: _colorAnimation.value ?? Colors.transparent,
+                                          blurRadius: 10,
+                                          spreadRadius: 5,
+                                        ),
+                                      ],
                                     ),
                                   );
                                 },
                               ),
-                              // Transparent Container for interaction
-                              Container(
-                                width: MediaQuery.of(context).size.width * 0.15,
-                                height: MediaQuery.of(context).size.height * 0.09,
-                                color: Colors.transparent,
-                              ),
                             ],
+                          ),
+                        ),
+                      ),
+                      Positioned(
+                        left: MediaQuery.of(context).size.width * 0.51,
+                        top: MediaQuery.of(context).size.height * 0.415, // Adjusted for relative positioning
+                        child: Text(
+                          'PICV', // Replace with the actual product name or identifier
+                          style: TextStyle(
+                            fontSize: MediaQuery.of(context).size.width * 0.02, // Adjust the font size accordingly
+                            color: Colors.white, // Adjust the color if needed
                           ),
                         ),
                       ),
@@ -828,24 +961,43 @@ class _ProductZoomPageState extends State<ProductZoomPage> with TickerProviderSt
                             children: [
                               // Glowing Circle Effect with Transparent Center
                               AnimatedBuilder(
-                                animation: _animationController,
+                                animation: _colorAnimation,
                                 builder: (context, child) {
                                   return Container(
-                                    width: MediaQuery.of(context).size.width * 0.2,
-                                    height: MediaQuery.of(context).size.height * 0.12,
-                                    child: CustomPaint(
-                                      painter: GlowingCirclePainter(_animationController.value),
+                                    width: MediaQuery.of(context).size.width * 0.3, // Width of the clickable area
+                                    height: MediaQuery.of(context).size.height * 0.3, // Height of the clickable area
+                                    decoration: BoxDecoration(
+                                      shape: BoxShape.circle, // Make the container a circle
+                                      gradient: RadialGradient(
+                                        colors: [
+                                          _colorAnimation.value ?? Colors.transparent,
+                                          Colors.transparent,
+                                        ],
+                                        stops: [0.5, 1],
+                                      ),
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: _colorAnimation.value ?? Colors.transparent,
+                                          blurRadius: 10,
+                                          spreadRadius: 5,
+                                        ),
+                                      ],
                                     ),
                                   );
                                 },
                               ),
-                              // Transparent Container for interaction
-                              Container(
-                                width: MediaQuery.of(context).size.width * 0.15,
-                                height: MediaQuery.of(context).size.height * 0.09,
-                                color: Colors.transparent,
-                              ),
                             ],
+                          ),
+                        ),
+                      ),
+                      Positioned(
+                        left: MediaQuery.of(context).size.width * 0.57,
+                        top: MediaQuery.of(context).size.height * 0.28, // Adjusted for relative positioning
+                        child: Text(
+                          'Air Velocity', // Replace with the actual product name or identifier
+                          style: TextStyle(
+                            fontSize: MediaQuery.of(context).size.width * 0.02, // Adjust the font size accordingly
+                            color: Colors.white, // Adjust the color if needed
                           ),
                         ),
                       ),
@@ -870,24 +1022,43 @@ class _ProductZoomPageState extends State<ProductZoomPage> with TickerProviderSt
                             children: [
                               // Glowing Circle Effect with Transparent Center
                               AnimatedBuilder(
-                                animation: _animationController,
+                                animation: _colorAnimation,
                                 builder: (context, child) {
                                   return Container(
-                                    width: MediaQuery.of(context).size.width * 0.2,
-                                    height: MediaQuery.of(context).size.height * 0.12,
-                                    child: CustomPaint(
-                                      painter: GlowingCirclePainter(_animationController.value),
+                                    width: MediaQuery.of(context).size.width * 0.3, // Width of the clickable area
+                                    height: MediaQuery.of(context).size.height * 0.3, // Height of the clickable area
+                                    decoration: BoxDecoration(
+                                      shape: BoxShape.circle, // Make the container a circle
+                                      gradient: RadialGradient(
+                                        colors: [
+                                          _colorAnimation.value ?? Colors.transparent,
+                                          Colors.transparent,
+                                        ],
+                                        stops: [0.5, 1],
+                                      ),
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: _colorAnimation.value ?? Colors.transparent,
+                                          blurRadius: 10,
+                                          spreadRadius: 5,
+                                        ),
+                                      ],
                                     ),
                                   );
                                 },
                               ),
-                              // Transparent Container for interaction
-                              Container(
-                                width: MediaQuery.of(context).size.width * 0.15,
-                                height: MediaQuery.of(context).size.height * 0.09,
-                                color: Colors.transparent,
-                              ),
                             ],
+                          ),
+                        ),
+                      ),
+                      Positioned(
+                        left: MediaQuery.of(context).size.width * 0.76,
+                        top: MediaQuery.of(context).size.height * 0.23, // Adjusted for relative positioning
+                        child: Text(
+                          'VFD', // Replace with the actual product name or identifier
+                          style: TextStyle(
+                            fontSize: MediaQuery.of(context).size.width * 0.02, // Adjust the font size accordingly
+                            color: Colors.white, // Adjust the color if needed
                           ),
                         ),
                       ),
@@ -912,27 +1083,47 @@ class _ProductZoomPageState extends State<ProductZoomPage> with TickerProviderSt
                             children: [
                               // Glowing Circle Effect with Transparent Center
                               AnimatedBuilder(
-                                animation: _animationController,
+                                animation: _colorAnimation,
                                 builder: (context, child) {
                                   return Container(
-                                    width: MediaQuery.of(context).size.width * 0.2,
-                                    height: MediaQuery.of(context).size.height * 0.12,
-                                    child: CustomPaint(
-                                      painter: GlowingCirclePainter(_animationController.value),
+                                    width: MediaQuery.of(context).size.width * 0.3, // Width of the clickable area
+                                    height: MediaQuery.of(context).size.height * 0.3, // Height of the clickable area
+                                    decoration: BoxDecoration(
+                                      shape: BoxShape.circle, // Make the container a circle
+                                      gradient: RadialGradient(
+                                        colors: [
+                                          _colorAnimation.value ?? Colors.transparent,
+                                          Colors.transparent,
+                                        ],
+                                        stops: [0.5, 1],
+                                      ),
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: _colorAnimation.value ?? Colors.transparent,
+                                          blurRadius: 10,
+                                          spreadRadius: 5,
+                                        ),
+                                      ],
                                     ),
                                   );
                                 },
-                              ),
-                              // Transparent Container for interaction
-                              Container(
-                                width: MediaQuery.of(context).size.width * 0.15,
-                                height: MediaQuery.of(context).size.height * 0.09,
-                                color: Colors.transparent,
                               ),
                             ],
                           ),
                         ),
                       ),
+                      Positioned(
+                        left: MediaQuery.of(context).size.width * 0.86,
+                        top: MediaQuery.of(context).size.height * 0.23, // Adjusted for relative positioning
+                        child: Text(
+                          'OMNI', // Replace with the actual product name or identifier
+                          style: TextStyle(
+                            fontSize: MediaQuery.of(context).size.width * 0.02, // Adjust the font size accordingly
+                            color: Colors.white, // Adjust the color if needed
+                          ),
+                        ),
+                      ),
+
                     ],
                   ),
                 ),
@@ -960,7 +1151,7 @@ class _ProductZoomPageState extends State<ProductZoomPage> with TickerProviderSt
                                 MediaQuery.of(context).size.width * 0.1,
                                 MediaQuery.of(context).size.height * 0.1,
                               ),
-                              Offset(MediaQuery.of(context).size.width * 0.01, MediaQuery.of(context).size.height * 0.3),
+                              Offset(MediaQuery.of(context).size.width * 0.01, MediaQuery.of(context).size.height * 0.33),
                               Offset(MediaQuery.of(context).size.width * -0.01, MediaQuery.of(context).size.height * 0.07),
                                   () => _showProduct1Details(context),
                             );
@@ -1040,7 +1231,7 @@ class _ProductZoomPageState extends State<ProductZoomPage> with TickerProviderSt
                                 MediaQuery.of(context).size.width * 0.1,
                                 MediaQuery.of(context).size.height * 0.1,
                               ),
-                              Offset(MediaQuery.of(context).size.width * 0.14, MediaQuery.of(context).size.height * 0.3),
+                              Offset(MediaQuery.of(context).size.width * 0.14, MediaQuery.of(context).size.height * 0.32),
                               Offset(MediaQuery.of(context).size.width * -0.01, MediaQuery.of(context).size.height * 0.07),
                                   () => _showProduct3Details(context),
                             );
@@ -1080,7 +1271,7 @@ class _ProductZoomPageState extends State<ProductZoomPage> with TickerProviderSt
                                 MediaQuery.of(context).size.width * 0.1,
                                 MediaQuery.of(context).size.height * 0.1,
                               ),
-                              Offset(MediaQuery.of(context).size.width * 0.19, MediaQuery.of(context).size.height * -0.07),
+                              Offset(MediaQuery.of(context).size.width * 0.19, MediaQuery.of(context).size.height * -0.05),
                               Offset(MediaQuery.of(context).size.width * -0.01, MediaQuery.of(context).size.height * 0.07),
                                   () => _showProduct4Details(context),
                             );
@@ -1120,7 +1311,7 @@ class _ProductZoomPageState extends State<ProductZoomPage> with TickerProviderSt
                                 MediaQuery.of(context).size.width * 0.1,
                                 MediaQuery.of(context).size.height * 0.1,
                               ),
-                              Offset(MediaQuery.of(context).size.width * -0.06, MediaQuery.of(context).size.height * -0.01),
+                              Offset(MediaQuery.of(context).size.width * -0.06, MediaQuery.of(context).size.height * -0.03),
                               Offset(MediaQuery.of(context).size.width * -0.01, MediaQuery.of(context).size.height * 0.07),
                                   () => _showProduct5Details(context),
                             );
@@ -1160,7 +1351,7 @@ class _ProductZoomPageState extends State<ProductZoomPage> with TickerProviderSt
                                 MediaQuery.of(context).size.width * 0.1,
                                 MediaQuery.of(context).size.height * 0.1,
                               ),
-                              Offset(MediaQuery.of(context).size.width * -0.13, MediaQuery.of(context).size.height * 0.15),
+                              Offset(MediaQuery.of(context).size.width * -0.13, MediaQuery.of(context).size.height * 0.17),
                               Offset(MediaQuery.of(context).size.width * -0.01, MediaQuery.of(context).size.height * 0.07),
                                   () => _showProduct6Details(context),
                             );
@@ -1200,7 +1391,7 @@ class _ProductZoomPageState extends State<ProductZoomPage> with TickerProviderSt
                                 MediaQuery.of(context).size.width * 0.1,
                                 MediaQuery.of(context).size.height * 0.1,
                               ),
-                              Offset(MediaQuery.of(context).size.width * -0.33, MediaQuery.of(context).size.height * 0.19),
+                              Offset(MediaQuery.of(context).size.width * -0.38, MediaQuery.of(context).size.height * 0.19),
                               Offset(MediaQuery.of(context).size.width * -0.01, MediaQuery.of(context).size.height * 0.07),
                                   () => _showProduct7Details(context),
                             );
@@ -1240,7 +1431,7 @@ class _ProductZoomPageState extends State<ProductZoomPage> with TickerProviderSt
                                 MediaQuery.of(context).size.width * 0.1,
                                 MediaQuery.of(context).size.height * 0.1,
                               ),
-                              Offset(MediaQuery.of(context).size.width * -0.43, MediaQuery.of(context).size.height * 0.15),
+                              Offset(MediaQuery.of(context).size.width * -0.48, MediaQuery.of(context).size.height * 0.19),
                               Offset(MediaQuery.of(context).size.width * -0.01, MediaQuery.of(context).size.height * 0.07),
                                   () => _showProduct8Details(context),
                             );

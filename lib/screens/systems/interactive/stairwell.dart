@@ -362,6 +362,18 @@ class _StairwellPageState extends State<StairwellPage> with TickerProviderStateM
                           ),
                         ),
                       ),
+                      Positioned(
+                        left: MediaQuery.of(context).size.width * 0.32,
+                        top: MediaQuery.of(context).size.height * 0.13, // Adjusted for relative positioning
+                        child: Text(
+                          'OMNI', // Replace with the actual product name or identifier
+                          style: TextStyle(
+                            fontSize: MediaQuery.of(context).size.width * 0.03, // Adjust the font size accordingly
+                            color: Colors.white, // Adjust the color if needed
+                          ),
+                        ),
+                      ),
+
                       // GestureDetector for Product 2
                       Positioned(
                         left: MediaQuery.of(context).size.width * 0.25,
@@ -401,6 +413,17 @@ class _StairwellPageState extends State<StairwellPage> with TickerProviderStateM
                                 color: Colors.transparent,
                               ),
                             ],
+                          ),
+                        ),
+                      ),
+                      Positioned(
+                        left: MediaQuery.of(context).size.width * 0.33,
+                        top: MediaQuery.of(context).size.height * 0.17, // Adjusted for relative positioning
+                        child: Text(
+                          'VFD', // Replace with the actual product name or identifier
+                          style: TextStyle(
+                            fontSize: MediaQuery.of(context).size.width * 0.03, // Adjust the font size accordingly
+                            color: Colors.white, // Adjust the color if needed
                           ),
                         ),
                       ),
@@ -446,10 +469,21 @@ class _StairwellPageState extends State<StairwellPage> with TickerProviderStateM
                           ),
                         ),
                       ),
+                      Positioned(
+                        left: MediaQuery.of(context).size.width * 0.63,
+                        top: MediaQuery.of(context).size.height * 0.12, // Adjusted for relative positioning
+                        child: Text(
+                          'Smoke Detector', // Replace with the actual product name or identifier
+                          style: TextStyle(
+                            fontSize: MediaQuery.of(context).size.width * 0.03, // Adjust the font size accordingly
+                            color: Colors.white, // Adjust the color if needed
+                          ),
+                        ),
+                      ),
 
                       Positioned(
                         left: MediaQuery.of(context).size.width * 0.41,
-                        top: MediaQuery.of(context).size.height * 0.27, // Adjusted for relative positioning
+                        top: MediaQuery.of(context).size.height * 0.265, // Adjusted for relative positioning
                         width: MediaQuery.of(context).size.width * 0.05, // Relative size
                         height: MediaQuery.of(context).size.height * 0.03, // Relative size
                         child: GestureDetector(
@@ -488,7 +522,17 @@ class _StairwellPageState extends State<StairwellPage> with TickerProviderStateM
                           ),
                         ),
                       ),
-
+                      Positioned(
+                        left: MediaQuery.of(context).size.width * 0.41,
+                        top: MediaQuery.of(context).size.height * 0.3, // Adjusted for relative positioning
+                        child: Text(
+                          'Differential Pressure', // Replace with the actual product name or identifier
+                          style: TextStyle(
+                            fontSize: MediaQuery.of(context).size.width * 0.03, // Adjust the font size accordingly
+                            color: Colors.white, // Adjust the color if needed
+                          ),
+                        ),
+                      ),
 
                     ],
                   ),
@@ -597,7 +641,7 @@ class _StairwellPageState extends State<StairwellPage> with TickerProviderStateM
                                 MediaQuery.of(context).size.width * 0.1,
                                 MediaQuery.of(context).size.height * 0.1,
                               ),
-                              Offset(MediaQuery.of(context).size.width * -0.28, MediaQuery.of(context).size.height * 0.3),
+                              Offset(MediaQuery.of(context).size.width * -0.28, MediaQuery.of(context).size.height * 0.35),
                               Offset(MediaQuery.of(context).size.width * -0.01, MediaQuery.of(context).size.height * 0.07),
                                   () => _showProduct3Details(context),
                             );
@@ -637,7 +681,7 @@ class _StairwellPageState extends State<StairwellPage> with TickerProviderStateM
                                 MediaQuery.of(context).size.width * 0.1,
                                 MediaQuery.of(context).size.height * 0.1,
                               ),
-                              Offset(MediaQuery.of(context).size.width * -0.2, MediaQuery.of(context).size.height * 0.1),
+                              Offset(MediaQuery.of(context).size.width * -0.15, MediaQuery.of(context).size.height * 0.15),
                               Offset(MediaQuery.of(context).size.width * -0.01, MediaQuery.of(context).size.height * 0.07),
                                   () => _showProduct4Details(context),
                             );

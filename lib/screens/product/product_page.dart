@@ -588,7 +588,7 @@ class _productsPageState extends State<productsPage> with TickerProviderStateMix
                     crossAxisCount: 4  ,
                     childAspectRatio: 0.8,
                   ),*/
-                  itemCount: screenLayout ? 11 : 10,
+                  itemCount: screenLayout ? 8 : 10,
                   itemBuilder: (context, index) {
                     List<productCategory> category = _prodCategory.where((element) => element.status == "Active").toList();
 

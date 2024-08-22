@@ -175,7 +175,7 @@ class _systemsPage2State extends State<systemsPage2> with TickerProviderStateMix
                                 Container(
                                   height: screenLayout ? screenHeight * 0.47 : screenHeight * 0.53,
                                   width: MediaQuery.of(context).size.width,
-                                  margin: EdgeInsets.only(top: 30),
+                                  margin: EdgeInsets.only(top: 1),
                                   clipBehavior: Clip.hardEdge,
                                   decoration: BoxDecoration(
                                     color: Colors.white,

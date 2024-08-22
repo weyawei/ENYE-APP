@@ -201,6 +201,18 @@ class _FiremanControlPageState extends State<FiremanControlPage> with TickerProv
                           ),
                         ),
                       ),
+                      Positioned(
+                        left: MediaQuery.of(context).size.width * 0.19,
+                        top: MediaQuery.of(context).size.height * 0.18, // Adjusted for relative positioning
+                        child: Text(
+                          'OMNI', // Replace with the actual product name or identifier
+                          style: TextStyle(
+                            fontSize: MediaQuery.of(context).size.width * 0.03, // Adjust the font size accordingly
+                            color: Colors.white, // Adjust the color if needed
+                          ),
+                        ),
+                      ),
+
                       // GestureDetector for Product 2
 
                     ],
@@ -230,7 +242,7 @@ class _FiremanControlPageState extends State<FiremanControlPage> with TickerProv
                                 MediaQuery.of(context).size.width * 0.1,
                                 MediaQuery.of(context).size.height * 0.1,
                               ),
-                              Offset(MediaQuery.of(context).size.width * 0.2, MediaQuery.of(context).size.height * 0.3),
+                              Offset(MediaQuery.of(context).size.width * 0.2, MediaQuery.of(context).size.height * 0.37),
                               Offset(MediaQuery.of(context).size.width * -0.01, MediaQuery.of(context).size.height * 0.07),
                                   () => _showProduct1Details(context),
                             );

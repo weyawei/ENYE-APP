@@ -268,8 +268,8 @@ class _FireSmokePageState extends State<FireSmokePage> with TickerProviderStateM
                       ),
                       // GestureDetector for Product 1
                       Positioned(
-                        left: MediaQuery.of(context).size.width * 0.60,
-                        top: MediaQuery.of(context).size.height * 0.07, // Adjusted for relative positioning
+                        left: MediaQuery.of(context).size.width * 0.605,
+                        top: MediaQuery.of(context).size.height * 0.071, // Adjusted for relative positioning
                         width: MediaQuery.of(context).size.width * 0.05, // Relative size
                         height: MediaQuery.of(context).size.height * 0.03, // Relative size
                         child: GestureDetector(
@@ -302,6 +302,18 @@ class _FireSmokePageState extends State<FireSmokePage> with TickerProviderStateM
                           ),
                         ),
                       ),
+                      Positioned(
+                        left: MediaQuery.of(context).size.width * 0.60,
+                        top: MediaQuery.of(context).size.height * 0.11, // Adjusted for relative positioning
+                        child: Text(
+                          'OMNI', // Replace with the actual product name or identifier
+                          style: TextStyle(
+                            fontSize: MediaQuery.of(context).size.width * 0.02, // Adjust the font size accordingly
+                            color: Colors.white, // Adjust the color if needed
+                          ),
+                        ),
+                      ),
+
                       // GestureDetector for Product 2
                       Positioned(
                         left: MediaQuery.of(context).size.width * 0.56,
@@ -340,7 +352,19 @@ class _FireSmokePageState extends State<FireSmokePage> with TickerProviderStateM
                       ),
                       Positioned(
                         left: MediaQuery.of(context).size.width * 0.56,
-                        top: MediaQuery.of(context).size.height * 0.43, // Adjusted for relative positioning
+                        top: MediaQuery.of(context).size.height * 0.28, // Adjusted for relative positioning
+                        child: Text(
+                          'Damper Actuator', // Replace with the actual product name or identifier
+                          style: TextStyle(
+                            fontSize: MediaQuery.of(context).size.width * 0.02, // Adjust the font size accordingly
+                            color: Colors.white, // Adjust the color if needed
+                          ),
+                        ),
+                      ),
+
+                      Positioned(
+                        left: MediaQuery.of(context).size.width * 0.57,
+                        top: MediaQuery.of(context).size.height * 0.42, // Adjusted for relative positioning
                         width: MediaQuery.of(context).size.width * 0.05, // Relative size
                         height: MediaQuery.of(context).size.height * 0.03, // Relative size
                         child: GestureDetector(
@@ -370,6 +394,17 @@ class _FireSmokePageState extends State<FireSmokePage> with TickerProviderStateM
                                 color: Colors.transparent,
                               ),
                             ],
+                          ),
+                        ),
+                      ),
+                      Positioned(
+                        left: MediaQuery.of(context).size.width * 0.545,
+                        top: MediaQuery.of(context).size.height * 0.46, // Adjusted for relative positioning
+                        child: Text(
+                          'Damper Actuator', // Replace with the actual product name or identifier
+                          style: TextStyle(
+                            fontSize: MediaQuery.of(context).size.width * 0.02, // Adjust the font size accordingly
+                            color: Colors.white, // Adjust the color if needed
                           ),
                         ),
                       ),
@@ -416,6 +451,18 @@ class _FireSmokePageState extends State<FireSmokePage> with TickerProviderStateM
                         ),
                       ),
                       Positioned(
+                        left: MediaQuery.of(context).size.width * 0.39,
+                        top: MediaQuery.of(context).size.height * 0.26, // Adjusted for relative positioning
+                        child: Text(
+                          'Smoke Detector', // Replace with the actual product name or identifier
+                          style: TextStyle(
+                            fontSize: MediaQuery.of(context).size.width * 0.02, // Adjust the font size accordingly
+                            color: Colors.white, // Adjust the color if needed
+                          ),
+                        ),
+                      ),
+
+                      Positioned(
                         left: MediaQuery.of(context).size.width * 0.44,
                         top: MediaQuery.of(context).size.height * 0.40,
                         width: MediaQuery.of(context).size.width * 0.05, // Relative size
@@ -456,7 +503,17 @@ class _FireSmokePageState extends State<FireSmokePage> with TickerProviderStateM
                           ),
                         ),
                       ),
-
+                      Positioned(
+                        left: MediaQuery.of(context).size.width * 0.39,
+                        top: MediaQuery.of(context).size.height * 0.44, // Adjusted for relative positioning
+                        child: Text(
+                          'Smoke Detector', // Replace with the actual product name or identifier
+                          style: TextStyle(
+                            fontSize: MediaQuery.of(context).size.width * 0.02, // Adjust the font size accordingly
+                            color: Colors.white, // Adjust the color if needed
+                          ),
+                        ),
+                      ),
 
 
                     ],
@@ -486,7 +543,7 @@ class _FireSmokePageState extends State<FireSmokePage> with TickerProviderStateM
                                 MediaQuery.of(context).size.width * 0.1,
                                 MediaQuery.of(context).size.height * 0.1,
                               ),
-                              Offset(MediaQuery.of(context).size.width * -0.28, MediaQuery.of(context).size.height * 0.25),
+                              Offset(MediaQuery.of(context).size.width * -0.28, MediaQuery.of(context).size.height * 0.31),
                               Offset(MediaQuery.of(context).size.width * -0.01, MediaQuery.of(context).size.height * 0.07),
                                   () => _showProduct1Details(context),
                             );
@@ -521,12 +578,12 @@ class _FireSmokePageState extends State<FireSmokePage> with TickerProviderStateM
                           onPressed: () {
                             _zoomToProduct(
                               Rect.fromLTWH(
-                                MediaQuery.of(context).size.width * 0.4,
+                                MediaQuery.of(context).size.width * 0.48,
                                 MediaQuery.of(context).size.height * 0.35,
                                 MediaQuery.of(context).size.width * 0.1,
                                 MediaQuery.of(context).size.height * 0.1,
                               ),
-                              Offset(MediaQuery.of(context).size.width * -0.15, MediaQuery.of(context).size.height * -0.2),
+                              Offset(MediaQuery.of(context).size.width * -0.3, MediaQuery.of(context).size.height * -0.1),
                               Offset(MediaQuery.of(context).size.width * -0.01, MediaQuery.of(context).size.height * 0.07),
                                   () => _showProduct2Details(context),
                             );
@@ -561,12 +618,12 @@ class _FireSmokePageState extends State<FireSmokePage> with TickerProviderStateM
                           onPressed: () {
                             _zoomToProduct(
                               Rect.fromLTWH(
-                                MediaQuery.of(context).size.width * 0.3,
+                                MediaQuery.of(context).size.width * 0.25,
                                 MediaQuery.of(context).size.height * 0.15,
                                 MediaQuery.of(context).size.width * 0.1,
                                 MediaQuery.of(context).size.height * 0.1,
                               ),
-                              Offset(MediaQuery.of(context).size.width * -0.05, MediaQuery.of(context).size.height * 0.1),
+                              Offset(MediaQuery.of(context).size.width * 0.15, MediaQuery.of(context).size.height * 0.15),
                               Offset(MediaQuery.of(context).size.width * -0.01, MediaQuery.of(context).size.height * 0.07),
                                   () => _showProduct3Details(context),
                             );
