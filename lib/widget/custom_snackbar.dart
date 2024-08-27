@@ -10,7 +10,7 @@ void custSnackbar(BuildContext context, String message, Color color, IconData ic
 
   ScaffoldMessenger.of(context).showSnackBar(
     SnackBar(
-      duration: Duration(seconds: 3),
+      duration: Duration(seconds: 5),
       backgroundColor: color,
       behavior: SnackBarBehavior.floating,
       margin: EdgeInsets.only(left: screenWidth * 0.05, right: screenWidth * 0.05, bottom: screenHeight * 0.8),

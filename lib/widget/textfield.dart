@@ -51,6 +51,47 @@ class EnDisABLETextField extends StatelessWidget {
   }
 }
 
+class ReadOnlyTextField extends StatelessWidget {
+  final controller;
+  final String hintText;
+  final VoidCallback onTap;
+
+  const ReadOnlyTextField({super.key, required this.controller, required this.hintText, required this.onTap});
+
+  @override
+  Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
+
+    var fontNormalSize = ResponsiveTextUtils.getNormalFontSize(screenWidth);
+
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.06),
+      child: TextFormField(
+        style: GoogleFonts.poppins(
+          textStyle:
+          TextStyle(fontSize: fontNormalSize, fontWeight: FontWeight.w500, letterSpacing: 0.8),
+        ),
+        readOnly: true,
+        maxLines: null,
+        keyboardType: TextInputType.multiline,
+        controller: controller,
+        onTap: onTap,
+        decoration: InputDecoration(
+          errorStyle: TextStyle(
+            fontSize: fontNormalSize,
+            letterSpacing: 0.8
+          ),
+          labelText: hintText,
+          labelStyle: TextStyle(
+            fontSize: fontNormalSize,
+            letterSpacing: 0.8
+          ),
+        ),
+      ),
+    ) ;
+  }
+}
+
 class Normal2TextField extends StatelessWidget {
   final controller;
   final String hintText;
