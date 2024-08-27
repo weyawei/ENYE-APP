@@ -298,7 +298,7 @@ class _StairwellPageState extends State<StairwellPage> with TickerProviderStateM
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Schematic Diagram'),
+      appBar: AppBar(title: Text('Stairwell Pressurization System'),
         backgroundColor: Colors.transparent,
       ),
       backgroundColor: Colors.black,

@@ -551,7 +551,7 @@ class _ProductZoomPageState extends State<ProductZoomPage> with TickerProviderSt
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Schematic Diagram'),
+      appBar: AppBar(title: Text('AHU Control and Monitoring System'),
       backgroundColor: Colors.transparent,
       ),
       backgroundColor: Colors.black,

@@ -137,7 +137,7 @@ class _FiremanControlPageState extends State<FiremanControlPage> with TickerProv
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Schematic Diagram'),
+      appBar: AppBar(title: Text("Fireman's Control Panel"),
         backgroundColor: Colors.transparent,
       ),
       backgroundColor: Colors.white,

@@ -274,6 +274,14 @@ class _detailedSysPageState extends State<detailedSysPage> with TickerProviderSt
                                               builder: (context) => FullScreenImage(imagePath: "${API.sysDetailsImg + SystemsDetail.image}"),
                                             ),
                                           );
+
+                                          if (SystemsDetail.title == "SCHEMATIC DIAGRAM")
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder: (context) => InteractiveImagePage(systemId: widget.systems.id),
+                                              ),
+                                            );
                                         },
                                         child: Padding(
                                           padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.075, vertical: screenHeight * 0.035,),
@@ -296,7 +304,7 @@ class _detailedSysPageState extends State<detailedSysPage> with TickerProviderSt
                           ),
                         ),
 
-                      TextButton(
+                      /*TextButton(
                         onPressed: () {
                           Navigator.push(
                             context,
@@ -306,7 +314,7 @@ class _detailedSysPageState extends State<detailedSysPage> with TickerProviderSt
                           );
                         },
                         child: Text('Go to Interactive Image'),
-                      ),
+                      ),*/
 
                       if (_sysTechSpecs != null && _sysTechSpecs!.isNotEmpty)
                         Column(

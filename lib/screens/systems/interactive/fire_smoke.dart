@@ -244,7 +244,7 @@ class _FireSmokePageState extends State<FireSmokePage> with TickerProviderStateM
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Schematic Diagram'),
+      appBar: AppBar(title: Text('Fire and Smoke Protection System'),
         backgroundColor: Colors.transparent,
       ),
       backgroundColor: Colors.black,
