@@ -160,13 +160,13 @@ class _MainAccPageState extends State<MainAccPage> {
 
               TextButton.icon(
                 onPressed: (){
-                  final toEmail  = 'maureenjontilano.enyecontrols@gmail.com';
+                  final toEmail  = 'enyecontrols@enyecontrols.com';
                   final url = 'mailto:$toEmail';
 
                   _launchURL(url);
                 },
                 icon: Icon(Icons.mail, size: fontNormalSize * 1.5, color: Colors.deepOrange.withOpacity(0.5),),
-                label: Text('maureenjontilano.enyecontrols@gmail.com',
+                label: Text('enyecontrols@enyecontrols.com',
                   style: TextStyle(
                     color: Colors.black54,
                     fontSize: fontSmallSize,
