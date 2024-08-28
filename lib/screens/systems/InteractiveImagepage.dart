@@ -24,13 +24,13 @@ class InteractiveImagePage extends StatelessWidget {
       case '100':
         interactiveImage = Smart();
         break;
-      case '110':
+      case '11':
         interactiveImage = SmartVavPage();
         break;
       case '12':
         interactiveImage = ProductZoomPage();
         break;
-      case '130':
+      case '13':
         interactiveImage = ChillerPage();
         break;
       case '14':

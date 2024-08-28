@@ -13,6 +13,9 @@ class _SmokeExtractPageState extends State<SmokeExtractPage> with TickerProvider
   bool _showFloatingButton = false;
   bool _showArrow = false;
 
+  late AnimationController _controller;
+  late Animation<Color?> _colorAnimation;
+
   late AnimationController _animationController;
 
   @override
@@ -22,6 +25,19 @@ class _SmokeExtractPageState extends State<SmokeExtractPage> with TickerProvider
       vsync: this,
       duration: Duration(seconds: 2),
     )..repeat(reverse: true);
+
+    _controller = AnimationController(
+      duration: const Duration(seconds: 3), // Duration of the glow cycle
+      vsync: this,
+    )..repeat(reverse: true); // Repeat the animation forward and backward
+
+    _colorAnimation = ColorTween(
+      begin: Colors.transparent,
+      end: Colors.yellowAccent.withOpacity(0.5),
+    ).animate(CurvedAnimation(
+      parent: _controller,
+      curve: Curves.easeInOut,
+    ));
   }
 
   @override
@@ -214,22 +230,30 @@ class _SmokeExtractPageState extends State<SmokeExtractPage> with TickerProvider
                             children: [
                               // Glowing Circle Effect with Transparent Center
                               AnimatedBuilder(
-                                animation: _animationController,
+                                animation: _colorAnimation,
                                 builder: (context, child) {
                                   return Container(
-                                    width: MediaQuery.of(context).size.width * 0.2,
-                                    height: MediaQuery.of(context).size.height * 0.12,
-                                    child: CustomPaint(
-                                      painter: GlowingCirclePainter(_animationController.value),
+                                    width: MediaQuery.of(context).size.width * 0.3, // Width of the clickable area
+                                    height: MediaQuery.of(context).size.height * 0.3, // Height of the clickable area
+                                    decoration: BoxDecoration(
+                                      shape: BoxShape.circle, // Make the container a circle
+                                      gradient: RadialGradient(
+                                        colors: [
+                                          _colorAnimation.value ?? Colors.transparent,
+                                          Colors.transparent,
+                                        ],
+                                        stops: [0.5, 1],
+                                      ),
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: _colorAnimation.value ?? Colors.transparent,
+                                          blurRadius: 10,
+                                          spreadRadius: 5,
+                                        ),
+                                      ],
                                     ),
                                   );
                                 },
-                              ),
-                              // Transparent Container for interaction
-                              Container(
-                                width: MediaQuery.of(context).size.width * 0.15,
-                                height: MediaQuery.of(context).size.height * 0.09,
-                                color: Colors.transparent,
                               ),
                             ],
                           ),
@@ -261,22 +285,30 @@ class _SmokeExtractPageState extends State<SmokeExtractPage> with TickerProvider
                             children: [
                               // Glowing Circle Effect with Transparent Center
                               AnimatedBuilder(
-                                animation: _animationController,
+                                animation: _colorAnimation,
                                 builder: (context, child) {
                                   return Container(
-                                    width: MediaQuery.of(context).size.width * 0.2,
-                                    height: MediaQuery.of(context).size.height * 0.12,
-                                    child: CustomPaint(
-                                      painter: GlowingCirclePainter(_animationController.value),
+                                    width: MediaQuery.of(context).size.width * 0.3, // Width of the clickable area
+                                    height: MediaQuery.of(context).size.height * 0.3, // Height of the clickable area
+                                    decoration: BoxDecoration(
+                                      shape: BoxShape.circle, // Make the container a circle
+                                      gradient: RadialGradient(
+                                        colors: [
+                                          _colorAnimation.value ?? Colors.transparent,
+                                          Colors.transparent,
+                                        ],
+                                        stops: [0.5, 1],
+                                      ),
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: _colorAnimation.value ?? Colors.transparent,
+                                          blurRadius: 10,
+                                          spreadRadius: 5,
+                                        ),
+                                      ],
                                     ),
                                   );
                                 },
-                              ),
-                              // Transparent Container for interaction
-                              Container(
-                                width: MediaQuery.of(context).size.width * 0.15,
-                                height: MediaQuery.of(context).size.height * 0.09,
-                                color: Colors.transparent,
                               ),
                             ],
                           ),
@@ -308,22 +340,30 @@ class _SmokeExtractPageState extends State<SmokeExtractPage> with TickerProvider
                             children: [
                               // Glowing Circle Effect with Transparent Center
                               AnimatedBuilder(
-                                animation: _animationController,
+                                animation: _colorAnimation,
                                 builder: (context, child) {
                                   return Container(
-                                    width: MediaQuery.of(context).size.width * 0.2,
-                                    height: MediaQuery.of(context).size.height * 0.12,
-                                    child: CustomPaint(
-                                      painter: GlowingCirclePainter(_animationController.value),
+                                    width: MediaQuery.of(context).size.width * 0.3, // Width of the clickable area
+                                    height: MediaQuery.of(context).size.height * 0.3, // Height of the clickable area
+                                    decoration: BoxDecoration(
+                                      shape: BoxShape.circle, // Make the container a circle
+                                      gradient: RadialGradient(
+                                        colors: [
+                                          _colorAnimation.value ?? Colors.transparent,
+                                          Colors.transparent,
+                                        ],
+                                        stops: [0.5, 1],
+                                      ),
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: _colorAnimation.value ?? Colors.transparent,
+                                          blurRadius: 10,
+                                          spreadRadius: 5,
+                                        ),
+                                      ],
                                     ),
                                   );
                                 },
-                              ),
-                              // Transparent Container for interaction
-                              Container(
-                                width: MediaQuery.of(context).size.width * 0.15,
-                                height: MediaQuery.of(context).size.height * 0.09,
-                                color: Colors.transparent,
                               ),
                             ],
                           ),
