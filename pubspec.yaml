@@ -92,6 +92,7 @@ dependencies:
 
   sign_in_with_apple:
   iconly:
+  syncfusion_flutter_datepicker: ^20.2.0
 
 #    this is for 3d purposes
   model_viewer_plus:

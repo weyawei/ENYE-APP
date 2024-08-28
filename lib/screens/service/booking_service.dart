@@ -8,6 +8,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
+import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
 import '../../config/config.dart';
 import '../../widget/widgets.dart';
@@ -145,66 +146,66 @@ class _BookingSystemState extends State<BookingSystem> {
   }
 
   //initialDate configurator kapag naka-disable yung date +1 sa days and so on
-  bool selectableDayPredicate(DateTime date) {
-
-    int scheduledServiceCount = _services.where((services) {
-      if (services.status != "Cancelled"){
-        if(DateTime.parse(services.dateSched).month == date.month
-            && DateTime.parse(services.dateSched).day == date.day
-            && DateTime.parse(services.dateSched).year == date.year){
-          return true;
-        } else {
-          return false;
-        }
-      } else {
-        return false;
-      }
-    }).length;
-
-    bool isDateDisabled = _ecCalendar.any((CalendarData) {
-      DateTime startDate = DateTime.parse(CalendarData.start);
-      DateTime endDate = DateTime.parse(CalendarData.end);
-
-      for (DateTime currentDate = startDate;
-      currentDate.isBefore(endDate) || currentDate.isAtSameMomentAs(endDate);
-      currentDate = currentDate.add(Duration(days: 1))) {
-        if (currentDate.month == date.month
-            && currentDate.day == date.day
-            && currentDate.year == date.year) {
-          return true;
-        }
-      }
-      return false;
-    });
-
-    if (scheduledServiceCount >= 2){
-      return true;
-    } else if (date.weekday == DateTime.saturday || date.weekday == DateTime.sunday) {
-      return true;
-    } else if (isDateDisabled) {
-      return true;
-    } else {
-      return false;
-    }
-  }
+  // bool selectableDayPredicate(DateTime date) {
+  //
+  //   int scheduledServiceCount = _services.where((services) {
+  //     if (services.status != "Cancelled"){
+  //       if(DateTime.parse(services.dateSched).month == date.month
+  //           && DateTime.parse(services.dateSched).day == date.day
+  //           && DateTime.parse(services.dateSched).year == date.year){
+  //         return true;
+  //       } else {
+  //         return false;
+  //       }
+  //     } else {
+  //       return false;
+  //     }
+  //   }).length;
+  //
+  //   bool isDateDisabled = _ecCalendar.any((CalendarData) {
+  //     DateTime startDate = DateTime.parse(CalendarData.start);
+  //     DateTime endDate = DateTime.parse(CalendarData.end);
+  //
+  //     for (DateTime currentDate = startDate;
+  //     currentDate.isBefore(endDate) || currentDate.isAtSameMomentAs(endDate);
+  //     currentDate = currentDate.add(Duration(days: 1))) {
+  //       if (currentDate.month == date.month
+  //           && currentDate.day == date.day
+  //           && currentDate.year == date.year) {
+  //         return true;
+  //       }
+  //     }
+  //     return false;
+  //   });
+  //
+  //   if (scheduledServiceCount >= 2){
+  //     return true;
+  //   } else if (date.weekday == DateTime.saturday || date.weekday == DateTime.sunday) {
+  //     return true;
+  //   } else if (isDateDisabled) {
+  //     return true;
+  //   } else {
+  //     return false;
+  //   }
+  // }
 
   //datepicker para sa date sched
-  late List<CalendarData> _ecCalendar; //get the ec calendar
+  // late List<CalendarData> _ecCalendar; //get the ec calendar
   DateTime initialDate = DateTime.now().add(Duration(days: 7));
   DateTime firstDate = DateTime.now().add(Duration(days: 5));
   DateTime lastDate = DateTime.now().add(Duration(days: 60));
 
-  _getEcCalendar(){
-    CalendarServices.calendarData(
-        "${DateFormat('yyyy-MM-dd').format(firstDate)}",
-        "${DateFormat('yyyy-MM-dd').format(lastDate)}"
-    ).then((CalendarData){
-      setState(() {
-        _ecCalendar = CalendarData;
-      });
-      print("Length ${CalendarData.length}");
-    });
-  }
+  // _getEcCalendar(){
+  //   CalendarServices.calendarData(
+  //       "${DateFormat('yyyy-MM-dd').format(firstDate)}",
+  //       "${DateFormat('yyyy-MM-dd').format(lastDate)}"
+  //   ).then((CalendarData){
+  //     setState(() {
+  //       _ecCalendar = CalendarData;
+  //     });
+  //     print("Length ${CalendarData.length}");
+  //   });
+  // }
 
   clearFields(){
     subjectController.clear();
@@ -214,8 +215,9 @@ class _BookingSystemState extends State<BookingSystem> {
     compnameController.clear();
     locationController.clear();
     projnameController.clear();
+    _dateRangeController.clear();
+    _selectedDates.clear();
     filePath = null;
-
 
     if(ClientInfo?.login == 'GMAIL' || ClientInfo?.login == 'APPLE'){
       contactController.clear();
@@ -228,15 +230,15 @@ class _BookingSystemState extends State<BookingSystem> {
   }
 
   //list of services para lang makuha yung mga date sched na available
-  late List<TechnicalData> _services;
-  _getServices(){
-    TechnicalDataServices.getTechnicalData().then((technicalData){
-      setState(() {
-        _services = technicalData;
-      });
-      print("Length ${technicalData.length}");
-    });
-  }
+  // late List<TechnicalData> _services;
+  // _getServices(){
+  //   TechnicalDataServices.getTechnicalData().then((technicalData){
+  //     setState(() {
+  //       _services = technicalData;
+  //     });
+  //     print("Length ${technicalData.length}");
+  //   });
+  // }
 
   bool isLoading = false;
   void addBooking() {
@@ -354,16 +356,6 @@ class _BookingSystemState extends State<BookingSystem> {
                               letterSpacing: 0.8),
                         ),
                       ),
-                      SizedBox(height: screenHeight * 0.008),
-                      Text(
-                        'Remarks: ${clientRemarksController.text}',
-                        style: GoogleFonts.lato(
-                          textStyle: TextStyle(
-                              fontSize: fontNormalSize,
-                              color: Colors.black,
-                              letterSpacing: 0.8),
-                        ),
-                      ),
                       ClientInfo?.name == '' || ClientInfo?.name == null
                           ? Padding(
                         padding: EdgeInsets.only(top: screenHeight * 0.008),
@@ -427,7 +419,20 @@ class _BookingSystemState extends State<BookingSystem> {
                           ),
                         ),
                       )
-                          : SizedBox.shrink(),
+                      : SizedBox.shrink(),
+
+
+                      SizedBox(height: screenHeight * 0.008),
+                      Text(
+                        'Remarks: ${clientRemarksController.text} \n '
+                            '${_dateRangeController.text == 'No dates selected' || _dateRangeController.text == '' ? '' : 'My preferred date/s schedule for my appointment ( ' + _dateRangeController.text +' )'}',
+                        style: GoogleFonts.lato(
+                          textStyle: TextStyle(
+                              fontSize: fontNormalSize,
+                              color: Colors.black,
+                              letterSpacing: 0.8),
+                        ),
+                      ),
                     ],
                   ),
                 ),
@@ -449,7 +454,7 @@ class _BookingSystemState extends State<BookingSystem> {
                         descriptionController.text,
                         clientNameController.text,
                         clientPositionController.text,
-                        clientRemarksController.text,
+                        clientRemarksController.text + _dateRangeController.text == 'No dates selected' || _dateRangeController.text == '' ? '' : '\n My preferred date/s schedule for my appointment ( ' + _dateRangeController.text +' )',
                         selectedDate.toString(),
                         ClientInfo!.client_id,
                         ClientInfo!.name,
@@ -465,7 +470,7 @@ class _BookingSystemState extends State<BookingSystem> {
                       });
 
                       if (result == 'success') {
-                        custSnackbar(context, "Successfully booked.", Colors.green, Icons.check, Colors.greenAccent);
+                        custSnackbar(context, "Thank you for booking. We will update you via call/email regarding with your schedule.", Colors.green, Icons.check, Colors.greenAccent);
                         clearFields();
                         Navigator.of(context).pop();
                       } else {
@@ -473,8 +478,8 @@ class _BookingSystemState extends State<BookingSystem> {
                       }
                     },
                     child: isLoading
-                        ? CircularProgressIndicator()
-                        : Text(
+                      ? CircularProgressIndicator()
+                      : Text(
                       'OK',
                       style: GoogleFonts.rowdies(
                         textStyle: TextStyle(
@@ -493,6 +498,51 @@ class _BookingSystemState extends State<BookingSystem> {
     }
   }
 
+  List<DateTime> _selectedDates = [];
+  TextEditingController _dateRangeController = TextEditingController();
+
+  void _onSelectionChanged(DateRangePickerSelectionChangedArgs args) {
+    setState(() {
+      _selectedDates = args.value; // Update the list of selected dates
+      _selectedDates.sort((a, b) => a.compareTo(b)); // Sort the dates in ascending order
+    });
+  }
+
+  String _formatDates(List<DateTime> dates) {
+    final DateFormat formatter = DateFormat('dd MMM yyyy');
+    return dates.map((date) => formatter.format(date)).join(', ');
+  }
+
+  void _showDateRangePicker() async {
+    _selectedDates.clear();
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          content: Container(
+            width: double.maxFinite,
+            height: 350, // Fixed height for the picker
+            child: SfDateRangePicker(
+              onSelectionChanged: _onSelectionChanged,
+              selectionMode: DateRangePickerSelectionMode.multiple, // Enable multiple date selection
+              minDate: DateTime.now().add(const Duration(days: 3)), // Disable previous dates
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: Text('OK'),
+              onPressed: () {
+                Navigator.of(context).pop();
+                _dateRangeController.text = _selectedDates.isEmpty
+                    ? 'No dates selected'
+                    : _formatDates(_selectedDates);
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -646,10 +696,16 @@ class _BookingSystemState extends State<BookingSystem> {
 
                     SizedBox(height: screenHeight * 0.01),
                     Normal2TextField(
-                        controller: descriptionController,
-                        hintText: 'Problem/Concern *',
-                      ),
+                      controller: descriptionController,
+                      hintText: 'Problem/Concern *',
+                    ),
 
+                    SizedBox(height: screenHeight * 0.01),
+                    ReadOnlyTextField(
+                      controller: _dateRangeController,
+                      hintText: 'Select Preferred Date/s of Appointment',
+                      onTap: _showDateRangePicker,
+                    ),
 
                     SizedBox(height: screenHeight * 0.01),
                     NormalNotRequiredTextField(

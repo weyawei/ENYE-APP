@@ -993,7 +993,7 @@ class _homePageState extends State<homePage> with TickerProviderStateMixin{
                       child: Image(image: AssetImage("assets/icons/twitter-new.png"), height: (screenHeight + screenWidth) / 25, width: (screenHeight + screenWidth) / 25,),
                       onTap: () async{
                         setState(() {
-                          _launchURL("https://twitter.com/enyecontrols");
+                          _launchURL("https://x.com/enyecontrols");
                         });
                       }
                   ),
