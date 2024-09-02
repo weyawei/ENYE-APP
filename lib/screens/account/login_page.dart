@@ -9,6 +9,7 @@ import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 import 'package:http/http.dart' as http;
 
 import '../../config/config.dart';
+import '../../widget/resetAllTabs.dart';
 import '../../widget/widgets.dart';
 import '../screens.dart';
 
@@ -87,7 +88,7 @@ class _LoginPageState extends State<LoginPage> {
                 duration: Duration(seconds: 2),
                 backgroundColor: Colors.green,
                 behavior: SnackBarBehavior.floating,
-                margin: EdgeInsets.only(left: screenWidth * 0.05, right: screenWidth * 0.05, bottom: screenHeight * 0.8),
+                margin: EdgeInsets.only(left: screenWidth * 0.05, right: screenWidth * 0.05, bottom: screenHeight * 0.77),
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(4))),
                 content: Row(
                   children: [
@@ -111,6 +112,8 @@ class _LoginPageState extends State<LoginPage> {
                 ),
               ),
             ).closed.then((value) {
+              systemsNavigatorKey.currentState?.popUntil((route) => route.isFirst);
+              productsNavigatorKey.currentState?.popUntil((route) => route.isFirst);
               if(clientData["status"] == 'Inactive'){
                 Navigator.push(
                   context,
