@@ -12,8 +12,9 @@ import 'interactive/smart.dart';
 
 class InteractiveImagePage extends StatelessWidget {
   final String systemId;
+  final String imageUrl;  // Declare the imageUrl parameter
 
-  InteractiveImagePage({required this.systemId});
+  InteractiveImagePage({required this.systemId, required this.imageUrl});
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +29,7 @@ class InteractiveImagePage extends StatelessWidget {
         interactiveImage = SmartVavPage();
         break;
       case '12':
-        interactiveImage = ProductZoomPage();
+        interactiveImage = ProductZoomPage(imageUrl: imageUrl);
         break;
       case '13':
         interactiveImage = ChillerPage();

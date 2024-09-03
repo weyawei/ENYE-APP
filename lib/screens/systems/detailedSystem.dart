@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dio/dio.dart';
 import 'package:enye_app/screens/systems/interactive.dart';
 import 'package:flutter/material.dart';
@@ -367,7 +368,7 @@ class _detailedSysPageState extends State<detailedSysPage> with TickerProviderSt
                                   ),
 
 
-                                if (SystemsDetail.image != null && SystemsDetail.image!.isNotEmpty)
+                                /*if (SystemsDetail.image != null && SystemsDetail.image!.isNotEmpty)
                                   InkWell(
                                     onTap: () {
                                       Navigator.push(
@@ -375,30 +376,96 @@ class _detailedSysPageState extends State<detailedSysPage> with TickerProviderSt
                                         MaterialPageRoute(
                                           builder: (context) => FullScreenImage(imagePath: "${API.sysDetailsImg + SystemsDetail.image}"),
                                         ),
-                                      );
+                                      );*/
 
-                                      if (SystemsDetail.title == "SCHEMATIC DIAGRAM")
+                                      /*if (SystemsDetail.title == "SCHEMATIC DIAGRAM")
                                         Navigator.push(
                                           context,
                                           MaterialPageRoute(
                                             builder: (context) => InteractiveImagePage(systemId: widget.systems.id),
                                           ),
-                                        );
+                                        );*/
+
+                                if (SystemsDetail.image != null && SystemsDetail.image!.isNotEmpty)
+                                  InkWell(
+                                    onTap: () {
+                                      // Split the image string to get the first image
+                                      List<String> images = SystemsDetail.image.split(',');
+
+                                      // Assuming you want to use the first image for zoom
+                                      String firstImage = images[0].trim();
+
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) => FullScreenImage(imagePath: "${API.sysDetailsImg + firstImage}"),
+                                        ),
+                                      );
+
+
+                                      if (SystemsDetail.title == "SCHEMATIC DIAGRAM") {
+                                        // Split the image string
+                                        List<String> images1 = SystemsDetail.image.split(',');
+
+                                        // Assuming you want to pass the second image
+                                        String? secondImage = images1.length > 1 ? images1[1].trim() : null;
+
+                                        if (secondImage != null) {
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) => InteractiveImagePage(
+                                                systemId: widget.systems.id,
+                                                imageUrl: "${API.sysDetailsImg + secondImage}",  // Pass the second image URL
+                                              ),
+                                            ),
+                                          );
+                                        }
+                                      }
+
+
+
+
                                     },
                                     child: Padding(
-                                      padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.075, vertical: screenHeight * 0.035,),
-                                      child: Container(
-                                        height: screenHeight * 0.3,
-                                        width: screenWidth * 0.9,
-                                        decoration: BoxDecoration(
-                                          image: DecorationImage(
-                                              image: _buildNetworkImage("${API.sysDetailsImg + SystemsDetail.image}"),
-                                              alignment: Alignment.center,
-                                              fit: isImageLoading ? BoxFit.scaleDown : BoxFit.fill
-                                          ),
+                                      padding: EdgeInsets.symmetric(
+                                        horizontal: screenWidth * 0.075,
+                                        vertical: screenHeight * 0.035,
+                                      ),
+                                      child: SingleChildScrollView(
+                                        child: Column(
+                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          children: SystemsDetail.image.split(',').map((image) {
+                                            return Container(
+                                              margin: EdgeInsets.symmetric(horizontal: 5),  // Add some space between images
+                                              height: screenHeight * 0.3,
+                                              width: screenWidth * 0.9,  // Adjust width if you want the images to fit side by side
+                                              child: CachedNetworkImage(
+                                                imageUrl: "${API.sysDetailsImg  + image.trim()}",
+                                                placeholder: (context, url) => Center(
+                                                  child: CircularProgressIndicator(),
+                                                ),
+                                                errorWidget: (context, url, error) => Container(
+                                                  color: Colors.black,
+                                                  child: Center(
+                                                    child: Text(
+                                                      "FAILED TO LOAD THE IMAGE",
+                                                      style: TextStyle(
+                                                          fontSize: fontSmallSize,
+                                                          color: Colors.black54
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                                height: fontExtraSize * 4,
+                                                width: fontExtraSize * 4,
+                                              ),
+                                            );
+                                          }).toList(),
                                         ),
                                       ),
                                     ),
+
                                   ),
                               ],
                             )
@@ -529,17 +596,21 @@ class _detailedSysPageState extends State<detailedSysPage> with TickerProviderSt
                                                       size: (screenHeight + screenWidth) / 40,
                                                     ),// Example icon
                                                     SizedBox(width: 8),  // Space between icon and text
-                                                    Text(
-                                                      product['prod_name'],
-                                                      style: TextStyle(
-                                                        height: 1.5,
-                                                        fontSize: fontSmallSize,
-                                                        fontFamily: 'Rowdies',
-                                                        color: Colors.white,
-                                                        fontWeight: FontWeight.w700,
-                                                        letterSpacing: 1.2,
+                                                    Expanded(
+                                                      child: Text(
+                                                        product['prod_name'],
+                                                        style: TextStyle(
+                                                          height: 1.5,
+                                                          fontSize: fontSmallSize,
+                                                          fontFamily: 'Rowdies',
+                                                          color: Colors.white,
+                                                          fontWeight: FontWeight.w700,
+                                                          letterSpacing: 1.2,
+                                                        ),
+                                                        overflow: TextOverflow.ellipsis,  // Ensure the text truncates with an ellipsis
+                                                        maxLines: 1,
+                                                        textAlign: TextAlign.left,
                                                       ),
-                                                      textAlign: TextAlign.left,
                                                     ),
                                                   ],
                                                 ),

@@ -664,7 +664,7 @@ class _homePageState extends State<homePage> with TickerProviderStateMixin{
         //      SizedBox(height: screenHeight * 0.125,),
               /*ContactsHome(),*/
 
-              Container(
+            /*  Container(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -766,7 +766,7 @@ class _homePageState extends State<homePage> with TickerProviderStateMixin{
                                           end: Alignment.topCenter,
                                         ),
                                       ),
-                                     /* child: Padding(
+                                     *//* child: Padding(
                                         padding: EdgeInsets.symmetric(vertical: 5.0, horizontal: 0.0),
                                         child: Text(
                                           project.title,
@@ -776,7 +776,7 @@ class _homePageState extends State<homePage> with TickerProviderStateMixin{
                                             fontWeight: FontWeight.bold,
                                           ),
                                         ),
-                                      ),*/
+                                      ),*//*
                                     ),
                                   ],
                                 ),
@@ -790,7 +790,7 @@ class _homePageState extends State<homePage> with TickerProviderStateMixin{
               ),
 
 
-              SizedBox(height: screenHeight * 0.125,),
+              SizedBox(height: screenHeight * 0.125,),*/
 
               Container(
                 padding: EdgeInsets.all(16.0),

@@ -2,6 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:model_viewer_plus/model_viewer_plus.dart'; // Import ModelViewer
 
 class ProductZoomPage extends StatefulWidget {
+  late final String imageUrl;
+
+  ProductZoomPage({required this.imageUrl});
+
   @override
   _ProductZoomPageState createState() => _ProductZoomPageState();
 }
