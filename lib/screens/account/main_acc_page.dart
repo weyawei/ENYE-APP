@@ -62,7 +62,7 @@ class _MainAccPageState extends State<MainAccPage> {
       }
     });
     systemsNavigatorKey.currentState?.popUntil((route) => route.isFirst);
-    productsNavigatorKey.currentState?.popUntil((route) => route.isFirst);
+    // productsNavigatorKey.currentState?.popUntil((route) => route.isFirst);
     widget.onLogoutSuccess();
   }
 

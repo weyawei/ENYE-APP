@@ -243,12 +243,13 @@ class _CustomNavBarState extends State<CustomNavBar> {
             return MaterialPageRoute(builder: (context) => systemsPage2());
           },
         ),
-        Navigator(
-          key: productsNavigatorKey,
-          onGenerateRoute: (routeSettings) {
-            return MaterialPageRoute(builder: (context) => productsPage());
-          },
-        ),
+        productsPage(),
+        // Navigator(
+        //   key: productsNavigatorKey,
+        //   onGenerateRoute: (routeSettings) {
+        //     return MaterialPageRoute(builder: (context) => productsPage());
+        //   },
+        // ),
         ProjectPage2(),
         AccountPage(),
         // ServicePage(message: message as RemoteMessage),
