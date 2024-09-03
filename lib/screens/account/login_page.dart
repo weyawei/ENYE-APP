@@ -113,7 +113,7 @@ class _LoginPageState extends State<LoginPage> {
               ),
             ).closed.then((value) {
               systemsNavigatorKey.currentState?.popUntil((route) => route.isFirst);
-              productsNavigatorKey.currentState?.popUntil((route) => route.isFirst);
+              // productsNavigatorKey.currentState?.popUntil((route) => route.isFirst);
               if(clientData["status"] == 'Inactive'){
                 Navigator.push(
                   context,
