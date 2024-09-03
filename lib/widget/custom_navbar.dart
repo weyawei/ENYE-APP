@@ -237,8 +237,18 @@ class _CustomNavBarState extends State<CustomNavBar> {
     List<Widget> _buildScreens() {
       return [
         homePage(),
-        systemsPage2(),
-        productsPage(),
+        Navigator(
+          key: systemsNavigatorKey,
+          onGenerateRoute: (routeSettings) {
+            return MaterialPageRoute(builder: (context) => systemsPage2());
+          },
+        ),
+        Navigator(
+          key: productsNavigatorKey,
+          onGenerateRoute: (routeSettings) {
+            return MaterialPageRoute(builder: (context) => productsPage());
+          },
+        ),
         ProjectPage2(),
         AccountPage(),
         // ServicePage(message: message as RemoteMessage),
@@ -249,20 +259,6 @@ class _CustomNavBarState extends State<CustomNavBar> {
       return [
         PersistentBottomNavBarItem(
           icon: Icon(Icons.home, size: fontNormalSize * 1.9),
-          // Column(
-          //   children: [
-          //     Icon(Icons.home, size: (screenHeight + screenWidth) / 40,),
-          //     Text(
-          //         "Home",
-          //         style:  GoogleFonts.poppins(
-          //             textStyle: TextStyle(
-          //               fontSize: fontExtraSmallSize,
-          //               decoration: TextDecoration.none,
-          //             )
-          //         )
-          //     )
-          //   ],
-          // ),
           title: ("Home"),
           activeColorPrimary: Colors.deepOrange,
           inactiveColorPrimary: Colors.deepOrange.withOpacity(0.5),
@@ -270,20 +266,6 @@ class _CustomNavBarState extends State<CustomNavBar> {
         ),
         PersistentBottomNavBarItem(
           icon: Icon(Dashboardicon.systems_nav, size: fontNormalSize * 1.9),
-          // Column(
-          //   children: [
-          //     Icon(Dashboardicon.systems_nav, size: (screenHeight + screenWidth) / 40),
-          //     Text(
-          //         "Systems",
-          //         style:  GoogleFonts.poppins(
-          //             textStyle: TextStyle(
-          //               fontSize: fontExtraSmallSize,
-          //               decoration: TextDecoration.none,
-          //             )
-          //         )
-          //     )
-          //   ],
-          // ),
           title: ("Systems"),
           activeColorPrimary: Colors.deepOrange,
           inactiveColorPrimary: Colors.deepOrange.withOpacity(0.5),
@@ -291,20 +273,6 @@ class _CustomNavBarState extends State<CustomNavBar> {
         ),
         PersistentBottomNavBarItem(
           icon: Icon(Icons.shopping_bag,size: fontNormalSize * 1.9),
-          // Column(
-          //   children: [
-          //     Icon(Icons.shopping_bag,size: (screenHeight + screenWidth) / 40,),
-          //     Text(
-          //       "Products",
-          //       style:  GoogleFonts.poppins(
-          //         textStyle: TextStyle(
-          //           fontSize: fontExtraSmallSize,
-          //           decoration: TextDecoration.none,
-          //         )
-          //       )
-          //     )
-          //   ],
-          // ),
           title: ("Products"),
           activeColorPrimary: Colors.deepOrange,
           inactiveColorPrimary: Colors.deepOrange.withOpacity(0.5),
@@ -312,20 +280,6 @@ class _CustomNavBarState extends State<CustomNavBar> {
         ),
         PersistentBottomNavBarItem(
           icon: Icon(Dashboardicon.projects_nav, size: fontNormalSize * 1.9),
-          // Column(
-          //   children: [
-          //     Icon(Dashboardicon.projects_nav, size: (screenHeight + screenWidth) / 40),
-          //     Text(
-          //         "Projects",
-          //         style:  GoogleFonts.poppins(
-          //             textStyle: TextStyle(
-          //               fontSize: fontExtraSmallSize,
-          //               decoration: TextDecoration.none,
-          //             )
-          //         )
-          //     )
-          //   ],
-          // ),
           title: ("Projects"),
           activeColorPrimary: Colors.deepOrange,
           inactiveColorPrimary: Colors.deepOrange.withOpacity(0.5),
@@ -334,33 +288,11 @@ class _CustomNavBarState extends State<CustomNavBar> {
         PersistentBottomNavBarItem(
           contentPadding: fontExtraSmallSize * 1.5,
           icon: Icon(Icons.person, size: fontNormalSize * 1.9),
-          // Column(
-          //   children: [
-          //     Icon(Icons.person, size: (screenHeight + screenWidth) / 40),
-          //     Text(
-          //         "Account",
-          //         style:  GoogleFonts.poppins(
-          //             textStyle: TextStyle(
-          //               fontSize: fontExtraSmallSize,
-          //               decoration: TextDecoration.none,
-          //             )
-          //         )
-          //     )
-          //   ],
-          // ),
           title: ("Account"),
           activeColorPrimary: Colors.deepOrange,
           inactiveColorPrimary: Colors.deepOrange.withOpacity(0.5),
           textStyle: TextStyle(fontSize: fontExtraSmallSize, fontWeight: FontWeight.bold),
         ),
-        // PersistentBottomNavBarItem(
-        //   icon: Icon(Icons.calendar_month_rounded, size: (screenHeight + screenWidth) / 40),
-        //   title: ("Services"),
-        //   activeColorPrimary: Colors.black,
-        //   inactiveColorPrimary: Colors.black38,
-        //   textStyle: TextStyle(fontSize: fontExtraSmallSize, fontWeight: FontWeight.bold),
-        // ),
-
       ];
     }
 

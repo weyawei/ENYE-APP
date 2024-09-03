@@ -38,6 +38,88 @@ class _ProductItemScreenState extends State<ProductItemScreen> {
     _getProductDetails();
     _getAllProducts();
     _getProdCategory();
+    _checkSession();
+  }
+
+  bool? userSessionFuture;
+
+  _checkSession(){
+    checkSession().getUserSessionStatus().then((bool) {
+      if (bool == true) {
+        userSessionFuture = bool;
+      } else {
+        userSessionFuture = bool;
+      }
+    });
+  }
+
+  _loginRequired(){
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        double screenWidth = MediaQuery.of(context).size.width;
+
+
+        var fontNormalSize = ResponsiveTextUtils.getNormalFontSize(screenWidth);
+        var fontExtraSize = ResponsiveTextUtils.getExtraFontSize(screenWidth);
+
+        return AlertDialog(
+          icon: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(Icons.info, color: Colors.deepOrange.shade300, size: fontNormalSize * 1.75,),
+              SizedBox(width: 5),
+              Text(
+                "Required !",
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: fontExtraSize,
+                  color: Colors.deepOrange,
+                  letterSpacing: 1.2,
+                ),
+              ),
+            ],
+          ),
+          content: Text(
+            "This feature may require you to login first.",
+            style: TextStyle(
+              fontSize: fontNormalSize,
+              letterSpacing: 1.2,
+            ),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(); // Close the dialog
+              },
+              child: Text("Close"),
+            ),
+
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+                navBarController.jumpToTab(4);
+              },
+              child: Text(
+                "LOGIN",
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: fontNormalSize,
+                  letterSpacing: 1.2,
+                ),
+              ),
+              style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.all<Color>(Colors.deepOrange.shade400),
+                foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
+                padding: MaterialStateProperty.all<EdgeInsets>(
+                  EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
+                ),
+              ),
+            )
+          ],
+        );
+      },
+    );
   }
 
   bool _isLoadingProdDetails = true;
@@ -524,20 +606,25 @@ class _ProductItemScreenState extends State<ProductItemScreen> {
                               padding: const EdgeInsets.only(left: 20),
                               child: GestureDetector(
                                 onTap: () {
-                                  String trimmedFilename = pdf.trim();
-                                  if (trimmedFilename.isEmpty) {
-                                    custSnackbar(
-                                      context,
-                                      "PDF File doesn't exist.",
-                                      Colors.redAccent,
-                                      Icons.close,
-                                      Colors.white
-                                    );
+                                  _checkSession();
+                                  if(userSessionFuture == true){
+                                    String trimmedFilename = pdf.trim();
+                                    if (trimmedFilename.isEmpty) {
+                                      custSnackbar(
+                                          context,
+                                          "PDF File doesn't exist.",
+                                          Colors.redAccent,
+                                          Icons.close,
+                                          Colors.white
+                                      );
+                                    } else {
+                                      openFile(
+                                        url: "${API.prodPdf + trimmedFilename}",
+                                        filename: trimmedFilename,
+                                      );
+                                    }
                                   } else {
-                                    openFile(
-                                      url: "${API.prodPdf + trimmedFilename}",
-                                      filename: trimmedFilename,
-                                    );
+                                    _loginRequired();
                                   }
                                 },
                                 child: Row(

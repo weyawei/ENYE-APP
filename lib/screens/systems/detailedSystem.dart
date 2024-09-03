@@ -9,6 +9,7 @@ import 'dart:io';
 import 'package:path_provider/path_provider.dart';
 
 import '../../config/api_connection.dart';
+import '../../config/config.dart';
 import '../../widget/widgets.dart';
 import '../screens.dart';
 import 'InteractiveImagepage.dart';
@@ -88,6 +89,20 @@ class _detailedSysPageState extends State<detailedSysPage> with TickerProviderSt
     _getSysTechSpecs();
     _getSysDetails();
     _getSystems();
+
+    _checkSession();
+  }
+
+  bool? userSessionFuture;
+
+  _checkSession(){
+    checkSession().getUserSessionStatus().then((bool) {
+      if (bool == true) {
+        userSessionFuture = bool;
+      } else {
+        userSessionFuture = bool;
+      }
+    });
   }
 
   late final AnimationController _controller = AnimationController(
@@ -157,6 +172,75 @@ class _detailedSysPageState extends State<detailedSysPage> with TickerProviderSt
     super.dispose();
   }
 
+  _loginRequired(BuildContext context){
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        double screenWidth = MediaQuery.of(context).size.width;
+
+
+        var fontNormalSize = ResponsiveTextUtils.getNormalFontSize(screenWidth);
+        var fontExtraSize = ResponsiveTextUtils.getExtraFontSize(screenWidth);
+
+        return AlertDialog(
+          icon: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(Icons.info, color: Colors.deepOrange.shade300, size: fontNormalSize * 1.75,),
+              SizedBox(width: 5),
+              Text(
+                "Required !",
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: fontExtraSize,
+                  color: Colors.deepOrange,
+                  letterSpacing: 1.2,
+                ),
+              ),
+            ],
+          ),
+          content: Text(
+            "This feature may require you to login first.",
+            style: TextStyle(
+              fontSize: fontNormalSize,
+              letterSpacing: 1.2,
+            ),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(); // Close the dialog
+              },
+              child: Text("Close"),
+            ),
+
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+                navBarController.jumpToTab(4); // Close the dialog
+              },
+              child: Text(
+                "LOGIN",
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: fontNormalSize,
+                  letterSpacing: 1.2,
+                ),
+              ),
+              style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.all<Color>(Colors.deepOrange.shade400),
+                foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
+                padding: MaterialStateProperty.all<EdgeInsets>(
+                  EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
+                ),
+              ),
+            )
+          ],
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
 
@@ -179,6 +263,7 @@ class _detailedSysPageState extends State<detailedSysPage> with TickerProviderSt
             onRefresh: () async {
               await Future.delayed(Duration(seconds: 2));
               setState(() {
+                _checkSession();
                 _getSystems();
                 _getSysTechSpecs();
                 _getSysDetails();
@@ -186,125 +271,142 @@ class _detailedSysPageState extends State<detailedSysPage> with TickerProviderSt
             },
             child: ListView(
                 children: [
-                  MasonryGridView(
-                    physics: const NeverScrollableScrollPhysics(),
-                    shrinkWrap: true,
-                    gridDelegate: SliverSimpleGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 1,
+
+                  SizedBox(height: screenHeight * 0.05,),
+                  //title
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.025),
+                    child: Text(
+                      _systems[0].title.toString().toString(),
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                          fontSize: fontExtraSize,
+                          fontFamily: 'Rowdies',
+                          fontWeight: FontWeight.bold,
+                          letterSpacing: 1.2,
+                          color: Colors.grey
+                      ),
                     ),
-                    children: <Widget> [
+                  ),
 
-                      SizedBox(height: screenHeight * 0.05,),
-                      //title
-                      Padding(
-                        padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.025),
-                        child: Text(
-                          _systems[0].title.toString().toString(),
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                              fontSize: fontExtraSize,
-                              fontFamily: 'Rowdies',
-                              fontWeight: FontWeight.bold,
-                              letterSpacing: 1.2,
-                              color: Colors.grey
-                          ),
-                        ),
+                  SizedBox(height: screenHeight * 0.05,),
+                  if (_systems[0].youtubeUrl.toString().isNotEmpty)
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.05),
+                      child: youtubePlayerView(
+                          url: _systems.elementAt(0).youtubeUrl.toString()
                       ),
+                    ),
 
-                      SizedBox(height: screenHeight * 0.05,),
-                      if (_systems[0].youtubeUrl.toString().isNotEmpty)
-                        Padding(
-                          padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.05),
-                          child: youtubePlayerView(
-                              url: _systems.elementAt(0).youtubeUrl.toString()
-                          ),
-                        ),
-
-                      SizedBox(height: screenHeight * 0.065,),
-                      Padding(
-                        padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.05),
-                        child: Text(
-                          "System Description",
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontFamily: 'Rowdies',
-                              fontSize: fontXXSize,
-                              color: Colors.deepOrange,
-                              letterSpacing: 1.2
-                          ),
-                        ),
+                  SizedBox(height: screenHeight * 0.065,),
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.05),
+                    child: Text(
+                      "System Description",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontFamily: 'Rowdies',
+                          fontSize: fontXXSize,
+                          color: Colors.deepOrange,
+                          letterSpacing: 1.2
                       ),
+                    ),
+                  ),
 
-                     /* Container(
+                  /* Container(
                         height: 400,
                           child: InteractiveImage()
                       ),*/
-                      SizedBox(height: screenHeight * 0.035,),
-                      Padding(
-                        padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.1),
-                        child: Text(_systems[0].description.toString(), maxLines: null, textAlign: TextAlign.justify,
-                          style: TextStyle(height: 1.5, fontSize: fontNormalSize, fontStyle: FontStyle.italic, letterSpacing: 1.2),),
+                  SizedBox(height: screenHeight * 0.035,),
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.1),
+                    child: Text(_systems[0].description.toString(), maxLines: null, textAlign: TextAlign.justify,
+                      style: TextStyle(height: 1.5, fontSize: fontNormalSize, fontStyle: FontStyle.italic, letterSpacing: 1.2),),
+                  ),
+
+                  userSessionFuture == true
+                      ? SizedBox.shrink()
+                      : Column(
+                    children: [
+                      SizedBox(height: screenHeight * 0.01,),
+                      TextButton(
+                        onPressed: () {
+                          _loginRequired(context);
+                        },
+                        child: Text(
+                          "See more details...",
+                          style: TextStyle(
+                            fontSize: fontNormalSize,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.blue,
+                            fontStyle: FontStyle.italic,
+                            letterSpacing: 1.2,
+                          ),
+                        ),
                       ),
+                      SizedBox(height: screenHeight * 0.05,),
+                    ],
+                  ),
 
-                      if (_sysDetails != null && _sysDetails!.isNotEmpty)
-                        Container(
-                          child: Column(
-                            children: _sysDetails!.map((SystemsDetail) =>
-                                Column(
-                                  children: [
-                                    SizedBox(height: screenHeight * 0.075,),
-                                    if (SystemsDetail.title != null && SystemsDetail.title!.isNotEmpty)
-                                      Text(SystemsDetail.title, style: TextStyle(fontWeight: FontWeight.bold, fontFamily: 'Rowdies', fontSize: fontXSize, color: Colors.deepOrange, letterSpacing: 1.2),),
+                  if (_sysDetails != null && _sysDetails!.isNotEmpty && userSessionFuture == true)
+                    Container(
+                      child: Column(
+                        children: _sysDetails!.map((SystemsDetail) =>
+                            Column(
+                              children: [
+                                SizedBox(height: screenHeight * 0.075,),
+                                if (SystemsDetail.title != null && SystemsDetail.title!.isNotEmpty)
+                                  Text(SystemsDetail.title, style: TextStyle(fontWeight: FontWeight.bold, fontFamily: 'Rowdies', fontSize: fontXSize, color: Colors.deepOrange, letterSpacing: 1.2),),
 
-                                    if (SystemsDetail.description != null && SystemsDetail.description!.isNotEmpty)
-                                    Padding(
-                                      padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.1, vertical: screenHeight * 0.035,),
-                                      child: Text(SystemsDetail.description, maxLines: null, textAlign: TextAlign.justify,
-                                        style: TextStyle(height: 1.5, fontSize: fontNormalSize, fontStyle: FontStyle.italic, letterSpacing: 1.2),),
-                                    ),
+                                if (SystemsDetail.description != null && SystemsDetail.description!.isNotEmpty)
+                                  Padding(
+                                    padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.1, vertical: screenHeight * 0.035,),
+                                    child: Text(SystemsDetail.description, maxLines: null, textAlign: TextAlign.justify,
+                                      style: TextStyle(height: 1.5, fontSize: fontNormalSize, fontStyle: FontStyle.italic, letterSpacing: 1.2),),
+                                  ),
 
 
-                                    if (SystemsDetail.image != null && SystemsDetail.image!.isNotEmpty)
-                                      InkWell(
-                                        onTap: () {
-                                          Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                              builder: (context) => FullScreenImage(imagePath: "${API.sysDetailsImg + SystemsDetail.image}"),
-                                            ),
-                                          );
+                                if (SystemsDetail.image != null && SystemsDetail.image!.isNotEmpty)
+                                  InkWell(
+                                    onTap: () {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) => FullScreenImage(imagePath: "${API.sysDetailsImg + SystemsDetail.image}"),
+                                        ),
+                                      );
 
-                                          if (SystemsDetail.title == "SCHEMATIC DIAGRAM")
-                                            Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                builder: (context) => InteractiveImagePage(systemId: widget.systems.id),
-                                              ),
-                                            );
-                                        },
-                                        child: Padding(
-                                          padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.075, vertical: screenHeight * 0.035,),
-                                          child: Container(
-                                            height: screenHeight * 0.3,
-                                            width: screenWidth * 0.9,
-                                            decoration: BoxDecoration(
-                                              image: DecorationImage(
-                                                image: _buildNetworkImage("${API.sysDetailsImg + SystemsDetail.image}"),
-                                                alignment: Alignment.center,
-                                                fit: isImageLoading ? BoxFit.scaleDown : BoxFit.fill
-                                              ),
-                                            ),
+                                      if (SystemsDetail.title == "SCHEMATIC DIAGRAM")
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) => InteractiveImagePage(systemId: widget.systems.id),
+                                          ),
+                                        );
+                                    },
+                                    child: Padding(
+                                      padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.075, vertical: screenHeight * 0.035,),
+                                      child: Container(
+                                        height: screenHeight * 0.3,
+                                        width: screenWidth * 0.9,
+                                        decoration: BoxDecoration(
+                                          image: DecorationImage(
+                                              image: _buildNetworkImage("${API.sysDetailsImg + SystemsDetail.image}"),
+                                              alignment: Alignment.center,
+                                              fit: isImageLoading ? BoxFit.scaleDown : BoxFit.fill
                                           ),
                                         ),
                                       ),
-                                  ],
-                                )
-                            ).toList(),
-                          ),
-                        ),
+                                    ),
+                                  ),
+                              ],
+                            )
+                        ).toList(),
+                      ),
+                    ),
 
-                      /*TextButton(
+                  /*TextButton(
                         onPressed: () {
                           Navigator.push(
                             context,
@@ -316,149 +418,147 @@ class _detailedSysPageState extends State<detailedSysPage> with TickerProviderSt
                         child: Text('Go to Interactive Image'),
                       ),*/
 
-                      if (_sysTechSpecs != null && _sysTechSpecs!.isNotEmpty)
-                        Column(
-                          children: [
-                            SizedBox(height: screenHeight * 0.035,),
-                            Lottie.asset(
-                              'assets/lottie/technical_specs.json',
-                              height: screenHeight * 0.13,
-                              width: screenWidth * 0.9,
-                            ),
-                            SizedBox(height: screenHeight * 0.035,),
-                            Text(
-                              "Technical Specifications",
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontFamily: 'Rowdies',
-                                fontSize: fontXXSize,
-                                color: Colors.deepOrange,
-                                letterSpacing: 1.2,
+                  if (_sysTechSpecs != null && _sysTechSpecs!.isNotEmpty && userSessionFuture == true)
+                    Column(
+                      children: [
+                        SizedBox(height: screenHeight * 0.035,),
+                        Lottie.asset(
+                          'assets/lottie/technical_specs.json',
+                          height: screenHeight * 0.13,
+                          width: screenWidth * 0.9,
+                        ),
+                        SizedBox(height: screenHeight * 0.035,),
+                        Text(
+                          "Technical Specifications",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontFamily: 'Rowdies',
+                            fontSize: fontXXSize,
+                            color: Colors.deepOrange,
+                            letterSpacing: 1.2,
+                          ),
+                        ),
+                        SizedBox(height: 30,),
+                        Container(
+                          child: Column(
+                            children: _sysTechSpecs!.map((SystemsTechSpecs) => ExpansionTile(
+                              initiallyExpanded: true,
+                              title: Text(
+                                SystemsTechSpecs.title,
+                                style: TextStyle(
+                                  fontSize: fontNormalSize,
+                                  fontWeight: FontWeight.bold,
+                                  letterSpacing: 1.2,
+                                ),
                               ),
-                            ),
-                            SizedBox(height: 30,),
-                            Container(
-                              child: Column(
-                                children: _sysTechSpecs!.map((SystemsTechSpecs) => ExpansionTile(
-                                  initiallyExpanded: true,
-                                  title: Text(
-                                    SystemsTechSpecs.title,
-                                    style: TextStyle(
-                                      fontSize: fontNormalSize,
-                                      fontWeight: FontWeight.bold,
-                                      letterSpacing: 1.2,
+                              children: [
+                                SystemsTechSpecs.product_pdf == null || SystemsTechSpecs.product_pdf.isEmpty
+                                    ? Container(
+                                  decoration: BoxDecoration(
+                                    image: DecorationImage(image: NetworkImage("${API.sysTechImg + SystemsTechSpecs.image}", scale: fontNormalSize == 14.0 ? 2.5 : fontNormalSize == 18.0 ? 1.75 : 1.5,), alignment: Alignment.topRight),
+                                  ),
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      gradient: LinearGradient(
+                                        colors: [Colors.blue.withOpacity(0.2), Colors.deepOrange.shade100.withOpacity(0.1)],
+                                        stops: [0.0, 1],
+                                        begin: Alignment.topCenter,
+                                      ),
+                                    ),
+                                    child: Container(
+                                      width: screenWidth * 1,
+                                      padding: EdgeInsets.all(16.0),
+                                      decoration: BoxDecoration(
+                                        gradient: LinearGradient(
+                                          begin: Alignment.centerLeft,
+                                          end: Alignment.centerRight,
+                                          colors: [Colors.deepOrange.shade300, Colors.deepOrange.withOpacity(0.1)],
+                                        ),
+                                      ),
+                                      child: Container(
+                                        padding: EdgeInsets.only(right: 70.0),
+                                        child: Text(
+                                          "${SystemsTechSpecs.features}",
+                                          style: TextStyle(height: 1.5, fontSize: fontNormalSize, color: Colors.white, fontWeight: FontWeight.w900, letterSpacing: 1.2),
+                                          textAlign: TextAlign.left,
+                                        ),
+                                      ),
                                     ),
                                   ),
-                                  children: [
-                                    SystemsTechSpecs.product_pdf == null || SystemsTechSpecs.product_pdf.isEmpty
-                                     ? Container(
+                                )
+                                    : Container(
+                                  decoration: BoxDecoration(
+                                    image: DecorationImage(image: NetworkImage("${API.sysTechImg + SystemsTechSpecs.image}", scale: fontNormalSize == 14.0 ? 2.5 : fontNormalSize == 18.0 ? 1.75 : 1.5,), alignment: Alignment.topRight),
+                                  ),
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      gradient: LinearGradient(
+                                        colors: [Colors.blue.withOpacity(0.2), Colors.deepOrange.shade100.withOpacity(0.1)],
+                                        stops: [0.0, 1],
+                                        begin: Alignment.topCenter,
+                                      ),
+                                    ),
+                                    child: Container(
+                                      width: screenWidth * 1,
+                                      padding: EdgeInsets.all(16.0),
                                       decoration: BoxDecoration(
-                                        image: DecorationImage(image: NetworkImage("${API.sysTechImg + SystemsTechSpecs.image}", scale: fontNormalSize == 14.0 ? 2.5 : fontNormalSize == 18.0 ? 1.75 : 1.5,), alignment: Alignment.topRight),
+                                        gradient: LinearGradient(
+                                          begin: Alignment.centerLeft,
+                                          end: Alignment.centerRight,
+                                          colors: [Colors.deepOrange.shade300, Colors.deepOrange.withOpacity(0.1)],
+                                        ),
                                       ),
                                       child: Container(
-                                        decoration: BoxDecoration(
-                                          gradient: LinearGradient(
-                                            colors: [Colors.blue.withOpacity(0.2), Colors.deepOrange.shade100.withOpacity(0.1)],
-                                            stops: [0.0, 1],
-                                            begin: Alignment.topCenter,
-                                          ),
-                                        ),
-                                        child: Container(
-                                          width: screenWidth * 1,
-                                          padding: EdgeInsets.all(16.0),
-                                          decoration: BoxDecoration(
-                                            gradient: LinearGradient(
-                                              begin: Alignment.centerLeft,
-                                              end: Alignment.centerRight,
-                                              colors: [Colors.deepOrange.shade300, Colors.deepOrange.withOpacity(0.1)],
-                                            ),
-                                          ),
-                                          child: Container(
-                                            padding: EdgeInsets.only(right: 70.0),
-                                            child: Text(
-                                              "${SystemsTechSpecs.features}",
-                                              style: TextStyle(height: 1.5, fontSize: fontNormalSize, color: Colors.white, fontWeight: FontWeight.w900, letterSpacing: 1.2),
-                                              textAlign: TextAlign.left,
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    )
-                                     : Container(
-                                      decoration: BoxDecoration(
-                                        image: DecorationImage(image: NetworkImage("${API.sysTechImg + SystemsTechSpecs.image}", scale: fontNormalSize == 14.0 ? 2.5 : fontNormalSize == 18.0 ? 1.75 : 1.5,), alignment: Alignment.topRight),
-                                      ),
-                                      child: Container(
-                                        decoration: BoxDecoration(
-                                          gradient: LinearGradient(
-                                            colors: [Colors.blue.withOpacity(0.2), Colors.deepOrange.shade100.withOpacity(0.1)],
-                                            stops: [0.0, 1],
-                                            begin: Alignment.topCenter,
-                                          ),
-                                        ),
-                                        child: Container(
-                                          width: screenWidth * 1,
-                                          padding: EdgeInsets.all(16.0),
-                                          decoration: BoxDecoration(
-                                            gradient: LinearGradient(
-                                              begin: Alignment.centerLeft,
-                                              end: Alignment.centerRight,
-                                              colors: [Colors.deepOrange.shade300, Colors.deepOrange.withOpacity(0.1)],
-                                            ),
-                                          ),
-                                          child: Container(
-                                            child: Column(
-                                              crossAxisAlignment: CrossAxisAlignment.start,
-                                              children: <Widget>[
-                                                ...SystemsTechSpecs.product_pdf.map((product) {
-                                                  return TextButton(
-                                                    onPressed: () => openFile(
-                                                      url: "${API.prodPdf + product['catalogs_pdf']}",
-                                                      filename: "${product['catalogs_pdf']}",
+                                        child: Column(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: <Widget>[
+                                            ...SystemsTechSpecs.product_pdf.map((product) {
+                                              return TextButton(
+                                                onPressed: () => openFile(
+                                                  url: "${API.prodPdf + product['catalogs_pdf']}",
+                                                  filename: "${product['catalogs_pdf']}",
+                                                ),
+                                                child: Row(
+                                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                                  mainAxisSize: MainAxisSize.min,  // Use min to prevent the Row from occupying more space than its children need.
+                                                  children: <Widget>[
+                                                    Icon(
+                                                      Icons.download_for_offline_rounded,
+                                                      color: Colors.white,
+                                                      size: (screenHeight + screenWidth) / 40,
+                                                    ),// Example icon
+                                                    SizedBox(width: 8),  // Space between icon and text
+                                                    Text(
+                                                      product['prod_name'],
+                                                      style: TextStyle(
+                                                        height: 1.5,
+                                                        fontSize: fontSmallSize,
+                                                        fontFamily: 'Rowdies',
+                                                        color: Colors.white,
+                                                        fontWeight: FontWeight.w700,
+                                                        letterSpacing: 1.2,
+                                                      ),
+                                                      textAlign: TextAlign.left,
                                                     ),
-                                                    child: Row(
-                                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                                      mainAxisSize: MainAxisSize.min,  // Use min to prevent the Row from occupying more space than its children need.
-                                                      children: <Widget>[
-                                                        Icon(
-                                                          Icons.download_for_offline_rounded,
-                                                          color: Colors.white,
-                                                          size: (screenHeight + screenWidth) / 40,
-                                                        ),// Example icon
-                                                        SizedBox(width: 8),  // Space between icon and text
-                                                        Text(
-                                                          product['prod_name'],
-                                                          style: TextStyle(
-                                                            height: 1.5,
-                                                            fontSize: fontSmallSize,
-                                                            fontFamily: 'Rowdies',
-                                                            color: Colors.white,
-                                                            fontWeight: FontWeight.w700,
-                                                            letterSpacing: 1.2,
-                                                          ),
-                                                          textAlign: TextAlign.left,
-                                                        ),
-                                                      ],
-                                                    ),
-                                                  );
-                                                }).toList(),
-                                                if (SystemsTechSpecs.product_pdf.length < 3)
-                                                  SizedBox(height: screenHeight * 0.15),
-                                              ],
-                                            ),
-                                          ),
+                                                  ],
+                                                ),
+                                              );
+                                            }).toList(),
+                                            if (SystemsTechSpecs.product_pdf.length < 3)
+                                              SizedBox(height: screenHeight * 0.15),
+                                          ],
                                         ),
                                       ),
                                     ),
-                                  ],
-                                )).toList(),
-                              ),
-                            ),
-                          ],
+                                  ),
+                                ),
+                              ],
+                            )).toList(),
+                          ),
                         ),
-                    ],
-                  ),
+                      ],
+                    ),
                 ]
       ),
           ),
@@ -466,10 +566,17 @@ class _detailedSysPageState extends State<detailedSysPage> with TickerProviderSt
         height: (screenHeight + screenWidth) / 20,
         width: (screenHeight + screenWidth) / 20,
         child: FloatingActionButton(
-            onPressed: () => openFile(
-              url: "${API.fileCatalogsPdf + widget.systems.catalogs_pdf}",
-              filename: "${widget.systems.catalogs_pdf}",
-            ),
+            onPressed: () {
+              if (userSessionFuture == true) {
+                openFile(
+                  url: "${API.fileCatalogsPdf + widget.systems.catalogs_pdf}",
+                  filename: "${widget.systems.catalogs_pdf}",
+                );
+              } else {
+                // Navigator.of(context).popUntil((route) => route.isFirst);
+                _loginRequired(context);
+              }
+            },
             child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[

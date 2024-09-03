@@ -61,7 +61,8 @@ class _MainAccPageState extends State<MainAccPage> {
         print("Error updating token");
       }
     });
-
+    systemsNavigatorKey.currentState?.popUntil((route) => route.isFirst);
+    productsNavigatorKey.currentState?.popUntil((route) => route.isFirst);
     widget.onLogoutSuccess();
   }
 
