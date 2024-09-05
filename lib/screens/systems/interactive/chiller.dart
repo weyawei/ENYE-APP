@@ -1788,7 +1788,7 @@ class _ChillerPageState extends State<ChillerPage> with TickerProviderStateMixin
                             height: 150,
                             fit: BoxFit.fill,
                           ),
-                          iconSize: MediaQuery.of(context).size.width * 0.2, // Relative size//
+                          iconSize: MediaQuery.of(context).size.width * 0.2, // Relative size///
                           onPressed: () {
                             _zoomToProduct(
                               Rect.fromLTWH(
