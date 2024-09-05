@@ -292,7 +292,7 @@ class _ChillerPageState extends State<ChillerPage> with TickerProviderStateMixin
                 width: MediaQuery.of(context).size.width * 1,
                 height: MediaQuery.of(context).size.width * 0.7,
                 child: ModelViewer(
-                  src: 'assets/systems/chiller/diff_press.glb',
+                  src: 'assets/systems/chiller/WET_diff.glb',
                   ar: true,
                   autoRotate: true,
                   cameraControls: true,
@@ -349,12 +349,22 @@ class _ChillerPageState extends State<ChillerPage> with TickerProviderStateMixin
         content: SingleChildScrollView(
           child: Column(
             children: [
-              Image.asset(
+              SizedBox(
+                width: MediaQuery.of(context).size.width * 1,
+                height: MediaQuery.of(context).size.width * 0.7,
+                child: ModelViewer(
+                  src: 'assets/systems/chiller/flow_switch.glb',
+                  ar: true,
+                  autoRotate: true,
+                  cameraControls: true,
+                ),
+              ),
+             /* Image.asset(
                 'assets/systems/chiller/flow_switch.png',
                 width: MediaQuery.of(context).size.width * 1,
                 height: MediaQuery.of(context).size.width * 0.5,
                 fit: BoxFit.contain,
-              ),
+              ),*/
               Text(
                 "Flow Switch",
                 style: TextStyle(
@@ -401,12 +411,22 @@ class _ChillerPageState extends State<ChillerPage> with TickerProviderStateMixin
         content: SingleChildScrollView(
           child: Column(
             children: [
-              Image.asset(
+              SizedBox(
+                width: MediaQuery.of(context).size.width * 1,
+                height: MediaQuery.of(context).size.width * 0.7,
+                child: ModelViewer(
+                  src: 'assets/systems/chiller/BTU_Meter.glb',
+                  ar: true,
+                  autoRotate: true,
+                  cameraControls: true,
+                ),
+              ),
+              /*Image.asset(
                 'assets/systems/chiller/BTU.png',
                 width: MediaQuery.of(context).size.width * 1,
                 height: MediaQuery.of(context).size.width * 0.5,
                 fit: BoxFit.contain,
-              ),
+              ),*/
               Text(
                 "Energy Meter/BTU Meter",
                 style: TextStyle(
@@ -452,12 +472,22 @@ class _ChillerPageState extends State<ChillerPage> with TickerProviderStateMixin
         content: SingleChildScrollView(
           child: Column(
             children: [
-              Image.asset(
+              SizedBox(
+                width: MediaQuery.of(context).size.width * 1,
+                height: MediaQuery.of(context).size.width * 0.7,
+                child: ModelViewer(
+                  src: 'assets/systems/chiller/pibcv.glb',
+                  ar: true,
+                  autoRotate: true,
+                  cameraControls: true,
+                ),
+              ),
+              /*Image.asset(
                 'assets/systems/chiller/PIBCV.png',
                 width: MediaQuery.of(context).size.width * 1,
                 height: MediaQuery.of(context).size.width * 0.5,
                 fit: BoxFit.contain,
-              ),
+              ),*/
               Text(
                 "Pressure Independent Balancing and Control Valve (PIBCV)",
                 style: TextStyle(
@@ -503,12 +533,22 @@ class _ChillerPageState extends State<ChillerPage> with TickerProviderStateMixin
         content: SingleChildScrollView(
           child: Column(
             children: [
-              Image.asset(
+              SizedBox(
+                width: MediaQuery.of(context).size.width * 1,
+                height: MediaQuery.of(context).size.width * 0.7,
+                child: ModelViewer(
+                  src: 'assets/systems/chiller/temp_sensor.glb',
+                  ar: true,
+                  autoRotate: true,
+                  cameraControls: true,
+                ),
+              ),
+             /* Image.asset(
                 'assets/systems/chiller/temp_sensor.png',
                 width: MediaQuery.of(context).size.width * 1,
                 height: MediaQuery.of(context).size.width * 0.5,
                 fit: BoxFit.contain,
-              ),
+              ),*/
               Text(
                 "Temperature Sensor",
                 style: TextStyle(
@@ -554,12 +594,22 @@ class _ChillerPageState extends State<ChillerPage> with TickerProviderStateMixin
         content: SingleChildScrollView(
           child: Column(
             children: [
-              Image.asset(
+              SizedBox(
+                width: MediaQuery.of(context).size.width * 1,
+                height: MediaQuery.of(context).size.width * 0.7,
+                child: ModelViewer(
+                  src: 'assets/systems/chiller/butterfly.glb',
+                  ar: true,
+                  autoRotate: true,
+                  cameraControls: true,
+                ),
+              ),
+              /*Image.asset(
                 'assets/systems/chiller/EVBF.png',
                 width: MediaQuery.of(context).size.width * 1,
                 height: MediaQuery.of(context).size.width * 0.5,
                 fit: BoxFit.contain,
-              ),
+              ),*/
               Text(
                 "Butterfly Valve",
                 style: TextStyle(
@@ -1465,7 +1515,7 @@ class _ChillerPageState extends State<ChillerPage> with TickerProviderStateMixin
                             height: 150,
                             fit: BoxFit.fill,
                           ),
-                          iconSize: 80,
+                          iconSize: MediaQuery.of(context).size.width * 0.2, // Relative size
                           onPressed: () {
                             _zoomToProduct(
                               Rect.fromLTWH(
@@ -1499,7 +1549,7 @@ class _ChillerPageState extends State<ChillerPage> with TickerProviderStateMixin
                             height: 150,
                             fit: BoxFit.fill,
                           ),
-                          iconSize: 80,
+                          iconSize: MediaQuery.of(context).size.width * 0.2, // Relative size
                           onPressed: () {
                             _zoomToProduct(
                               Rect.fromLTWH(
@@ -1529,11 +1579,11 @@ class _ChillerPageState extends State<ChillerPage> with TickerProviderStateMixin
                       children: [
                         IconButton(
                           icon: Image.asset(
-                            'assets/systems/chiller/Power_Meter.png',
+                            'assets/systems/chiller/power_m.png',
                             height: 150,
                             fit: BoxFit.fill,
                           ),
-                          iconSize: 80,
+                          iconSize: MediaQuery.of(context).size.width * 0.2, // Relative size
                           onPressed: () {
                             _zoomToProduct(
                               Rect.fromLTWH(
@@ -1567,7 +1617,7 @@ class _ChillerPageState extends State<ChillerPage> with TickerProviderStateMixin
                             height: 150,
                             fit: BoxFit.fill,
                           ),
-                          iconSize: 80,
+                          iconSize: MediaQuery.of(context).size.width * 0.2, // Relative size
                           onPressed: () {
                             _zoomToProduct(
                               Rect.fromLTWH(
@@ -1601,7 +1651,7 @@ class _ChillerPageState extends State<ChillerPage> with TickerProviderStateMixin
                             height: 150,
                             fit: BoxFit.fill,
                           ),
-                          iconSize: 80,
+                          iconSize: MediaQuery.of(context).size.width * 0.2, // Relative size
                           onPressed: () {
                             _zoomToProduct(
                               Rect.fromLTWH(
@@ -1635,7 +1685,7 @@ class _ChillerPageState extends State<ChillerPage> with TickerProviderStateMixin
                             height: 150,
                             fit: BoxFit.fill,
                           ),
-                          iconSize: 80,
+                          iconSize: MediaQuery.of(context).size.width * 0.2, // Relative size
                           onPressed: () {
                             _zoomToProduct(
                               Rect.fromLTWH(
@@ -1669,7 +1719,7 @@ class _ChillerPageState extends State<ChillerPage> with TickerProviderStateMixin
                             height: 150,
                             fit: BoxFit.fill,
                           ),
-                          iconSize: 80,
+                          iconSize: MediaQuery.of(context).size.width * 0.2, // Relative size
                           onPressed: () {
                             _zoomToProduct(
                               Rect.fromLTWH(
@@ -1703,7 +1753,7 @@ class _ChillerPageState extends State<ChillerPage> with TickerProviderStateMixin
                             height: 150,
                             fit: BoxFit.fill,
                           ),
-                          iconSize: 80,
+                          iconSize: MediaQuery.of(context).size.width * 0.2, // Relative size
                           onPressed: () {
                             _zoomToProduct(
                               Rect.fromLTWH(
@@ -1738,7 +1788,7 @@ class _ChillerPageState extends State<ChillerPage> with TickerProviderStateMixin
                             height: 150,
                             fit: BoxFit.fill,
                           ),
-                          iconSize: 80,
+                          iconSize: MediaQuery.of(context).size.width * 0.2, // Relative size
                           onPressed: () {
                             _zoomToProduct(
                               Rect.fromLTWH(

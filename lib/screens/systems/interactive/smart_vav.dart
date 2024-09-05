@@ -109,6 +109,7 @@ class _SmartVavPageState extends State<SmartVavPage> with TickerProviderStateMix
         content: SingleChildScrollView(
           child: Column(
             children: [
+
               Image.asset(
                 'assets/systems/smart/omni.png',
                 width: MediaQuery.of(context).size.width,
@@ -158,12 +159,22 @@ class _SmartVavPageState extends State<SmartVavPage> with TickerProviderStateMix
         content: SingleChildScrollView(
           child: Column(
             children: [
-              Image.asset(
+              SizedBox(
+                width: MediaQuery.of(context).size.width * 1,
+                height: MediaQuery.of(context).size.width * 0.7,
+                child: ModelViewer(
+                  src: 'assets/systems/chiller/vfd.glb',
+                  ar: true,
+                  autoRotate: true,
+                  cameraControls: true,
+                ),
+              ),
+             /* Image.asset(
                 'assets/systems/smart/vfd.png',
                 width: MediaQuery.of(context).size.width * 1,
                 height: MediaQuery.of(context).size.width * 0.5,
                 fit: BoxFit.contain,
-              ),
+              ),*/
               Text(
                 "Variable Frequency Drive (VFD)",
                 style: TextStyle(
@@ -271,12 +282,22 @@ class _SmartVavPageState extends State<SmartVavPage> with TickerProviderStateMix
         content: SingleChildScrollView(
           child: Column(
             children: [
-              Image.asset(
+              SizedBox(
+                width: MediaQuery.of(context).size.width * 1,
+                height: MediaQuery.of(context).size.width * 0.7,
+                child: ModelViewer(
+                  src: 'assets/systems/ahu/actuator.glb',
+                  ar: true,
+                  autoRotate: true,
+                  cameraControls: true,
+                ),
+              ),
+             /* Image.asset(
                 'assets/systems/smart/actuator.png',
                 width: MediaQuery.of(context).size.width * 1,
                 height: MediaQuery.of(context).size.width * 0.5,
                 fit: BoxFit.fill,
-              ),
+              ),*/
               Text(
                 "VAV Actuator",
                 style: TextStyle(
@@ -373,12 +394,22 @@ class _SmartVavPageState extends State<SmartVavPage> with TickerProviderStateMix
         content: SingleChildScrollView(
           child: Column(
             children: [
-              Image.asset(
+              SizedBox(
+                width: MediaQuery.of(context).size.width * 1,
+                height: MediaQuery.of(context).size.width * 0.7,
+                child: ModelViewer(
+                  src: 'assets/systems/chiller/temp_sensor.glb',
+                  ar: true,
+                  autoRotate: true,
+                  cameraControls: true,
+                ),
+              ),
+              /*Image.asset(
                 'assets/systems/smart/temp_sensor.png',
                 width: MediaQuery.of(context).size.width * 1,
                 height: MediaQuery.of(context).size.width * 0.5,
                 fit: BoxFit.fill,
-              ),
+              ),*/
               Text(
                 "Duct Temperature Sensor",
                 style: TextStyle(
@@ -424,12 +455,22 @@ class _SmartVavPageState extends State<SmartVavPage> with TickerProviderStateMix
         content: SingleChildScrollView(
           child: Column(
             children: [
-              Image.asset(
+              SizedBox(
+                width: MediaQuery.of(context).size.width * 1,
+                height: MediaQuery.of(context).size.width * 0.7,
+                child: ModelViewer(
+                  src: 'assets/systems/smart/air_velocity.glb',
+                  ar: true,
+                  autoRotate: true,
+                  cameraControls: true,
+                ),
+              ),
+              /*Image.asset(
                 'assets/systems/smart/air_velocity.png',
                 width: MediaQuery.of(context).size.width * 1,
                 height: MediaQuery.of(context).size.width * 0.5,
                 fit: BoxFit.fill,
-              ),
+              ),*/
               Text(
                 "Air Velocity Transmitter",
                 style: TextStyle(
@@ -541,12 +582,22 @@ class _SmartVavPageState extends State<SmartVavPage> with TickerProviderStateMix
         content: SingleChildScrollView(
           child: Column(
             children: [
-              Image.asset(
+              SizedBox(
+                width: MediaQuery.of(context).size.width * 1,
+                height: MediaQuery.of(context).size.width * 0.7,
+                child: ModelViewer(
+                  src: 'assets/systems/smart/diff_sensor.glb',
+                  ar: true,
+                  autoRotate: true,
+                  cameraControls: true,
+                ),
+              ),
+              /*Image.asset(
                 'assets/systems/smart/pressure.png',
                 width: MediaQuery.of(context).size.width * 1,
                 height: MediaQuery.of(context).size.width * 0.5,
                 fit: BoxFit.fill,
-              ),
+              ),*/
               Text(
                 "Differential Pressure Transmitter",
                 style: TextStyle(

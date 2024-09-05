@@ -109,6 +109,7 @@ class _StairwellPageState extends State<StairwellPage> with TickerProviderStateM
         content: SingleChildScrollView(
           child: Column(
             children: [
+
               Image.asset(
                 'assets/systems/stairwell/omni.png',
                 width: MediaQuery.of(context).size.width,
@@ -158,12 +159,22 @@ class _StairwellPageState extends State<StairwellPage> with TickerProviderStateM
         content: SingleChildScrollView(
           child: Column(
             children: [
-              Image.asset(
+              SizedBox(
+                width: MediaQuery.of(context).size.width * 1,
+                height: MediaQuery.of(context).size.width * 0.7,
+                child: ModelViewer(
+                  src: 'assets/systems/chiller/vfd.glb',
+                  ar: true,
+                  autoRotate: true,
+                  cameraControls: true,
+                ),
+              ),
+              /*Image.asset(
                 'assets/systems/stairwell/vfd.png',
                 width: MediaQuery.of(context).size.width * 1,
                 height: MediaQuery.of(context).size.width * 0.5,
                 fit: BoxFit.contain,
-              ),
+              ),*/
               Text(
                 "Variable Frequency Drive (VFD)",
                 style: TextStyle(
@@ -216,12 +227,22 @@ class _StairwellPageState extends State<StairwellPage> with TickerProviderStateM
         content: SingleChildScrollView(
           child: Column(
             children: [
-              Image.asset(
+              SizedBox(
+                width: MediaQuery.of(context).size.width * 1,
+                height: MediaQuery.of(context).size.width * 0.7,
+                child: ModelViewer(
+                  src: 'assets/systems/fire_smoke/duct_smoke.glb',
+                  ar: true,
+                  autoRotate: true,
+                  cameraControls: true,
+                ),
+              ),
+              /*Image.asset(
                 'assets/systems/fire_smoke/duct_smoke.png',
                 width: MediaQuery.of(context).size.width * 1,
                 height: MediaQuery.of(context).size.width * 0.5,
                 fit: BoxFit.contain,
-              ),
+              ),*/
               Text(
                 "DUCT SMOKE DETECTOR",
                 style: TextStyle(
@@ -267,12 +288,22 @@ class _StairwellPageState extends State<StairwellPage> with TickerProviderStateM
         content: SingleChildScrollView(
           child: Column(
             children: [
-              Image.asset(
+              SizedBox(
+                width: MediaQuery.of(context).size.width * 1,
+                height: MediaQuery.of(context).size.width * 0.7,
+                child: ModelViewer(
+                  src: 'assets/systems/smart/diff_sensor.glb',
+                  ar: true,
+                  autoRotate: true,
+                  cameraControls: true,
+                ),
+              ),
+             /* Image.asset(
                 'assets/systems/stairwell/pressure.png',
                 width: MediaQuery.of(context).size.width * 1,
                 height: MediaQuery.of(context).size.width * 0.5,
                 fit: BoxFit.contain,
-              ),
+              ),*/
               Text(
                 "Differential Pressure Transmitter",
                 style: TextStyle(

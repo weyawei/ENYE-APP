@@ -101,6 +101,7 @@ class _SmokeExtractPageState extends State<SmokeExtractPage> with TickerProvider
         content: SingleChildScrollView(
           child: Column(
             children: [
+
               Image.asset(
                 'assets/systems/smoke_extract/omni.png',
                 width: MediaQuery.of(context).size.width,
