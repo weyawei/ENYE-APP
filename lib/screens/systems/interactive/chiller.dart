@@ -1802,7 +1802,7 @@ class _ChillerPageState extends State<ChillerPage> with TickerProviderStateMixin
                                   () => _showProduct9Details(context),
                             );
                           },
-                        ),
+                        ),//
                         Text(
                           'Butterfly Valve',
                           style: TextStyle(
