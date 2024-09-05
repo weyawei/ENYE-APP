@@ -5,6 +5,7 @@ class productCategory {
   String icon;
   String image;
   String published;
+  String arrangement;
   String status;
 
   productCategory({
@@ -13,6 +14,7 @@ class productCategory {
     required this.icon,
     required this.image,
     required this.published,
+    required this.arrangement,
     required this.status,
   });
 
@@ -23,6 +25,7 @@ class productCategory {
       icon: json['icon'] as String,
       image: json['image'] as String,
       published: json['published'] as String,
+      arrangement:  json['arrangement'] as String,
       status: json['status'] as String,
     );
   }

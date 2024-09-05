@@ -579,7 +579,7 @@ class _productsPageState extends State<productsPage> with TickerProviderStateMix
                   physics: const NeverScrollableScrollPhysics(),
                   shrinkWrap: true,
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: screenLayout ? 4 : 5,
+                    crossAxisCount: screenLayout ? 3 : 5,
                     childAspectRatio: 0.8,
                     crossAxisSpacing: 4.0,
                     mainAxisSpacing: 6.0,
@@ -588,9 +588,13 @@ class _productsPageState extends State<productsPage> with TickerProviderStateMix
                     crossAxisCount: 4  ,
                     childAspectRatio: 0.8,
                   ),*/
-                  itemCount: screenLayout ? 8 : 10,
+                  itemCount: screenLayout ? 10 : 10,
                   itemBuilder: (context, index) {
-                    List<productCategory> category = _prodCategory.where((element) => element.status == "Active").toList();
+                    List<productCategory> category = _prodCategory
+                        .where((element) => element.status == "Active")
+                        .toList()
+                      ..sort((a, b) => a.arrangement.compareTo(b.arrangement));
+
 
                     if (index < category.length) {
                       return InkWell(
@@ -703,7 +707,7 @@ class _productsPageState extends State<productsPage> with TickerProviderStateMix
                       //     ),],
                       // ),
 
-                      Center(
+                     /* Center(
                         child: Text(
                           "Products",
                           textAlign: TextAlign.center,
@@ -719,7 +723,7 @@ class _productsPageState extends State<productsPage> with TickerProviderStateMix
                       SizedBox(height: 15,),
                       productCarousel(
                         products: _products.where((product) => product.isPopular == "true").toList(),
-                      ),
+                      ),*/
                     ],
                   ),
                 ),

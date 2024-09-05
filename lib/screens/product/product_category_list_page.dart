@@ -15,6 +15,7 @@ import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 import '../../config/api_connection.dart';
+import '../../widget/custom_appbar.dart';
 import 'detailed_product.dart';
 import 'detailed_product_page.dart';
 
@@ -38,7 +39,7 @@ class _ProductAllCategoryState extends State<ProductAllCategory> with TickerProv
   List<product> _prod7 = [];
   List<product> _prod8 = [];
   List<product> _prod9 = [];
-  List<product> _prod10 = [];
+//  List<product> _prod10 = [];
 
   List<banner> _banner = [];
   List<productCategory> _prodCategories = [];
@@ -52,7 +53,7 @@ class _ProductAllCategoryState extends State<ProductAllCategory> with TickerProv
   List<productCategory> _prodCategory8 = [];
   List<productCategory> _prodCategory9 = [];
   List<productCategory> _prodCategory10 = [];
-  List<productCategory> _prodCategory11 = [];
+//  List<productCategory> _prodCategory11 = [];
 
   @override
   void initState() {
@@ -67,7 +68,7 @@ class _ProductAllCategoryState extends State<ProductAllCategory> with TickerProv
     _getProdCategory8();
     _getProdCategory9();
     _getProdCategory10();
-    _getProdCategory11();
+ //   _getProdCategory11();
 
     _getBanner();
     _getProd();
@@ -80,7 +81,7 @@ class _ProductAllCategoryState extends State<ProductAllCategory> with TickerProv
     _getProd7();
     _getProd8();
     _getProd9();
-    _getProd10();
+  //  _getProd10();
 
 
   }
@@ -96,11 +97,11 @@ class _ProductAllCategoryState extends State<ProductAllCategory> with TickerProv
     });
   }
 
-
+//Control Valvee and actuator
   _getProd() {
     productService.getProducts().then((product) {
       setState(() {
-        List<String> targetIds = ["38"];
+        List<String> targetIds = ["48"];
         _prod = product.where((element) => targetIds.contains(element.category_id)).toList();
       });
 
@@ -108,10 +109,11 @@ class _ProductAllCategoryState extends State<ProductAllCategory> with TickerProv
     });
   }
 
+  //temperature
   _getProd1() {
     productService.getProducts().then((product) {
       setState(() {
-        List<String> targetIds = ["39"];
+        List<String> targetIds = ["46"];
         _prod1 = product.where((element) => targetIds.contains(element.category_id)).toList();
       });
 
@@ -119,10 +121,11 @@ class _ProductAllCategoryState extends State<ProductAllCategory> with TickerProv
     });
   }
 
+  //humidity
   _getProd2() {
     productService.getProducts().then((product) {
       setState(() {
-        List<String> targetIds = ["40"];
+        List<String> targetIds = ["42"];
         _prod2 = product.where((element) => targetIds.contains(element.category_id)).toList();
       });
 
@@ -130,10 +133,11 @@ class _ProductAllCategoryState extends State<ProductAllCategory> with TickerProv
     });
   }
 
+ // Pressure
   _getProd3() {
     productService.getProducts().then((product) {
       setState(() {
-        List<String> targetIds = ["41"];
+        List<String> targetIds = ["45"];
         _prod3 = product.where((element) => targetIds.contains(element.category_id)).toList();
       });
 
@@ -141,10 +145,11 @@ class _ProductAllCategoryState extends State<ProductAllCategory> with TickerProv
     });
   }
 
+  //Level
   _getProd4() {
     productService.getProducts().then((product) {
       setState(() {
-        List<String> targetIds = ["42"];
+        List<String> targetIds = ["43"];
         _prod4 = product.where((element) => targetIds.contains(element.category_id)).toList();
       });
 
@@ -152,10 +157,11 @@ class _ProductAllCategoryState extends State<ProductAllCategory> with TickerProv
     });
   }
 
+  //gas
   _getProd5() {
     productService.getProducts().then((product) {
       setState(() {
-        List<String> targetIds = ["43"];
+        List<String> targetIds = ["41"];
         _prod5 = product.where((element) => targetIds.contains(element.category_id)).toList();
       });
 
@@ -163,6 +169,7 @@ class _ProductAllCategoryState extends State<ProductAllCategory> with TickerProv
     });
   }
 
+  //Power Meters
   _getProd6() {
     productService.getProducts().then((product) {
       setState(() {
@@ -174,10 +181,11 @@ class _ProductAllCategoryState extends State<ProductAllCategory> with TickerProv
     });
   }
 
+  //test Equipment
   _getProd7() {
     productService.getProducts().then((product) {
       setState(() {
-        List<String> targetIds = ["45"];
+        List<String> targetIds = ["40"];
         _prod7 = product.where((element) => targetIds.contains(element.category_id)).toList();
       });
 
@@ -188,7 +196,7 @@ class _ProductAllCategoryState extends State<ProductAllCategory> with TickerProv
   _getProd8() {
     productService.getProducts().then((product) {
       setState(() {
-        List<String> targetIds = ["46"];
+        List<String> targetIds = ["35"];
         _prod8 = product.where((element) => targetIds.contains(element.category_id)).toList();
       });
 
@@ -207,7 +215,7 @@ class _ProductAllCategoryState extends State<ProductAllCategory> with TickerProv
     });
   }
 
-  _getProd10() {
+  /*_getProd10() {
     productService.getProducts().then((product) {
       setState(() {
         List<String> targetIds = ["48"];
@@ -216,7 +224,7 @@ class _ProductAllCategoryState extends State<ProductAllCategory> with TickerProv
 
       print("Length Products ${_prod.length}");
     });
-  }
+  }*/
 
   _getProdCategories() {
     productService.getProdCategory().then((productCategories) {
@@ -233,7 +241,7 @@ class _ProductAllCategoryState extends State<ProductAllCategory> with TickerProv
     productService.getProdCategory().then((productCategory) {
       setState(() {
         List<String> targetIds = ["38"];
-        _prodCategory = productCategory.where((element) => element.id == "38").toList();
+        _prodCategory = productCategory.where((element) => element.id == "48").toList();
       });
 
       print("Length ${_prodCategory.length}");
@@ -244,7 +252,7 @@ class _ProductAllCategoryState extends State<ProductAllCategory> with TickerProv
     productService.getProdCategory().then((productCategory2) {
       setState(() {
         List<String> targetIds2 = ["39"];
-        _prodCategory2 = productCategory2.where((element) => element.id == "39").toList();
+        _prodCategory2 = productCategory2.where((element) => element.id == "46").toList();
       });
 
       print("Length ${_prodCategory.length}");
@@ -255,7 +263,7 @@ class _ProductAllCategoryState extends State<ProductAllCategory> with TickerProv
     productService.getProdCategory().then((productCategory3) {
       setState(() {
         List<String> targetIds3 = ["40"];
-        _prodCategory3 = productCategory3.where((element) => element.id == "40").toList();
+        _prodCategory3 = productCategory3.where((element) => element.id == "42").toList();
       });
 
       print("Length ${_prodCategory.length}");
@@ -265,7 +273,7 @@ class _ProductAllCategoryState extends State<ProductAllCategory> with TickerProv
   _getProdCategory4() {
     productService.getProdCategory().then((productCategory4) {
       setState(() {
-        List<String> targetIds4 = ["41"];
+        List<String> targetIds4 = ["45"];
         _prodCategory4 = productCategory4.where((element) => targetIds4.contains(element.id)).toList();
       });
 
@@ -276,7 +284,7 @@ class _ProductAllCategoryState extends State<ProductAllCategory> with TickerProv
   _getProdCategory5() {
     productService.getProdCategory().then((productCategory5) {
       setState(() {
-        List<String> targetIds5 = ["42"];
+        List<String> targetIds5 = ["43"];
         _prodCategory5 = productCategory5.where((element) => targetIds5.contains(element.id)).toList();
       });
 
@@ -287,7 +295,7 @@ class _ProductAllCategoryState extends State<ProductAllCategory> with TickerProv
   _getProdCategory6() {
     productService.getProdCategory().then((productCategory6) {
       setState(() {
-        List<String> targetIds6 = ["43"];
+        List<String> targetIds6 = ["41"];
         _prodCategory6 = productCategory6.where((element) => targetIds6.contains(element.id)).toList();
       });
 
@@ -309,7 +317,7 @@ class _ProductAllCategoryState extends State<ProductAllCategory> with TickerProv
   _getProdCategory8() {
     productService.getProdCategory().then((productCategory8) {
       setState(() {
-        List<String> targetIds8 = ["45"];
+        List<String> targetIds8 = ["40"];
         _prodCategory8 = productCategory8.where((element) => targetIds8.contains(element.id)).toList();
       });
 
@@ -320,7 +328,7 @@ class _ProductAllCategoryState extends State<ProductAllCategory> with TickerProv
   _getProdCategory9() {
     productService.getProdCategory().then((productCategory9) {
       setState(() {
-        List<String> targetIds9 = ["46"];
+        List<String> targetIds9 = ["35"];
         _prodCategory9 = productCategory9.where((element) => targetIds9.contains(element.id)).toList();
       });
 
@@ -339,7 +347,7 @@ class _ProductAllCategoryState extends State<ProductAllCategory> with TickerProv
     });
   }
 
-  _getProdCategory11() {
+  /*_getProdCategory11() {
     productService.getProdCategory().then((productCategory11) {
       setState(() {
         List<String> targetIds11 = ["48"];
@@ -348,7 +356,7 @@ class _ProductAllCategoryState extends State<ProductAllCategory> with TickerProv
 
       print("Length ${_prodCategory.length}");
     });
-  }
+  }*/
 
 
 
@@ -361,7 +369,7 @@ class _ProductAllCategoryState extends State<ProductAllCategory> with TickerProv
 
     final activeBanners = _banner.where((bann) => bann.status == "Active").toList();
     return Scaffold(
-
+      appBar: CustomAppBar(title: 'CATEGORIES', imagePath: 'assets/logo/enyecontrols.png', appBarHeight: MediaQuery.of(context).size.height * 0.05,),
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -618,11 +626,11 @@ class _ProductAllCategoryState extends State<ProductAllCategory> with TickerProv
                              Padding(
                                padding: const EdgeInsets.all(8.0),
                                child: Text(
-                                 "Air Quality",
+                                 "Control Valves & Actuator",
                                  style: TextStyle(
                                 //   fontFamily: 'Rowdies',
                                    fontWeight: FontWeight.normal,
-                                   fontSize: MediaQuery.of(context).size.width * 0.050, // Adjust the font size as needed
+                                   fontSize: MediaQuery.of(context).size.width * 0.030, // Adjust the font size as needed
                                    color: Colors.black, // Adjust the text color
                                    shadows: [
                                      Shadow(
@@ -751,11 +759,11 @@ class _ProductAllCategoryState extends State<ProductAllCategory> with TickerProv
                              Padding(
                                padding: const EdgeInsets.all(8.0),
                                child: Text(
-                                 "Current",
+                                 "Temperature",
                                  style: TextStyle(
                                //    fontFamily: 'Rowdies',
                                    fontWeight: FontWeight.normal,
-                                   fontSize: MediaQuery.of(context).size.width * 0.050, // Adjust the font size as needed
+                                   fontSize: MediaQuery.of(context).size.width * 0.030, // Adjust the font size as needed
                                    color: Colors.black, // Adjust the text color
                                    shadows: [
                                      Shadow(
@@ -898,11 +906,11 @@ class _ProductAllCategoryState extends State<ProductAllCategory> with TickerProv
                               Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: Text(
-                                  "Flow",
+                                  "Humidity",
                                   style: TextStyle(
                                  //   fontFamily: 'Rowdies',
                                     fontWeight: FontWeight.normal,
-                                    fontSize: MediaQuery.of(context).size.width * 0.050, // Adjust the font size as needed
+                                    fontSize: MediaQuery.of(context).size.width * 0.030, // Adjust the font size as needed
                                     color: Colors.black, // Adjust the text color
                                     shadows: [
                                       Shadow(
@@ -1031,11 +1039,11 @@ class _ProductAllCategoryState extends State<ProductAllCategory> with TickerProv
                               Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: Text(
-                                  "Gas",
+                                  "Pressure",
                                   style: TextStyle(
                                 //    fontFamily: 'Rowdies',
                                     fontWeight: FontWeight.normal,
-                                    fontSize: MediaQuery.of(context).size.width * 0.050, // Adjust the font size as needed
+                                    fontSize: MediaQuery.of(context).size.width * 0.030, // Adjust the font size as needed
                                     color: Colors.black, // Adjust the text color
                                     shadows: [
                                       Shadow(
@@ -1176,11 +1184,11 @@ class _ProductAllCategoryState extends State<ProductAllCategory> with TickerProv
                               Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: Text(
-                                  "Humidity",
+                                  "Level",
                                   style: TextStyle(
                                //     fontFamily: 'Rowdies',
                                     fontWeight: FontWeight.normal,
-                                    fontSize: MediaQuery.of(context).size.width * 0.050, // Adjust the font size as needed
+                                    fontSize: MediaQuery.of(context).size.width * 0.030, // Adjust the font size as needed
                                     color: Colors.black, // Adjust the text color
                                     shadows: [
                                       Shadow(
@@ -1309,11 +1317,11 @@ class _ProductAllCategoryState extends State<ProductAllCategory> with TickerProv
                               Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: Text(
-                                  "Level",
+                                  "Gas",
                                   style: TextStyle(
                                  //   fontFamily: 'Rowdies',
                                     fontWeight: FontWeight.normal,
-                                    fontSize: MediaQuery.of(context).size.width * 0.050, // Adjust the font size as needed
+                                    fontSize: MediaQuery.of(context).size.width * 0.030, // Adjust the font size as needed
                                     color: Colors.black, // Adjust the text color
                                     shadows: [
                                       Shadow(
@@ -1453,11 +1461,11 @@ class _ProductAllCategoryState extends State<ProductAllCategory> with TickerProv
                               Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: Text(
-                                  "Power Meter",
+                                  "Power Meters & Current",
                                   style: TextStyle(
                                  //   fontFamily: 'Rowdies',
                                     fontWeight: FontWeight.normal,
-                                    fontSize: MediaQuery.of(context).size.width * 0.050, // Adjust the font size as needed
+                                    fontSize: MediaQuery.of(context).size.width * 0.030, // Adjust the font size as needed
                                     color: Colors.black, // Adjust the text color
                                     shadows: [
                                       Shadow(
@@ -1586,11 +1594,11 @@ class _ProductAllCategoryState extends State<ProductAllCategory> with TickerProv
                               Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: Text(
-                                  "Pressure",
+                                  "Flow",
                                   style: TextStyle(
                                  //   fontFamily: 'Rowdies',
                                     fontWeight: FontWeight.normal,
-                                    fontSize: MediaQuery.of(context).size.width * 0.050, // Adjust the font size as needed
+                                    fontSize: MediaQuery.of(context).size.width * 0.030, // Adjust the font size as needed
                                     color: Colors.black, // Adjust the text color
                                     shadows: [
                                       Shadow(
@@ -1731,11 +1739,11 @@ class _ProductAllCategoryState extends State<ProductAllCategory> with TickerProv
                               Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: Text(
-                                  "Temperature",
+                                  "Controllers",
                                   style: TextStyle(
                                  //   fontFamily: 'Rowdies',
                                     fontWeight: FontWeight.normal,
-                                    fontSize: MediaQuery.of(context).size.width * 0.050, // Adjust the font size as needed
+                                    fontSize: MediaQuery.of(context).size.width * 0.030, // Adjust the font size as needed
                                     color: Colors.black, // Adjust the text color
                                     shadows: [
                                       Shadow(
@@ -1868,7 +1876,7 @@ class _ProductAllCategoryState extends State<ProductAllCategory> with TickerProv
                                   style: TextStyle(
                                   //  fontFamily: 'Rowdies',
                                     fontWeight: FontWeight.normal,
-                                    fontSize: MediaQuery.of(context).size.width * 0.050, // Adjust the font size as needed
+                                    fontSize: MediaQuery.of(context).size.width * 0.030, // Adjust the font size as needed
                                     color: Colors.black, // Adjust the text color
                                     shadows: [
                                       Shadow(
@@ -1988,7 +1996,7 @@ class _ProductAllCategoryState extends State<ProductAllCategory> with TickerProv
             ),
 
 
-            Card(
+          /*  Card(
               color: Colors.white,
               child: Column(
                 children: [
@@ -2013,7 +2021,7 @@ class _ProductAllCategoryState extends State<ProductAllCategory> with TickerProv
                                   style: TextStyle(
                                 //    fontFamily: 'Rowdies',
                                     fontWeight: FontWeight.normal,
-                                    fontSize: MediaQuery.of(context).size.width * 0.050, // Adjust the font size as needed
+                                    fontSize: MediaQuery.of(context).size.width * 0.030, // Adjust the font size as needed
                                     color: Colors.black, // Adjust the text color
                                     shadows: [
                                       Shadow(
@@ -2086,7 +2094,7 @@ class _ProductAllCategoryState extends State<ProductAllCategory> with TickerProv
                                               )
                                             ),
 
-                                            /* Container(
+                                            *//* Container(
                                               padding: const EdgeInsets.all(8.0),
                                               child: Row(
                                                 crossAxisAlignment: CrossAxisAlignment.end,
@@ -2115,7 +2123,7 @@ class _ProductAllCategoryState extends State<ProductAllCategory> with TickerProv
                                                           .width * 0.06),
                                                 ],
                                               ),
-                                            ),*/
+                                            ),*//*
                                           ],
                                         ),
                                       ),
@@ -2135,7 +2143,7 @@ class _ProductAllCategoryState extends State<ProductAllCategory> with TickerProv
                   //  Text(_prodCategory[0].name),
                 ],
               ),
-            ),
+            ),*/
 
 
            /* SizedBox(height: 15,),
