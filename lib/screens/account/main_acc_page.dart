@@ -207,11 +207,11 @@ class _MainAccPageState extends State<MainAccPage> {
         children: [
           Container(
             color: Colors.deepOrange,
-            height: screenHeight * 0.17,
+            height: screenHeight * 0.14,
             child: Stack(
               children: [
                 Positioned(
-                  top: screenHeight * 0.02,
+                  top: screenHeight * 0.01,
                   right: screenWidth * 0.05,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.end,
@@ -241,7 +241,7 @@ class _MainAccPageState extends State<MainAccPage> {
                 ),
 
                 Positioned(
-                  top: screenHeight * 0.09,
+                  top: screenHeight * 0.06,
                   left: fontNormalSize * 5 + screenWidth * 0.1,
                   child: Text(
                     "Hi, " + (ClientInfo?.name ?? 'Guest') + " !",
@@ -253,10 +253,10 @@ class _MainAccPageState extends State<MainAccPage> {
                   ),
                 ),
                 Positioned(
-                  top: screenHeight * 0.13,
+                  top: screenHeight * 0.1,
                   width: screenWidth,
                   child: Container(
-                    height: screenHeight * 0.05,
+                    height: screenHeight * 0.08,
                     decoration: BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.only(
@@ -267,7 +267,7 @@ class _MainAccPageState extends State<MainAccPage> {
                   ),
                 ),
                 Positioned(
-                  top: screenHeight * 0.07,
+                  top: screenHeight * 0.043,
                   left: screenWidth * 0.065,
                   child: Material(
                     elevation: 5.0, // Adjust the elevation to control the shadow depth
@@ -299,10 +299,9 @@ class _MainAccPageState extends State<MainAccPage> {
           ),
           
           Padding(
-            padding: EdgeInsets.only(
-              left: screenWidth * 0.05,
-              right: screenWidth * 0.05,
-              top: screenHeight * 0.02,
+            padding: EdgeInsets.symmetric(
+              vertical: screenHeight * 0.015,
+              horizontal: screenWidth * 0.05,
             ),
             child: Text(
               "Services",
@@ -318,13 +317,12 @@ class _MainAccPageState extends State<MainAccPage> {
           // services buttons
           Padding(
             padding: EdgeInsets.symmetric(
-                vertical: screenHeight * 0.025,
-                horizontal: screenWidth * 0.1
+                vertical: screenHeight * 0.005,
+                horizontal: screenWidth * 0.14
             ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-
                 GestureDetector(
                   onTap: () {
                     Navigator.push(
@@ -333,8 +331,8 @@ class _MainAccPageState extends State<MainAccPage> {
                     );
                   },
                   child: Container(
-                    height: screenHeight * 0.14,
-                    width: screenWidth * 0.35,
+                    height: screenHeight * 0.13,
+                    width: screenWidth * 0.31,
                     decoration: BoxDecoration(
                       border: Border.all(width: 2, color: Colors.deepOrange.withOpacity(0.2)),
                       borderRadius: BorderRadius.circular(10),
@@ -344,7 +342,7 @@ class _MainAccPageState extends State<MainAccPage> {
                       children: [
                         Image.asset(
                           "assets/icons/service-appointment.png",
-                          height: screenHeight * 0.06,
+                          height: screenHeight * 0.05,
                         ),
                         SizedBox(height: screenHeight * 0.01),
 
@@ -390,8 +388,8 @@ class _MainAccPageState extends State<MainAccPage> {
                     );
                   },
                   child: Container(
-                    height: screenHeight * 0.14,
-                    width: screenWidth * 0.35,
+                    height: screenHeight * 0.13,
+                    width: screenWidth * 0.31,
                     decoration: BoxDecoration(
                       border: Border.all(width: 2, color: Colors.deepOrange.withOpacity(0.2)),
                       borderRadius: BorderRadius.circular(10),
@@ -401,7 +399,7 @@ class _MainAccPageState extends State<MainAccPage> {
                       children: [
                         Image.asset(
                           "assets/icons/service-status.png", // Replace with your image path
-                          height: screenHeight * 0.06, // Adjust the size as needed
+                          height: screenHeight * 0.05, // Adjust the size as needed
                         ),
                         SizedBox(height: screenHeight * 0.01), // Space between image and text
                         Flexible(
@@ -442,8 +440,8 @@ class _MainAccPageState extends State<MainAccPage> {
 
           Padding(
             padding: EdgeInsets.symmetric(
-                vertical: screenHeight * 0.025,
-                horizontal: screenWidth * 0.1
+                vertical: screenHeight * 0.02,
+                horizontal: screenWidth * 0.14
             ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -456,8 +454,8 @@ class _MainAccPageState extends State<MainAccPage> {
                     );
                   },
                   child: Container(
-                    height: screenHeight * 0.14,
-                    width: screenWidth * 0.35,
+                    height: screenHeight * 0.13,
+                    width: screenWidth * 0.31,
                     decoration: BoxDecoration(
                       border: Border.all(width: 2, color: Colors.deepOrange.withOpacity(0.2)),
                       borderRadius: BorderRadius.circular(10),
@@ -467,7 +465,7 @@ class _MainAccPageState extends State<MainAccPage> {
                       children: [
                         Image.asset(
                           "assets/icons/technical-status.png", // Replace with your image path
-                          height: screenHeight * 0.06, // Adjust the size as needed
+                          height: screenHeight * 0.05 // Adjust the size as needed
                         ),
                         SizedBox(height: screenHeight * 0.01),  // Space between image and text
                         Flexible(
@@ -510,8 +508,8 @@ class _MainAccPageState extends State<MainAccPage> {
                     );
                   },
                   child: Container(
-                    height: screenHeight * 0.14,
-                    width: screenWidth * 0.35,
+                    height: screenHeight * 0.13,
+                    width: screenWidth * 0.31,
                     decoration: BoxDecoration(
                       border: Border.all(width: 2, color: Colors.deepOrange.withOpacity(0.2)),
                       borderRadius: BorderRadius.circular(10),
@@ -521,7 +519,7 @@ class _MainAccPageState extends State<MainAccPage> {
                       children: [
                         Image.asset(
                           "assets/icons/service-history.png", // Replace with your image path
-                          height: screenHeight * 0.06, // Adjust the size as needed
+                          height: screenHeight * 0.05, // Adjust the size as needed
                         ),
                         SizedBox(height: screenHeight * 0.01), // Space between image and text
                         Flexible(
@@ -559,7 +557,72 @@ class _MainAccPageState extends State<MainAccPage> {
             ),
           ),
 
-          SizedBox( height: screenHeight * 0.1 ),
+          Padding(
+            padding: EdgeInsets.symmetric(
+                vertical: screenHeight * 0.0075,
+                horizontal: screenWidth * 0.14
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => OrderTrackingPage()),
+                    );
+                  },
+                  child: Container(
+                    height: screenHeight * 0.13,
+                    width: screenWidth * 0.31,
+                    decoration: BoxDecoration(
+                      border: Border.all(width: 2, color: Colors.deepOrange.withOpacity(0.2)),
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Image.asset(
+                            "assets/icons/tracking.png", // Replace with your image path
+                            height: screenHeight * 0.05 // Adjust the size as needed
+                        ),
+                        SizedBox(height: screenHeight * 0.01),  // Space between image and text
+                        Flexible(
+                          child: RichText(
+                            textAlign: TextAlign.center,
+                            softWrap: true,
+                            text: TextSpan(children: <TextSpan>
+                            [
+                              TextSpan(text: 'Order',
+                                style: TextStyle(
+                                    fontSize: fontSmallSize,
+                                    letterSpacing: 1.2,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.deepOrange.shade700
+                                ),
+                              ),
+
+                              TextSpan(text: '\n Tracking',
+                                style: TextStyle(
+                                    fontSize: fontSmallSize,
+                                    letterSpacing: 1.2,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.deepOrange.shade700
+                                ),
+                              ),
+                            ]
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                )
+              ],
+            ),
+          ),
+
+          SizedBox( height: screenHeight * 0.05 ),
 
           // Contact Us : Ms Mau contacts
           Padding(

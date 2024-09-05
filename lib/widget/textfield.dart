@@ -231,28 +231,33 @@ class ContactTextField extends StatelessWidget {
 }
 
 class NormalTextField extends StatelessWidget {
-  final controller;
+  final TextEditingController? controller;
   final String hintText;
   final bool disabling;
 
-  const NormalTextField({super.key, required this.controller, required this.hintText, required this.disabling});
+  const NormalTextField({
+    super.key,
+    required this.controller,
+    required this.hintText,
+    required this.disabling,
+  });
 
   @override
   Widget build(BuildContext context) {
-
     double screenWidth = MediaQuery.of(context).size.width;
-
     var fontNormalSize = ResponsiveTextUtils.getNormalFontSize(screenWidth);
 
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.06),
       child: TextFormField(
         style: GoogleFonts.poppins(
-          textStyle:
-          TextStyle(fontSize: fontNormalSize, fontWeight: FontWeight.w500, letterSpacing: 0.8),
+          textStyle: TextStyle(
+            fontSize: fontNormalSize,
+            fontWeight: FontWeight.w500,
+            letterSpacing: 0.8,
+          ),
         ),
         readOnly: disabling,
-        onEditingComplete: (){},
         validator: (value) {
           if (value == null || value.isEmpty) {
             return 'Required !';
@@ -264,12 +269,12 @@ class NormalTextField extends StatelessWidget {
         controller: controller,
         decoration: InputDecoration(
           errorStyle: TextStyle(
-              fontSize: fontNormalSize,
-              letterSpacing: 0.8
+            fontSize: fontNormalSize,
+            letterSpacing: 0.8,
           ),
           labelStyle: TextStyle(
             fontSize: fontNormalSize,
-            letterSpacing: 0.8
+            letterSpacing: 0.8,
           ),
           enabledBorder: OutlineInputBorder(
             borderSide: BorderSide(color: Colors.white),
@@ -280,10 +285,15 @@ class NormalTextField extends StatelessWidget {
           fillColor: Colors.deepOrange.shade50,
           filled: true,
           hintText: hintText,
-          hintStyle: TextStyle(color: Colors.grey.shade400, fontSize: fontNormalSize, letterSpacing: 0.8),
+          hintStyle: TextStyle(
+            color: Colors.grey.shade400,
+            fontSize: fontNormalSize,
+            fontStyle: FontStyle.italic,
+            letterSpacing: 0.8,
+          ),
         ),
       ),
-    ) ;
+    );
   }
 }
 
