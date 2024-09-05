@@ -334,6 +334,7 @@ class _LoginPageState extends State<LoginPage> {
                         print("Error updating token");
                       }
                     });
+                    systemsNavigatorKey.currentState?.popUntil((route) => route.isFirst);
                     widget.onLoginSuccess();
                     // Navigator.pop(context, true);
                   },
@@ -369,6 +370,7 @@ class _LoginPageState extends State<LoginPage> {
                         print("Error updating token");
                       }
                     });
+                    systemsNavigatorKey.currentState?.popUntil((route) => route.isFirst);
                     widget.onLoginSuccess();
                     // Navigator.pop(context, true);
                   },
