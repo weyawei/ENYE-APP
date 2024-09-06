@@ -65,5 +65,7 @@ class API {
   static const ECcompAtt = "https://enyecontrols.com/enyecontrols_engineering/attachment/";
 
   static const survey = "$hostConnect/enye/booking/survey.php";
+
+  static const quotation_po_details = "$hostConnect/enye/tracking/track_sales_po.php";
 }
 
