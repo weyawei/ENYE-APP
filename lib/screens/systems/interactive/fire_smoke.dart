@@ -108,6 +108,7 @@ class _FireSmokePageState extends State<FireSmokePage> with TickerProviderStateM
         content: SingleChildScrollView(
           child: Column(
             children: [
+
               Image.asset(
                 'assets/systems/fire_smoke/omni.png',
                 width: MediaQuery.of(context).size.width,
@@ -212,12 +213,22 @@ class _FireSmokePageState extends State<FireSmokePage> with TickerProviderStateM
         content: SingleChildScrollView(
           child: Column(
             children: [
-              Image.asset(
+              SizedBox(
+                width: MediaQuery.of(context).size.width * 1,
+                height: MediaQuery.of(context).size.width * 0.7,
+                child: ModelViewer(
+                  src: 'assets/systems/fire_smoke/duct_smoke.glb',
+                  ar: true,
+                  autoRotate: true,
+                  cameraControls: true,
+                ),
+              ),
+             /* Image.asset(
                 'assets/systems/fire_smoke/duct_smoke.png',
                 width: MediaQuery.of(context).size.width * 1,
                 height: MediaQuery.of(context).size.width * 0.5,
                 fit: BoxFit.contain,
-              ),
+              ),*/
               Text(
                 "DUCT SMOKE DETECTOR",
                 style: TextStyle(

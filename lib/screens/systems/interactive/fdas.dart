@@ -108,6 +108,7 @@ class _FiremanControlPageState extends State<FiremanControlPage> with TickerProv
         content: SingleChildScrollView(
           child: Column(
             children: [
+
               Image.asset(
                 'assets/systems/fire_smoke/omni.png',
                 width: MediaQuery.of(context).size.width,

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../config/config.dart';
 import '../screens.dart';
+import 'main_acc_page2.dart';
 
 class AccountPage extends StatefulWidget {
   static const String routeName = '/account';
@@ -42,6 +43,6 @@ class _AccountPageState extends State<AccountPage> {
 
   @override
   Widget build(BuildContext context) {
-    return userSessionFuture == true ? MainAccPage(onLogoutSuccess: _handleLoginSuccess) : LoginPage(onLoginSuccess: _handleLoginSuccess);
+    return userSessionFuture == true ? MainAccPage2(onLogoutSuccess: _handleLoginSuccess) : LoginPage(onLoginSuccess: _handleLoginSuccess);
   }
 }
