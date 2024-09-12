@@ -157,12 +157,22 @@ class _FireSmokePageState extends State<FireSmokePage> with TickerProviderStateM
         content: SingleChildScrollView(
           child: Column(
             children: [
-              Image.asset(
+              SizedBox(
+                width: MediaQuery.of(context).size.width * 1,
+                height: MediaQuery.of(context).size.width * 0.7,
+                child: ModelViewer(
+                  src: 'assets/systems/fire_smoke/smoke_damper.glb',
+                  ar: true,
+                  autoRotate: true,
+                  cameraControls: true,
+                ),
+              ),
+             /* Image.asset(
                 'assets/systems/fire_smoke/smoke_damper.png',
                 width: MediaQuery.of(context).size.width,
                 height: MediaQuery.of(context).size.width * 0.5,
                 fit: BoxFit.contain,
-              ),
+              ),*/
               Text(
                 "Fire and Smoke Damper Actuator",
                 style: TextStyle(
