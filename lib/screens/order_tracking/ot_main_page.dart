@@ -27,7 +27,6 @@ class _OrderTrackingPageState extends State<OrderTrackingPage> {
       });
       _isLoadingPO = false;
     });
-    if(_searchPo.isNotEmpty){ searchController.clear(); };
   }
 
   void initState() {
@@ -73,6 +72,7 @@ class _OrderTrackingPageState extends State<OrderTrackingPage> {
                     _getQuotationPo(searchController.text);
                     setState(() {
                       _isLoadingPO = true;
+                      if(_searchPo.isNotEmpty){ searchController.clear(); };
                     });
                   },
                   style: ElevatedButton.styleFrom(
