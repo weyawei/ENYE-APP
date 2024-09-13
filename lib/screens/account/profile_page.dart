@@ -199,7 +199,8 @@ class _ProfilePageState extends State<ProfilePage> {
               contact_no: contactController.text,
               image: imagename.toString(),
               email: emailController.text,
-              login: ClientInfo!.login.toString()
+              login: ClientInfo!.login.toString(),
+              status: ClientInfo!.status.toString()
           ));
 
           ScaffoldMessenger.of(context).showSnackBar(
@@ -264,7 +265,7 @@ class _ProfilePageState extends State<ProfilePage> {
         await FirebaseServices().signOut();
 
         //clear the client_id in a token
-        TokenServices.updateToken(token.toString(), "").then((result) {
+        TokenServices.updateToken(token.toString(), "", "").then((result) {
           if('success' == result){
             print("Updated token successfully");
           } else {

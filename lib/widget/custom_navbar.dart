@@ -237,12 +237,7 @@ class _CustomNavBarState extends State<CustomNavBar> {
     List<Widget> _buildScreens() {
       return [
         homePage(),
-        Navigator(
-          key: systemsNavigatorKey,
-          onGenerateRoute: (routeSettings) {
-            return MaterialPageRoute(builder: (context) => systemsPage2());
-          },
-        ),
+        systemsPage2(),
         productsPage(),
         // Navigator(
         //   key: productsNavigatorKey,

@@ -96,30 +96,91 @@ class OrderTimelinePage extends StatelessWidget {
             ),
 
             SizedBox(height: screenHeight * 0.025,),
-            Center(
-              child: Text(
-                "FR SEVILLA INDUSTRIAL CORP.",
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontFamily: 'Rowdies',
-                  fontSize: fontNormalSize,
-                  letterSpacing: 0.8,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.grey.shade700,
-                ),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.05),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        RichText(
+                          text: TextSpan(
+                            children: [
+                              WidgetSpan(
+                                child: Icon(Icons.business_center, size: fontSmallSize * 1.5, color: Colors.deepOrange.shade300),
+                              ),
+                              WidgetSpan(
+                                child: SizedBox(width: 5,),
+                              ),
+                              TextSpan(
+                                text: "FR SEVILLA INDUSTRIAL CORP.",
+                                style: TextStyle(
+                                  fontFamily: 'Rowdies',
+                                  fontSize: fontSmallSize,
+                                  letterSpacing: 0.8,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.grey.shade700,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+
+                        RichText(
+                          text: TextSpan(
+                            children: [
+                              WidgetSpan(
+                                child: Icon(Icons.business, size: fontSmallSize * 1.5, color: Colors.deepOrange.shade300),
+                              ),
+                              WidgetSpan(
+                                child: SizedBox(width: 5,),
+                              ),
+                              TextSpan(
+                                text: "GALLEON OFFICE TOWER",
+                                style: TextStyle(
+                                  fontSize: fontXSmallSize,
+                                  letterSpacing: 0.8,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.grey.shade700,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Container(
+                    width: screenWidth * 0.25,
+                    child: RichText(
+                      textAlign: TextAlign.end,
+                      text: TextSpan(
+                        children: [
+                          WidgetSpan(
+                            child: Icon(Icons.payments_outlined, size: fontSmallSize * 1.5, color: Colors.deepOrange.shade300),
+                          ),
+                          WidgetSpan(
+                            child: SizedBox(width: 5,),
+                          ),
+                          TextSpan(
+                            text: "30% DP and 30 days",
+                            style: TextStyle(
+                              fontSize: fontSmallSize,
+                              letterSpacing: 0.8,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.grey.shade700,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  )
+                ],
               ),
             ),
-            SizedBox(height: screenHeight * 0.005,),
-            Text(
-              "GALLEON OFFICE TOWER",
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                fontSize: fontXSmallSize,
-                letterSpacing: 0.8,
-                fontWeight: FontWeight.bold,
-                color: Colors.grey.shade700,
-              ),
-            ),
+
+            SizedBox(height: screenHeight * 0.015,),
 
             TimelineTilePage(
               isFirst: true,

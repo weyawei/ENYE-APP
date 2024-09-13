@@ -48,21 +48,21 @@ class _MainAccPage2State extends State<MainAccPage2> {
   }
 
   Future<void> logoutClient() async {
+    ScaffoldMessenger.of(context).hideCurrentSnackBar();
+
     dynamic token = await SessionManager().get("token");
 
     await SessionManager().remove("client_data");
     await FirebaseServices().signOut();
 
     //clear the client_id in a token
-    TokenServices.updateToken(token.toString(), "").then((result) {
+    TokenServices.updateToken(token.toString(), "", "").then((result) {
       if('success' == result){
         print("Updated token successfully");
       } else {
         print("Error updating token");
       }
     });
-    systemsNavigatorKey.currentState?.popUntil((route) => route.isFirst);
-    // productsNavigatorKey.currentState?.popUntil((route) => route.isFirst);
     widget.onLogoutSuccess();
   }
 
@@ -190,7 +190,6 @@ class _MainAccPage2State extends State<MainAccPage2> {
       },
     );
   }
-
 
   void appointmentDialog(BuildContext context) {
     double screenHeight = MediaQuery.of(context).size.height;
@@ -362,7 +361,6 @@ class _MainAccPage2State extends State<MainAccPage2> {
     );
   }
 
-
   void technicalDialog(BuildContext context) {
     double screenHeight = MediaQuery.of(context).size.height;
     double screenWidth = MediaQuery.of(context).size.width;
@@ -528,6 +526,8 @@ class _MainAccPage2State extends State<MainAccPage2> {
     );
   }
 
+  bool _snackbarShown = false;
+
   @override
   Widget build(BuildContext context) {
 
@@ -537,6 +537,13 @@ class _MainAccPage2State extends State<MainAccPage2> {
     var fontSmallSize = ResponsiveTextUtils.getSmallFontSize(screenWidth);
     var fontNormalSize = ResponsiveTextUtils.getNormalFontSize(screenWidth);
     var fontExtraSize = ResponsiveTextUtils.getExtraFontSize(screenWidth);
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (ClientInfo?.status == "Unverified" && !_snackbarShown) {
+        _snackbarShown = true;
+        showPersistentSnackBar(context, screenWidth, screenHeight, fontSmallSize);
+      }
+    });
 
     return Scaffold(
         backgroundColor: Colors.white,
@@ -651,10 +658,6 @@ class _MainAccPage2State extends State<MainAccPage2> {
               ),
             ),
 
-
-
-
-
             Column(
               children: [
 
@@ -668,7 +671,11 @@ class _MainAccPage2State extends State<MainAccPage2> {
                     children: [
                       GestureDetector(
                         onTap: () {
-                         appointmentDialog(context);
+                          if(ClientInfo?.status == "Unverified") {
+                            showPersistentSnackBar(context, screenWidth, screenHeight, fontSmallSize);
+                          } else {
+                            appointmentDialog(context);
+                          }
                         },
                         child: Container(
                           height: screenHeight * 0.13,
@@ -733,7 +740,11 @@ class _MainAccPage2State extends State<MainAccPage2> {
                     children: [
                       GestureDetector(
                         onTap: () {
-                         technicalDialog(context);
+                          if(ClientInfo?.status == "Unverified") {
+                            showPersistentSnackBar(context, screenWidth, screenHeight, fontSmallSize);
+                          } else {
+                            technicalDialog(context);
+                          }
                         },
                         child: Container(
                           height: screenHeight * 0.13,
@@ -797,10 +808,14 @@ class _MainAccPage2State extends State<MainAccPage2> {
                     children: [
                       GestureDetector(
                         onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) => OrderTrackingPage()),
-                          );
+                          if(ClientInfo?.status == "Unverified") {
+                            showPersistentSnackBar(context, screenWidth, screenHeight, fontSmallSize);
+                          } else {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => OrderTrackingPage()),
+                            );
+                          }
                         },
                         child: Container(
                           height: screenHeight * 0.13,

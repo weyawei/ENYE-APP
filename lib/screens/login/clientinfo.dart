@@ -7,6 +7,7 @@ class clientInfo {
   String email;
   String image;
   String login;
+  String status;
 
   clientInfo({
     required this.client_id,
@@ -15,6 +16,7 @@ class clientInfo {
     required this.email,
     required this.image,
     required this.login,
+    required this.status,
   });
 
   Map<String, dynamic> toJson() {
@@ -25,6 +27,7 @@ class clientInfo {
     client["email"] = this.email;
     client["image"] = this.image;
     client["login"] = this.login;
+    client["status"] = this.status;
     return client;
   }
 
@@ -36,6 +39,7 @@ class clientInfo {
       email: json['email'] as String,
       image: json['image'] as String,
       login: json['login'] as String,
+      status: json['status'] as String,
     );
   }
 }

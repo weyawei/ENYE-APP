@@ -50,6 +50,7 @@ class API {
 
   //token table
   static const token = "$hostConnect/enye/token.php";
+  static const verify = "$hostConnect/enye/verification.php";
 
   //reset password
   static const resetPassword = "$hostConnect/enye/resetPassword.php";

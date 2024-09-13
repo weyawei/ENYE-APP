@@ -132,6 +132,7 @@ class _OrderTrackingPageState extends State<OrderTrackingPage> {
                             ),
                           ),
                           child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Row(
                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -204,28 +205,60 @@ class _OrderTrackingPageState extends State<OrderTrackingPage> {
                               ),
 
                               SizedBox(height: screenHeight * 0.02,),
-                              Row(
-                                children: [
-                                  Text(
-                                    "Estimated Delivery : ",
-                                    style: TextStyle(
-                                      fontSize: fontSmallSize,
-                                      letterSpacing: 0.8,
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.grey.shade700,
+                              RichText(
+                                text: TextSpan(
+                                  children: [
+                                    TextSpan(
+                                      text: "Estimated Delivery : ",
+                                      style: TextStyle(
+                                        fontSize: fontSmallSize,
+                                        letterSpacing: 0.8,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.grey.shade700,
+                                      ),
                                     ),
-                                  ),
-                                  SizedBox(width: 7.5,),
-                                  Text(
-                                    "12 Sept - 13 Sept ",
-                                    style: TextStyle(
-                                      fontSize: fontNormalSize,
-                                      letterSpacing: 0.8,
-                                      color: Colors.grey.shade700,
+                                    WidgetSpan(
+                                      child: SizedBox(width: 5,),
                                     ),
-                                  ),
-                                ],
-                              )
+                                    TextSpan(
+                                      text: "12 Sept - 13 Sept ",
+                                      style: TextStyle(
+                                        fontSize: fontSmallSize,
+                                        letterSpacing: 0.8,
+                                        color: Colors.grey.shade700,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+
+                              SizedBox(height: screenHeight * 0.01,),
+                              RichText(
+                                text: TextSpan(
+                                  children: [
+                                    TextSpan(
+                                      text: "Terms : ",
+                                      style: TextStyle(
+                                        fontSize: fontSmallSize,
+                                        letterSpacing: 0.8,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.grey.shade700,
+                                      ),
+                                    ),
+                                    WidgetSpan(
+                                      child: SizedBox(width: 5,),
+                                    ),
+                                    TextSpan(
+                                      text: po.terms.toUpperCase(),
+                                      style: TextStyle(
+                                        fontSize: fontSmallSize,
+                                        letterSpacing: 0.8,
+                                        color: Colors.grey.shade700,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
                             ],
                           ),
                         ),
