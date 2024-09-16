@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import '../../widget/widgets.dart';
 import 'components/timeline_tile_page.dart';
@@ -79,13 +80,36 @@ class OrderTimelinePage extends StatelessWidget {
                           ),
                         ),
                         SizedBox(height: 4),
-                        Text(
-                          po_no.toUpperCase(),
-                          style: TextStyle(
-                            fontSize: fontNormalSize,
-                            letterSpacing: 0.8,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.grey.shade800,
+                        GestureDetector(
+                          onTap: (){
+                            // Copy the PO# to clipboard
+                            Clipboard.setData(ClipboardData(text: "PO# " + po_no)).then((_) {
+                              // You can show a Snackbar or any feedback to the user
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(content: Text('PO# copied to clipboard')),
+                              );
+                            });
+                          },
+                          child: RichText(
+                            text: TextSpan(
+                              children: [
+                                TextSpan(
+                                  text: po_no.toUpperCase(),
+                                  style: TextStyle(
+                                    fontSize: fontNormalSize,
+                                    letterSpacing: 0.8,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.grey.shade800,
+                                  ),
+                                ),
+                                WidgetSpan(
+                                  child: SizedBox(width: 5,),
+                                ),
+                                WidgetSpan(
+                                  child: Icon(Icons.copy, size: fontSmallSize * 1.25, color: Colors.deepOrange.shade300),
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       ],

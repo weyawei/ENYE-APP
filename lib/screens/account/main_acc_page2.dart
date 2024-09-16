@@ -1,6 +1,7 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_session_manager/flutter_session_manager.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../config/config.dart';
@@ -920,7 +921,78 @@ class _MainAccPage2State extends State<MainAccPage2> {
               padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.1 ),
               child: customButton(
                 onTap: () {
-                  logoutClient();
+
+                  showDialog(
+                    context: context,
+                    builder: (context) => AlertDialog(
+                      title: Text(
+                        'LOGOUT',
+                        textAlign: TextAlign.center,
+                        style: GoogleFonts.rowdies(
+                          textStyle: TextStyle(
+                              fontSize: fontExtraSize,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.redAccent,
+                              letterSpacing: 0.8
+                          ),
+                        ),
+                      ),
+                      content: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          SizedBox(height: screenHeight * 0.02),
+                          Text(
+                            'Are you sure to logout your account?',
+                            textAlign: TextAlign.center,
+                            style: GoogleFonts.lato(
+                              textStyle: TextStyle(
+                                  fontSize: fontNormalSize,
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.bold,
+                                  letterSpacing: 0.8
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      actions: [
+                        TextButton(
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                          child: Text(
+                            'CANCEL',
+                            style: GoogleFonts.rowdies(
+                              textStyle: TextStyle(
+                                  fontSize: fontExtraSize,
+                                  color: Colors.black54,
+                                  letterSpacing: 0.8
+                              ),
+                            ),
+                          ),
+                        ),
+                        TextButton(
+                          onPressed: () {
+                            setState(() {
+                              logoutClient();
+                              Navigator.of(context).pop();
+                            });
+                          },
+                          child: Text(
+                            'YES',
+                            style: GoogleFonts.rowdies(
+                              textStyle: TextStyle(
+                                  fontSize: fontExtraSize,
+                                  color: Colors.redAccent,
+                                  letterSpacing: 0.8
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  );
                 },
                 text: 'LOGOUT',
                 clr: Colors.red,
