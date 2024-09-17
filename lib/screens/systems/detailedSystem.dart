@@ -1,15 +1,12 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dio/dio.dart';
-import 'package:enye_app/screens/systems/interactive.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:flutter_session_manager/flutter_session_manager.dart';
 import 'package:lottie/lottie.dart';
 import 'package:open_file_plus/open_file_plus.dart';
-import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'dart:io';
 import 'package:path_provider/path_provider.dart';
 
-import '../../config/api_connection.dart';
 import '../../config/config.dart';
 import '../../widget/widgets.dart';
 import '../screens.dart';
@@ -83,6 +80,7 @@ class _detailedSysPageState extends State<detailedSysPage> with TickerProviderSt
   List<Systems> _systems = [];
 
   bool _isLoading = true;
+  bool _isLoadingClientInfo = true;
 
   @override
   void initState(){
@@ -95,16 +93,48 @@ class _detailedSysPageState extends State<detailedSysPage> with TickerProviderSt
   }
 
   bool? userSessionFuture;
+  clientInfo? ClientInfo;
 
-  _checkSession(){
-    checkSession().getUserSessionStatus().then((bool) {
-      if (bool == true) {
-        userSessionFuture = bool;
-      } else {
-        userSessionFuture = bool;
+  Future<void> _checkSession() async {
+    try {
+      bool sessionStatus = await checkSession().getUserSessionStatus();
+      setState(() {
+        userSessionFuture = sessionStatus;
+      });
+
+      if (sessionStatus) {
+        var clientDataInfo = await checkSession().getClientsData();
+
+        // Update the UI once after completing the verification process
+        setState(() {
+          ClientInfo = clientDataInfo;
+        });
       }
-    });
+    } catch (error) {
+      print('Error checking session: $error');
+    } finally {
+      // Ensure loading status is updated in any case
+      setState(() {
+        _isLoadingClientInfo = false;
+      });
+    }
   }
+
+  // _checkSession(){
+  //   checkSession().getUserSessionStatus().then((bool) {
+  //     if (bool == true) {
+  //       checkSession().getClientsData().then((value) {
+  //         setState(() {
+  //           ClientInfo = value;
+  //         });
+  //       });
+  //       userSessionFuture = bool;
+  //     } else {
+  //       userSessionFuture = bool;
+  //     }
+  //     _isLoadingClientInfo = false;
+  //   });
+  // }
 
   late final AnimationController _controller = AnimationController(
     duration: const Duration(seconds: 60),
@@ -210,7 +240,7 @@ class _detailedSysPageState extends State<detailedSysPage> with TickerProviderSt
           actions: [
             TextButton(
               onPressed: () {
-                Navigator.of(context).pop(); // Close the dialog
+                Navigator.of(context).pop();
               },
               child: Text("Close"),
             ),
@@ -218,7 +248,7 @@ class _detailedSysPageState extends State<detailedSysPage> with TickerProviderSt
             TextButton(
               onPressed: () {
                 Navigator.of(context).pop();
-                navBarController.jumpToTab(4); // Close the dialog
+                navBarController.jumpToTab(4);
               },
               child: Text(
                 "LOGIN",
@@ -258,7 +288,7 @@ class _detailedSysPageState extends State<detailedSysPage> with TickerProviderSt
     return Scaffold(
       appBar: CustomAppBar(title: 'Systems', imagePath: 'assets/logo/enyecontrols.png', appBarHeight: MediaQuery.of(context).size.height * 0.05,),
       /*drawer: CustomDrawer(),*/
-      body: _isLoading
+      body: _isLoading || _isLoadingClientInfo
           ? Center(child: SpinningContainer(controller: _controller),)
           : RefreshIndicator(
             onRefresh: () async {
@@ -326,15 +356,42 @@ class _detailedSysPageState extends State<detailedSysPage> with TickerProviderSt
                       style: TextStyle(height: 1.5, fontSize: fontNormalSize, fontStyle: FontStyle.italic, letterSpacing: 1.2),),
                   ),
 
-                  userSessionFuture == true
-                      ? SizedBox.shrink()
-                      : Column(
+                  userSessionFuture == true && ClientInfo?.status == "Verified"
+                  ? SizedBox.shrink()
+                  : Column(
                     children: [
                       SizedBox(height: screenHeight * 0.01,),
                       TextButton(
                         onPressed: () {
-                          _loginRequired(context);
+                          setState(() {
+                            _isLoadingClientInfo = true;  // Start loading
+                          });
+
+                          _checkSession().then((_) {
+                            // Logic after session check and verification is complete
+                            if (userSessionFuture == true && ClientInfo?.status == "Verified") {
+
+                            } else if (ClientInfo?.status == "Unverified") {
+                              showPersistentSnackBar(context, screenWidth, screenHeight, fontSmallSize);
+                            } else {
+                              _loginRequired(context);
+                            }
+                          }).catchError((error) {
+                            print("Error in session check: $error");
+                          }).whenComplete(() {
+                            // Stop loading in any case after completion
+                            setState(() {
+                              _isLoadingClientInfo = false;
+                            });
+                          });
                         },
+                        // onPressed: () {
+                        //   if(ClientInfo?.status == "Unverified") {
+                        //     showPersistentSnackBar(context, screenWidth, screenHeight, fontSmallSize);
+                        //   } else {
+                        //     _loginRequired(context);
+                        //   }
+                        // },
                         child: Text(
                           "See more details...",
                           style: TextStyle(
@@ -350,7 +407,7 @@ class _detailedSysPageState extends State<detailedSysPage> with TickerProviderSt
                     ],
                   ),
 
-                  if (_sysDetails != null && _sysDetails!.isNotEmpty && userSessionFuture == true)
+                  if (_sysDetails != null && _sysDetails!.isNotEmpty && userSessionFuture == true && ClientInfo?.status == "Verified")
                     Container(
                       child: Column(
                         children: _sysDetails!.map((SystemsDetail) =>
@@ -485,7 +542,7 @@ class _detailedSysPageState extends State<detailedSysPage> with TickerProviderSt
                         child: Text('Go to Interactive Image'),
                       ),*/
 
-                  if (_sysTechSpecs != null && _sysTechSpecs!.isNotEmpty && userSessionFuture == true)
+                  if (_sysTechSpecs != null && _sysTechSpecs!.isNotEmpty && userSessionFuture == true && ClientInfo?.status == "Verified")
                     Column(
                       children: [
                         SizedBox(height: screenHeight * 0.035,),
@@ -638,16 +695,45 @@ class _detailedSysPageState extends State<detailedSysPage> with TickerProviderSt
         width: (screenHeight + screenWidth) / 20,
         child: FloatingActionButton(
             onPressed: () {
-              if (userSessionFuture == true) {
-                openFile(
-                  url: "${API.fileCatalogsPdf + widget.systems.catalogs_pdf}",
-                  filename: "${widget.systems.catalogs_pdf}",
-                );
-              } else {
-                // Navigator.of(context).popUntil((route) => route.isFirst);
-                _loginRequired(context);
-              }
+              setState(() {
+                _isLoadingClientInfo = true;  // Start loading
+              });
+
+              _checkSession().then((_) {
+                // Logic after session check and verification is complete
+                if (userSessionFuture == true && ClientInfo?.status == "Verified") {
+                  openFile(
+                    url: "${API.fileCatalogsPdf + widget.systems.catalogs_pdf}",
+                    filename: "${widget.systems.catalogs_pdf}",
+                  );
+                } else if (ClientInfo?.status == "Unverified") {
+                  showPersistentSnackBar(context, screenWidth, screenHeight, fontSmallSize);
+                } else {
+                  _loginRequired(context);
+                }
+              }).catchError((error) {
+                print("Error in session check: $error");
+              }).whenComplete(() {
+                // Stop loading in any case after completion
+                setState(() {
+                  _isLoadingClientInfo = false;
+                });
+              });
             },
+            // onPressed: () {
+            //   if (userSessionFuture == true && ClientInfo?.status == "Verified") {
+            //     openFile(
+            //       url: "${API.fileCatalogsPdf + widget.systems.catalogs_pdf}",
+            //       filename: "${widget.systems.catalogs_pdf}",
+            //     );
+            //   } else {
+            //     if(ClientInfo?.status == "Unverified") {
+            //       showPersistentSnackBar(context, screenWidth, screenHeight, fontSmallSize);
+            //     } else {
+            //       _loginRequired(context);
+            //     }
+            //   }
+            // },
             child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[

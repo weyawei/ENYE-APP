@@ -54,14 +54,14 @@ class _MainAccPageState extends State<MainAccPage> {
     await FirebaseServices().signOut();
 
     //clear the client_id in a token
-    TokenServices.updateToken(token.toString(), "").then((result) {
+    TokenServices.updateToken(token.toString(), "", "").then((result) {
       if('success' == result){
         print("Updated token successfully");
       } else {
         print("Error updating token");
       }
     });
-    systemsNavigatorKey.currentState?.popUntil((route) => route.isFirst);
+    // systemsNavigatorKey.currentState?.popUntil((route) => route.isFirst);
     // productsNavigatorKey.currentState?.popUntil((route) => route.isFirst);
     widget.onLogoutSuccess();
   }

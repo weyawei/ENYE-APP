@@ -79,10 +79,11 @@ class _loginPageState extends State<loginPage> {
               contact_no: clientData["contact_no"],
               image: clientData["image"],
               email: clientData["email"],
-              login: 'SIGNIN'
+              login: 'SIGNIN',
+              status: "Unverified"
           ));
 
-          TokenServices.updateToken(token.toString(), clientData["client_id"]).then((result) {
+          TokenServices.updateToken(token.toString(), clientData["client_id"], 'SIGNIN').then((result) {
             if('success' == result){
               print("Updated token successfully");
             } else {
@@ -320,11 +321,12 @@ class _loginPageState extends State<loginPage> {
                         image: '', // Use photoURL if not null, otherwise use an empty string
                         email: user.email.toString(),
                         login: 'APPLE', // Indicate this as an Apple login
+                        status: "Unverified"
                       ));
 
 
                       dynamic token = await SessionManager().get("token");
-                      TokenServices.updateToken(token.toString(), FirebaseAuth.instance.currentUser!.uid.toString()).then((result) {
+                      TokenServices.updateToken(token.toString(), FirebaseAuth.instance.currentUser!.uid.toString(), 'APPLE').then((result) {
                         if('success' == result){
                           print("Updated token successfully");
                         } else {
@@ -355,10 +357,11 @@ class _loginPageState extends State<loginPage> {
                         image: FirebaseAuth.instance.currentUser!.photoURL.toString(),
                         email: FirebaseAuth.instance.currentUser!.email.toString(),
                         login: 'GMAIL',
+                        status: "Unverified"
                       ));
 
                       dynamic token = await SessionManager().get("token");
-                      TokenServices.updateToken(token.toString(), FirebaseAuth.instance.currentUser!.uid.toString()).then((result) {
+                      TokenServices.updateToken(token.toString(), FirebaseAuth.instance.currentUser!.uid.toString(), 'GMAIL').then((result) {
                         if('success' == result){
                           print("Updated token successfully");
                         } else {

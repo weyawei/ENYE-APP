@@ -5,6 +5,7 @@ class QuotationPO {
   String company_name;
   String contact_person;
   String po_no;
+  String terms;
   String project_name;
 
   QuotationPO({
@@ -14,6 +15,7 @@ class QuotationPO {
     required this.company_name,
     required this.contact_person,
     required this.po_no,
+    required this.terms,
     required this.project_name,
   });
 
@@ -25,6 +27,7 @@ class QuotationPO {
       company_name: json['quotation_company_name'] as String? ?? '',
       contact_person: json['quotation_contact_person'] as String? ?? '',
       po_no: json['quotation_po_no'] as String? ?? '',
+      terms: json['quotation_terms'] as String? ?? '',
       project_name: json['quotation_project'] as String? ?? '',
     );
   }

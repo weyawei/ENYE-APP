@@ -26,20 +26,38 @@ void main() async {
   //to update token in database always everytime app opened
   dynamic token = await SessionManager().get("token");
 
+  _checkVerification(String email) async {
+    var clientDataJson = await SessionManager().get("client_data");
+    clientInfo clientData = clientInfo.fromJson(clientDataJson);
+
+    // Await the result of verification
+    String result = await TokenServices.verificationEmail(email);
+
+    if (result == 'success') {
+      clientData.status = "Verified";
+    } else {
+      clientData.status = "Unverified";
+    }
+
+    // Save updated status to the session
+    await SessionManager().set("client_data", clientData);
+  }
+
   //this is to configure if the user already signed in
   checkSession().getUserSessionStatus().then((bool) {
     if (bool == true) {
       checkSession().getClientsData().then((value) {
-        TokenServices.updateToken(token.toString(), value.client_id).then((result) {
+        TokenServices.updateToken(token.toString(), value.email, value.login).then((result) {
           if('success' == result){
             print("Updated token successfully");
           } else {
             print("Error updating token");
           }
         });
+        _checkVerification(value.email);
       });
     } else {
-      TokenServices.updateToken(token.toString(), "").then((result) {
+      TokenServices.updateToken(token.toString(), "", "").then((result) {
         if('success' == result){
           print("Updated token successfully");
         } else {
@@ -48,6 +66,8 @@ void main() async {
       });
     }
   });
+
+
 
   runApp(const MyApp());
 }

@@ -42,15 +42,32 @@ class _ProductItemScreenState extends State<ProductItemScreen> {
   }
 
   bool? userSessionFuture;
+  clientInfo? ClientInfo;
+  bool _isLoadingClientInfo = true;
 
-  _checkSession(){
-    checkSession().getUserSessionStatus().then((bool) {
-      if (bool == true) {
-        userSessionFuture = bool;
-      } else {
-        userSessionFuture = bool;
+  Future<void> _checkSession() async {
+    try {
+      bool sessionStatus = await checkSession().getUserSessionStatus();
+      setState(() {
+        userSessionFuture = sessionStatus;
+      });
+
+      if (sessionStatus) {
+        var clientDataInfo = await checkSession().getClientsData();
+
+        // Update the UI once after completing the verification process
+        setState(() {
+          ClientInfo = clientDataInfo;
+        });
       }
-    });
+    } catch (error) {
+      print('Error checking session: $error');
+    } finally {
+      // Ensure loading status is updated in any case
+      setState(() {
+        _isLoadingClientInfo = false;
+      });
+    }
   }
 
   _loginRequired(){
@@ -607,27 +624,68 @@ class _ProductItemScreenState extends State<ProductItemScreen> {
                               padding: const EdgeInsets.only(left: 20),
                               child: GestureDetector(
                                 onTap: () {
-                                  _checkSession();
-                                  if(userSessionFuture == true){
-                                    String trimmedFilename = pdf.trim();
-                                    if (trimmedFilename.isEmpty) {
-                                      custSnackbar(
-                                          context,
-                                          "PDF File doesn't exist.",
-                                          Colors.redAccent,
-                                          Icons.close,
-                                          Colors.white
-                                      );
+                                  setState(() {
+                                    _isLoadingClientInfo = true;  // Start loading
+                                  });
+
+                                  _checkSession().then((_) {
+                                    // Logic after session check and verification is complete
+                                    if (userSessionFuture == true && ClientInfo?.status == "Verified") {
+                                      String trimmedFilename = pdf.trim();
+                                      if (trimmedFilename.isEmpty) {
+                                        custSnackbar(
+                                            context,
+                                            "PDF File doesn't exist.",
+                                            Colors.redAccent,
+                                            Icons.close,
+                                            Colors.white
+                                        );
+                                      } else {
+                                        openFile(
+                                          url: "${API.prodPdf + trimmedFilename}",
+                                          filename: trimmedFilename,
+                                        );
+                                      }
+                                    } else if (ClientInfo?.status == "Unverified") {
+                                      showPersistentSnackBar(context, screenWidth, screenHeight, fontSmallSize);
                                     } else {
-                                      openFile(
-                                        url: "${API.prodPdf + trimmedFilename}",
-                                        filename: trimmedFilename,
-                                      );
+                                      _loginRequired();
                                     }
-                                  } else {
-                                    _loginRequired();
-                                  }
+                                  }).catchError((error) {
+                                    print("Error in session check: $error");
+                                  }).whenComplete(() {
+                                    // Stop loading in any case after completion
+                                    setState(() {
+                                      _isLoadingClientInfo = false;
+                                    });
+                                  });
                                 },
+                                // onTap: () {
+                                //   _checkSession();
+                                //   if(userSessionFuture == true && ClientInfo?.status == "Verified"){
+                                //     String trimmedFilename = pdf.trim();
+                                //     if (trimmedFilename.isEmpty) {
+                                //       custSnackbar(
+                                //           context,
+                                //           "PDF File doesn't exist.",
+                                //           Colors.redAccent,
+                                //           Icons.close,
+                                //           Colors.white
+                                //       );
+                                //     } else {
+                                //       openFile(
+                                //         url: "${API.prodPdf + trimmedFilename}",
+                                //         filename: trimmedFilename,
+                                //       );
+                                //     }
+                                //   } else {
+                                //     if(ClientInfo?.status == "Unverified") {
+                                //       showPersistentSnackBar(context, screenWidth, screenHeight, fontSmallSize);
+                                //     } else {
+                                //       _loginRequired();
+                                //     }
+                                //   }
+                                // },
                                 child: Row(
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
