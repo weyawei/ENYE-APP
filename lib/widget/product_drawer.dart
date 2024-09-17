@@ -87,13 +87,13 @@ class _productDrawerState extends State<productDrawer> {
                   title: GestureDetector(
                     onTap: (){
                       setState(() {
-                        PersistentNavBarNavigator.pushNewScreenWithRouteSettings(
+                       /* PersistentNavBarNavigator.pushNewScreenWithRouteSettings(
                           context,
                           settings: RouteSettings(name: listProductsPage.routeName),
                           screen: listProductsPage(prodSubCat: _prodCategory[index],),
                           withNavBar: true,
                           pageTransitionAnimation: PageTransitionAnimation.cupertino,
-                        );
+                        );*/
                       });
                     },
                     child: Text(

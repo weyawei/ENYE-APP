@@ -109,13 +109,22 @@ class _SmartVavPageState extends State<SmartVavPage> with TickerProviderStateMix
         content: SingleChildScrollView(
           child: Column(
             children: [
-
-              Image.asset(
+              SizedBox(
+                width: MediaQuery.of(context).size.width * 1,
+                height: MediaQuery.of(context).size.width * 0.7,
+                child: ModelViewer(
+                  src: 'assets/systems/ahu/omni.glb',
+                  ar: true,
+                  autoRotate: true,
+                  cameraControls: true,
+                ),
+              ),
+              /*Image.asset(
                 'assets/systems/smart/omni.png',
                 width: MediaQuery.of(context).size.width,
                 height: MediaQuery.of(context).size.width * 0.5,
                 fit: BoxFit.contain,
-              ),
+              ),*/
               Text(
                 "EC Smoke Extraction System Controller (EC-SES)",
                 style: TextStyle(
@@ -523,12 +532,22 @@ class _SmartVavPageState extends State<SmartVavPage> with TickerProviderStateMix
         content: SingleChildScrollView(
           child: Column(
             children: [
-              Image.asset(
+              SizedBox(
+                width: MediaQuery.of(context).size.width * 1,
+                height: MediaQuery.of(context).size.width * 0.7,
+                child: ModelViewer(
+                  src: 'assets/systems/smart/thermostat.glb',
+                  ar: true,
+                  autoRotate: true,
+                  cameraControls: true,
+                ),
+              ),
+            /*  Image.asset(
                 'assets/systems/smart/thermostat.png',
                 width: MediaQuery.of(context).size.width * 1,
                 height: MediaQuery.of(context).size.width * 0.5,
                 fit: BoxFit.fill,
-              ),
+              ),*/
               Text(
                 "VAV Thermostat",
                 style: TextStyle(

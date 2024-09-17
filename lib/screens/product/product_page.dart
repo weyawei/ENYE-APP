@@ -588,7 +588,7 @@ class _productsPageState extends State<productsPage> with TickerProviderStateMix
                     crossAxisCount: 4  ,
                     childAspectRatio: 0.8,
                   ),*/
-                  itemCount: screenLayout ? 10 : 10,
+                  itemCount: screenLayout ? 15 : 10,
                   itemBuilder: (context, index) {
                     List<productCategory> category = _prodCategory
                         .where((element) => element.status == "Active")
@@ -604,9 +604,9 @@ class _productsPageState extends State<productsPage> with TickerProviderStateMix
                                 .pushNewScreenWithRouteSettings(
                               context,
                               settings: RouteSettings(
-                                  name: listProductsPage.routeName),
-                              screen: listProductsPage(
-                                  prodSubCat: category[index]),
+                                  name: subCatProductPage.routeName),
+                              screen: subCatProductPage(
+                                  category: category[index]),
                               withNavBar: true,
                               pageTransitionAnimation: PageTransitionAnimation
                                   .cupertino,

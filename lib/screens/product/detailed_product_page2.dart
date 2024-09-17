@@ -238,6 +238,7 @@ class _ProductItemScreenState extends State<ProductItemScreen> {
                     ? Container(height: screenHeight)
                     : Image.network(
                       "${API.prodImg + widget.products.image}",
+                    height: screenHeight / 3,
                   ),
                 ),
               ),

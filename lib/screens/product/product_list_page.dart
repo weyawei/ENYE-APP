@@ -13,7 +13,7 @@ class listProductsPage extends StatefulWidget {
     );
   }
 
-  final productCategory prodSubCat;
+  final productSubCategory prodSubCat;
   const listProductsPage({required this.prodSubCat});
 
   @override
@@ -71,6 +71,8 @@ class _listProductsPageState extends State<listProductsPage> with TickerProvider
     double screenHeight = MediaQuery.of(context).size.height;
     double screenWidth = MediaQuery.of(context).size.width;
 
+    var fontNormalSize = ResponsiveTextUtils.getNormalFontSize(screenWidth);
+    var fontXSize = ResponsiveTextUtils.getXFontSize(screenWidth);
     var fontXXSize = ResponsiveTextUtils.getXXFontSize(screenWidth);
     var fontXXXSize = ResponsiveTextUtils.getXXXFontSize(screenWidth);
 
@@ -92,12 +94,12 @@ class _listProductsPageState extends State<listProductsPage> with TickerProvider
               Text(
                 '${widget.prodSubCat.name}'.toUpperCase(),
                 style: TextStyle(
-                  fontSize: fontXXSize,
+                  fontSize: fontNormalSize,
                   letterSpacing: 1.2,
                   fontFamily: 'Rowdies',
                   fontWeight: FontWeight.bold,
-                  color: Colors.grey.shade600,
-                  shadows: [
+              //    color: Colors.grey.shade600,
+                  /*shadows: [
                     Shadow(
                       offset: Offset(-1.5, -1.5),
                       color: Colors.white,
@@ -106,7 +108,7 @@ class _listProductsPageState extends State<listProductsPage> with TickerProvider
                       offset: Offset(1.5, 1.5),
                       color: Colors.black38,
                     ),
-                  ],
+                  ],*/
                 ),
                 textAlign: TextAlign.center,
               ),
@@ -114,7 +116,7 @@ class _listProductsPageState extends State<listProductsPage> with TickerProvider
               SizedBox(height: 15,),
               productCarousel(
                 products: _products.where((product) =>
-                product.category_id == widget.prodSubCat.id
+                product.subCategory_id == widget.prodSubCat.id
                 ).toList(),
               ),
             ],

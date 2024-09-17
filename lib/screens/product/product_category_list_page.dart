@@ -660,7 +660,7 @@ class _ProductAllCategoryState extends State<ProductAllCategory> with TickerProv
                                    return InkWell(
                                      onTap: () {
                                        setState(() {
-                                         PersistentNavBarNavigator
+                                         /*PersistentNavBarNavigator
                                              .pushNewScreenWithRouteSettings(
                                            context,
                                            settings: RouteSettings(
@@ -670,7 +670,7 @@ class _ProductAllCategoryState extends State<ProductAllCategory> with TickerProv
                                            withNavBar: true,
                                            pageTransitionAnimation: PageTransitionAnimation
                                                .cupertino,
-                                         );
+                                         );*/
                                        });
                                      },
                                      child: Container(
@@ -793,7 +793,7 @@ class _ProductAllCategoryState extends State<ProductAllCategory> with TickerProv
                                    return InkWell(
                                        onTap: () {
                                      setState(() {
-                                       PersistentNavBarNavigator
+                                      /* PersistentNavBarNavigator
                                            .pushNewScreenWithRouteSettings(
                                          context,
                                          settings: RouteSettings(
@@ -803,7 +803,7 @@ class _ProductAllCategoryState extends State<ProductAllCategory> with TickerProv
                                          withNavBar: true,
                                          pageTransitionAnimation: PageTransitionAnimation
                                              .cupertino,
-                                       );
+                                       );*/
                                      });
                                    },
                                  child: Container(
@@ -940,7 +940,7 @@ class _ProductAllCategoryState extends State<ProductAllCategory> with TickerProv
                                     return InkWell(
                                       onTap: () {
                                         setState(() {
-                                          PersistentNavBarNavigator
+                                          /*PersistentNavBarNavigator
                                               .pushNewScreenWithRouteSettings(
                                             context,
                                             settings: RouteSettings(
@@ -950,7 +950,7 @@ class _ProductAllCategoryState extends State<ProductAllCategory> with TickerProv
                                             withNavBar: true,
                                             pageTransitionAnimation: PageTransitionAnimation
                                                 .cupertino,
-                                          );
+                                          );*/
                                         });
                                       },
                                             child: Container(
@@ -1073,7 +1073,7 @@ class _ProductAllCategoryState extends State<ProductAllCategory> with TickerProv
                                     return InkWell(
                                       onTap: () {
                                         setState(() {
-                                          PersistentNavBarNavigator
+                                         /* PersistentNavBarNavigator
                                               .pushNewScreenWithRouteSettings(
                                             context,
                                             settings: RouteSettings(
@@ -1083,7 +1083,7 @@ class _ProductAllCategoryState extends State<ProductAllCategory> with TickerProv
                                             withNavBar: true,
                                             pageTransitionAnimation: PageTransitionAnimation
                                                 .cupertino,
-                                          );
+                                          );*/
                                         });
                                       },
                                         child: Container(
@@ -1218,7 +1218,7 @@ class _ProductAllCategoryState extends State<ProductAllCategory> with TickerProv
                                     return InkWell(
                                         onTap: () {
                                       setState(() {
-                                        PersistentNavBarNavigator
+                                        /*PersistentNavBarNavigator
                                             .pushNewScreenWithRouteSettings(
                                           context,
                                           settings: RouteSettings(
@@ -1228,7 +1228,7 @@ class _ProductAllCategoryState extends State<ProductAllCategory> with TickerProv
                                           withNavBar: true,
                                           pageTransitionAnimation: PageTransitionAnimation
                                               .cupertino,
-                                        );
+                                        );*/
                                       });
                                     },
                                             child: Container(
@@ -1351,7 +1351,7 @@ class _ProductAllCategoryState extends State<ProductAllCategory> with TickerProv
                                     return InkWell(
                                         onTap: () {
                                       setState(() {
-                                        PersistentNavBarNavigator
+                                       /* PersistentNavBarNavigator
                                             .pushNewScreenWithRouteSettings(
                                           context,
                                           settings: RouteSettings(
@@ -1361,7 +1361,7 @@ class _ProductAllCategoryState extends State<ProductAllCategory> with TickerProv
                                           withNavBar: true,
                                           pageTransitionAnimation: PageTransitionAnimation
                                               .cupertino,
-                                        );
+                                        );*/
                                       });
                                     },
                                         child: Container(
@@ -1495,7 +1495,7 @@ class _ProductAllCategoryState extends State<ProductAllCategory> with TickerProv
                                     return InkWell(
                                         onTap: () {
                                       setState(() {
-                                        PersistentNavBarNavigator
+                                        /*PersistentNavBarNavigator
                                             .pushNewScreenWithRouteSettings(
                                           context,
                                           settings: RouteSettings(
@@ -1505,7 +1505,7 @@ class _ProductAllCategoryState extends State<ProductAllCategory> with TickerProv
                                           withNavBar: true,
                                           pageTransitionAnimation: PageTransitionAnimation
                                               .cupertino,
-                                        );
+                                        );*/
                                       });
                                     },
                                             child: Container(
@@ -1628,7 +1628,7 @@ class _ProductAllCategoryState extends State<ProductAllCategory> with TickerProv
                                     return InkWell(
                                         onTap: () {
                                       setState(() {
-                                        PersistentNavBarNavigator
+                                        /*PersistentNavBarNavigator
                                             .pushNewScreenWithRouteSettings(
                                           context,
                                           settings: RouteSettings(
@@ -1638,7 +1638,7 @@ class _ProductAllCategoryState extends State<ProductAllCategory> with TickerProv
                                           withNavBar: true,
                                           pageTransitionAnimation: PageTransitionAnimation
                                               .cupertino,
-                                        );
+                                        );*/
                                       });
                                     },
                                         child: Container(
@@ -1773,7 +1773,7 @@ class _ProductAllCategoryState extends State<ProductAllCategory> with TickerProv
                                     return InkWell(
                                       onTap: () {
                                         setState(() {
-                                          PersistentNavBarNavigator
+                                        /*  PersistentNavBarNavigator
                                               .pushNewScreenWithRouteSettings(
                                             context,
                                             settings: RouteSettings(
@@ -1783,7 +1783,7 @@ class _ProductAllCategoryState extends State<ProductAllCategory> with TickerProv
                                             withNavBar: true,
                                             pageTransitionAnimation: PageTransitionAnimation
                                                 .cupertino,
-                                          );
+                                          );*/
                                         });
                                       },
                                       child: Container(
@@ -1906,7 +1906,7 @@ class _ProductAllCategoryState extends State<ProductAllCategory> with TickerProv
                                     return InkWell(
                                         onTap: () {
                                       setState(() {
-                                        PersistentNavBarNavigator
+                                       /* PersistentNavBarNavigator
                                             .pushNewScreenWithRouteSettings(
                                           context,
                                           settings: RouteSettings(
@@ -1916,7 +1916,7 @@ class _ProductAllCategoryState extends State<ProductAllCategory> with TickerProv
                                           withNavBar: true,
                                           pageTransitionAnimation: PageTransitionAnimation
                                               .cupertino,
-                                        );
+                                        );*/
                                       });
                                     },
                                         child: Container(

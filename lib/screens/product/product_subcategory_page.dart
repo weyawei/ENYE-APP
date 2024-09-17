@@ -1,10 +1,11 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:enye_app/screens/product/product_category.dart';
 import 'package:flutter/material.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 
+import '../../config/api_connection.dart';
 import '../../widget/widgets.dart';
 import '../screens.dart';
-/*
 class subCatProductPage extends StatefulWidget {
   static const String routeName = '/subcategory';
 
@@ -58,9 +59,9 @@ class _subCatProductPageState extends State<subCatProductPage> {
           Padding(
             padding: const EdgeInsets.all(16.0),
             child: Text(
-              'Type of ${widget.category.name}'.toUpperCase(),
+              ' ${widget.category.name}'.toUpperCase(),
               style: TextStyle(
-                fontSize: MediaQuery.of(context).size.width * 0.03,
+                fontSize: MediaQuery.of(context).size.width * 0.04,
                 fontFamily: 'Rowdies',
               ),
               textAlign: TextAlign.center,
@@ -82,14 +83,9 @@ class _subCatProductPageState extends State<subCatProductPage> {
                     );
                   },
                   child: Container(
-                    height: MediaQuery.of(context).size.width * 0.15,
                     width: screenWidth,
-                    margin: EdgeInsets.only(
-                      bottom: 12,
-                    ),
-                    padding: EdgeInsets.symmetric(
-                      horizontal: screenWidth / 100,
-                    ),
+                    margin: EdgeInsets.only(bottom: 12),
+                    padding: EdgeInsets.symmetric(horizontal: screenWidth / 100),
                     decoration: BoxDecoration(
                       color: Colors.white10,
                       borderRadius: BorderRadius.circular(10),
@@ -102,23 +98,46 @@ class _subCatProductPageState extends State<subCatProductPage> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
+                        // Left side with name and additional text
                         Expanded(
-                          child: Text(
-                            " ${_filteredprodSubCategory[index].name}",
-                            style: TextStyle(
-                              fontSize: MediaQuery.of(context).size.width * 0.025,
-                              fontWeight: FontWeight.bold,
-                            ),
+                          flex: 1,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                " ${_filteredprodSubCategory[index].name}",
+                                style: TextStyle(
+                                  fontSize: MediaQuery.of(context).size.width * 0.035,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              SizedBox(height: 4), // Space between name and additional text
+                              Text(
+                                " ${_filteredprodSubCategory[index].sub_desc}",
+                              style: TextStyle(
+                                  fontSize: MediaQuery.of(context).size.width * 0.025,
+                                ),
+                              ),
+                            ],
                           ),
                         ),
-                        Icon(
-                          Icons.label_important,
-                          color: Colors.deepOrange,
-			  size: MediaQuery.of(context).size.width * 0.04
-                        )
+
+                        // Right side with the image
+                        Expanded(
+                          flex: 1,
+                          child: CachedNetworkImage(
+                            imageUrl: "${API.prodCat + _filteredprodSubCategory[index].sub_image}",
+                            height: MediaQuery.of(context).size.height * 0.15,
+                            width: double.infinity, // Let the image take full width of the right half
+                            fit: BoxFit.fill,
+                            placeholder: (context, url) => Center(child: CircularProgressIndicator()),
+                            errorWidget: (context, url, error) => Center(child: Icon(Icons.error)),
+                          ),
+                        ),
                       ],
                     ),
                   ),
+
                 );
               },
             ),
@@ -127,4 +146,4 @@ class _subCatProductPageState extends State<subCatProductPage> {
       ),
     );
   }
-}*/
+}

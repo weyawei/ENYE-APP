@@ -351,7 +351,7 @@ class _ProductZoomPageState extends State<ProductZoomPage> with TickerProviderSt
                 width: MediaQuery.of(context).size.width * 1,
                 height: MediaQuery.of(context).size.width * 0.7,
                 child: ModelViewer(
-                  src: 'assets/systems/chiller/pibcv.glb',
+                  src: 'assets/systems/ahu/veriflow.glb',
                   ar: true,
                   autoRotate: true,
                   cameraControls: true,
@@ -558,12 +558,22 @@ class _ProductZoomPageState extends State<ProductZoomPage> with TickerProviderSt
         content: SingleChildScrollView(
           child: Column(
             children: [
-              Image.asset(
+              SizedBox(
+                width: MediaQuery.of(context).size.width * 1,
+                height: MediaQuery.of(context).size.width * 0.7,
+                child: ModelViewer(
+                  src: 'assets/systems/ahu/omni.glb',
+                  ar: true,
+                  autoRotate: true,
+                  cameraControls: true,
+                ),
+              ),
+             /* Image.asset(
                 'assets/systems/ahu/omni.png',
                 width: MediaQuery.of(context).size.width * 1,
                 height: MediaQuery.of(context).size.width * 0.5,
                 fit: BoxFit.contain,
-              ),
+              ),*/
               Text(
                 "Networkable Stand-Alone Controller (NSAC)",
                 style: TextStyle(
