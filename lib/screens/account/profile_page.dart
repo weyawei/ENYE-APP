@@ -467,53 +467,55 @@ class _ProfilePageState extends State<ProfilePage> {
                     showDialog(
                       context: context,
                       builder: (context) => AlertDialog(
-                        title: Text(
-                          'ACCOUNT DELETION',
-                          textAlign: TextAlign.center,
-                          style: GoogleFonts.rowdies(
-                            textStyle: TextStyle(
-                                fontSize: fontExtraSize,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.redAccent,
-                                letterSpacing: 0.8
-                            ),
-                          ),
-                        ),
-                        content: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisSize: MainAxisSize.min,
+                        icon: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            SizedBox(height: screenHeight * 0.02),
+                            Icon(Icons.delete_forever, color: Colors.deepOrange.shade300, size: fontNormalSize * 1.65,),
+                            SizedBox(width: 5),
                             Text(
-                              'Are you sure to delete your account?',
+                              'ACCOUNT DELETION',
                               textAlign: TextAlign.center,
-                              style: GoogleFonts.lato(
+                              style: GoogleFonts.rowdies(
                                 textStyle: TextStyle(
-                                    fontSize: fontNormalSize,
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.bold,
-                                    letterSpacing: 0.8
+                                  fontSize: fontNormalSize,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.deepOrange,
+                                  letterSpacing: 1.2,
                                 ),
                               ),
                             ),
                           ],
                         ),
+                        content: Text(
+                          'Are you sure to delete your account?',
+                          textAlign: TextAlign.center,
+                          style: GoogleFonts.lato(
+                            textStyle: TextStyle(
+                                fontSize: fontNormalSize,
+                                fontWeight: FontWeight.bold,
+                                letterSpacing: 0.8
+                            ),
+                          ),
+                        ),
+                        actionsAlignment: MainAxisAlignment.center,
                         actions: [
                           TextButton(
                             onPressed: () {
                               Navigator.of(context).pop();
                             },
                             child: Text(
-                              'CANCEL',
-                              style: GoogleFonts.rowdies(
-                                textStyle: TextStyle(
-                                    fontSize: fontExtraSize,
-                                    color: Colors.black54,
-                                    letterSpacing: 0.8
-                                ),
+                              "Close",
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: Colors.grey.shade700,
+                                fontSize: fontNormalSize,
+                                letterSpacing: 1.2,
                               ),
                             ),
                           ),
+
+                          SizedBox(width: 10,),
+
                           TextButton(
                             onPressed: () {
                               setState(() {
@@ -522,16 +524,21 @@ class _ProfilePageState extends State<ProfilePage> {
                               });
                             },
                             child: Text(
-                              'YES',
-                              style: GoogleFonts.rowdies(
-                                textStyle: TextStyle(
-                                    fontSize: fontExtraSize,
-                                    color: Colors.redAccent,
-                                    letterSpacing: 0.8
-                                ),
+                              "YES",
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: fontNormalSize,
+                                letterSpacing: 1.2,
                               ),
                             ),
-                          ),
+                            style: ButtonStyle(
+                              backgroundColor: MaterialStateProperty.all<Color>(Colors.deepOrange.shade400),
+                              foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
+                              padding: MaterialStateProperty.all<EdgeInsets>(
+                                EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
+                              ),
+                            ),
+                          )
                         ],
                       ),
                     );
