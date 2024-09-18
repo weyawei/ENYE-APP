@@ -103,26 +103,29 @@ class _homePageState extends State<homePage> with TickerProviderStateMixin{
     });
   }
 
-  _getProjectsTop() {
-    projectSVC.getProjects().then((ProjectsTop) {
-      setState(() {
-        _projectsTop = ProjectsTop.where((proj) => proj.proj_system == '1').toList();
-      });
-      print("Length ${ProjectsTop.length}");
-    });
-  }
+  // _getProjectsTop() {
+  //   projectSVC.getProjects().then((ProjectsTop) {
+  //     setState(() {
+  //       _projectsTop = ProjectsTop.where((proj) => proj.proj_system == '1').toList();
+  //     });
+  //     print("Length ${ProjectsTop.length}");
+  //   });
+  // }
 
   void initState() {
     super.initState();
     // Initially, show all products
-    _projects = [];
-    _getProjects();
+    // _projects = [];
+    // _getProjects();
+    //
+    // _projectsTop = [];
+    // _getProjectsTop();
 
-    _projectsTop = [];
-    _getProjectsTop();
+    // _news = [];
+    // _getNews();
 
-    _news = [];
-    _getNews();
+    _newsUpdates = [];
+    _getNewsUpdates();
 
     _loadFrames();
     _scrollController.addListener(_onScroll);
@@ -222,15 +225,15 @@ class _homePageState extends State<homePage> with TickerProviderStateMixin{
 
   bool _isLoadingProj = true;
   late List<Projects> _projects;
-  _getProjects(){
-    projectSVC.getProjects().then((Projects){
-      setState(() {
-        _projects = Projects;
-      });
-      _isLoadingProj = false;
-      print("Length ${Projects.length}");
-    });
-  }
+  // _getProjects(){
+  //   projectSVC.getProjects().then((Projects){
+  //     setState(() {
+  //       _projects = Projects;
+  //     });
+  //     _isLoadingProj = false;
+  //     print("Length ${Projects.length}");
+  //   });
+  // }
 
   late List<news> _news;
   _getNews(){
@@ -240,6 +243,20 @@ class _homePageState extends State<homePage> with TickerProviderStateMixin{
       });
       _isLoadingProj = false;
       print("Length ${News.length}");
+    });
+  }
+
+  bool _isLoadingNews = true;
+  late List<NewsUpdates> _newsUpdates;
+  _getNewsUpdates() {
+    NewsServices.getNewsUpdates().then((newsUpdates) {
+      if (mounted) { // Check if the widget is still mounted
+        setState(() {
+          _newsUpdates = newsUpdates;
+          _isLoadingNews = false;
+        });
+        print("Length ${newsUpdates.length}");
+      }
     });
   }
 
@@ -792,7 +809,15 @@ class _homePageState extends State<homePage> with TickerProviderStateMixin{
 
               SizedBox(height: screenHeight * 0.125,),*/
 
-              Container(
+              SizedBox(height: screenHeight * 0.125,),
+
+              _isLoadingNews
+              ? CircularProgressIndicator(
+                  color: Colors.deepOrange,
+                )
+              : _newsUpdates.length == 0
+              ? SizedBox.shrink()
+              : Container(
                 padding: EdgeInsets.all(16.0),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -811,16 +836,16 @@ class _homePageState extends State<homePage> with TickerProviderStateMixin{
                       padding: EdgeInsets.symmetric(horizontal: 6.0),
                       physics: const NeverScrollableScrollPhysics(),
                       shrinkWrap: true,
-                      itemCount: min(_news.length, 3),
+                      itemCount: min(_newsUpdates.length, 3),
                       itemBuilder: (context, index) {
-                        final news = _news[index];
+                        final news = _newsUpdates[index];
 
                         return GestureDetector(
                           onTap: () {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => FullArticleNews(newsletter: news, selectedIndex: index),
+                                builder: (context) => FullArticlePage(news_id: news.id.toString()),
                               ),
                             );
                           },
@@ -840,7 +865,7 @@ class _homePageState extends State<homePage> with TickerProviderStateMixin{
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.vertical(top: Radius.circular(10.0)),
                                     image: DecorationImage(
-                                      image: CachedNetworkImageProvider("${API.projectsImage + news.news_image}"),
+                                      image: CachedNetworkImageProvider("${API.newsImages + news.news_image}"),
                                       fit: BoxFit.cover,
                                     ),
                                   ),
@@ -849,7 +874,7 @@ class _homePageState extends State<homePage> with TickerProviderStateMixin{
                                       Positioned.fill(
                                         child: Container(
                                           child: CachedNetworkImage(
-                                            imageUrl: "${API.projectsImage + news.news_image}",
+                                            imageUrl: "${API.newsImages + news.news_image}",
                                             fit: BoxFit.cover,
                                             placeholder: (context, url) => Center(
                                               child: CircularProgressIndicator(),
@@ -956,8 +981,8 @@ class _homePageState extends State<homePage> with TickerProviderStateMixin{
                 ),
               ),
 
+              SizedBox(height: screenHeight * 0.05,),
 
-              SizedBox(height: 30,),
               // follow us
               Lottie.asset(
                   'assets/lottie/follow_us.json',

@@ -2,6 +2,10 @@ export 'home/homepage2.dart';
 
 export 'home/home_page.dart';
 export 'home/contacts_page.dart';
+export 'home/fullarticle_page.dart';
+
+export 'home/model_data/news_data.dart';
+export 'home/services/news_services.dart';
 
 export 'projects/project_page.dart';
 export 'projects/list_projects.dart';
