@@ -226,17 +226,21 @@ class _CustomNavBarState extends State<CustomNavBar> {
     if (widget.initialMessage != null) {
       message = widget.initialMessage;
 
-      if (message?.data["goToPage"].toString() == 'Status' ||
-          message?.data["goToPage"].toString() == 'Completed' ){
-        _initialIndex = 4;
-      } else if (message?.data["goToPage"].toString() == 'products'){
-        _initialIndex = 2;
+      // if (message?.data["goToPage"].toString() == 'Status' ||
+      //     message?.data["goToPage"].toString() == 'Completed' ){
+      //   _initialIndex = 4;
+      // } else if (message?.data["goToPage"].toString() == 'products'){
+      //   _initialIndex = 2;
+      // }
+
+      if (message?.data["route"].toString() == 'news_updates'){
+        _initialIndex = 0;
       }
     }
 
     List<Widget> _buildScreens() {
       return [
-        homePage(),
+        homePage(message: message as RemoteMessage),
         systemsPage2(),
         productsPage(),
         // Navigator(

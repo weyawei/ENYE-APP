@@ -1,5 +1,6 @@
 import 'package:enye_app/screens/screens.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_session_manager/flutter_session_manager.dart';
@@ -98,10 +99,14 @@ class MyApp extends StatelessWidget {
 
 
 class MainScreen extends StatelessWidget {
+  final RemoteMessage? message;
+
+  MainScreen({required this.message});
+
   @override
   Widget build(BuildContext context) {
     return NoInternetHandler(
-      child: CustomNavBar(),
+      child: CustomNavBar(initialMessage: message),
     );
   }
 }

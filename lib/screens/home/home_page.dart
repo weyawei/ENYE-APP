@@ -5,6 +5,7 @@ import 'dart:ui';
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -25,10 +26,14 @@ import 'news.dart';
 class homePage extends StatefulWidget {
   static const String routeName = '/home';
 
-  static Route route(){
+  final RemoteMessage? message;
+
+  homePage({required this.message});
+
+  Route route(){
     return MaterialPageRoute(
         settings: RouteSettings(name: routeName),
-        builder: (_) => homePage()
+        builder: (_) => homePage(message: message,)
     );
   }
 
@@ -154,6 +159,17 @@ class _homePageState extends State<homePage> with TickerProviderStateMixin{
     });
 
     _handSwipeController.forward();
+
+
+    if(widget.message!.data["route"] == "news_updates"){
+      var news_id = widget.message!.data["news_id"].toString();
+
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        Navigator.of(context).push(
+          MaterialPageRoute(builder: (BuildContext context) => FullArticlePage(news_id: news_id)),
+        );
+      });
+    }
   }
 
   @override
