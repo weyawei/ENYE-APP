@@ -1388,7 +1388,7 @@ class _ProductZoomPageState extends State<ProductZoomPage> with TickerProviderSt
                           },
                         ),
                         Text(
-                          'PICV',
+                          'PIBCV',
                           style: TextStyle(
                             fontSize: MediaQuery.of(context).size.width * 0.025,
                             fontWeight: FontWeight.bold,
