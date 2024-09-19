@@ -25,7 +25,7 @@ class SplashScreen extends StatelessWidget {
       message = ModalRoute.of(context)!.settings.arguments as RemoteMessage;
     }
 
-    Timer(Duration(seconds: 3, milliseconds: 199),() => Navigator.of(navigatorKey.currentContext!).pushReplacement(
+    Timer(Duration(seconds: 4, milliseconds: 199),() => Navigator.of(navigatorKey.currentContext!).pushReplacement(
       MaterialPageRoute(
         builder: (context) => MainScreen(message: message),
       ),
