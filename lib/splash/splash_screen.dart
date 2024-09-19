@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:enye_app/widget/custom_navbar.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
@@ -43,3 +42,4 @@ class SplashScreen extends StatelessWidget {
     );
   }
 }
+//sample
