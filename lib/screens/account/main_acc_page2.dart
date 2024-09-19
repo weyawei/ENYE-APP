@@ -542,7 +542,7 @@ class _MainAccPage2State extends State<MainAccPage2> {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (ClientInfo?.status == "Unverified" && !_snackbarShown) {
         _snackbarShown = true;
-        showPersistentSnackBar(context, screenWidth, screenHeight, fontSmallSize);
+        showPersistentSnackBar(context, screenWidth, screenHeight, fontNormalSize);
       }
     });
 
@@ -673,7 +673,7 @@ class _MainAccPage2State extends State<MainAccPage2> {
                       GestureDetector(
                         onTap: () {
                           if(ClientInfo?.status == "Unverified") {
-                            showPersistentSnackBar(context, screenWidth, screenHeight, fontSmallSize);
+                            showPersistentSnackBar(context, screenWidth, screenHeight, fontNormalSize);
                           } else {
                             appointmentDialog(context);
                           }
@@ -742,7 +742,7 @@ class _MainAccPage2State extends State<MainAccPage2> {
                       GestureDetector(
                         onTap: () {
                           if(ClientInfo?.status == "Unverified") {
-                            showPersistentSnackBar(context, screenWidth, screenHeight, fontSmallSize);
+                            showPersistentSnackBar(context, screenWidth, screenHeight, fontNormalSize);
                           } else {
                             technicalDialog(context);
                           }
@@ -810,7 +810,7 @@ class _MainAccPage2State extends State<MainAccPage2> {
                       GestureDetector(
                         onTap: () {
                           if(ClientInfo?.status == "Unverified") {
-                            showPersistentSnackBar(context, screenWidth, screenHeight, fontSmallSize);
+                            showPersistentSnackBar(context, screenWidth, screenHeight, fontNormalSize);
                           } else {
                             Navigator.push(
                               context,
