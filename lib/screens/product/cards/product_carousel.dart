@@ -51,9 +51,27 @@ class _productCarouselState extends State<productCarousel> {
     var fontExtraSize = ResponsiveTextUtils.getExtraFontSize(screenWidth);
 
     return _isLoadingProdCategory
-      ? Center(child: CircularProgressIndicator())
+      ? Container(height: screenHeight * 0.8, child: Center(child: CircularProgressIndicator()))
+      : widget.products.length == 0
+        ? Container(
+          height: screenHeight * 0.8,
+          child: Center(
+            child: Text(
+              "No Available Data",
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: fontExtraSize * 2,
+                color: Colors.grey.shade300,
+                letterSpacing: 1.2
+              ),
+            ),
+          ),
+        )
       : GridView.builder(
-      padding: EdgeInsets.symmetric(horizontal: 6.0, vertical: 8.0),
+      padding: EdgeInsets.symmetric(
+        horizontal: screenWidth * 0.035,
+        vertical: screenHeight * 0.02
+      ),
       physics: const NeverScrollableScrollPhysics(),
       shrinkWrap: true,
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -96,8 +114,9 @@ class _productCarouselState extends State<productCarousel> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  SizedBox(
-                    height: fontExtraSize * 9, // Fixed height for images
+                  Container(
+                    height: fontExtraSize * 9,
+                    padding: EdgeInsets.all(12.0),
                     child: CachedNetworkImage(
                       width: double.infinity,
                       imageUrl: "${API.prodImg + product.image}",
@@ -115,8 +134,9 @@ class _productCarouselState extends State<productCarousel> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        SizedBox(
-                          height: 40.0, // Fixed height for text
+                        Container(
+                          height: fontNormalSize * 3,
+                          alignment: Alignment.centerLeft,
                           child: Text(
                             product.name,
                             style: TextStyle(
@@ -128,7 +148,7 @@ class _productCarouselState extends State<productCarousel> {
                             overflow: TextOverflow.ellipsis,
                           ),
                         ),
-                        SizedBox(height: 8.0),
+                        SizedBox(height: 4.0),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [

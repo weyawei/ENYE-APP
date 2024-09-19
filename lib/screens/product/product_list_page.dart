@@ -71,15 +71,12 @@ class _listProductsPageState extends State<listProductsPage> with TickerProvider
     double screenHeight = MediaQuery.of(context).size.height;
     double screenWidth = MediaQuery.of(context).size.width;
 
-    var fontNormalSize = ResponsiveTextUtils.getNormalFontSize(screenWidth);
-    var fontXSize = ResponsiveTextUtils.getXFontSize(screenWidth);
-    var fontXXSize = ResponsiveTextUtils.getXXFontSize(screenWidth);
-    var fontXXXSize = ResponsiveTextUtils.getXXXFontSize(screenWidth);
+    var fontExtraSize = ResponsiveTextUtils.getExtraFontSize(screenWidth);
 
     return Scaffold(
         appBar: CustomAppBar(title: '', imagePath: 'assets/logo/enyecontrols.png', appBarHeight: screenHeight * 0.05,),
         body: _isLoadingProd
-            ? Center(child: SpinningContainer(controller: _controller),)
+            ? Center(child: CircularProgressIndicator())
             : RefreshIndicator(
           onRefresh: () async {
             await Future.delayed(Duration(seconds: 2));
@@ -90,12 +87,12 @@ class _listProductsPageState extends State<listProductsPage> with TickerProvider
           },
           child: ListView(
             children: [
-              SizedBox(height: 25,),
+              SizedBox(height: screenHeight * 0.04,),
               Text(
                 '${widget.prodSubCat.name}'.toUpperCase(),
                 style: TextStyle(
-                  fontSize: fontNormalSize,
-                  letterSpacing: 1.2,
+                  fontSize: fontExtraSize,
+                  letterSpacing: 0.8,
                   fontFamily: 'Rowdies',
                   fontWeight: FontWeight.bold,
               //    color: Colors.grey.shade600,
