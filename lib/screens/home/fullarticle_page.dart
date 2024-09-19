@@ -120,7 +120,7 @@ class _FullArticlePageState extends State<FullArticlePage> {
                 vertical: screenHeight * 0.01
               ),
               child: Text(
-                "\t\t\t\t" + _news[0].description,
+                _news[0].description,
                 textAlign: TextAlign.justify,
                 style: TextStyle(
                   fontSize: fontExtraSize,
@@ -164,7 +164,7 @@ class _FullArticlePageState extends State<FullArticlePage> {
                         vertical: screenHeight * 0.01
                       ),
                       child: Text(
-                        "\t\t\t\t" + NewsContent.description,
+                        NewsContent.description,
                         textAlign: TextAlign.justify,
                         style: TextStyle(
                           fontSize: fontExtraSize,
