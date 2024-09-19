@@ -109,13 +109,22 @@ class _StairwellPageState extends State<StairwellPage> with TickerProviderStateM
         content: SingleChildScrollView(
           child: Column(
             children: [
-
-              Image.asset(
+              SizedBox(
+                width: MediaQuery.of(context).size.width * 1,
+                height: MediaQuery.of(context).size.width * 0.7,
+                child: ModelViewer(
+                  src: 'assets/systems/ahu/omni.glb',
+                  ar: true,
+                  autoRotate: true,
+                  cameraControls: true,
+                ),
+              ),
+             /* Image.asset(
                 'assets/systems/stairwell/omni.png',
                 width: MediaQuery.of(context).size.width,
                 height: MediaQuery.of(context).size.width * 0.5,
                 fit: BoxFit.contain,
-              ),
+              ),*/
               Text(
                 "OMNI Controller",
                 style: TextStyle(

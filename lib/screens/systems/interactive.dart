@@ -351,7 +351,7 @@ class _ProductZoomPageState extends State<ProductZoomPage> with TickerProviderSt
                 width: MediaQuery.of(context).size.width * 1,
                 height: MediaQuery.of(context).size.width * 0.7,
                 child: ModelViewer(
-                  src: 'assets/systems/ahu/veriflow.glb',
+                  src: 'assets/systems/chiller/pibcv.glb',
                   ar: true,
                   autoRotate: true,
                   cameraControls: true,
@@ -364,7 +364,7 @@ class _ProductZoomPageState extends State<ProductZoomPage> with TickerProviderSt
                 fit: BoxFit.contain,
               ),*/
               Text(
-                "Veriflow Valve",
+                "Pressure Independent Balancing and Control Valve (PIBCV)",
                 style: TextStyle(
                     fontSize: MediaQuery.of(context).size.width * 0.045,
                     letterSpacing: 0.8,
@@ -375,7 +375,7 @@ class _ProductZoomPageState extends State<ProductZoomPage> with TickerProviderSt
               ),
               //   SizedBox(height: 10,),
               Text(
-                "\n Features \n\n• Verification of flow and minimum differential pressure due to unique P/T plug design \n• The presetting function has no impact on the stroke; Full stroke modulation at all times, regardless the preset flow \n• The constant differential pressure across the modulating control component guarantees 100% authority \n• Automatic balancing eliminates overflows, regardless of fluctuating pressure conditions in the system \n• Compatible with thermic actuators On/Off or 0-10V, normally closed. Also compatible with motoric actuators 0-10V, (Linear or Logarithmic) or 3 point control \n• Differential pressure operating range up to 800 kPa \n• High flows with minimal required differential pressure due to advanced design of the valve \n• Small dimensions due to compact housing \n• Higher presetting precision due to stepless analogue scale \n• Rangeabililty > 100:1",
+                "\n Features \n\n• Measurement of flow and minimum differential pressure due to valve design with 3 P/T plugs \n• The presetting function has no impact on the stroke; Full stroke modulation at all times, regardless the preset flow \n• Regulation characteristic remains unchanged regardless of preset flow \n• The constant differential pressure across the modulating control component guarantees 100% authority \n• Automatic balancing eliminates overflows, regardless of fluctuating pressure conditions in the system \n• Minimal required differential pressure due to advanced design of the valve \n• Higher presetting precision due to stepless analogue scale \n• Rangeability > 100:1",
                 style: TextStyle(
                     fontSize: MediaQuery.of(context).size.width * 0.036,
                     letterSpacing: 0.8,
@@ -384,7 +384,7 @@ class _ProductZoomPageState extends State<ProductZoomPage> with TickerProviderSt
                 ),
               ),
 
-              SizedBox(height: 20,),
+             /* SizedBox(height: 20,),
               Image.asset(
                 'assets/systems/ahu/logica.png',
                 width: MediaQuery.of(context).size.width * 1,
@@ -410,7 +410,7 @@ class _ProductZoomPageState extends State<ProductZoomPage> with TickerProviderSt
                     fontWeight: FontWeight.normal,
                     color: Color(0xFF2E3E5C)
                 ),
-              ),
+              ),*/
             ],
           ),
         ),
@@ -633,7 +633,7 @@ class _ProductZoomPageState extends State<ProductZoomPage> with TickerProviderSt
                   child: Stack(
                     children: [
                       Image.asset(
-                        'assets/systems/ahu/ahu_1.png',
+                        'assets/systems/ahu/ahu_1s.png',
                         height: MediaQuery.of(context).size.height * 0.52,
                         fit: BoxFit.fill,
                       ),
@@ -997,7 +997,7 @@ class _ProductZoomPageState extends State<ProductZoomPage> with TickerProviderSt
                         left: MediaQuery.of(context).size.width * 0.51,
                         top: MediaQuery.of(context).size.height * 0.415, // Adjusted for relative positioning
                         child: Text(
-                          'PICV', // Replace with the actual product name or identifier
+                          'PIBCV', // Replace with the actual product name or identifier
                           style: TextStyle(
                             fontSize: MediaQuery.of(context).size.width * 0.02, // Adjust the font size accordingly
                             color: Colors.white, // Adjust the color if needed
@@ -1362,7 +1362,7 @@ class _ProductZoomPageState extends State<ProductZoomPage> with TickerProviderSt
                       children: [
                         IconButton(
                           icon: Image.asset(
-                            'assets/systems/ahu/picv.png',
+                            'assets/systems/chiller/pibcv.png',
                             height: 150,
                             fit: BoxFit.fill,
                           ),
@@ -1388,7 +1388,7 @@ class _ProductZoomPageState extends State<ProductZoomPage> with TickerProviderSt
                           },
                         ),
                         Text(
-                          'PICV',
+                          'PIBCV',
                           style: TextStyle(
                             fontSize: MediaQuery.of(context).size.width * 0.025,
                             fontWeight: FontWeight.bold,
