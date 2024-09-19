@@ -246,7 +246,7 @@ class _productsPageState extends State<productsPage> with TickerProviderStateMix
     double screenWidth = MediaQuery.of(context).size.width;
 
     bool screenLayout = ResponsiveTextUtils.getLayout(screenWidth);
-
+    var fontXSmallSize = ResponsiveTextUtils.getXSmallFontSize(screenWidth);
     var fontSmallSize = ResponsiveTextUtils.getSmallFontSize(screenWidth);
     var fontNormalSize = ResponsiveTextUtils.getNormalFontSize(screenWidth);
     var fontExtraSize = ResponsiveTextUtils.getExtraFontSize(screenWidth);
@@ -552,7 +552,7 @@ class _productsPageState extends State<productsPage> with TickerProviderStateMix
                           color: Colors.deepOrange,
                         ),
                       ),
-                      Spacer(),
+                     /* Spacer(),
                       Text("See all"),
                       GestureDetector(
                         onTap: () {
@@ -566,7 +566,7 @@ class _productsPageState extends State<productsPage> with TickerProviderStateMix
                           size: MediaQuery.of(context).size.width * 0.08,
                           color: Colors.deepOrange,
                         ),
-                      ),
+                      ),*/
                     ],
                   ),
                   ),
@@ -628,7 +628,7 @@ class _productsPageState extends State<productsPage> with TickerProviderStateMix
                               CachedNetworkImage(
                                 imageUrl: "${API.prodCategIcon + category[index].icon}",
                                 placeholder: (context, url) => Center(
-                                  child: CircularProgressIndicator(),
+                                  child: Text("")//CircularProgressIndicator(),
                                 ),
                                 errorWidget: (context, url, error) => Container(
                                   color: Colors.black,
@@ -650,10 +650,14 @@ class _productsPageState extends State<productsPage> with TickerProviderStateMix
                                   textAlign: TextAlign.center,
                                   category[index].name,
                                   style: TextStyle(
-                                    fontSize: MediaQuery.of(context).size.width * 0.028,
+                                  /*  fontSize: MediaQuery.of(context).size.width * 0.048,*/
+                                    fontSize: fontXSmallSize ,
                                     color: Colors.black,
                                     fontWeight: FontWeight.bold,
                                   ),
+                                //  softWrap: true,
+                                  maxLines: 2, // Adjust this to allow multiple lines
+                                  overflow: TextOverflow.ellipsis,
                                 ),
                               ),
                             ],
@@ -670,7 +674,7 @@ class _productsPageState extends State<productsPage> with TickerProviderStateMix
                   decoration: BoxDecoration(color: Colors.orange.shade50.withOpacity(0.7), borderRadius: BorderRadius.circular(15)),
                   child: Column(
                     children: [
-                      SizedBox(height: 15,),
+                      SizedBox(height: 1,),
                       // Row(
                       //   mainAxisAlignment: MainAxisAlignment.center,
                       //   children: [
