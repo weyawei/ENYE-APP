@@ -292,6 +292,7 @@ class _homePageState extends State<homePage> with TickerProviderStateMixin{
 
     var fontNormalSize = ResponsiveTextUtils.getNormalFontSize(screenWidth);
     var fontExtraSize = ResponsiveTextUtils.getExtraFontSize(screenWidth);
+    var fontXSize = ResponsiveTextUtils.getXFontSize(screenWidth);
     var fontXXSize = ResponsiveTextUtils.getXXFontSize(screenWidth);
     var fontXXXSize = ResponsiveTextUtils.getXXXFontSize(screenWidth);
 
@@ -438,7 +439,7 @@ class _homePageState extends State<homePage> with TickerProviderStateMixin{
                         fontSize: fontXXXSize,
                         fontFamily: 'Rowdies',
                         fontWeight: FontWeight.bold,
-                        letterSpacing: 1.2,
+                        letterSpacing: 0.8,
                         color: Colors.deepOrange.shade600
                       ),
                     ),
@@ -449,33 +450,36 @@ class _homePageState extends State<homePage> with TickerProviderStateMixin{
                       style: TextStyle(
                         fontSize: fontExtraSize,
                         color: Colors.grey,
-                        letterSpacing: 1.2,
+                        letterSpacing: 0.8,
                       ),
                     ),
 
                     SizedBox(height: 30,),
                     Container(
-                      padding: EdgeInsets.symmetric(horizontal: screenWidth / 15),
+                      padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.075),
                       child: RichText(
                         textAlign: TextAlign.justify,
                         softWrap: true,
                         text: TextSpan(children: <TextSpan>
                         [
                           TextSpan(text: '  Enyecontrols',
-                            style: TextStyle(fontSize: fontNormalSize, fontWeight: FontWeight.bold, color: Colors.grey, letterSpacing: 0.8),),
+                            style: TextStyle(fontSize: fontNormalSize, fontWeight: FontWeight.bold, color: Colors.grey, letterSpacing: 0.8, height: 1.6 ),),
                           TextSpan(text: " is a controls company which is actively involved in more than 90% of all major projects nationwide. Our wide range of clients includes commercial buildings, data centers, hotels, semiconductors, hospitals, and manufacturing plants, retail buildings, residential including fit-outs and retrofits.",
-                            style: TextStyle(fontSize: fontNormalSize, color: Colors.grey, letterSpacing: 0.8),),
+                            style: TextStyle(fontSize: fontNormalSize, color: Colors.grey, letterSpacing: 0.8, height: 1.6),),
                           TextSpan(text: " We are known for project design, conceptualization, supply, installation of controls systems and devices but most importantly preventive maintenance and after-sales technical support.",
-                            style: TextStyle(fontSize: fontNormalSize, fontWeight: FontWeight.bold, color: Colors.grey, letterSpacing: 0.8),),
+                            style: TextStyle(fontSize: fontNormalSize, fontWeight: FontWeight.bold, color: Colors.grey, letterSpacing: 0.8, height: 1.6),),
                         ]
                         ),
                       ),
                     ),
 
                     SizedBox(height: 30,),
-                    videoPlayerView(
-                      url: "https://enye.com.ph/enyecontrols_app/enye/corporate.mp4",
-                      dataSourceType: DataSourceType.network
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.02),
+                      child: videoPlayerView(
+                        url: "https://enye.com.ph/enyecontrols_app/enye/corporate.mp4",
+                        dataSourceType: DataSourceType.network
+                      ),
                     ),
 
                    /* Container(
@@ -517,7 +521,7 @@ class _homePageState extends State<homePage> with TickerProviderStateMixin{
                           fontSize: fontXXSize,
                           fontFamily: 'Rowdies',
                           fontWeight: FontWeight.bold,
-                          letterSpacing: 1.2,
+                          letterSpacing: 0.8,
                           color: Colors.deepOrange.shade600
                       ),
                       textAlign: TextAlign.center,
@@ -531,7 +535,7 @@ class _homePageState extends State<homePage> with TickerProviderStateMixin{
                       style: TextStyle(
                         fontSize: fontExtraSize,
                         color: Colors.grey,
-                        letterSpacing: 1.2,
+                        letterSpacing: 0.8,
                       ),
                     ),
                     Lottie.asset(
@@ -828,13 +832,20 @@ class _homePageState extends State<homePage> with TickerProviderStateMixin{
               SizedBox(height: screenHeight * 0.125,),
 
               _isLoadingNews
-              ? CircularProgressIndicator(
-                  color: Colors.deepOrange,
-                )
+              ? Container(
+                height: screenHeight * 0.25,
+                padding: EdgeInsets.symmetric(
+                  horizontal: screenWidth * 0.45,
+                  vertical: screenHeight * 0.1
+                ),
+                child: CircularProgressIndicator(
+                    color: Colors.deepOrange,
+                  ),
+              )
               : _newsUpdates.length == 0
               ? SizedBox.shrink()
               : Container(
-                padding: EdgeInsets.all(16.0),
+                padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.045),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -842,14 +853,13 @@ class _homePageState extends State<homePage> with TickerProviderStateMixin{
                       "News And Updates",
                       style: TextStyle(
                         fontFamily: "Rowdies",
-                        fontSize: MediaQuery.of(context).size.width * 0.065,
+                        fontSize: fontXXSize,
                         fontWeight: FontWeight.bold,
                         color: Colors.red,
                       ),
                     ),
-                    SizedBox(height: 20),
+                    SizedBox(height: screenHeight * 0.01),
                     ListView.builder(
-                      padding: EdgeInsets.symmetric(horizontal: 6.0),
                       physics: const NeverScrollableScrollPhysics(),
                       shrinkWrap: true,
                       itemCount: min(_newsUpdates.length, 3),
@@ -870,14 +880,16 @@ class _homePageState extends State<homePage> with TickerProviderStateMixin{
                               borderRadius: BorderRadius.circular(10.0),
                             ),
                             elevation: 5,
-                            margin: EdgeInsets.symmetric(vertical: 8.0),
+                            margin: EdgeInsets.symmetric(
+                              vertical: screenHeight * 0.015,
+                            ),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 // Image at the top
                                 Container(
                                   width: double.infinity,
-                                  height: MediaQuery.of(context).size.height * 0.2,
+                                  height: screenHeight * 0.2,
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.vertical(top: Radius.circular(10.0)),
                                     image: DecorationImage(
@@ -901,7 +913,7 @@ class _homePageState extends State<homePage> with TickerProviderStateMixin{
                                                 child: Icon(
                                                   Icons.error,
                                                   color: Colors.red,
-                                                  size: 40.0,
+                                                  size: fontExtraSize * 1.5,
                                                 ),
                                               ),
                                             ),
@@ -914,47 +926,54 @@ class _homePageState extends State<homePage> with TickerProviderStateMixin{
 
                                 // Text below the image
                                 Padding(
-                                  padding: const EdgeInsets.all(8.0),
+                                  padding: EdgeInsets.symmetric(
+                                    horizontal: screenWidth * 0.025,
+                                    vertical: screenHeight * 0.025,
+                                  ),
                                   child: Column(
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
                                       Text(
                                         news.title,
                                         style: TextStyle(
-                                          fontSize: MediaQuery.of(context).size.width * 0.045,
+                                          fontSize: fontXSize,
                                           fontWeight: FontWeight.bold,
+                                          color: Colors.grey.shade800,
+                                          letterSpacing: 0.8,
+                                          height: 1.6
                                         ),
                                       ),
                                       SizedBox(height: 8),
                                       news.isExpanded
-                                          ? Text(
+                                      ? Text(
                                         news.description,
                                         textAlign: TextAlign.justify,
                                         style: TextStyle(
-                                          fontSize: MediaQuery.of(context).size.width * 0.03,
-                                          fontStyle: FontStyle.normal,
-                                          letterSpacing: 1,
-                                          color: Colors.black,
+                                          fontSize: fontExtraSize,
+                                          letterSpacing: 0.8,
+                                          color: Colors.grey.shade700,
+                                          height: 1.6
                                         ),
                                       )
                                           : RichText(
                                         text: TextSpan(
                                           text: news.description.length > 100
-                                              ? news.description.substring(0, 100)
-                                              : news.description,
+                                          ? news.description.substring(0, 100)
+                                          : news.description,
                                           style: TextStyle(
-                                            fontSize: MediaQuery.of(context).size.width * 0.03,
-                                            fontStyle: FontStyle.normal,
-                                            letterSpacing: 1,
-                                            color: Colors.black,
+                                            fontSize: fontExtraSize,
+                                            letterSpacing: 0.8,
+                                            color: Colors.grey.shade700,
+                                            height: 1.6
                                           ),
                                           children: news.description.length > 100
                                               ? [
                                             TextSpan(
-                                              text: '... See More',
+                                              text: ' ... See More',
                                               style: TextStyle(
-                                                fontSize: MediaQuery.of(context).size.width * 0.03,
-                                                color: Colors.blue,
+                                                fontSize: fontNormalSize,
+                                                fontStyle: FontStyle.italic,
+                                                color: Colors.blueAccent,
                                                 fontWeight: FontWeight.bold,
                                               ),
                                               recognizer: TapGestureRecognizer()
