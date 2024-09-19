@@ -647,7 +647,7 @@ class _ProductItemScreenState extends State<ProductItemScreen> {
                                         );
                                       }
                                     } else if (ClientInfo?.status == "Unverified") {
-                                      showPersistentSnackBar(context, screenWidth, screenHeight, fontSmallSize);
+                                      showPersistentSnackBar(context, screenWidth, screenHeight, fontNormalSize);
                                     } else {
                                       _loginRequired();
                                     }

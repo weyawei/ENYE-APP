@@ -372,7 +372,7 @@ class _detailedSysPageState extends State<detailedSysPage> with TickerProviderSt
                             if (userSessionFuture == true && ClientInfo?.status == "Verified") {
 
                             } else if (ClientInfo?.status == "Unverified") {
-                              showPersistentSnackBar(context, screenWidth, screenHeight, fontSmallSize);
+                              showPersistentSnackBar(context, screenWidth, screenHeight, fontNormalSize);
                             } else {
                               _loginRequired(context);
                             }
@@ -707,7 +707,7 @@ class _detailedSysPageState extends State<detailedSysPage> with TickerProviderSt
                     filename: "${widget.systems.catalogs_pdf}",
                   );
                 } else if (ClientInfo?.status == "Unverified") {
-                  showPersistentSnackBar(context, screenWidth, screenHeight, fontSmallSize);
+                  showPersistentSnackBar(context, screenWidth, screenHeight, fontNormalSize);
                 } else {
                   _loginRequired(context);
                 }
