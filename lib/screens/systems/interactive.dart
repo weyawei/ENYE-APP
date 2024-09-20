@@ -1362,7 +1362,7 @@ class _ProductZoomPageState extends State<ProductZoomPage> with TickerProviderSt
                       children: [
                         IconButton(
                           icon: Image.asset(
-                            'assets/systems/chiller/pibcv.png',
+                            'assets/systems/chiller/PIBCV.png',
                             height: 150,
                             fit: BoxFit.fill,
                           ),

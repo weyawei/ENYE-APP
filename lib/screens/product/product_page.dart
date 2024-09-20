@@ -655,7 +655,7 @@ class _productsPageState extends State<productsPage> with TickerProviderStateMix
                                     color: Colors.black,
                                     fontWeight: FontWeight.bold,
                                   ),
-                                //  softWrap: true,
+                                  softWrap: true,
                                   maxLines: 2, // Adjust this to allow multiple lines
                                   overflow: TextOverflow.ellipsis,
                                 ),

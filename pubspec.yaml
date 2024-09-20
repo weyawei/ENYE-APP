@@ -142,6 +142,9 @@ flutter:
     - assets/systems/fire_smoke/
     - assets/systems/chiller/
     - assets/systems/fdas/
+    - assets/systems/ec_bills/
+    - assets/systems/ems/
+    - assets/systems/co/
 #    - assets/svg/
 #    - assets/images/
 #    - assets/image/

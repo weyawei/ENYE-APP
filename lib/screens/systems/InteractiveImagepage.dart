@@ -1,5 +1,8 @@
 // lib/interactive_image_page.dart
 import 'package:enye_app/screens/systems/interactive/chiller.dart';
+import 'package:enye_app/screens/systems/interactive/co.dart';
+import 'package:enye_app/screens/systems/interactive/ec_bills.dart';
+import 'package:enye_app/screens/systems/interactive/ems.dart';
 import 'package:enye_app/screens/systems/interactive/fdas.dart';
 import 'package:enye_app/screens/systems/interactive/smart_vav.dart';
 import 'package:enye_app/screens/systems/interactive/smoke_extract.dart';
@@ -22,8 +25,11 @@ class InteractiveImagePage extends StatelessWidget {
 
     // Determine which InteractiveImage widget to display based on systemId
     switch (systemId) {
-      case '100':
-        interactiveImage = Smart();
+      case '7':
+        interactiveImage = ECBillsPage();
+        break;
+      case '10':
+        interactiveImage = COPage();
         break;
       case '11':
         interactiveImage = SmartVavPage();
@@ -46,8 +52,8 @@ class InteractiveImagePage extends StatelessWidget {
       case '17':
         interactiveImage = FiremanControlPage();
         break;
-      case '180':
-        interactiveImage = Smart();
+      case '19':
+        interactiveImage = EMSPage();
         break;
     // Add more cases as needed
       default:
