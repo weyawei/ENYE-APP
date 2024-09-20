@@ -244,7 +244,7 @@ class _detailedProjPageState extends State<detailedProjPage> with TickerProvider
                                   Text(
                                     "${_projects[0].title.toString()}",
                                     style: TextStyle(
-                                      fontSize: fontXXSize,
+                                      fontSize: fontExtraSize,
                                       color: Colors.black,
                                       fontWeight: FontWeight.bold,
                                      letterSpacing: 1.2,
