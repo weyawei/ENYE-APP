@@ -248,7 +248,6 @@ class _productsPageState extends State<productsPage> with TickerProviderStateMix
     bool screenLayout = ResponsiveTextUtils.getLayout(screenWidth);
     var fontXSmallSize = ResponsiveTextUtils.getXSmallFontSize(screenWidth);
     var fontSmallSize = ResponsiveTextUtils.getSmallFontSize(screenWidth);
-    var fontNormalSize = ResponsiveTextUtils.getNormalFontSize(screenWidth);
     var fontExtraSize = ResponsiveTextUtils.getExtraFontSize(screenWidth);
 
   //  _filteredprodCategory = _prodCategory.where((productCategory) => productCategory.id == widget.category.id).toList();

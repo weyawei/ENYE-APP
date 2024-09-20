@@ -117,7 +117,7 @@ class _detailedProjPageState extends State<detailedProjPage> with TickerProvider
       extendBody: true,
       appBar: CustomAppBar(title: 'ENYE CONTROLS', imagePath: 'assets/logo/enyecontrols.png', appBarHeight: MediaQuery.of(context).size.height * 0.05,),
       body: _isLoadingProj
-          ? Center(child: SpinningContainer(controller: _controller),)
+          ? Center(child: CircularProgressIndicator(),)
           : RefreshIndicator(
             onRefresh: () async {
               await Future.delayed(Duration(seconds: 2));
@@ -166,7 +166,7 @@ class _detailedProjPageState extends State<detailedProjPage> with TickerProvider
 
                           // Blur Effect
                           BackdropFilter(
-                            filter: ImageFilter.blur(sigmaX: 2.0, sigmaY: 2.0),
+                            filter: ImageFilter.blur(sigmaX: 2.5, sigmaY: 2.5),
                             child: Container(
                               color: Colors.black.withOpacity(0.3), // Semi-transparent overlay
                             ),
@@ -184,8 +184,9 @@ class _detailedProjPageState extends State<detailedProjPage> with TickerProvider
                       children: [
                         // Main Image (centered)
                         Container(
-                          height: screenHeight * 0.4, // Adjust height as needed
-                          width: screenWidth * 0.8, // Adjust width as needed
+                          margin: EdgeInsets.only(top: screenHeight * 0.035),
+                          height: screenHeight * 0.45, // Adjust height as needed
+                          width: screenWidth * 0.88, // Adjust width as needed
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(10.0), // Optional: Add border radius
                             boxShadow: [
@@ -203,7 +204,7 @@ class _detailedProjPageState extends State<detailedProjPage> with TickerProvider
                                 decoration: BoxDecoration(
                                   image: DecorationImage(
                                     image: imageProvider,
-                                    fit: BoxFit.cover,
+                                    fit: BoxFit.fill,
                                   ),
                                 ),
                               ),
@@ -224,13 +225,10 @@ class _detailedProjPageState extends State<detailedProjPage> with TickerProvider
                           ),
                         ),
 
-
-                        SizedBox(height: 20), // Space between main image and details card
-
                         // Details Card
                         Container(
-                          width: screenWidth * 1, // Adjust width as needed
-                          padding: EdgeInsets.all(1.0),
+                          width: screenWidth * 0.9,
+                          margin: EdgeInsets.symmetric(vertical: screenHeight * 0.035),
                           child: Card(
                             elevation: 0.0,
                             color: Colors.white.withOpacity(0.7), // Semi-transparent card background
@@ -238,7 +236,7 @@ class _detailedProjPageState extends State<detailedProjPage> with TickerProvider
                               borderRadius: BorderRadius.circular(12.0),
                             ),
                             child: Padding(
-                              padding: const EdgeInsets.all(5.0),
+                              padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.03, vertical: screenHeight * 0.015),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
@@ -246,10 +244,10 @@ class _detailedProjPageState extends State<detailedProjPage> with TickerProvider
                                   Text(
                                     "${_projects[0].title.toString()}",
                                     style: TextStyle(
-                                      fontSize: fontXXSize,
+                                      fontSize: fontExtraSize,
                                       color: Colors.black,
                                       fontWeight: FontWeight.bold,
-                                    //  letterSpacing: 1.2,
+                                     letterSpacing: 1.2,
                                     ),
                                   ),
 
@@ -262,6 +260,7 @@ class _detailedProjPageState extends State<detailedProjPage> with TickerProvider
                                       color: Colors.black,
                                       fontWeight: FontWeight.w500,
                                       wordSpacing: 2.0,
+                                      height: 1.65,
                                       letterSpacing: 1.2,
                                     ),
                                   ),

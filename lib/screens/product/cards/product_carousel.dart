@@ -76,9 +76,8 @@ class _productCarouselState extends State<productCarousel> {
       shrinkWrap: true,
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: screenLayout ? 2 : 3,
-        childAspectRatio: 0.7, // Adjust ratio for desired item aspect
-        crossAxisSpacing: fontNormalSize,
-        mainAxisSpacing: fontNormalSize,
+        childAspectRatio: 0.65,
+        crossAxisSpacing: fontNormalSize
       ),
       itemCount: widget.products.length,
       itemBuilder: (BuildContext context, int index) {
@@ -102,12 +101,13 @@ class _productCarouselState extends State<productCarousel> {
             child: Container(
               decoration: BoxDecoration(
                 color: Colors.white,
-                borderRadius: BorderRadius.circular(10.0),
+                borderRadius: BorderRadius.circular(16.0),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black26,
-                    blurRadius: 10.0,
-                    offset: Offset(0, 5),
+                    color: Colors.black.withOpacity(0.2), // Shadow color with transparency
+                    spreadRadius: 1,  // How much the shadow spreads
+                    blurRadius: 6,    // How blurry the shadow is
+                    offset: Offset(0, 3), // Offset of the shadow (x: 0, y: 3)
                   ),
                 ],
               ),
@@ -159,6 +159,8 @@ class _productCarouselState extends State<productCarousel> {
                                   fontSize: fontSmallSize,
                                   color: Colors.black,
                                 ),
+                                overflow: TextOverflow.ellipsis,  // Add this to show ellipsis
+                                maxLines: 1,  // Limit to 1 line
                               ),
                             ),
                             Container(

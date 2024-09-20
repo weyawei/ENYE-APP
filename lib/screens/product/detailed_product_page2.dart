@@ -429,19 +429,20 @@ class _ProductItemScreenState extends State<ProductItemScreen> {
 
 
                         const SizedBox(
-                          width: 10,
+                          width: 5,
                         ),
                         Expanded(
                           child: Text(
                             prodCategory.name,
+                            textAlign: TextAlign.start,
                             style: TextStyle(
-                              fontSize: fontNormalSize,
-                              overflow: TextOverflow.ellipsis,
+                              fontSize: prodCategory.name.length > 16 ? fontSmallSize : fontNormalSize,
                             ),
                           ),
                         ),
-                        const Spacer(),
-
+                        const SizedBox(
+                          width: 15,
+                        ),
                         Text(
                           "273 Likes",
                         ),
