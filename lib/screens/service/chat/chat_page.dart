@@ -302,7 +302,7 @@ class _ChatPageState extends State<ChatPage> with TickerProviderStateMixin {
         appBar: CustomAppBar(title: 'Status', imagePath: '', appBarHeight: MediaQuery.of(context).size.height * 0.05,),
         /*drawer: CustomDrawer(),*/
         body: _isLoading
-            ? Center(child: SpinningContainer(controller: _controller),)
+            ? Center(child: CircularProgressIndicator(),)
             : RefreshIndicator(
           onRefresh: () async {
             await Future.delayed(Duration(seconds: 2));

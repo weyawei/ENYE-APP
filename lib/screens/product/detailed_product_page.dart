@@ -277,7 +277,7 @@ class _detailedProductPageState extends State<detailedProductPage> with TickerPr
     return Scaffold(
     //  appBar: CustomAppBar(title: 'PRODUCTS', imagePath: '', appBarHeight: MediaQuery.of(context).size.height * 0.05,),
       body: _isLoadingProd
-          ? Center(child: SpinningContainer(controller: _controller),)
+          ? Center(child: CircularProgressIndicator(),)
           : RefreshIndicator(
         onRefresh: () async {
           await Future.delayed(Duration(seconds: 2));

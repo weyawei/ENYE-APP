@@ -154,7 +154,7 @@ class _HistoryViewPageState extends State<HistoryViewPage> with TickerProviderSt
       appBar: CustomAppBar(title: 'Booking System', imagePath: 'assets/logo/enyecontrols.png', appBarHeight: screenHeight * 0.05,),
       resizeToAvoidBottomInset: true,
       body: _isLoadingAcc || _isLoadingSO
-        ? Center(child: SpinningContainer(controller: _controller),)
+        ? Center(child: CircularProgressIndicator(),)
         : ListView(
           children: [
             SizedBox(height: screenHeight * 0.03),

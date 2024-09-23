@@ -78,7 +78,7 @@ class _systemsPageState extends State<systemsPage> with TickerProviderStateMixin
        // appBar: CustomAppBar(title: 'Systems', imagePath: '', appBarHeight: MediaQuery.of(context).size.height * 0.05,),
         backgroundColor: Colors.white,
         body: _isLoading
-          ? Center(child: SpinningContainer(controller: _controller),)
+          ? Center(child: CircularProgressIndicator(),)
           : SafeArea(
               child: RefreshIndicator(
                 onRefresh: () async {

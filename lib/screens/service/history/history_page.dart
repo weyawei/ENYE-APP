@@ -122,7 +122,7 @@ class _HistoryPageState extends State<HistoryPage> with TickerProviderStateMixin
         appBar: CustomAppBar(
         title: 'History', imagePath: '', appBarHeight: screenHeight * 0.05,),
         body: _isLoadingService || _isLoadingTSIS || _isLoadingEvents
-          ? Center(child: SpinningContainer(controller: _controller),)
+          ? Center(child: CircularProgressIndicator(),)
           : RefreshIndicator(
               onRefresh: () async {
                 await Future.delayed(Duration(seconds: 2));
