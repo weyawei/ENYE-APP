@@ -241,7 +241,6 @@ class _productsPageState extends State<productsPage> with TickerProviderStateMix
     final activeBanners = _banner.where((bann) => bann.status == "Active").toList();
 
    // _prodCategory.shuffle();
-
 	  double screenHeight = MediaQuery.of(context).size.height;
     double screenWidth = MediaQuery.of(context).size.width;
 
@@ -578,7 +577,7 @@ class _productsPageState extends State<productsPage> with TickerProviderStateMix
                   physics: const NeverScrollableScrollPhysics(),
                   shrinkWrap: true,
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: screenLayout ? 3 : 5,
+                    crossAxisCount: screenLayout ? 3 : 4,
                     childAspectRatio: 0.8,
                     crossAxisSpacing: 4.0,
                     mainAxisSpacing: 6.0,
@@ -587,7 +586,7 @@ class _productsPageState extends State<productsPage> with TickerProviderStateMix
                     crossAxisCount: 4  ,
                     childAspectRatio: 0.8,
                   ),*/
-                  itemCount: screenLayout ? 15 : 10,
+                  itemCount: screenLayout ? 15 : 15,
                   itemBuilder: (context, index) {
                     List<productCategory> category = _prodCategory
                         .where((element) => element.status == "Active")
