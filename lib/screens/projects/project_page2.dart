@@ -34,7 +34,7 @@ class _ProjectPage2State extends State<ProjectPage2> {
       setState(() {
         _projects = Projects;
       });
-      print("Length ${Projects.length}");
+  //    print("Length ${Projects.length}");
     });
   }
 
@@ -43,7 +43,7 @@ class _ProjectPage2State extends State<ProjectPage2> {
       setState(() {
         _projectsTop = ProjectsTop.where((proj) => proj.proj_system == '1').toList();
       });
-      print("Length ${ProjectsTop.length}");
+  //    print("Length ${ProjectsTop.length}");
     });
   }
 
