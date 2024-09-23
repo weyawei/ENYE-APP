@@ -241,6 +241,7 @@ class _productsPageState extends State<productsPage> with TickerProviderStateMix
     final activeBanners = _banner.where((bann) => bann.status == "Active").toList();
 
    // _prodCategory.shuffle();
+
 	  double screenHeight = MediaQuery.of(context).size.height;
     double screenWidth = MediaQuery.of(context).size.width;
 
