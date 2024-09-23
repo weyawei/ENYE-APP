@@ -32,7 +32,7 @@ void main() async {
     clientInfo clientData = clientInfo.fromJson(clientDataJson);
 
     // Await the result of verification
-    String result = await TokenServices.verificationEmail(email);
+    String result = await TokenServices.verificationEmail(email, 'Update');
 
     if (result == 'success') {
       clientData.status = "Verified";

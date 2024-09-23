@@ -56,7 +56,7 @@ class _LoginPageState extends State<LoginPage> {
         var resBodyOfLogin = jsonDecode(res.body);
         if(resBodyOfLogin['login'] == true){
 
-          TokenServices.verificationEmail(emailController.text.trim()).then((result) async {
+          TokenServices.verificationEmail(emailController.text.trim(), 'Login').then((result) async {
             if('success' == result || 'Unverified' == result){
               var clientData = resBodyOfLogin["clients_data"];
 
@@ -330,7 +330,7 @@ class _LoginPageState extends State<LoginPage> {
                     print("Apple EMAIL : " + user.email.toString());
                     print("Apple Name : " + user.displayName.toString());
 
-                    TokenServices.verificationEmail(user.email.toString()).then((result) async {
+                    TokenServices.verificationEmail(user.email.toString(), 'Login').then((result) async {
                       if('success' == result || 'Unverified' == result){
                         // Set client data in session manager
                         await SessionManager().set("client_data", clientInfo(
@@ -396,7 +396,7 @@ class _LoginPageState extends State<LoginPage> {
                 GestureDetector(
                   onTap: () async {
                     await FirebaseServices().signInWithGoogle();
-                    TokenServices.verificationEmail(FirebaseAuth.instance.currentUser!.email.toString()).then((result) async {
+                    TokenServices.verificationEmail(FirebaseAuth.instance.currentUser!.email.toString(), 'Login').then((result) async {
                       if('success' == result || 'Unverified' == result){
                         await SessionManager().set("client_data",  clientInfo(
                           client_id: FirebaseAuth.instance.currentUser!.uid.toString(),
