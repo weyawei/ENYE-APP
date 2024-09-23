@@ -27,6 +27,8 @@ class _LoginPageState extends State<LoginPage> {
   final passwordController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
 
+  bool _isLoading = false;
+
   bool disabling = false;
 
   void initState(){
@@ -42,6 +44,10 @@ class _LoginPageState extends State<LoginPage> {
 
     var fontNormalSize = ResponsiveTextUtils.getNormalFontSize(screenWidth);
       disabling = true;
+      setState(() {
+        _isLoading = true;  // Show the loading screen
+      });
+
       dynamic token = await SessionManager().get("token");
 
       var res = await http.post( //pasiing value to result
@@ -80,6 +86,7 @@ class _LoginPageState extends State<LoginPage> {
 
               setState(() {
                 disabling = true;
+                _isLoading = false;
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
                     duration: Duration(seconds: 2),
@@ -124,6 +131,7 @@ class _LoginPageState extends State<LoginPage> {
             } else if ('exceed' == result) {
               setState(() {
                 disabling = false;
+                _isLoading = false;
               });
               showSnackbar(
                   context: context,
@@ -140,6 +148,7 @@ class _LoginPageState extends State<LoginPage> {
               // Show success snackbar and navigate
               setState(() {
                 disabling = false;
+                _isLoading = false;
               });
               showSnackbar(
                 context: context,
@@ -158,6 +167,7 @@ class _LoginPageState extends State<LoginPage> {
           // Show success snackbar and navigate
           setState(() {
             disabling = false;
+            _isLoading = false;
           });
           showSnackbar(
             context: context,
@@ -186,313 +196,348 @@ class _LoginPageState extends State<LoginPage> {
 
     return Scaffold(
       backgroundColor: Colors.deepOrange.shade200,
-      body: Form(
-        key: _formKey,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            //logo application
-            SizedBox(height: screenHeight * 0.10,),
-            Container(
-              alignment: Alignment.center,
-              height: screenHeight * 0.042,
-              width: screenWidth * 0.80,
-              decoration: BoxDecoration(
-                  image: DecorationImage(image: AssetImage("assets/logo/enyecontrols.png"), fit: BoxFit.fill)
-              ),
-            ),
-
-            //email textfield
-            SizedBox(height: screenHeight * 0.08,),
-            EmailTextField(
-              controller: emailController,
-              hintText: 'Email',
-              disabling: disabling,
-            ),
-
-            //password textfield
-            SizedBox(height: screenHeight * 0.02,),
-            PasswordTextField(
-              controller: passwordController,
-              hintText: 'Password',
-              disabling: disabling,
-            ),
-
-            //forgot password
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.05),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  TextButton(
-                    onPressed: (){
-                      Navigator.of(context).push(MaterialPageRoute(builder: (context) => ForgotPassPage(verified: false, email: '',))).then((value) { setState(() {}); });
-                    },
-                    child: Text(
-                      'Forgot Password?',
-                      style: TextStyle(
-                        fontSize: fontSmallSize,
-                        letterSpacing: 1.2,
-                        color: Colors.grey.shade800,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-
-            //sign-in button
-            SizedBox(height: screenHeight * 0.01,),
-            customButton(
-              text: "SIGN IN",
-              onTap: (){
-                if (_formKey.currentState!.validate()) {
-                  if (disabling == false) {
-                    signUserIn();
-                  }
-                } else {
-                  print('Form validation failed');
-                }
-              },
-              clr: Colors.deepOrange,
-              fontSize: fontExtraSize,
-            ),
-
-            //or continue with
-            SizedBox(height: screenHeight * 0.05,),
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: screenHeight * 0.05),
-              child: Row(
-                children: [
-                  Expanded(
-                      child: Divider(
-                        thickness: 0.5,
-                        color: Colors.grey.shade500,)
-                  ),
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: screenHeight * 0.025),
-                    child: Text(
-                      'Or continue with',
-                      style: TextStyle(
-                        fontSize: fontSmallSize,
-                        letterSpacing: 1.2,
-                        color: Colors.grey.shade800,
-                      ),
-                    ),
-                  ),
-                  Expanded(
-                      child: Divider(
-                        thickness: 0.5,
-                        color: Colors.grey.shade500,)
-                  ),
-                ],
-              ),
-            ),
-
-            SizedBox(height: screenHeight * 0.017,),
-            //gmail + facebook sign in
-            Row(
+      body: Stack(
+        children: [
+          Form(
+            key: _formKey,
+            child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                //apple id login
-                Platform.isIOS
-                ? GestureDetector(
-                  onTap: () async {
+                //logo application
+                SizedBox(height: screenHeight * 0.10,),
+                Container(
+                  alignment: Alignment.center,
+                  height: screenHeight * 0.042,
+                  width: screenWidth * 0.80,
+                  decoration: BoxDecoration(
+                      image: DecorationImage(image: AssetImage("assets/logo/enyecontrols.png"), fit: BoxFit.fill)
+                  ),
+                ),
 
-                    final credential = await SignInWithApple.getAppleIDCredential(
-                      scopes: [
-                        AppleIDAuthorizationScopes.email,
-                        AppleIDAuthorizationScopes.fullName,
-                      ],
-                    );
+                //email textfield
+                SizedBox(height: screenHeight * 0.08,),
+                EmailTextField(
+                  controller: emailController,
+                  hintText: 'Email',
+                  disabling: disabling,
+                ),
 
-                    // Concatenate givenName and familyName to form the full name
-                    String? fullName;
-                    if (credential.givenName != null && credential.familyName != null) {
-                      fullName = "${credential.givenName!} ${credential.familyName!}";
+                //password textfield
+                SizedBox(height: screenHeight * 0.02,),
+                PasswordTextField(
+                  controller: passwordController,
+                  hintText: 'Password',
+                  disabling: disabling,
+                ),
+
+                //forgot password
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.05),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      TextButton(
+                        onPressed: (){
+                          Navigator.of(context).push(MaterialPageRoute(builder: (context) => ForgotPassPage(verified: false, email: '',))).then((value) { setState(() {}); });
+                        },
+                        child: Text(
+                          'Forgot Password?',
+                          style: TextStyle(
+                            fontSize: fontSmallSize,
+                            letterSpacing: 1.2,
+                            color: Colors.grey.shade800,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+
+                //sign-in button
+                SizedBox(height: screenHeight * 0.01,),
+                customButton(
+                  text: "SIGN IN",
+                  onTap: (){
+                    if (_formKey.currentState!.validate()) {
+                      if (disabling == false) {
+                        signUserIn();
+                      }
+                    } else {
+                      print('Form validation failed');
                     }
-
-                    print("Full Name: $fullName"); // Debugging
-
-
-                    // Use the credential to sign in or create a user account with Firebase
-                    final OAuthProvider oAuthProvider = OAuthProvider("apple.com");
-                    final AuthCredential appleCredential = oAuthProvider.credential(
-                      idToken: credential.identityToken,
-                      accessToken: credential.authorizationCode,
-                    );
-
-                    // Sign in with Firebase using the Apple credentials
-                    final UserCredential userCredential = await FirebaseAuth.instance.signInWithCredential(appleCredential);
-                    final User user = userCredential.user!;
-
-                    print("Apple ID : " + user.uid.toString());
-                    print("Apple EMAIL : " + user.email.toString());
-                    print("Apple Name : " + user.displayName.toString());
-
-                    TokenServices.verificationEmail(user.email.toString(), 'Login').then((result) async {
-                      if('success' == result || 'Unverified' == result){
-                        // Set client data in session manager
-                        await SessionManager().set("client_data", clientInfo(
-                          client_id: user.uid.toString(),
-                          name: '',
-                          contact_no: '',
-                          image: '',
-                          email: user.email.toString(),
-                          login: 'APPLE',
-                          status: result == 'success' ? "Verified" : "Unverified"
-                        ));
-
-                        dynamic token = await SessionManager().get("token");
-                        TokenServices.updateToken(token.toString(), user.email.toString(), 'APPLE').then((result) {
-                          if('success' == result){
-                            print("Updated token successfully");
-                          } else {
-                            print("Error updating token");
-                          }
-                        });
-                        systemsNavigatorKey.currentState?.popUntil((route) => route.isFirst);
-                        widget.onLoginSuccess();
-                      } else if ('exceed' == result) {
-                        showSnackbar(
-                            context: context,
-                            screenWidth: screenWidth,
-                            screenHeight: screenHeight,
-                            fontSize: fontNormalSize,
-                            message: "Your login credentials are already used on 2 devices.",
-                            bkColor: Colors.blue,
-                            icon: Icons.info,
-                            isShowingErrorSnackbar: false,
-                            duration: 6
-                        );
-                      } else {
-                        showSnackbar(
-                          context: context,
-                          screenWidth: screenWidth,
-                          screenHeight: screenHeight,
-                          fontSize: fontNormalSize,
-                          message: "Error occurred...",
-                          bkColor: Colors.redAccent,
-                          icon: Icons.dangerous_rounded,
-                          isShowingErrorSnackbar: false,
-                          duration: 3
-                        );
-                      }
-                    });
-                    // Navigator.pop(context, true);
                   },
-                  child: Image(
-                    image: AssetImage('assets/icons/apple.png'),
-                    height: (screenHeight + screenWidth) / 28,
-                    width: (screenHeight + screenWidth) / 28,
+                  clr: Colors.deepOrange,
+                  fontSize: fontExtraSize,
+                ),
+
+                //or continue with
+                SizedBox(height: screenHeight * 0.05,),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: screenHeight * 0.05),
+                  child: Row(
+                    children: [
+                      Expanded(
+                          child: Divider(
+                            thickness: 0.5,
+                            color: Colors.grey.shade500,)
+                      ),
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: screenHeight * 0.025),
+                        child: Text(
+                          'Or continue with',
+                          style: TextStyle(
+                            fontSize: fontSmallSize,
+                            letterSpacing: 1.2,
+                            color: Colors.grey.shade800,
+                          ),
+                        ),
+                      ),
+                      Expanded(
+                          child: Divider(
+                            thickness: 0.5,
+                            color: Colors.grey.shade500,)
+                      ),
+                    ],
                   ),
-                )
-                : SizedBox.shrink(),
+                ),
 
-                Platform.isIOS
-                ? SizedBox(width: screenWidth * 0.05,)
-                : SizedBox.shrink(),
-
-                GestureDetector(
-                  onTap: () async {
-                    await FirebaseServices().signInWithGoogle();
-                    TokenServices.verificationEmail(FirebaseAuth.instance.currentUser!.email.toString(), 'Login').then((result) async {
-                      if('success' == result || 'Unverified' == result){
-                        await SessionManager().set("client_data",  clientInfo(
-                          client_id: FirebaseAuth.instance.currentUser!.uid.toString(),
-                          name: FirebaseAuth.instance.currentUser!.displayName.toString(),
-                          contact_no: '',
-                          image: FirebaseAuth.instance.currentUser!.photoURL.toString(),
-                          email: FirebaseAuth.instance.currentUser!.email.toString(),
-                          login: 'GMAIL',
-                          status: result == 'success' ? "Verified" : "Unverified"
-                        ));
-
-                        dynamic token = await SessionManager().get("token");
-                        TokenServices.updateToken(token.toString(), FirebaseAuth.instance.currentUser!.email.toString(), 'GMAIL').then((result) {
-                          if('success' == result){
-                            print("Updated token successfully");
-                          } else {
-                            print("Error updating token");
-                          }
-                        });
-                        systemsNavigatorKey.currentState?.popUntil((route) => route.isFirst);
-                        widget.onLoginSuccess();
-                      } else if ('exceed' == result) {
+                SizedBox(height: screenHeight * 0.017,),
+                //gmail + facebook sign in
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    //apple id login
+                    Platform.isIOS
+                    ? GestureDetector(
+                      onTap: () async {
                         setState(() {
-                          disabling = false;
+                          _isLoading = true;  // Show the loading screen
                         });
-                        showSnackbar(
-                            context: context,
-                            screenWidth: screenWidth,
-                            screenHeight: screenHeight,
-                            fontSize: fontNormalSize,
-                            message: "Your login credentials are already used on 2 devices.",
-                            bkColor: Colors.blue,
-                            icon: Icons.info,
-                            isShowingErrorSnackbar: false,
-                            duration: 6
-                        );
-                      } else {
-                        showSnackbar(
-                          context: context,
-                          screenWidth: screenWidth,
-                          screenHeight: screenHeight,
-                          fontSize: fontNormalSize,
-                          message: "Error occurred...",
-                          bkColor: Colors.redAccent,
-                          icon: Icons.dangerous_rounded,
-                          isShowingErrorSnackbar: false,
-                          duration: 3
-                        );
-                      }
-                    });
-                    // Navigator.pop(context, true);
-                  },
-                  child: Image(
-                    image: AssetImage('assets/icons/gmail.png'),
-                    height: (screenHeight + screenWidth) / 28,
-                    width: (screenHeight + screenWidth) / 28,
-                  ),
-                ),
 
-                /*SizedBox(width: 25,),
-                    Image(image: AssetImage('assets/icons/facebook-v2.png'), height: 40, width: 40,),*/
-              ],
-            ),
+                        final credential = await SignInWithApple.getAppleIDCredential(
+                          scopes: [
+                            AppleIDAuthorizationScopes.email,
+                            AppleIDAuthorizationScopes.fullName,
+                          ],
+                        );
 
-            SizedBox(height: screenHeight * 0.01,),
-            //not a member sign up
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  'Not a member?',
-                  style: TextStyle(
-                      fontSize: fontSmallSize,
-                      letterSpacing: 1.2,
-                      color: Colors.grey.shade800
-                  ),
-                ),
-                SizedBox(height: screenHeight * 0.04,),
-                TextButton(
-                  onPressed: (){
-                    Navigator.of(context).push(MaterialPageRoute(builder: (context) => registerPage())).then((value) { setState(() {}); });
-                  },
-                  child: Text(
-                    'Register now',
-                    style: TextStyle(
-                        fontSize: fontSmallSize,
-                        letterSpacing: 1.2,
-                        color: Colors.blue,
-                        fontWeight: FontWeight.bold
+                        // Concatenate givenName and familyName to form the full name
+                        String? fullName;
+                        if (credential.givenName != null && credential.familyName != null) {
+                          fullName = "${credential.givenName!} ${credential.familyName!}";
+                        }
+
+                        print("Full Name: $fullName"); // Debugging
+
+
+                        // Use the credential to sign in or create a user account with Firebase
+                        final OAuthProvider oAuthProvider = OAuthProvider("apple.com");
+                        final AuthCredential appleCredential = oAuthProvider.credential(
+                          idToken: credential.identityToken,
+                          accessToken: credential.authorizationCode,
+                        );
+
+                        // Sign in with Firebase using the Apple credentials
+                        final UserCredential userCredential = await FirebaseAuth.instance.signInWithCredential(appleCredential);
+                        final User user = userCredential.user!;
+
+                        print("Apple ID : " + user.uid.toString());
+                        print("Apple EMAIL : " + user.email.toString());
+                        print("Apple Name : " + user.displayName.toString());
+
+                        TokenServices.verificationEmail(user.email.toString(), 'Login').then((result) async {
+                          if('success' == result || 'Unverified' == result){
+                            setState(() {
+                              _isLoading = false;  // Show the loading screen
+                            });
+                            // Set client data in session manager
+                            await SessionManager().set("client_data", clientInfo(
+                              client_id: user.uid.toString(),
+                              name: '',
+                              contact_no: '',
+                              image: '',
+                              email: user.email.toString(),
+                              login: 'APPLE',
+                              status: result == 'success' ? "Verified" : "Unverified"
+                            ));
+
+                            dynamic token = await SessionManager().get("token");
+                            TokenServices.updateToken(token.toString(), user.email.toString(), 'APPLE').then((result) {
+                              if('success' == result){
+                                print("Updated token successfully");
+                              } else {
+                                print("Error updating token");
+                              }
+                            });
+                            systemsNavigatorKey.currentState?.popUntil((route) => route.isFirst);
+                            widget.onLoginSuccess();
+                          } else if ('exceed' == result) {
+                            setState(() {
+                              _isLoading = false;  // Show the loading screen
+                            });
+                            showSnackbar(
+                                context: context,
+                                screenWidth: screenWidth,
+                                screenHeight: screenHeight,
+                                fontSize: fontNormalSize,
+                                message: "Your login credentials are already used on 2 devices.",
+                                bkColor: Colors.blue,
+                                icon: Icons.info,
+                                isShowingErrorSnackbar: false,
+                                duration: 6
+                            );
+                          } else {
+                            setState(() {
+                              _isLoading = false;  // Show the loading screen
+                            });
+                            showSnackbar(
+                              context: context,
+                              screenWidth: screenWidth,
+                              screenHeight: screenHeight,
+                              fontSize: fontNormalSize,
+                              message: "Error occurred...",
+                              bkColor: Colors.redAccent,
+                              icon: Icons.dangerous_rounded,
+                              isShowingErrorSnackbar: false,
+                              duration: 3
+                            );
+                          }
+                        });
+                        // Navigator.pop(context, true);
+                      },
+                      child: Image(
+                        image: AssetImage('assets/icons/apple.png'),
+                        height: (screenHeight + screenWidth) / 28,
+                        width: (screenHeight + screenWidth) / 28,
+                      ),
+                    )
+                    : SizedBox.shrink(),
+
+                    Platform.isIOS
+                    ? SizedBox(width: screenWidth * 0.05,)
+                    : SizedBox.shrink(),
+
+                    GestureDetector(
+                      onTap: () async {
+                        setState(() {
+                          _isLoading = true;  // Show the loading screen
+                        });
+                        await FirebaseServices().signInWithGoogle();
+                        TokenServices.verificationEmail(FirebaseAuth.instance.currentUser!.email.toString(), 'Login').then((result) async {
+                          if('success' == result || 'Unverified' == result){
+                            setState(() {
+                              _isLoading = false;  // Show the loading screen
+                            });
+                            await SessionManager().set("client_data",  clientInfo(
+                              client_id: FirebaseAuth.instance.currentUser!.uid.toString(),
+                              name: FirebaseAuth.instance.currentUser!.displayName.toString(),
+                              contact_no: '',
+                              image: FirebaseAuth.instance.currentUser!.photoURL.toString(),
+                              email: FirebaseAuth.instance.currentUser!.email.toString(),
+                              login: 'GMAIL',
+                              status: result == 'success' ? "Verified" : "Unverified"
+                            ));
+
+                            dynamic token = await SessionManager().get("token");
+                            TokenServices.updateToken(token.toString(), FirebaseAuth.instance.currentUser!.email.toString(), 'GMAIL').then((result) {
+                              if('success' == result){
+                                print("Updated token successfully");
+                              } else {
+                                print("Error updating token");
+                              }
+                            });
+                            systemsNavigatorKey.currentState?.popUntil((route) => route.isFirst);
+                            widget.onLoginSuccess();
+                          } else if ('exceed' == result) {
+                            setState(() {
+                              disabling = false;
+                              _isLoading = false;
+                            });
+                            showSnackbar(
+                                context: context,
+                                screenWidth: screenWidth,
+                                screenHeight: screenHeight,
+                                fontSize: fontNormalSize,
+                                message: "Your login credentials are already used on 2 devices.",
+                                bkColor: Colors.blue,
+                                icon: Icons.info,
+                                isShowingErrorSnackbar: false,
+                                duration: 6
+                            );
+                          } else {
+                            setState(() {
+                              disabling = false;
+                              _isLoading = false;
+                            });
+                            showSnackbar(
+                              context: context,
+                              screenWidth: screenWidth,
+                              screenHeight: screenHeight,
+                              fontSize: fontNormalSize,
+                              message: "Error occurred...",
+                              bkColor: Colors.redAccent,
+                              icon: Icons.dangerous_rounded,
+                              isShowingErrorSnackbar: false,
+                              duration: 3
+                            );
+                          }
+                        });
+                        // Navigator.pop(context, true);
+                      },
+                      child: Image(
+                        image: AssetImage('assets/icons/gmail.png'),
+                        height: (screenHeight + screenWidth) / 28,
+                        width: (screenHeight + screenWidth) / 28,
+                      ),
                     ),
-                  ),
+
+                    /*SizedBox(width: 25,),
+                        Image(image: AssetImage('assets/icons/facebook-v2.png'), height: 40, width: 40,),*/
+                  ],
+                ),
+
+                SizedBox(height: screenHeight * 0.01,),
+                //not a member sign up
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      'Not a member?',
+                      style: TextStyle(
+                          fontSize: fontSmallSize,
+                          letterSpacing: 1.2,
+                          color: Colors.grey.shade800
+                      ),
+                    ),
+                    SizedBox(height: screenHeight * 0.04,),
+                    TextButton(
+                      onPressed: (){
+                        Navigator.of(context).push(MaterialPageRoute(builder: (context) => registerPage())).then((value) { setState(() {}); });
+                      },
+                      child: Text(
+                        'Register now',
+                        style: TextStyle(
+                            fontSize: fontSmallSize,
+                            letterSpacing: 1.2,
+                            color: Colors.blue,
+                            fontWeight: FontWeight.bold
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ],
             ),
-          ],
-        ),
+          ),
+
+          if (_isLoading)
+            Container(
+              color: Colors.black.withOpacity(0.5), // Optional overlay
+              child: Center(
+                child: CircularProgressIndicator(),
+              ),
+            ),
+        ],
       ),
     );
   }
