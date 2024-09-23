@@ -156,7 +156,7 @@ class _ProjectsPageState extends State<ProjectsPage> with TickerProviderStateMix
     return Scaffold(
       extendBody: true,
       body: _isLoadingProj || _isLoadingCat
-        ? Center(child: SpinningContainer(controller: _controller),)
+        ? Center(child: CircularProgressIndicator(),)
         : SafeArea(
         child: RefreshIndicator(
           onRefresh: () async {

@@ -214,7 +214,7 @@ class _StatusPageState extends State<StatusPage> with TickerProviderStateMixin {
       child: Scaffold(
         appBar: CustomAppBar(title: 'Status', imagePath: '', appBarHeight: MediaQuery.of(context).size.height * 0.05,),
         body: _isLoading || _isLoadingTSIS || _isLoadingEvents
-          ? Center(child: SpinningContainer(controller: _controller),)
+          ? Center(child: CircularProgressIndicator(),)
           : RefreshIndicator(
             onRefresh: () async {
               await Future.delayed(Duration(seconds: 2));

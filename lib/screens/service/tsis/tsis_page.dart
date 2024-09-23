@@ -96,7 +96,7 @@ class _TSIStatusPageState extends State<TSIStatusPage> with TickerProviderStateM
       child: Scaffold(
         appBar: CustomAppBar(title: 'Technical Status', imagePath: '', appBarHeight: MediaQuery.of(context).size.height * 0.05,),
         body: _isLoadingEvents || _isLoadingTSIS
-        ? Center(child: SpinningContainer(controller: _controller),)
+        ? Center(child: CircularProgressIndicator(),)
         : RefreshIndicator(
           onRefresh: () async {
             await Future.delayed(Duration(seconds: 2));

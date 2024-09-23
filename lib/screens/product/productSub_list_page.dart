@@ -77,7 +77,7 @@ class _listSubProductsPageState extends State<listSubProductsPage> with TickerPr
     return Scaffold(
         appBar: CustomAppBar(title: '', imagePath: 'assets/logo/enyecontrols.png', appBarHeight: screenHeight * 0.05,),
         body: _isLoadingProd
-            ? Center(child: SpinningContainer(controller: _controller),)
+            ? Center(child: CircularProgressIndicator(),)
             : RefreshIndicator(
           onRefresh: () async {
             await Future.delayed(Duration(seconds: 2));

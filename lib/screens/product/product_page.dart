@@ -259,7 +259,7 @@ class _productsPageState extends State<productsPage> with TickerProviderStateMix
      //   appBar: CustomAppBar(title: 'PRODUCTS', imagePath: 'assets/logo/enyecontrols.png', appBarHeight: MediaQuery.of(context).size.height * 0.05,),
         drawer: productDrawer(),
         body: _isLoadingCategory || _isLoadingProducts
-          ? Center(child: SpinningContainer(controller: _controller),)
+          ? Center(child: CircularProgressIndicator(),)
           : RefreshIndicator(
           onRefresh: () async {
             await Future.delayed(Duration(seconds: 2));

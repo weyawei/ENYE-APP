@@ -102,7 +102,7 @@ class _SOPdfPreviewPageState extends State<SOPdfPreviewPage> with TickerProvider
     var fontNormalSize = ResponsiveTextUtils.getNormalFontSize(screenWidth);
 
     return _isLoading
-        ? Center(child: SpinningContainer(controller: _controller),)
+        ? Center(child: CircularProgressIndicator(),)
         : Scaffold(
       appBar: AppBar(
         title: Text(

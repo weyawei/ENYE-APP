@@ -141,7 +141,7 @@ class _TSISViewPageState extends State<TSISViewPage> with TickerProviderStateMix
           .height * 0.05,),
       resizeToAvoidBottomInset: true,
       body: _isLoadingAcc || _isLoadingSO
-          ? Center(child: SpinningContainer(controller: _controller),)
+          ? Center(child: CircularProgressIndicator(),)
           : ListView(
         children: [
           SizedBox(height: screenHeight * 0.03),

@@ -157,7 +157,7 @@ class _StatusViewPageState extends State<StatusViewPage> with TickerProviderStat
           .height * 0.05,),
       resizeToAvoidBottomInset: true,
       body: _isLoadingAcc || _isLoadingSO
-          ? Center(child: SpinningContainer(controller: _controller),)
+          ? Center(child: CircularProgressIndicator(),)
           : ListView(
         children: [
           SizedBox(height: screenHeight * 0.03),

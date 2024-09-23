@@ -289,7 +289,7 @@ class _detailedSysPageState extends State<detailedSysPage> with TickerProviderSt
       appBar: CustomAppBar(title: 'Systems', imagePath: 'assets/logo/enyecontrols.png', appBarHeight: MediaQuery.of(context).size.height * 0.05,),
       /*drawer: CustomDrawer(),*/
       body: _isLoading || _isLoadingClientInfo
-          ? Center(child: SpinningContainer(controller: _controller),)
+          ? Center(child: CircularProgressIndicator(),)
           : RefreshIndicator(
             onRefresh: () async {
               await Future.delayed(Duration(seconds: 2));
