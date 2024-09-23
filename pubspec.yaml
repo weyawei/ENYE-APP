@@ -132,6 +132,7 @@ flutter:
     - assets/lottie/
     - assets/help/
     - assets/backgrounds/
+    - assets/banner/
     - assets/logo/
     - assets/icons/
     - assets/systems/

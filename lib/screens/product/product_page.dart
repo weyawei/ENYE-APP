@@ -37,7 +37,7 @@ class _productsPageState extends State<productsPage> with TickerProviderStateMix
   List<productCategory> _prodCategory = [];
   List<productCategory> _filteredprodCategory = [];
   List<product> _products = [];
-  List<banner> _banner = [];
+//  List<banner> _banner = [];
   List<product> searchResults = [];
   List<product> displayedProducts = []; // Initialize as an empty list
   TextEditingController searchController = TextEditingController();
@@ -53,7 +53,7 @@ class _productsPageState extends State<productsPage> with TickerProviderStateMix
   bool _isLoadingProducts = true;
 
   final CarouselController _carouselController = CarouselController();
-  _getBanner() {
+ /* _getBanner() {
     productService.getProductBanner().then((banner) {
       setState(() {
         List<String> targetIds = ["1"];
@@ -62,7 +62,7 @@ class _productsPageState extends State<productsPage> with TickerProviderStateMix
 
       print("Length ${_banner.length}");
     });
-  }
+  }*/
 
   String data = GlobalData.productId;
 
@@ -73,7 +73,7 @@ class _productsPageState extends State<productsPage> with TickerProviderStateMix
     searchFocusNode = FocusNode();
     _getProdCategory();
     _getProducts();
-    _getBanner();
+ //   _getBanner();
     loadMoreProducts();
     _speech = stt.SpeechToText();
   }
@@ -147,7 +147,7 @@ class _productsPageState extends State<productsPage> with TickerProviderStateMix
         _prodCategory = productCategory;
       });
       _isLoadingCategory = false;
-      print("Length ${productCategory.length}");
+    //  print("Length ${productCategory.length}");
     });
   }
 
@@ -158,7 +158,7 @@ class _productsPageState extends State<productsPage> with TickerProviderStateMix
         _products = product;
       });
       _isLoadingProducts = false;
-      print("Length ${product.length}");
+  //    print("Length ${product.length}");
 
       // Check and navigate after products are loaded
       if (data.isNotEmpty && _products.isNotEmpty) {
@@ -234,11 +234,23 @@ class _productsPageState extends State<productsPage> with TickerProviderStateMix
     );
   }
 
+  final List<String> bannerImages = [
+    'assets/banner/valves.png',
+    'assets/banner/gas.png',
+    'assets/banner/controllers.png',
+    'assets/banner/balancing.png',
+    'assets/banner/power.png',
+    'assets/banner/test equipment.png',
+    'assets/banner/flow.png',
+
+  ];
+
+
   int _currentIndex = 0;
   @override
   Widget build(BuildContext context) {
 
-    final activeBanners = _banner.where((bann) => bann.status == "Active").toList();
+ //   final activeBanners = _banner.where((bann) => bann.status == "Active").toList();
 
    // _prodCategory.shuffle();
 	  double screenHeight = MediaQuery.of(context).size.height;
@@ -272,7 +284,10 @@ class _productsPageState extends State<productsPage> with TickerProviderStateMix
               children: [
                 Stack(
                   children: [
-                    CarouselSlider(
+
+
+
+                  /*  CarouselSlider(
                       carouselController: _carouselController,
                       options: CarouselOptions(
                         autoPlay: false,
@@ -289,7 +304,7 @@ class _productsPageState extends State<productsPage> with TickerProviderStateMix
                       items: activeBanners.map((bann) =>
                           InkWell(
                             onTap: () {
-                              /* setState(() {
+                              *//* setState(() {
                                   PersistentNavBarNavigator.pushNewScreenWithRouteSettings(
                                     context,
                                     settings: RouteSettings(name: listProductsPage.routeName),
@@ -297,7 +312,7 @@ class _productsPageState extends State<productsPage> with TickerProviderStateMix
                                     withNavBar: true,
                                     pageTransitionAnimation: PageTransitionAnimation.cupertino,
                                   );
-                                });*/
+                                });*//*
                             },
                             child: Container(
                               color: Colors.white,
@@ -315,8 +330,8 @@ class _productsPageState extends State<productsPage> with TickerProviderStateMix
                                         child: Text(
                                           "FAILED TO LOAD THE IMAGE",
                                           style: TextStyle(
-                                            fontSize: fontSmallSize,
-                                            color: Colors.black54
+                                              fontSize: fontSmallSize,
+                                              color: Colors.black54
                                           ),
                                         ),
                                       ),
@@ -339,7 +354,7 @@ class _productsPageState extends State<productsPage> with TickerProviderStateMix
                                           end: Alignment.topCenter,
                                         ),
                                       ),
-                                      /* padding:
+                                      *//* padding:
                                           EdgeInsets.symmetric(vertical: 5.0, horizontal: 0.0),
                                           child: Text(
                                             productCategory.name,
@@ -348,7 +363,7 @@ class _productsPageState extends State<productsPage> with TickerProviderStateMix
                                               color: Colors.white,
                                               fontWeight: FontWeight.bold,
                                             ),
-                                          ),*/
+                                          ),*//*
                                     ),
                                   ),
                                 ],
@@ -356,7 +371,63 @@ class _productsPageState extends State<productsPage> with TickerProviderStateMix
                             ),
                           )
                       ).toList(),
+                    ),*/
+
+
+
+
+                    CarouselSlider(
+                      carouselController: _carouselController,
+                      options: CarouselOptions(
+                        autoPlay: false,
+                        aspectRatio: 1.35,
+                        viewportFraction: 1,
+                      //  enlargeCenterPage: true,
+                     //   enlargeStrategy: CenterPageEnlargeStrategy.height,
+                        onPageChanged: (index, reason) {
+                          setState(() {
+                            _currentIndex = index;
+                          });
+                        },
+                      ),
+                      items: bannerImages.map((imagePath) => InkWell(
+                        onTap: () {
+                          // Add your onTap logic here
+                        },
+                        child: Container(
+                          color: Colors.white,
+                          child: Stack(
+                            children: <Widget>[
+                              // Use Image.asset to load the static images from assets
+                              Image.asset(
+                                imagePath,
+                                fit: BoxFit.fill,
+                                width: screenWidth,
+                                height: screenHeight * 0.5,
+                              ),
+                              Positioned(
+                                bottom: 0.0,
+                                left: 0.0,
+                                right: 0.0,
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    gradient: LinearGradient(
+                                      colors: [
+                                        Color.fromARGB(200, 0, 0, 0),
+                                        Color.fromARGB(0, 0, 0, 0),
+                                      ],
+                                      begin: Alignment.bottomCenter,
+                                      end: Alignment.topCenter,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      )).toList(),
                     ),
+
 
                     Positioned(
                       top: 10.0,
@@ -422,7 +493,7 @@ class _productsPageState extends State<productsPage> with TickerProviderStateMix
                       child: Center(
                         child: AnimatedSmoothIndicator(
                           activeIndex: _currentIndex,
-                          count: activeBanners.length,
+                          count: bannerImages.length,
                           effect: ScrollingDotsEffect(
                             activeDotColor: Colors.blueAccent,
                             dotColor: Colors.grey,
