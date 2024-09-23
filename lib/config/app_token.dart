@@ -24,10 +24,11 @@ class TokenServices {
     }
   }
 
-  static Future<String> verificationEmail(String email) async {
+  static Future<String> verificationEmail(String email, String came_from) async {
     try{
       var map = Map<String, dynamic>();
       map['action'] = "Verify";
+      map['came_from'] = came_from;
       map['email'] = email;
 
       final res = await http.post(Uri.parse(API.verify), body: map); //passing value to result
