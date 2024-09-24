@@ -579,3 +579,49 @@ class Contact2TextField extends StatelessWidget {
   }
 }
 
+class CompanyTextField extends StatelessWidget {
+  final controller;
+  final String hintText;
+  final bool disabling;
+
+  const CompanyTextField({super.key, required this.controller, required this.hintText, required this.disabling});
+
+  @override
+  Widget build(BuildContext context) {
+
+    double screenWidth = MediaQuery.of(context).size.width;
+
+    var fontNormalSize = ResponsiveTextUtils.getNormalFontSize(screenWidth);
+
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.06),
+      child: TextFormField(
+        style: GoogleFonts.poppins(
+          textStyle:
+          TextStyle(fontSize: fontNormalSize, fontWeight: FontWeight.w500, letterSpacing: 0.8),
+        ),
+        readOnly: disabling,
+        onEditingComplete: (){},
+        controller: controller,
+        decoration: InputDecoration(
+          errorStyle: TextStyle(
+              fontSize: fontNormalSize,
+              letterSpacing: 0.8
+          ),
+          prefixIcon: Icon(Icons.work, size: fontNormalSize * 1.5),
+          enabledBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: Colors.white),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: Colors.deepOrange),
+          ),
+          fillColor: Colors.deepOrange.shade50,
+          filled: true,
+          hintText: hintText,
+          hintStyle: TextStyle(color: Colors.grey.shade400, fontSize: fontNormalSize, letterSpacing: 0.8),
+        ),
+      ),
+    ) ;
+  }
+}
+

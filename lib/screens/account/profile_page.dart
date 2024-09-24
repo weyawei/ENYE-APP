@@ -42,6 +42,7 @@ class _ProfilePageState extends State<ProfilePage> {
   bool disabling = true;
 
   bool _isUpdating = false;
+  bool _isLoading = false;
 
   File? imagepath;
   String? imagename;
@@ -143,12 +144,14 @@ class _ProfilePageState extends State<ProfilePage> {
     showimage = ClientInfo.image;
     nameController.text = ClientInfo.name;
     contactController.text = ClientInfo.contact_no;
+    compnameController.text = ClientInfo.company;
     emailController.text = ClientInfo.email;
   }
 
   Future<void> editInfo() async {
     setState(() {
       _isUpdating = true;
+      _isLoading = true;
     });
     if (_formKey.currentState!.validate()) {
       //kapag same picture disregard lang
@@ -163,9 +166,11 @@ class _ProfilePageState extends State<ProfilePage> {
           'client_id' : ClientInfo?.client_id.toString(),
           'name' : nameController.text.trim(),
           'contact' : contactController.text.trim(),
+          'company_name' : compnameController.text.trim(),
           'email' : emailController.text.trim(),
           'imagename' : imagename,
           'imagedata' : imagedata,
+          'login_as' : ClientInfo?.login.toString(),
         },
       );
 
@@ -174,6 +179,11 @@ class _ProfilePageState extends State<ProfilePage> {
 
         //if email is already taken
         if (resBodyOfSignUp['email_taken'] == true) {
+          setState(() {
+            _isLoading = false;
+            _isUpdating = false;
+            disabling = true;
+          });
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(
               duration: Duration(seconds: 1),
@@ -193,15 +203,30 @@ class _ProfilePageState extends State<ProfilePage> {
           _formKey.currentState?.reset();
         } else
         if (resBodyOfSignUp['editClientInfo'] == true) { //registration success
-          await SessionManager().set("client_data",  clientInfo(
-              client_id: ClientInfo!.client_id.toString(),
-              name: nameController.text,
-              contact_no: contactController.text,
-              image: imagename.toString(),
-              email: emailController.text,
-              login: ClientInfo!.login.toString(),
-              status: ClientInfo!.status.toString()
-          ));
+          if(ClientInfo?.login == "GMAIL"){
+            await SessionManager().set("client_data",  clientInfo(
+                client_id: ClientInfo!.client_id.toString(),
+                name: nameController.text,
+                contact_no: contactController.text,
+                company: compnameController.text,
+                image: ClientInfo!.image.toString(),
+                email: emailController.text,
+                login: ClientInfo!.login.toString(),
+                status: ClientInfo!.status.toString()
+            ));
+
+          } else {
+            await SessionManager().set("client_data",  clientInfo(
+                client_id: ClientInfo!.client_id.toString(),
+                name: nameController.text,
+                contact_no: contactController.text,
+                company: compnameController.text,
+                image: imagename.toString(),
+                email: emailController.text,
+                login: ClientInfo!.login.toString(),
+                status: ClientInfo!.status.toString()
+            ));
+          }
 
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(
@@ -220,12 +245,18 @@ class _ProfilePageState extends State<ProfilePage> {
             ),
           );
           setState(() {
+            _isLoading = false;
             _isUpdating = false;
             disabling = true;
             imagepath = null;
             checkUpdatedSession();
           });
         } else {
+          setState(() {
+            _isLoading = false;
+            _isUpdating = false;
+            disabling = true;
+          });
           ScaffoldMessenger.of(context).showSnackBar( //registration failed
             const SnackBar(
               backgroundColor: Colors.redAccent,
@@ -242,7 +273,19 @@ class _ProfilePageState extends State<ProfilePage> {
             ),
           );
         }
+      } else {
+        setState(() {
+          _isLoading = false;
+          _isUpdating = false;
+          disabling = true;
+        });
       }
+    } else {
+      setState(() {
+        _isLoading = false;
+        _isUpdating = false;
+        disabling = true;
+      });
     }
   }
 
@@ -332,76 +375,309 @@ class _ProfilePageState extends State<ProfilePage> {
 
     return Scaffold(
       appBar: CustomAppBar(title: 'Profile', imagePath: '', appBarHeight: MediaQuery.of(context).size.height * 0.05,),
-      body: Center(
-        child: ClientInfo?.login == "SIGNIN"
-         ? ListView(
-            children: [
-              Form(
-                key: _formKey,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    SizedBox(height: screenHeight * 0.02,),
-                    InkWell(
-                      onTap: (){
-                        if(disabling != true){
-                          selectImage();
-                        }
-                      },
-                      child: Stack(
-                        children: [
-                          imagepath != null
+      body: Stack(
+        children: [
+          Center(
+            child: ClientInfo?.login == "SIGNIN"
+             ? ListView(
+                children: [
+                  Form(
+                    key: _formKey,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        SizedBox(height: screenHeight * 0.02,),
+                        InkWell(
+                          onTap: (){
+                            if(disabling != true){
+                              selectImage();
+                            }
+                          },
+                          child: Stack(
+                            children: [
+                              imagepath != null
                               ? CircleAvatar(
-                            radius: (screenHeight + screenWidth) / 18,
-                            backgroundImage: FileImage(imagepath!),
-                          )
+                                radius: (screenHeight + screenWidth) / 18,
+                                backgroundImage: FileImage(imagepath!),
+                              )
                               : showimage != null && showimage != ""
                               ? CircleAvatar(
-                            radius: (screenHeight + screenWidth) / 18,
-                            backgroundImage: NetworkImage(API.clientsImages + showimage!),
-                          )
+                                radius: (screenHeight + screenWidth) / 18,
+                                backgroundImage: NetworkImage(API.clientsImages + showimage!),
+                              )
                               : CircleAvatar(
-                            radius: (screenHeight + screenWidth) / 18,
-                            foregroundColor: Colors.deepOrange,
-                            child: Icon(Icons.photo, color: Colors.deepOrange, size: (screenHeight + screenWidth) / 18,),
+                                radius: (screenHeight + screenWidth) / 18,
+                                foregroundColor: Colors.deepOrange,
+                                child: Icon(Icons.photo, color: Colors.deepOrange, size: (screenHeight + screenWidth) / 18,),
+                              ),
+
+                              disabling == false
+                                ? const Positioned(bottom: 2, left: 90,child: Icon(Icons.add_a_photo, color: Colors.deepOrange,),)
+                                : const SizedBox.shrink(),
+                            ],
                           ),
+                        ),
 
-                          disabling == false
-                              ? const Positioned(bottom: 2, left: 90,child: Icon(Icons.add_a_photo, color: Colors.deepOrange,),)
-                              : const SizedBox.shrink(),
-                        ],
-                      ),
+                        //fullname textfield
+                        SizedBox(height: screenHeight * 0.02,),
+                        PersonNameTextField(
+                          controller: nameController,
+                          hintText: 'Fullname',
+                          disabling: disabling,
+                        ),
+
+                        SizedBox(height: screenHeight * 0.01,),
+                        Contact2TextField(
+                          controller: contactController,
+                          hintText: 'Contact # (09xxxxxxxxx)',
+                          disabling: disabling,
+                        ),
+
+                        SizedBox(height: screenHeight * 0.01,),
+                        CompanyTextField(
+                          controller: compnameController,
+                          hintText: 'Company Name',
+                          disabling: disabling,
+                        ),
+
+                        //email textfield
+                        SizedBox(height: screenHeight * 0.01,),
+                        EmailTextField(
+                          controller: emailController,
+                          hintText: 'Email',
+                          disabling: disabling,
+                        ),
+
+                      ],
                     ),
+                  ),
 
-                    //fullname textfield
-                    SizedBox(height: screenHeight * 0.02,),
-                    PersonNameTextField(
-                      controller: nameController,
-                      hintText: 'Fullname',
-                      disabling: disabling,
+                  //edit cancel save
+                  _isUpdating == false
+                      ? GestureDetector(
+                      onTap: (){
+                        setState(() {
+                          _isUpdating = true;
+                          disabling = false;
+                        });
+                      },
+                      child: Padding(
+                        padding: EdgeInsets.only(top: screenHeight * 0.02, right: screenWidth * 0.05),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            CircleAvatar(
+                              radius: (screenHeight + screenWidth) / 45,
+                              backgroundColor: Colors.yellow.shade700,
+                              child: Icon(Icons.edit, color: Colors.yellowAccent, size: (screenHeight + screenWidth) / 50,),
+                            ),
+                          ],
+                        ),
+                      )
+                  )
+                      : Padding(
+                    padding: EdgeInsets.only(top: screenHeight * 0.02, right: screenWidth * 0.05),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        GestureDetector(
+                          onTap: (){
+                            editInfo();
+                          },
+                          child: CircleAvatar(
+                            radius: (screenHeight + screenWidth) / 45,
+                            backgroundColor: Colors.green,
+                            child: Icon(Icons.save, color: Colors.greenAccent, size: (screenHeight + screenWidth) / 50,),
+                          ),
+                        ),
+
+                        SizedBox(width: 15,),
+
+                        GestureDetector(
+                          onTap: (){
+                            setState(() {
+                              _isUpdating = false;
+                              disabling = true;
+                              imagepath = null;
+                              _showValues(ClientInfo!);
+                            });
+                          },
+                          child: CircleAvatar(
+                            radius: (screenHeight + screenWidth) / 45,
+                            backgroundColor: Colors.red.shade600,
+                            child: Icon(Icons.close, color: Colors.white, size: (screenHeight + screenWidth) / 50,),
+                          ),
+                        ),
+                      ],
                     ),
+                  ),
 
-                    SizedBox(height: screenHeight * 0.01,),
-                    Contact2TextField(
-                      controller: contactController,
-                      hintText: 'Contact # (09xxxxxxxxx)',
-                      disabling: disabling,
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.06, vertical: screenHeight * 0.03),
+                    child: customButton(
+                      onTap: () {
+                        showDialog(
+                          context: context,
+                          builder: (context) => AlertDialog(
+                            icon: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Icon(Icons.delete_forever, color: Colors.deepOrange.shade300, size: fontNormalSize * 1.65,),
+                                SizedBox(width: 5),
+                                Text(
+                                  'ACCOUNT DELETION',
+                                  textAlign: TextAlign.center,
+                                  style: GoogleFonts.rowdies(
+                                    textStyle: TextStyle(
+                                      fontSize: fontNormalSize,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.deepOrange,
+                                      letterSpacing: 1.2,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            content: Text(
+                              'Are you sure to delete your account?',
+                              textAlign: TextAlign.center,
+                              style: GoogleFonts.lato(
+                                textStyle: TextStyle(
+                                    fontSize: fontNormalSize,
+                                    fontWeight: FontWeight.bold,
+                                    letterSpacing: 0.8
+                                ),
+                              ),
+                            ),
+                            actionsAlignment: MainAxisAlignment.center,
+                            actions: [
+                              TextButton(
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                },
+                                child: Text(
+                                  "Close",
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.grey.shade700,
+                                    fontSize: fontNormalSize,
+                                    letterSpacing: 1.2,
+                                  ),
+                                ),
+                              ),
+
+                              SizedBox(width: 10,),
+
+                              TextButton(
+                                onPressed: () {
+                                  setState(() {
+                                    deleteClient();
+                                    Navigator.of(context).pop();
+                                  });
+                                },
+                                child: Text(
+                                  "YES",
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: fontNormalSize,
+                                    letterSpacing: 1.2,
+                                  ),
+                                ),
+                                style: ButtonStyle(
+                                  backgroundColor: MaterialStateProperty.all<Color>(Colors.deepOrange.shade400),
+                                  foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
+                                  padding: MaterialStateProperty.all<EdgeInsets>(
+                                    EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
+                                  ),
+                                ),
+                              )
+                            ],
+                          ),
+                        );
+                      },
+                      text: 'DELETE ACCOUNT',
+                      clr: Colors.redAccent,
+                      fontSize: fontExtraSize,
                     ),
+                  ),
+                ],
+              )
+             : ClientInfo?.login == "APPLE"
+              ? ListView(
+                children: [
+                  Form(
+                    key: _formKey,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        SizedBox(height: screenHeight * 0.02,),
+                        InkWell(
+                          onTap: (){
+                            if(disabling != true){
+                              selectImage();
+                            }
+                          },
+                          child: Stack(
+                            children: [
+                              imagepath != null
+                                  ? CircleAvatar(
+                                radius: (screenHeight + screenWidth) / 18,
+                                backgroundImage: FileImage(imagepath!),
+                              )
+                                  : showimage != null && showimage != ""
+                                  ? CircleAvatar(
+                                radius: (screenHeight + screenWidth) / 18,
+                                backgroundImage: NetworkImage(API.clientsImages + showimage!),
+                              )
+                                  : CircleAvatar(
+                                radius: (screenHeight + screenWidth) / 18,
+                                foregroundColor: Colors.deepOrange,
+                                child: Icon(Icons.photo, color: Colors.deepOrange, size: (screenHeight + screenWidth) / 18,),
+                              ),
 
-                    //email textfield
-                    SizedBox(height: screenHeight * 0.01,),
-                    EmailTextField(
-                      controller: emailController,
-                      hintText: 'Email',
-                      disabling: disabling,
+                              disabling == false
+                                  ? const Positioned(bottom: 2, left: 90,child: Icon(Icons.add_a_photo, color: Colors.deepOrange,),)
+                                  : const SizedBox.shrink(),
+                            ],
+                          ),
+                        ),
+
+                        //fullname textfield
+                        SizedBox(height: screenHeight * 0.02,),
+                        PersonNameTextField(
+                          controller: nameController,
+                          hintText: 'Fullname',
+                          disabling: disabling,
+                        ),
+
+                        SizedBox(height: screenHeight * 0.01,),
+                        Contact2TextField(
+                          controller: contactController,
+                          hintText: 'Contact # (09xxxxxxxxx)',
+                          disabling: disabling,
+                        ),
+
+                        SizedBox(height: screenHeight * 0.01,),
+                        CompanyTextField(
+                          controller: compnameController,
+                          hintText: 'Company Name',
+                          disabling: disabling,
+                        ),
+
+                        //email textfield
+                        SizedBox(height: screenHeight * 0.01,),
+                        EmailTextField(
+                          controller: emailController,
+                          hintText: 'Email',
+                          disabling: true,
+                        ),
+
+                      ],
                     ),
+                  ),
 
-                  ],
-                ),
-              ),
-
-              //edit cancel save
-              _isUpdating == false
+                  //edit cancel save
+                  _isUpdating == false
                   ? GestureDetector(
                   onTap: (){
                     setState(() {
@@ -424,403 +700,489 @@ class _ProfilePageState extends State<ProfilePage> {
                   )
               )
                   : Padding(
-                padding: EdgeInsets.only(top: screenHeight * 0.02, right: screenWidth * 0.05),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    GestureDetector(
-                      onTap: (){
-                        editInfo();
-                      },
-                      child: CircleAvatar(
-                        radius: (screenHeight + screenWidth) / 45,
-                        backgroundColor: Colors.green,
-                        child: Icon(Icons.save, color: Colors.greenAccent, size: (screenHeight + screenWidth) / 50,),
-                      ),
-                    ),
-
-                    SizedBox(width: 15,),
-
-                    GestureDetector(
-                      onTap: (){
-                        setState(() {
-                          _isUpdating = false;
-                          disabling = true;
-                          imagepath = null;
-                          _showValues(ClientInfo!);
-                        });
-                      },
-                      child: CircleAvatar(
-                        radius: (screenHeight + screenWidth) / 45,
-                        backgroundColor: Colors.red.shade600,
-                        child: Icon(Icons.close, color: Colors.white, size: (screenHeight + screenWidth) / 50,),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.06, vertical: screenHeight * 0.03),
-                child: customButton(
-                  onTap: () {
-                    showDialog(
-                      context: context,
-                      builder: (context) => AlertDialog(
-                        icon: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Icon(Icons.delete_forever, color: Colors.deepOrange.shade300, size: fontNormalSize * 1.65,),
-                            SizedBox(width: 5),
-                            Text(
-                              'ACCOUNT DELETION',
-                              textAlign: TextAlign.center,
-                              style: GoogleFonts.rowdies(
-                                textStyle: TextStyle(
-                                  fontSize: fontNormalSize,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.deepOrange,
-                                  letterSpacing: 1.2,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                        content: Text(
-                          'Are you sure to delete your account?',
-                          textAlign: TextAlign.center,
-                          style: GoogleFonts.lato(
-                            textStyle: TextStyle(
-                                fontSize: fontNormalSize,
-                                fontWeight: FontWeight.bold,
-                                letterSpacing: 0.8
-                            ),
-                          ),
-                        ),
-                        actionsAlignment: MainAxisAlignment.center,
-                        actions: [
-                          TextButton(
-                            onPressed: () {
-                              Navigator.of(context).pop();
-                            },
-                            child: Text(
-                              "Close",
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                color: Colors.grey.shade700,
-                                fontSize: fontNormalSize,
-                                letterSpacing: 1.2,
-                              ),
-                            ),
-                          ),
-
-                          SizedBox(width: 10,),
-
-                          TextButton(
-                            onPressed: () {
-                              setState(() {
-                                deleteClient();
-                                Navigator.of(context).pop();
-                              });
-                            },
-                            child: Text(
-                              "YES",
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: fontNormalSize,
-                                letterSpacing: 1.2,
-                              ),
-                            ),
-                            style: ButtonStyle(
-                              backgroundColor: MaterialStateProperty.all<Color>(Colors.deepOrange.shade400),
-                              foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
-                              padding: MaterialStateProperty.all<EdgeInsets>(
-                                EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
-                              ),
-                            ),
-                          )
-                        ],
-                      ),
-                    );
-                  },
-                  text: 'DELETE ACCOUNT',
-                  clr: Colors.redAccent,
-                  fontSize: fontExtraSize,
-                ),
-              ),
-            ],
-          )
-         : ClientInfo?.login == "APPLE"
-          ? ListView(
-            children: [
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  SizedBox(height: screenHeight * 0.02,),
-                  InkWell(
-                    onTap: (){
-                      if(disabling != true){
-                        selectImage();
-                      }
-                    },
-                    child: Stack(
+                    padding: EdgeInsets.only(top: screenHeight * 0.02, right: screenWidth * 0.05),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
                       children: [
-                        imagepath != null
-                            ? CircleAvatar(
-                          radius: (screenHeight + screenWidth) / 18,
-                          backgroundImage: FileImage(imagepath!),
-                        )
-                            : showimage != null && showimage != ""
-                            ? CircleAvatar(
-                          radius: (screenHeight + screenWidth) / 18,
-                          backgroundImage: NetworkImage(API.clientsImages + showimage!),
-                        )
-                            : CircleAvatar(
-                          radius: (screenHeight + screenWidth) / 18,
-                          foregroundColor: Colors.deepOrange,
-                          child: Icon(Icons.photo, color: Colors.deepOrange, size: (screenHeight + screenWidth) / 18,),
+                        GestureDetector(
+                          onTap: (){
+                            editInfo();
+                          },
+                          child: CircleAvatar(
+                            radius: (screenHeight + screenWidth) / 45,
+                            backgroundColor: Colors.green,
+                            child: Icon(Icons.save, color: Colors.greenAccent, size: (screenHeight + screenWidth) / 50,),
+                          ),
                         ),
 
-                        disabling == false
-                            ? const Positioned(bottom: 2, left: 90,child: Icon(Icons.add_a_photo, color: Colors.deepOrange,),)
-                            : const SizedBox.shrink(),
+                        SizedBox(width: 15,),
+
+                        GestureDetector(
+                          onTap: (){
+                            setState(() {
+                              _isUpdating = false;
+                              disabling = true;
+                              imagepath = null;
+                              _showValues(ClientInfo!);
+                            });
+                          },
+                          child: CircleAvatar(
+                            radius: (screenHeight + screenWidth) / 45,
+                            backgroundColor: Colors.red.shade600,
+                            child: Icon(Icons.close, color: Colors.white, size: (screenHeight + screenWidth) / 50,),
+                          ),
+                        ),
                       ],
                     ),
                   ),
 
-                  //fullname textfield
-                  SizedBox(height: screenHeight * 0.02,),
-                  EmailTextField(
-                    controller: emailController,
-                    hintText: 'Email',
-                    disabling: disabling,
-                  ),
-
-                ],
-              ),
-
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.06, vertical: screenHeight * 0.03),
-                child: customButton(
-                  onTap: () {
-                    showDialog(
-                      context: context,
-                      builder: (context) => AlertDialog(
-                        title: Text(
-                          'ACCOUNT DELETION',
-                          textAlign: TextAlign.center,
-                          style: GoogleFonts.rowdies(
-                            textStyle: TextStyle(
-                                fontSize: fontExtraSize,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.redAccent,
-                                letterSpacing: 0.8
-                            ),
-                          ),
-                        ),
-                        content: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            SizedBox(height: screenHeight * 0.02),
-                            Text(
-                              'Are you sure to delete your account?',
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.06, vertical: screenHeight * 0.03),
+                    child: customButton(
+                      onTap: () {
+                        showDialog(
+                          context: context,
+                          builder: (context) => AlertDialog(
+                            title: Text(
+                              'ACCOUNT DELETION',
                               textAlign: TextAlign.center,
-                              style: GoogleFonts.lato(
+                              style: GoogleFonts.rowdies(
                                 textStyle: TextStyle(
-                                    fontSize: fontNormalSize,
-                                    color: Colors.black,
+                                    fontSize: fontExtraSize,
                                     fontWeight: FontWeight.bold,
-                                    letterSpacing: 0.8
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                        actions: [
-                          TextButton(
-                            onPressed: () {
-                              Navigator.of(context).pop();
-                            },
-                            child: Text(
-                              'CANCEL',
-                              style: GoogleFonts.rowdies(
-                                textStyle: TextStyle(
-                                    fontSize: fontExtraSize,
-                                    color: Colors.black54,
-                                    letterSpacing: 0.8
-                                ),
-                              ),
-                            ),
-                          ),
-                          TextButton(
-                            onPressed: () {
-                              setState(() {
-                                deleteApple();
-                                Navigator.of(context).pop();
-                              });
-                            },
-                            child: Text(
-                              'YES',
-                              style: GoogleFonts.rowdies(
-                                textStyle: TextStyle(
-                                    fontSize: fontExtraSize,
                                     color: Colors.redAccent,
                                     letterSpacing: 0.8
                                 ),
                               ),
                             ),
+                            content: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                SizedBox(height: screenHeight * 0.02),
+                                Text(
+                                  'Are you sure to delete your account?',
+                                  textAlign: TextAlign.center,
+                                  style: GoogleFonts.lato(
+                                    textStyle: TextStyle(
+                                        fontSize: fontNormalSize,
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.bold,
+                                        letterSpacing: 0.8
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            actions: [
+                              TextButton(
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                },
+                                child: Text(
+                                  'CANCEL',
+                                  style: GoogleFonts.rowdies(
+                                    textStyle: TextStyle(
+                                        fontSize: fontExtraSize,
+                                        color: Colors.black54,
+                                        letterSpacing: 0.8
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              TextButton(
+                                onPressed: () {
+                                  setState(() {
+                                    deleteApple();
+                                    Navigator.of(context).pop();
+                                  });
+                                },
+                                child: Text(
+                                  'YES',
+                                  style: GoogleFonts.rowdies(
+                                    textStyle: TextStyle(
+                                        fontSize: fontExtraSize,
+                                        color: Colors.redAccent,
+                                        letterSpacing: 0.8
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
-                        ],
-                      ),
-                    );
-                  },
-                  text: 'DELETE ACCOUNT',
-                  clr: Colors.redAccent,
-                  fontSize: fontExtraSize,
-                ),
-              ),
-            ],
-          )
-          : ListView(
-          children: [
-            Column(
-              mainAxisAlignment: MainAxisAlignment.center,
+                        );
+                      },
+                      text: 'DELETE ACCOUNT',
+                      clr: Colors.redAccent,
+                      fontSize: fontExtraSize,
+                    ),
+                  ),
+
+                  // Column(
+                  //   mainAxisAlignment: MainAxisAlignment.center,
+                  //   children: [
+                  //     SizedBox(height: screenHeight * 0.02,),
+                  //     InkWell(
+                  //       onTap: (){
+                  //         if(disabling != true){
+                  //           selectImage();
+                  //         }
+                  //       },
+                  //       child: Stack(
+                  //         children: [
+                  //           imagepath != null
+                  //               ? CircleAvatar(
+                  //             radius: (screenHeight + screenWidth) / 18,
+                  //             backgroundImage: FileImage(imagepath!),
+                  //           )
+                  //               : showimage != null && showimage != ""
+                  //               ? CircleAvatar(
+                  //             radius: (screenHeight + screenWidth) / 18,
+                  //             backgroundImage: NetworkImage(API.clientsImages + showimage!),
+                  //           )
+                  //               : CircleAvatar(
+                  //             radius: (screenHeight + screenWidth) / 18,
+                  //             foregroundColor: Colors.deepOrange,
+                  //             child: Icon(Icons.photo, color: Colors.deepOrange, size: (screenHeight + screenWidth) / 18,),
+                  //           ),
+                  //
+                  //           disabling == false
+                  //               ? const Positioned(bottom: 2, left: 90,child: Icon(Icons.add_a_photo, color: Colors.deepOrange,),)
+                  //               : const SizedBox.shrink(),
+                  //         ],
+                  //       ),
+                  //     ),
+                  //
+                  //     //fullname textfield
+                  //     SizedBox(height: screenHeight * 0.02,),
+                  //     EmailTextField(
+                  //       controller: emailController,
+                  //       hintText: 'Email',
+                  //       disabling: disabling,
+                  //     ),
+                  //
+                  //   ],
+                  // ),
+                  //
+                  // Padding(
+                  //   padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.06, vertical: screenHeight * 0.03),
+                  //   child: customButton(
+                  //     onTap: () {
+                  //       showDialog(
+                  //         context: context,
+                  //         builder: (context) => AlertDialog(
+                  //           title: Text(
+                  //             'ACCOUNT DELETION',
+                  //             textAlign: TextAlign.center,
+                  //             style: GoogleFonts.rowdies(
+                  //               textStyle: TextStyle(
+                  //                   fontSize: fontExtraSize,
+                  //                   fontWeight: FontWeight.bold,
+                  //                   color: Colors.redAccent,
+                  //                   letterSpacing: 0.8
+                  //               ),
+                  //             ),
+                  //           ),
+                  //           content: Column(
+                  //             crossAxisAlignment: CrossAxisAlignment.start,
+                  //             mainAxisSize: MainAxisSize.min,
+                  //             children: [
+                  //               SizedBox(height: screenHeight * 0.02),
+                  //               Text(
+                  //                 'Are you sure to delete your account?',
+                  //                 textAlign: TextAlign.center,
+                  //                 style: GoogleFonts.lato(
+                  //                   textStyle: TextStyle(
+                  //                       fontSize: fontNormalSize,
+                  //                       color: Colors.black,
+                  //                       fontWeight: FontWeight.bold,
+                  //                       letterSpacing: 0.8
+                  //                   ),
+                  //                 ),
+                  //               ),
+                  //             ],
+                  //           ),
+                  //           actions: [
+                  //             TextButton(
+                  //               onPressed: () {
+                  //                 Navigator.of(context).pop();
+                  //               },
+                  //               child: Text(
+                  //                 'CANCEL',
+                  //                 style: GoogleFonts.rowdies(
+                  //                   textStyle: TextStyle(
+                  //                       fontSize: fontExtraSize,
+                  //                       color: Colors.black54,
+                  //                       letterSpacing: 0.8
+                  //                   ),
+                  //                 ),
+                  //               ),
+                  //             ),
+                  //             TextButton(
+                  //               onPressed: () {
+                  //                 setState(() {
+                  //                   deleteApple();
+                  //                   Navigator.of(context).pop();
+                  //                 });
+                  //               },
+                  //               child: Text(
+                  //                 'YES',
+                  //                 style: GoogleFonts.rowdies(
+                  //                   textStyle: TextStyle(
+                  //                       fontSize: fontExtraSize,
+                  //                       color: Colors.redAccent,
+                  //                       letterSpacing: 0.8
+                  //                   ),
+                  //                 ),
+                  //               ),
+                  //             ),
+                  //           ],
+                  //         ),
+                  //       );
+                  //     },
+                  //     text: 'DELETE ACCOUNT',
+                  //     clr: Colors.redAccent,
+                  //     fontSize: fontExtraSize,
+                  //   ),
+                  // ),
+                ],
+              )
+              : ListView(
               children: [
                 SizedBox(height: screenHeight * 0.02,),
-                InkWell(
-                  onTap: (){
-                    if(disabling != true){
-                      selectImage();
-                    }
-                  },
-                  child: Stack(
+                Center(
+                  child: imagepath != null
+                  ? CircleAvatar(
+                    radius: (screenHeight + screenWidth) / 18,
+                    backgroundImage: FileImage(imagepath!),
+                  )
+                  : showimage != null && showimage != ""
+                  ? CircleAvatar(
+                    radius: (screenHeight + screenWidth) / 18,
+                    backgroundImage: Image.network("${ClientInfo?.image}").image,
+                  )
+                  : CircleAvatar(
+                    radius: (screenHeight + screenWidth) / 18,
+                    foregroundColor: Colors.deepOrange,
+                    child: Icon(Icons.photo, color: Colors.deepOrange, size: (screenHeight + screenWidth) / 18,),
+                  ),
+                ),
+
+                Form(
+                  key: _formKey,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      imagepath != null
-                          ? CircleAvatar(
-                        radius: (screenHeight + screenWidth) / 18,
-                        backgroundImage: FileImage(imagepath!),
-                      )
-                          : showimage != null && showimage != ""
-                          ? CircleAvatar(
-                        radius: (screenHeight + screenWidth) / 18,
-                        backgroundImage: Image.network("${ClientInfo?.image}").image,
-                      )
-                          : CircleAvatar(
-                        radius: (screenHeight + screenWidth) / 18,
-                        foregroundColor: Colors.deepOrange,
-                        child: Icon(Icons.photo, color: Colors.deepOrange, size: (screenHeight + screenWidth) / 18,),
+                      //fullname textfield
+                      SizedBox(height: screenHeight * 0.02,),
+                      PersonNameTextField(
+                        controller: nameController,
+                        hintText: 'Fullname',
+                        disabling: disabling,
                       ),
 
-                      disabling == false
-                          ? const Positioned(bottom: 2, left: 90,child: Icon(Icons.add_a_photo, color: Colors.deepOrange,),)
-                          : const SizedBox.shrink(),
+                      SizedBox(height: screenHeight * 0.01,),
+                      Contact2TextField(
+                        controller: contactController,
+                        hintText: 'Contact # (09xxxxxxxxx)',
+                        disabling: disabling,
+                      ),
+
+                      SizedBox(height: screenHeight * 0.01,),
+                      CompanyTextField(
+                        controller: compnameController,
+                        hintText: 'Company Name',
+                        disabling: disabling,
+                      ),
+
+                      //email textfield
+                      SizedBox(height: screenHeight * 0.01,),
+                      EmailTextField(
+                        controller: emailController,
+                        hintText: 'Email',
+                        disabling: true,
+                      ),
+
                     ],
                   ),
                 ),
 
-                //fullname textfield
-                SizedBox(height: screenHeight * 0.02,),
-                PersonNameTextField(
-                  controller: nameController,
-                  hintText: 'Name',
-                  disabling: disabling,
-                ),
+                //edit cancel save
+                _isUpdating == false
+                ? GestureDetector(
+                onTap: (){
+                  setState(() {
+                    _isUpdating = true;
+                    disabling = false;
+                  });
+                },
+                child: Padding(
+                  padding: EdgeInsets.only(top: screenHeight * 0.02, right: screenWidth * 0.05),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      CircleAvatar(
+                        radius: (screenHeight + screenWidth) / 45,
+                        backgroundColor: Colors.yellow.shade700,
+                        child: Icon(Icons.edit, color: Colors.yellowAccent, size: (screenHeight + screenWidth) / 50,),
+                      ),
+                    ],
+                  ),
+                )
+            )
+                : Padding(
+              padding: EdgeInsets.only(top: screenHeight * 0.02, right: screenWidth * 0.05),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  GestureDetector(
+                    onTap: (){
+                      editInfo();
+                    },
+                    child: CircleAvatar(
+                      radius: (screenHeight + screenWidth) / 45,
+                      backgroundColor: Colors.green,
+                      child: Icon(Icons.save, color: Colors.greenAccent, size: (screenHeight + screenWidth) / 50,),
+                    ),
+                  ),
 
-                //fullname textfield
-                SizedBox(height: screenHeight * 0.02,),
-                EmailTextField(
-                  controller: emailController,
-                  hintText: 'Email',
-                  disabling: disabling,
-                ),
+                  SizedBox(width: 15,),
 
-              ],
+                  GestureDetector(
+                    onTap: (){
+                      setState(() {
+                        _isUpdating = false;
+                        disabling = true;
+                        imagepath = null;
+                        _showValues(ClientInfo!);
+                      });
+                    },
+                    child: CircleAvatar(
+                      radius: (screenHeight + screenWidth) / 45,
+                      backgroundColor: Colors.red.shade600,
+                      child: Icon(Icons.close, color: Colors.white, size: (screenHeight + screenWidth) / 50,),
+                    ),
+                  ),
+                ],
+              ),
             ),
 
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.06, vertical: screenHeight * 0.03),
-              child: customButton(
-                onTap: () {
-                  showDialog(
-                    context: context,
-                    builder: (context) => AlertDialog(
-                      title: Text(
-                        'ACCOUNT DELETION',
-                        textAlign: TextAlign.center,
-                        style: GoogleFonts.rowdies(
-                          textStyle: TextStyle(
-                              fontSize: fontExtraSize,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.redAccent,
-                              letterSpacing: 0.8
-                          ),
-                        ),
-                      ),
-                      content: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          SizedBox(height: screenHeight * 0.02),
-                          Text(
-                            'Are you sure to delete your account?',
+                // Column(
+                //   mainAxisAlignment: MainAxisAlignment.center,
+                //   children: [
+                //
+                //     //fullname textfield
+                //     SizedBox(height: screenHeight * 0.02,),
+                //     PersonNameTextField(
+                //       controller: nameController,
+                //       hintText: 'Name',
+                //       disabling: disabling,
+                //     ),
+                //
+                //     //fullname textfield
+                //     SizedBox(height: screenHeight * 0.02,),
+                //     EmailTextField(
+                //       controller: emailController,
+                //       hintText: 'Email',
+                //       disabling: disabling,
+                //     ),
+                //
+                //   ],
+                // ),
+
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.06, vertical: screenHeight * 0.03),
+                  child: customButton(
+                    onTap: () {
+                      showDialog(
+                        context: context,
+                        builder: (context) => AlertDialog(
+                          title: Text(
+                            'ACCOUNT DELETION',
                             textAlign: TextAlign.center,
-                            style: GoogleFonts.lato(
+                            style: GoogleFonts.rowdies(
                               textStyle: TextStyle(
-                                  fontSize: fontNormalSize,
-                                  color: Colors.black,
+                                  fontSize: fontExtraSize,
                                   fontWeight: FontWeight.bold,
-                                  letterSpacing: 0.8
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                      actions: [
-                        TextButton(
-                          onPressed: () {
-                            Navigator.of(context).pop();
-                          },
-                          child: Text(
-                            'CANCEL',
-                            style: GoogleFonts.rowdies(
-                              textStyle: TextStyle(
-                                  fontSize: fontExtraSize,
-                                  color: Colors.black54,
-                                  letterSpacing: 0.8
-                              ),
-                            ),
-                          ),
-                        ),
-                        TextButton(
-                          onPressed: () {
-                            setState(() {
-                              deleteGmail();
-                              Navigator.of(context).pop();
-                            });
-                          },
-                          child: Text(
-                            'YES',
-                            style: GoogleFonts.rowdies(
-                              textStyle: TextStyle(
-                                  fontSize: fontExtraSize,
                                   color: Colors.redAccent,
                                   letterSpacing: 0.8
                               ),
                             ),
                           ),
+                          content: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              SizedBox(height: screenHeight * 0.02),
+                              Text(
+                                'Are you sure to delete your account?',
+                                textAlign: TextAlign.center,
+                                style: GoogleFonts.lato(
+                                  textStyle: TextStyle(
+                                      fontSize: fontNormalSize,
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.bold,
+                                      letterSpacing: 0.8
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                          actions: [
+                            TextButton(
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+                              child: Text(
+                                'CANCEL',
+                                style: GoogleFonts.rowdies(
+                                  textStyle: TextStyle(
+                                      fontSize: fontExtraSize,
+                                      color: Colors.black54,
+                                      letterSpacing: 0.8
+                                  ),
+                                ),
+                              ),
+                            ),
+                            TextButton(
+                              onPressed: () {
+                                setState(() {
+                                  deleteGmail();
+                                  Navigator.of(context).pop();
+                                });
+                              },
+                              child: Text(
+                                'YES',
+                                style: GoogleFonts.rowdies(
+                                  textStyle: TextStyle(
+                                      fontSize: fontExtraSize,
+                                      color: Colors.redAccent,
+                                      letterSpacing: 0.8
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
-                      ],
-                    ),
-                  );
-                },
-                text: 'DELETE ACCOUNT',
-                clr: Colors.redAccent,
-                fontSize: fontExtraSize,
+                      );
+                    },
+                    text: 'DELETE ACCOUNT',
+                    clr: Colors.redAccent,
+                    fontSize: fontExtraSize,
+                  ),
+                ),
+              ],
+            )
+          ),
+
+          if (_isLoading)
+            Container(
+              color: Colors.black.withOpacity(0.5), // Optional overlay
+              child: Center(
+                child: CircularProgressIndicator(),
               ),
             ),
-          ],
-        )
+        ],
       ),
     );
   }

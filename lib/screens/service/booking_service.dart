@@ -28,7 +28,9 @@ class _BookingSystemState extends State<BookingSystem> {
         checkSession().getClientsData().then((value) {
           setState(() {
             ClientInfo = value;
-            clientNameController.text = ClientInfo!.name.toString();
+            clientNameController.text = ClientInfo!.name.toString() ?? '';
+            contactController.text = ClientInfo!.contact_no.toString() ?? '';
+            compnameController.text = ClientInfo!.company.toString() ?? '';
           });
         });
         userSessionFuture = bool;
@@ -552,6 +554,7 @@ class _BookingSystemState extends State<BookingSystem> {
     var fontSmallSize = ResponsiveTextUtils.getSmallFontSize(screenWidth);
     var fontNormalSize = ResponsiveTextUtils.getNormalFontSize(screenWidth);
     var fontExtraSize = ResponsiveTextUtils.getExtraFontSize(screenWidth);
+
 
     return KeyboardVisibilityBuilder(
       builder: (context, isKeyboardVisible){

@@ -292,6 +292,7 @@ class _MainAccPage2State extends State<MainAccPage2> {
                       // Navigator.of(context).push(
                       //   MaterialPageRoute(builder: (context) => ProfilePage()),
                       // ).then((_) => _getServices() );
+                      ScaffoldMessenger.of(context).hideCurrentSnackBar();
                       Navigator.of(context).push(
                         MaterialPageRoute(builder: (context) => StatusPage(message: message)),
                       );
@@ -588,7 +589,7 @@ class _MainAccPage2State extends State<MainAccPage2> {
                                   ),
                                 ),
                               ),
-                              if(ClientInfo?.name == '' || ClientInfo?.contact_no == '')
+                              if(ClientInfo?.name == '' || ClientInfo?.contact_no == '' || ClientInfo?.company == '')
                               Positioned(
                                 top: -5, // Adjust the position of the exclamation point
                                 left: -5, // Position it on the upper left corner of the icon
