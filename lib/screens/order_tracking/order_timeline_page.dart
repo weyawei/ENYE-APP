@@ -263,7 +263,7 @@ class _OrderTimelinePageState extends State<OrderTimelinePage> {
                     isFirst: _poDetails.length.toString() == po.sort_no ? true : false,
                     isLast: po.sort_no == '1' ? true : false,
                     isPast: _poDetails.length.toString() == po.sort_no ? false : true,
-                    icon: _poDetails.length.toString() == po.sort_no ? Icons.check : Icons.circle,
+                    icon: _poDetails.length.toString() == po.sort_no && po.status == "Delivered" ? Icons.check : Icons.circle,
                     imageIcon: getStatusImage(po.status),
                     status: po.status,
                     payment_status: po.payment_status,
