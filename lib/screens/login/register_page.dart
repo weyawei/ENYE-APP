@@ -44,6 +44,8 @@ class _registerPageState extends State<registerPage> {
   bool disabling = false;
   bool _isShowingErrorSnackbar = false;
 
+  bool isLoading = false;
+
   _successSnackbar(context, message){
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
@@ -130,10 +132,13 @@ class _registerPageState extends State<registerPage> {
 
   void _showOTPDialog() {
     showDialog(
+      barrierDismissible: false, // Prevents closing the dialog by tapping outside
       context: context,
       builder: (BuildContext context) {
         double screenWidth = MediaQuery.of(context).size.width;
 
+        var fontXSmallSize = ResponsiveTextUtils.getXSmallFontSize(screenWidth);
+        var fontXSize = ResponsiveTextUtils.getXFontSize(screenWidth);
         var fontNormalSize = ResponsiveTextUtils.getNormalFontSize(screenWidth);
         var fontExtraSize = ResponsiveTextUtils.getExtraFontSize(screenWidth);
 
@@ -157,73 +162,119 @@ class _registerPageState extends State<registerPage> {
           ),
         );
 
-        return Dialog(
-          // Set dialog properties such as shape, elevation, etc.
-          child: Container(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(top: 8.0),
-                  child: Text(
-                    "Kindly check the email provided",
-                    style: TextStyle(fontSize: fontNormalSize, fontWeight: FontWeight.bold, color: Colors.black54),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 8.0),
-                  child: Text(
-                    emailController.text,
-                    style: TextStyle(fontSize: fontExtraSize, fontWeight: FontWeight.bold, color: Colors.black54),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 8.0),
-                  child: Text(
-                    "Please enter the OTP CODE to verify,",
-                    style: TextStyle(fontSize: fontNormalSize, fontWeight: FontWeight.bold),
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.all(16),
-                  child: Pinput(
-                    controller: pin,
-                    length: 6,
-                    defaultPinTheme: defaultPinTheme,
-                    focusedPinTheme: focusedPinTheme,
-                    submittedPinTheme: submittedPinTheme,
+        String errorMessage = ''; // Define an error message variable
 
-                   // scrollPadding: EdgeInsets.all(5),
+      return StatefulBuilder(
+         builder: (BuildContext context, StateSetter setState)
+        {
+          return Dialog(
+            // Set dialog properties such as shape, elevation, etc.
+            child: Container(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Align(
+                    alignment: Alignment.topRight,
+                    child: IconButton(
+                      icon: Icon(Icons.close),
+                      onPressed: () {
+                        Navigator.of(context)
+                            .pop(); // Close the dialog manually
+                      },
+                    ),
                   ),
-                ),
-                GestureDetector(
-                  onTap: () async {
-                    Navigator.of(context).pop(); // Close the dialog
-                    if (await myauth.verifyOTP(otp: pin.text)) {
-                      signUserUp();
-                    } else {
-                      custSnackbar(context, "Invalid OTP !", Colors.redAccent, Icons.dangerous_rounded, Colors.white );
-                    }
-                  },
-                  child: Container(
-                    padding: EdgeInsets.all(16),
-                    color: Colors.deepOrangeAccent,
-                    child: Center(
+
+                  if (errorMessage.isNotEmpty) // Show the error message if it's not empty
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 8.0),
                       child: Text(
-                        "Verify",
-                        style: TextStyle(
-                          letterSpacing: 1.2,
-                          color: Colors.white,
-                          fontSize: fontExtraSize
+                        errorMessage,
+                        style: TextStyle(color: Colors.redAccent, fontWeight: FontWeight.bold),
+                      ),
+                    ),
+
+                  Padding(
+                    padding: const EdgeInsets.all(2.0),
+                    child: Text(
+                      "Kindly check the email you provided:",
+                      style: TextStyle(fontSize: fontNormalSize,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 8.0),
+                    child: Text(
+                      emailController.text,
+                      style: TextStyle(fontSize: fontNormalSize,
+                         // fontWeight: FontWeight.bold,
+                          fontStyle: FontStyle.italic,
+                          color: Colors.black54),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 0.01),
+                    child: Text(
+                      "Please enter the 6 Digit OTP CODE  that we sent to you:",
+                      style: TextStyle(
+                          fontSize: fontXSmallSize,
+                          fontWeight: FontWeight.bold,
+                        fontStyle: FontStyle.italic,
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.all(16),
+                    child: Pinput(
+                      controller: pin,
+                      length: 6,
+                      defaultPinTheme: defaultPinTheme,
+                      focusedPinTheme: focusedPinTheme,
+                      submittedPinTheme: submittedPinTheme,
+
+                      // scrollPadding: EdgeInsets.all(5),
+                    ),
+                  ),
+                  GestureDetector(
+                    onTap: () async {
+                      //  Navigator.of(context).pop(); // Close the dialog
+                      if (await myauth.verifyOTP(otp: pin.text)) {
+                        Navigator.of(context)
+                            .pop(); // Close the dialog only if OTP is valid
+                        signUserUp();
+                      } else {
+                       /* custSnackbar(context, "Invalid OTP !", Colors.redAccent,
+                            Icons.dangerous_rounded, Colors.white);*/
+                        // Update the error message and re-render the dialog
+                        setState(() {
+                          errorMessage = "Invalid OTP! Please try again.";
+                        });
+                      }
+                    },
+                    child: Container(
+                      padding: EdgeInsets.symmetric(),
+                      decoration: BoxDecoration(
+                        color: Colors.deepOrangeAccent,
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      child: Center(
+                        child: Text(
+                          "Verify",
+                          style: TextStyle(
+                            letterSpacing: 1.2,
+                            color: Colors.white,
+                            fontSize: fontExtraSize,
+                          ),
                         ),
                       ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
-        );
+          );
+        },
+      );
       },
     );
   }
@@ -371,16 +422,25 @@ class _registerPageState extends State<registerPage> {
 
                   //sign-up button
                   SizedBox(height: screenHeight * 0.015,),
-                  customButton(
+                  isLoading
+                      ? CircularProgressIndicator()
+                      : customButton(
                     text: "Sign Up",
                     onTap: () async {
                       FocusScope.of(context).unfocus();
                       if (disabling == false) {
+                        // Start loading
+                        setState(() {
+                          isLoading = true;
+                        });
                         // Validate returns true if the form is valid, or false otherwise.
                         if (_formKey.currentState!.validate()) {
                           //password doesn't match with confirmation password
                           if (passwordController.text.trim() != conpasswordController.text.trim()) {
                             custSnackbar(context, "Password doesn't match !", Colors.redAccent, Icons.close, Colors.white );
+                            setState(() {
+                              isLoading = false;
+                            });
                           } else {
                             //check email if meron na sa database
 
@@ -403,7 +463,7 @@ class _registerPageState extends State<registerPage> {
                               } else {
                                 myauth.setConfig(
                                   appEmail: "ronfrancia.enye@gmail.com",
-                                  appName: "ENYE CONTROLS",
+                                  appName: "ENYECONTROLS",
                                   userEmail: emailController.text,
                                   otpLength: 6,
                                   otpType: OTPType.digitsOnly,
@@ -416,7 +476,16 @@ class _registerPageState extends State<registerPage> {
                                 }
                               }
                             }
+                            // Stop loading after API response
+                            setState(() {
+                              isLoading = false;
+                            });
                           }
+                        } else {
+                          // Stop loading if form validation fails
+                          setState(() {
+                            isLoading = false;
+                          });
                         }
                       }
                       _onButtonPressed();
