@@ -252,7 +252,7 @@ class _registerPageState extends State<registerPage> {
                       }
                     },
                     child: Container(
-                      padding: EdgeInsets.symmetric(),
+                      padding: EdgeInsets.all(16),
                       decoration: BoxDecoration(
                         color: Colors.deepOrangeAccent,
                         borderRadius: BorderRadius.circular(20),
