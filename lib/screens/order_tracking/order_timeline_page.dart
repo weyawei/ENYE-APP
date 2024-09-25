@@ -83,7 +83,7 @@ class _OrderTimelinePageState extends State<OrderTimelinePage> {
                         ),
                         SizedBox(height: 4),
                         Text(
-                          widget.clientPO.estimated_delivery,
+                          formatDateRangeSplitByTO(widget.clientPO.estimated_delivery),
                           style: TextStyle(
                             fontSize: fontNormalSize,
                             letterSpacing: 0.8,
@@ -149,22 +149,20 @@ class _OrderTimelinePageState extends State<OrderTimelinePage> {
             Padding(
               padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.05),
               child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        RichText(
-                          text: TextSpan(
-                            children: [
-                              WidgetSpan(
-                                child: Icon(Icons.business_center, size: fontSmallSize * 1.5, color: Colors.deepOrange.shade300),
-                              ),
-                              WidgetSpan(
-                                child: SizedBox(width: 5,),
-                              ),
-                              TextSpan(
-                                text: widget.clientPO.company,
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Icon(Icons.business_center, size: fontSmallSize * 1.25, color: Colors.deepOrange.shade300),
+                            SizedBox(width: 5,),
+                            Expanded(
+                              child: Text(
+                                widget.clientPO.company,
                                 style: TextStyle(
                                   fontFamily: 'Rowdies',
                                   fontSize: fontSmallSize,
@@ -172,59 +170,54 @@ class _OrderTimelinePageState extends State<OrderTimelinePage> {
                                   fontWeight: FontWeight.bold,
                                   color: Colors.grey.shade700,
                                 ),
-                              ),
-                            ],
-                          ),
+                              )
+                            ),
+                          ],
                         ),
 
-                        RichText(
-                          text: TextSpan(
-                            children: [
-                              WidgetSpan(
-                                child: Icon(Icons.business, size: fontSmallSize * 1.5, color: Colors.deepOrange.shade300),
-                              ),
-                              WidgetSpan(
-                                child: SizedBox(width: 5,),
-                              ),
-                              TextSpan(
-                                text: widget.clientPO.project,
+                        SizedBox(height: 2.5,),
+
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Icon(Icons.business, size: fontSmallSize * 1.25, color: Colors.deepOrange.shade300),
+                            SizedBox(width: 5,),
+                            Expanded(
+                              child: Text(
+                                widget.clientPO.project,
                                 style: TextStyle(
-                                  fontSize: fontXSmallSize,
+                                  fontSize: fontSmallSize,
                                   letterSpacing: 0.8,
                                   fontWeight: FontWeight.bold,
                                   color: Colors.grey.shade700,
                                 ),
-                              ),
-                            ],
-                          ),
+                              )
+                            ),
+                          ],
                         ),
                       ],
                     ),
                   ),
+                  SizedBox(width: 20,),
                   Container(
-                    width: screenWidth * 0.25,
-                    child: RichText(
-                      textAlign: TextAlign.end,
-                      text: TextSpan(
-                        children: [
-                          WidgetSpan(
-                            child: Icon(Icons.payments_outlined, size: fontSmallSize * 1.5, color: Colors.deepOrange.shade300),
-                          ),
-                          WidgetSpan(
-                            child: SizedBox(width: 5,),
-                          ),
-                          TextSpan(
-                            text: widget.clientPO.terms,
-                            style: TextStyle(
-                              fontSize: fontSmallSize,
-                              letterSpacing: 0.8,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.grey.shade700,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
+                    width: screenWidth * 0.3,
+                    child: Row(
+                      children: [
+                        Icon(Icons.payments_outlined, size: fontSmallSize * 1.5, color: Colors.deepOrange.shade300),
+                        SizedBox(width: 5,),
+                        Expanded(
+                          child: Text(
+                            widget.clientPO.terms,
+                              style: TextStyle(
+                                fontSize: fontXSmallSize,
+                                letterSpacing: 0.8,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.grey.shade700,
+                              ),
+                          )
+                        ),
+                      ],
+                    )
                   )
                 ],
               ),

@@ -232,7 +232,7 @@ class _OrderTrackingPageState extends State<OrderTrackingPage> {
                                       child: SizedBox(width: 5,),
                                     ),
                                     TextSpan(
-                                      text: po.estimated_delivery,
+                                      text: formatDateRangeSplitByTO(po.estimated_delivery),
                                       style: TextStyle(
                                         fontSize: fontSmallSize,
                                         letterSpacing: 0.8,
@@ -276,7 +276,7 @@ class _OrderTrackingPageState extends State<OrderTrackingPage> {
                                 text: TextSpan(
                                   children: [
                                     TextSpan(
-                                      text: "Status : ",
+                                      text: "Order Status : ",
                                       style: TextStyle(
                                         fontSize: fontSmallSize,
                                         letterSpacing: 0.8,
