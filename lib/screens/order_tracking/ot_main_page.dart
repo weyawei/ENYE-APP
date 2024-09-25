@@ -22,11 +22,21 @@ class _OrderTrackingPageState extends State<OrderTrackingPage> {
   bool _isLoadingPO = false;
   int _currentStep = 0;
 
-  late List<QuotationPO> _searchPo;
-  _getQuotationPo(String po_no){
-    QuotationPOServices.getQuotationPO(po_no).then((po){
+  // late List<QuotationPO> _searchPo;
+  // _getQuotationPo(String po_no){
+  //   QuotationPOServices.getQuotationPO(po_no).then((po){
+  //     setState(() {
+  //       _searchPo = po;
+  //     });
+  //     _isLoadingPO = false;
+  //   });
+  // }
+
+  late List<ClientPO> _searchClientPO;
+  _getClientPo(String po_no){
+    ClientPOServices.getClientPO(po_no).then((po){
       setState(() {
-        _searchPo = po;
+        _searchClientPO = po;
       });
       _isLoadingPO = false;
     });
@@ -34,7 +44,8 @@ class _OrderTrackingPageState extends State<OrderTrackingPage> {
 
   void initState() {
     super.initState();
-    _searchPo = [];
+    // _searchPo = [];
+    _searchClientPO = [];
   }
 
   @override
@@ -72,10 +83,10 @@ class _OrderTrackingPageState extends State<OrderTrackingPage> {
                 width: screenWidth * 0.15,
                 child: ElevatedButton(
                   onPressed: () {
-                    _getQuotationPo(searchController.text);
+                    _getClientPo(searchController.text);
                     setState(() {
                       _isLoadingPO = true;
-                      if(_searchPo.isNotEmpty){ searchController.clear(); };
+                      if(_searchClientPO.isNotEmpty){ searchController.clear(); };
                     });
                   },
                   style: ElevatedButton.styleFrom(
@@ -107,13 +118,13 @@ class _OrderTrackingPageState extends State<OrderTrackingPage> {
           Expanded(
             child: ListView(
               children: [
-                if (_searchPo.isNotEmpty)
-                  ..._searchPo.map((po) {
+                if (_searchClientPO.isNotEmpty)
+                  ..._searchClientPO.map((po) {
                     return GestureDetector(
                       onTap: (){
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => OrderTimelinePage(po_no : po.po_no)),
+                          MaterialPageRoute(builder: (context) => OrderTimelinePage(clientPO : po)),
                         );
                       },
                       child: Container(
@@ -156,7 +167,7 @@ class _OrderTrackingPageState extends State<OrderTrackingPage> {
                                           SizedBox(height: screenHeight * 0.005,),
                                           Center(
                                             child: Text(
-                                              po.company_name.toUpperCase(),
+                                              po.company.toUpperCase(),
                                               textAlign: TextAlign.center,
                                               style: TextStyle(
                                                 fontFamily: 'Rowdies',
@@ -169,7 +180,7 @@ class _OrderTrackingPageState extends State<OrderTrackingPage> {
                                           ),
                                           SizedBox(height: screenHeight * 0.005,),
                                           Text(
-                                            po.project_name.toUpperCase(),
+                                            po.project.toUpperCase(),
                                             textAlign: TextAlign.center,
                                             style: TextStyle(
                                               fontSize: fontXSmallSize,
@@ -221,7 +232,7 @@ class _OrderTrackingPageState extends State<OrderTrackingPage> {
                                       child: SizedBox(width: 5,),
                                     ),
                                     TextSpan(
-                                      text: "12 Sept - 13 Sept ",
+                                      text: po.estimated_delivery,
                                       style: TextStyle(
                                         fontSize: fontSmallSize,
                                         letterSpacing: 0.8,
@@ -259,12 +270,56 @@ class _OrderTrackingPageState extends State<OrderTrackingPage> {
                                   ],
                                 ),
                               ),
+
+                              SizedBox(height: screenHeight * 0.01,),
+                              RichText(
+                                text: TextSpan(
+                                  children: [
+                                    TextSpan(
+                                      text: "Status : ",
+                                      style: TextStyle(
+                                        fontSize: fontSmallSize,
+                                        letterSpacing: 0.8,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.grey.shade700,
+                                      ),
+                                    ),
+                                    WidgetSpan(
+                                      child: SizedBox(width: 5,),
+                                    ),
+                                    TextSpan(
+                                      text: po.status,
+                                      style: TextStyle(
+                                        fontSize: fontSmallSize,
+                                        letterSpacing: 0.8,
+                                        color: Colors.grey.shade700,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
                             ],
                           ),
                         ),
                       ),
                     );
                   }).toList(),
+
+                if (_searchClientPO.isEmpty)
+                  Container(
+                    height: screenHeight * 0.65,
+                    child: Center(
+                      child: Text(
+                        "No Available Data",
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: fontExtraSize * 2,
+                          color: Colors.grey.shade300,
+                          letterSpacing: 1.2
+                        ),
+                      ),
+                    ),
+                  )
               ],
             ),
           )

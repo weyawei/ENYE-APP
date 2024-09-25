@@ -24,9 +24,9 @@ class TimeCardPage extends StatelessWidget {
         child,
         textAlign: TextAlign.right,
         style: TextStyle(
-          fontSize: fontSmallSize,
-          letterSpacing: 0.8,
-          color: isPast ? Colors.black : Colors.grey
+          fontSize: fontSmallSize * 0.85,
+          letterSpacing: 0.6,
+          color: isPast ? Colors.grey : Colors.black
         ),
       ),
     );

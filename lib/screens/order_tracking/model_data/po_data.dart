@@ -1,3 +1,41 @@
+class ClientPO {
+  String id;
+  String po_no;
+  String quotation_no;
+  String quotation_id;
+  String company;
+  String project;
+  String terms;
+  String estimated_delivery;
+  String status;
+
+  ClientPO({
+    required this.id,
+    required this.po_no,
+    required this.quotation_no,
+    required this.quotation_id,
+    required this.company,
+    required this.project,
+    required this.terms,
+    required this.estimated_delivery,
+    required this.status,
+  });
+
+  factory ClientPO.fromJson(Map<String, dynamic> json) {
+    return ClientPO(
+      id: json['id'] as String? ?? '',
+      po_no: json['po_no'] as String? ?? '',
+      quotation_no: json['quotation_no'] as String? ?? '',
+      quotation_id: json['quotation_id'] as String? ?? '',
+      company: json['company'] as String? ?? '',
+      project: json['project'] as String? ?? '',
+      terms: json['terms'] as String? ?? '',
+      estimated_delivery: json['estimated_delivery'] as String? ?? '',
+      status: json['status'] as String? ?? '',
+    );
+  }
+}
+
 class QuotationPO {
   String id;
   String quotation_no;

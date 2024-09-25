@@ -68,6 +68,7 @@ class API {
   static const survey = "$hostConnect/enye/booking/survey.php";
 
   static const quotation_po_details = "$hostConnect/enye/tracking/track_sales_po.php";
+  static const client_po = "$hostConnect/enye/tracking/track_po.php";
   static const logistics_tracking = "$hostConnect/enye/tracking/track_logistics.php";
 
 //  news

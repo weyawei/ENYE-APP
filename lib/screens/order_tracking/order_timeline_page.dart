@@ -2,15 +2,41 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import '../../widget/widgets.dart';
+import '../screens.dart';
 import 'components/timeline_tile_page.dart';
 
-class OrderTimelinePage extends StatelessWidget {
-  final String po_no;
+class OrderTimelinePage extends StatefulWidget {
+  final ClientPO clientPO;
 
   const OrderTimelinePage({
     super.key,
-    required this.po_no
+    required this.clientPO,
   });
+
+  @override
+  State<OrderTimelinePage> createState() => _OrderTimelinePageState();
+}
+
+class _OrderTimelinePageState extends State<OrderTimelinePage> {
+  bool _isLoadingPODetails = true;
+
+  late List<PODetails> _poDetails;
+  _getClientDetails(String po_id){
+    ClientPOServices.getPODetails(po_id).then((poDetails){
+      setState(() {
+        _poDetails = poDetails;
+      });
+      _isLoadingPODetails = false;
+    });
+    print(_poDetails.length);
+  }
+
+  void initState() {
+    super.initState();
+    // _searchPo = [];
+    _poDetails = [];
+    _getClientDetails(widget.clientPO.id);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -57,7 +83,7 @@ class OrderTimelinePage extends StatelessWidget {
                         ),
                         SizedBox(height: 4),
                         Text(
-                          '12 Sept - 13 Sept',
+                          widget.clientPO.estimated_delivery,
                           style: TextStyle(
                             fontSize: fontNormalSize,
                             letterSpacing: 0.8,
@@ -83,7 +109,7 @@ class OrderTimelinePage extends StatelessWidget {
                         GestureDetector(
                           onTap: (){
                             // Copy the PO# to clipboard
-                            Clipboard.setData(ClipboardData(text: "PO# " + po_no)).then((_) {
+                            Clipboard.setData(ClipboardData(text: "PO# " + widget.clientPO.po_no)).then((_) {
                               // You can show a Snackbar or any feedback to the user
                               ScaffoldMessenger.of(context).showSnackBar(
                                 SnackBar(content: Text('PO# copied to clipboard')),
@@ -94,7 +120,7 @@ class OrderTimelinePage extends StatelessWidget {
                             text: TextSpan(
                               children: [
                                 TextSpan(
-                                  text: po_no.toUpperCase(),
+                                  text: widget.clientPO.po_no.toUpperCase(),
                                   style: TextStyle(
                                     fontSize: fontNormalSize,
                                     letterSpacing: 0.8,
@@ -138,7 +164,7 @@ class OrderTimelinePage extends StatelessWidget {
                                 child: SizedBox(width: 5,),
                               ),
                               TextSpan(
-                                text: "FR SEVILLA INDUSTRIAL CORP.",
+                                text: widget.clientPO.company,
                                 style: TextStyle(
                                   fontFamily: 'Rowdies',
                                   fontSize: fontSmallSize,
@@ -161,7 +187,7 @@ class OrderTimelinePage extends StatelessWidget {
                                 child: SizedBox(width: 5,),
                               ),
                               TextSpan(
-                                text: "GALLEON OFFICE TOWER",
+                                text: widget.clientPO.project,
                                 style: TextStyle(
                                   fontSize: fontXSmallSize,
                                   letterSpacing: 0.8,
@@ -188,7 +214,7 @@ class OrderTimelinePage extends StatelessWidget {
                             child: SizedBox(width: 5,),
                           ),
                           TextSpan(
-                            text: "30% DP and 30 days",
+                            text: widget.clientPO.terms,
                             style: TextStyle(
                               fontSize: fontSmallSize,
                               letterSpacing: 0.8,
@@ -206,149 +232,67 @@ class OrderTimelinePage extends StatelessWidget {
 
             SizedBox(height: screenHeight * 0.015,),
 
-            TimelineTilePage(
-              isFirst: true,
-              isLast: false,
-              isPast: true,
-              icon: Icons.local_shipping_sharp,
-              eventCard: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    "In Transit",
-                    style: TextStyle(
-                        fontSize: fontNormalSize,
-                        letterSpacing: 0.8,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white
+            if(_isLoadingPODetails)
+              Container(
+                height: screenHeight * 0.65,
+                child: Center(
+                  child: CircularProgressIndicator()
+                ),
+              )
+            else
+              if (_poDetails.isEmpty)
+                Container(
+                  height: screenHeight * 0.65,
+                  child: Center(
+                    child: Text(
+                      "No Available Data",
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: fontExtraSize * 2,
+                          color: Colors.grey.shade300,
+                          letterSpacing: 1.2
+                      ),
                     ),
                   ),
+                )
+              else
+                ..._poDetails.map((po) {
+                  Map<String, String> dateParts = extractDateParts(po.date_created);
 
-                  Text(
-                    "Your parcel has arrived at the delivery hub : Santa Maria, 16 PN8-HUB_Bulacan",
-                    style: TextStyle(
-                        fontSize: fontSmallSize,
-                        letterSpacing: 0.8,
-                        color: Colors.white
-                    ),
-                  )
-                ],
-              ),
-              timeCard: "Today \n 03:56",
-            ),
-
-            TimelineTilePage(
-              isFirst: false,
-              isLast: false,
-              isPast: false,
-              icon: Icons.circle,
-              eventCard: Text(
-                "Parcel has departed from sorting facility : San Fernando City, SDN_PDC",
-                style: TextStyle(
-                    letterSpacing: 0.8,
-                    fontSize: fontSmallSize,
-                    color: Colors.deepOrange.shade900.withOpacity(0.65)
-                ),
-              ),
-              timeCard: "11 Sept \n 20:34",
-            ),
-
-            TimelineTilePage(
-              isFirst: false,
-              isLast: false,
-              isPast: false,
-              icon: Icons.circle,
-              eventCard: Text(
-                "Parcel has arrived at sorting facility : San Fernando City, SDN_PDC",
-                style: TextStyle(
-                    letterSpacing: 0.8,
-                    fontSize: fontSmallSize,
-                    color: Colors.deepOrange.shade900.withOpacity(0.65)
-                ),
-              ),
-              timeCard: "11 Sept \n 20:19",
-            ),
-
-            TimelineTilePage(
-              isFirst: false,
-              isLast: false,
-              isPast: false,
-              icon: Icons.circle,
-              eventCard: Text(
-                "Your parcel has been picked up by our logistics partner",
-                style: TextStyle(
-                    letterSpacing: 0.8,
-                    fontSize: fontSmallSize,
-                    color: Colors.deepOrange.shade900.withOpacity(0.65)
-                ),
-              ),
-              timeCard: "11 Sept \n 13:08",
-            ),
-
-            TimelineTilePage(
-              isFirst: false,
-              isLast: false,
-              isPast: false,
-              icon: Icons.inventory_2_sharp,
-              eventCard: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    "Preparing to ship",
-                    style: TextStyle(
-                        fontSize: fontNormalSize,
-                        letterSpacing: 0.8,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.deepOrange.shade900.withOpacity(0.65)
-                    ),
-                  ),
-
-                  Text(
-                    "Seller is preparing to ship your parcel",
-                    style: TextStyle(
-                        fontSize: fontSmallSize,
-                        letterSpacing: 0.8,
-                        color: Colors.deepOrange.shade900.withOpacity(0.65)
-                    ),
-                  )
-                ],
-              ),
-              timeCard: "10 Sept \n 18:27",
-            ),
-
-            TimelineTilePage(
-              isFirst: false,
-              isLast: true,
-              isPast: false,
-              icon: Icons.content_paste,
-              eventCard: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    "Order Placed",
-                    style: TextStyle(
-                        fontSize: fontNormalSize,
-                        letterSpacing: 0.8,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.deepOrange.shade900.withOpacity(0.65)
-                    ),
-                  ),
-
-                  Text(
-                    "Order is placed",
-                    style: TextStyle(
-                        fontSize: fontSmallSize,
-                        letterSpacing: 0.8,
-                        color: Colors.deepOrange.shade900.withOpacity(0.65)
-                    ),
-                  )
-                ],
-              ),
-              timeCard: "9 Sept \n 15:49",
-            ),
+                  return TimelineTilePage(
+                    isFirst: _poDetails.length.toString() == po.sort_no ? true : false,
+                    isLast: po.sort_no == '1' ? true : false,
+                    isPast: _poDetails.length.toString() == po.sort_no ? false : true,
+                    icon: _poDetails.length.toString() == po.sort_no ? Icons.check : Icons.circle,
+                    imageIcon: getStatusImage(po.status),
+                    status: po.status,
+                    payment_status: po.payment_status,
+                    remarks: po.remarks,
+                      timeCard: "${dateParts['day']} ${dateParts['month']}\n${dateParts['year']}"
+                  );
+                }).toList(),
           ],
         ),
       ),
     );
+  }
+
+  String getStatusImage(String status) {
+    switch (status) {
+      case "Delivered":
+        return 'assets/icons/delivered-bg.png';
+      case "Ready for Delivery":
+        return 'assets/icons/ready_delivery-bg.png';
+      case "Production in Progress":
+        return 'assets/icons/production_progress-bg.png';
+      case "Order Processing":
+        return 'assets/icons/order-processing.png';
+      case "Order Confirmed":
+        return 'assets/icons/order_confirmed-bg.png';
+      case "Order Received":
+        return 'assets/icons/order_received-bg.png';
+      default:
+        return 'assets/icons/tracking.png'; // Optional: A default image if no match is found
+    }
   }
 }

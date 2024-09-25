@@ -79,8 +79,10 @@ export 'order_tracking/order_details_page.dart';
 
 export 'order_tracking/model_data/po_data.dart';
 export 'order_tracking/model_data/po_items_data.dart';
+export 'order_tracking/model_data/po_details_data.dart';
 
 export 'order_tracking/services/po_services.dart';
+export 'order_tracking/services/client_po_svc.dart';
 
 export 'order_tracking/prf_tracking_page.dart';
 export 'order_tracking/dr_details_page.dart';
