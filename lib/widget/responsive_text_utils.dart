@@ -1,8 +1,8 @@
 class ResponsiveTextUtils {
   static bool getLayout(double width) {
-    if (width < 800) {
+    if (width < 600) {
       return true;
-    } else if (width >= 800 && width <= 1100) {
+    } else if (width >= 600 && width <= 1100) {
       return false;
     } else {
       return false;
