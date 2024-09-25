@@ -77,6 +77,7 @@ class _loginPageState extends State<loginPage> {
               client_id: clientData["client_id"],
               name: clientData["name"],
               contact_no: clientData["contact_no"],
+              company: clientData["company_name"],
               image: clientData["image"],
               email: clientData["email"],
               login: 'SIGNIN',
@@ -318,6 +319,7 @@ class _loginPageState extends State<loginPage> {
                         client_id: user.uid.toString(),
                         name: '',
                         contact_no: '',
+                        company: '',
                         image: '', // Use photoURL if not null, otherwise use an empty string
                         email: user.email.toString(),
                         login: 'APPLE', // Indicate this as an Apple login
@@ -354,6 +356,7 @@ class _loginPageState extends State<loginPage> {
                         client_id: FirebaseAuth.instance.currentUser!.uid.toString(),
                         name: FirebaseAuth.instance.currentUser!.displayName.toString(),
                         contact_no: '',
+                        company: '',
                         image: FirebaseAuth.instance.currentUser!.photoURL.toString(),
                         email: FirebaseAuth.instance.currentUser!.email.toString(),
                         login: 'GMAIL',

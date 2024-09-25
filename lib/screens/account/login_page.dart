@@ -70,6 +70,7 @@ class _LoginPageState extends State<LoginPage> {
                   client_id: clientData["client_id"],
                   name: clientData["name"],
                   contact_no: clientData["contact_no"],
+                  company: clientData["company_name"],
                   image: clientData["image"],
                   email: clientData["email"],
                   login: 'SIGNIN',
@@ -116,7 +117,6 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                   ),
                 ).closed.then((value) {
-                  systemsNavigatorKey.currentState?.popUntil((route) => route.isFirst);
                   // productsNavigatorKey.currentState?.popUntil((route) => route.isFirst);
                   if(clientData["status"] == 'Inactive'){
                     Navigator.push(
@@ -350,16 +350,28 @@ class _LoginPageState extends State<LoginPage> {
                             setState(() {
                               _isLoading = false;  // Show the loading screen
                             });
-                            // Set client data in session manager
-                            await SessionManager().set("client_data", clientInfo(
-                              client_id: user.uid.toString(),
-                              name: '',
-                              contact_no: '',
-                              image: '',
-                              email: user.email.toString(),
-                              login: 'APPLE',
-                              status: result == 'success' ? "Verified" : "Unverified"
-                            ));
+
+                            TokenServices.signupThirdParty('', user.email.toString(), 'APPLE').then((result) async {
+                              var resBodyOfLogin = jsonDecode(result);
+                              if(resBodyOfLogin['result'] == 'success'){
+
+                                var clientData = resBodyOfLogin["clients_data"];
+
+                                await SessionManager().set("client_data", clientInfo(
+                                    client_id: user.uid.toString(),
+                                    name: clientData["name"],
+                                    contact_no: clientData["contact_no"],
+                                    company: clientData["company_name"],
+                                    image: clientData["image"],
+                                    email: user.email.toString(),
+                                    login: 'APPLE',
+                                    status: result == 'success' ? "Verified" : "Unverified"
+                                ));
+
+                              } else {
+                                print("Error updating token");
+                              }
+                            });
 
                             dynamic token = await SessionManager().get("token");
                             TokenServices.updateToken(token.toString(), user.email.toString(), 'APPLE').then((result) {
@@ -369,7 +381,6 @@ class _LoginPageState extends State<LoginPage> {
                                 print("Error updating token");
                               }
                             });
-                            systemsNavigatorKey.currentState?.popUntil((route) => route.isFirst);
                             widget.onLoginSuccess();
                           } else if ('exceed' == result) {
                             setState(() {
@@ -423,31 +434,43 @@ class _LoginPageState extends State<LoginPage> {
                           _isLoading = true;  // Show the loading screen
                         });
                         await FirebaseServices().signInWithGoogle();
-                        TokenServices.verificationEmail(FirebaseAuth.instance.currentUser!.email.toString(), 'Login').then((result) async {
+                        TokenServices.verificationEmail(FirebaseAuth.instance.currentUser!.email.toString(), 'Login').then((result) {
                           if('success' == result || 'Unverified' == result){
                             setState(() {
                               _isLoading = false;  // Show the loading screen
                             });
-                            await SessionManager().set("client_data",  clientInfo(
-                              client_id: FirebaseAuth.instance.currentUser!.uid.toString(),
-                              name: FirebaseAuth.instance.currentUser!.displayName.toString(),
-                              contact_no: '',
-                              image: FirebaseAuth.instance.currentUser!.photoURL.toString(),
-                              email: FirebaseAuth.instance.currentUser!.email.toString(),
-                              login: 'GMAIL',
-                              status: result == 'success' ? "Verified" : "Unverified"
-                            ));
+                            TokenServices.signupThirdParty(FirebaseAuth.instance.currentUser!.displayName.toString(), FirebaseAuth.instance.currentUser!.email.toString(), 'GMAIL').then((result) async {
+                              var resBodyOfLogin = jsonDecode(result);
+                              if(resBodyOfLogin['result'] == 'success'){
 
-                            dynamic token = await SessionManager().get("token");
-                            TokenServices.updateToken(token.toString(), FirebaseAuth.instance.currentUser!.email.toString(), 'GMAIL').then((result) {
-                              if('success' == result){
-                                print("Updated token successfully");
+                                var clientData = resBodyOfLogin["clients_data"];
+
+                                await SessionManager().set("client_data",  clientInfo(
+                                    client_id: FirebaseAuth.instance.currentUser!.uid.toString(),
+                                    name: clientData["name"],
+                                    contact_no: clientData["contact_no"],
+                                    company: clientData["company_name"],
+                                    image: FirebaseAuth.instance.currentUser!.photoURL.toString(),
+                                    email: FirebaseAuth.instance.currentUser!.email.toString(),
+                                    login: 'GMAIL',
+                                    status: result == 'success' ? "Verified" : "Unverified"
+                                ));
+
+                                dynamic token = await SessionManager().get("token");
+                                TokenServices.updateToken(token.toString(), FirebaseAuth.instance.currentUser!.email.toString(), 'GMAIL').then((result) {
+                                  if('success' == result){
+                                    print("Updated token successfully");
+                                  } else {
+                                    print("Error updating token");
+                                  }
+                                });
+
+                                widget.onLoginSuccess();
+
                               } else {
                                 print("Error updating token");
                               }
                             });
-                            systemsNavigatorKey.currentState?.popUntil((route) => route.isFirst);
-                            widget.onLoginSuccess();
                           } else if ('exceed' == result) {
                             setState(() {
                               disabling = false;

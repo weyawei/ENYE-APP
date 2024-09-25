@@ -51,7 +51,7 @@ void custSnackbar(BuildContext context, String message, Color color, IconData ic
 
 int _snackbarDisplayCount = 0;
 
-void showPersistentSnackBar(BuildContext context, double screenWidth, double screenHeight, double fontSize) {
+void showPersistentSnackBar(BuildContext context, double screenWidth, double screenHeight, double fontSize, String message) {
   if (_snackbarDisplayCount > 0) return;
 
   _snackbarDisplayCount++;
@@ -77,7 +77,7 @@ void showPersistentSnackBar(BuildContext context, double screenWidth, double scr
           SizedBox(width: 10),
           Expanded(
             child: Text(
-              "Verification in progress! \nOur team is reviewing your account. Thank you for understanding!",
+              message,
               style: GoogleFonts.lato(
                 textStyle: TextStyle(
                   fontSize: fontSize,

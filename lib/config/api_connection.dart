@@ -73,5 +73,8 @@ class API {
 //  news
   static const news = "$hostConnect/enye/news/news.php";
   static const newsImages = "$hostConnect/enye/news_updates_images/";
+
+//  sign up 3rd Party
+  static const signupThirdParty = "$hostConnect/enye/signup_thirdparty.php";
 }
 

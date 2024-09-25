@@ -223,6 +223,7 @@ class _ServicesPageState extends State<ServicesPage> {
                     name: '',
                     contact_no: '',
                     image: '', // Use photoURL if not null, otherwise use an empty string
+                    company: '',
                     email: user.email.toString(),
                     login: 'APPLE', // Indicate this as an Apple login
                     status: "Unverified"
@@ -258,6 +259,7 @@ class _ServicesPageState extends State<ServicesPage> {
                     client_id: FirebaseAuth.instance.currentUser!.uid.toString(),
                     name: FirebaseAuth.instance.currentUser!.displayName.toString(),
                     contact_no: '',
+                    company: '',
                     image: FirebaseAuth.instance.currentUser!.photoURL.toString(),
                     email: FirebaseAuth.instance.currentUser!.email.toString(),
                     login: 'GMAIL',

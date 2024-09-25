@@ -24,6 +24,26 @@ class TokenServices {
     }
   }
 
+  static Future<String> signupThirdParty(String name, String email, String loginType) async {
+    try{
+      var map = Map<String, dynamic>();
+      map['name'] = name;
+      map['email'] = email;
+      map['loginType'] = loginType;
+
+      final res = await http.post(Uri.parse(API.signupThirdParty), body: map); //passing value to result
+      print('Token Response: ${res.body}');
+
+      if(res.statusCode == 200){
+        return res.body;
+      } else {
+        return "error";
+      }
+    } catch (e) {
+      return "error";
+    }
+  }
+
   static Future<String> verificationEmail(String email, String came_from) async {
     try{
       var map = Map<String, dynamic>();

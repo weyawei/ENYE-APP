@@ -292,6 +292,7 @@ class _MainAccPage2State extends State<MainAccPage2> {
                       // Navigator.of(context).push(
                       //   MaterialPageRoute(builder: (context) => ProfilePage()),
                       // ).then((_) => _getServices() );
+                      ScaffoldMessenger.of(context).hideCurrentSnackBar();
                       Navigator.of(context).push(
                         MaterialPageRoute(builder: (context) => StatusPage(message: message)),
                       );
@@ -540,9 +541,14 @@ class _MainAccPage2State extends State<MainAccPage2> {
     var fontExtraSize = ResponsiveTextUtils.getExtraFontSize(screenWidth);
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (ClientInfo?.status == "Unverified" && !_snackbarShown) {
+      if(ClientInfo?.name == '' || ClientInfo?.contact_no == '' && !_snackbarShown){
         _snackbarShown = true;
-        showPersistentSnackBar(context, screenWidth, screenHeight, fontNormalSize);
+        showPersistentSnackBar(context, screenWidth, screenHeight, fontNormalSize, "Please complete the required fields by clicking the icon in the upper right corner for verification. \n Thank you!");
+      } else if (ClientInfo?.status == "Unverified" && !_snackbarShown) {
+        _snackbarShown = true;
+        showPersistentSnackBar(context, screenWidth, screenHeight, fontNormalSize, "Verification in progress! \nOur team is reviewing your account. Thank you for understanding!");
+      } else {
+
       }
     });
 
@@ -556,33 +562,62 @@ class _MainAccPage2State extends State<MainAccPage2> {
               child: Stack(
                 children: [
                   Positioned(
-                      top: screenHeight * 0.01,
-                      right: screenWidth * 0.05,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          GestureDetector(
-                            onTap: () {
-                              Navigator.of(context).push(
-                                MaterialPageRoute(builder: (context) => ProfilePage()),
-                              ).then((_) => _handleClientInfo());
-                            },
-                            child: Material(
-                              elevation: 7.0, // Adjust the elevation to control the shadow
-                              shape: CircleBorder(),
-                              color: Colors.white,
-                              child: Padding(
-                                padding: EdgeInsets.all(8.0), // Adjust padding as needed
-                                child: Icon(
-                                  Icons.settings, // Replace with your desired icon
-                                  color: Colors.deepOrange,
-                                  size: fontExtraSize * 1.25, // Adjust icon size as needed
+                    top: screenHeight * 0.01,
+                    right: screenWidth * 0.05,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.of(context).push(
+                              MaterialPageRoute(builder: (context) => ProfilePage()),
+                            ).then((_) => _handleClientInfo());
+                          },
+                          child: Stack(
+                            clipBehavior: Clip.none, // Allow content to overflow the bounds of the stack
+                            children: [
+                              Material(
+                                elevation: 7.0, // Adjust the elevation to control the shadow
+                                shape: CircleBorder(),
+                                color: Colors.white,
+                                child: Padding(
+                                  padding: EdgeInsets.all(8.0), // Adjust padding as needed
+                                  child: Icon(
+                                    Icons.settings, // Replace with your desired icon
+                                    color: Colors.deepOrange,
+                                    size: fontExtraSize * 1.25, // Adjust icon size as needed
+                                  ),
                                 ),
                               ),
-                            ),
+                              if(ClientInfo?.name == '' || ClientInfo?.contact_no == '' || ClientInfo?.company == '')
+                              Positioned(
+                                top: -5, // Adjust the position of the exclamation point
+                                left: -5, // Position it on the upper left corner of the icon
+                                child: Container(
+                                  padding: EdgeInsets.all(5.0), // Add padding for a circular look
+                                  decoration: BoxDecoration(
+                                    color: Colors.red, // Red background for the exclamation point
+                                    shape: BoxShape.circle, // Make it circular
+                                    border: Border.all(
+                                      color: Colors.white, // White border color
+                                      width: 1.0, // Border width
+                                    ),
+                                  ),
+                                  child: Text(
+                                    '!',
+                                    style: TextStyle(
+                                      color: Colors.white, // White text color for visibility
+                                      fontSize: fontSmallSize, // Adjust font size as needed
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
-                        ],
-                      )
+                        ),
+                      ],
+                    ),
                   ),
 
                   Positioned(
@@ -673,7 +708,7 @@ class _MainAccPage2State extends State<MainAccPage2> {
                       GestureDetector(
                         onTap: () {
                           if(ClientInfo?.status == "Unverified") {
-                            showPersistentSnackBar(context, screenWidth, screenHeight, fontNormalSize);
+                            showPersistentSnackBar(context, screenWidth, screenHeight, fontNormalSize, "Verification in progress! \nOur team is reviewing your account. Thank you for understanding!");
                           } else {
                             appointmentDialog(context);
                           }
@@ -742,7 +777,7 @@ class _MainAccPage2State extends State<MainAccPage2> {
                       GestureDetector(
                         onTap: () {
                           if(ClientInfo?.status == "Unverified") {
-                            showPersistentSnackBar(context, screenWidth, screenHeight, fontNormalSize);
+                            showPersistentSnackBar(context, screenWidth, screenHeight, fontNormalSize, "Verification in progress! \nOur team is reviewing your account. Thank you for understanding!");
                           } else {
                             technicalDialog(context);
                           }
@@ -810,7 +845,7 @@ class _MainAccPage2State extends State<MainAccPage2> {
                       GestureDetector(
                         onTap: () {
                           if(ClientInfo?.status == "Unverified") {
-                            showPersistentSnackBar(context, screenWidth, screenHeight, fontNormalSize);
+                            showPersistentSnackBar(context, screenWidth, screenHeight, fontNormalSize, "Verification in progress! \nOur team is reviewing your account. Thank you for understanding!");
                           } else {
                             Navigator.push(
                               context,
@@ -959,6 +994,7 @@ class _MainAccPage2State extends State<MainAccPage2> {
                       actions: [
                         TextButton(
                           onPressed: () {
+                            ScaffoldMessenger.of(context).hideCurrentSnackBar();
                             Navigator.of(context).pop();
                           },
                           child: Text(
@@ -977,6 +1013,7 @@ class _MainAccPage2State extends State<MainAccPage2> {
                         TextButton(
                           onPressed: () {
                             setState(() {
+                              ScaffoldMessenger.of(context).hideCurrentSnackBar();
                               logoutClient();
                               Navigator.of(context).pop();
                             });
