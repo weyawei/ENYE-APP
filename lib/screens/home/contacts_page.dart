@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../screens.dart';
+
 class ContactsHome extends StatelessWidget {
 
   Future<void> _launchURL (String url) async{
@@ -402,6 +404,54 @@ class ContactsHome extends StatelessWidget {
                 ),
 
               ],
+            ),
+          ),
+
+          SizedBox(height: screenHeight * 0.05,),
+
+          GestureDetector(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => FeedbackPage()),
+              );
+            },
+            child: Container(
+              margin: EdgeInsets.symmetric(horizontal: screenWidth * 0.075),
+              height: screenHeight * 0.07,
+              width: screenWidth * 0.9,
+              decoration: BoxDecoration(
+                border: Border.all(width: 2, color: Colors.deepOrange),
+                borderRadius: BorderRadius.circular(30),
+                color: Colors.white,
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black26,
+                    blurRadius: 10,
+                    offset: Offset(0, 5),
+                  ),
+                ],
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(
+                    Icons.comment,
+                    size: fontExtraSize * 1.3,
+                    color: Colors.deepOrange,
+                  ),
+                  SizedBox(width: 10),
+                  Text(
+                    "Report a Feedback",
+                    style: TextStyle(
+                      fontSize: fontExtraSize,
+                      letterSpacing: 0.5,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.deepOrange,
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
 

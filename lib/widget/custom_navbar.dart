@@ -250,8 +250,8 @@ class _CustomNavBarState extends State<CustomNavBar> {
         //   },
         // ),
         ProjectPage2(),
-        FeedbackPage(),
-        // AccountPage(),
+        // FeedbackPage(),
+        AccountPage(),
         // ServicePage(message: message as RemoteMessage),
       ];
     }

@@ -133,16 +133,15 @@ class _LoginPageState extends State<LoginPage> {
                 disabling = false;
                 _isLoading = false;
               });
-              showSnackbar(
-                  context: context,
-                  screenWidth: screenWidth,
-                  screenHeight: screenHeight,
-                  fontSize: fontNormalSize,
-                  message: "Your login credentials are already used on 2 devices.",
-                  bkColor: Colors.blue,
-                  icon: Icons.info,
-                  isShowingErrorSnackbar: false,
-                  duration: 6
+              showSnackbarFeedback(
+                context,
+                screenWidth,
+                screenHeight,
+                fontNormalSize,
+                "Your login credentials are already used on 2 devices.",
+                Icons.info,
+                Colors.blue,
+                6,
               );
             } else {
               // Show success snackbar and navigate
@@ -401,16 +400,15 @@ class _LoginPageState extends State<LoginPage> {
                             setState(() {
                               _isLoading = false;  // Show the loading screen
                             });
-                            showSnackbar(
-                              context: context,
-                              screenWidth: screenWidth,
-                              screenHeight: screenHeight,
-                              fontSize: fontNormalSize,
-                              message: "Error occurred...",
-                              bkColor: Colors.redAccent,
-                              icon: Icons.dangerous_rounded,
-                              isShowingErrorSnackbar: false,
-                              duration: 3
+                            showSnackbarFeedback(
+                              context,
+                              screenWidth,
+                              screenHeight,
+                              fontNormalSize,
+                              "Your login credentials are already used on 2 devices.",
+                              Icons.info,
+                              Colors.blue,
+                              6,
                             );
                           }
                         });
@@ -476,16 +474,15 @@ class _LoginPageState extends State<LoginPage> {
                               disabling = false;
                               _isLoading = false;
                             });
-                            showSnackbar(
-                                context: context,
-                                screenWidth: screenWidth,
-                                screenHeight: screenHeight,
-                                fontSize: fontNormalSize,
-                                message: "Your login credentials are already used on 2 devices.",
-                                bkColor: Colors.blue,
-                                icon: Icons.info,
-                                isShowingErrorSnackbar: false,
-                                duration: 6
+                            showSnackbarFeedback(
+                              context,
+                              screenWidth,
+                              screenHeight,
+                              fontNormalSize,
+                              "Your login credentials are already used on 2 devices.",
+                              Icons.info,
+                              Colors.blue,
+                              6,
                             );
                           } else {
                             setState(() {
