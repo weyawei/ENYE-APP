@@ -22,7 +22,7 @@ class EnDisABLETextField extends StatelessWidget {
       child: TextFormField(
         style: GoogleFonts.poppins(
           textStyle:
-          TextStyle(fontSize: fontNormalSize, fontWeight: FontWeight.w500, letterSpacing: 0.8),
+          TextStyle(fontSize: fontNormalSize, fontWeight: FontWeight.w500, letterSpacing: 0.6),
         ),
         onEditingComplete: (){},
         validator: (value) {
@@ -38,12 +38,12 @@ class EnDisABLETextField extends StatelessWidget {
         decoration: InputDecoration(
           errorStyle: TextStyle(
               fontSize: fontNormalSize,
-              letterSpacing: 0.8
+              letterSpacing: 0.6
           ),
           labelText: hintText,
           labelStyle: TextStyle(
               fontSize: fontNormalSize,
-              letterSpacing: 0.8
+              letterSpacing: 0.6
           ),
         ),
       ),
@@ -69,7 +69,7 @@ class ReadOnlyTextField extends StatelessWidget {
       child: TextFormField(
         style: GoogleFonts.poppins(
           textStyle:
-          TextStyle(fontSize: fontNormalSize, fontWeight: FontWeight.w500, letterSpacing: 0.8),
+          TextStyle(fontSize: fontNormalSize, fontWeight: FontWeight.w500, letterSpacing: 0.6),
         ),
         readOnly: true,
         maxLines: null,
@@ -79,12 +79,12 @@ class ReadOnlyTextField extends StatelessWidget {
         decoration: InputDecoration(
           errorStyle: TextStyle(
             fontSize: fontNormalSize,
-            letterSpacing: 0.8
+            letterSpacing: 0.6
           ),
           labelText: hintText,
           labelStyle: TextStyle(
             fontSize: fontNormalSize,
-            letterSpacing: 0.8
+            letterSpacing: 0.6
           ),
         ),
       ),
@@ -111,7 +111,7 @@ class Normal2TextField extends StatelessWidget {
         style: TextStyle(
           fontSize: fontNormalSize,
           fontWeight: FontWeight.w500,
-          letterSpacing: 0.8
+          letterSpacing: 0.6
         ),
         onEditingComplete: (){},
         validator: (value) {
@@ -126,12 +126,12 @@ class Normal2TextField extends StatelessWidget {
         decoration: InputDecoration(
           errorStyle: TextStyle(
               fontSize: fontSmallSize,
-              letterSpacing: 0.8
+              letterSpacing: 0.6
           ),
           labelText: hintText,
           labelStyle: TextStyle(
             fontSize: fontSmallSize,
-            letterSpacing: 0.8
+            letterSpacing: 0.6
           ),
         ),
       ),
@@ -158,7 +158,7 @@ class NormalNotRequiredTextField extends StatelessWidget {
         style: TextStyle(
             fontSize: fontNormalSize,
             fontWeight: FontWeight.w500,
-            letterSpacing: 0.8
+            letterSpacing: 0.6
         ),
         onEditingComplete: (){},
         maxLines: null,
@@ -167,12 +167,12 @@ class NormalNotRequiredTextField extends StatelessWidget {
         decoration: InputDecoration(
           errorStyle: TextStyle(
               fontSize: fontSmallSize,
-              letterSpacing: 0.8
+              letterSpacing: 0.6
           ),
           labelText: hintText,
           labelStyle: TextStyle(
               fontSize: fontSmallSize,
-              letterSpacing: 0.8
+              letterSpacing: 0.6
           ),
         ),
       ),
@@ -199,7 +199,7 @@ class ContactTextField extends StatelessWidget {
       child: TextFormField(
         style: GoogleFonts.poppins(
           textStyle:
-          TextStyle(fontSize: fontNormalSize, fontWeight: FontWeight.w500, letterSpacing: 0.8),
+          TextStyle(fontSize: fontNormalSize, fontWeight: FontWeight.w500, letterSpacing: 0.6),
         ),
         onEditingComplete: (){},
         validator: (value) {
@@ -216,13 +216,13 @@ class ContactTextField extends StatelessWidget {
         decoration: InputDecoration(
           errorStyle: TextStyle(
               fontSize: fontNormalSize,
-              letterSpacing: 0.8
+              letterSpacing: 0.6
           ),
           labelText: hintText,
           hintText: "09xxxxxxxxx",
           labelStyle: TextStyle(
               fontSize: fontNormalSize,
-              letterSpacing: 0.8
+              letterSpacing: 0.6
           ),
         ),
       ),
@@ -254,7 +254,7 @@ class NormalTextField extends StatelessWidget {
           textStyle: TextStyle(
             fontSize: fontNormalSize,
             fontWeight: FontWeight.w500,
-            letterSpacing: 0.8,
+            letterSpacing: 0.6,
           ),
         ),
         readOnly: disabling,
@@ -270,11 +270,11 @@ class NormalTextField extends StatelessWidget {
         decoration: InputDecoration(
           errorStyle: TextStyle(
             fontSize: fontNormalSize,
-            letterSpacing: 0.8,
+            letterSpacing: 0.6,
           ),
           labelStyle: TextStyle(
             fontSize: fontNormalSize,
-            letterSpacing: 0.8,
+            letterSpacing: 0.6,
           ),
           enabledBorder: OutlineInputBorder(
             borderSide: BorderSide(color: Colors.white),
@@ -289,7 +289,75 @@ class NormalTextField extends StatelessWidget {
             color: Colors.grey.shade400,
             fontSize: fontNormalSize,
             fontStyle: FontStyle.italic,
-            letterSpacing: 0.8,
+            letterSpacing: 0.6,
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class TextAreaField extends StatelessWidget {
+  final TextEditingController? controller;
+  final String hintText;
+  final bool disabling;
+
+  const TextAreaField({
+    super.key,
+    required this.controller,
+    required this.hintText,
+    required this.disabling,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
+    var fontNormalSize = ResponsiveTextUtils.getNormalFontSize(screenWidth);
+
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.06),
+      child: TextFormField(
+        style: GoogleFonts.poppins(
+          textStyle: TextStyle(
+            fontSize: fontNormalSize,
+            fontWeight: FontWeight.w500,
+            letterSpacing: 0.6,
+          ),
+        ),
+        readOnly: disabling,
+        validator: (value) {
+          if (value == null || value.isEmpty) {
+            return 'Required !';
+          }
+          return null;
+        },
+        maxLines: null, // Allows the field to expand as the text grows
+        minLines: 5, // Optionally set the minimum height of the text area
+        keyboardType: TextInputType.multiline,
+        controller: controller,
+        decoration: InputDecoration(
+          errorStyle: TextStyle(
+            fontSize: fontNormalSize,
+            letterSpacing: 0.6,
+          ),
+          labelStyle: TextStyle(
+            fontSize: fontNormalSize,
+            letterSpacing: 0.6,
+          ),
+          enabledBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: Colors.white),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: Colors.deepOrange),
+          ),
+          fillColor: Colors.deepOrange.shade50,
+          filled: true,
+          hintText: hintText,
+          hintStyle: TextStyle(
+            color: Colors.grey.shade400,
+            fontSize: fontNormalSize,
+            fontStyle: FontStyle.italic,
+            letterSpacing: 0.6,
           ),
         ),
       ),
@@ -322,7 +390,7 @@ class _PasswordTextFieldState extends State<PasswordTextField> {
       child: TextFormField(
         style: GoogleFonts.poppins(
           textStyle:
-          TextStyle(fontSize: fontNormalSize, fontWeight: FontWeight.w500, letterSpacing: 0.8),
+          TextStyle(fontSize: fontNormalSize, fontWeight: FontWeight.w500, letterSpacing: 0.6),
         ),
         readOnly: widget.disabling,
         onEditingComplete: (){},
@@ -340,7 +408,7 @@ class _PasswordTextFieldState extends State<PasswordTextField> {
         decoration: InputDecoration(
           errorStyle: TextStyle(
               fontSize: fontNormalSize,
-              letterSpacing: 0.8
+              letterSpacing: 0.6
           ),
           prefixIcon: Icon(Icons.lock, size: fontNormalSize * 1.5),
           suffixIcon: InkWell(
@@ -360,7 +428,7 @@ class _PasswordTextFieldState extends State<PasswordTextField> {
           fillColor: Colors.deepOrange.shade50,
           filled: true,
           hintText: widget.hintText,
-          hintStyle: TextStyle(color: Colors.grey.shade400, fontSize: fontNormalSize, letterSpacing: 0.8),
+          hintStyle: TextStyle(color: Colors.grey.shade400, fontSize: fontNormalSize, letterSpacing: 0.6),
         ),
       ),
     );
@@ -385,7 +453,7 @@ class EmailTextField extends StatelessWidget {
       child: TextFormField(
         style: GoogleFonts.poppins(
           textStyle:
-          TextStyle(fontSize: fontNormalSize, fontWeight: FontWeight.w500, letterSpacing: 0.8),
+          TextStyle(fontSize: fontNormalSize, fontWeight: FontWeight.w500, letterSpacing: 0.6),
         ),
         readOnly: disabling,
         onEditingComplete: (){},
@@ -401,7 +469,7 @@ class EmailTextField extends StatelessWidget {
         decoration: InputDecoration(
           errorStyle: TextStyle(
             fontSize: fontNormalSize,
-            letterSpacing: 0.8
+            letterSpacing: 0.6
           ),
           prefixIcon: Icon(Icons.email, size: fontNormalSize * 1.5,),
           enabledBorder: OutlineInputBorder(
@@ -413,7 +481,7 @@ class EmailTextField extends StatelessWidget {
           fillColor: Colors.deepOrange.shade50,
           filled: true,
           hintText: hintText,
-          hintStyle: TextStyle(color: Colors.grey.shade400, fontSize: fontNormalSize, letterSpacing: 0.8),
+          hintStyle: TextStyle(color: Colors.grey.shade400, fontSize: fontNormalSize, letterSpacing: 0.6),
         ),
       ),
     ) ;
@@ -439,7 +507,7 @@ class Email2TextField extends StatelessWidget {
       child: TextFormField(
         style: GoogleFonts.poppins(
           textStyle:
-          TextStyle(fontSize: fontNormalSize, fontWeight: FontWeight.w500, letterSpacing: 0.8),
+          TextStyle(fontSize: fontNormalSize, fontWeight: FontWeight.w500, letterSpacing: 0.6),
         ),
         onEditingComplete: (){},
         validator: (value) {
@@ -456,13 +524,13 @@ class Email2TextField extends StatelessWidget {
         decoration: InputDecoration(
           errorStyle: TextStyle(
               fontSize: fontNormalSize,
-              letterSpacing: 0.8
+              letterSpacing: 0.6
           ),
           labelText: hintText,
           hintText: "sample@email.com",
           labelStyle: TextStyle(
               fontSize: fontNormalSize,
-              letterSpacing: 0.8
+              letterSpacing: 0.6
           ),
         ),
       ),
@@ -489,7 +557,7 @@ class PersonNameTextField extends StatelessWidget {
       child: TextFormField(
         style: GoogleFonts.poppins(
           textStyle:
-          TextStyle(fontSize: fontNormalSize, fontWeight: FontWeight.w500, letterSpacing: 0.8),
+          TextStyle(fontSize: fontNormalSize, fontWeight: FontWeight.w500, letterSpacing: 0.6),
         ),
         readOnly: disabling,
         onEditingComplete: (){},
@@ -503,7 +571,7 @@ class PersonNameTextField extends StatelessWidget {
         decoration: InputDecoration(
           errorStyle: TextStyle(
               fontSize: fontNormalSize,
-              letterSpacing: 0.8
+              letterSpacing: 0.6
           ),
           prefixIcon: Icon(Icons.person, size: fontNormalSize * 1.5),
           enabledBorder: OutlineInputBorder(
@@ -515,7 +583,7 @@ class PersonNameTextField extends StatelessWidget {
           fillColor: Colors.deepOrange.shade50,
           filled: true,
           hintText: hintText,
-          hintStyle: TextStyle(color: Colors.grey.shade400, fontSize: fontNormalSize, letterSpacing: 0.8),
+          hintStyle: TextStyle(color: Colors.grey.shade400, fontSize: fontNormalSize, letterSpacing: 0.6),
         ),
       ),
     ) ;
@@ -544,7 +612,7 @@ class Contact2TextField extends StatelessWidget {
       child: TextFormField(
         style: GoogleFonts.poppins(
           textStyle:
-          TextStyle(fontSize: fontNormalSize, fontWeight: FontWeight.w500, letterSpacing: 0.8),
+          TextStyle(fontSize: fontNormalSize, fontWeight: FontWeight.w500, letterSpacing: 0.6),
         ),
         readOnly: disabling,
         onEditingComplete: (){},
@@ -560,7 +628,7 @@ class Contact2TextField extends StatelessWidget {
         decoration: InputDecoration(
           errorStyle: TextStyle(
               fontSize: fontNormalSize,
-              letterSpacing: 0.8
+              letterSpacing: 0.6
           ),
           prefixIcon: Icon(Icons.call, size: fontNormalSize * 1.5),
           enabledBorder: OutlineInputBorder(
@@ -572,7 +640,7 @@ class Contact2TextField extends StatelessWidget {
           fillColor: Colors.deepOrange.shade50,
           filled: true,
           hintText: hintText,
-          hintStyle: TextStyle(color: Colors.grey.shade400, fontSize: fontNormalSize, letterSpacing: 0.8),
+          hintStyle: TextStyle(color: Colors.grey.shade400, fontSize: fontNormalSize, letterSpacing: 0.6),
         ),
       ),
     ) ;
@@ -598,7 +666,7 @@ class CompanyTextField extends StatelessWidget {
       child: TextFormField(
         style: GoogleFonts.poppins(
           textStyle:
-          TextStyle(fontSize: fontNormalSize, fontWeight: FontWeight.w500, letterSpacing: 0.8),
+          TextStyle(fontSize: fontNormalSize, fontWeight: FontWeight.w500, letterSpacing: 0.6),
         ),
         readOnly: disabling,
         onEditingComplete: (){},
@@ -606,7 +674,7 @@ class CompanyTextField extends StatelessWidget {
         decoration: InputDecoration(
           errorStyle: TextStyle(
               fontSize: fontNormalSize,
-              letterSpacing: 0.8
+              letterSpacing: 0.6
           ),
           prefixIcon: Icon(Icons.work, size: fontNormalSize * 1.5),
           enabledBorder: OutlineInputBorder(
@@ -618,7 +686,7 @@ class CompanyTextField extends StatelessWidget {
           fillColor: Colors.deepOrange.shade50,
           filled: true,
           hintText: hintText,
-          hintStyle: TextStyle(color: Colors.grey.shade400, fontSize: fontNormalSize, letterSpacing: 0.8),
+          hintStyle: TextStyle(color: Colors.grey.shade400, fontSize: fontNormalSize, letterSpacing: 0.6),
         ),
       ),
     ) ;

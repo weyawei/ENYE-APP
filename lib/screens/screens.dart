@@ -89,3 +89,5 @@ export 'order_tracking/dr_details_page.dart';
 export 'order_tracking/PDF/DrPdf_helper.dart';
 export 'order_tracking/PDF/DrPdfPage.dart';
 
+export 'feedback/feedback_page.dart';
+
