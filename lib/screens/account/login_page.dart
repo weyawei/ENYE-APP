@@ -350,6 +350,8 @@ class _LoginPageState extends State<LoginPage> {
                               _isLoading = false;  // Show the loading screen
                             });
 
+                            var verification_status = result == 'success' ? "Verified" : "Unverified";
+
                             TokenServices.signupThirdParty('', user.email.toString(), 'APPLE').then((result) async {
                               var resBodyOfLogin = jsonDecode(result);
                               if(resBodyOfLogin['result'] == 'success'){
@@ -364,7 +366,7 @@ class _LoginPageState extends State<LoginPage> {
                                     image: clientData["image"],
                                     email: user.email.toString(),
                                     login: 'APPLE',
-                                    status: result == 'success' ? "Verified" : "Unverified"
+                                    status: verification_status
                                 ));
 
                               } else {
@@ -437,6 +439,9 @@ class _LoginPageState extends State<LoginPage> {
                             setState(() {
                               _isLoading = false;  // Show the loading screen
                             });
+
+                            var verification_status = result == 'success' ? "Verified" : "Unverified";
+
                             TokenServices.signupThirdParty(FirebaseAuth.instance.currentUser!.displayName.toString(), FirebaseAuth.instance.currentUser!.email.toString(), 'GMAIL').then((result) async {
                               var resBodyOfLogin = jsonDecode(result);
                               if(resBodyOfLogin['result'] == 'success'){
@@ -451,7 +456,7 @@ class _LoginPageState extends State<LoginPage> {
                                     image: FirebaseAuth.instance.currentUser!.photoURL.toString(),
                                     email: FirebaseAuth.instance.currentUser!.email.toString(),
                                     login: 'GMAIL',
-                                    status: result == 'success' ? "Verified" : "Unverified"
+                                    status: verification_status
                                 ));
 
                                 dynamic token = await SessionManager().get("token");
