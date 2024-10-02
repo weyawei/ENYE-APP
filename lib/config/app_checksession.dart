@@ -5,7 +5,12 @@ import '../screens/screens.dart';
 class checkSession {
 
   Future<bool> getUserSessionStatus() async {
-    return SessionManager().containsKey("client_data");
+    // Check if the key exists and is not empty
+    if (await SessionManager().containsKey("client_data")) {
+      var clientData = await SessionManager().get("client_data");
+      return clientData != null && clientData.isNotEmpty;
+    }
+    return false;
   }
 
   Future <clientInfo> getClientsData() async {

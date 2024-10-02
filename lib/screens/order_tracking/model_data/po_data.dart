@@ -1,5 +1,6 @@
 class ClientPO {
   String id;
+  String tracking_no;
   String po_no;
   String quotation_no;
   String quotation_id;
@@ -11,6 +12,7 @@ class ClientPO {
 
   ClientPO({
     required this.id,
+    required this.tracking_no,
     required this.po_no,
     required this.quotation_no,
     required this.quotation_id,
@@ -24,6 +26,7 @@ class ClientPO {
   factory ClientPO.fromJson(Map<String, dynamic> json) {
     return ClientPO(
       id: json['id'] as String? ?? '',
+      tracking_no: json['code'] as String? ?? '',
       po_no: json['po_no'] as String? ?? '',
       quotation_no: json['quotation_no'] as String? ?? '',
       quotation_id: json['quotation_id'] as String? ?? '',

@@ -49,6 +49,11 @@ class _OrderTimelinePageState extends State<OrderTimelinePage> {
     var fontExtraSize = ResponsiveTextUtils.getExtraFontSize(screenWidth);
 
     return Scaffold(
+      appBar: CustomAppBar(
+        title: 'Order Details',
+        imagePath: '',
+        appBarHeight: screenHeight * 0.05,
+      ),
       body: Container(
         child: ListView(
           children: [
@@ -253,10 +258,10 @@ class _OrderTimelinePageState extends State<OrderTimelinePage> {
                   Map<String, String> dateParts = extractDateParts(po.date_created);
 
                   return TimelineTilePage(
-                    isFirst: _poDetails.length.toString() == po.sort_no ? true : false,
-                    isLast: po.sort_no == '1' ? true : false,
-                    isPast: _poDetails.length.toString() == po.sort_no ? false : true,
-                    icon: _poDetails.length.toString() == po.sort_no && po.status == "Delivered" ? Icons.check : Icons.circle,
+                    isFirst: _poDetails.first.sort_no == po.sort_no ? true : false,
+                    isLast: _poDetails.last.sort_no == po.sort_no ? true : false,
+                    isPast: _poDetails.first.sort_no == po.sort_no ? false : true,
+                    icon: _poDetails.first.sort_no == po.sort_no && po.status == "Delivered" ? Icons.check : Icons.circle,
                     imageIcon: getStatusImage(po.status),
                     status: po.status,
                     payment_status: po.payment_status,
