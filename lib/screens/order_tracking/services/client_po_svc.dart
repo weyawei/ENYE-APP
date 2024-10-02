@@ -9,6 +9,7 @@ class ClientPOServices {
 
   static const GET_PO_DETAILS = 'get_po_details';
   static const GET_CLIENT_PO = 'get_client_po';
+  static const GET_PO_ITEMS = 'get_po_items';
   static const GET_SAVED_CLIENT_PO = 'get_saved_client_po';
   static const SAVE_OR_UNSAVE_TRACKINGNO = 'save_or_unsave_tracking_no';
 
@@ -112,5 +113,30 @@ class ClientPOServices {
     } catch (e) {
       return "error";
     }
+  }
+
+  static Future <List<ClientPOItems>> getClientPOItems(String po_id) async {
+    var map = Map<String, dynamic>();
+    map['action'] = GET_PO_ITEMS;
+    map['po_id'] = po_id;
+
+    //get all data of po items
+    final res = await http.post(
+        Uri.parse(API.client_po), body: map);
+    print('get Client PO Items Response: ${res.body}');
+
+    if (res.statusCode == 200) {
+      List<ClientPOItems> list = parsePOItems(res.body);
+      return list;
+    } else {
+      throw Exception('Failed to retrieve Client PO Items');
+      //return List<Categories>();
+    }
+  }
+
+  static List<ClientPOItems> parsePOItems(String responseBody) {
+    //conversion from web server into data by using categories.dart
+    final parsed = json.decode(responseBody).cast<Map<String, dynamic>>();
+    return parsed.map<ClientPOItems>((json) => ClientPOItems.fromJson(json)).toList();
   }
 }
