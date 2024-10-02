@@ -92,6 +92,10 @@ class _OrderTrackingPageState extends State<OrderTrackingPage> {
             po.tracking_no.toLowerCase().contains(query.toLowerCase()) ||
             po.po_no.toLowerCase().contains(query.toLowerCase())
         ).toList();
+
+        if(_filteredSaveClientPO.isEmpty){
+          _filteredSaveClientPO = List.from(_savedClientPO);
+        }
       });
     }
   }

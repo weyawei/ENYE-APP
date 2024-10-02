@@ -26,21 +26,13 @@ void custSnackbar(BuildContext context, String message, Color color, IconData ic
           ),
           SizedBox(width: screenWidth * 0.03),
           Expanded(
-            child: RichText(
-              softWrap: true,
-              textAlign: TextAlign.start,
-              text: TextSpan(
-                children: <TextSpan>[
-                  TextSpan(
-                    text: message,
-                    style: TextStyle(
-                      fontSize: fontNormalSize,
-                      fontWeight: FontWeight.w600,
-                      letterSpacing: 0.8,
-                      color: Colors.white,
-                    ),
-                  ),
-                ],
+            child: Text(
+              message,
+              style: TextStyle(
+                fontSize: fontNormalSize,
+                fontWeight: FontWeight.w600,
+                letterSpacing: 0.8,
+                color: Colors.white,
               ),
             ),
           ),
