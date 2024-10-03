@@ -5,11 +5,11 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_session_manager/flutter_session_manager.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 import 'package:http/http.dart' as http;
 
 import '../../config/config.dart';
-import '../../widget/resetAllTabs.dart';
 import '../../widget/widgets.dart';
 import '../screens.dart';
 
@@ -313,108 +313,125 @@ class _LoginPageState extends State<LoginPage> {
                           _isLoading = true;  // Show the loading screen
                         });
 
-                        final credential = await SignInWithApple.getAppleIDCredential(
-                          scopes: [
-                            AppleIDAuthorizationScopes.email,
-                            AppleIDAuthorizationScopes.fullName,
-                          ],
-                        );
+                        try {
+                          // Request Apple sign-in credentials
+                          final credential = await SignInWithApple.getAppleIDCredential(
+                            scopes: [
+                              AppleIDAuthorizationScopes.email,
+                              AppleIDAuthorizationScopes.fullName,
+                            ],
+                          );
 
-                        // Concatenate givenName and familyName to form the full name
-                        String? fullName;
-                        if (credential.givenName != null && credential.familyName != null) {
-                          fullName = "${credential.givenName!} ${credential.familyName!}";
-                        }
-
-                        print("Full Name: $fullName"); // Debugging
-
-
-                        // Use the credential to sign in or create a user account with Firebase
-                        final OAuthProvider oAuthProvider = OAuthProvider("apple.com");
-                        final AuthCredential appleCredential = oAuthProvider.credential(
-                          idToken: credential.identityToken,
-                          accessToken: credential.authorizationCode,
-                        );
-
-                        // Sign in with Firebase using the Apple credentials
-                        final UserCredential userCredential = await FirebaseAuth.instance.signInWithCredential(appleCredential);
-                        final User user = userCredential.user!;
-
-                        print("Apple ID : " + user.uid.toString());
-                        print("Apple EMAIL : " + user.email.toString());
-                        print("Apple Name : " + user.displayName.toString());
-
-                        TokenServices.verificationEmail(user.email.toString(), 'Login').then((result) async {
-                          if('success' == result || 'Unverified' == result){
-                            setState(() {
-                              _isLoading = false;  // Show the loading screen
-                            });
-
-                            var verification_status = result == 'success' ? "Verified" : "Unverified";
-
-                            TokenServices.signupThirdParty('', user.email.toString(), 'APPLE').then((result) async {
-                              var resBodyOfLogin = jsonDecode(result);
-                              if(resBodyOfLogin['result'] == 'success'){
-
-                                var clientData = resBodyOfLogin["clients_data"];
-
-                                await SessionManager().set("client_data", clientInfo(
-                                    client_id: user.uid.toString(),
-                                    name: clientData["name"],
-                                    contact_no: clientData["contact_no"],
-                                    company: clientData["company_name"],
-                                    image: clientData["image"],
-                                    email: user.email.toString(),
-                                    login: 'APPLE',
-                                    status: verification_status
-                                ));
-
-                              } else {
-                                print("Error updating token");
-                              }
-                            });
-
-                            dynamic token = await SessionManager().get("token");
-                            TokenServices.updateToken(token.toString(), user.email.toString(), 'APPLE').then((result) {
-                              if('success' == result){
-                                print("Updated token successfully");
-                              } else {
-                                print("Error updating token");
-                              }
-                            });
-                            widget.onLoginSuccess();
-                          } else if ('exceed' == result) {
-                            setState(() {
-                              _isLoading = false;  // Show the loading screen
-                            });
-                            showSnackbar(
-                                context: context,
-                                screenWidth: screenWidth,
-                                screenHeight: screenHeight,
-                                fontSize: fontNormalSize,
-                                message: "Your login credentials are already used on 2 devices.",
-                                bkColor: Colors.blue,
-                                icon: Icons.info,
-                                isShowingErrorSnackbar: false,
-                                duration: 6
-                            );
-                          } else {
-                            setState(() {
-                              _isLoading = false;  // Show the loading screen
-                            });
-                            showSnackbarFeedback(
-                              context,
-                              screenWidth,
-                              screenHeight,
-                              fontNormalSize,
-                              "Your login credentials are already used on 2 devices.",
-                              Icons.info,
-                              Colors.blue,
-                              6,
-                            );
+                          // Concatenate givenName and familyName to form the full name
+                          String? fullName;
+                          if (credential.givenName != null && credential.familyName != null) {
+                            fullName = "${credential.givenName!} ${credential.familyName!}";
                           }
-                        });
-                        // Navigator.pop(context, true);
+
+                          print("Full Name: $fullName"); // Debugging
+
+                          // Use the credential to sign in or create a user account with Firebase
+                          final OAuthProvider oAuthProvider = OAuthProvider("apple.com");
+                          final AuthCredential appleCredential = oAuthProvider.credential(
+                            idToken: credential.identityToken,
+                            accessToken: credential.authorizationCode,
+                          );
+
+                          // Sign in with Firebase using the Apple credentials
+                          final UserCredential userCredential = await FirebaseAuth.instance.signInWithCredential(appleCredential);
+                          final User user = userCredential.user!;
+
+                          print("Apple ID : " + user.uid.toString());
+                          print("Apple EMAIL : " + user.email.toString());
+                          print("Apple Name : " + user.displayName.toString());
+
+                          // Verify email using your token service
+                          TokenServices.verificationEmail(user.email.toString(), 'Login').then((result) async {
+                            if ('success' == result || 'Unverified' == result) {
+                              setState(() {
+                                _isLoading = false;  // Hide the loading screen
+                              });
+
+                              var verification_status = result == 'success' ? "Verified" : "Unverified";
+
+                              // Continue with user account signup process for third-party sign-in
+                              TokenServices.signupThirdParty('', user.email.toString(), 'APPLE').then((result) async {
+                                var resBodyOfLogin = jsonDecode(result);
+                                if (resBodyOfLogin['result'] == 'success') {
+                                  var clientData = resBodyOfLogin["clients_data"];
+
+                                  await SessionManager().set("client_data", clientInfo(
+                                      client_id: user.uid.toString(),
+                                      name: clientData["name"],
+                                      contact_no: clientData["contact_no"],
+                                      company: clientData["company_name"],
+                                      image: clientData["image"],
+                                      email: user.email.toString(),
+                                      login: 'APPLE',
+                                      status: verification_status
+                                  ));
+
+                                } else {
+                                  print("Error updating token");
+                                }
+                              });
+
+                              // Handle token update
+                              dynamic token = await SessionManager().get("token");
+                              TokenServices.updateToken(token.toString(), user.email.toString(), 'APPLE').then((result) {
+                                if ('success' == result) {
+                                  print("Updated token successfully");
+                                } else {
+                                  print("Error updating token");
+                                }
+                              });
+
+                              // Successful login callback
+                              widget.onLoginSuccess();
+
+                            } else if ('exceed' == result) {
+                              setState(() {
+                                _isLoading = false;  // Hide the loading screen
+                              });
+
+                              // Clear stored session data to allow re-authentication
+                              await FirebaseAuth.instance.signOut(); // Clear Firebase session
+                              await SessionManager().remove("client_data"); // Clear saved client data
+
+                              // Show a snackbar indicating that the limit has been reached
+                              showSnackbar(
+                                  context: context,
+                                  screenWidth: screenWidth,
+                                  screenHeight: screenHeight,
+                                  fontSize: fontNormalSize,
+                                  message: "Your login credentials are already used on 2 devices.",
+                                  bkColor: Colors.blue,
+                                  icon: Icons.info,
+                                  isShowingErrorSnackbar: false,
+                                  duration: 6
+                              );
+                            } else {
+                              setState(() {
+                                _isLoading = false;  // Hide the loading screen
+                              });
+                              showSnackbarFeedback(
+                                context,
+                                screenWidth,
+                                screenHeight,
+                                fontNormalSize,
+                                "Error occurred...",
+                                Icons.info,
+                                Colors.blue,
+                                6,
+                              );
+                            }
+                          });
+                        } catch (e) {
+                          setState(() {
+                            _isLoading = false;  // Hide the loading screen if there's an error
+                          });
+                          print("Error signing in with Apple: $e");
+                        }
                       },
                       child: Image(
                         image: AssetImage('assets/icons/apple.png'),
@@ -433,81 +450,106 @@ class _LoginPageState extends State<LoginPage> {
                         setState(() {
                           _isLoading = true;  // Show the loading screen
                         });
-                        await FirebaseServices().signInWithGoogle();
-                        TokenServices.verificationEmail(FirebaseAuth.instance.currentUser!.email.toString(), 'Login').then((result) {
-                          if('success' == result || 'Unverified' == result){
-                            setState(() {
-                              _isLoading = false;  // Show the loading screen
-                            });
 
-                            var verification_status = result == 'success' ? "Verified" : "Unverified";
+                        try {
+                          // First, sign the user out to allow re-authentication
+                          await FirebaseServices().signOut();
+                          await GoogleSignIn().signOut();
 
-                            TokenServices.signupThirdParty(FirebaseAuth.instance.currentUser!.displayName.toString(), FirebaseAuth.instance.currentUser!.email.toString(), 'GMAIL').then((result) async {
-                              var resBodyOfLogin = jsonDecode(result);
-                              if(resBodyOfLogin['result'] == 'success'){
+                          // Now attempt to sign in again
+                          await FirebaseServices().signInWithGoogle();
 
-                                var clientData = resBodyOfLogin["clients_data"];
+                          if (FirebaseAuth.instance.currentUser != null) {
+                            // Continue if the user is signed in
+                            TokenServices.verificationEmail(FirebaseAuth.instance.currentUser!.email.toString(), 'Login').then((result) async {
+                              if('success' == result || 'Unverified' == result){
+                                setState(() {
+                                  _isLoading = false;  // Hide the loading screen
+                                });
 
-                                await SessionManager().set("client_data",  clientInfo(
-                                    client_id: FirebaseAuth.instance.currentUser!.uid.toString(),
-                                    name: clientData["name"],
-                                    contact_no: clientData["contact_no"],
-                                    company: clientData["company_name"],
-                                    image: FirebaseAuth.instance.currentUser!.photoURL.toString(),
-                                    email: FirebaseAuth.instance.currentUser!.email.toString(),
-                                    login: 'GMAIL',
-                                    status: verification_status
-                                ));
+                                var verification_status = result == 'success' ? "Verified" : "Unverified";
 
-                                dynamic token = await SessionManager().get("token");
-                                TokenServices.updateToken(token.toString(), FirebaseAuth.instance.currentUser!.email.toString(), 'GMAIL').then((result) {
-                                  if('success' == result){
-                                    print("Updated token successfully");
+                                TokenServices.signupThirdParty(FirebaseAuth.instance.currentUser!.displayName.toString(), FirebaseAuth.instance.currentUser!.email.toString(), 'GMAIL').then((result) async {
+                                  var resBodyOfLogin = jsonDecode(result);
+                                  if(resBodyOfLogin['result'] == 'success'){
+
+                                    var clientData = resBodyOfLogin["clients_data"];
+
+                                    await SessionManager().set("client_data",  clientInfo(
+                                        client_id: FirebaseAuth.instance.currentUser!.uid.toString(),
+                                        name: clientData["name"],
+                                        contact_no: clientData["contact_no"],
+                                        company: clientData["company_name"],
+                                        image: FirebaseAuth.instance.currentUser!.photoURL.toString(),
+                                        email: FirebaseAuth.instance.currentUser!.email.toString(),
+                                        login: 'GMAIL',
+                                        status: verification_status
+                                    ));
+
+                                    dynamic token = await SessionManager().get("token");
+                                    TokenServices.updateToken(token.toString(), FirebaseAuth.instance.currentUser!.email.toString(), 'GMAIL').then((result) {
+                                      if('success' == result){
+                                        print("Updated token successfully");
+                                      } else {
+                                        print("Error updating token");
+                                      }
+                                    });
+
+                                    widget.onLoginSuccess();
+
                                   } else {
                                     print("Error updating token");
                                   }
                                 });
+                              } else if ('exceed' == result) {
+                                setState(() {
+                                  disabling = false;
+                                  _isLoading = false;
+                                });
 
-                                widget.onLoginSuccess();
+                                // Allow the user to pick a new account by signing out the current session
+                                await GoogleSignIn().signOut();
 
+                                showSnackbarFeedback(
+                                  context,
+                                  screenWidth,
+                                  screenHeight,
+                                  fontNormalSize,
+                                  "Your login credentials are already used on 2 devices. Please select another account.",
+                                  Icons.info,
+                                  Colors.blue,
+                                  6,
+                                );
                               } else {
-                                print("Error updating token");
+                                setState(() {
+                                  disabling = false;
+                                  _isLoading = false;
+                                });
+                                showSnackbar(
+                                    context: context,
+                                    screenWidth: screenWidth,
+                                    screenHeight: screenHeight,
+                                    fontSize: fontNormalSize,
+                                    message: "Error occurred...",
+                                    bkColor: Colors.redAccent,
+                                    icon: Icons.dangerous_rounded,
+                                    isShowingErrorSnackbar: false,
+                                    duration: 3
+                                );
                               }
                             });
-                          } else if ('exceed' == result) {
-                            setState(() {
-                              disabling = false;
-                              _isLoading = false;
-                            });
-                            showSnackbarFeedback(
-                              context,
-                              screenWidth,
-                              screenHeight,
-                              fontNormalSize,
-                              "Your login credentials are already used on 2 devices.",
-                              Icons.info,
-                              Colors.blue,
-                              6,
-                            );
                           } else {
                             setState(() {
-                              disabling = false;
-                              _isLoading = false;
+                              _isLoading = false;  // Hide the loading screen if no account is picked
                             });
-                            showSnackbar(
-                              context: context,
-                              screenWidth: screenWidth,
-                              screenHeight: screenHeight,
-                              fontSize: fontNormalSize,
-                              message: "Error occurred...",
-                              bkColor: Colors.redAccent,
-                              icon: Icons.dangerous_rounded,
-                              isShowingErrorSnackbar: false,
-                              duration: 3
-                            );
+                            print("User did not select an account.");
                           }
-                        });
-                        // Navigator.pop(context, true);
+                        } catch (e) {
+                          setState(() {
+                            _isLoading = false;  // Hide the loading screen if there's an error
+                          });
+                          print("Error signing in with Google: $e");
+                        }
                       },
                       child: Image(
                         image: AssetImage('assets/icons/gmail.png'),

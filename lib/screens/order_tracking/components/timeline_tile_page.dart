@@ -62,7 +62,7 @@ class TimelineTilePage extends StatelessWidget {
           )
         ),
         alignment: TimelineAlign.manual,
-        lineXY: 0.2,
+        lineXY: screenWidth >= 600 ? 0.15 : 0.2,
         startChild: TimeCardPage(
           isPast: isPast,
           child: timeCard,

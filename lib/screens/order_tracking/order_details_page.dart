@@ -115,7 +115,7 @@ class _OrderDetailsPageState extends State<OrderDetailsPage> {
       ? Center(child: CircularProgressIndicator())
       : ListView(
         children: [
-          SizedBox(height: screenHeight * 0.01,),
+          SizedBox(height: screenHeight * 0.025,),
           Container(
             width: screenWidth,
             margin: EdgeInsets.symmetric(horizontal: screenWidth * 0.05,),
@@ -260,9 +260,9 @@ class _OrderDetailsPageState extends State<OrderDetailsPage> {
                       width: screenWidth * 0.35,
                     ),
                     Text(
-                      "PO# 0007",
+                      "PO# ${_po[0].po_no.toUpperCase()}",
                       style: TextStyle(
-                        fontSize: fontNormalSize,
+                        fontSize: fontNormalSize * 0.9,
                         color: Colors.red,
                         fontWeight: FontWeight.bold
                       ),
