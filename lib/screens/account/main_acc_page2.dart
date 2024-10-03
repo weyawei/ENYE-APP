@@ -530,6 +530,23 @@ class _MainAccPage2State extends State<MainAccPage2> {
 
   bool _snackbarShown = false;
 
+  ScaffoldMessengerState? _scaffoldMessenger;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    // Safely reference the ScaffoldMessenger here
+    _scaffoldMessenger = ScaffoldMessenger.of(context);
+  }
+
+  @override
+  void dispose() {
+    // Do not call ScaffoldMessenger.of(context) in dispose
+    // Use the stored reference instead
+    _scaffoldMessenger?.hideCurrentSnackBar();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
 

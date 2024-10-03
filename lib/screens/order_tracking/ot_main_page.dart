@@ -134,6 +134,25 @@ class _OrderTrackingPageState extends State<OrderTrackingPage> {
     }
   }
 
+  ScaffoldMessengerState? _scaffoldMessenger;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    // Safely reference the ScaffoldMessenger here
+    _isLoadingSavedPO = false;
+    _scaffoldMessenger = ScaffoldMessenger.of(context);
+  }
+
+  @override
+  void dispose() {
+    // Do not call ScaffoldMessenger.of(context) in dispose
+    // Use the stored reference instead
+    _isLoadingSavedPO = false;
+    _scaffoldMessenger?.hideCurrentSnackBar();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
 
