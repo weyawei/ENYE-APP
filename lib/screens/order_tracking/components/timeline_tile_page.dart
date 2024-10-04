@@ -76,7 +76,7 @@ class TimelineTilePage extends StatelessWidget {
                 height: fontExtraSize * 2.5,
                 width: fontExtraSize * 2.5,
               ),
-              SizedBox(width: 10,),
+              SizedBox(width: screenWidth * 0.035,),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
