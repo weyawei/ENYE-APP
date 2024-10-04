@@ -294,7 +294,7 @@ class _MainAccPage2State extends State<MainAccPage2> {
                       // ).then((_) => _getServices() );
                       ScaffoldMessenger.of(context).hideCurrentSnackBar();
                       Navigator.of(context).push(
-                        MaterialPageRoute(builder: (context) => StatusPage(message: message)),
+                        MaterialPageRoute(builder: (context) => AppointmentStatusPage(message: message, email: ClientInfo!.email,)),
                       );
                     },
                     child: Container(
@@ -460,7 +460,7 @@ class _MainAccPage2State extends State<MainAccPage2> {
                     onTap: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => HistoryPage(message: message, client: ClientInfo)),
+                        MaterialPageRoute(builder: (context) => TechnicalHistoryPage(message: message, email: ClientInfo!.email)),
                       );
                     },
                     child: Container(

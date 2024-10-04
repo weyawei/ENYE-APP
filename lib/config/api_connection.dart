@@ -78,8 +78,10 @@ class API {
 //  sign up 3rd Party
   static const signupThirdParty = "$hostConnect/enye/signup_thirdparty.php";
 
-
 //  feedback
   static const feedback = "$hostConnect/enye/feedback.php";
+
+//engineering
+  static const technical = "$hostConnect/enye/technical_status/technical_status.php";
 }
 
