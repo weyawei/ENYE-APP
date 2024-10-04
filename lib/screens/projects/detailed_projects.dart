@@ -28,27 +28,14 @@ class detailedProjPage extends StatefulWidget {
   State<detailedProjPage> createState() => _detailedProjPageState();
 }
 
-class _detailedProjPageState extends State<detailedProjPage> with TickerProviderStateMixin {
+class _detailedProjPageState extends State<detailedProjPage> {
   List<Projects> _projects = [];
   bool _isLoadingProj = true;
-
-  late final AnimationController _controller = AnimationController(
-    duration: const Duration(seconds: 60),
-    vsync: this,
-  )..repeat();
 
   void initState() {
     super.initState();
     // Initially, show all products
     _getProjects();
-  }
-
-  @override
-  void dispose() {
-    // Clean up the controller when the widget is removed from the
-    // widget tree.
-    _controller.dispose();
-    super.dispose();
   }
 
   double? _progress;

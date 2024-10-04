@@ -406,7 +406,7 @@ class _MainAccPage2State extends State<MainAccPage2> {
                     onTap: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => TSIStatusPage(email: ClientInfo!.email)),
+                        MaterialPageRoute(builder: (context) => TechnicalStatusPage(email: ClientInfo!.email)),
                       );
                     },
                     child: Container(

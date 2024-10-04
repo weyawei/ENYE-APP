@@ -27,7 +27,7 @@ class StatusPage extends StatefulWidget {
   State<StatusPage> createState() => _StatusPageState();
 }
 
-class _StatusPageState extends State<StatusPage> with TickerProviderStateMixin {
+class _StatusPageState extends State<StatusPage> {
   clientInfo? ClientInfo;
   UserAdminData2? UserAdminInfo;
   bool? userSessionFuture;
@@ -75,14 +75,8 @@ class _StatusPageState extends State<StatusPage> with TickerProviderStateMixin {
     // widget tree.
     searchController.dispose();
     reasonController.dispose();
-    _controller.dispose();
     super.dispose();
   }
-
-  late final AnimationController _controller = AnimationController(
-    duration: const Duration(seconds: 60),
-    vsync: this,
-  )..repeat();
 
   //snackbars
   _custSnackbar(context, message, Color color, IconData iconData){

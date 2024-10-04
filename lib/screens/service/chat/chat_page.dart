@@ -30,7 +30,7 @@ class ChatPage extends StatefulWidget {
   State<ChatPage> createState() => _ChatPageState();
 }
 
-class _ChatPageState extends State<ChatPage> with TickerProviderStateMixin {
+class _ChatPageState extends State<ChatPage> {
   clientInfo? ClientInfo;
   UserAdminData2? UserAdminInfo;
   bool? userSessionFuture;
@@ -81,14 +81,8 @@ class _ChatPageState extends State<ChatPage> with TickerProviderStateMixin {
     // widget tree.
     searchController.dispose();
     reasonController.dispose();
-    _controller.dispose();
     super.dispose();
   }
-
-  late final AnimationController _controller = AnimationController(
-    duration: const Duration(seconds: 60),
-    vsync: this,
-  )..repeat();
 
   //snackbars
   _custSnackbar(context, message, Color color, IconData iconData){

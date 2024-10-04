@@ -20,14 +20,9 @@ class listSubProductsPage extends StatefulWidget {
   State<listSubProductsPage> createState() => _listSubProductsPageState();
 }
 
-class _listSubProductsPageState extends State<listSubProductsPage> with TickerProviderStateMixin {
+class _listSubProductsPageState extends State<listSubProductsPage> {
 
   bool _isLoadingProd = true;
-
-  late final AnimationController _controller = AnimationController(
-    duration: const Duration(seconds: 60),
-    vsync: this,
-  )..repeat();
 
 
   List<product> _products = [];
@@ -37,14 +32,6 @@ class _listSubProductsPageState extends State<listSubProductsPage> with TickerPr
   void initState() {
     _getProducts();
     _getProdCategory();
-  }
-
-  @override
-  void dispose() {
-    // Clean up the controller when the widget is removed from the
-    // widget tree.
-    _controller.dispose();
-    super.dispose();
   }
 
   _getProducts(){

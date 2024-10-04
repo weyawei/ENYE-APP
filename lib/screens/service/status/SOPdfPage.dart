@@ -16,7 +16,7 @@ class SOPdfPreviewPage extends StatefulWidget {
   State<SOPdfPreviewPage> createState() => _SOPdfPreviewPageState();
 }
 
-class _SOPdfPreviewPageState extends State<SOPdfPreviewPage> with TickerProviderStateMixin {
+class _SOPdfPreviewPageState extends State<SOPdfPreviewPage> {
 
   @override
   void initState() {
@@ -80,18 +80,6 @@ class _SOPdfPreviewPageState extends State<SOPdfPreviewPage> with TickerProvider
         _isLoading = false;
       });
     });
-  }
-
-
-  late final AnimationController _controller = AnimationController(
-    duration: const Duration(seconds: 60),
-    vsync: this,
-  )..repeat();
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
   }
 
   @override

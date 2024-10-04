@@ -13,7 +13,7 @@ class TSIStatusPage extends StatefulWidget {
   State<TSIStatusPage> createState() => _TSIStatusPageState();
 }
 
-class _TSIStatusPageState extends State<TSIStatusPage> with TickerProviderStateMixin {
+class _TSIStatusPageState extends State<TSIStatusPage> {
   final searchController = TextEditingController();
   final reasonController = TextEditingController();
 
@@ -36,14 +36,8 @@ class _TSIStatusPageState extends State<TSIStatusPage> with TickerProviderStateM
     // widget tree.
     searchController.dispose();
     reasonController.dispose();
-    _controller.dispose();
     super.dispose();
   }
-
-  late final AnimationController _controller = AnimationController(
-    duration: const Duration(seconds: 60),
-    vsync: this,
-  )..repeat();
 
   late List<EcEvent> _ecEvent;
 

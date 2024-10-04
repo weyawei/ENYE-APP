@@ -10,7 +10,7 @@ class systemsPage extends StatefulWidget {
   State<systemsPage> createState() => _systemsPageState();
 }
 
-class _systemsPageState extends State<systemsPage> with TickerProviderStateMixin {
+class _systemsPageState extends State<systemsPage> {
   double screenHeight = 0;
   double screenWidth = 0;
 
@@ -27,17 +27,12 @@ class _systemsPageState extends State<systemsPage> with TickerProviderStateMixin
     _getSystems();
   }
 
-  late final AnimationController _controller = AnimationController(
-    duration: const Duration(seconds: 60),
-    vsync: this,
-  )..repeat();
 
   @override
   void dispose() {
     // Clean up the controller when the widget is removed from the
     // widget tree.
     searchController.dispose();
-    _controller.dispose();
     super.dispose();
   }
 

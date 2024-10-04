@@ -207,7 +207,7 @@ class _LoginPageState extends State<LoginPage> {
                 Container(
                   alignment: Alignment.center,
                   height: screenHeight * 0.042,
-                  width: screenWidth * 0.80,
+                  width: screenWidth >= 600 ? screenWidth * 0.6 : screenWidth * 0.80,
                   decoration: BoxDecoration(
                       image: DecorationImage(image: AssetImage("assets/logo/enyecontrols.png"), fit: BoxFit.fill)
                   ),

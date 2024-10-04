@@ -18,7 +18,7 @@ class EnDisABLETextField extends StatelessWidget {
     var fontNormalSize = ResponsiveTextUtils.getNormalFontSize(screenWidth);
 
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.06),
+      padding: EdgeInsets.symmetric(horizontal: screenWidth >= 600 ? screenWidth * 0.1 : screenWidth * 0.06),
       child: TextFormField(
         style: GoogleFonts.poppins(
           textStyle:
@@ -65,7 +65,7 @@ class ReadOnlyTextField extends StatelessWidget {
     var fontNormalSize = ResponsiveTextUtils.getNormalFontSize(screenWidth);
 
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.06),
+      padding: EdgeInsets.symmetric(horizontal: screenWidth >= 600 ? screenWidth * 0.1 : screenWidth * 0.06),
       child: TextFormField(
         style: GoogleFonts.poppins(
           textStyle:
@@ -106,7 +106,7 @@ class Normal2TextField extends StatelessWidget {
     var fontNormalSize = ResponsiveTextUtils.getNormalFontSize(screenWidth);
 
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.06),
+      padding: EdgeInsets.symmetric(horizontal: screenWidth >= 600 ? screenWidth * 0.1 : screenWidth * 0.06),
       child: TextFormField(
         style: TextStyle(
           fontSize: fontNormalSize,
@@ -153,7 +153,7 @@ class NormalNotRequiredTextField extends StatelessWidget {
     var fontNormalSize = ResponsiveTextUtils.getNormalFontSize(screenWidth);
 
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.06),
+      padding: EdgeInsets.symmetric(horizontal: screenWidth >= 600 ? screenWidth * 0.1 : screenWidth * 0.06),
       child: TextFormField(
         style: TextStyle(
             fontSize: fontNormalSize,
@@ -195,7 +195,7 @@ class ContactTextField extends StatelessWidget {
     var fontNormalSize = ResponsiveTextUtils.getNormalFontSize(screenWidth);
 
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.06),
+      padding: EdgeInsets.symmetric(horizontal: screenWidth >= 600 ? screenWidth * 0.1 : screenWidth * 0.06),
       child: TextFormField(
         style: GoogleFonts.poppins(
           textStyle:
@@ -248,7 +248,7 @@ class NormalTextField extends StatelessWidget {
     var fontNormalSize = ResponsiveTextUtils.getNormalFontSize(screenWidth);
 
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.06),
+      padding: EdgeInsets.symmetric(horizontal: screenWidth >= 600 ? screenWidth * 0.1 : screenWidth * 0.06),
       child: TextFormField(
         style: GoogleFonts.poppins(
           textStyle: TextStyle(
@@ -315,7 +315,7 @@ class TextAreaField extends StatelessWidget {
     var fontNormalSize = ResponsiveTextUtils.getNormalFontSize(screenWidth);
 
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.06),
+      padding: EdgeInsets.symmetric(horizontal: screenWidth >= 600 ? screenWidth * 0.1 : screenWidth * 0.06),
       child: TextFormField(
         style: GoogleFonts.poppins(
           textStyle: TextStyle(
@@ -386,7 +386,7 @@ class _PasswordTextFieldState extends State<PasswordTextField> {
     var fontNormalSize = ResponsiveTextUtils.getNormalFontSize(screenWidth);
 
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.06),
+      padding: EdgeInsets.symmetric(horizontal: screenWidth >= 600 ? screenWidth * 0.1 : screenWidth * 0.06),
       child: TextFormField(
         style: GoogleFonts.poppins(
           textStyle:
@@ -449,7 +449,7 @@ class EmailTextField extends StatelessWidget {
     var fontNormalSize = ResponsiveTextUtils.getNormalFontSize(screenWidth);
 
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.06),
+      padding: EdgeInsets.symmetric(horizontal: screenWidth >= 600 ? screenWidth * 0.1 : screenWidth * 0.06),
       child: TextFormField(
         style: GoogleFonts.poppins(
           textStyle:
@@ -503,7 +503,7 @@ class Email2TextField extends StatelessWidget {
     var fontNormalSize = ResponsiveTextUtils.getNormalFontSize(screenWidth);
 
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.06),
+      padding: EdgeInsets.symmetric(horizontal: screenWidth >= 600 ? screenWidth * 0.1 : screenWidth * 0.06),
       child: TextFormField(
         style: GoogleFonts.poppins(
           textStyle:
@@ -553,7 +553,7 @@ class PersonNameTextField extends StatelessWidget {
     var fontNormalSize = ResponsiveTextUtils.getNormalFontSize(screenWidth);
 
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.06),
+      padding: EdgeInsets.symmetric(horizontal: screenWidth >= 600 ? screenWidth * 0.1 : screenWidth * 0.06),
       child: TextFormField(
         style: GoogleFonts.poppins(
           textStyle:
@@ -608,7 +608,7 @@ class Contact2TextField extends StatelessWidget {
     RegExp regExp = new RegExp(patttern);
 
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.06),
+      padding: EdgeInsets.symmetric(horizontal: screenWidth >= 600 ? screenWidth * 0.1 : screenWidth * 0.06),
       child: TextFormField(
         style: GoogleFonts.poppins(
           textStyle:
@@ -662,7 +662,7 @@ class CompanyTextField extends StatelessWidget {
     var fontNormalSize = ResponsiveTextUtils.getNormalFontSize(screenWidth);
 
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.06),
+      padding: EdgeInsets.symmetric(horizontal: screenWidth >= 600 ? screenWidth * 0.1 : screenWidth * 0.06),
       child: TextFormField(
         style: GoogleFonts.poppins(
           textStyle:
