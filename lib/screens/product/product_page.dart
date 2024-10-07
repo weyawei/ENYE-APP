@@ -4,6 +4,7 @@ import 'dart:ui';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:enye_app/screens/product/product_category_list_page.dart';
+import 'package:enye_app/screens/product/product_filtered.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
@@ -669,7 +670,7 @@ class _productsPageState extends State<productsPage> with TickerProviderStateMix
                       return InkWell(
                         onTap: () {
                           setState(() {
-                            PersistentNavBarNavigator
+                           /* PersistentNavBarNavigator
                                 .pushNewScreenWithRouteSettings(
                               context,
                               settings: RouteSettings(
@@ -679,7 +680,16 @@ class _productsPageState extends State<productsPage> with TickerProviderStateMix
                               withNavBar: true,
                               pageTransitionAnimation: PageTransitionAnimation
                                   .cupertino,
+                            );*/
+
+                            PersistentNavBarNavigator.pushNewScreenWithRouteSettings(
+                              context,
+                              settings: RouteSettings(name: MultiLevelFilterDemo.routeName),
+                              screen: MultiLevelFilterDemo(selectedCategory: category[index]), // Pass the selected category here
+                              withNavBar: true,
+                              pageTransitionAnimation: PageTransitionAnimation.cupertino,
                             );
+
                           });
                         },
 
@@ -874,7 +884,20 @@ class _productsPageState extends State<productsPage> with TickerProviderStateMix
                   ),
                 ),*/
 
-
+               /* Text("See all"),
+                GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => MultiLevelFilterDemo()), // Replace YourNewPage with the page you want to navigate to
+                    );
+                  },
+                  child: Icon(
+                    Icons.arrow_circle_right_outlined,
+                    size: MediaQuery.of(context).size.width * 0.08,
+                    color: Colors.deepOrange,
+                  ),
+                ),*/
 
               ],
             ),

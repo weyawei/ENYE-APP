@@ -524,40 +524,42 @@ class _ProductItemScreenState extends State<ProductItemScreen> {
                               child: RichText(
                                 softWrap: true,
                                 text: TextSpan(
-                                  children: <TextSpan> [
+                                  children: <TextSpan>[
                                     TextSpan(
                                       text: detail.isExpanded
-                                      ? detail.description // Show full description if expanded
-                                      : detail.description.substring(0, 100) + '...',
+                                          ? detail.description // Show full description if expanded
+                                          : detail.description.length > 100 // Check length before calling substring
+                                          ? detail.description.substring(0, 100) + '...' // Truncate if not expanded
+                                          : detail.description, // Show full description if less than 100 characters
                                       style: GoogleFonts.poppins(
                                         textStyle: TextStyle(
-                                            letterSpacing: 1.2,
-                                            fontSize: fontNormalSize,
-                                            color: Colors.black87
+                                          letterSpacing: 1.2,
+                                          fontSize: fontNormalSize,
+                                          color: Colors.black87,
                                         ),
-                                      )
-                                    ),
-
-                                    if (detail.description.length > 100)
-                                    TextSpan(
-                                      text: detail.isExpanded ? " See Less" : " See More",
-                                      style: TextStyle(
-                                        letterSpacing: 1.2,
-                                        fontSize: fontExtraSize,
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.blueAccent
                                       ),
-                                      recognizer: TapGestureRecognizer()
-                                        ..onTap = () {
-                                          setState(() {
-                                            // Toggle the expanded state
-                                            detail.isExpanded = !detail.isExpanded;
-                                          });
-                                        },
                                     ),
-                                  ]
+                                    if (detail.description.length > 100) // Only show "See More/Less" if text exceeds 100 chars
+                                      TextSpan(
+                                        text: detail.isExpanded ? " See Less" : " See More",
+                                        style: TextStyle(
+                                          letterSpacing: 1.2,
+                                          fontSize: fontExtraSize,
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.blueAccent,
+                                        ),
+                                        recognizer: TapGestureRecognizer()
+                                          ..onTap = () {
+                                            setState(() {
+                                              // Toggle the expanded state
+                                              detail.isExpanded = !detail.isExpanded;
+                                            });
+                                          },
+                                      ),
+                                  ],
                                 ),
                               ),
+
                               // Text(
                               //   detail.description ?? "",
                               //   textAlign: TextAlign.justify,

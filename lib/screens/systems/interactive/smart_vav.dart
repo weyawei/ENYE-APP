@@ -348,18 +348,22 @@ class _SmartVavPageState extends State<SmartVavPage> with TickerProviderStateMix
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: Text(" High Pressure Alarm"),
+        title: Text("Actuator"),
         content: SingleChildScrollView(
           child: Column(
             children: [
-              Image.asset(
-                'assets/systems/smart/Airflow.png',
+              SizedBox(
                 width: MediaQuery.of(context).size.width * 1,
-                height: MediaQuery.of(context).size.width * 0.5,
-                fit: BoxFit.fill,
+                height: MediaQuery.of(context).size.width * 0.7,
+                child: ModelViewer(
+                  src: 'assets/systems/ahu/actuator.glb',
+                  ar: true,
+                  autoRotate: true,
+                  cameraControls: true,
+                ),
               ),
               Text(
-                "Airflow Switch",
+                "ACTUATOR",
                 style: TextStyle(
                     fontSize: MediaQuery.of(context).size.width * 0.045,
                     letterSpacing: 0.8,
@@ -370,7 +374,7 @@ class _SmartVavPageState extends State<SmartVavPage> with TickerProviderStateMix
               ),
               //   SizedBox(height: 10,),
               Text(
-                "\n Features \n\n• Adjustment knob changes switching pressure easily with a pressure gage reducing components for application \n• Low cost device makes it an excellent solution in BAS and HVAC applications requiring duct control and monitoring \n• Relay contact allows simple integration with DDC or building systems",
+                "\n Features \n\n• BACnet MS/TP for Building Automation system • 128 Binary value (BV), 128 Analog value (AV) • Compact with Actuator +Controller +Communication+ Flow • Actuator with Pluggable terminal & RJ11 connection • Selectable direction of rotation of reversing actuator • Adjustable angle of rotation (Mechanical) • Selectable direction of rotation by switch • Selectable baud rate • Maintenance Free.",
                 style: TextStyle(
                     fontSize: MediaQuery.of(context).size.width * 0.036,
                     letterSpacing: 0.8,
@@ -1185,7 +1189,7 @@ class _SmartVavPageState extends State<SmartVavPage> with TickerProviderStateMix
                               Offset(-40, 50),
                                   () => _showProduct3Details(context),
                             );*/
-                            _showProduct4Details(context);
+                            _showProduct5Details(context);
                           },
                           child: Stack(
                             alignment: Alignment.center,

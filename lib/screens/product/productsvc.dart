@@ -8,7 +8,7 @@ class productService {
   //this is same as in PHP code action made by the user CRUD
   static const GET_ALL_PRODUCT_CATEGORIES = 'get_all_prodcategory';
   static const GET_ALL_PRODUCT_SUBCATEGORIES = 'get_all_prodsubcategory';
-  static const GET_ALL_PRODUCTS = 'get_all_products';
+  static const GET_ALL_PRODUCTS = 'get_all_products_filter';
   static const GET_ALL_PRODUCT_DETAILS = 'get_all_product_details';
   static const GET_ALL_PRODUCT_THUMBNAILS = 'get_all_product_thumbnails';
   static const GET_ALL_PRODUCT_SIZES = 'get_all_product_sizes';

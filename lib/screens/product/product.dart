@@ -12,6 +12,15 @@ class product {
   String status;
   bool isExpanded;
 
+  String category_name;
+  String subcategory_name;
+  String subCat1_id;
+  String subcategory_name1;
+  String subCat2_id;
+  String subcategory_name2;
+
+
+
   product({
     required this.id,
     required this.name,
@@ -24,6 +33,14 @@ class product {
     required this.catalogs_pdf,
     required this.status,
     this.isExpanded = false,
+
+    required this.category_name,
+    required this.subcategory_name,
+    required this.subCat1_id,
+    required this.subcategory_name1,
+    required this.subCat2_id,
+    required this.subcategory_name2,
+
   });
 
   factory product.fromJson(Map<String, dynamic> json) {
@@ -38,6 +55,13 @@ class product {
       model_3d: json['3d_model'] as String? ?? '',
       catalogs_pdf: json['catalogs_pdf'] as String,
       status: json['status'] as String,
+
+      category_name: json['category_name'] as String,
+      subcategory_name: json['subcategory_name'] as String,
+      subCat1_id: json['subCat1_id'] as String,
+      subcategory_name1: json['subCat1_name'] as String,
+      subCat2_id: json['subCat2_id'] as String,
+      subcategory_name2: json['subCat2_name'] as String,
     );
   }
 }

@@ -10,6 +10,7 @@ import 'package:enye_app/screens/systems/interactive/stairwell.dart';
 import 'package:flutter/material.dart';
 import 'interactive.dart';
 import 'interactive/fire_smoke.dart';
+import 'interactive/model3d.dart';
 import 'interactive/smart.dart';
 // Add more imports as needed
 
