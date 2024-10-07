@@ -31,7 +31,7 @@ class detailedProductPage extends StatefulWidget {
   State<detailedProductPage> createState() => _detailedProductPageState();
 }
 
-class _detailedProductPageState extends State<detailedProductPage> with TickerProviderStateMixin {
+class _detailedProductPageState extends State<detailedProductPage> {
 
   int _selectedIndex = -1; // Index of the selected item
   int _selectedIndex2 = -1; // Index of the selected item
@@ -80,11 +80,6 @@ class _detailedProductPageState extends State<detailedProductPage> with TickerPr
 
   bool _isLoadingProd = true;
 
-  late final AnimationController _controller = AnimationController(
-    duration: const Duration(seconds: 60),
-    vsync: this,
-  )..repeat();
-
 
   //LIST OF PRODUCT DETAIL
   List<detailedProduct> _productDetail = [];
@@ -103,14 +98,6 @@ class _detailedProductPageState extends State<detailedProductPage> with TickerPr
     _getProductsSizes();
 
     getMainName();
-  }
-
-  @override
-  void dispose() {
-    // Clean up the controller when the widget is removed from the
-    // widget tree.
-    _controller.dispose();
-    super.dispose();
   }
 
   _getProductDetails(){

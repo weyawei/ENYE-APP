@@ -18,7 +18,7 @@ class HistoryViewPage extends StatefulWidget {
   State<HistoryViewPage> createState() => _HistoryViewPageState();
 }
 
-class _HistoryViewPageState extends State<HistoryViewPage> with TickerProviderStateMixin {
+class _HistoryViewPageState extends State<HistoryViewPage> {
 
   bool _isLoadingAcc = true;
   bool _isLoadingSO = true;
@@ -125,19 +125,6 @@ class _HistoryViewPageState extends State<HistoryViewPage> with TickerProviderSt
         ),
       ),
     );
-  }
-
-  late final AnimationController _controller = AnimationController(
-    duration: const Duration(seconds: 60),
-    vsync: this,
-  )..repeat();
-
-  @override
-  void dispose() {
-    // Clean up the controller when the widget is removed from the
-    // widget tree.
-    _controller.dispose();
-    super.dispose();
   }
 
   @override

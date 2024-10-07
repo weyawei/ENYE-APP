@@ -34,7 +34,7 @@ class productsPage extends StatefulWidget {
   _productsPageState createState() => _productsPageState();
 }
 
-class _productsPageState extends State<productsPage> with TickerProviderStateMixin {
+class _productsPageState extends State<productsPage> {
   List<productCategory> _prodCategory = [];
   List<productCategory> _filteredprodCategory = [];
   List<product> _products = [];
@@ -79,11 +79,6 @@ class _productsPageState extends State<productsPage> with TickerProviderStateMix
     _speech = stt.SpeechToText();
   }
 
-  late final AnimationController _controller = AnimationController(
-    duration: const Duration(seconds: 60),
-    vsync: this,
-  )..repeat();
-
   void loadMoreProducts() {
     int endIndex = visibleProductCount + increment;
     if (endIndex > _products.length) {
@@ -122,7 +117,6 @@ class _productsPageState extends State<productsPage> with TickerProviderStateMix
   @override
   void dispose() {
     _scrollController.dispose();
-    _controller.dispose();
     _speech.cancel();
     searchFocusNode.dispose();
     super.dispose();

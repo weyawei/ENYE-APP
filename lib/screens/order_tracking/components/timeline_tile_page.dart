@@ -62,7 +62,7 @@ class TimelineTilePage extends StatelessWidget {
           )
         ),
         alignment: TimelineAlign.manual,
-        lineXY: 0.2,
+        lineXY: screenWidth >= 600 ? 0.15 : 0.2,
         startChild: TimeCardPage(
           isPast: isPast,
           child: timeCard,
@@ -76,7 +76,7 @@ class TimelineTilePage extends StatelessWidget {
                 height: fontExtraSize * 2.5,
                 width: fontExtraSize * 2.5,
               ),
-              SizedBox(width: 10,),
+              SizedBox(width: screenWidth * 0.035,),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,

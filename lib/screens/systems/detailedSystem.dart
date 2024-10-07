@@ -29,7 +29,7 @@ class detailedSysPage extends StatefulWidget {
   State<detailedSysPage> createState() => _detailedSysPageState();
 }
 
-class _detailedSysPageState extends State<detailedSysPage> with TickerProviderStateMixin {
+class _detailedSysPageState extends State<detailedSysPage> {
 
   PageController _pageController = new PageController();
   ScrollController _scrollController = new ScrollController();
@@ -136,10 +136,6 @@ class _detailedSysPageState extends State<detailedSysPage> with TickerProviderSt
   //   });
   // }
 
-  late final AnimationController _controller = AnimationController(
-    duration: const Duration(seconds: 60),
-    vsync: this,
-  )..repeat();
 
   _getSystems(){
     systemService.getSystems().then((Systems){
@@ -193,14 +189,6 @@ class _detailedSysPageState extends State<detailedSysPage> with TickerProviderSt
       print('Error loading image: $error');
       return AssetImage("assets/icons/orange_circles.gif"); // Replace with a fallback image URL
     }
-  }
-
-  @override
-  void dispose() {
-    // Clean up the controller when the widget is removed from the
-    // widget tree.
-    _controller.dispose();
-    super.dispose();
   }
 
   _loginRequired(BuildContext context){

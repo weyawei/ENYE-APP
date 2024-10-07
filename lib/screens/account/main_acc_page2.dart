@@ -294,7 +294,7 @@ class _MainAccPage2State extends State<MainAccPage2> {
                       // ).then((_) => _getServices() );
                       ScaffoldMessenger.of(context).hideCurrentSnackBar();
                       Navigator.of(context).push(
-                        MaterialPageRoute(builder: (context) => StatusPage(message: message)),
+                        MaterialPageRoute(builder: (context) => AppointmentStatusPage(message: message, email: ClientInfo!.email,)),
                       );
                     },
                     child: Container(
@@ -406,7 +406,7 @@ class _MainAccPage2State extends State<MainAccPage2> {
                     onTap: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => TSIStatusPage(email: ClientInfo!.email)),
+                        MaterialPageRoute(builder: (context) => TechnicalStatusPage(email: ClientInfo!.email)),
                       );
                     },
                     child: Container(
@@ -460,7 +460,7 @@ class _MainAccPage2State extends State<MainAccPage2> {
                     onTap: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => HistoryPage(message: message, client: ClientInfo)),
+                        MaterialPageRoute(builder: (context) => TechnicalHistoryPage(message: message, email: ClientInfo!.email)),
                       );
                     },
                     child: Container(
@@ -529,6 +529,23 @@ class _MainAccPage2State extends State<MainAccPage2> {
   }
 
   bool _snackbarShown = false;
+
+  ScaffoldMessengerState? _scaffoldMessenger;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    // Safely reference the ScaffoldMessenger here
+    _scaffoldMessenger = ScaffoldMessenger.of(context);
+  }
+
+  @override
+  void dispose() {
+    // Do not call ScaffoldMessenger.of(context) in dispose
+    // Use the stored reference instead
+    _scaffoldMessenger?.hideCurrentSnackBar();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {

@@ -21,7 +21,7 @@ String formatDateRangeSplitByTO(String dateRange) {
   int currentYear = DateTime.now().year;
 
   // Parse the input date range
-  List<String> dates = dateRange.split(" to ");
+  List<String> dates = dateRange.split(RegExp(r'\s+to\s+|\s+TO\s+'));
   DateTime startDate = DateTime.parse(dates[0]);
   DateTime endDate = DateTime.parse(dates[1]);
 

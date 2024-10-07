@@ -1,7 +1,6 @@
 import 'dart:ui';
 
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:carousel_slider/carousel_options.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import '../../config/api_connection.dart';
@@ -15,7 +14,7 @@ class systemsPage2 extends StatefulWidget {
   State<systemsPage2> createState() => _systemsPage2State();
 }
 
-class _systemsPage2State extends State<systemsPage2> with TickerProviderStateMixin {
+class _systemsPage2State extends State<systemsPage2> {
   double screenHeight = 0;
   double screenWidth = 0;
 
@@ -37,17 +36,12 @@ class _systemsPage2State extends State<systemsPage2> with TickerProviderStateMix
     _carouselController = CarouselController(); // Initialize the CarouselController
   }
 
-  late final AnimationController _controller = AnimationController(
-    duration: const Duration(seconds: 60),
-    vsync: this,
-  )..repeat();
 
   @override
   void dispose() {
     // Clean up the controller when the widget is removed from the
     // widget tree.
     searchController.dispose();
-    _controller.dispose();
     super.dispose();
   }
 

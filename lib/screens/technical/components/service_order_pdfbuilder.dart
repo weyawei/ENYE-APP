@@ -1,6 +1,5 @@
 import 'dart:typed_data';
 
-import 'package:enye_app/screens/service/ec_technical_data.dart';
 import 'package:pdf/pdf.dart';
 
 import 'package:pdf/widgets.dart';
@@ -10,7 +9,7 @@ import 'package:http/http.dart' as http;
 import '../../../config/config.dart';
 import '../../screens.dart';
 
-Future<Uint8List> pdfBuilderSO(EcSO serviceOrder, EcUsers user, EcTSIS service) async {
+Future<Uint8List> ServiceOrderPDFBuilder(EcSO serviceOrder, EngTSIS tsis, String serviceBySign) async {
   final pdf = Document();
   final imageLogo = MemoryImage(
       (await rootBundle.load('assets/logo/enyecontrols.png')).buffer.asUint8List());
@@ -22,7 +21,7 @@ Future<Uint8List> pdfBuilderSO(EcSO serviceOrder, EcUsers user, EcTSIS service) 
       (await rootBundle.load('assets/icons/clipboard.png')).buffer.asUint8List());
 
   final imgConSign = await loadSignatureImage(API.ec_conformeSig, serviceOrder.conforme_signature);
-  final imgUserSign = await loadSignatureImage(API.ec_usersSig, user.signature);
+  final imgUserSign = await loadSignatureImage(API.ec_usersSig, serviceBySign);
 
   pdf.addPage(
     MultiPage(
@@ -165,28 +164,28 @@ Future<Uint8List> pdfBuilderSO(EcSO serviceOrder, EcUsers user, EcTSIS service) 
                         children: [
                           tableTextTitleStart("SVC #"),
                           tableTextTitleStart(":"),
-                          tableTextBodyStart(service.tsis_no),
+                          tableTextBodyStart(tsis.tsis_no),
                         ],
                       ),
                       TableRow(
                         children: [
                           tableTextTitleStart("Project"),
                           tableTextTitleStart(":"),
-                          tableTextBodyStart(service.project)
+                          tableTextBodyStart(tsis.project)
                         ],
                       ),
                       TableRow(
                         children: [
                           tableTextTitleStart("Address"),
                           tableTextTitleStart(":"),
-                          tableTextBodyStart(service.location),
+                          tableTextBodyStart(tsis.location),
                         ],
                       ),
                       TableRow(
                         children: [
                           tableTextTitleStart("Client"),
                           tableTextTitleStart(":"),
-                          tableTextBodyStart(service.client_name),
+                          tableTextBodyStart(tsis.client_name),
                         ],
                       )
                     ]
@@ -377,7 +376,7 @@ Future<Uint8List> pdfBuilderSO(EcSO serviceOrder, EcUsers user, EcTSIS service) 
                   child: Padding(
                     padding: const EdgeInsets.only(top: 4, bottom: 4, left: 5),
                     child: Text(
-                        user.username.toUpperCase(),
+                        serviceOrder.service_by.toUpperCase(),
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           fontSize: 10,
@@ -408,4 +407,186 @@ Future<Uint8List> pdfBuilderSO(EcSO serviceOrder, EcUsers user, EcTSIS service) 
 
   );
   return pdf.save();
+}
+
+Widget tableTextTitle(
+    final String text, {
+      final TextAlign align = TextAlign.center,
+    }) =>
+    Padding(
+      padding: const EdgeInsets.all(5),
+      child: Text(
+          text,
+          textAlign: align,
+          style: TextStyle(
+            fontSize: 9,
+            fontWeight: FontWeight.bold,
+            color: PdfColor.fromHex("#FFFFFF"),
+          )
+      ),
+    );
+
+Widget tableTextBody(
+    final String text, {
+      final TextAlign align = TextAlign.center,
+    }) =>
+    Padding(
+      padding: const EdgeInsets.all(4),
+      child: Text(
+          text,
+          textAlign: align,
+          style: TextStyle(
+              fontSize: 9,
+              fontWeight: FontWeight.bold,
+              color: PdfColor.fromHex("#28282B")
+          )
+      ),
+    );
+
+Widget tableTextTitleStart(
+    final String text, {
+      final TextAlign align = TextAlign.start,
+    }) =>
+    Padding(
+      padding: const EdgeInsets.symmetric(vertical:4),
+      child: Text(
+          text,
+          textAlign: align,
+          style: TextStyle(
+            fontSize: 9,
+            fontWeight: FontWeight.bold,
+            color: PdfColor.fromHex("#28282B"),
+          )
+      ),
+    );
+
+Widget tableTextBodyStart(
+    final String text, {
+      final TextAlign align = TextAlign.start,
+      double width = 160, // Default width, but you can pass any width you need
+    }) =>
+    Container(
+      width: width,
+      decoration: BoxDecoration(
+        border: Border(bottom: BorderSide(color: PdfColors.black, width: 1)), // Underline
+      ),
+      child: Padding(
+        padding: const EdgeInsets.only(top: 4, bottom: 4, left: 5),
+        child: Text(
+            text,
+            textAlign: align,
+            style: TextStyle(
+              fontSize: 9,
+              color: PdfColor.fromHex("#28282B"),
+            )
+        ),
+      ),
+    );
+
+Widget smallText(
+    final String text, {
+      final TextAlign align = TextAlign.start,
+    }) =>
+    Padding(
+        padding: const EdgeInsets.symmetric(vertical: 0.5),
+        child: Text(
+            text,
+            textAlign: align,
+            style: TextStyle(
+                fontSize: 9,
+                color: PdfColor.fromHex("#28282B")
+            )
+        )
+    );
+
+Widget tableWorkOrderRight(String title, String content) {
+  return Table(
+    columnWidths: {
+      0: FixedColumnWidth(130), // You can adjust the width ratio as needed
+    },
+    children: [
+      TableRow(
+        decoration: const BoxDecoration(
+          color: PdfColors.deepOrange300,
+        ),
+        children: [
+          tableTextTitle(title),
+        ],
+      ),
+      TableRow(
+        decoration: const BoxDecoration(
+          color: PdfColors.grey100,
+        ),
+        children: [
+          tableTextBody(content)
+        ],
+      ),
+    ],
+  );
+}
+
+Widget tableBody(String title, String content) {
+  return Table(
+    border: TableBorder.all(color: PdfColors.deepOrange500),
+    children: [
+      TableRow(
+        decoration: const BoxDecoration(
+          color: PdfColors.deepOrange300,
+
+        ),
+        children: [
+          tableTextTitle(title),
+        ],
+      ),
+      TableRow(
+        decoration: const BoxDecoration(
+          color: PdfColors.grey100,
+        ),
+        children: [
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 20),
+            child: Text(
+                content,
+                textAlign: TextAlign.justify,
+                style: TextStyle(
+                    fontSize: 9,
+                    letterSpacing: 0.8,
+                    wordSpacing: 1.2,
+                    lineSpacing: 2,
+                    color: PdfColor.fromHex("#28282B")
+                )
+            ),
+          )
+        ],
+      ),
+    ],
+  );
+}
+
+Future<Uint8List> fetchNetworkImage(String imageUrl) async {
+  try {
+    final response = await http.get(Uri.parse(imageUrl));
+    if (response.statusCode == 200) {
+      return response.bodyBytes;
+    } else {
+      throw Exception("Failed to load network image.");
+    }
+  } catch (e) {
+    throw Exception("Error fetching network image: $e");
+  }
+}
+
+Future<ImageProvider?> loadSignatureImage(String pathSegment, String imageId) async {
+  try {
+    final imageBytes = await fetchNetworkImage(pathSegment + imageId);
+    if (imageBytes.isNotEmpty) {
+      return MemoryImage(imageBytes);
+    } else {
+      print('Image data is empty');
+      return null;
+    }
+  } catch (e) {
+    print("Failed to load image: $e");
+    return null;
+  }
 }

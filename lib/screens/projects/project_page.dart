@@ -19,7 +19,7 @@ class ProjectsPage extends StatefulWidget {
   State<ProjectsPage> createState() => _ProjectsPageState();
 }
 
-class _ProjectsPageState extends State<ProjectsPage> with TickerProviderStateMixin {
+class _ProjectsPageState extends State<ProjectsPage> {
   String? selectedCategory;
   PageController _pageController = PageController(initialPage: 0);
   int _currentPageIndex = 0;
@@ -42,19 +42,6 @@ class _ProjectsPageState extends State<ProjectsPage> with TickerProviderStateMix
     _getProjects();
     _scrollController.addListener(_scrollListener);
   }
-
-  @override
-  void dispose() {
-    // Clean up the controller when the widget is removed from the
-    // widget tree.
-    _controller.dispose();
-    super.dispose();
-  }
-
-  late final AnimationController _controller = AnimationController(
-    duration: const Duration(seconds: 60),
-    vsync: this,
-  )..repeat();
 
   _getProjCategories(){
     projectSVC.getProjCategory().then((projCategories){

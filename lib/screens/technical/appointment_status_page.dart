@@ -1,43 +1,29 @@
-import 'package:enye_app/screens/service/status/status_view_page.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import '../../../config/config.dart';
 import '../../../widget/widgets.dart';
-import '../../screens.dart';
+import '../screens.dart';
 
-class StatusPage extends StatefulWidget {
-  static const String routeName = '/status';
-
+class AppointmentStatusPage extends StatefulWidget {
+  final String email;
   final RemoteMessage? message;
-
-  StatusPage({required this.message});
-
-  Route route(){
-    return MaterialPageRoute(
-        settings: const RouteSettings(name: routeName),
-        builder: (_) => StatusPage(message: message,)
-    );
-  }
+  const AppointmentStatusPage({super.key, required this.email, required this.message });
 
   @override
-  State<StatusPage> createState() => _StatusPageState();
+  State<AppointmentStatusPage> createState() => _AppointmentStatusPageState();
 }
 
-class _StatusPageState extends State<StatusPage> {
-  clientInfo? ClientInfo;
-  UserAdminData2? UserAdminInfo;
-  bool? userSessionFuture;
+class _AppointmentStatusPageState extends State<AppointmentStatusPage> {
   String? _dropdownError; //kapag wala pa na-select sa option
 
   final searchController = TextEditingController();
   final reasonController = TextEditingController();
-  bool _isLoading = true;
-  bool _isLoadingTSIS = true;
-  bool _isLoadingEvents = true;
+
+  bool _isLoadingTSISEvents = true;
+  bool _isLoadingAppointment = true;
 
   DateTimeRange? selectedDate;
   DateTime firstDate = DateTime.now().add(Duration(days: 5));
@@ -45,132 +31,68 @@ class _StatusPageState extends State<StatusPage> {
 
   final TextEditingController note = TextEditingController();
 
+  @override
   void initState(){
     super.initState();
-    _services = [];
+    _appointment = [];
+    _listTsisEvents = [];
 
-    _ecEvent = [];
-    _ecTSIS = [];
-
-    //calling session data
-    checkSession().getUserSessionStatus().then((bool) {
-      if (bool == true) {
-        checkSession().getClientsData().then((value) {
-          ClientInfo = value;
-          _getServices();
-        });
-        userSessionFuture = bool;
-      } else {
-        userSessionFuture = bool;
-      }
-    });
+    _getAppointment();
 
     if(widget.message!.data["goToPage"] == "Status"){
       searchController.text = '${widget.message!.data["code"]}';
     }
   }
 
+  @override
   void dispose() {
     // Clean up the controller when the widget is removed from the
     // widget tree.
-    searchController.dispose();
     reasonController.dispose();
+    searchController.dispose();
     super.dispose();
   }
 
-  //snackbars
-  _custSnackbar(context, message, Color color, IconData iconData){
-    double screenWidth = MediaQuery.of(context).size.width;
-
-    var fontNormalSize = ResponsiveTextUtils.getNormalFontSize(screenWidth);
-
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        margin: EdgeInsets.only(bottom: MediaQuery.of(context).size.height * 0.7,),
-        duration: Duration(seconds: 3),
-        backgroundColor: color,
-        behavior: SnackBarBehavior.floating,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(4))),
-        content: RichText(
-          softWrap: true,
-          text: TextSpan(
-            children: <TextSpan> [
-              TextSpan(
-                text: message.toString().toUpperCase(),
-                style: GoogleFonts.lato(
-                  textStyle: TextStyle(
-                      fontSize: fontNormalSize,
-                      fontWeight: FontWeight.w800,
-                      letterSpacing: 1.2,
-                      color: Colors.white
-                  ),
-                ),
-              ),
-            ]
-          ),
-        ),
-      ),
-    );
-  }
-
-  late List<TechnicalData> _services;
-
-  _getServices(){
-    TechnicalDataServices.clientTechnicalData(ClientInfo!.email).then((technicalData){
+  late List<TechnicalData> _appointment;
+  List<TechnicalData> _filteredAppointment = [];
+  _getAppointment(){
+    EngineeringServices.getAppointmentsEmailBased(widget.email).then((appointment){
       setState(() {
-        _services = technicalData.where((element) => element.status != "Complete" && element.status != "Cancelled").toList();
-        _filteredServices = List.from(_services);
+        _appointment = appointment.where((element) => element.status != "Complete" && element.status != "Cancelled").toList();
+        _filteredAppointment = appointment.where((element) => element.status != "Complete" && element.status != "Cancelled").toList();
 
-        _services.forEach((element) {
+        _appointment.forEach((element) {
           if (element.tsis_id.isNotEmpty) {
-            _getEcEvent(element.tsis_id);
-            _getEcTSIS(element.tsis_id);
+            _getTsisEventsEmailBased(element.tsis_id);
           }
         });
       });
-      _isLoading = false;
-      _isLoadingTSIS = false;
-      _isLoadingEvents = false;
+      _isLoadingAppointment = false;
+      _isLoadingTSISEvents = false;
     });
   }
 
-  late List<EcEvent> _ecEvent;
-
-  _getEcEvent(String tsis_id){
-    ECTechnicalDataServices.getEcEvents().then((EcEvent){
+  late List<EngTSIS> _listTsisEvents;
+  _getTsisEventsEmailBased(String tsis_id){
+    EngineeringServices.getTSISbyID(tsis_id).then((TsisEvents){
       setState(() {
-        _ecEvent = EcEvent.where((element) => element.tsis_id == tsis_id).toList();
+        _listTsisEvents = TsisEvents;
       });
-      _isLoadingEvents = false;
     });
   }
-
-  late List<EcTSIS> _ecTSIS;
-
-  _getEcTSIS(String tsis_id){
-    ECTechnicalDataServices.getEcTSIS().then((EcTSIS){
-      setState(() {
-        _ecTSIS = EcTSIS.where((element) => element.tsis_id == tsis_id).toList();
-      });
-      _isLoadingTSIS = false;
-    });
-  }
-
-
-  List<TechnicalData> _filteredServices = [];
 
   void _filterSearchResults(String query) {
     if (query.isEmpty || query.length == 0) {
       setState(() {
-        _filteredServices = List.from(_services);
+        _filteredAppointment = List.from(_listTsisEvents);
       });
     } else {
       setState(() {
-        _filteredServices = _services.where((technicalData) => technicalData.svcId.toLowerCase().contains(query.toLowerCase()) ||
-            technicalData.service.toLowerCase().contains(query.toLowerCase()) ||
-            technicalData.svcTitle.toLowerCase().contains(query.toLowerCase()) ||
-            technicalData.svcDesc.toLowerCase().contains(query.toLowerCase()) ||
-            technicalData.clientProjName.toLowerCase().contains(query.toLowerCase())).toList();
+        _filteredAppointment = _appointment.where((appointment) => appointment.svcId.toLowerCase().contains(query.toLowerCase()) ||
+            appointment.svcTitle.toLowerCase().contains(query.toLowerCase()) ||
+            appointment.svcDesc.toLowerCase().contains(query.toLowerCase()) ||
+            appointment.clientProjName.toLowerCase().contains(query.toLowerCase()) ||
+            appointment.service.toLowerCase().contains(query.toLowerCase())).toList();
       });
     }
   }
@@ -178,20 +100,22 @@ class _StatusPageState extends State<StatusPage> {
   _editToCancel(TechnicalData services){
     TechnicalDataServices.editCancelBooking(services.id, services.svcId, reasonController.text.trim()).then((result) {
       if('success' == result){
-        _getServices();
-        _custSnackbar(
+        _getAppointment();
+        custSnackbar(
           context,
           "Cancelled Booking Successfully",
           Colors.green,
-          Icons.check
+          Icons.check,
+          Colors.greenAccent
         );
         reasonController.text = '';
       } else {
-        _custSnackbar(
+        custSnackbar(
             context,
             "Error occured...",
             Colors.redAccent,
-            Icons.dangerous_rounded
+            Icons.dangerous_rounded,
+            Colors.white
         );
       }
     });
@@ -207,107 +131,99 @@ class _StatusPageState extends State<StatusPage> {
       onTap: (){FocusScope.of(context).unfocus();},
       child: Scaffold(
         appBar: CustomAppBar(title: 'Status', imagePath: '', appBarHeight: MediaQuery.of(context).size.height * 0.05,),
-        body: _isLoading || _isLoadingTSIS || _isLoadingEvents
-          ? Center(child: CircularProgressIndicator(),)
-          : RefreshIndicator(
-            onRefresh: () async {
-              await Future.delayed(Duration(seconds: 2));
-              setState(() {
-                _getServices();
-              });
-            },
-            child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  const SizedBox(height: 10,),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 18.0),
-                    child: TextField(
-                      onChanged: _filterSearchResults,
-                      controller: searchController,
-                      decoration: InputDecoration(
-                        labelText: 'Search SERVICE #',
-                        prefixIcon: Icon(Icons.search),
-                        suffixIcon: searchController.text.isNotEmpty
-                          ? IconButton(
-                            onPressed: () {
-                              searchController.clear();
-                              _filterSearchResults('');
-                              FocusScope.of(context).unfocus();
-                            },
-                            icon: const Icon(Icons.clear),
-                          )
-                          : null,
-                      ),
-                    ),
+        body: _isLoadingAppointment || _isLoadingTSISEvents
+            ? Center(child: CircularProgressIndicator(),)
+            : RefreshIndicator(
+          onRefresh: () async {
+            await Future.delayed(Duration(seconds: 2));
+            setState(() {
+              _getAppointment();
+            });
+          },
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              const SizedBox(height: 10,),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 18.0),
+                child: TextField(
+                  onChanged: _filterSearchResults,
+                  controller: searchController,
+                  decoration: InputDecoration(
+                    labelText: 'Search SERVICE #',
+                    prefixIcon: Icon(Icons.search),
+                    suffixIcon: searchController.text.isNotEmpty
+                        ? IconButton(
+                      onPressed: () {
+                        searchController.clear();
+                        _filterSearchResults('');
+                        FocusScope.of(context).unfocus();
+                      },
+                      icon: const Icon(Icons.clear),
+                    )
+                        : null,
                   ),
+                ),
+              ),
 
-                  SizedBox(height: 25,),
-                  _services.isEmpty
-                   ? Expanded(
-                    child: Container(
-                      child: Center(
-                        child: (Text(
-                          "No Data Available",
-                          style: TextStyle(
-                              fontSize: 24,
-                              color: Colors.grey
-                          ),
-                        )),
+              SizedBox(height: 25,),
+              _appointment.isEmpty
+              ? Expanded(
+                child: Container(
+                  child: Center(
+                    child: (Text(
+                      "No Data Available",
+                      style: TextStyle(
+                          fontSize: 24,
+                          color: Colors.grey
                       ),
-                    ),
-                  )
-                   : Expanded(
-                    child: ListView.builder(
-                      itemCount: _filteredServices.length,
-                      itemBuilder: (_, index){
+                    )),
+                  ),
+                ),
+              )
+              : Expanded(
+                child: ListView.builder(
+                    itemCount: _filteredAppointment.length,
+                    itemBuilder: (_, index){
 
-                        TechnicalData service = _filteredServices[index];
+                      TechnicalData appointment = _filteredAppointment[index];
 
-                        EcTSIS? tsis = _ecTSIS.where((tsis) => tsis.tsis_id == service.tsis_id).elementAtOrNull(0);
-                        
-                        List<EcEvent> events = _ecEvent.where((e) => e.tsis_id == service.tsis_id).toList();
+                      EngTSIS? tsis = _listTsisEvents.where((tsis) => tsis.tsis_id == appointment.tsis_id).elementAtOrNull(0);
 
-                        return AnimationConfiguration.staggeredList(
-                          position: index,
-                          child: SlideAnimation(
-                            child: FadeInAnimation(
-                              child: Row(
-                                children: [
-                                  GestureDetector(
-                                    onTap: (){
-                                      if (_filteredServices[index].status == "Unread") {
-                                        _showBottomSheet(context, service);
-                                      }
-
-                                    if(tsis != null) {
-                                      setState(() {
-                                        Navigator.of(context).push(
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  StatusViewPage(tsis: tsis,
-                                                    events: events,
-                                                    service: service,)),
-                                        );
-                                      });
-                                    }else{
-                                      Text('Null');
+                      return AnimationConfiguration.staggeredList(
+                        position: index,
+                        child: SlideAnimation(
+                          child: FadeInAnimation(
+                            child: Row(
+                              children: [
+                                GestureDetector(
+                                  onTap: (){
+                                    if (appointment.status == "Unread") {
+                                      _showBottomSheet(context, appointment);
                                     }
 
-                                    },
-                                    child: TaskTile(services: service, tsis: tsis, event: events,),
-                                  )
-                                ],
-                              ),
+                                    if(appointment.tsis_id != '') {
+                                      setState(() {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(builder: (context) => DetailedTechnicalStatusPage(tsis_events: tsis!, appointment_no: appointment.svcId,)),
+                                        );
+                                      });
+                                    }
+                                  },
+                                  child: TaskTileAppointment(services: appointment, tsis_events: tsis,),
+                                )
+                              ],
                             ),
                           ),
-                        );
-                      }
-                    ),
-                  ),
-                ],
+                        ),
+                      );
+                    }
+                ),
               ),
+            ],
           ),
+        ),
       ),
     );
   }
@@ -352,7 +268,7 @@ class _StatusPageState extends State<StatusPage> {
 
                 SizedBox(height: screenHeight * 0.04,),
 
-               services.status == "Unread" ?
+                services.status == "Unread" ?
                 Container(
                   padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.02),
                   child: _bottomSheetButton(
@@ -416,9 +332,9 @@ class _StatusPageState extends State<StatusPage> {
                 Container(
                   height: screenHeight * 0.007,
                   margin: EdgeInsets.only(
-                    left: MediaQuery.of(context).size.width * 0.2,
-                    right: MediaQuery.of(context).size.width * 0.2,
-                    top: 4
+                      left: MediaQuery.of(context).size.width * 0.2,
+                      right: MediaQuery.of(context).size.width * 0.2,
+                      top: 4
                   ),
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
@@ -600,7 +516,7 @@ class _StatusPageState extends State<StatusPage> {
           child: Text(
             label,
             style: isClose ? GoogleFonts.lato(textStyle: TextStyle(fontSize: fontExtraSize, letterSpacing: 0.5, fontWeight: FontWeight.bold, color: Colors.black),)
-              : GoogleFonts.lato(textStyle: TextStyle(fontSize: fontExtraSize, letterSpacing: 0.5, fontWeight: FontWeight.bold, color: Colors.white),),
+                : GoogleFonts.lato(textStyle: TextStyle(fontSize: fontExtraSize, letterSpacing: 0.5, fontWeight: FontWeight.bold, color: Colors.white),),
           ),
         ),
       ),

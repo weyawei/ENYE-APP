@@ -10,12 +10,15 @@ class customButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    double screenWidth = MediaQuery.of(context).size.width;
+
     return GestureDetector(
       onTap: onTap,
       child: Container(
         margin: const EdgeInsets.symmetric(vertical: 4),
         height: MediaQuery.of(context).size.height * 0.065,
-        width: MediaQuery.of(context).size.width * 0.88,
+        width: screenWidth >= 600 ? screenWidth * 0.8 : screenWidth * 0.88,
         decoration: BoxDecoration(
           border: Border.all(width: 2, color: clr),
           borderRadius: BorderRadius.circular(25),

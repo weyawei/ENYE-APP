@@ -23,7 +23,7 @@ class HistoryPage extends StatefulWidget {
   State<HistoryPage> createState() => _HistoryPageState();
 }
 
-class _HistoryPageState extends State<HistoryPage> with TickerProviderStateMixin {
+class _HistoryPageState extends State<HistoryPage> {
   final searchController = TextEditingController();
   bool _isLoadingService = true;
   bool _isLoadingTSIS = true;
@@ -47,14 +47,8 @@ class _HistoryPageState extends State<HistoryPage> with TickerProviderStateMixin
     // Clean up the controller when the widget is removed from the
     // widget tree.
     searchController.dispose();
-    _controller.dispose();
     super.dispose();
   }
-
-  late final AnimationController _controller = AnimationController(
-    duration: const Duration(seconds: 60),
-    vsync: this,
-  )..repeat();
 
   late List<TechnicalData> _services;
   _getServices(){

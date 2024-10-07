@@ -1,22 +1,21 @@
-import 'package:enye_app/screens/service/ec_technical_data.dart';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:printing/printing.dart';
-import '../../../widget/widgets.dart';
-import '../../screens.dart';
-import '../ec_technical_svc.dart';
-import 'SOPdf_helper.dart';
 
-class SOPdfPreviewPage extends StatefulWidget {
+import '../../widget/widgets.dart';
+import '../screens.dart';
+
+class ServiceOrderPage extends StatefulWidget {
   final String so_id;
-  const SOPdfPreviewPage({Key? key, required this.so_id}) : super(key: key);
+  const ServiceOrderPage({Key? key, required this.so_id}) : super(key: key);
 
   @override
-  State<SOPdfPreviewPage> createState() => _SOPdfPreviewPageState();
+  State<ServiceOrderPage> createState() => _ServiceOrderPageState();
 }
 
-class _SOPdfPreviewPageState extends State<SOPdfPreviewPage> {
+class _ServiceOrderPageState extends State<ServiceOrderPage> {
 
   @override
   void initState() {
@@ -25,30 +24,33 @@ class _SOPdfPreviewPageState extends State<SOPdfPreviewPage> {
     _getServiceOrder();
   }
 
-  bool _isLoading = true;
+  bool _isLoadingTSIS = true;
+  bool _isLoadingEngineer = true;
 
   List<EcSO> _serviceOrder = [];
   _getServiceOrder(){
-    ECTechnicalDataServices.getEcSOPDF(widget.so_id).then((getServiceOrder) {
+    EngineeringServices.getSObyID(widget.so_id).then((getServiceOrder) {
       setState(() {
         _serviceOrder = getServiceOrder;
         if (_serviceOrder.isNotEmpty) {
-          _getAccounts(_serviceOrder[0].service_by);
+          _getEngAccounts(_serviceOrder[0].service_by);
           _getTsis(_serviceOrder[0].tsis_id);
         } else {
           // Handle the case where no SO numbers are retrieved.
-          _isLoading = false;
+          _isLoadingTSIS = false;
+          _isLoadingEngineer = false;
           print("No service order numbers retrieved");
         }
       });
     });
   }
 
-  List<EcUsers> _users = [];
-  _getAccounts(String serviced_by){
-    ECTechnicalDataServices.getEcUsers().then((ecUsers){
+  late List<EcUsers> _engUsers;
+  _getEngAccounts(String serviced_by){
+    EngineeringServices.getEngineeringUsers().then((EcUsers){
       setState(() {
-        _users = ecUsers.where((account) => _isUserAssigned(serviced_by, account.username)).toList();
+        _engUsers = EcUsers.where((account) => _isUserAssigned(serviced_by, account.username)).toList();
+        _isLoadingEngineer = false;
       });
     });
   }
@@ -62,36 +64,25 @@ class _SOPdfPreviewPageState extends State<SOPdfPreviewPage> {
     return false;
   }
 
-
-  List<UsersInfo> _users2 = [];
-  _getUsers(String servicedBy){
-    TechnicalDataServices.getUsersInfo().then((accountInfo){
+  List<EngTSIS> _tsis = [];
+  _getTsis(String tsis_id){
+    EngineeringServices.getTSISbyID(tsis_id).then((TSIS){
       setState(() {
-        _users2 = accountInfo.where((account) => account.user_id == servicedBy).toList();
-      });
-    });
-  }
-
-  List<EcTSIS> _services = [];
-  _getTsis(String TsisId){
-    ECTechnicalDataServices.getEcTSIS().then((ecTsis){
-      setState(() {
-        _services = ecTsis.where((service) => service.tsis_id == TsisId).toList();
-        _isLoading = false;
+        _tsis = TSIS;
+        _isLoadingTSIS = false;
       });
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    double screenHeight = MediaQuery.of(context).size.height;
     double screenWidth = MediaQuery.of(context).size.width;
 
     var fontNormalSize = ResponsiveTextUtils.getNormalFontSize(screenWidth);
 
-    return _isLoading
-        ? Center(child: CircularProgressIndicator(),)
-        : Scaffold(
+    return _isLoadingTSIS || _isLoadingEngineer
+    ? Center(child: CircularProgressIndicator(),)
+    : Scaffold(
       appBar: AppBar(
         title: Text(
           "SO# ${_serviceOrder[0].so_no}",
@@ -111,9 +102,9 @@ class _SOPdfPreviewPageState extends State<SOPdfPreviewPage> {
         minScale: 0.5,
         maxScale: 4,
         child: PdfPreview(
-          pdfFileName: "SO_${_serviceOrder[0].so_no}-${_services[0].project}.pdf",
+          pdfFileName: "SO_${_serviceOrder[0].so_no}-${_tsis[0].project}.pdf",
           loadingWidget: const CupertinoActivityIndicator(),
-          build: (context) => pdfBuilderSO(_serviceOrder[0], _users[0], _services[0]),
+          build: (context) => ServiceOrderPDFBuilder(_serviceOrder[0], _tsis[0], _engUsers.isEmpty? '' : _engUsers[0].signature),
         ),
       ),
     );

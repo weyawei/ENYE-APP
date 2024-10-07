@@ -307,7 +307,7 @@ class _registerPageState extends State<registerPage> {
                   Container(
                     alignment: Alignment.center,
                     height: screenHeight * 0.042,
-                    width: screenWidth * 0.78,
+                    width: screenWidth >= 600 ? screenWidth * 0.6 : screenWidth * 0.78,
                     decoration: BoxDecoration(
                         image: DecorationImage(image: AssetImage("assets/logo/enyecontrols.png"), fit: BoxFit.fill)
                     ),
