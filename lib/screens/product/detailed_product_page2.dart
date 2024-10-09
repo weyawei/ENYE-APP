@@ -37,8 +37,8 @@ class _ProductItemScreenState extends State<ProductItemScreen> {
   void initState() {
     _getProductDetails();
     _getAllProducts();
-    _getProdCategory();
     _checkSession();
+    _getProdCategory(widget.products.category_id);
   }
 
   bool? userSessionFuture;
@@ -163,10 +163,10 @@ class _ProductItemScreenState extends State<ProductItemScreen> {
 
   List<productCategory> _prodCategory = [];
   bool _isLoadingCategory = true;
-  _getProdCategory(){
+  _getProdCategory(String category_id){
     productService.getProdCategory().then((productCategory){
       setState(() {
-        _prodCategory = productCategory.where((element) => element.id == widget.products.category_id).toList();;
+        _prodCategory = productCategory.where((element) => element.id == category_id).toList();;
       });
       _isLoadingCategory = false;
       print("Length ${productCategory.length}");
@@ -280,7 +280,16 @@ class _ProductItemScreenState extends State<ProductItemScreen> {
                   ),
                 ),
               buttonArrow(context),
-              scroll(_prodCategory[0]),
+              scroll(
+                widget.products.subcategory_name2 != ''
+                ? widget.products.subcategory_name2
+                : widget.products.subcategory_name1 != ''
+                  ? widget.products.subcategory_name1
+                  : widget.products.subcategory_name != ''
+                    ? widget.products.subcategory_name
+                    : _prodCategory[0].name,
+                _prodCategory[0].icon
+              ),
             ],
           ),
           // Stack(
@@ -351,7 +360,7 @@ class _ProductItemScreenState extends State<ProductItemScreen> {
     );
   }
 
-  Widget scroll(productCategory prodCategory) {
+  Widget scroll(String category_name, String category_icon) {
     return NotificationListener<DraggableScrollableNotification>(
       onNotification: (notification) {
         sheetSizeNotifier.value = notification.extent;
@@ -417,7 +426,7 @@ class _ProductItemScreenState extends State<ProductItemScreen> {
                     Row(
                       children: [
                        CachedNetworkImage(
-                              imageUrl: "${API.prodCategIcon + prodCategory.icon}",
+                              imageUrl: "${API.prodCategIcon + category_icon}",
                          height: fontXSize * 3, // Adjust as needed
                          width: fontXSize * 3,
                             placeholder: (context, url) =>
@@ -427,36 +436,35 @@ class _ProductItemScreenState extends State<ProductItemScreen> {
                             fit: BoxFit.cover,
                           ),
 
-
-                        const SizedBox(
-                          width: 5,
+                        SizedBox(
+                          width: fontNormalSize,
                         ),
                         Expanded(
                           child: Text(
-                            prodCategory.name,
+                            category_name,
                             textAlign: TextAlign.start,
                             style: TextStyle(
-                              fontSize: prodCategory.name.length > 16 ? fontSmallSize : fontNormalSize,
+                              fontSize: fontExtraSize,
                             ),
                           ),
                         ),
-                        const SizedBox(
-                          width: 15,
-                        ),
-                        Text(
-                          "273 Likes",
-                        ),
-                        const SizedBox(
-                          width: 10,
-                        ),
-                        const CircleAvatar(
-                          radius: 25,
-                          // backgroundColor: primary,
-                          child: Icon(
-                            IconlyLight.heart,
-                            color: Colors.white,
-                          ),
-                        ),
+                        // const SizedBox(
+                        //   width: 15,
+                        // ),
+                        // Text(
+                        //   "273 Likes",
+                        // ),
+                        // const SizedBox(
+                        //   width: 10,
+                        // ),
+                        // const CircleAvatar(
+                        //   radius: 25,
+                        //   // backgroundColor: primary,
+                        //   child: Icon(
+                        //     IconlyLight.heart,
+                        //     color: Colors.white,
+                        //   ),
+                        // ),
 
                       ],
                     ),
@@ -749,7 +757,7 @@ class _ProductItemScreenState extends State<ProductItemScreen> {
                               enlargeCenterPage: true,
                               enlargeStrategy: CenterPageEnlargeStrategy.height,
                             ),
-                            items: _relatedProducts.where((product) => product.category_id == prodCategory.id).map((product) =>
+                            items: _relatedProducts.where((product) => product.category_id == widget.products.category_id).map((product) =>
                                 InkWell(
                                   onTap: (){
                                     setState(() {
