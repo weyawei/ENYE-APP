@@ -8,15 +8,12 @@ import 'package:flutter/material.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 
 import '../../config/api_connection.dart';
+import '../../widget/custom_appbar.dart';
 import '../../widget/responsive_text_utils.dart';
 import 'detailed_product_page2.dart';
 
-
 class MultiLevelFilterDemo extends StatefulWidget {
   static const String routeName = '/subcategoryFilter';
-
-
-
 
   final productCategory selectedCategory;
 
@@ -33,20 +30,318 @@ class _MultiLevelFilterDemoState extends State<MultiLevelFilterDemo> {
   List<String> selectedBrands = [];
   List<String> selectedBrands2 = [];
 
-  /*String selectedCategory = '';
-  String selectedSubcategory = '';
-  String selectedBrand = '';*/
+  List<product> allProducts = [];
+  List<product> filteredProducts = [];
+
+
 
   @override
   void initState() {
     super.initState();
     futureProducts = productService.getProducts();
+    _fetchProducts();
+  }
+
+  Future<void> _fetchProducts() async {
+    // Fetch your products here and assign to allProducts
+    // For example:
+    allProducts = await productService.getProducts();
+    filteredProducts = allProducts; // Initially, show all products
+    setState(() {});
+  }
+
+  void _applyFilters() {
+    setState(() {
+      filteredProducts = allProducts.where((product) {
+        final matchesSubcategory = selectedSubcategories.isEmpty || selectedSubcategories.contains(product.subCat_name1);
+        final matchesBrand = selectedBrands.isEmpty || selectedBrands.contains(product.subCat1_name1);
+        final matchesBrand2 = selectedBrands2.isEmpty || selectedBrands2.contains(product.subCat2_name1);
+
+        return matchesSubcategory && matchesBrand && matchesBrand2;
+      }).toList();
+    });
+  }
+
+  void _showFilterModal() {
+    showModalBottomSheet(
+      context: context,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+      backgroundColor: Colors.white,
+      isScrollControlled: true,
+      builder: (BuildContext context) {
+
+        double screenHeight = MediaQuery.of(context).size.height;
+        double screenWidth = MediaQuery.of(context).size.width;
+
+        bool screenLayout = ResponsiveTextUtils.getLayout(screenWidth);
+        var fontXSmallSize = ResponsiveTextUtils.getXSmallFontSize(screenWidth);
+        var fontSmallSize = ResponsiveTextUtils.getSmallFontSize(screenWidth);
+        var fontNormalSize = ResponsiveTextUtils.getNormalFontSize(screenWidth);
+        var fontExtraSize = ResponsiveTextUtils.getExtraFontSize(screenWidth);
+
+        return DraggableScrollableSheet(
+          expand: false,
+          initialChildSize: 0.7, // Sets initial height of the bottom sheet
+          maxChildSize: 0.9,    // Sets max height of the bottom sheet
+          minChildSize: 0.4,     // Sets minimum height of the bottom sheet
+          builder: (BuildContext context, ScrollController scrollController) {
+            return FutureBuilder<List<product>>(
+              future: futureProducts,
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return Center(child: CircularProgressIndicator());
+                } else if (snapshot.hasError) {
+                  return Center(child: Text('Error: ${snapshot.error}'));
+                } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                  return Center(child: Text('No products available'));
+                }
+
+                String selectedCategoryId = widget.selectedCategory.id;
+
+                Set filteredSubcategories = snapshot.data!
+                    .where((p) => p.category_id == selectedCategoryId)
+                    .map((p) => p.subCat_name1)
+                    .where((subcategory) => subcategory.isNotEmpty)
+                    .toSet();
+
+                Set filteredBrands = {};
+                Set filteredBrands2 = {};
+
+                return StatefulBuilder(
+                  builder: (BuildContext context, StateSetter setState) {
+                    void updateFilteredBrands2() {
+                      filteredBrands2 = snapshot.data!
+                          .where((p) => p.category_id == selectedCategoryId && selectedBrands.contains(p.subCat1_name1))
+                          .map((p) => p.subCat2_name1)
+                          .where((brand2) => brand2.isNotEmpty)
+                          .toSet();
+                      selectedBrands2.removeWhere((brand2) => !filteredBrands2.contains(brand2));
+                    }
+
+                    void updateFilteredBrands() {
+                      filteredBrands = snapshot.data!
+                          .where((p) => p.category_id == selectedCategoryId && selectedSubcategories.contains(p.subCat_name1))
+                          .map((p) => p.subCat1_name1)
+                          .where((brand) => brand.isNotEmpty)
+                          .toSet();
+                      selectedBrands.removeWhere((brand) => !filteredBrands.contains(brand));
+                      updateFilteredBrands2();
+                    }
+
+                    updateFilteredBrands();
+
+                    return SingleChildScrollView(
+                      controller: scrollController,
+                      child: Padding(
+                        padding: EdgeInsets.only(
+                          bottom: MediaQuery.of(context).viewInsets.bottom,
+                          left: 20,
+                          right: 20,
+                          top: 24,
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            // Title for Modal
+                            Center(
+                              child: Container(
+                                width: 50,
+                                height: 5,
+                                decoration: BoxDecoration(
+                                  color: Colors.grey[300],
+                                  borderRadius: BorderRadius.circular(15),
+                                ),
+                              ),
+                            ),
+                            SizedBox(height: 5),
+
+                            // Subcategories Filter
+                            Text(
+                              "Select Subcategories",
+                              style: TextStyle(
+                                fontSize: fontNormalSize,
+                                fontWeight: FontWeight.w600,
+                                color: Colors.black87,
+                              ),
+                            ),
+                            SizedBox(height: 10),
+                            if (filteredSubcategories.isEmpty)
+                              Text(
+                                "No available subcategories",
+                                style: TextStyle(color: Colors.grey),
+                              )
+                            else
+                            Wrap(
+                              spacing: 12.0,
+                              runSpacing: 1.0,
+                              children: filteredSubcategories.map((subcategory) {
+                                return FilterChip(
+                                  label: Text(subcategory),
+                                  labelStyle: TextStyle(
+                                    color: selectedSubcategories.contains(subcategory) ? Colors.white : Colors.black87,
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: fontSmallSize
+                                  ),
+                                  selectedColor: Colors.orangeAccent,
+                                  backgroundColor: Colors.grey[200],
+                                  selected: selectedSubcategories.contains(subcategory),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(20),
+                                  ),
+                                  elevation: 2,
+                                  shadowColor: Colors.grey[300],
+                                  onSelected: (selected) {
+                                    setState(() {
+                                      if (selected) {
+                                        selectedSubcategories.add(subcategory);
+                                      } else {
+                                        selectedSubcategories.remove(subcategory);
+                                      }
+                                      selectedBrands.clear();
+                                      selectedBrands2.clear();
+                                      updateFilteredBrands();
+                                    });
+                                  },
+                                );
+                              }).toList(),
+                            ),
+                            SizedBox(height: 5),
+
+                            // Brands Filter
+                            if (selectedSubcategories.isNotEmpty && filteredBrands.isNotEmpty)
+                              Text(
+                                "Subcategories 1",
+                                style: TextStyle(
+                                  fontSize: fontNormalSize,
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.black87,
+                                ),
+                              ),
+                            SizedBox(height: 10),
+                            if (selectedSubcategories.isNotEmpty && filteredBrands.isNotEmpty)
+                              Wrap(
+                                spacing: 12.0,
+                                runSpacing: 8.0,
+                                children: filteredBrands.map((brand) {
+                                  return FilterChip(
+                                    label: Text(brand),
+                                    labelStyle: TextStyle(
+                                      color: selectedBrands.contains(brand) ? Colors.white : Colors.black87,
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: fontSmallSize,
+                                    ),
+                                    selectedColor: Colors.orangeAccent,
+                                    backgroundColor: Colors.grey[200],
+                                    selected: selectedBrands.contains(brand),
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(20),
+                                    ),
+                                    elevation: 4,
+                                    shadowColor: Colors.grey[300],
+                                    onSelected: (selected) {
+                                      setState(() {
+                                        if (selected) {
+                                          selectedBrands.add(brand);
+                                        } else {
+                                          selectedBrands.remove(brand);
+                                        }
+                                        updateFilteredBrands2();
+                                      });
+                                    },
+                                  );
+                                }).toList(),
+                              ),
+                            SizedBox(height: 5),
+
+                            // Brands2 Filter
+                            if (selectedBrands.isNotEmpty && filteredBrands2.isNotEmpty)
+                              Text(
+                                "Subcategories 2",
+                                style: TextStyle(
+                                  fontSize: fontNormalSize,
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.black87,
+                                ),
+                              ),
+                            SizedBox(height: 10),
+                            if (selectedBrands.isNotEmpty && filteredBrands2.isNotEmpty)
+                              Wrap(
+                                spacing: 12.0,
+                                runSpacing: 8.0,
+                                children: filteredBrands2.map((brand2) {
+                                  return FilterChip(
+                                    label: Text(brand2),
+                                    labelStyle: TextStyle(
+                                      color: selectedBrands2.contains(brand2) ? Colors.white : Colors.black87,
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: fontSmallSize
+                                    ),
+                                    selectedColor: Colors.orangeAccent,
+                                    backgroundColor: Colors.grey[200],
+                                    selected: selectedBrands2.contains(brand2),
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(20),
+                                    ),
+                                    elevation: 4,
+                                    shadowColor: Colors.grey[300],
+                                    onSelected: (selected) {
+                                      setState(() {
+                                        if (selected) {
+                                          selectedBrands2.add(brand2);
+                                        } else {
+                                          selectedBrands2.remove(brand2);
+                                        }
+                                      });
+                                    },
+                                  );
+                                }).toList(),
+                              ),
+                            SizedBox(height: 5),
+
+                            // Apply Button
+                            Center(
+                              child: ElevatedButton(
+                                onPressed: () {
+                                  _applyFilters();
+                                  Navigator.pop(context);
+                                },
+                                style: ElevatedButton.styleFrom(
+                                  padding: EdgeInsets.symmetric(horizontal: 40, vertical: 16),
+                                  backgroundColor: Colors.deepOrangeAccent,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(20),
+                                  ),
+                                  elevation: 5,
+                                ),
+                                child: Text(
+                                  "Apply Filters",
+                                  style: TextStyle(
+                                    fontSize: fontNormalSize,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              ),
+                            ),
+                            SizedBox(height: 5),
+                          ],
+                        ),
+                      ),
+                    );
+                  },
+                );
+              },
+            );
+          },
+        );
+      },
+    );
   }
 
   @override
   Widget build(BuildContext context) {
-
-
     double screenHeight = MediaQuery.of(context).size.height;
     double screenWidth = MediaQuery.of(context).size.width;
 
@@ -57,12 +352,12 @@ class _MultiLevelFilterDemoState extends State<MultiLevelFilterDemo> {
     var fontNormalSize = ResponsiveTextUtils.getNormalFontSize(screenWidth);
     var fontExtraSize = ResponsiveTextUtils.getExtraFontSize(screenWidth);
 
-
-
     return Scaffold(
-      appBar: AppBar(
+     /* appBar: AppBar(
         title: Text(widget.selectedCategory.name),
-      ),
+
+      ),*/
+      appBar: CustomAppBar(title: 'PRODUCTS', imagePath: 'assets/logo/enyecontrols.png', appBarHeight: MediaQuery.of(context).size.height * 0.05,),
       body: FutureBuilder<List<product>>(
         future: futureProducts,
         builder: (context, snapshot) {
@@ -74,274 +369,269 @@ class _MultiLevelFilterDemoState extends State<MultiLevelFilterDemo> {
             return Center(child: Text('No products available'));
           }
 
-         /* // Extract unique categories, subcategories, and brands
-          Set allCategories = snapshot.data!.map((p) => p.category_id).toSet();
-          Set filteredSubcategories = snapshot.data!
-              .where((p) => selectedCategories.contains(p.category_id))
-              .map((p) => p.subCategory_id)
-              .where((subcategory) => subcategory.isNotEmpty)
-              .toSet();
-
-          // Ensure filtered brands only show for selected categories and subcategories
-          Set filteredBrands = snapshot.data!
-              .where((p) => selectedSubcategories.contains(p.subCategory_id) && selectedCategories.contains(p.category_id))
-              .map((p) => p.id)
-              .where((id) => id.isNotEmpty)
-              .toSet();*/
-
           // Extract the selected category
           String selectedCategoryId = widget.selectedCategory.id;
 
           // Filter subcategories and brands based on the selected category
-          Set filteredSubcategories = snapshot.data!
-              .where((p) => p.category_id == selectedCategoryId)  // Filter by the passed category
-              .map((p) => p.subcategory_name)
+          /*Set filteredSubcategories = snapshot.data!
+              .where((p) => p.category_id == selectedCategoryId)
+              .map((p) => p.subCat_name1)
               .where((subcategory) => subcategory.isNotEmpty)
               .toSet();
 
           Set filteredBrands = snapshot.data!
-              .where((p) => p.category_id == selectedCategoryId && selectedSubcategories.contains(p.subcategory_name))  // Filter by category and subcategory
-              .map((p) => p.subcategory_name1)
+              .where((p) => p.category_id == selectedCategoryId && selectedSubcategories.contains(p.subCat_name1))
+              .map((p) => p.subCat1_name1)
               .where((brand) => brand.isNotEmpty)
               .toSet();
 
           Set filteredBrands2 = snapshot.data!
-              .where((p) => p.category_id == selectedCategoryId && selectedBrands.contains(p.subcategory_name1))  // Filter by category and subcategory
-              .map((p) => p.subcategory_name2)
+              .where((p) => p.category_id == selectedCategoryId && selectedBrands.contains(p.subCat1_name1))
+              .map((p) => p.subCat2_name1)
               .where((brand) => brand.isNotEmpty)
-              .toSet();
-
-
-
+              .toSet();*/
 
           // Filter products based on selected categories, subcategories, and brands
           List<product> filteredProducts = snapshot.data!.where((product) {
             bool matchesCategory = selectedCategoryId.isEmpty || selectedCategoryId.contains(product.category_id);
-            bool matchesSubcategory = selectedSubcategories.isEmpty || selectedSubcategories.contains(product.subcategory_name);
-            bool matchesBrand = selectedBrands.isEmpty || selectedBrands.contains(product.subcategory_name1);
-            bool matchesBrand2 = selectedBrands2.isEmpty || selectedBrands2.contains(product.subcategory_name2);
+            bool matchesSubcategory = selectedSubcategories.isEmpty || selectedSubcategories.contains(product.subCat_name1);
+            bool matchesBrand = selectedBrands.isEmpty || selectedBrands.contains(product.subCat1_name1);
+            bool matchesBrand2 = selectedBrands2.isEmpty || selectedBrands2.contains(product.subCat2_name1);
 
             return matchesCategory && matchesSubcategory && matchesBrand && matchesBrand2;
           }).toList();
 
+          // Sort the filtered products based on subcategory name
+          filteredProducts.sort((a, b) {
+            return a.subCategory_id.compareTo(b.subCategory_id); // Change this based on your requirement
+          });
+
+          /*String selectedCategoryId = widget.selectedCategory.id;
+          final List<product> filteredProducts = snapshot.data!.where((product) {
+            return product.category_id == selectedCategoryId; // Filter by selected subcategory
+          }).toList();*/
+
+          final Map<String, List<product>> productsBySubcategory = {};
+
+          for (var product in filteredProducts) {
+            final subcategory = product.subCat_name1; // Assuming you're using subCat_name1 for subcategories
+            if (productsBySubcategory.containsKey(subcategory)) {
+              productsBySubcategory[subcategory]!.add(product);
+            } else {
+              productsBySubcategory[subcategory] = [product];
+            }
+          }
+
+
           return Column(
             children: [
-              // Categories Filter
-             /* SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: Row(
-                  children: filteredSubcategories.map((category) {
-                    return FilterChip(
-                      label: Text(category),
-                      selected: selectedCategories.contains(category),
-                      onSelected: (selected) {
-                        setState(() {
-                          if (selected) {
-                            selectedCategories.add(category);
-                          } else {
-                            selectedCategories.remove(category);
-                          }
-                          selectedSubcategories = []; // Reset subcategories when categories change
-                          selectedBrands = []; // Reset brands when categories change
-                        });
-                      },
-                    );
-                  }).toList(),
-                ),
-              ),*/
-
-              // Subcategories Filter (only show if at least one category is selected)
-           /*   if (selectedCategories.isNotEmpty && filteredSubcategories.isNotEmpty)*/
-                SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: Row(
-                    children: filteredSubcategories.map((subcategory) {
-                      return FilterChip(
-                        label: Text(subcategory),
-                        selected: selectedSubcategories.contains(subcategory),
-                        onSelected: (selected) {
-                          setState(() {
-                            if (selected) {
-                              selectedSubcategories.add(subcategory);
-                            } else {
-                              selectedSubcategories.remove(subcategory);
-                            }
-                            selectedBrands = []; // Reset brands when subcategories change
-                          });
-                        },
-                      );
-                    }).toList(),
-                  ),
-                ),
-
-              // Brands Filter (only show if at least one subcategory is selected)
-              if (selectedSubcategories.isNotEmpty && filteredBrands.isNotEmpty)
-                SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: Row(
-                    children: filteredBrands.map((brand) {
-                      return FilterChip(
-                        label: Text(brand),
-                        selected: selectedBrands.contains(brand),
-                        onSelected: (selected) {
-                          setState(() {
-                            if (selected) {
-                              selectedBrands.add(brand);
-                            } else {
-                              selectedBrands.remove(brand);
-                            }
-                          });
-                        },
-                      );
-                    }).toList(),
-                  ),
-                ),
-
-              if (selectedBrands.isNotEmpty && filteredBrands2.isNotEmpty)
-                SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: Row(
-                    children: filteredBrands2.map((brand2) {
-                      return FilterChip(
-                        label: Text(brand2),
-                        selected: selectedBrands2.contains(brand2),
-                        onSelected: (selected) {
-                          setState(() {
-                            if (selected) {
-                              selectedBrands2.add(brand2);
-                            } else {
-                              selectedBrands2.remove(brand2);
-                            }
-                          });
-                        },
-                      );
-                    }).toList(),
-                  ),
-                ),
-
               // Display filtered products
-              Expanded(
-                child: GridView.builder(
-                  padding: EdgeInsets.symmetric(
-                      horizontal: screenWidth * 0.035,
-                      vertical: screenHeight * 0.02
-                  ),
-                  itemCount: filteredProducts.length,
-                //  physics: const NeverScrollableScrollPhysics(),
-                  shrinkWrap: true,
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: screenLayout ? 2 : 3,
-                      childAspectRatio: 0.65,
-                      crossAxisSpacing: fontNormalSize
-                  ),
-                  itemBuilder: (context, index) {
-                    final product = filteredProducts[index];
-                    return InkWell(
-                      onTap: () {
-                        // Handle the tap event, such as navigating to a new screen
-                       /* PersistentNavBarNavigator.pushNewScreenWithRouteSettings(
-                          context,
-                          settings: RouteSettings(name: ProductItemScreen.routeName),
-                          screen: ProductItemScreen(products: product),
-                          withNavBar: true,
-                          pageTransitionAnimation: PageTransitionAnimation.cupertino,
-                        );*/
-                      },
-                      child: SingleChildScrollView(
-                        physics: NeverScrollableScrollPhysics(),
-                        child: Container(
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(16.0),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.black.withOpacity(0.2), // Shadow color with transparency
-                                spreadRadius: 1,  // How much the shadow spreads
-                                blurRadius: 6,    // How blurry the shadow is
-                                offset: Offset(0, 3), // Offset of the shadow (x: 0, y: 3)
-                              ),
-                            ],
-                          ),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Container(
-                                height: fontExtraSize * 9,
-                                padding: EdgeInsets.all(12.0),
-                                child: CachedNetworkImage(
-                                  width: double.infinity,
-                                  imageUrl: "${API.prodImg + product.image}",
-                                  placeholder: (context, url) => Center(
-                                    child: CircularProgressIndicator(), // Loading spinner
-                                  ),
-                                  errorWidget: (context, url, error) => Center(
-                                    child: Icon(Icons.error), // Error icon
-                                  ),
-                                  fit: BoxFit.contain,
-                                ),
-                              ),
-                              Container(
-                                padding: const EdgeInsets.all(12.0),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Container(
-                                      height: fontNormalSize * 3,
-                                      alignment: Alignment.centerLeft,
-                                      child: Text(
-                                        product.name,
-                                        style: TextStyle(
-                                          fontSize: fontNormalSize,
-                                          fontWeight: FontWeight.bold,
-                                          color: Colors.deepOrange,
-                                        ),
-                                        maxLines: 2,
-                                        overflow: TextOverflow.ellipsis,
-                                      ),
-                                    ),
-                                    SizedBox(height: 4.0),
-                                    Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Expanded(
-                                          child: Text(
-                                            product.name,
-                                            style: TextStyle(
-                                              fontSize: fontSmallSize,
-                                              color: Colors.black,
-                                            ),
-                                            overflow: TextOverflow.ellipsis,  // Add this to show ellipsis
-                                            maxLines: 1,  // Limit to 1 line
-                                          ),
-                                        ),
-                                        Container(
-                                          padding: EdgeInsets.symmetric(horizontal: 6.5, vertical: 2.0),
-                                          decoration: BoxDecoration(
-                                            color: Colors.orangeAccent.shade100.withOpacity(0.3),
-                                            borderRadius: BorderRadius.circular(25.0),
-                                          ),
-                                          child: Text(
-                                            "Available",
-                                            style: TextStyle(
-                                              color: Colors.deepOrange.shade600,
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: fontXSmallSize,
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
+              Container(
+                margin: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+               // padding: EdgeInsets.all(16),
+
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      "",
+                      style: TextStyle(
+                        fontSize: fontExtraSize,
+                        fontWeight: FontWeight.bold, // Make text bold
+                        color: Colors.black,
+                      ),
+                    ),
+                    ElevatedButton.icon(
+                      onPressed: _showFilterModal,
+                      icon: Icon(Icons.filter_list, size: 18), // Smaller icon size
+                      label: Text("Filters"), // Add a label for better clarity
+                      style: ElevatedButton.styleFrom(
+                        primary: Theme.of(context).primaryColor, // Use your app's primary color
+                        padding: EdgeInsets.symmetric(horizontal: 16), // Horizontal padding
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12), // Match the container's border radius
                         ),
                       ),
+                    ),
+                  ],
+                ),
+              ),
+
+              Expanded(
+                child: ListView.builder(
+                  itemCount: productsBySubcategory.length, // Number of subcategories
+                  itemBuilder: (context, index) {
+                    String subcategory = productsBySubcategory.keys.elementAt(index);
+                    List<product> products = productsBySubcategory[subcategory]!;
+
+                    // List to hold display names
+                    List<String> displayNames = [];
+
+                    // Check for selected brands and add to displayNames
+                    if (selectedBrands2.isNotEmpty) {
+                      displayNames.addAll(selectedBrands2.map((brand2) => brand2)); // Add selected brands
+                    }
+
+                    if (selectedBrands.isNotEmpty) {
+                      displayNames.addAll(selectedBrands.map((brand) => brand)); // Add selected brand2
+                    }
+
+                    // Add subcategory if no brands are selected
+                    if (displayNames.isEmpty) {
+                      displayNames.add(subcategory);
+                    }
+
+                    // Create display name by joining all selected names
+                    String displayName = displayNames.join('/');
+
+                    return Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        // Subcategory header
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text(
+                            displayName,
+                            style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                        // Grid of products under this subcategory
+                        GridView.builder(
+                          padding: EdgeInsets.symmetric(
+                              horizontal: screenWidth * 0.035,
+                              vertical: screenHeight * 0.02
+                          ),
+                          itemCount: products.length,
+                          shrinkWrap: true, // Ensure the grid takes only the required height
+                          physics: NeverScrollableScrollPhysics(), // Disable scrolling for the grid
+                          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: screenLayout ? 2 : 3,
+                            childAspectRatio: 0.65,
+                            crossAxisSpacing: fontNormalSize,
+                          ),
+                          itemBuilder: (context, productIndex) {
+                            final product = products[productIndex];
+
+                            return InkWell(
+                              onTap: () {
+                                // Handle the tap event
+                                PersistentNavBarNavigator.pushNewScreenWithRouteSettings(
+                                  context,
+                                  settings: RouteSettings(name: ProductItemScreen.routeName),
+                                  screen: ProductItemScreen(products: product),
+                                  withNavBar: true,
+                                  pageTransitionAnimation: PageTransitionAnimation.cupertino,
+                                );
+                              },
+                              child: SingleChildScrollView(
+                                physics: NeverScrollableScrollPhysics(),
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(16.0),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.black.withOpacity(0.2), // Shadow color with transparency
+                                        spreadRadius: 1,  // How much the shadow spreads
+                                        blurRadius: 6,    // How blurry the shadow is
+                                        offset: Offset(0, 3), // Offset of the shadow (x: 0, y: 3)
+                                      ),
+                                    ],
+                                  ),
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Container(
+                                        height: fontExtraSize * 9,
+                                        padding: EdgeInsets.all(12.0),
+                                        child: CachedNetworkImage(
+                                          width: double.infinity,
+                                          imageUrl: "${API.prodImg + product.image}",
+                                          placeholder: (context, url) => Center(
+                                            child: CircularProgressIndicator(), // Loading spinner
+                                          ),
+                                          errorWidget: (context, url, error) => Center(
+                                            child: Icon(Icons.error), // Error icon
+                                          ),
+                                          fit: BoxFit.contain,
+                                        ),
+                                      ),
+                                      Container(
+                                        padding: const EdgeInsets.all(12.0),
+                                        child: Column(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                            Container(
+                                              height: fontNormalSize * 3,
+                                              alignment: Alignment.centerLeft,
+                                              child: Text(
+                                                product.name,
+                                                style: TextStyle(
+                                                  fontSize: fontNormalSize,
+                                                  fontWeight: FontWeight.bold,
+                                                  color: Colors.deepOrange,
+                                                ),
+                                                maxLines: 2,
+                                                overflow: TextOverflow.ellipsis,
+                                              ),
+                                            ),
+                                            SizedBox(height: 4.0),
+                                            Row(
+                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                              children: [
+                                                Expanded(
+                                                  child: Text(
+                                                        product.subCat2_name1 != ''
+                                                        ? product.subCat2_name1
+                                                        : product.subCat1_name1 != ''
+                                                           ? product.subCat1_name1
+                                                           : product.subCat_name1 != ''
+                                                              ? product.subCat_name1
+                                                              : product.category_name1  ,
+                                                    style: TextStyle(
+                                                      fontSize: fontSmallSize,
+                                                      color: Colors.black,
+                                                    ),
+                                                    overflow: TextOverflow.ellipsis, // Add this to show ellipsis
+                                                    maxLines: 1, // Limit to 1 line
+                                                  ),
+                                                ),
+                                                Container(
+                                                  padding: EdgeInsets.symmetric(horizontal: 6.5, vertical: 2.0),
+                                                  decoration: BoxDecoration(
+                                                    color: Colors.orangeAccent.shade100.withOpacity(0.3),
+                                                    borderRadius: BorderRadius.circular(25.0),
+                                                  ),
+                                                  child: Text(
+                                                    "Available",
+                                                    style: TextStyle(
+                                                      color: Colors.deepOrange.shade600,
+                                                      fontWeight: FontWeight.bold,
+                                                      fontSize: fontXSmallSize,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            );
+                          },
+                        ),
+                      ],
                     );
                   },
                 ),
-              ),
+              )
+
             ],
           );
         },
@@ -349,5 +639,3 @@ class _MultiLevelFilterDemoState extends State<MultiLevelFilterDemo> {
     );
   }
 }
-
-//
