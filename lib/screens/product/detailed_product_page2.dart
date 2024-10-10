@@ -281,12 +281,12 @@ class _ProductItemScreenState extends State<ProductItemScreen> {
                 ),
               buttonArrow(context),
               scroll(
-                widget.products.subcategory_name2 != ''
-                ? widget.products.subcategory_name2
-                : widget.products.subcategory_name1 != ''
-                  ? widget.products.subcategory_name1
-                  : widget.products.subcategory_name != ''
-                    ? widget.products.subcategory_name
+                widget.products.subCat2_name1 != ''
+                ? widget.products.subCat2_name1
+                : widget.products.subCat1_name1 != ''
+                  ? widget.products.subCat1_name1
+                  : widget.products.subCat_name1 != ''
+                    ? widget.products.subCat_name1
                     : _prodCategory[0].name,
                 _prodCategory[0].icon
               ),

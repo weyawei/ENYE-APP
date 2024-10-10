@@ -77,7 +77,7 @@ class _LoginPageState extends State<LoginPage> {
                   status: result == 'success' ? "Verified" : "Unverified"
               ));
 
-              TokenServices.updateToken(token.toString(), clientData["email"], 'SIGNIN').then((result) {
+              TokenServices.updateToken(token.toString(), clientData["email"], 'SIGNIN', ApiPlatform.getPlatform()).then((result) {
                 if('success' == result){
                   print("Updated token successfully");
                 } else {
@@ -378,7 +378,7 @@ class _LoginPageState extends State<LoginPage> {
 
                               // Handle token update
                               dynamic token = await SessionManager().get("token");
-                              TokenServices.updateToken(token.toString(), user.email.toString(), 'APPLE').then((result) {
+                              TokenServices.updateToken(token.toString(), user.email.toString(), 'APPLE', ApiPlatform.getPlatform()).then((result) {
                                 if ('success' == result) {
                                   print("Updated token successfully");
                                 } else {
@@ -487,7 +487,7 @@ class _LoginPageState extends State<LoginPage> {
                                     ));
 
                                     dynamic token = await SessionManager().get("token");
-                                    TokenServices.updateToken(token.toString(), FirebaseAuth.instance.currentUser!.email.toString(), 'GMAIL').then((result) {
+                                    TokenServices.updateToken(token.toString(), FirebaseAuth.instance.currentUser!.email.toString(), 'GMAIL', ApiPlatform.getPlatform()).then((result) {
                                       if('success' == result){
                                         print("Updated token successfully");
                                       } else {

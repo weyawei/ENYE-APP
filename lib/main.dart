@@ -48,7 +48,7 @@ void main() async {
   checkSession().getUserSessionStatus().then((bool) {
     if (bool == true) {
       checkSession().getClientsData().then((value) {
-        TokenServices.updateToken(token.toString(), value.email, value.login).then((result) {
+        TokenServices.updateToken(token.toString(), value.email, value.login, ApiPlatform.getPlatform()).then((result) {
           if('success' == result){
             print("Updated token successfully");
           } else {
@@ -58,7 +58,7 @@ void main() async {
         _checkVerification(value.email);
       });
     } else {
-      TokenServices.updateToken(token.toString(), "", "").then((result) {
+      TokenServices.updateToken(token.toString(), "", "", ApiPlatform.getPlatform()).then((result) {
         if('success' == result){
           print("Updated token successfully");
         } else {
