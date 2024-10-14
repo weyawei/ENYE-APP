@@ -1,6 +1,4 @@
-import 'dart:math';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../../widget/widgets.dart';
@@ -9,10 +7,12 @@ import '../screens.dart';
 class OrderDetailsPage extends StatefulWidget {
   final String po_id;
   final String tracking_no;
+  final String email;
   const OrderDetailsPage({
     super.key,
     required this.po_id,
-    required this.tracking_no
+    required this.tracking_no,
+    required this.email,
   });
 
   @override
@@ -66,7 +66,7 @@ class _OrderDetailsPageState extends State<OrderDetailsPage> {
 
   late List<ClientPO> _po;
   _getClientPO(String tracking_no){
-    ClientPOServices.getClientPO(tracking_no).then((po){
+    ClientPOServices.getClientPO(tracking_no, widget.email).then((po){
       setState(() {
         _po = po;
       });

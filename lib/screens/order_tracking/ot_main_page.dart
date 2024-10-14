@@ -22,7 +22,7 @@ class _OrderTrackingPageState extends State<OrderTrackingPage> {
 
   late List<ClientPO> _searchClientPO;
   _getClientPo(String tracking_no){
-    ClientPOServices.getClientPO(tracking_no).then((po){
+    ClientPOServices.getClientPO(tracking_no, ClientInfo!.email).then((po){
       setState(() {
         _searchClientPO = po;
       });
@@ -567,7 +567,7 @@ class _OrderTrackingPageState extends State<OrderTrackingPage> {
                                             FocusScope.of(context).unfocus();
                                             Navigator.push(
                                               context,
-                                              MaterialPageRoute(builder: (context) => OrderDetailsPage(po_id: po.id, tracking_no: po.tracking_no,)),
+                                              MaterialPageRoute(builder: (context) => OrderDetailsPage(po_id: po.id, tracking_no: po.tracking_no, email: ClientInfo!.email)),
                                             );
                                           },
                                           child: Text(
@@ -1050,7 +1050,7 @@ class _OrderTrackingPageState extends State<OrderTrackingPage> {
                                             FocusScope.of(context).unfocus();
                                             Navigator.push(
                                               context,
-                                              MaterialPageRoute(builder: (context) => OrderDetailsPage(po_id: po.id, tracking_no: po.tracking_no,)),
+                                              MaterialPageRoute(builder: (context) => OrderDetailsPage(po_id: po.id, tracking_no: po.tracking_no, email: ClientInfo!.email,)),
                                             );
                                           },
                                           child: Text(

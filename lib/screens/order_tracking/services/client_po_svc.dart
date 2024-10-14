@@ -38,10 +38,11 @@ class ClientPOServices {
     return parsed.map<PODetails>((json) => PODetails.fromJson(json)).toList();
   }
 
-  static Future <List<ClientPO>> getClientPO(String po_no) async {
+  static Future <List<ClientPO>> getClientPO(String po_no, String email) async {
     var map = Map<String, dynamic>();
     map['action'] = GET_CLIENT_PO;
     map['po_no'] = po_no;
+    map['client_email'] = email;
 
     //get all data of categories
     final res = await http.post(
