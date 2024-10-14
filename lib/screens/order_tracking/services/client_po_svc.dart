@@ -9,6 +9,7 @@ class ClientPOServices {
 
   static const GET_PO_DETAILS = 'get_po_details';
   static const GET_CLIENT_PO = 'get_client_po';
+  static const GET_CLIENT_PO_EMAILBASED = 'get_client_po_emailbased';
   static const GET_PO_ITEMS = 'get_po_items';
   static const GET_SAVED_CLIENT_PO = 'get_saved_client_po';
   static const SAVE_OR_UNSAVE_TRACKINGNO = 'save_or_unsave_tracking_no';
@@ -42,6 +43,25 @@ class ClientPOServices {
     var map = Map<String, dynamic>();
     map['action'] = GET_CLIENT_PO;
     map['po_no'] = po_no;
+    map['client_email'] = email;
+
+    //get all data of categories
+    final res = await http.post(
+        Uri.parse(API.client_po), body: map);
+    print('get Client PO Response: ${res.body}');
+
+    if (res.statusCode == 200) {
+      List<ClientPO> list = parseClientPO(res.body);
+      return list;
+    } else {
+      throw Exception('Failed to retrieve Quotation PO Items');
+      //return List<Categories>();
+    }
+  }
+
+  static Future <List<ClientPO>> getClientPOEmailBased(String email) async {
+    var map = Map<String, dynamic>();
+    map['action'] = GET_CLIENT_PO_EMAILBASED;
     map['client_email'] = email;
 
     //get all data of categories

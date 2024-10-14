@@ -75,6 +75,7 @@ export 'service/tsis/tsis_page.dart';
 export 'service/tsis/tsis_tasktile.dart';
 
 export 'order_tracking/ot_main_page.dart';
+export 'order_tracking/ot_main_page2.dart';
 export 'order_tracking/order_details_page.dart';
 export 'order_tracking/order_timeline_page.dart';
 
