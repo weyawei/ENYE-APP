@@ -308,7 +308,7 @@ class _ProfilePageState extends State<ProfilePage> {
         await FirebaseServices().signOut();
 
         //clear the client_id in a token
-        TokenServices.updateToken(token.toString(), "", "").then((result) {
+        TokenServices.updateToken(token.toString(), "", "", ApiPlatform.getPlatform()).then((result) {
           if('success' == result){
             print("Updated token successfully");
           } else {

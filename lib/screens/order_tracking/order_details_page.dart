@@ -1,6 +1,4 @@
-import 'dart:math';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../../widget/widgets.dart';
@@ -9,10 +7,12 @@ import '../screens.dart';
 class OrderDetailsPage extends StatefulWidget {
   final String po_id;
   final String tracking_no;
+  final String email;
   const OrderDetailsPage({
     super.key,
     required this.po_id,
-    required this.tracking_no
+    required this.tracking_no,
+    required this.email,
   });
 
   @override
@@ -66,7 +66,7 @@ class _OrderDetailsPageState extends State<OrderDetailsPage> {
 
   late List<ClientPO> _po;
   _getClientPO(String tracking_no){
-    ClientPOServices.getClientPO(tracking_no).then((po){
+    ClientPOServices.getClientPO(tracking_no, widget.email).then((po){
       setState(() {
         _po = po;
       });
@@ -111,336 +111,346 @@ class _OrderDetailsPageState extends State<OrderDetailsPage> {
         imagePath: '',
         appBarHeight: screenHeight * 0.05,
       ),
-      body: _isLoadingItems || _isLoadingPO || _isLoadingPODetails
-      ? Center(child: CircularProgressIndicator())
-      : ListView(
-        children: [
-          SizedBox(height: screenHeight * 0.025,),
-          Container(
-            width: screenWidth,
-            margin: EdgeInsets.symmetric(horizontal: screenWidth * 0.05,),
-            padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.05, vertical: screenHeight * 0.01),
-            decoration: BoxDecoration(
-              color: Colors.teal,
-              border: Border.all(
-                color: Colors.black12, // Slight border to make it look like paper
-              ),
-              borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(12.0),  // Top-left corner
-                topRight: Radius.circular(12.0), // Top-right corner
-              ),
-            ),
-            child: Text(
-              "Estimated Delivery : ${formatDateRangeSplitByTO(_po[0].estimated_delivery)}",
-              style: TextStyle(
-                color: Colors.white,
-                fontWeight: FontWeight.bold,
-                fontSize: fontNormalSize * 0.9,
-                letterSpacing: 0.6
-              ),
-            ),
-          ),
-          GestureDetector(
-            onTap: (){
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => OrderTimelinePage(clientPO : _po[0])),
-              );
-            },
-            child: Container(
+      body: RefreshIndicator(
+        onRefresh: () async {
+          await Future.delayed(Duration(seconds: 2));
+          setState(() {
+            _getClientPOItems(widget.po_id);
+            _getClientPO(widget.tracking_no);
+            _getClientDetails(widget.po_id);
+          });
+        },
+        child: _isLoadingItems || _isLoadingPO || _isLoadingPODetails
+            ? Center(child: CircularProgressIndicator())
+            : ListView(
+          children: [
+            SizedBox(height: screenHeight * 0.025,),
+            Container(
               width: screenWidth,
               margin: EdgeInsets.symmetric(horizontal: screenWidth * 0.05,),
               padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.05, vertical: screenHeight * 0.01),
+              decoration: BoxDecoration(
+                color: Colors.teal,
+                border: Border.all(
+                  color: Colors.black12, // Slight border to make it look like paper
+                ),
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(12.0),  // Top-left corner
+                  topRight: Radius.circular(12.0), // Top-right corner
+                ),
+              ),
+              child: Text(
+                "Estimated Delivery : ${formatDateRangeSplitByTO(_po[0].estimated_delivery)}",
+                style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                    fontSize: fontNormalSize * 0.9,
+                    letterSpacing: 0.6
+                ),
+              ),
+            ),
+            GestureDetector(
+              onTap: (){
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => OrderTimelinePage(clientPO : _po[0])),
+                );
+              },
+              child: Container(
+                width: screenWidth,
+                margin: EdgeInsets.symmetric(horizontal: screenWidth * 0.05,),
+                padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.05, vertical: screenHeight * 0.01),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  border: Border.all(
+                    color: Colors.black12, // Slight border to make it look like paper
+                  ),
+                  borderRadius: BorderRadius.only(
+                    bottomRight: Radius.circular(12.0),  // Top-left corner
+                    bottomLeft: Radius.circular(12.0), // Top-right corner
+                  ),
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      children: [
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                "Tracking Number",
+                                style: TextStyle(
+                                  letterSpacing: 0.6,
+                                  fontSize: fontSmallSize,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              Text(
+                                _po[0].tracking_no.toUpperCase(),
+                                style: TextStyle(
+                                  letterSpacing: 0.6,
+                                  color: Colors.grey.shade700,
+                                  fontSize: fontSmallSize,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        Text(
+                          ">",
+                          style: TextStyle(
+                            color: Colors.grey.shade700,
+                            fontWeight: FontWeight.bold,
+                            fontSize: fontNormalSize,
+                          ),
+                        )
+                      ],
+                    ),
+                    SizedBox(height: screenHeight * 0.01,),
+                    Row(
+                      children: [
+                        Icon(
+                          Icons.local_shipping_outlined,
+                          size: fontNormalSize * 1.5,
+                          color: Colors.grey.shade700,
+                        ),
+                        SizedBox(width: 10,),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                _poDetails.first.status,
+                                style: TextStyle(
+                                  letterSpacing: 0.6,
+                                  fontSize: fontSmallSize,
+                                  color: Colors.teal.shade300,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              Text(
+                                _poDetails.first.date_created,
+                                style: TextStyle(
+                                  letterSpacing: 0.6,
+                                  color: Colors.grey.shade700,
+                                  fontSize: fontXSmallSize,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ),
+
+            Container(
+              width: screenWidth,
+              margin: EdgeInsets.symmetric(horizontal: screenWidth * 0.05, vertical: screenHeight * 0.02),
+              padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.05, vertical: screenHeight * 0.025),
               decoration: BoxDecoration(
                 color: Colors.white,
                 border: Border.all(
                   color: Colors.black12, // Slight border to make it look like paper
                 ),
-                borderRadius: BorderRadius.only(
-                  bottomRight: Radius.circular(12.0),  // Top-left corner
-                  bottomLeft: Radius.circular(12.0), // Top-right corner
-                ),
               ),
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              "Tracking Number",
-                              style: TextStyle(
-                                letterSpacing: 0.6,
-                                fontSize: fontSmallSize,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            Text(
-                              _po[0].tracking_no.toUpperCase(),
-                              style: TextStyle(
-                                letterSpacing: 0.6,
-                                color: Colors.grey.shade700,
-                                fontSize: fontSmallSize,
-                              ),
-                            ),
-                          ],
-                        ),
+                      Image(
+                        image: AssetImage('assets/logo/enyecontrols.png'),
+                        height: screenHeight * 0.06,
+                        width: screenWidth * 0.35,
                       ),
                       Text(
-                        ">",
+                        "PO# ${_po[0].po_no.toUpperCase()}",
                         style: TextStyle(
-                          color: Colors.grey.shade700,
-                          fontWeight: FontWeight.bold,
-                          fontSize: fontNormalSize,
+                            fontSize: fontNormalSize * 0.9,
+                            color: Colors.red,
+                            fontWeight: FontWeight.bold
                         ),
-                      )
+                      ),
                     ],
                   ),
+
                   SizedBox(height: screenHeight * 0.01,),
+
                   Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Icon(
-                        Icons.local_shipping_outlined,
-                        size: fontNormalSize * 1.5,
-                        color: Colors.grey.shade700,
-                      ),
-                      SizedBox(width: 10,),
-                      Expanded(
+                      Container(
+                        width: screenWidth * 0.5,
                         child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(
-                              _poDetails.first.status,
-                              style: TextStyle(
-                                letterSpacing: 0.6,
-                                fontSize: fontSmallSize,
-                                color: Colors.teal.shade300,
-                                fontWeight: FontWeight.bold,
-                              ),
+                            Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Icon(
+                                  Icons.business_center,
+                                  size: fontSmallSize * 1.25,
+                                ),
+                                SizedBox(width: 5),
+                                Expanded(
+                                  child: Text(
+                                      _po[0].company,
+                                      style: TextStyle(
+                                          fontSize: fontSmallSize,
+                                          letterSpacing: 0.5,
+                                          color: Colors.grey.shade800
+                                      )
+                                  ),
+                                ),
+                              ],
                             ),
-                            Text(
-                              _poDetails.first.date_created,
-                              style: TextStyle(
-                                letterSpacing: 0.6,
-                                color: Colors.grey.shade700,
-                                fontSize: fontXSmallSize,
-                              ),
+                            SizedBox(height: 5),
+                            Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Icon(
+                                  Icons.business,
+                                  size: fontSmallSize * 1.5,
+                                ),
+                                SizedBox(width: 5),
+                                Expanded(
+                                  child: Text(
+                                      _po[0].project,
+                                      style: TextStyle(
+                                          fontSize: fontSmallSize,
+                                          letterSpacing: 0.5,
+                                          color: Colors.grey.shade800
+                                      )
+                                  ),
+                                ),
+                              ],
                             ),
                           ],
                         ),
                       ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-          ),
-
-          Container(
-            width: screenWidth,
-            margin: EdgeInsets.symmetric(horizontal: screenWidth * 0.05, vertical: screenHeight * 0.02),
-            padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.05, vertical: screenHeight * 0.025),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              border: Border.all(
-                color: Colors.black12, // Slight border to make it look like paper
-              ),
-            ),
-            child: Column(
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Image(
-                      image: AssetImage('assets/logo/enyecontrols.png'),
-                      height: screenHeight * 0.06,
-                      width: screenWidth * 0.35,
-                    ),
-                    Text(
-                      "PO# ${_po[0].po_no.toUpperCase()}",
-                      style: TextStyle(
-                        fontSize: fontNormalSize * 0.9,
-                        color: Colors.red,
-                        fontWeight: FontWeight.bold
-                      ),
-                    ),
-                  ],
-                ),
-
-                SizedBox(height: screenHeight * 0.01,),
-
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Container(
-                      width: screenWidth * 0.5,
-                      child: Column(
-                        children: [
-                          Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Icon(
-                                Icons.business_center,
-                                size: fontSmallSize * 1.25,
-                              ),
-                              SizedBox(width: 5),
-                              Expanded(
-                                child: Text(
-                                  _po[0].company,
+                      SizedBox(width: screenWidth * 0.04,),
+                      Expanded(
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Icon(
+                              Icons.payments,
+                              size: fontSmallSize * 1.25,
+                            ),
+                            SizedBox(width: 5),
+                            Expanded(
+                              child: Text(
+                                  _po[0].terms.toUpperCase(),
                                   style: TextStyle(
-                                      fontSize: fontSmallSize,
+                                      fontSize: fontXSmallSize,
                                       letterSpacing: 0.5,
                                       color: Colors.grey.shade800
                                   )
-                                ),
                               ),
-                            ],
-                          ),
-                          SizedBox(height: 5),
-                          Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Icon(
-                                Icons.business,
-                                size: fontSmallSize * 1.5,
-                              ),
-                              SizedBox(width: 5),
-                              Expanded(
-                                child: Text(
-                                    _po[0].project,
-                                    style: TextStyle(
-                                      fontSize: fontSmallSize,
-                                      letterSpacing: 0.5,
-                                      color: Colors.grey.shade800
-                                    )
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
-                    SizedBox(width: screenWidth * 0.04,),
-                    Expanded(
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Icon(
-                            Icons.payments,
-                            size: fontSmallSize * 1.25,
-                          ),
-                          SizedBox(width: 5),
-                          Expanded(
-                            child: Text(
-                              _po[0].terms.toUpperCase(),
-                              style: TextStyle(
-                                fontSize: fontXSmallSize,
-                                letterSpacing: 0.5,
-                                color: Colors.grey.shade800
-                              )
                             ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-
-                SizedBox(height: screenHeight * 0.02),
-                Table(
-                  border: TableBorder.all(color: Colors.deepOrange.shade500),
-                  columnWidths: <int, TableColumnWidth>{
-                    0: FixedColumnWidth(screenWidth * 0.125),
-                    1: FlexColumnWidth(),
-                  },
-                  defaultVerticalAlignment: TableCellVerticalAlignment.middle,
-                  children: <TableRow>[
-                    TableRow(
-                      decoration: BoxDecoration(
-                          color: Colors.deepOrange.shade300
-                      ),
-                      children: <Widget>[
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Text(
-                              'QTY',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: fontSmallSize,
-                                  letterSpacing: 0.8,
-                                  color: Colors.white
-                              )
-                          ),
+                          ],
                         ),
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Text(
-                              'ITEM NAME',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: fontSmallSize,
-                                  letterSpacing: 0.8,
-                                  color: Colors.white
-                              )
-                          ),
+                      ),
+                    ],
+                  ),
+
+                  SizedBox(height: screenHeight * 0.02),
+                  Table(
+                    border: TableBorder.all(color: Colors.deepOrange.shade500),
+                    columnWidths: <int, TableColumnWidth>{
+                      0: FixedColumnWidth(screenWidth * 0.125),
+                      1: FlexColumnWidth(),
+                    },
+                    defaultVerticalAlignment: TableCellVerticalAlignment.middle,
+                    children: <TableRow>[
+                      TableRow(
+                        decoration: BoxDecoration(
+                            color: Colors.deepOrange.shade300
                         ),
-                      ],
-                    ),
-
-                    ..._items.map((item) {
-
-                      return TableRow(
                         children: <Widget>[
                           Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Text(
-                                item.qty,
+                                'QTY',
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
+                                    fontWeight: FontWeight.bold,
                                     fontSize: fontSmallSize,
-                                    letterSpacing: 0.8
+                                    letterSpacing: 0.8,
+                                    color: Colors.white
                                 )
                             ),
                           ),
                           Padding(
                             padding: const EdgeInsets.all(8.0),
-                            child: Column(
-                              children: [
-                                Text(
-                                    item.item_name.toUpperCase(),
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: fontSmallSize,
-                                        letterSpacing: 0.8
-                                    )
-                                ),
-                                Text(
-                                    item.item_desc,
-                                    style: TextStyle(
-                                        fontSize: fontXSmallSize,
-                                        letterSpacing: 0.8
-                                    )
+                            child: Text(
+                                'ITEM NAME',
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: fontSmallSize,
+                                    letterSpacing: 0.8,
+                                    color: Colors.white
                                 )
-                              ],
                             ),
                           ),
                         ],
-                      );
-                    }).toList(),
-                  ],
-                ),
+                      ),
 
-                SizedBox(height: screenHeight * 0.02),
-              ],
+                      ..._items.map((item) {
+
+                        return TableRow(
+                          children: <Widget>[
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text(
+                                  item.qty,
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                      fontSize: fontSmallSize,
+                                      letterSpacing: 0.8
+                                  )
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Column(
+                                children: [
+                                  Text(
+                                      item.item_name.toUpperCase(),
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: fontSmallSize,
+                                          letterSpacing: 0.8
+                                      )
+                                  ),
+                                  Text(
+                                      item.item_desc,
+                                      style: TextStyle(
+                                          fontSize: fontXSmallSize,
+                                          letterSpacing: 0.8
+                                      )
+                                  )
+                                ],
+                              ),
+                            ),
+                          ],
+                        );
+                      }).toList(),
+                    ],
+                  ),
+
+                  SizedBox(height: screenHeight * 0.02),
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
 
