@@ -293,241 +293,247 @@ class _registerPageState extends State<registerPage> {
 
     return KeyboardVisibilityBuilder(
       builder: (context, isKeyboardVisible){
-        return Scaffold(
-          backgroundColor: Colors.deepOrange.shade200,
-          body: Form(
-            key: _formKey,
-            child: SingleChildScrollView(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
+        return GestureDetector(
+          onTap: () {
+            // Dismiss the keyboard when tapping outside
+            FocusScope.of(context).unfocus();
+          },
+          child: Scaffold(
+            backgroundColor: Colors.deepOrange.shade200,
+            body: Form(
+              key: _formKey,
+              child: SingleChildScrollView(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
 
-                  //logo application
-                  SizedBox(height: screenHeight * 0.12,),
-                  Container(
-                    alignment: Alignment.center,
-                    height: screenHeight * 0.042,
-                    width: screenWidth >= 600 ? screenWidth * 0.6 : screenWidth * 0.78,
-                    decoration: BoxDecoration(
-                        image: DecorationImage(image: AssetImage("assets/logo/enyecontrols.png"), fit: BoxFit.fill)
-                    ),
-                  ),
-
-                  //lets create an account for you
-                  SizedBox(height: screenHeight * 0.03,),
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.05),
-                    child: Text(
-                      "Let's create an account for you!",
-                      style: TextStyle(
-                        letterSpacing: 1.2,
-                        color: Colors.grey.shade800,
-                        fontSize: fontNormalSize,
+                    //logo application
+                    SizedBox(height: screenHeight * 0.12,),
+                    Container(
+                      alignment: Alignment.center,
+                      height: screenHeight * 0.042,
+                      width: screenWidth >= 600 ? screenWidth * 0.6 : screenWidth * 0.78,
+                      decoration: BoxDecoration(
+                          image: DecorationImage(image: AssetImage("assets/logo/enyecontrols.png"), fit: BoxFit.fill)
                       ),
                     ),
-                  ),
 
-                  //fullname textfield
-                  SizedBox(height: screenHeight * 0.03,),
-                  PersonNameTextField(
-                    controller: nameController,
-                    hintText: 'Fullname',
-                    disabling: disabling,
-                  ),
-
-                  SizedBox(height: screenHeight * 0.008,),
-                  Contact2TextField(
-                    controller: contactController,
-                    hintText: 'Contact # (09xxxxxxxxx)',
-                    disabling: disabling,
-                  ),
-
-                  //email textfield
-                  SizedBox(height: screenHeight * 0.008,),
-                  EmailTextField(
-                    controller: emailController,
-                    hintText: 'Email',
-                    disabling: disabling,
-                  ),
-
-                  //password textfield
-                  SizedBox(height: screenHeight * 0.008,),
-                  PasswordTextField(
-                    controller: passwordController,
-                    hintText: 'Password',
-                    disabling: disabling,
-                  ),
-
-                  //confirm password textfield
-                  SizedBox(height: screenHeight * 0.008,),
-                  PasswordTextField(
-                    controller: conpasswordController,
-                    hintText: 'Confirm Password',
-                    disabling: disabling,
-                  ),
-
-                  //tapping agree
-                  SizedBox(height: screenHeight * 0.05,),
-                  RichText(
-                    textAlign: TextAlign.center,
-                    text: TextSpan(
-                      children: [
-                        TextSpan(
-                          text: 'By tapping Sign Up, I agree to the ',
-                          style: TextStyle(
-                            fontSize: fontSmallSize,
-                            letterSpacing: 1.2,
-                            color: Colors.grey.shade800,
-                          ),
+                    //lets create an account for you
+                    SizedBox(height: screenHeight * 0.03,),
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.05),
+                      child: Text(
+                        "Let's create an account for you!",
+                        style: TextStyle(
+                          letterSpacing: 1.2,
+                          color: Colors.grey.shade800,
+                          fontSize: fontNormalSize,
                         ),
-                        TextSpan(
-                          text: '\n Terms and Conditions',
-                          style: TextStyle(
-                            fontSize: fontSmallSize,
-                            letterSpacing: 1.2,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.grey.shade800,
-                            decoration: TextDecoration.underline,
-                          ),
-                          recognizer: TapGestureRecognizer()
-                            ..onTap = () {
-                              launchURL("https://www.enyecontrols.com/privacypolicy/terms.html");
-                            },
-                        ),
-                        TextSpan(
-                          text: ' and ',
-                          style: TextStyle(
-                            fontSize: fontSmallSize,
-                            letterSpacing: 1.2,
-                            color: Colors.grey.shade800,
-                          ),
-                        ),
-                        TextSpan(
-                          text: 'Privacy Policy.',
-                          style: TextStyle(
-                            fontSize: fontSmallSize,
-                            letterSpacing: 1.2,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.grey.shade800,
-                            decoration: TextDecoration.underline,
-                          ),
-                          recognizer: TapGestureRecognizer()
-                            ..onTap = () {
-                              launchURL("https://www.enyecontrols.com/privacypolicy/policy.html");
-                            },
-                        ),
-                      ],
+                      ),
                     ),
-                  ),
 
-                  //sign-up button
-                  SizedBox(height: screenHeight * 0.015,),
-                  isLoading
-                      ? CircularProgressIndicator()
-                      : customButton(
-                    text: "Sign Up",
-                    onTap: () async {
-                      FocusScope.of(context).unfocus();
-                      if (disabling == false) {
-                        // Start loading
-                        setState(() {
-                          isLoading = true;
-                        });
-                        // Validate returns true if the form is valid, or false otherwise.
-                        if (_formKey.currentState!.validate()) {
-                          //password doesn't match with confirmation password
-                          if (passwordController.text.trim() != conpasswordController.text.trim()) {
-                            custSnackbar(context, "Password doesn't match !", Colors.redAccent, Icons.close, Colors.white );
-                            setState(() {
-                              isLoading = false;
-                            });
-                          } else {
-                            //check email if meron na sa database
+                    //fullname textfield
+                    SizedBox(height: screenHeight * 0.03,),
+                    PersonNameTextField(
+                      controller: nameController,
+                      hintText: 'Fullname',
+                      disabling: disabling,
+                    ),
 
-                            var map = Map<String, dynamic>();
-                            //get the action do by the user transfer it to POST method
-                            map['action'] = "CHECK EMAIL";
-                            map['email'] = emailController.text.trim();
+                    SizedBox(height: screenHeight * 0.008,),
+                    Contact2TextField(
+                      controller: contactController,
+                      hintText: 'Contact # (09xxxxxxxxx)',
+                      disabling: disabling,
+                    ),
 
-                            var res = await http.post( //pasiing value to result
-                              Uri.parse(API.register),
-                              body: map,
-                            );
+                    //email textfield
+                    SizedBox(height: screenHeight * 0.008,),
+                    EmailTextField(
+                      controller: emailController,
+                      hintText: 'Email',
+                      disabling: disabling,
+                    ),
 
-                            if (res.statusCode == 200) { //from flutter app the connection with API to server  - success
-                              var resBodyOfSignUp = jsonDecode(res.body);
+                    //password textfield
+                    SizedBox(height: screenHeight * 0.008,),
+                    PasswordTextField(
+                      controller: passwordController,
+                      hintText: 'Password',
+                      disabling: disabling,
+                    ),
 
-                              //if email is already taken
-                              if (resBodyOfSignUp['email_taken'] == true) {
-                                custSnackbar(context, "Warning : Email is already taken.", Colors.orange, Icons.info, Colors.white );
-                              } else {
-                                myauth.setConfig(
-                                  appEmail: "ronfrancia.enye@gmail.com",
-                                  appName: "ENYECONTROLS",
-                                  userEmail: emailController.text,
-                                  otpLength: 6,
-                                  otpType: OTPType.digitsOnly,
-                                );
-                                if (await myauth.sendOTP() == true) {
-                                  custSnackbar(context, "OTP has been sent", Colors.green, Icons.check, Colors.greenAccent );
-                                  _showOTPDialog();
+                    //confirm password textfield
+                    SizedBox(height: screenHeight * 0.008,),
+                    PasswordTextField(
+                      controller: conpasswordController,
+                      hintText: 'Confirm Password',
+                      disabling: disabling,
+                    ),
+
+                    //tapping agree
+                    SizedBox(height: screenHeight * 0.05,),
+                    RichText(
+                      textAlign: TextAlign.center,
+                      text: TextSpan(
+                        children: [
+                          TextSpan(
+                            text: 'By tapping Sign Up, I agree to the ',
+                            style: TextStyle(
+                              fontSize: fontSmallSize,
+                              letterSpacing: 1.2,
+                              color: Colors.grey.shade800,
+                            ),
+                          ),
+                          TextSpan(
+                            text: '\n Terms and Conditions',
+                            style: TextStyle(
+                              fontSize: fontSmallSize,
+                              letterSpacing: 1.2,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.grey.shade800,
+                              decoration: TextDecoration.underline,
+                            ),
+                            recognizer: TapGestureRecognizer()
+                              ..onTap = () {
+                                launchURL("https://www.enyecontrols.com/privacypolicy/terms.html");
+                              },
+                          ),
+                          TextSpan(
+                            text: ' and ',
+                            style: TextStyle(
+                              fontSize: fontSmallSize,
+                              letterSpacing: 1.2,
+                              color: Colors.grey.shade800,
+                            ),
+                          ),
+                          TextSpan(
+                            text: 'Privacy Policy.',
+                            style: TextStyle(
+                              fontSize: fontSmallSize,
+                              letterSpacing: 1.2,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.grey.shade800,
+                              decoration: TextDecoration.underline,
+                            ),
+                            recognizer: TapGestureRecognizer()
+                              ..onTap = () {
+                                launchURL("https://www.enyecontrols.com/privacypolicy/policy.html");
+                              },
+                          ),
+                        ],
+                      ),
+                    ),
+
+                    //sign-up button
+                    SizedBox(height: screenHeight * 0.015,),
+                    isLoading
+                        ? CircularProgressIndicator()
+                        : customButton(
+                      text: "Sign Up",
+                      onTap: () async {
+                        FocusScope.of(context).unfocus();
+                        if (disabling == false) {
+                          // Start loading
+                          setState(() {
+                            isLoading = true;
+                          });
+                          // Validate returns true if the form is valid, or false otherwise.
+                          if (_formKey.currentState!.validate()) {
+                            //password doesn't match with confirmation password
+                            if (passwordController.text.trim() != conpasswordController.text.trim()) {
+                              custSnackbar(context, "Password doesn't match !", Colors.redAccent, Icons.close, Colors.white );
+                              setState(() {
+                                isLoading = false;
+                              });
+                            } else {
+                              //check email if meron na sa database
+
+                              var map = Map<String, dynamic>();
+                              //get the action do by the user transfer it to POST method
+                              map['action'] = "CHECK EMAIL";
+                              map['email'] = emailController.text.trim();
+
+                              var res = await http.post( //pasiing value to result
+                                Uri.parse(API.register),
+                                body: map,
+                              );
+
+                              if (res.statusCode == 200) { //from flutter app the connection with API to server  - success
+                                var resBodyOfSignUp = jsonDecode(res.body);
+
+                                //if email is already taken
+                                if (resBodyOfSignUp['email_taken'] == true) {
+                                  custSnackbar(context, "Warning : Email is already taken.", Colors.orange, Icons.info, Colors.white );
                                 } else {
-                                  custSnackbar(context, "Oops, OTP send failed !", Colors.redAccent, Icons.dangerous_rounded, Colors.white );
+                                  myauth.setConfig(
+                                    appEmail: "ronfrancia.enye@gmail.com",
+                                    appName: "ENYECONTROLS",
+                                    userEmail: emailController.text,
+                                    otpLength: 6,
+                                    otpType: OTPType.digitsOnly,
+                                  );
+                                  if (await myauth.sendOTP() == true) {
+                                    custSnackbar(context, "OTP has been sent", Colors.green, Icons.check, Colors.greenAccent );
+                                    _showOTPDialog();
+                                  } else {
+                                    custSnackbar(context, "Oops, OTP send failed !", Colors.redAccent, Icons.dangerous_rounded, Colors.white );
+                                  }
                                 }
                               }
+                              // Stop loading after API response
+                              setState(() {
+                                isLoading = false;
+                              });
                             }
-                            // Stop loading after API response
+                          } else {
+                            // Stop loading if form validation fails
                             setState(() {
                               isLoading = false;
                             });
                           }
-                        } else {
-                          // Stop loading if form validation fails
-                          setState(() {
-                            isLoading = false;
-                          });
                         }
-                      }
-                      _onButtonPressed();
-                    },
-                    clr: Colors.deepOrange,
-                    fontSize: fontExtraSize,
-                  ),
+                        _onButtonPressed();
+                      },
+                      clr: Colors.deepOrange,
+                      fontSize: fontExtraSize,
+                    ),
 
-                  //already have an account
-                  SizedBox(height: screenHeight * 0.008),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        'Already have an account?',
-                        style: TextStyle(
-                          fontSize: fontSmallSize,
-                          letterSpacing: 1.2,
-                          color: Colors.grey.shade800
-                        ),
-                      ),
-                      SizedBox(height: screenHeight * 0.002,),
-                      TextButton(
-                        onPressed: (){
-                          Navigator.of(context).pop();
-                        },
-                        child: Text(
-                          'Login now',
+                    //already have an account
+                    SizedBox(height: screenHeight * 0.008),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          'Already have an account?',
                           style: TextStyle(
                             fontSize: fontSmallSize,
                             letterSpacing: 1.2,
-                            color: Colors.blue,
-                            fontWeight: FontWeight.bold
+                            color: Colors.grey.shade800
                           ),
                         ),
-                      ),
-                    ],
-                  ),
+                        SizedBox(height: screenHeight * 0.002,),
+                        TextButton(
+                          onPressed: (){
+                            Navigator.of(context).pop();
+                          },
+                          child: Text(
+                            'Login now',
+                            style: TextStyle(
+                              fontSize: fontSmallSize,
+                              letterSpacing: 1.2,
+                              color: Colors.blue,
+                              fontWeight: FontWeight.bold
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
 
-                  SizedBox(height: screenHeight * 0.1,),
-                  if (isKeyboardVisible) SizedBox(height: screenHeight * 0.3,),
-                ],
+                    SizedBox(height: screenHeight * 0.1,),
+                    if (isKeyboardVisible) SizedBox(height: screenHeight * 0.3,),
+                  ],
+                ),
               ),
             ),
           ),
