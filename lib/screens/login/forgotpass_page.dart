@@ -244,151 +244,157 @@ class _ForgotPassPageState extends State<ForgotPassPage> {
     var fontNormalSize = ResponsiveTextUtils.getNormalFontSize(screenWidth);
     var fontExtraSize = ResponsiveTextUtils.getExtraFontSize(screenWidth);
 
-    return Scaffold(
-      backgroundColor: Colors.deepOrange.shade200,
-      body: SingleChildScrollView(
-        child: SafeArea(
-          child: Center(
-            child: Form(
-              key: _formKey,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
+    return GestureDetector(
+      onTap: () {
+        // Dismiss the keyboard when tapping outside
+        FocusScope.of(context).unfocus();
+      },
+      child: Scaffold(
+        backgroundColor: Colors.deepOrange.shade200,
+        body: SingleChildScrollView(
+          child: SafeArea(
+            child: Center(
+              child: Form(
+                key: _formKey,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
 
-                  //logo application
-                  SizedBox(height: screenHeight * 0.2,),
-                  Container(
-                    alignment: Alignment.center,
-                    height: screenHeight * 0.042,
-                    width: screenWidth * 0.78,
-                    decoration: BoxDecoration(
-                        image: DecorationImage(image: AssetImage("assets/logo/enyecontrols.png"), fit: BoxFit.fill)
-                    ),
-                  ),
-
-                  //lets create an account for you
-                  SizedBox(height: screenHeight * 0.07,),
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.08),
-                    child: Text("Let's reset your password !", style: TextStyle(color: Colors.grey.shade800, fontSize: fontExtraSize),),
-                  ),
-
-                  SizedBox(height: screenHeight * 0.05,),
-                  (widget.verified == false) && (verifiedEmail == false)
-                  ? Column(
-                    children: [
-                      //email textfield
-                      EmailTextField(
-                        controller: emailController,
-                        hintText: 'Email',
-                        disabling: disabling,
+                    //logo application
+                    SizedBox(height: screenHeight * 0.2,),
+                    Container(
+                      alignment: Alignment.center,
+                      height: screenHeight * 0.042,
+                      width: screenWidth * 0.78,
+                      decoration: BoxDecoration(
+                          image: DecorationImage(image: AssetImage("assets/logo/enyecontrols.png"), fit: BoxFit.fill)
                       ),
+                    ),
 
-                      //sign-up button
-                      SizedBox(height: screenHeight * 0.03,),
-                      customButton(
-                          onTap: () async {
-                            _onButtonPressed();
-                            if (disabling == false) {
-                              // Validate returns true if the form is valid, or false otherwise.
-                              if (_formKey.currentState!.validate()) {
-                                disabling = true;
-                                var map = Map<String, dynamic>();
-                                //get the action do by the user transfer it to POST method
-                                map['action'] = "CHECK EMAIL";
-                                map['email'] = emailController.text.trim();
+                    //lets create an account for you
+                    SizedBox(height: screenHeight * 0.07,),
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.08),
+                      child: Text("Let's reset your password !", style: TextStyle(color: Colors.grey.shade800, fontSize: fontExtraSize),),
+                    ),
 
-                                var res = await http.post( //pasiing value to result
-                                  Uri.parse(API.resetPassword),
-                                  body: map,
-                                );
+                    SizedBox(height: screenHeight * 0.05,),
+                    (widget.verified == false) && (verifiedEmail == false)
+                    ? Column(
+                      children: [
+                        //email textfield
+                        EmailTextField(
+                          controller: emailController,
+                          hintText: 'Email',
+                          disabling: disabling,
+                        ),
 
-                                if (res.statusCode == 200) { //from flutter app the connection with API to server  - success
-                                  var resBodyOfSignUp = jsonDecode(res.body);
+                        //sign-up button
+                        SizedBox(height: screenHeight * 0.03,),
+                        customButton(
+                            onTap: () async {
+                              _onButtonPressed();
+                              if (disabling == false) {
+                                // Validate returns true if the form is valid, or false otherwise.
+                                if (_formKey.currentState!.validate()) {
+                                  disabling = true;
+                                  var map = Map<String, dynamic>();
+                                  //get the action do by the user transfer it to POST method
+                                  map['action'] = "CHECK EMAIL";
+                                  map['email'] = emailController.text.trim();
 
-                                  //if email is already taken
-                                  if (resBodyOfSignUp['email_taken'] == true) {
-                                    myauth.setConfig(
-                                      appEmail: "ronfrancia.enye@gmail.com",
-                                      appName: "ENYE CONTROLS",
-                                      userEmail: emailController.text,
-                                      otpLength: 6,
-                                      otpType: OTPType.digitsOnly,
-                                    );
-                                    if (await myauth.sendOTP() == true) {
-                                      _successSnackbar(context, "OTP has been sent");
-                                      _showOTPDialog();
+                                  var res = await http.post( //pasiing value to result
+                                    Uri.parse(API.resetPassword),
+                                    body: map,
+                                  );
+
+                                  if (res.statusCode == 200) { //from flutter app the connection with API to server  - success
+                                    var resBodyOfSignUp = jsonDecode(res.body);
+
+                                    //if email is already taken
+                                    if (resBodyOfSignUp['email_taken'] == true) {
+                                      myauth.setConfig(
+                                        appEmail: "ronfrancia.enye@gmail.com",
+                                        appName: "ENYE CONTROLS",
+                                        userEmail: emailController.text,
+                                        otpLength: 6,
+                                        otpType: OTPType.digitsOnly,
+                                      );
+                                      if (await myauth.sendOTP() == true) {
+                                        _successSnackbar(context, "OTP has been sent");
+                                        _showOTPDialog();
+                                      } else {
+                                        _errorSnackbar(context, "Oops, OTP send failed");
+                                        disabling = false;
+                                      }
                                     } else {
-                                      _errorSnackbar(context, "Oops, OTP send failed");
+                                      _errorSnackbar(context, "Email NOT Found !");
                                       disabling = false;
                                     }
-                                  } else {
-                                    _errorSnackbar(context, "Email NOT Found !");
-                                    disabling = false;
                                   }
                                 }
                               }
-                            }
-                          },
-                          text: "VERIFY EMAIL",
-                          clr: Colors.deepOrange,
-                          fontSize: fontExtraSize
-                      ),
-                    ],
-                  )
-                  : Column(
-                    children: [
-                      //password textfield
-                      PasswordTextField(
-                        controller: passwordController,
-                        hintText: 'New Password *',
-                        disabling: disabling,
-                      ),
-
-                      //confirm password textfield
-                      SizedBox(height: screenHeight * 0.02,),
-                      PasswordTextField(
-                        controller: conpasswordController,
-                        hintText: 'Confirm Password *',
-                        disabling: disabling,
-                      ),
-
-                      //sign-up button
-                      SizedBox(height: screenHeight * 0.03,),
-                      customButton(
-                        onTap: () {
-                          if (disabling == false) {
-                            resetPassword();
-                          }
-                          _onButtonPressed();
-                        },
-                        text: 'RESET PASSWORD',
-                        clr: Colors.deepOrange,
-                        fontSize: fontNormalSize,
-                      ),
-                    ],
-                  ),
-
-                  //already have an account
-                  SizedBox(height: screenHeight * 0.02,),
-                  if(widget.verified == false)
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text('Remember your password ?', style: TextStyle(color: Colors.grey.shade800, fontSize: fontSmallSize),),
-                      SizedBox(height: screenHeight * 0.03,),
-                      TextButton(
-                        onPressed: (){
-                          Navigator.of(context).pop();
-                        },
-                        child: Text(
-                          'Login now',
-                          style: TextStyle(color: Colors.blue, fontWeight: FontWeight.bold, fontSize: fontNormalSize),
+                            },
+                            text: "VERIFY EMAIL",
+                            clr: Colors.deepOrange,
+                            fontSize: fontExtraSize
                         ),
-                      ),
-                    ],
-                  ),
-                ],
+                      ],
+                    )
+                    : Column(
+                      children: [
+                        //password textfield
+                        PasswordTextField(
+                          controller: passwordController,
+                          hintText: 'New Password *',
+                          disabling: disabling,
+                        ),
+
+                        //confirm password textfield
+                        SizedBox(height: screenHeight * 0.02,),
+                        PasswordTextField(
+                          controller: conpasswordController,
+                          hintText: 'Confirm Password *',
+                          disabling: disabling,
+                        ),
+
+                        //sign-up button
+                        SizedBox(height: screenHeight * 0.03,),
+                        customButton(
+                          onTap: () {
+                            if (disabling == false) {
+                              resetPassword();
+                            }
+                            _onButtonPressed();
+                          },
+                          text: 'RESET PASSWORD',
+                          clr: Colors.deepOrange,
+                          fontSize: fontNormalSize,
+                        ),
+                      ],
+                    ),
+
+                    //already have an account
+                    SizedBox(height: screenHeight * 0.02,),
+                    if(widget.verified == false)
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text('Remember your password ?', style: TextStyle(color: Colors.grey.shade800, fontSize: fontSmallSize),),
+                        SizedBox(height: screenHeight * 0.03,),
+                        TextButton(
+                          onPressed: (){
+                            Navigator.of(context).pop();
+                          },
+                          child: Text(
+                            'Login now',
+                            style: TextStyle(color: Colors.blue, fontWeight: FontWeight.bold, fontSize: fontNormalSize),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
