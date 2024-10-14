@@ -4,6 +4,7 @@ import 'package:enye_app/screens/systems/interactive/co.dart';
 import 'package:enye_app/screens/systems/interactive/ec_bills.dart';
 import 'package:enye_app/screens/systems/interactive/ems.dart';
 import 'package:enye_app/screens/systems/interactive/fdas.dart';
+import 'package:enye_app/screens/systems/interactive/fuel.dart';
 import 'package:enye_app/screens/systems/interactive/smart_vav.dart';
 import 'package:enye_app/screens/systems/interactive/smoke_extract.dart';
 import 'package:enye_app/screens/systems/interactive/stairwell.dart';
@@ -12,6 +13,7 @@ import 'interactive.dart';
 import 'interactive/fire_smoke.dart';
 import 'interactive/model3d.dart';
 import 'interactive/smart.dart';
+import 'interactive/water.dart';
 // Add more imports as needed
 
 class InteractiveImagePage extends StatelessWidget {
@@ -53,8 +55,14 @@ class InteractiveImagePage extends StatelessWidget {
       case '17':
         interactiveImage = FiremanControlPage();
         break;
+      case '18':
+        interactiveImage = FuelPage();
+        break;
       case '19':
         interactiveImage = EMSPage();
+        break;
+      case '20':
+        interactiveImage = WaterSystemPage();
         break;
     // Add more cases as needed
       default:

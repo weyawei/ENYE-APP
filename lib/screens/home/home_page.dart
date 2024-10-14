@@ -18,6 +18,7 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:video_player/video_player.dart';
 
 import '../../config/api_connection.dart';
+import '../../config/version_check.dart';
 import '../../widget/widgets.dart';
 import '../projects/project_page2.dart';
 import '../screens.dart';
@@ -128,6 +129,7 @@ class _homePageState extends State<homePage> with TickerProviderStateMixin{
 
     // _news = [];
     // _getNews();
+    VersionCheck.checkForUpdate(context);
 
     _newsUpdates = [];
     _getNewsUpdates();
