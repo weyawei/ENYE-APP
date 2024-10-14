@@ -99,23 +99,23 @@ class _OrderTracking2PageState extends State<OrderTracking2Page> {
     var fontNormalSize = ResponsiveTextUtils.getNormalFontSize(screenWidth);
     var fontExtraSize = ResponsiveTextUtils.getExtraFontSize(screenWidth);
 
-    return Scaffold(
-      appBar: CustomAppBar(
-        title: 'Order Tracking',
-        imagePath: '',
-        appBarHeight: screenHeight * 0.05,
-      ),
-      body: RefreshIndicator(
-        onRefresh: () async {
-          await Future.delayed(Duration(seconds: 2));
-          setState(() {
-            _getClientPOBasedEmail(ClientInfo!.email);
-          });
-        },
-        child: GestureDetector(
-          onTap: () {
-            // Dismiss the keyboard when tapping outside
-            FocusScope.of(context).unfocus();
+    return GestureDetector(
+      onTap: () {
+        // Dismiss the keyboard when tapping outside
+        FocusScope.of(context).unfocus();
+      },
+      child: Scaffold(
+        appBar: CustomAppBar(
+          title: 'Order Tracking',
+          imagePath: '',
+          appBarHeight: screenHeight * 0.05,
+        ),
+        body: RefreshIndicator(
+          onRefresh: () async {
+            await Future.delayed(Duration(seconds: 2));
+            setState(() {
+              _getClientPOBasedEmail(ClientInfo!.email);
+            });
           },
           child: Column(
             children: [
