@@ -509,8 +509,9 @@ class _MultiLevelFilterDemoState extends State<MultiLevelFilterDemo> {
                           physics: NeverScrollableScrollPhysics(), // Disable scrolling for the grid
                           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                             crossAxisCount: screenLayout ? 2 : 3,
-                            childAspectRatio: 0.65,
+                            mainAxisSpacing: 0.65,
                             crossAxisSpacing: fontNormalSize,
+                            childAspectRatio: 0.77,
                           ),
                           itemBuilder: (context, productIndex) {
                             final product = products[productIndex];
