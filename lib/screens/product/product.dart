@@ -12,7 +12,7 @@ class product {
   String status;
   bool isExpanded;
 
-  String category_name;
+ // String category_name;
  // String subcategory_name;
   String subCat1_id;
  // String subcategory_name1;
@@ -37,7 +37,7 @@ class product {
     required this.status,
     this.isExpanded = false,
 
-    required this.category_name,
+  //  required this.category_name,
   //  required this.subcategory_name,
     required this.subCat1_id,
  //   required this.subcategory_name1,
@@ -64,7 +64,7 @@ class product {
       catalogs_pdf: json['catalogs_pdf'] as String,
       status: json['status'] as String,
 
-      category_name: json['category_name'] as String,
+    //  category_name: json['category_name'] as String,
     //  subcategory_name: json['subcategory_name'] as String,
       subCat1_id: json['subCat1_id'] as String,
     //  subcategory_name1: json['subCat1_name'] as String,
