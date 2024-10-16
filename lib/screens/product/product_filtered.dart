@@ -411,85 +411,114 @@ class _MultiLevelFilterDemoState extends State<MultiLevelFilterDemo> {
             return product.category_id == selectedCategoryId; // Filter by selected subcategory
           }).toList();*/
 
-          final Map<String, List<product>> productsBySubcategory = {};
+          // Group products by subcategory, sub-subcategory, and sub-sub-subcategory (or brand2)
+          final Map<String, Map<String, Map<String, List<product>>>> productsBySubcategoryAndBrandAndBrand2 = {};
 
+        // Group products by subcategory, sub-subcategory (brand), and sub-sub-subcategory (brand2)
           for (var product in filteredProducts) {
-            final subcategory = product.subCat_name1; // Assuming you're using subCat_name1 for subcategories
-            if (productsBySubcategory.containsKey(subcategory)) {
-              productsBySubcategory[subcategory]!.add(product);
+            final subcategory = product.subCat_name1;
+            final subSubcategory = product.subCat1_name1; // Sub-subcategory or brand
+            final subSubSubcategory = product.subCat2_name1; // Sub-sub-subcategory or brand2
+
+            // Check if the subcategory already exists
+            if (productsBySubcategoryAndBrandAndBrand2.containsKey(subcategory)) {
+              // Check if the sub-subcategory exists within the subcategory
+              if (productsBySubcategoryAndBrandAndBrand2[subcategory]!.containsKey(subSubcategory)) {
+                // Check if the sub-sub-subcategory exists within the sub-subcategory
+                if (productsBySubcategoryAndBrandAndBrand2[subcategory]![subSubcategory]!.containsKey(subSubSubcategory)) {
+                  productsBySubcategoryAndBrandAndBrand2[subcategory]![subSubcategory]![subSubSubcategory]!.add(product);
+                } else {
+                  productsBySubcategoryAndBrandAndBrand2[subcategory]![subSubcategory]![subSubSubcategory] = [product];
+                }
+              } else {
+                productsBySubcategoryAndBrandAndBrand2[subcategory]![subSubcategory] = {
+                  subSubSubcategory: [product],
+                };
+              }
             } else {
-              productsBySubcategory[subcategory] = [product];
+              // If the subcategory doesn't exist, create a new subcategory, sub-subcategory, and sub-sub-subcategory
+              productsBySubcategoryAndBrandAndBrand2[subcategory] = {
+                subSubcategory: {
+                  subSubSubcategory: [product],
+                },
+              };
             }
           }
 
-
+      // Display grouped products in the UI
           return Column(
             children: [
-              // Display filtered products
+              // Filter header (same as before)
               Container(
                 margin: EdgeInsets.symmetric(horizontal: 16, vertical: 2),
-               // padding: EdgeInsets.all(16),
-
+                padding: EdgeInsets.symmetric(vertical: 2), // Vertical padding for better spacing
+                decoration: BoxDecoration(
+                  color: Colors.white, // Background color for the container
+                  borderRadius: BorderRadius.circular(12), // Rounded corners
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.1), // Subtle shadow for depth
+                      blurRadius: 8.0,
+                      offset: Offset(0, 2), // Shadow position
+                    ),
+                  ],
+                ),
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween, // Space out elements evenly
                   children: [
-                    Text(
-                      "",
-                      style: TextStyle(
-                        fontSize: fontExtraSize,
-                        fontWeight: FontWeight.bold, // Make text bold
-                        color: Colors.black,
-                      ),
-                    ),
-                    if(filteredSubcategories.isNotEmpty)
-                    ElevatedButton.icon(
-                      onPressed: _showFilterModal,
-                      icon: Icon(Icons.filter_list, size: 20), // Smaller icon size
-                      label: Text("Filters",
-                        style: TextStyle(
-                          fontSize: fontExtraSize,
-                          fontWeight: FontWeight.bold, // Make text bold
-                          color: Colors.white,
+                    // Conditional button for filters
+                    if (filteredSubcategories.isNotEmpty)
+                      ElevatedButton.icon(
+                        onPressed: _showFilterModal,
+                        icon: Icon(Icons.filter_list, size: 20),
+                        label: Text(
+                          "Filters",
+                          style: TextStyle(
+                            fontSize: fontExtraSize,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                          ),
                         ),
-                      ), // Add a label for better clarity
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.deepOrange, // Use your app's primary color
-                        padding: EdgeInsets.symmetric(horizontal: 20), // Horizontal padding
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12), // Match the container's border radius
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.deepOrange,
+                          padding: EdgeInsets.symmetric(horizontal: 16), // Adjust horizontal padding
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8), // Slightly smaller radius for a modern look
+                          ),
                         ),
                       ),
+
+                    // Category name
+                    Expanded( // Use Expanded to prevent overflow
+                      child: Container( // Wrap the Text widget in a Container for padding
+                        child: Text(
+                          widget.selectedCategory.name,
+                          textAlign: TextAlign.center, // Center the text
+                          style: TextStyle(
+                            fontSize: fontExtraSize, // Slightly larger font size for emphasis
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black,
+                          ),
+                          softWrap: true, // Allow wrapping
+                          maxLines: 2, // Limit to 2 lines if needed
+                        ),
+                      ),
                     ),
+
+                    // Placeholder to keep alignment consistent when the button is not shown
+                    SizedBox(width: filteredSubcategories.isNotEmpty ? 8 : 0), // Add space if button is visible
                   ],
                 ),
               ),
 
+
+              // Expanded ListView to show subcategories, sub-subcategories, sub-sub-subcategories, and products
               Expanded(
                 child: ListView.builder(
-                  itemCount: productsBySubcategory.length, // Number of subcategories
+                  itemCount: productsBySubcategoryAndBrandAndBrand2.length,
                   itemBuilder: (context, index) {
-                    String subcategory = productsBySubcategory.keys.elementAt(index);
-                    List<product> products = productsBySubcategory[subcategory]!;
-
-                    // List to hold display names
-                    List<String> displayNames = [];
-
-                    // Check for selected brands and add to displayNames
-                    if (selectedBrands2.isNotEmpty) {
-                      displayNames.addAll(selectedBrands2.map((brand2) => brand2)); // Add selected brands
-                    }
-
-                    if (selectedBrands.isNotEmpty) {
-                      displayNames.addAll(selectedBrands.map((brand) => brand)); // Add selected brand2
-                    }
-
-                    // Add subcategory if no brands are selected
-                    if (displayNames.isEmpty) {
-                      displayNames.add(subcategory);
-                    }
-
-                    // Create display name by joining all selected names
-                    String displayName = displayNames.join('/');
+                    String subcategory = productsBySubcategoryAndBrandAndBrand2.keys.elementAt(index);
+                    Map<String, Map<String, List<product>>> productsByBrand = productsBySubcategoryAndBrandAndBrand2[subcategory]!;
 
                     return Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -498,150 +527,202 @@ class _MultiLevelFilterDemoState extends State<MultiLevelFilterDemo> {
                         Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Text(
-                            filteredSubcategories.isNotEmpty ? displayName : widget.selectedCategory.name,
+                            subcategory,
                             style: TextStyle(
                               fontSize: 18,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
                         ),
-                        // Grid of products under this subcategory
-                        GridView.builder(
-                          padding: EdgeInsets.symmetric(
-                              horizontal: screenWidth * 0.035,
-                              vertical: screenHeight * 0.02
-                          ),
-                          itemCount: products.length,
-                          shrinkWrap: true, // Ensure the grid takes only the required height
-                          physics: NeverScrollableScrollPhysics(), // Disable scrolling for the grid
-                          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: screenLayout ? 2 : 3,
-                            mainAxisSpacing: fontNormalSize,
-                            crossAxisSpacing: fontNormalSize,
-                            childAspectRatio: 0.73,
-                          ),
-                          itemBuilder: (context, productIndex) {
-                            final product = products[productIndex];
 
-                            return InkWell(
-                              onTap: () {
-                                // Handle the tap event
-                                PersistentNavBarNavigator.pushNewScreenWithRouteSettings(
-                                  context,
-                                  settings: RouteSettings(name: ProductItemScreen.routeName),
-                                  screen: ProductItemScreen(products: product),
-                                  withNavBar: true,
-                                  pageTransitionAnimation: PageTransitionAnimation.cupertino,
-                                );
-                              },
-                              child: SingleChildScrollView(
-                                physics: NeverScrollableScrollPhysics(),
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius: BorderRadius.circular(16.0),
-                                    boxShadow: [
-                                      BoxShadow(
-                                        color: Colors.black.withOpacity(0.2), // Shadow color with transparency
-                                        spreadRadius: 1,  // How much the shadow spreads
-                                        blurRadius: 6,    // How blurry the shadow is
-                                        offset: Offset(0, 3), // Offset of the shadow (x: 0, y: 3)
-                                      ),
-                                    ],
-                                  ),
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Container(
-                                        height: fontExtraSize * 9,
-                                        padding: EdgeInsets.all(12.0),
-                                        child: CachedNetworkImage(
-                                          width: double.infinity,
-                                          imageUrl: "${API.prodImg + product.image}",
-                                          placeholder: (context, url) => Center(
-                                            child: CircularProgressIndicator(), // Loading spinner
-                                          ),
-                                          errorWidget: (context, url, error) => Center(
-                                            child: Icon(Icons.error), // Error icon
-                                          ),
-                                          fit: BoxFit.contain,
-                                        ),
-                                      ),
-                                      Container(
-                                        padding: const EdgeInsets.all(12.0),
-                                        child: Column(
-                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                          children: [
-                                            Container(
-                                              height: fontNormalSize * 3,
-                                              alignment: Alignment.centerLeft,
-                                              child: Text(
-                                                product.name,
-                                                style: TextStyle(
-                                                  fontSize: fontNormalSize,
-                                                  fontWeight: FontWeight.bold,
-                                                  color: Colors.deepOrange,
-                                                ),
-                                                maxLines: 2,
-                                                overflow: TextOverflow.ellipsis,
-                                              ),
-                                            ),
-                                            SizedBox(height: 4.0),
-                                            Row(
-                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                              children: [
-                                                Expanded(
-                                                  child: Text(
-                                                        product.subCat2_name1 != ''
-                                                        ? product.subCat2_name1
-                                                        : product.subCat1_name1 != ''
-                                                           ? product.subCat1_name1
-                                                           : product.subCat_name1 != ''
-                                                              ? product.subCat_name1
-                                                              : product.category_name1  ,
-                                                    style: TextStyle(
-                                                      fontSize: fontSmallSize,
-                                                      color: Colors.black,
-                                                    ),
-                                                    overflow: TextOverflow.ellipsis, // Add this to show ellipsis
-                                                    maxLines: 1, // Limit to 1 line
-                                                  ),
-                                                ),
-                                                Container(
-                                                  padding: EdgeInsets.symmetric(horizontal: 6.5, vertical: 2.0),
-                                                  decoration: BoxDecoration(
-                                                    color: Colors.orangeAccent.shade100.withOpacity(0.3),
-                                                    borderRadius: BorderRadius.circular(25.0),
-                                                  ),
-                                                  child: Text(
-                                                    "Available",
-                                                    style: TextStyle(
-                                                      color: Colors.deepOrange.shade600,
-                                                      fontWeight: FontWeight.bold,
-                                                      fontSize: fontXSmallSize,
-                                                    ),
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ],
+                        // Display sub-subcategories (or brands) under this subcategory
+                        ...productsByBrand.entries.map((brandEntry) {
+                          String subSubcategory = brandEntry.key;
+                          Map<String, List<product>> productsByBrand2 = brandEntry.value;
+
+                          return Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              // Sub-subcategory (or brand) header
+                              if (subSubcategory.isNotEmpty) // Add this only if subSubcategory is not empty
+                                Padding(
+                                  padding: const EdgeInsets.only(left: 16.0, bottom: 2.0),
+                                  child: Text(
+                                    subSubcategory,
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w500,
+                                      color: Colors.grey[700],
+                                    ),
                                   ),
                                 ),
-                              ),
-                            );
-                          },
-                        ),
+
+                              // Display sub-sub-subcategories (or brand2) under this sub-subcategory
+                              ...productsByBrand2.entries.map((brand2Entry) {
+                                String subSubSubcategory = brand2Entry.key;
+                                List<product> products = brand2Entry.value;
+
+                                return Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    // Sub-sub-subcategory (or brand2) header
+                                    if (subSubSubcategory.isNotEmpty) // Add this only if subSubSubcategory is not empty
+                                      Padding(
+                                        padding: const EdgeInsets.only(left: 32.0, bottom: 2.0),
+                                        child: Text(
+                                          subSubSubcategory,
+                                          style: TextStyle(
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.w400,
+                                            color: Colors.grey[600],
+                                          ),
+                                        ),
+                                      ),
+
+                                    // Grid of products under this sub-sub-subcategory
+                                    GridView.builder(
+                                      padding: EdgeInsets.symmetric(
+                                        horizontal: screenWidth * 0.02,
+                                        vertical: screenHeight * 0.005,
+                                      ),
+                                      itemCount: products.length,
+                                      shrinkWrap: true,
+                                      physics: NeverScrollableScrollPhysics(), // Disable scrolling for the grid
+                                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                                        crossAxisCount: screenLayout ? 2 : 3,
+                                        mainAxisSpacing: fontNormalSize,
+                                        crossAxisSpacing: fontNormalSize,
+                                        childAspectRatio: 0.73,
+                                      ),
+                                      itemBuilder: (context, productIndex) {
+                                        final product = products[productIndex];
+
+                                        return InkWell(
+                                          onTap: () {
+                                            // Handle the tap event
+                                            PersistentNavBarNavigator.pushNewScreenWithRouteSettings(
+                                              context,
+                                              settings: RouteSettings(name: ProductItemScreen.routeName),
+                                              screen: ProductItemScreen(products: product),
+                                              withNavBar: true,
+                                              pageTransitionAnimation: PageTransitionAnimation.cupertino,
+                                            );
+                                          },
+                                          child: SingleChildScrollView(
+                                            physics: NeverScrollableScrollPhysics(),
+                                            child: Container(
+                                              decoration: BoxDecoration(
+                                                color: Colors.white,
+                                                borderRadius: BorderRadius.circular(16.0),
+                                                boxShadow: [
+                                                  BoxShadow(
+                                                    color: Colors.black.withOpacity(0.2),
+                                                    spreadRadius: 1,
+                                                    blurRadius: 6,
+                                                    offset: Offset(0, 3),
+                                                  ),
+                                                ],
+                                              ),
+                                              child: Column(
+                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                children: [
+                                                  Container(
+                                                    height: fontExtraSize * 9,
+                                                    padding: EdgeInsets.all(12.0),
+                                                    child: CachedNetworkImage(
+                                                      width: double.infinity,
+                                                      imageUrl: "${API.prodImg + product.image}",
+                                                      placeholder: (context, url) => Center(
+                                                        child: CircularProgressIndicator(),
+                                                      ),
+                                                      errorWidget: (context, url, error) => Center(
+                                                        child: Icon(Icons.error),
+                                                      ),
+                                                      fit: BoxFit.contain,
+                                                    ),
+                                                  ),
+                                                  Container(
+                                                    padding: const EdgeInsets.all(12.0),
+                                                    child: Column(
+                                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                                      children: [
+                                                        Container(
+                                                          height: fontNormalSize * 3,
+                                                          alignment: Alignment.centerLeft,
+                                                          child: Text(
+                                                            product.name,
+                                                            style: TextStyle(
+                                                              fontSize: fontNormalSize,
+                                                              fontWeight: FontWeight.bold,
+                                                              color: Colors.deepOrange,
+                                                            ),
+                                                            maxLines: 2,
+                                                            overflow: TextOverflow.ellipsis,
+                                                          ),
+                                                        ),
+                                                        SizedBox(height: 4.0),
+                                                        Row(
+                                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                          children: [
+                                                            Expanded(
+                                                              child: Text(
+                                                                product.subCat2_name1 != ''
+                                                                    ? product.subCat2_name1
+                                                                    : product.subCat1_name1 != ''
+                                                                    ? product.subCat1_name1
+                                                                    : product.subCat_name1 != ''
+                                                                    ? product.subCat_name1
+                                                                    : product.category_name1,
+                                                                style: TextStyle(
+                                                                  fontSize: fontSmallSize,
+                                                                  color: Colors.black,
+                                                                ),
+                                                                overflow: TextOverflow.ellipsis,
+                                                                maxLines: 1,
+                                                              ),
+                                                            ),
+                                                            Container(
+                                                              padding: EdgeInsets.symmetric(horizontal: 6.5, vertical: 2.0),
+                                                              decoration: BoxDecoration(
+                                                                color: Colors.orangeAccent.shade100.withOpacity(0.3),
+                                                                borderRadius: BorderRadius.circular(25.0),
+                                                              ),
+                                                              child: Text(
+                                                                "Available",
+                                                                style: TextStyle(
+                                                                  color: Colors.deepOrange.shade600,
+                                                                  fontWeight: FontWeight.bold,
+                                                                  fontSize: fontXSmallSize,
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          ],
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                        );
+                                      },
+                                    ),
+                                  ],
+                                );
+                              }).toList(),
+                            ],
+                          );
+                        }).toList(),
                       ],
                     );
                   },
                 ),
-              )
-
+              ),
             ],
           );
+
+
         },
       ),
     );

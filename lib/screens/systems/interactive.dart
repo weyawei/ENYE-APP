@@ -177,7 +177,7 @@ class _ProductZoomPageState extends State<ProductZoomPage> with TickerProviderSt
                 width: MediaQuery.of(context).size.width * 1,
                 height: MediaQuery.of(context).size.width * 0.7,
                 child: ModelViewer(
-                  src: 'assets/systems/ahu/actuator.glb',
+                  src: 'assets/systems/ahu/damper_actuator.glb',
                   ar: true,
                   autoRotate: true,
                   cameraControls: true,
