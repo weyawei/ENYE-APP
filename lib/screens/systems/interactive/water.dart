@@ -312,13 +312,13 @@ class _WaterSystemPageState extends State<WaterSystemPage> with TickerProviderSt
                     children: [
                       Image.asset(
                         'assets/systems/water/water_system.png',
-                        height: MediaQuery.of(context).size.height * 0.4, // Relative height
+                        height: MediaQuery.of(context).size.height * 0.52, // Relative height
                         fit: BoxFit.fill,
                       ),
                       // GestureDetector for Product 1
                       Positioned(
                         left: MediaQuery.of(context).size.width * 0.3,
-                        top: MediaQuery.of(context).size.height * 0.15, // Adjusted for relative positioning
+                        top: MediaQuery.of(context).size.height * 0.2, // Adjusted for relative positioning
                         width: MediaQuery.of(context).size.width * 0.5, // Relative size
                         height: MediaQuery.of(context).size.height * 0.03, // Relative size
                         child: GestureDetector(
@@ -367,7 +367,7 @@ class _WaterSystemPageState extends State<WaterSystemPage> with TickerProviderSt
                       ),
                       Positioned(
                         left: MediaQuery.of(context).size.width * 0.62,
-                        top: MediaQuery.of(context).size.height * 0.15, // Adjusted for relative positioning
+                        top: MediaQuery.of(context).size.height * 0.2, // Adjusted for relative positioning
                         child: Text(
                           'OMNI', // Replace with the actual product name or identifier
                           style: TextStyle(
@@ -380,7 +380,7 @@ class _WaterSystemPageState extends State<WaterSystemPage> with TickerProviderSt
                       // GestureDetector for Product 2
                       Positioned(
                         left: MediaQuery.of(context).size.width * 0.6,
-                        top: MediaQuery.of(context).size.height * 0.32, // Adjusted for relative positioning
+                        top: MediaQuery.of(context).size.height * 0.41, // Adjusted for relative positioning
                         width: MediaQuery.of(context).size.width * 0.05, // Relative size
                         height: MediaQuery.of(context).size.height * 0.03, // Relative size
                         child: GestureDetector(
@@ -429,7 +429,7 @@ class _WaterSystemPageState extends State<WaterSystemPage> with TickerProviderSt
                       ),
                       Positioned(
                         left: MediaQuery.of(context).size.width * 0.69,
-                        top: MediaQuery.of(context).size.height * 0.32, // Adjusted for relative positioning
+                        top: MediaQuery.of(context).size.height * 0.41, // Adjusted for relative positioning
                         child: Text(
                           'LEAK SENSOR', // Replace with the actual product name or identifier
                           style: TextStyle(
@@ -441,7 +441,7 @@ class _WaterSystemPageState extends State<WaterSystemPage> with TickerProviderSt
 
                       Positioned(
                         left: MediaQuery.of(context).size.width * 0.26,
-                        top: MediaQuery.of(context).size.height * 0.33, // Adjusted for relative positioning
+                        top: MediaQuery.of(context).size.height * 0.43, // Adjusted for relative positioning
                         width: MediaQuery.of(context).size.width * 0.05, // Relative size
                         height: MediaQuery.of(context).size.height * 0.03, // Relative size
                         child: GestureDetector(
@@ -490,7 +490,7 @@ class _WaterSystemPageState extends State<WaterSystemPage> with TickerProviderSt
                       ),
                       Positioned(
                         left: MediaQuery.of(context).size.width * 0.18,
-                        top: MediaQuery.of(context).size.height * 0.36, // Adjusted for relative positioning
+                        top: MediaQuery.of(context).size.height * 0.45, // Adjusted for relative positioning
                         child: Text(
                           'SENSOR TAPE', // Replace with the actual product name or identifier
                           style: TextStyle(

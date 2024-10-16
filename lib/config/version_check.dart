@@ -86,9 +86,9 @@ class VersionCheck {
                 const SizedBox(height: 15),
                 // Content Text
                 Text(
-                  'A new version of the app is available with improved features and performance. Please update to the latest version for the best experience.',
+                  'A new version of the app is available. Please update to the latest version for the best experience.',
                   style: TextStyle(
-                    fontSize: 16,
+                    fontSize: 13,
                     color: Colors.black54,
                   ),
                   textAlign: TextAlign.center,

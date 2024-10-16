@@ -373,7 +373,7 @@ class _MultiLevelFilterDemoState extends State<MultiLevelFilterDemo> {
           String selectedCategoryId = widget.selectedCategory.id;
 
           // Filter subcategories and brands based on the selected category
-          /*Set filteredSubcategories = snapshot.data!
+          Set filteredSubcategories = snapshot.data!
               .where((p) => p.category_id == selectedCategoryId)
               .map((p) => p.subCat_name1)
               .where((subcategory) => subcategory.isNotEmpty)
@@ -389,7 +389,7 @@ class _MultiLevelFilterDemoState extends State<MultiLevelFilterDemo> {
               .where((p) => p.category_id == selectedCategoryId && selectedBrands.contains(p.subCat1_name1))
               .map((p) => p.subCat2_name1)
               .where((brand) => brand.isNotEmpty)
-              .toSet();*/
+              .toSet();
 
           // Filter products based on selected categories, subcategories, and brands
           List<product> filteredProducts = snapshot.data!.where((product) {
@@ -427,7 +427,7 @@ class _MultiLevelFilterDemoState extends State<MultiLevelFilterDemo> {
             children: [
               // Display filtered products
               Container(
-                margin: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                margin: EdgeInsets.symmetric(horizontal: 16, vertical: 2),
                // padding: EdgeInsets.all(16),
 
                 child: Row(
@@ -441,13 +441,20 @@ class _MultiLevelFilterDemoState extends State<MultiLevelFilterDemo> {
                         color: Colors.black,
                       ),
                     ),
+                    if(filteredSubcategories.isNotEmpty)
                     ElevatedButton.icon(
                       onPressed: _showFilterModal,
-                      icon: Icon(Icons.filter_list, size: 18), // Smaller icon size
-                      label: Text("Filters"), // Add a label for better clarity
+                      icon: Icon(Icons.filter_list, size: 20), // Smaller icon size
+                      label: Text("Filters",
+                        style: TextStyle(
+                          fontSize: fontExtraSize,
+                          fontWeight: FontWeight.bold, // Make text bold
+                          color: Colors.white,
+                        ),
+                      ), // Add a label for better clarity
                       style: ElevatedButton.styleFrom(
-                        primary: Theme.of(context).primaryColor, // Use your app's primary color
-                        padding: EdgeInsets.symmetric(horizontal: 16), // Horizontal padding
+                        backgroundColor: Colors.deepOrange, // Use your app's primary color
+                        padding: EdgeInsets.symmetric(horizontal: 20), // Horizontal padding
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(12), // Match the container's border radius
                         ),
@@ -491,7 +498,7 @@ class _MultiLevelFilterDemoState extends State<MultiLevelFilterDemo> {
                         Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Text(
-                            displayName,
+                            filteredSubcategories.isNotEmpty ? displayName : widget.selectedCategory.name,
                             style: TextStyle(
                               fontSize: 18,
                               fontWeight: FontWeight.bold,

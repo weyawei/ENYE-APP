@@ -312,13 +312,13 @@ class _FuelPageState extends State<FuelPage> with TickerProviderStateMixin {
                     children: [
                       Image.asset(
                         'assets/systems/fuel/fuel_schematic.png',
-                        height: MediaQuery.of(context).size.height * 0.4, // Relative height
+                        height: MediaQuery.of(context).size.height * 0.52, // Relative height
                         fit: BoxFit.fill,
                       ),
                       // GestureDetector for Product 1
                       Positioned(
                         left: MediaQuery.of(context).size.width * 0.225,
-                        top: MediaQuery.of(context).size.height * 0.15, // Adjusted for relative positioning
+                        top: MediaQuery.of(context).size.height * 0.20, // Adjusted for relative positioning
                         width: MediaQuery.of(context).size.width * 0.5, // Relative size
                         height: MediaQuery.of(context).size.height * 0.03, // Relative size
                         child: GestureDetector(
@@ -367,7 +367,7 @@ class _FuelPageState extends State<FuelPage> with TickerProviderStateMixin {
                       ),
                       Positioned(
                         left: MediaQuery.of(context).size.width * 0.51,
-                        top: MediaQuery.of(context).size.height * 0.16, // Adjusted for relative positioning
+                        top: MediaQuery.of(context).size.height * 0.205, // Adjusted for relative positioning
                         child: Text(
                           'OMNI', // Replace with the actual product name or identifier
                           style: TextStyle(
@@ -380,7 +380,7 @@ class _FuelPageState extends State<FuelPage> with TickerProviderStateMixin {
                       // GestureDetector for Product 2
                       Positioned(
                         left: MediaQuery.of(context).size.width * 0.429,
-                        top: MediaQuery.of(context).size.height * 0.13, // Adjusted for relative positioning
+                        top: MediaQuery.of(context).size.height * 0.18, // Adjusted for relative positioning
                         width: MediaQuery.of(context).size.width * 0.05, // Relative size
                         height: MediaQuery.of(context).size.height * 0.03, // Relative size
                         child: GestureDetector(
@@ -428,8 +428,8 @@ class _FuelPageState extends State<FuelPage> with TickerProviderStateMixin {
                         ),
                       ),
                       Positioned(
-                        left: MediaQuery.of(context).size.width * 0.5,
-                        top: MediaQuery.of(context).size.height * 0.135, // Adjusted for relative positioning
+                        left: MediaQuery.of(context).size.width * 0.51,
+                        top: MediaQuery.of(context).size.height * 0.175, // Adjusted for relative positioning
                         child: Text(
                           'RELAY', // Replace with the actual product name or identifier
                           style: TextStyle(
@@ -441,7 +441,7 @@ class _FuelPageState extends State<FuelPage> with TickerProviderStateMixin {
 
                       Positioned(
                         left: MediaQuery.of(context).size.width * 0.075,
-                        top: MediaQuery.of(context).size.height * 0.28, // Adjusted for relative positioning
+                        top: MediaQuery.of(context).size.height * 0.36, // Adjusted for relative positioning
                         width: MediaQuery.of(context).size.width * 0.05, // Relative size
                         height: MediaQuery.of(context).size.height * 0.03, // Relative size
                         child: GestureDetector(
@@ -490,7 +490,7 @@ class _FuelPageState extends State<FuelPage> with TickerProviderStateMixin {
                       ),
                       Positioned(
                         left: MediaQuery.of(context).size.width * 0.12,
-                        top: MediaQuery.of(context).size.height * 0.30, // Adjusted for relative positioning
+                        top: MediaQuery.of(context).size.height * 0.38, // Adjusted for relative positioning
                         child: Text(
                           'FUEL SENSOR', // Replace with the actual product name or identifier
                           style: TextStyle(
@@ -527,7 +527,7 @@ class _FuelPageState extends State<FuelPage> with TickerProviderStateMixin {
                                 MediaQuery.of(context).size.width * 0.1,
                                 MediaQuery.of(context).size.height * 0.1,
                               ),
-                              Offset(MediaQuery.of(context).size.width * 0.01, MediaQuery.of(context).size.height * 0.1),
+                              Offset(MediaQuery.of(context).size.width * 0.01, MediaQuery.of(context).size.height * 0.23),
                               Offset(MediaQuery.of(context).size.width * -0.01, MediaQuery.of(context).size.height * 0.07),
                                   () => _showProduct1Details(context),
                             );
@@ -568,7 +568,7 @@ class _FuelPageState extends State<FuelPage> with TickerProviderStateMixin {
                                 MediaQuery.of(context).size.width * 0.1,
                                 MediaQuery.of(context).size.height * 0.1,
                               ),
-                              Offset(MediaQuery.of(context).size.width * 0.01, MediaQuery.of(context).size.height * 0.03),
+                              Offset(MediaQuery.of(context).size.width * 0.01, MediaQuery.of(context).size.height * 0.17),
                               Offset(MediaQuery.of(context).size.width * -0.01, MediaQuery.of(context).size.height * 0.07),
                                   () => _showProduct2Details(context),
                             );
@@ -605,11 +605,11 @@ class _FuelPageState extends State<FuelPage> with TickerProviderStateMixin {
                             _zoomToProduct(
                               Rect.fromLTWH(
                                 MediaQuery.of(context).size.width * 0.01,
-                                MediaQuery.of(context).size.height * 0.18,
+                                MediaQuery.of(context).size.height * 0.28,
                                 MediaQuery.of(context).size.width * 0.1,
                                 MediaQuery.of(context).size.height * 0.1,
                               ),
-                              Offset(MediaQuery.of(context).size.width * 0.15, MediaQuery.of(context).size.height * 0.15),
+                              Offset(MediaQuery.of(context).size.width * 0.15, MediaQuery.of(context).size.height * 0.01),
                               Offset(MediaQuery.of(context).size.width * -0.01, MediaQuery.of(context).size.height * 0.07),
                                   () => _showProduct3Details(context),
                             );

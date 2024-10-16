@@ -298,7 +298,7 @@ class _ChillerPageState extends State<ChillerPage> with TickerProviderStateMixin
         content: SingleChildScrollView(
           child: Column(
             children: [
-              SizedBox(
+             /* SizedBox(
                 width: MediaQuery.of(context).size.width * 1,
                 height: MediaQuery.of(context).size.width * 0.7,
                 child: ModelViewer(
@@ -307,13 +307,13 @@ class _ChillerPageState extends State<ChillerPage> with TickerProviderStateMixin
                   autoRotate: true,
                   cameraControls: true,
                 ),
-              ),
-            /*  Image.asset(
+              ),*/
+              Image.asset(
                 'assets/systems/chiller/wetdiff.png',
                 width: MediaQuery.of(context).size.width * 1,
                 height: MediaQuery.of(context).size.width * 0.5,
                 fit: BoxFit.contain,
-              ),*/
+              ),
               Text(
                 "Wet/Wet Differential Pressure Transmitter",
                 style: TextStyle(
@@ -707,7 +707,7 @@ class _ChillerPageState extends State<ChillerPage> with TickerProviderStateMixin
                     children: [
                       Image.asset(
                         'assets/systems/chiller/chiller.png',
-                        height: 400,
+                        height: MediaQuery.of(context).size.height * 0.52, // Relative height
                         fit: BoxFit.fill,
                       ),
                       // GestureDetector for Product 1

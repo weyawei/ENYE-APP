@@ -1934,7 +1934,7 @@ class _SmartVavPageState extends State<SmartVavPage> with TickerProviderStateMix
                               ),
                               Offset(MediaQuery.of(context).size.width * -0.15, MediaQuery.of(context).size.height * 0.28),
                               Offset(MediaQuery.of(context).size.width * -0.01, MediaQuery.of(context).size.height * 0.07),
-                                  () => _showProduct4Details(context),
+                                  () => _showProduct5Details(context),
                             );
                             /* _zoomToProduct(
                               Rect.fromLTWH(220, 105, 100, 100),

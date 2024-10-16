@@ -480,7 +480,7 @@ class _ProductItemScreenState extends State<ProductItemScreen> {
                           ),
                         ),
                         Text(
-                          "Specification",
+                          "Description",
                           style: TextStyle(
                               fontSize: fontXSize,
                               letterSpacing: 0.8,
@@ -618,7 +618,7 @@ class _ProductItemScreenState extends State<ProductItemScreen> {
                             ),
                           ),
                           Text(
-                            "PRODUCTS PDF FILES",
+                            "PRODUCT PDF",
                             style: TextStyle(
                                 fontSize: fontXSize,
                                 letterSpacing: 0.8,
