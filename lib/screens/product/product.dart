@@ -2,6 +2,8 @@
 class product {
   String id;
   String name;
+  String type;
+  String model;
   String prod_desc;
   String category_id;
   String subCategory_id;
@@ -27,6 +29,8 @@ class product {
   product({
     required this.id,
     required this.name,
+    required this.type,
+    required this.model,
     required this.prod_desc,
     required this.category_id,
     required this.subCategory_id,
@@ -55,6 +59,8 @@ class product {
     return product(
       id: json['product_id'] as String,
       name: json['prod_name'] as String,
+      type: json['type'] as String? ?? '',
+      model: json['model'] as String? ?? '',
       prod_desc: json['prod_desc'] as String,
       category_id: json['category_id'] as String,
       subCategory_id: json['subCategory_id'] as String,

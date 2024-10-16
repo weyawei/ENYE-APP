@@ -417,9 +417,18 @@ class _ProductItemScreenState extends State<ProductItemScreen> {
                         color: Color(0xFF2E3E5C)
                       ),
                     ),
-                    const SizedBox(
-                      height: 10,
+                    widget.products.type == ""
+                    ? SizedBox.shrink()
+                    : Text(
+                      widget.products.type,
+                      style: TextStyle(
+                          fontSize: fontExtraSize,
+                          letterSpacing: 0.8,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black54
+                      ),
                     ),
+
                     const SizedBox(
                       height: 15,
                     ),
@@ -479,24 +488,31 @@ class _ProductItemScreenState extends State<ProductItemScreen> {
                             height: 4,
                           ),
                         ),
-                        Text(
-                          "Description",
+
+                        widget.products.model == ""
+                        ? SizedBox.shrink()
+                        : Text(
+                          widget.products.model.toUpperCase(),
                           style: TextStyle(
-                              fontSize: fontXSize,
-                              letterSpacing: 0.8,
-                              fontWeight: FontWeight.bold,
-                              color: Color(0xFF2E3E5C)
+                            fontSize: fontXSize,
+                            letterSpacing: 0.8,
+                            fontWeight: FontWeight.w800,
+                            color: Color(0xFF2E3E5C)
                           ),
                           // style: Theme.of(context).textTheme.headline1,
                         ),
+
                         const SizedBox(
                           height: 10,
                         ),
                         Text(
                           widget.products.prod_desc,
-                          textAlign: TextAlign.justify,
-                          style: TextStyle(
-                            letterSpacing: 0.8
+                          style: GoogleFonts.poppins(
+                            textStyle: TextStyle(
+                              letterSpacing: 1.2,
+                              fontSize: fontNormalSize,
+                              color: Colors.black87,
+                            ),
                           ),
                         ),
                       ],
@@ -528,7 +544,7 @@ class _ProductItemScreenState extends State<ProductItemScreen> {
                             ),
                             detail.description.isNotEmpty
                             ? Padding(
-                              padding: const EdgeInsets.only(left: 15),
+                              padding: const EdgeInsets.only(left: 5),
                               child: RichText(
                                 softWrap: true,
                                 text: TextSpan(
@@ -536,8 +552,8 @@ class _ProductItemScreenState extends State<ProductItemScreen> {
                                     TextSpan(
                                       text: detail.isExpanded
                                           ? detail.description // Show full description if expanded
-                                          : detail.description.length > 100 // Check length before calling substring
-                                          ? detail.description.substring(0, 100) + '...' // Truncate if not expanded
+                                          : detail.description.length > 500 // Check length before calling substring
+                                          ? detail.description.substring(0, 500) + '...' // Truncate if not expanded
                                           : detail.description, // Show full description if less than 100 characters
                                       style: GoogleFonts.poppins(
                                         textStyle: TextStyle(
@@ -547,12 +563,12 @@ class _ProductItemScreenState extends State<ProductItemScreen> {
                                         ),
                                       ),
                                     ),
-                                    if (detail.description.length > 100) // Only show "See More/Less" if text exceeds 100 chars
+                                    if (detail.description.length > 500) // Only show "See More/Less" if text exceeds 100 chars
                                       TextSpan(
                                         text: detail.isExpanded ? " See Less" : " See More",
                                         style: TextStyle(
                                           letterSpacing: 1.2,
-                                          fontSize: fontExtraSize,
+                                          fontSize: fontNormalSize * 0.8,
                                           fontWeight: FontWeight.bold,
                                           color: Colors.blueAccent,
                                         ),
