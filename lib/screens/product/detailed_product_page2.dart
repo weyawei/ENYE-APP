@@ -505,16 +505,33 @@ class _ProductItemScreenState extends State<ProductItemScreen> {
                         const SizedBox(
                           height: 10,
                         ),
-                        Text(
-                          widget.products.prod_desc,
-                          style: GoogleFonts.poppins(
-                            textStyle: TextStyle(
-                              letterSpacing: 1.2,
-                              fontSize: fontNormalSize,
-                              color: Colors.black87,
-                            ),
+                        RichText(
+                          textAlign: TextAlign.justify,
+                          text: TextSpan(
+                            children: <TextSpan>[
+                              TextSpan(
+                                text: widget.products.prod_desc,
+                                style: GoogleFonts.poppins(
+                                  textStyle: TextStyle(
+                                    letterSpacing: 1.2,
+                                    fontSize: fontNormalSize,
+                                    color: Colors.black87,
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
                         ),
+                        // Text(
+                        //   widget.products.prod_desc,
+                        //   style: GoogleFonts.poppins(
+                        //     textStyle: TextStyle(
+                        //       letterSpacing: 1.2,
+                        //       fontSize: fontNormalSize,
+                        //       color: Colors.black87,
+                        //     ),
+                        //   ),
+                        // ),
                       ],
                     ),
 
