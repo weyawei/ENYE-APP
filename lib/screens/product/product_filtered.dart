@@ -351,6 +351,7 @@ class _MultiLevelFilterDemoState extends State<MultiLevelFilterDemo> {
     var fontSmallSize = ResponsiveTextUtils.getSmallFontSize(screenWidth);
     var fontNormalSize = ResponsiveTextUtils.getNormalFontSize(screenWidth);
     var fontExtraSize = ResponsiveTextUtils.getExtraFontSize(screenWidth);
+    var fontXFontSize = ResponsiveTextUtils.getXFontSize(screenWidth);
 
     return Scaffold(
      /* appBar: AppBar(
@@ -401,10 +402,19 @@ class _MultiLevelFilterDemoState extends State<MultiLevelFilterDemo> {
             return matchesCategory && matchesSubcategory && matchesBrand && matchesBrand2;
           }).toList();
 
-          // Sort the filtered products based on subcategory name
+          // Sort the filtered products based on subCategory_id first and then subsubCategory_id
           filteredProducts.sort((a, b) {
-            return a.subCategory_id.compareTo(b.subCategory_id); // Change this based on your requirement
+            // First, compare subCategory_id
+            int subCategoryComparison = a.subCategory_id.compareTo(b.subCategory_id);
+
+            // If subCategory_id is the same, sort by subsubCategory_id
+            if (subCategoryComparison != 0) {
+              return subCategoryComparison;
+            } else {
+              return a.subCat1_id.compareTo(b.subCat1_id); // Add this to sort by subsubCategory_id
+            }
           });
+
 
           /*String selectedCategoryId = widget.selectedCategory.id;
           final List<product> filteredProducts = snapshot.data!.where((product) {
@@ -449,6 +459,7 @@ class _MultiLevelFilterDemoState extends State<MultiLevelFilterDemo> {
           return Column(
             children: [
               // Filter header (same as before)
+              SizedBox(height: 5,),
               Container(
                 margin: EdgeInsets.symmetric(horizontal: 16, vertical: 2),
                 padding: EdgeInsets.symmetric(vertical: 2), // Vertical padding for better spacing
@@ -524,13 +535,25 @@ class _MultiLevelFilterDemoState extends State<MultiLevelFilterDemo> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         // Subcategory header
+                        if(subcategory.isNotEmpty)
                         Padding(
                           padding: const EdgeInsets.all(8.0),
-                          child: Text(
-                            subcategory,
-                            style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
+                          child: Center(
+                            child: Container(
+                              padding: EdgeInsets.symmetric(horizontal: 6.5, vertical: 2.0),
+                              decoration: BoxDecoration(
+                                color: Colors.orangeAccent.shade100.withOpacity(0.3),
+                                borderRadius: BorderRadius.circular(25.0),
+                              ),
+                              child: Text(
+                                subcategory,
+                                style: TextStyle(
+                                  fontSize: fontExtraSize,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.deepOrange
+                                ),
+                              //  textAlign: TextAlign.center,
+                              ),
                             ),
                           ),
                         ),
@@ -550,8 +573,8 @@ class _MultiLevelFilterDemoState extends State<MultiLevelFilterDemo> {
                                   child: Text(
                                     subSubcategory,
                                     style: TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w500,
+                                      fontSize: fontNormalSize,
+                                      fontWeight: FontWeight.bold,
                                       color: Colors.grey[700],
                                     ),
                                   ),
@@ -572,7 +595,7 @@ class _MultiLevelFilterDemoState extends State<MultiLevelFilterDemo> {
                                         child: Text(
                                           subSubSubcategory,
                                           style: TextStyle(
-                                            fontSize: 14,
+                                            fontSize: fontSmallSize,
                                             fontWeight: FontWeight.w400,
                                             color: Colors.grey[600],
                                           ),
@@ -592,7 +615,7 @@ class _MultiLevelFilterDemoState extends State<MultiLevelFilterDemo> {
                                         crossAxisCount: screenLayout ? 2 : 3,
                                         mainAxisSpacing: fontNormalSize,
                                         crossAxisSpacing: fontNormalSize,
-                                        childAspectRatio: 0.73,
+                                        childAspectRatio: screenLayout ? 0.75 : 0.84,
                                       ),
                                       itemBuilder: (context, productIndex) {
                                         final product = products[productIndex];
@@ -627,7 +650,7 @@ class _MultiLevelFilterDemoState extends State<MultiLevelFilterDemo> {
                                                 crossAxisAlignment: CrossAxisAlignment.start,
                                                 children: [
                                                   Container(
-                                                    height: fontExtraSize * 9,
+                                                    height: fontExtraSize * 8,
                                                     padding: EdgeInsets.all(12.0),
                                                     child: CachedNetworkImage(
                                                       width: double.infinity,
@@ -660,44 +683,42 @@ class _MultiLevelFilterDemoState extends State<MultiLevelFilterDemo> {
                                                             overflow: TextOverflow.ellipsis,
                                                           ),
                                                         ),
-                                                        SizedBox(height: 4.0),
-                                                        Row(
-                                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                          children: [
-                                                            Expanded(
-                                                              child: Text(
-                                                                product.subCat2_name1 != ''
-                                                                    ? product.subCat2_name1
-                                                                    : product.subCat1_name1 != ''
-                                                                    ? product.subCat1_name1
-                                                                    : product.subCat_name1 != ''
-                                                                    ? product.subCat_name1
-                                                                    : product.category_name1,
-                                                                style: TextStyle(
-                                                                  fontSize: fontSmallSize,
-                                                                  color: Colors.black,
-                                                                ),
-                                                                overflow: TextOverflow.ellipsis,
-                                                                maxLines: 1,
-                                                              ),
+
+                                                      //  SizedBox(height: 4.0),
+                                                      //  if(product.type.isNotEmpty)
+                                                       Text(
+                                                           product.type,
+                                                            style: TextStyle(
+                                                              color: Colors.black,
+                                                              fontWeight: FontWeight.bold,
+                                                              fontSize: fontXSmallSize,
                                                             ),
-                                                            Container(
-                                                              padding: EdgeInsets.symmetric(horizontal: 6.5, vertical: 2.0),
-                                                              decoration: BoxDecoration(
-                                                                color: Colors.orangeAccent.shade100.withOpacity(0.3),
-                                                                borderRadius: BorderRadius.circular(25.0),
-                                                              ),
-                                                              child: Text(
-                                                                "Available",
-                                                                style: TextStyle(
-                                                                  color: Colors.deepOrange.shade600,
-                                                                  fontWeight: FontWeight.bold,
-                                                                  fontSize: fontXSmallSize,
-                                                                ),
-                                                              ),
-                                                            ),
-                                                          ],
+                                                          ),
+                                                    Container(
+                                                      padding: EdgeInsets.symmetric(horizontal: 6.5, vertical: 2.0),
+                                                      decoration: BoxDecoration(
+                                                        color: Colors.orangeAccent.shade100.withOpacity(0.3),
+                                                        borderRadius: BorderRadius.circular(25.0),
+                                                      ),
+                                                      child:
+                                                      Text(
+                                                          product.subCat2_name1 != ''
+                                                              ? product.subCat2_name1
+                                                              : product.subCat1_name1 != ''
+                                                              ? product.subCat1_name1
+                                                              : product.subCat_name1 != ''
+                                                              ? product.subCat_name1
+                                                              : product.category_name1,
+                                                          style: TextStyle(
+                                                          //  fontStyle: FontStyle.italic,
+                                                            fontSize: fontXSmallSize,
+                                                            color: Colors.deepOrange.shade600,
+                                                            fontWeight: FontWeight.bold,
+                                                          ),
+                                                          overflow: TextOverflow.ellipsis,
+                                                          maxLines: 1,
                                                         ),
+                                                    ),
                                                       ],
                                                     ),
                                                   ),

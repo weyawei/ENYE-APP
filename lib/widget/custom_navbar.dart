@@ -305,7 +305,7 @@ class _CustomNavBarState extends State<CustomNavBar> {
       context,
       controller: navBarController,
       screens: _buildScreens(),
-      navBarHeight: kBottomNavigationBarHeight,
+      navBarHeight: /*kBottomNavigationBarHeight*/ screenHeight * 0.065,
       items: _navBarsItems(),
       confineInSafeArea: true,
       backgroundColor: Colors.white, // Default is Colors.white.

@@ -254,6 +254,7 @@ class _productsPageState extends State<productsPage> {
     bool screenLayout = ResponsiveTextUtils.getLayout(screenWidth);
     var fontXSmallSize = ResponsiveTextUtils.getXSmallFontSize(screenWidth);
     var fontSmallSize = ResponsiveTextUtils.getSmallFontSize(screenWidth);
+    var fontNormalSize = ResponsiveTextUtils.getNormalFontSize(screenWidth);
     var fontExtraSize = ResponsiveTextUtils.getExtraFontSize(screenWidth);
 
   //  _filteredprodCategory = _prodCategory.where((productCategory) => productCategory.id == widget.category.id).toList();
@@ -724,9 +725,9 @@ class _productsPageState extends State<productsPage> {
                                   category[index].name,
                                   style: TextStyle(
                                   /*  fontSize: MediaQuery.of(context).size.width * 0.048,*/
-                                    fontSize: fontXSmallSize ,
+                                    fontSize: screenLayout ? fontSmallSize : fontNormalSize,
                                     color: Colors.black,
-                                    fontWeight: FontWeight.bold,
+                                 //   fontWeight: FontWeight.bold,
                                   ),
                                   softWrap: true,
                                   maxLines: 2, // Adjust this to allow multiple lines

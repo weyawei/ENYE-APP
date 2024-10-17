@@ -236,7 +236,7 @@ class _ProductZoomPageState extends State<ProductZoomPage> with TickerProviderSt
           child: Column(
             children: [
               Image.asset(
-                'assets/systems/ahu/co2.png',
+                'assets/systems/ahu/c02.glb',
                 width: MediaQuery.of(context).size.width * 1,
                 height: MediaQuery.of(context).size.width * 0.5,
                 fit: BoxFit.contain,

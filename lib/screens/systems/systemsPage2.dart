@@ -181,7 +181,7 @@ class _systemsPage2State extends State<systemsPage2> {
                                         Center(child: CircularProgressIndicator()),
                                     errorWidget: (context, url, error) =>
                                         Center(child: Icon(Icons.error)),
-                                    fit: BoxFit.cover,
+                                    fit: BoxFit.fill,
                                   ),
                                 ),
                                 SizedBox(height: 20),
