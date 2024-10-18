@@ -221,7 +221,7 @@ class _detailedSysPageState extends State<detailedSysPage> {
           content: Text(
             "This feature may require you to login first.",
             style: TextStyle(
-              fontSize: fontNormalSize,
+              fontSize: fontNormalSize * 0.95,
               letterSpacing: 1.2,
             ),
           ),
@@ -242,7 +242,7 @@ class _detailedSysPageState extends State<detailedSysPage> {
                 "LOGIN",
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
-                  fontSize: fontNormalSize,
+                  fontSize: fontNormalSize * 0.95,
                   letterSpacing: 1.2,
                 ),
               ),
@@ -324,11 +324,11 @@ class _detailedSysPageState extends State<detailedSysPage> {
                       "System Description",
                       textAlign: TextAlign.center,
                       style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontFamily: 'Rowdies',
-                          fontSize: fontXXSize,
-                          color: Colors.deepOrange,
-                          letterSpacing: 1.2
+                        fontWeight: FontWeight.bold,
+                        fontFamily: 'Rowdies',
+                        fontSize: fontXXSize,
+                        color: Colors.deepOrange,
+                        letterSpacing: 1.2
                       ),
                     ),
                   ),
@@ -340,8 +340,17 @@ class _detailedSysPageState extends State<detailedSysPage> {
                   SizedBox(height: screenHeight * 0.035,),
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.1),
-                    child: Text(_systems[0].description.toString(), maxLines: null, textAlign: TextAlign.justify,
-                      style: TextStyle(height: 1.5, fontSize: fontNormalSize, fontStyle: FontStyle.italic, letterSpacing: 1.2),),
+                    child: Text(
+                      _systems[0].description.toString(),
+                      textAlign: TextAlign.start,
+                      style: TextStyle(
+                        height: 1.5,
+                        fontSize: fontNormalSize * 0.95,
+                        fontStyle: FontStyle.italic,
+                        letterSpacing: 0.5,
+                        wordSpacing: 0.3
+                      ),
+                    ),
                   ),
 
                   userSessionFuture == true && ClientInfo?.status == "Verified"
@@ -383,7 +392,7 @@ class _detailedSysPageState extends State<detailedSysPage> {
                         child: Text(
                           "See more details...",
                           style: TextStyle(
-                            fontSize: fontNormalSize,
+                            fontSize: fontNormalSize * 0.95,
                             fontWeight: FontWeight.bold,
                             color: Colors.blue,
                             fontStyle: FontStyle.italic,
@@ -403,13 +412,40 @@ class _detailedSysPageState extends State<detailedSysPage> {
                               children: [
                                 SizedBox(height: screenHeight * 0.075,),
                                 if (SystemsDetail.title != null && SystemsDetail.title!.isNotEmpty)
-                                  Text(SystemsDetail.title, style: TextStyle(fontWeight: FontWeight.bold, fontFamily: 'Rowdies', fontSize: fontXSize, color: Colors.deepOrange, letterSpacing: 1.2),),
+                                  Padding(
+                                    padding: EdgeInsets.symmetric(
+                                      horizontal: screenWidth * 0.08,
+                                    ),
+                                    child: Text(
+                                      SystemsDetail.title,
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontFamily: 'Rowdies',
+                                        fontSize: fontXSize,
+                                        color: Colors.deepOrange,
+                                        letterSpacing: 1.2
+                                      ),
+                                    ),
+                                  ),
 
                                 if (SystemsDetail.description != null && SystemsDetail.description!.isNotEmpty)
                                   Padding(
-                                    padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.1, vertical: screenHeight * 0.035,),
-                                    child: Text(SystemsDetail.description, maxLines: null, textAlign: TextAlign.justify,
-                                      style: TextStyle(height: 1.5, fontSize: fontNormalSize, fontStyle: FontStyle.italic, letterSpacing: 1.2),),
+                                    padding: EdgeInsets.symmetric(
+                                      horizontal: screenWidth * 0.1,
+                                      vertical: screenHeight * 0.035,
+                                    ),
+                                    child: Text(
+                                      SystemsDetail.description,
+                                      textAlign: TextAlign.start,
+                                      style: TextStyle(
+                                        height: 1.5,
+                                        fontSize: fontNormalSize * 0.95,
+                                        fontStyle: FontStyle.italic,
+                                        letterSpacing: 0.5,
+                                        wordSpacing: 0.3
+                                      ),
+                                    ),
                                   ),
 
 
@@ -467,9 +503,6 @@ class _detailedSysPageState extends State<detailedSysPage> {
                                           );
                                         }
                                       }
-
-
-
 
                                     },
                                     child: Padding(
@@ -559,7 +592,7 @@ class _detailedSysPageState extends State<detailedSysPage> {
                               title: Text(
                                 SystemsTechSpecs.title,
                                 style: TextStyle(
-                                  fontSize: fontNormalSize,
+                                  fontSize: fontNormalSize * 0.95,
                                   fontWeight: FontWeight.bold,
                                   letterSpacing: 1.2,
                                 ),
@@ -592,7 +625,7 @@ class _detailedSysPageState extends State<detailedSysPage> {
                                         padding: EdgeInsets.only(right: 70.0),
                                         child: Text(
                                           "${SystemsTechSpecs.features}",
-                                          style: TextStyle(height: 1.5, fontSize: fontNormalSize, color: Colors.white, fontWeight: FontWeight.w900, letterSpacing: 1.2),
+                                          style: TextStyle(height: 1.5, fontSize: fontNormalSize * 0.95, color: Colors.white, fontWeight: FontWeight.w900, letterSpacing: 1.2),
                                           textAlign: TextAlign.left,
                                         ),
                                       ),
