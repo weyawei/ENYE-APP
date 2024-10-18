@@ -5,6 +5,7 @@ class ClientPOItems {
   String item_name;
   String item_desc;
   String qty;
+  String status_remarks;
 
   ClientPOItems({
     required this.item_id,
@@ -13,6 +14,7 @@ class ClientPOItems {
     required this.item_name,
     required this.item_desc,
     required this.qty,
+    required this.status_remarks,
   });
 
   factory ClientPOItems.fromJson(Map<String, dynamic> json) {
@@ -23,6 +25,7 @@ class ClientPOItems {
       item_name: json['quotation_item_name'] as String? ?? '',
       item_desc: json['quotation_item_desc'] as String? ?? '',
       qty: json['quotation_item_quantity'] as String? ?? '',
+      status_remarks: json['quotation_item_status'] as String? ?? '',
     );
   }
 }

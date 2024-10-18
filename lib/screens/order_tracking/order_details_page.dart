@@ -1,4 +1,6 @@
 
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 
 import '../../widget/widgets.dart';
@@ -24,26 +26,26 @@ class _OrderDetailsPageState extends State<OrderDetailsPage> {
   bool _isLoadingPO = true;
   bool _isLoadingPODetails = true;
 
-  // List<String> sample_status = ["Ready to Ship", "Pending", "In Transit", "Delivered", "Ordered"];
-  // Random random = Random();
-  //
-  // Color getStatusColor(String status) {
-  //   switch (status) {
-  //     case "Ready to Ship":
-  //       return Colors.green;
-  //     case "Pending":
-  //       return Colors.deepOrange.shade600;
-  //     case "Ordered":
-  //       return Colors.blue;
-  //     case "In Transit":
-  //       return Colors.deepOrange.shade600;
-  //     case "Delivered":
-  //       return Colors.green;
-  //     default:
-  //       return Colors.black; // Default color for unknown statuses
-  //   }
-  // }
-  //
+  List<String> sample_status = ["Ready to Ship", "Pending", "In Transit", "Delivered", "Ordered"];
+  Random random = Random();
+
+  Color getStatusColor(String status) {
+    switch (status) {
+      case "Ready to Ship":
+        return Colors.green;
+      case "Pending":
+        return Colors.deepOrange.shade600;
+      case "Ordered":
+        return Colors.blue;
+      case "In Transit":
+        return Colors.deepOrange.shade600;
+      case "Delivered":
+        return Colors.green;
+      default:
+        return Colors.black; // Default color for unknown statuses
+    }
+  }
+
   // late List<QuotationPOItems> _items;
   // _getQuotationPoItems(String quotation_id){
   //   QuotationPOServices.getQuotationPOItems(quotation_id).then((items){
@@ -362,7 +364,7 @@ class _OrderDetailsPageState extends State<OrderDetailsPage> {
                   Table(
                     border: TableBorder.all(color: Colors.deepOrange.shade500),
                     columnWidths: <int, TableColumnWidth>{
-                      0: FixedColumnWidth(screenWidth * 0.125),
+                      0: FixedColumnWidth(screenWidth * 0.1),
                       1: FlexColumnWidth(),
                     },
                     defaultVerticalAlignment: TableCellVerticalAlignment.middle,
@@ -421,21 +423,49 @@ class _OrderDetailsPageState extends State<OrderDetailsPage> {
                               child: Column(
                                 children: [
                                   Text(
-                                      item.item_name.toUpperCase(),
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: fontSmallSize,
-                                          letterSpacing: 0.8
-                                      )
+                                    item.item_name.toUpperCase(),
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: fontSmallSize,
+                                        letterSpacing: 0.8
+                                    )
                                   ),
                                   Text(
-                                      item.item_desc,
-                                      style: TextStyle(
-                                          fontSize: fontXSmallSize,
+                                    item.item_desc,
+                                    style: TextStyle(
+                                      color: Colors.black54,
+                                      fontSize: fontXSmallSize,
+                                      letterSpacing: 0.8
+                                    )
+                                  ),
+
+                                  SizedBox(height: 6,),
+                                  Row(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        "Status : \t",
+                                        textAlign: TextAlign.left,
+                                        style: TextStyle(
+                                          color: Colors.green.shade700,
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: fontXSmallSize * 0.9,
                                           letterSpacing: 0.8
-                                      )
-                                  )
+                                        )
+                                      ),
+                                      Expanded(
+                                        child: Text(
+                                          item.status_remarks,
+                                          textAlign: TextAlign.left,
+                                          style: TextStyle(
+                                            fontStyle: FontStyle.italic,
+                                            fontSize: fontXSmallSize * 0.9,
+                                            letterSpacing: 0.8
+                                          )
+                                        ),
+                                      ),
+                                    ],
+                                  ),
                                 ],
                               ),
                             ),
