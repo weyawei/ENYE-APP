@@ -174,10 +174,16 @@ class _ProductItemScreenState extends State<ProductItemScreen> {
   }
 
   double? _progress;
+  bool _isLoadingPdf = false;
   Future openFile ({required String url, String? filename}) async {
     final file = await downloadFile(url, filename!);
 
-    if (file == null) return;
+    if (file == null) {
+      setState(() {
+        _isLoadingPdf = false;  // Stop loading if file download fails
+      });
+      return;
+    }
 
     print('Path: ${file.path}');
     OpenFile.open(file.path);
@@ -665,7 +671,7 @@ class _ProductItemScreenState extends State<ProductItemScreen> {
                           ),
                           ...widget.products.catalogs_pdf.split(',').map((pdf) {
                             return Padding(
-                              padding: const EdgeInsets.only(left: 20),
+                              padding: const EdgeInsets.symmetric(horizontal: 20),
                               child: GestureDetector(
                                 onTap: () {
                                   setState(() {
@@ -685,10 +691,17 @@ class _ProductItemScreenState extends State<ProductItemScreen> {
                                             Colors.white
                                         );
                                       } else {
+                                        setState(() {
+                                          _isLoadingPdf = true;  // Start PDF loading
+                                        });
                                         openFile(
                                           url: "${API.prodPdf + trimmedFilename}",
                                           filename: trimmedFilename,
-                                        );
+                                        ).whenComplete(() {
+                                          setState(() {
+                                            _isLoadingPdf = false;  // Stop PDF loading after file is opened
+                                          });
+                                        });
                                       }
                                     } else if (ClientInfo?.status == "Unverified") {
                                       showPersistentSnackBar(context, screenWidth, screenHeight, fontNormalSize, "Verification in progress! \nOur team is reviewing your account. Thank you for understanding!");
@@ -743,12 +756,33 @@ class _ProductItemScreenState extends State<ProductItemScreen> {
                                     ),
                                     SizedBox(width: 20,),
                                     Expanded(
-                                      child: Text( pdf,
-                                        style: TextStyle(
-                                          letterSpacing: 1.2,
-                                          fontStyle: FontStyle.italic
+                                      child: _isLoadingPdf
+                                      ? Row(
+                                          children: [
+                                            Container(
+                                              height: fontNormalSize,
+                                              width: fontNormalSize,
+                                              child: CircularProgressIndicator()
+                                            ),  // Show loading indicator
+                                            SizedBox(width: 10),
+                                            Text(
+                                              "Loading PDF...",
+                                              style: TextStyle(
+                                                fontSize: fontNormalSize,
+                                                fontStyle: FontStyle.italic,
+                                                color: Colors.grey,
+                                              ),
+                                            ),
+                                          ],
+                                        )
+                                      : Text(
+                                          pdf,
+                                          style: TextStyle(
+                                            fontSize: fontNormalSize,
+                                            letterSpacing: 1.2,
+                                            fontStyle: FontStyle.italic
+                                          ),
                                         ),
-                                      ),
                                     ),
                                   ],
                                 ),
