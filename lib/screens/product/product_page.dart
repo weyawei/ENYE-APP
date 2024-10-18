@@ -280,106 +280,12 @@ class _productsPageState extends State<productsPage> {
               children: [
                 Stack(
                   children: [
-
-
-
-                  /*  CarouselSlider(
-                      carouselController: _carouselController,
-                      options: CarouselOptions(
-                        autoPlay: false,
-                        aspectRatio: 1.45,
-                        viewportFraction: 1,
-                        enlargeCenterPage: true,
-                        enlargeStrategy: CenterPageEnlargeStrategy.height,
-                        onPageChanged: (index, reason) {
-                          setState(() {
-                            _currentIndex = index;
-                          });
-                        },
-                      ),
-                      items: activeBanners.map((bann) =>
-                          InkWell(
-                            onTap: () {
-                              *//* setState(() {
-                                  PersistentNavBarNavigator.pushNewScreenWithRouteSettings(
-                                    context,
-                                    settings: RouteSettings(name: listProductsPage.routeName),
-                                    screen: listProductsPage(prodSubCat: productCategory,),
-                                    withNavBar: true,
-                                    pageTransitionAnimation: PageTransitionAnimation.cupertino,
-                                  );
-                                });*//*
-                            },
-                            child: Container(
-                              color: Colors.white,
-                              child: Stack(
-                                children: <Widget>[
-                                  CachedNetworkImage(
-                                    imageUrl: "${API.prodCat + bann.banner_image}",
-                                    fit: BoxFit.fill,
-                                    placeholder: (context, url) => Center(
-                                      child: CircularProgressIndicator(),
-                                    ),
-                                    errorWidget: (context, url, error) => Container(
-                                      color: Colors.black,
-                                      child: Center(
-                                        child: Text(
-                                          "FAILED TO LOAD THE IMAGE",
-                                          style: TextStyle(
-                                              fontSize: fontSmallSize,
-                                              color: Colors.black54
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    width: screenWidth,
-                                    height: screenHeight * 0.5,
-                                  ),
-                                  Positioned(
-                                    bottom: 0.0,
-                                    left: 0.0,
-                                    right: 0.0,
-                                    child: Container(
-                                      decoration: BoxDecoration(
-                                        gradient: LinearGradient(
-                                          colors: [
-                                            Color.fromARGB(200, 0, 0, 0),
-                                            Color.fromARGB(0, 0, 0, 0),
-                                          ],
-                                          begin: Alignment.bottomCenter,
-                                          end: Alignment.topCenter,
-                                        ),
-                                      ),
-                                      *//* padding:
-                                          EdgeInsets.symmetric(vertical: 5.0, horizontal: 0.0),
-                                          child: Text(
-                                            productCategory.name,
-                                            style: TextStyle(
-                                              fontSize: MediaQuery.of(context).size.width * 0.025,
-                                              color: Colors.white,
-                                              fontWeight: FontWeight.bold,
-                                            ),
-                                          ),*//*
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          )
-                      ).toList(),
-                    ),*/
-
-
-
-
                     CarouselSlider(
                       carouselController: _carouselController,
                       options: CarouselOptions(
                         autoPlay: false,
                         aspectRatio: 1.35,
                         viewportFraction: 1,
-                      //  enlargeCenterPage: true,
-                     //   enlargeStrategy: CenterPageEnlargeStrategy.height,
                         onPageChanged: (index, reason) {
                           setState(() {
                             _currentIndex = index;
@@ -458,7 +364,7 @@ class _productsPageState extends State<productsPage> {
                             suffixIcon: IconButton(
                               icon: Icon(
                                 Icons.mic,
-                                size: fontSmallSize * 1.5, // Reduced icon size
+                                size: fontSmallSize * 1.75, // Reduced icon size
                                 color: Colors.black.withOpacity(0.6),
                               ),
                               onPressed: () {
@@ -500,8 +406,7 @@ class _productsPageState extends State<productsPage> {
                       ),
                     ),
                     Positioned(
-                      top: 0,
-                      bottom: 0,
+                      top: screenHeight * 0.15,
                       left: 10,
                       child: IconButton(
                         icon: Icon(Icons.arrow_back_ios_new, size: 40, color: Colors.deepOrange),
@@ -511,8 +416,7 @@ class _productsPageState extends State<productsPage> {
                       ),
                     ),
                     Positioned(
-                      top: 0,
-                      bottom: 0,
+                      top: screenHeight * 0.15,
                       right: 10,
                       child: IconButton(
                         icon: Icon(Icons.arrow_forward_ios, size: 40, color: Colors.deepOrange),
@@ -547,13 +451,29 @@ class _productsPageState extends State<productsPage> {
                                     : visibleProductCount,
                                 itemBuilder: (context, index) {
                                   final product = searchResults[index];
-                                  productCategory prodCategory = _prodCategory
-                                      .where((element) => element.id == searchResults[index].category_id)
-                                      .elementAt(0);
+
+                                  // Initialize a list to store type and subcategory (if they exist)
+                                  List<String> additionalInfo = [];
+                                  String productName = product.name;
+
+                                  // Check if product type exists and add it to the list
+                                  if (product.type != "" && product.type.isNotEmpty) {
+                                    additionalInfo.add(product.type);
+                                  }
+
+                                  // Check if product subcategory exists and add it to the list
+                                  if (product.subCat2_name1 != "" && product.subCat2_name1.isNotEmpty) {
+                                    additionalInfo.add(product.subCat2_name1);
+                                  }
+
+                                  if (additionalInfo.isNotEmpty) {
+                                    productName += '${additionalInfo.join(' - ')}';
+                                  }
 
                                   return Center(
                                     child: InkWell(
                                       onTap: () {
+                                        FocusScope.of(context).unfocus();
                                         PersistentNavBarNavigator.pushNewScreenWithRouteSettings(
                                           context,
                                           settings: RouteSettings(name: detailedProductPage.routeName),
@@ -564,11 +484,11 @@ class _productsPageState extends State<productsPage> {
                                       },
                                       child: ListTile(
                                         title: Text(
-                                          product.name,
+                                          productName,
                                           style: TextStyle(
                                             fontSize: fontSmallSize,
                                             fontWeight: FontWeight.bold,
-                                            letterSpacing: 1.2,
+                                            letterSpacing: 0.6,
                                           ),
                                         ),
                                       ),
@@ -664,6 +584,7 @@ class _productsPageState extends State<productsPage> {
                     if (index < category.length) {
                       return InkWell(
                         onTap: () {
+                          FocusScope.of(context).unfocus();
                           setState(() {
                            /* PersistentNavBarNavigator
                                 .pushNewScreenWithRouteSettings(
