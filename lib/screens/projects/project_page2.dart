@@ -268,21 +268,70 @@ class _ProjectPage2State extends State<ProjectPage2> {
                     _buildCategoryIcon('assets/icons/select-all.png', "All", "Active"),
                     /*SizedBox(width: 10),
                     _buildCategoryIcon('assets/icons/proj_condo.png', "BMS", "11"),*/
+
+                    _projects
+                      .where((project) => project.category == "1")
+                      .length == 0
+                    ? SizedBox.shrink()
+                    : Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 10),
+                        child: _buildCategoryIcon('assets/icons/proj_school.png', "Schools", "1"),
+                      ),
+
+                    _projects
+                      .where((project) => project.category == "5")
+                      .length == 0
+                    ? SizedBox.shrink()
+                    : Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 10),
+                        child: _buildCategoryIcon('assets/icons/proj_buildings.png', "Buildings", "5"),
+                      ),
+
+                    _projects
+                      .where((project) => project.category == "6")
+                      .length == 0
+                    ? SizedBox.shrink()
+                    : Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 10),
+                        child: _buildCategoryIcon('assets/icons/proj_hospital.png', "Hospitals", "6"),
+                      ),
+
+                    _projects
+                      .where((project) => project.category == "7")
+                      .length == 0
+                    ? SizedBox.shrink()
+                    : Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 10),
+                        child: _buildCategoryIcon('assets/icons/proj_condo.png', "Condominium", "7"),
+                      ),
+
+                    _projects
+                      .where((project) => project.category == "8")
+                      .length == 0
+                    ? SizedBox.shrink()
+                    : Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 10),
+                        child: _buildCategoryIcon('assets/icons/proj_resort.png', "Hotels", "8"),
+                      ),
+
+                    _projects
+                        .where((project) => project.category == "9")
+                        .length == 0
+                    ? SizedBox.shrink()
+                    : Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 10),
+                        child: _buildCategoryIcon('assets/icons/proj_airport.png', "Industries", "9"),
+                      ),
+
+                    _projects
+                      .where((project) => project.category == "10")
+                      .length == 0
+                    ? SizedBox.shrink()
+                    : Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 10),
+                      child: _buildCategoryIcon('assets/icons/proj_mall.png', "Malls", "10"),
+                    ),
                     SizedBox(width: 10),
-                    _buildCategoryIcon('assets/icons/proj_school.png', "Schools", "1"),
-                    SizedBox(width: 10),
-                    _buildCategoryIcon('assets/icons/proj_buildings.png', "Buildings", "5"),
-                    SizedBox(width: 10),
-                    _buildCategoryIcon('assets/icons/proj_hospital.png', "Hospitals", "6"),
-                    SizedBox(width: 10),
-                    _buildCategoryIcon('assets/icons/proj_condo.png', "Condominium", "7"),
-                    SizedBox(width: 10),
-                    _buildCategoryIcon('assets/icons/proj_resort.png', "Hotels", "8"),
-                    SizedBox(width: 10),
-                    _buildCategoryIcon('assets/icons/proj_airport.png', "Industries", "9"),
-                    SizedBox(width: 10),
-                    _buildCategoryIcon('assets/icons/proj_mall.png', "Malls", "10"),
-                    SizedBox(width: 20),
 
                     // Add more icons as needed
                   ],
@@ -654,10 +703,11 @@ class _ProjectPage2State extends State<ProjectPage2> {
                     ),
                   ],
                 ),
+
                 _projects
                     .where((project) => project.category == "1")
                     .length == 0
-                    ? SizedBox(
+                ? SizedBox(
                   height: screenHeight * 0.5,
                   child: Center(
                     child: Text(
