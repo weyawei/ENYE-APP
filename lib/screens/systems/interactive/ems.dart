@@ -134,7 +134,7 @@ class _EMSPageState extends State<EMSPage> with TickerProviderStateMixin {
                 ),
               ),
               Text(
-                "\n Features \n\n• 40, 20 or 14 Point (UI/O) models with the ability to use any point  as an input or output, allowing greater flexibility \n• UI/O update rates up to 500Hz (2ms) \n• Individual UI/O LEDs for status indication and fault diagnostics \n• Ethernet, RS-485 and USB communications \n• Battery backed Real Time Clock for memory 5 years. \n• Feature rich multi -platform Web-server \n• Polarity independent AC or DC Power Supply \n• User replaceable log data memory via MicroSD \n• Reporting of controller and programmable point self -diagnostics \n• Click and drag programming \n• Easily accessible USB ports offer a fast localised configuration interface and access to logged data.",
+                "\n Features \n\n• 40, 20 or 14 Point (UI/O) models with the ability to use any point  as an input or output, allowing greater flexibility. \n• UI/O update rates up to 500Hz (2ms). \n• Individual UI/O LEDs for status indication and fault diagnostics. \n• Ethernet, RS-485 and USB communications. \n• Battery backed Real Time Clock for memory 5 years. \n• Feature rich multi -platform Web-server. \n• Polarity independent AC or DC Power Supply. \n• User replaceable log data memory via MicroSD. \n• Reporting of controller and programmable point self -diagnostics. \n• Click and drag programming. \n• Easily accessible USB ports offer a fast localised configuration interface and access to logged data.",
                 style: TextStyle(
                   fontSize: MediaQuery.of(context).size.width * 0.036,
                   letterSpacing: 0.8,
@@ -269,7 +269,7 @@ class _EMSPageState extends State<EMSPage> with TickerProviderStateMixin {
                 ),
               ),
               Text(
-                "\n Features \n\n• Direct reading LCD e-register • Robust construction • Build-in 10 years battery lifespan • Gear-free with magnet -free sensing technology • Measuring range-R160/R200 • Wired/wireless communications • Highly sensitive to low flow • Tamper proof & Leak detect smart functions • AMR: Remote meter reading • DMA: Leakage detection • Outstanding measuring performance for cold clean water. • Best choice for commercial billing, submetering and smart building.",
+                "\n Features \n\n• Direct reading LCD e-register \n• Robust construction • Build-in 10 years battery lifespan. \n• Gear-free with magnet -free sensing technology. \n• Measuring range-R160/R200 • Wired/wireless communications. \n• Highly sensitive to low flow. \n• Tamper proof & Leak detect smart functions. \n• AMR: Remote meter reading. \n• DMA: Leakage detection. \n• Outstanding measuring performance for cold clean water. \n• Best choice for commercial billing, submetering and smart building.",
                 style: TextStyle(
                   fontSize: MediaQuery.of(context).size.width * 0.036,
                   letterSpacing: 0.8,
@@ -336,7 +336,7 @@ class _EMSPageState extends State<EMSPage> with TickerProviderStateMixin {
                 ),
               ),
               Text(
-                "\n Features \n\n• Lower maintenance costs with local parameter display and no moving parts • Seamless data transfer with serial communication output standard • Eliminate the need for multiple units with a flow and temperature monitor in one • Flow Direction : Unidirectional.",
+                "\n Features \n\n• Lower maintenance costs with local parameter display and no moving parts. \n• Seamless data transfer with serial communication output standard. \n• Eliminate the need for multiple units with a flow and temperature monitor in one. \n• Flow Direction : Unidirectional.",
                 style: TextStyle(
                   fontSize: MediaQuery.of(context).size.width * 0.036,
                   letterSpacing: 0.8,

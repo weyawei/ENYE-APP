@@ -50,7 +50,7 @@ class _MultiLevelFilterDemoState extends State<MultiLevelFilterDemo> {
     setState(() {});
   }
 
-  void _applyFilters() {
+ /* void _applyFilters() {
     setState(() {
       filteredProducts = allProducts.where((product) {
         final matchesSubcategory = selectedSubcategories.isEmpty || selectedSubcategories.contains(product.subCat_name1);
@@ -60,7 +60,27 @@ class _MultiLevelFilterDemoState extends State<MultiLevelFilterDemo> {
         return matchesSubcategory && matchesBrand && matchesBrand2;
       }).toList();
     });
+  }*/
+
+  void _applyFilters() {
+    setState(() {
+      filteredProducts = allProducts.where((product) {
+        final matchesSubcategory = selectedSubcategories.isEmpty || selectedSubcategories.contains(product.subCat_name1);
+
+        final matchesBrand = selectedBrands.isEmpty ||
+            (selectedSubcategories.contains(product.subCat_name1) && selectedBrands.contains(product.subCat1_name1)) ||
+            selectedSubcategories.contains(product.subCat_name1) && product.subCat1_name1.isEmpty; // Matches if no brand but subcategory is selected.
+
+        final matchesBrand2 = selectedBrands2.isEmpty ||
+            (selectedSubcategories.contains(product.subCat_name1) && selectedBrands2.contains(product.subCat2_name1)) ||
+            selectedSubcategories.contains(product.subCat_name1) && product.subCat2_name1.isEmpty; // Matches if no brand2 but subcategory is selected.
+
+        return matchesSubcategory && matchesBrand && matchesBrand2;
+      }).toList();
+    });
   }
+
+
 
   void _showFilterModal() {
     showModalBottomSheet(
@@ -316,7 +336,7 @@ class _MultiLevelFilterDemoState extends State<MultiLevelFilterDemo> {
                                   elevation: 5,
                                 ),
                                 child: Text(
-                                  "Apply Filters",
+                                  "Apply",
                                   style: TextStyle(
                                     fontSize: fontNormalSize,
                                     fontWeight: FontWeight.bold,
@@ -393,14 +413,31 @@ class _MultiLevelFilterDemoState extends State<MultiLevelFilterDemo> {
               .toSet();
 
           // Filter products based on selected categories, subcategories, and brands
-          List<product> filteredProducts = snapshot.data!.where((product) {
+         /* List<product> filteredProducts = snapshot.data!.where((product) {
             bool matchesCategory = selectedCategoryId.isEmpty || selectedCategoryId.contains(product.category_id);
             bool matchesSubcategory = selectedSubcategories.isEmpty || selectedSubcategories.contains(product.subCat_name1);
             bool matchesBrand = selectedBrands.isEmpty || selectedBrands.contains(product.subCat1_name1);
             bool matchesBrand2 = selectedBrands2.isEmpty || selectedBrands2.contains(product.subCat2_name1);
 
             return matchesCategory && matchesSubcategory && matchesBrand && matchesBrand2;
+          }).toList();*/
+
+          List<product> filteredProducts = snapshot.data!.where((product) {
+            final matchesCategory = selectedCategoryId.isEmpty || selectedCategoryId.contains(product.category_id);
+            final matchesSubcategory = selectedSubcategories.isEmpty || selectedSubcategories.contains(product.subCat_name1);
+
+            final matchesBrand = selectedBrands.isEmpty ||
+                (selectedSubcategories.contains(product.subCat_name1) && selectedBrands.contains(product.subCat1_name1)) ||
+                selectedSubcategories.contains(product.subCat_name1) && product.subCat1_name1.isEmpty; // Matches if no brand but subcategory is selected.
+
+            final matchesBrand2 = selectedBrands2.isEmpty ||
+                (selectedSubcategories.contains(product.subCat_name1) && selectedBrands2.contains(product.subCat2_name1)) ||
+                selectedSubcategories.contains(product.subCat_name1) && product.subCat2_name1.isEmpty; // Matches if no brand2 but subcategory is selected.
+
+            return matchesCategory && matchesSubcategory && matchesBrand && matchesBrand2;
           }).toList();
+
+
 
           // Sort the filtered products based on subCategory_id first and then subsubCategory_id
           filteredProducts.sort((a, b) {
@@ -462,62 +499,67 @@ class _MultiLevelFilterDemoState extends State<MultiLevelFilterDemo> {
               SizedBox(height: 5,),
               Container(
                 margin: EdgeInsets.symmetric(horizontal: 16, vertical: 2),
-                padding: EdgeInsets.symmetric(vertical: 2), // Vertical padding for better spacing
+                padding: EdgeInsets.symmetric(vertical: 2),
                 decoration: BoxDecoration(
                   color: Colors.white, // Background color for the container
-                  borderRadius: BorderRadius.circular(12), // Rounded corners
+                  borderRadius: BorderRadius.circular(12),
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.black.withOpacity(0.1), // Subtle shadow for depth
-                      blurRadius: 8.0,
-                      offset: Offset(0, 2), // Shadow position
+                      color: Colors.black.withOpacity(0.05), // Lighter shadow for a softer look
+                      blurRadius: 6.0,
+                      offset: Offset(0, 2), // Subtle shadow position
                     ),
                   ],
                 ),
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween, // Space out elements evenly
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    // Conditional button for filters
+                    // Conditional icon for filters with subtle design
                     if (filteredSubcategories.isNotEmpty)
-                      ElevatedButton.icon(
-                        onPressed: _showFilterModal,
-                        icon: Icon(Icons.filter_list, size: 20),
-                        label: Text(
-                          "Filters",
-                          style: TextStyle(
-                            fontSize: fontExtraSize,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white,
+                      GestureDetector(
+                        onTap: _showFilterModal,
+                        child: Container(
+                          padding: EdgeInsets.symmetric(horizontal: 12, vertical: 8), // Minimal padding for a subtle feel
+                          decoration: BoxDecoration(
+                            color: Colors.orangeAccent.withOpacity(0.1), // Soft background color
+                            borderRadius: BorderRadius.circular(8), // Smooth rounded corners
                           ),
-                        ),
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.deepOrange,
-                          padding: EdgeInsets.symmetric(horizontal: 16), // Adjust horizontal padding
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(8), // Slightly smaller radius for a modern look
+                          child: Row(
+                            children: [
+                              Icon(Icons.filter_list, size: 20, color: Colors.deepOrange), // Subtle filter icon
+                              SizedBox(width: 4), // Small space between icon and text
+                              Text(
+                                "Filters",
+                                style: TextStyle(
+                                  fontSize: fontExtraSize,
+                                  fontWeight: FontWeight.w600, // Medium font weight for elegance
+                                  color: Colors.deepOrange.shade700,
+                                ),
+                              ),
+                            ],
                           ),
                         ),
                       ),
 
                     // Category name
-                    Expanded( // Use Expanded to prevent overflow
-                      child: Container( // Wrap the Text widget in a Container for padding
+                    Expanded(
+                      child: Container(
                         child: Text(
                           widget.selectedCategory.name,
-                          textAlign: TextAlign.center, // Center the text
+                          textAlign: TextAlign.center,
                           style: TextStyle(
-                            fontSize: fontExtraSize, // Slightly larger font size for emphasis
+                            fontSize: fontExtraSize,
                             fontWeight: FontWeight.bold,
                             color: Colors.black,
                           ),
-                          softWrap: true, // Allow wrapping
-                          maxLines: 2, // Limit to 2 lines if needed
+                          softWrap: true,
+                          maxLines: 2,
                         ),
                       ),
                     ),
 
-                    // Placeholder to keep alignment consistent when the button is not shown
-                    SizedBox(width: filteredSubcategories.isNotEmpty ? 8 : 0), // Add space if button is visible
+                    // Placeholder to keep alignment consistent
+                    SizedBox(width: filteredSubcategories.isNotEmpty ? 8 : 0),
                   ],
                 ),
               ),
@@ -536,29 +578,44 @@ class _MultiLevelFilterDemoState extends State<MultiLevelFilterDemo> {
                       children: [
                         // Subcategory header
                         if(subcategory.isNotEmpty)
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Center(
-                            child: Container(
-                              padding: EdgeInsets.symmetric(horizontal: 6.5, vertical: 2.0),
-                              decoration: BoxDecoration(
-                                color: Colors.orangeAccent.shade100.withOpacity(0.3),
-                                borderRadius: BorderRadius.circular(25.0),
-                              ),
-                              child: Text(
-                                subcategory,
-                                style: TextStyle(
-                                  fontSize: fontExtraSize,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.deepOrange
-                                ),
-                              //  textAlign: TextAlign.center,
-                              ),
-                            ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 8.0), // Outer padding for layout spacing
+                      child: Container(
+                        width: double.infinity, // Make the container span the entire row
+                        padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0), // Internal padding for the row
+                        decoration: BoxDecoration(
+                          color: Colors.orangeAccent.shade100.withOpacity(0.2), // Subtle background color
+                          borderRadius: BorderRadius.circular(16.0), // Rounded corners for a modern feel
+                          border: Border.all(
+                            color: Colors.orangeAccent.shade200, // Soft border for a professional touch
+                            width: 1.0,
                           ),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black.withOpacity(0.05), // Soft shadow for depth
+                              blurRadius: 6,
+                              offset: const Offset(0, 2), // Shadow effect for slight elevation
+                            ),
+                          ],
                         ),
+                        child: Text(
+                          subcategory,
+                          textAlign: TextAlign.center, // Center text across the entire row
+                          style: TextStyle(
+                            fontSize: fontNormalSize, // Slightly larger text size for emphasis
+                            fontWeight: FontWeight.w600, // Medium weight for readability
+                            color: Colors.deepOrange.shade700, // Darker orange for contrast
+                            letterSpacing: 0.5, // Small letter spacing for modern design
+                          ),
+                          maxLines: 1, // Keep text in a single line
+                          overflow: TextOverflow.ellipsis, // Truncate text if too long
+                        ),
+                      ),
+                    ),
 
-                        // Display sub-subcategories (or brands) under this subcategory
+
+
+                    // Display sub-subcategories (or brands) under this subcategory
                         ...productsByBrand.entries.map((brandEntry) {
                           String subSubcategory = brandEntry.key;
                           Map<String, List<product>> productsByBrand2 = brandEntry.value;

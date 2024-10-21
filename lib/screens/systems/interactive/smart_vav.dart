@@ -126,7 +126,7 @@ class _SmartVavPageState extends State<SmartVavPage> with TickerProviderStateMix
                 fit: BoxFit.contain,
               ),*/
               Text(
-                "EC Smoke Extraction System Controller (EC-SES)",
+                "OMNI CONTROLLER",
                 style: TextStyle(
                   fontSize: MediaQuery.of(context).size.width * 0.035,
                   letterSpacing: 0.8,
@@ -135,7 +135,7 @@ class _SmartVavPageState extends State<SmartVavPage> with TickerProviderStateMix
                 ),
               ),
               Text(
-                "\n Features \n\n• 40, 20 or 14 Point (UI/O) models with the ability to use any point  as an input or output, allowing greater flexibility \n• UI/O update rates up to 500Hz (2ms) \n• Individual UI/O LEDs for status indication and fault diagnostics \n• Ethernet, RS-485 and USB communications \n• Battery backed Real Time Clock for memory 5 years. \n• Feature rich multi -platform Web-server \n• Polarity independent AC or DC Power Supply \n• User replaceable log data memory via MicroSD \n• Reporting of controller and programmable point self -diagnostics \n• Click and drag programming \n• Easily accessible USB ports offer a fast localised configuration interface and access to logged data.",
+                "\n Features \n\n• 40, 20 or 14 Point (UI/O) models with the ability to use any point  as an input or output, allowing greater flexibility. \n• UI/O update rates up to 500Hz (2ms). \n• Individual UI/O LEDs for status indication and fault diagnostics. \n• Ethernet, RS-485 and USB communications. \n• Battery backed Real Time Clock for memory 5 years. \n• Feature rich multi -platform Web-server. \n• Polarity independent AC or DC Power Supply. \n• User replaceable log data memory via MicroSD. \n• Reporting of controller and programmable point self -diagnostics. \n• Click and drag programming. \n• Easily accessible USB ports offer a fast localised configuration interface and access to logged data.",
                 style: TextStyle(
                   fontSize: MediaQuery.of(context).size.width * 0.036,
                   letterSpacing: 0.8,
@@ -196,7 +196,7 @@ class _SmartVavPageState extends State<SmartVavPage> with TickerProviderStateMix
               ),
               //   SizedBox(height: 10,),
               Text(
-                "\n Features \n\n• Built-in RTC and PLC functions with ladder programming, timers, counters, comparators and speed. \n• Input and Output phase loss detection \n• High cost competitive and high efficiency \n• Efficient cooling system \n• Dual-core design \n• Excellent pump control \n• Fire override mode \n• Ultra low motor noise \n• Auto Energy Saving",
+                "\n Features \n\n• Built-in RTC and PLC functions with ladder programming, timers, counters, comparators and speed. \n• Input and Output phase loss detection. \n• High cost competitive and high efficiency. \n• Efficient cooling system. \n• Dual-core design. \n• Excellent pump control \n• Fire override mode. \n• Ultra low motor noise. \n• Auto Energy Saving.",
                 style: TextStyle(
                     fontSize: MediaQuery.of(context).size.width * 0.036,
                     letterSpacing: 0.8,
@@ -258,7 +258,7 @@ class _SmartVavPageState extends State<SmartVavPage> with TickerProviderStateMix
               ),
               //   SizedBox(height: 10,),
               Text(
-                "\n Features \n\n• Adjustment knob changes switching pressure easily with a pressure gage reducing components for application \n• Low cost device makes it an excellent solution in BAS and HVAC applications requiring duct control and monitoring \n• Relay contact allows simple integration with DDC or building systems",
+                "\n Features \n\n• Adjustment knob changes switching pressure easily with a pressure gage reducing components for application. \n• Low cost device makes it an excellent solution in BAS and HVAC applications requiring duct control and monitoring. \n• Relay contact allows simple integration with DDC or building systems.",
                 style: TextStyle(
                     fontSize: MediaQuery.of(context).size.width * 0.036,
                     letterSpacing: 0.8,
@@ -319,7 +319,7 @@ class _SmartVavPageState extends State<SmartVavPage> with TickerProviderStateMix
               ),
               //   SizedBox(height: 10,),
               Text(
-                "\n Features \n\n• Measurement of flow and minimum differential pressure due to valve design with 3 P/T plugs \n• The presetting function has no impact on the stroke; Full stroke modulation at all times, regardless the preset flow \n• Regulation characteristic remains unchanged regardless of preset flow \n• The constant differential pressure across the modulating control component guarantees 100% authority \n• Automatic balancing eliminates overflows, regardless of fluctuating pressure conditions in the system \n• Minimal required differential pressure due to advanced design of the valve \n• Higher presetting precision due to stepless analogue scale \n• Rangeability > 100:1",
+                "\n Features \n\n• Measurement of flow and minimum differential pressure due to valve design with 3 P/T plugs. \n• The presetting function has no impact on the stroke; Full stroke modulation at all times, regardless the preset flow. \n• Regulation characteristic remains unchanged regardless of preset flow. \n• The constant differential pressure across the modulating control component guarantees 100% authority. \n• Automatic balancing eliminates overflows, regardless of fluctuating pressure conditions in the system. \n• Minimal required differential pressure due to advanced design of the valve. \n• Higher presetting precision due to stepless analogue scale. \n• Rangeability > 100:1.",
                 style: TextStyle(
                     fontSize: MediaQuery.of(context).size.width * 0.036,
                     letterSpacing: 0.8,
@@ -374,7 +374,7 @@ class _SmartVavPageState extends State<SmartVavPage> with TickerProviderStateMix
               ),
               //   SizedBox(height: 10,),
               Text(
-                "\n Features \n\n• BACnet MS/TP for Building Automation system • 128 Binary value (BV), 128 Analog value (AV) • Compact with Actuator +Controller +Communication+ Flow • Actuator with Pluggable terminal & RJ11 connection • Selectable direction of rotation of reversing actuator • Adjustable angle of rotation (Mechanical) • Selectable direction of rotation by switch • Selectable baud rate • Maintenance Free.",
+                "\n Features \n\n• BACnet MS/TP for Building Automation system. \n• 128 Binary value (BV), 128 Analog value (AV). \n• Compact with Actuator +Controller +Communication+ Flow. \n• Actuator with Pluggable terminal & RJ11 connection. \n• Selectable direction of rotation of reversing actuator. \n• Adjustable angle of rotation (Mechanical). \n• Selectable direction of rotation by switch. \n• Selectable baud rate • Maintenance Free.",
                 style: TextStyle(
                     fontSize: MediaQuery.of(context).size.width * 0.036,
                     letterSpacing: 0.8,
@@ -435,7 +435,7 @@ class _SmartVavPageState extends State<SmartVavPage> with TickerProviderStateMix
               ),
               //   SizedBox(height: 10,),
               Text(
-                "\n Features \n\n• Easy to mount external tab housing and flange options for duct applications \n• 1/4 turn housing cover with chain to prevent dropping \n• Multiple conduit knockouts for easy installation positioning \n• 8´ plenum rated cable option \n• Terminal connector eliminates need for wire nuts",
+                "\n Features \n\n• Easy to mount external tab housing and flange options for duct applications. \n• 1/4 turn housing cover with chain to prevent dropping. \n• Multiple conduit knockouts for easy installation positioning. \n• 8´ plenum rated cable option. \n• Terminal connector eliminates need for wire nuts.",
                 style: TextStyle(
                     fontSize: MediaQuery.of(context).size.width * 0.036,
                     letterSpacing: 0.8,
@@ -496,7 +496,7 @@ class _SmartVavPageState extends State<SmartVavPage> with TickerProviderStateMix
               ),
               //   SizedBox(height: 10,),
               Text(
-                "\n Features \n\n • Minimal preventative maintenance as sensing element is covered with an engineered protective coating \n• Easy field setup via the on board dip switches for range and units \n• Display (Optional): 5 digit LCD",
+                "\n Features \n\n • Minimal preventative maintenance as sensing element is covered with an engineered protective coating. \n• Easy field setup via the on board dip switches for range and units. \n• Display (Optional): 5 digit LCD.",
                 style: TextStyle(
                     fontSize: MediaQuery.of(context).size.width * 0.036,
                     letterSpacing: 0.8,
@@ -564,7 +564,7 @@ class _SmartVavPageState extends State<SmartVavPage> with TickerProviderStateMix
               ),
               //   SizedBox(height: 10,),
               Text(
-                "\n Features \n\n• 16 bit (MCU) with memory \n• Compact with Sensing + Controller + Communication + Display \n• LCD with back light, Clear and detailed display of the operating data \n• Built in Temperature(T), Humidity(H), Carbon Dioxide (CO2), IAQ sensor \n• High-precision for IAQ sensor \n• Compact, quickly installation with Pluggable terminal and RJ11 connection",
+                "\n Features \n\n• 16 bit (MCU) with memory. \n• Compact with Sensing + Controller + Communication + Display. \n• LCD with back light, Clear and detailed display of the operating data. \n• Built in Temperature(T), Humidity(H), Carbon Dioxide (CO2), IAQ sensor. \n• High-precision for IAQ sensor. \n• Compact, quickly installation with Pluggable terminal and RJ11 connection.",
                 style: TextStyle(
                     fontSize: MediaQuery.of(context).size.width * 0.036,
                     letterSpacing: 0.8,
@@ -633,7 +633,7 @@ class _SmartVavPageState extends State<SmartVavPage> with TickerProviderStateMix
               ),
               //   SizedBox(height: 10,),
               Text(
-                "\n Features \n\n· Simple calibration push button sets back zero and span, saving time installing and over the service life \n· Cost effective and compact device suitable for OEM applications where space, simplicity, and value are key \n· Ranges and accuracy selection cover a wide range of applications minimizing components and determining standardizing on design \n· with metal barbed fittings or compression fittings for use with metal tubing \n· Plenum rated units meeting UL Standard 2043",
+                "\n Features \n\n· Simple calibration push button sets back zero and span, saving time installing and over the service life. \n· Cost effective and compact device suitable for OEM applications where space, simplicity, and value are key. \n· Ranges and accuracy selection cover a wide range of applications minimizing components and determining standardizing on design. \n· with metal barbed fittings or compression fittings for use with metal tubing. \n· Plenum rated units meeting UL Standard 2043.",
                 style: TextStyle(
                     fontSize: MediaQuery.of(context).size.width * 0.036,
                     letterSpacing: 0.8,

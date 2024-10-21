@@ -136,7 +136,7 @@ class _ChillerPageState extends State<ChillerPage> with TickerProviderStateMixin
               ),
               //   SizedBox(height: 10,),
               Text(
-                "\n Features \n\n• 40, 20 or 14 Point (UI/O) models with the ability to use any point  as an input or output, allowing greater flexibility \n• UI/O update rates up to 500Hz (2ms) \n• Individual UI/O LEDs for status indication and fault diagnostics \n• Ethernet, RS-485 and USB communications \n• Battery backed Real Time Clock for memory 5 years. \n• Feature rich multi -platform Web-server \n• Polarity independent AC or DC Power Supply \n• User replaceable log data memory via MicroSD \n• Reporting of controller and programmable point self -diagnostics \n• Click and drag programming \n• Easily accessible USB ports offer a fast localised configuration interface and access to logged data.",
+                "\n Features \n\n• 40, 20 or 14 Point (UI/O) models with the ability to use any point  as an input or output, allowing greater flexibility. \n• UI/O update rates up to 500Hz (2ms). \n• Individual UI/O LEDs for status indication and fault diagnostics. \n• Ethernet, RS-485 and USB communications. \n• Battery backed Real Time Clock for memory 5 years. \n• Feature rich multi -platform Web-server. \n• Polarity independent AC or DC Power Supply. \n• User replaceable log data memory via MicroSD. \n• Reporting of controller and programmable point self -diagnostics. \n• Click and drag programming. \n• Easily accessible USB ports offer a fast localised configuration interface and access to logged data.",
                 style: TextStyle(
                   fontSize: MediaQuery.of(context).size.width * 0.036,
                   letterSpacing: 0.8,
@@ -197,7 +197,7 @@ class _ChillerPageState extends State<ChillerPage> with TickerProviderStateMixin
               ),
               //   SizedBox(height: 10,),
               Text(
-                "\n Features \n\n• Built-in RTC and PLC functions with ladder programming, timers, counters, comparators and speed. \n• Input and Output phase loss detection \n• High cost competitive and high efficiency \n• Efficient cooling system \n• Dual-core design \n• Excellent pump control \n• Fire override mode \n• Ultra low motor noise \n• Auto Energy Saving",
+                "\n Features \n\n• Built-in RTC and PLC functions with ladder programming, timers, counters, comparators and speed. \n• Input and Output phase loss detection. \n• High cost competitive and high efficiency. \n• Efficient cooling system. \n• Dual-core design \n• Excellent pump control. \n• Fire override mode. \n• Ultra low motor noise. \n• Auto Energy Saving.",
                 style: TextStyle(
                     fontSize: MediaQuery.of(context).size.width * 0.036,
                     letterSpacing: 0.8,
@@ -326,7 +326,7 @@ class _ChillerPageState extends State<ChillerPage> with TickerProviderStateMixin
               ),
               //   SizedBox(height: 10,),
               Text(
-                "\n Features \n\n• Powered by either DC or AC - take advantage of most readily available power source reducing installation costs \n• Optional LCD does not need a separate power supply - lowers installed cost \n• Selectable voltage range - provides flexible choice for changing design or inputs for process/HVAC controllers being used to monitor and control \n• Push button zero (versus trim pot) - more simple zeroing provides easy install and calibration reducing installation time and possibility of operator error \n• Optional LCD indicator provides local status to identify operational condition \n• Remote sensor option reduces installation labor and material",
+                "\n Features \n\n• Powered by either DC or AC - take advantage of most readily available power source reducing installation costs. \n• Optional LCD does not need a separate power supply - lowers installed cost. \n• Selectable voltage range - provides flexible choice for changing design or inputs for process/HVAC controllers being used to monitor and control. \n• Push button zero (versus trim pot) - more simple zeroing provides easy install and calibration reducing installation time and possibility of operator error. \n• Optional LCD indicator provides local status to identify operational condition. \n• Remote sensor option reduces installation labor and material.",
                 style: TextStyle(
                     fontSize: MediaQuery.of(context).size.width * 0.036,
                     letterSpacing: 0.8,

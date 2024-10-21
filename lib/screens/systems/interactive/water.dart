@@ -200,7 +200,7 @@ class _WaterSystemPageState extends State<WaterSystemPage> with TickerProviderSt
                 ),
               ),
               Text(
-                "\n Features \n\n• Sturdy and reliable aluminum enclosure • Hydrophobic tape does not absorb any liquid allowing for faster drying time and faster return to service after water leak • Multiple tapes can be connected together to extend the coverage area.",
+                "\n Features \n\n• Sturdy and reliable aluminum enclosure \n• Hydrophobic tape does not absorb any liquid allowing for faster drying time and faster return to service after water leak \n• Multiple tapes can be connected together to extend the coverage area.",
                 style: TextStyle(
                   fontSize: MediaQuery.of(context).size.width * 0.036,
                   letterSpacing: 0.8,
@@ -266,7 +266,7 @@ class _WaterSystemPageState extends State<WaterSystemPage> with TickerProviderSt
                 ),
               ),
               Text(
-                "\n Features \n\n• Designed to detect leaking diesel fuel in dry, indoor locations. • The sensor is positioned on a concrete floor or in shallow drip pan below day tanks, beneath flex coupling hoses and fuel filters, on pump pads and below valve manifolds. • Reaction time to diesel fuel is less than 10 seconds after contact. • Fuel sensor is resettable and the sensor element can be removed and replace in a matter of seconds. • Detection and alarm occurs when the puddle of leaking fuel reaches the base of the sensor. • Missing or damaged sensor element or damaged/ disconnected jumper wire generates an alarm condition. This is a fail safe design approach because the sensor cannot signal normal conditions while unable to detect a leak. • No moving parts • Sensor will typically reset once the fuel evaporates.",
+                "\n Features \n\n• Designed to detect leaking diesel fuel in dry, indoor locations. \n• The sensor is positioned on a concrete floor or in shallow drip pan below day tanks, beneath flex coupling hoses and fuel filters, on pump pads and below valve manifolds. \n• Reaction time to diesel fuel is less than 10 seconds after contact. \n• Fuel sensor is resettable and the sensor element can be removed and replace in a matter of seconds. \n• Detection and alarm occurs when the puddle of leaking fuel reaches the base of the sensor. \n• Missing or damaged sensor element or damaged/ disconnected jumper wire generates an alarm condition. This is a fail safe design approach because the sensor cannot signal normal conditions while unable to detect a leak. \n• No moving parts • Sensor will typically reset once the fuel evaporates.",
                 style: TextStyle(
                   fontSize: MediaQuery.of(context).size.width * 0.036,
                   letterSpacing: 0.8,
@@ -523,11 +523,11 @@ class _WaterSystemPageState extends State<WaterSystemPage> with TickerProviderSt
                             _zoomToProduct(
                               Rect.fromLTWH(
                                 MediaQuery.of(context).size.width * 0.4,
-                                MediaQuery.of(context).size.height * 0.08,
-                                MediaQuery.of(context).size.width * 0.1,
-                                MediaQuery.of(context).size.height * 0.1,
+                                MediaQuery.of(context).size.height * 0.095,
+                                MediaQuery.of(context).size.width * 0.06,
+                                MediaQuery.of(context).size.height * 0.04,
                               ),
-                              Offset(MediaQuery.of(context).size.width * -0.1, MediaQuery.of(context).size.height * 0.2),
+                              Offset(MediaQuery.of(context).size.width * -0.1, MediaQuery.of(context).size.height * 0.3),
                               Offset(MediaQuery.of(context).size.width * -0.01, MediaQuery.of(context).size.height * 0.07),
                                   () => _showProduct1Details(context),
                             );
@@ -563,12 +563,12 @@ class _WaterSystemPageState extends State<WaterSystemPage> with TickerProviderSt
                           onPressed: () {
                             _zoomToProduct(
                               Rect.fromLTWH(
-                                MediaQuery.of(context).size.width * 0.5,
-                                MediaQuery.of(context).size.height * 0.25,
-                                MediaQuery.of(context).size.width * 0.1,
-                                MediaQuery.of(context).size.height * 0.1,
+                                MediaQuery.of(context).size.width * 0.55,
+                                MediaQuery.of(context).size.height * 0.31,
+                                MediaQuery.of(context).size.width * 0.6,
+                                MediaQuery.of(context).size.height * 0.4,
                               ),
-                              Offset(MediaQuery.of(context).size.width * -0.35, MediaQuery.of(context).size.height * 0.01),
+                              Offset(MediaQuery.of(context).size.width * -0.45, MediaQuery.of(context).size.height * -0.05),
                               Offset(MediaQuery.of(context).size.width * -0.01, MediaQuery.of(context).size.height * 0.07),
                                   () => _showProduct2Details(context),
                             );
@@ -605,9 +605,9 @@ class _WaterSystemPageState extends State<WaterSystemPage> with TickerProviderSt
                             _zoomToProduct(
                               Rect.fromLTWH(
                                 MediaQuery.of(context).size.width * 0.1,
-                                MediaQuery.of(context).size.height * 0.27,
-                                MediaQuery.of(context).size.width * 0.1,
-                                MediaQuery.of(context).size.height * 0.1,
+                                MediaQuery.of(context).size.height * 0.32,
+                                MediaQuery.of(context).size.width * 0.06,
+                                MediaQuery.of(context).size.height * 0.04,
                               ),
                               Offset(MediaQuery.of(context).size.width * 0.15, MediaQuery.of(context).size.height * 0.03),
                               Offset(MediaQuery.of(context).size.width * -0.01, MediaQuery.of(context).size.height * 0.07),
