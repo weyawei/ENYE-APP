@@ -410,7 +410,7 @@ class _detailedSysPageState extends State<detailedSysPage> {
                         children: _sysDetails!.map((SystemsDetail) =>
                             Column(
                               children: [
-                                SizedBox(height: screenHeight * 0.075,),
+                                SizedBox(height: screenHeight * 0.045,),
                                 if (SystemsDetail.title != null && SystemsDetail.title!.isNotEmpty)
                                   Padding(
                                     padding: EdgeInsets.symmetric(
@@ -433,7 +433,7 @@ class _detailedSysPageState extends State<detailedSysPage> {
                                   Padding(
                                     padding: EdgeInsets.symmetric(
                                       horizontal: screenWidth * 0.1,
-                                      vertical: screenHeight * 0.035,
+                                      vertical: screenHeight * 0.03,
                                     ),
                                     child: Text(
                                       SystemsDetail.description,
