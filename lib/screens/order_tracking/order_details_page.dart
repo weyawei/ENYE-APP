@@ -361,7 +361,8 @@ class _OrderDetailsPageState extends State<OrderDetailsPage> {
                   ),
 
                   SizedBox(height: screenHeight * 0.02),
-                  Table(
+                  _items.isNotEmpty
+                  ? Table(
                     border: TableBorder.all(color: Colors.deepOrange.shade500),
                     columnWidths: <int, TableColumnWidth>{
                       0: FixedColumnWidth(screenWidth * 0.1),
@@ -440,7 +441,9 @@ class _OrderDetailsPageState extends State<OrderDetailsPage> {
                                   ),
 
                                   SizedBox(height: 6,),
-                                  Row(
+                                  item.status_remarks == ''
+                                  ? SizedBox.shrink()
+                                  : Row(
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
                                       Text(
@@ -473,6 +476,19 @@ class _OrderDetailsPageState extends State<OrderDetailsPage> {
                         );
                       }).toList(),
                     ],
+                  )
+                  : Center(
+                    child: Padding(
+                      padding: const EdgeInsets.all(20.0),
+                      child: Text(
+                        'No items found in this Purchase Order',
+                        style: TextStyle(
+                          fontSize: fontSmallSize,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black54,
+                        ),
+                      ),
+                    ),
                   ),
 
                   SizedBox(height: screenHeight * 0.02),
