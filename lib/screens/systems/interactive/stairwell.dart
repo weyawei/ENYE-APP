@@ -135,7 +135,7 @@ class _StairwellPageState extends State<StairwellPage> with TickerProviderStateM
                 ),
               ),
               Text(
-                "\n Features \n\n• 40, 20 or 14 Point (UI/O) models with the ability to use any point  as an input or output, allowing greater flexibility \n• UI/O update rates up to 500Hz (2ms) \n• Individual UI/O LEDs for status indication and fault diagnostics \n• Ethernet, RS-485 and USB communications \n• Battery backed Real Time Clock for memory 5 years. \n• Feature rich multi -platform Web-server \n• Polarity independent AC or DC Power Supply \n• User replaceable log data memory via MicroSD \n• Reporting of controller and programmable point self -diagnostics \n• Click and drag programming \n• Easily accessible USB ports offer a fast localised configuration interface and access to logged data.",
+                "\n Features \n\n• 40, 20 or 14 Point (UI/O) models with the ability to use any point  as an input or output, allowing greater flexibility. \n• UI/O update rates up to 500Hz (2ms). \n• Individual UI/O LEDs for status indication and fault diagnostics. \n• Ethernet, RS-485 and USB communications. \n• Battery backed Real Time Clock for memory 5 years. \n• Feature rich multi -platform Web-server. \n• Polarity independent AC or DC Power Supply. \n• User replaceable log data memory via MicroSD. \n• Reporting of controller and programmable point self -diagnostics. \n• Click and drag programming. \n• Easily accessible USB ports offer a fast localised configuration interface and access to logged data.",
                 style: TextStyle(
                   fontSize: MediaQuery.of(context).size.width * 0.036,
                   letterSpacing: 0.8,
@@ -196,7 +196,7 @@ class _StairwellPageState extends State<StairwellPage> with TickerProviderStateM
               ),
               //   SizedBox(height: 10,),
               Text(
-                "\n Features \n\n• Built-in RTC and PLC functions with ladder programming, timers, counters, comparators and speed. \n• Input and Output phase loss detection \n• High cost competitive and high efficiency \n• Efficient cooling system \n• Dual-core design \n• Excellent pump control \n• Fire override mode \n• Ultra low motor noise \n• Auto Energy Saving",
+                "\n Features \n\n• Built-in RTC and PLC functions with ladder programming, timers, counters, comparators and speed. \n• Input and Output phase loss detection. \n• High cost competitive and high efficiency. \n• Efficient cooling system. \n• Dual-core design. \n• Excellent pump control. \n• Fire override mode. \n• Ultra low motor noise. \n• Auto Energy Saving.",
                 style: TextStyle(
                     fontSize: MediaQuery.of(context).size.width * 0.036,
                     letterSpacing: 0.8,
@@ -325,7 +325,7 @@ class _StairwellPageState extends State<StairwellPage> with TickerProviderStateM
               ),
               //   SizedBox(height: 10,),
               Text(
-                "\n Features \n\n• Simple calibration push-button sets back zero and span, saving time installing and over the service life \n• Cost effective and compact device suitable for OEM applications where space, simplicity, and value are key \n• Ranges and accuracy selection cover a wide range of applications minimizing components and determining standardizing on design \n • Optional 1/8 NPT process connection to allow for use with metal barbed fittings or compression fittings for use with metal tubing \n• Plenum rated units meeting UL Standard 2043",
+                "\n Features \n\n• Simple calibration push-button sets back zero and span, saving time installing and over the service life. \n• Cost effective and compact device suitable for OEM applications where space, simplicity, and value are key. \n• Ranges and accuracy selection cover a wide range of applications minimizing components and determining standardizing on design. \n • Optional 1/8 NPT process connection to allow for use with metal barbed fittings or compression fittings for use with metal tubing. \n• Plenum rated units meeting UL Standard 2043.",
                 style: TextStyle(
                     fontSize: MediaQuery.of(context).size.width * 0.036,
                     letterSpacing: 0.8,

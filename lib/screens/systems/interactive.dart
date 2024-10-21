@@ -235,12 +235,22 @@ class _ProductZoomPageState extends State<ProductZoomPage> with TickerProviderSt
         content: SingleChildScrollView(
           child: Column(
             children: [
-              Image.asset(
-                'assets/systems/ahu/c02.glb',
+              SizedBox(
+                width: MediaQuery.of(context).size.width * 1,
+                height: MediaQuery.of(context).size.width * 0.7,
+                child: ModelViewer(
+                  src: 'assets/systems/ahu/c02.glb',
+                  ar: true,
+                  autoRotate: true,
+                  cameraControls: true,
+                ),
+              ),
+              /*Image.asset(
+                'assets/systems/ahu/co.jpg',
                 width: MediaQuery.of(context).size.width * 1,
                 height: MediaQuery.of(context).size.width * 0.5,
                 fit: BoxFit.contain,
-              ),
+              ),*/
               Text(
                 "DUCT CARBON DIOXIDE TRANSMITTER",
                 style: TextStyle(

@@ -134,7 +134,7 @@ class _FiremanControlPageState extends State<FiremanControlPage> with TickerProv
                 ),
               ),
               Text(
-                "\n Features \n\n• 40, 20 or 14 Point (UI/O) models with the ability to use any point  as an input or output, allowing greater flexibility \n• UI/O update rates up to 500Hz (2ms) \n• Individual UI/O LEDs for status indication and fault diagnostics \n• Ethernet, RS-485 and USB communications \n• Battery backed Real Time Clock for memory 5 years. \n• Feature rich multi -platform Web-server \n• Polarity independent AC or DC Power Supply \n• User replaceable log data memory via MicroSD \n• Reporting of controller and programmable point self -diagnostics \n• Click and drag programming \n• Easily accessible USB ports offer a fast localised configuration interface and access to logged data.",
+                "\n Features \n\n• 40, 20 or 14 Point (UI/O) models with the ability to use any point  as an input or output, allowing greater flexibility. \n• UI/O update rates up to 500Hz (2ms). \n• Individual UI/O LEDs for status indication and fault diagnostics. \n• Ethernet, RS-485 and USB communications. \n• Battery backed Real Time Clock for memory 5 years. \n• Feature rich multi -platform Web-server. \n• Polarity independent AC or DC Power Supply. \n• User replaceable log data memory via MicroSD. \n• Reporting of controller and programmable point self -diagnostics. \n• Click and drag programming. \n• Easily accessible USB ports offer a fast localised configuration interface and access to logged data.",
                 style: TextStyle(
                   fontSize: MediaQuery.of(context).size.width * 0.036,
                   letterSpacing: 0.8,

@@ -134,7 +134,7 @@ class _COPageState extends State<COPage> with TickerProviderStateMixin {
                 ),
               ),
               Text(
-                "\n Features \n\n• 40, 20 or 14 Point (UI/O) models with the ability to use any point  as an input or output, allowing greater flexibility \n• UI/O update rates up to 500Hz (2ms) \n• Individual UI/O LEDs for status indication and fault diagnostics \n• Ethernet, RS-485 and USB communications \n• Battery backed Real Time Clock for memory 5 years. \n• Feature rich multi -platform Web-server \n• Polarity independent AC or DC Power Supply \n• User replaceable log data memory via MicroSD \n• Reporting of controller and programmable point self -diagnostics \n• Click and drag programming \n• Easily accessible USB ports offer a fast localised configuration interface and access to logged data.",
+                "\n Features \n\n• 40, 20 or 14 Point (UI/O) models with the ability to use any point  as an input or output, allowing greater flexibility. \n• UI/O update rates up to 500Hz (2ms). \n• Individual UI/O LEDs for status indication and fault diagnostics. \n• Ethernet, RS-485 and USB communications. \n• Battery backed Real Time Clock for memory 5 years. \n• Feature rich multi -platform Web-server. \n• Polarity independent AC or DC Power Supply. \n• User replaceable log data memory via MicroSD. \n• Reporting of controller and programmable point self -diagnostics. \n• Click and drag programming. \n• Easily accessible USB ports offer a fast localised configuration interface and access to logged data.",
                 style: TextStyle(
                   fontSize: MediaQuery.of(context).size.width * 0.036,
                   letterSpacing: 0.8,
@@ -201,7 +201,7 @@ class _COPageState extends State<COPage> with TickerProviderStateMixin {
                 ),
               ),
               Text(
-                "\n Features \n\n• North American or European housing aesthetic options • Uniform look matches other Dwyer wall mount devices • Universal mounting plate meets various installation requirements.",
+                "\n Features \n\n• North American or European housing aesthetic options. \n• Uniform look matches other Dwyer wall mount devices. \n• Universal mounting plate meets various installation requirements.",
                 style: TextStyle(
                   fontSize: MediaQuery.of(context).size.width * 0.036,
                   letterSpacing: 0.8,
@@ -269,7 +269,7 @@ class _COPageState extends State<COPage> with TickerProviderStateMixin {
                 ),
               ),
               Text(
-                "\n Features \n\n• Easy field maintenance with industrial grade replaceable sensors • Reduced inventory of units with field selectable outputs • Simplified setup for non-LCD units using the set -up display tool.",
+                "\n Features \n\n• Easy field maintenance with industrial grade replaceable sensors. \n• Reduced inventory of units with field selectable outputs. \n• Simplified setup for non-LCD units using the set -up display tool.",
                 style: TextStyle(
                   fontSize: MediaQuery.of(context).size.width * 0.036,
                   letterSpacing: 0.8,
