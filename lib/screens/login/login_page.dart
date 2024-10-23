@@ -83,8 +83,8 @@ class _loginPageState extends State<loginPage> {
               login: 'SIGNIN',
               status: "Unverified"
           ));
-
-          TokenServices.updateToken(token.toString(), clientData["email"], 'SIGNIN', ApiPlatform.getPlatform()).then((result) {
+          Map<String, String?> deviceDetails = await checkSession().getDeviceDetails();
+          TokenServices.updateToken(token.toString(), clientData["email"], 'SIGNIN', ApiPlatform.getPlatform(), deviceDetails['model'].toString(), deviceDetails['id'].toString()).then((result) {
             if('success' == result){
               print("Updated token successfully");
             } else {
@@ -326,9 +326,10 @@ class _loginPageState extends State<loginPage> {
                         status: "Unverified"
                       ));
 
+                      Map<String, String?> deviceDetails = await checkSession().getDeviceDetails();
 
                       dynamic token = await SessionManager().get("token");
-                      TokenServices.updateToken(token.toString(), FirebaseAuth.instance.currentUser!.email.toString(), 'APPLE', ApiPlatform.getPlatform()).then((result) {
+                      TokenServices.updateToken(token.toString(), FirebaseAuth.instance.currentUser!.email.toString(), 'APPLE', ApiPlatform.getPlatform(), deviceDetails['model'].toString(), deviceDetails['id'].toString()).then((result) {
                         if('success' == result){
                           print("Updated token successfully");
                         } else {
@@ -363,8 +364,10 @@ class _loginPageState extends State<loginPage> {
                         status: "Unverified"
                       ));
 
+                      Map<String, String?> deviceDetails = await checkSession().getDeviceDetails();
+
                       dynamic token = await SessionManager().get("token");
-                      TokenServices.updateToken(token.toString(), FirebaseAuth.instance.currentUser!.email.toString(), 'GMAIL', ApiPlatform.getPlatform()).then((result) {
+                      TokenServices.updateToken(token.toString(), FirebaseAuth.instance.currentUser!.email.toString(), 'GMAIL', ApiPlatform.getPlatform(), deviceDetails['model'].toString(), deviceDetails['id'].toString()).then((result) {
                         if('success' == result){
                           print("Updated token successfully");
                         } else {

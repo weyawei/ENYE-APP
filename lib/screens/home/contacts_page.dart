@@ -140,19 +140,74 @@ class ContactsHome extends StatelessWidget {
                 ),
 
                 //Contact
+                Container(
+                  margin: EdgeInsets.only(top: 5.0, left: 20.0, right: 20.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      TextButton.icon(
+                        onPressed: (){
+                          final phoneNumber  = '+639176317175';
+                          final url = 'tel:$phoneNumber';
+
+                          _launchURL(url);
+                        },
+                        icon: Icon(Icons.call, size: (screenHeight + screenWidth) / 55,),
+                        label: Text('+63 917 631 7175',
+                          style: TextStyle(
+                            color: Colors.black54,
+                            fontSize: fontNormalSize,
+                            letterSpacing: 1.2,
+                            fontWeight: FontWeight.bold,
+                            overflow: TextOverflow.visible,),
+                        ),
+                      ),
+
+                      Text(
+                        '/',
+                        style: TextStyle(
+                          color: Colors.black54,
+                          fontSize: fontNormalSize,
+                          letterSpacing: 1.2,
+                          fontWeight: FontWeight.bold,
+                          overflow: TextOverflow.visible,),
+                      ),
+
+                      TextButton(
+                        onPressed: (){
+                          final phoneNumber  = '7616-5949';
+                          final url = 'tel:$phoneNumber';
+
+                          _launchURL(url);
+                    },
+                        child: Text(
+                          '7616-5949',
+                          style: TextStyle(
+                            color: Colors.black54,
+                            fontSize: fontNormalSize,
+                            letterSpacing: 1.2,
+                            fontWeight: FontWeight.bold,
+                            overflow: TextOverflow.visible,),
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+
+                //fax
                 Align(
                   alignment: Alignment.topLeft,
                   child: Container(
                     margin: EdgeInsets.only(top: 5.0, left: 20.0, right: 20.0),
                     child: TextButton.icon(
                       onPressed: (){
-                        final phoneNumber  = '+639176317175';
-                        final url = 'tel:$phoneNumber';
+                        final faxNumber = '8352-3250';
+                        final url = 'fax:$faxNumber';
 
                         _launchURL(url);
                       },
-                      icon: Icon(Icons.call, size: (screenHeight + screenWidth) / 55,),
-                      label: Text('+63 917 631 7175',
+                      icon: Icon(Icons.fax, size: (screenHeight + screenWidth) / 55,),
+                      label: Text('8352-3250',
                         style: TextStyle(
                           color: Colors.black54,
                           fontSize: fontNormalSize,

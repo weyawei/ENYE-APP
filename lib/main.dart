@@ -27,6 +27,15 @@ void main() async {
   //to update token in database always everytime app opened
   dynamic token = await SessionManager().get("token");
 
+  // Create an instance of CheckSession
+  checkSession sessionChecker = checkSession();
+
+  Map<String, String?> deviceDetails = await sessionChecker.getDeviceDetails();
+
+  // Log or use the device details as needed
+  print("Device Model: ${deviceDetails['model']}");
+  print("Device Brand: ${deviceDetails['id']}");
+
   _checkVerification(String email) async {
     var clientDataJson = await SessionManager().get("client_data");
     clientInfo clientData = clientInfo.fromJson(clientDataJson);
@@ -48,7 +57,7 @@ void main() async {
   checkSession().getUserSessionStatus().then((bool) {
     if (bool == true) {
       checkSession().getClientsData().then((value) {
-        TokenServices.updateToken(token.toString(), value.email, value.login, ApiPlatform.getPlatform()).then((result) {
+        TokenServices.updateToken(token.toString(), value.email, value.login, ApiPlatform.getPlatform(), deviceDetails['model'].toString(), deviceDetails['id'].toString()).then((result) {
           if('success' == result){
             print("Updated token successfully");
           } else {
@@ -58,7 +67,7 @@ void main() async {
         _checkVerification(value.email);
       });
     } else {
-      TokenServices.updateToken(token.toString(), "", "", ApiPlatform.getPlatform()).then((result) {
+      TokenServices.updateToken(token.toString(), "", "", ApiPlatform.getPlatform(), deviceDetails['model'].toString(), deviceDetails['id'].toString()).then((result) {
         if('success' == result){
           print("Updated token successfully");
         } else {
