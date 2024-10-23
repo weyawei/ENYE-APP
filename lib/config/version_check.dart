@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:device_info_plus/device_info_plus.dart';
 
 class VersionCheck {
   static Future<void> checkForUpdate(BuildContext context) async {
@@ -29,10 +28,6 @@ class VersionCheck {
         String currentVersion = await getCurrentVersion();
         print("Current App Version: $currentVersion");
 
-        // Get device info
-        String deviceInfo = await getDeviceInfo();
-        print("Device Info: $deviceInfo");
-
         // Compare the versions
         if (_isUpdateRequired(currentVersion, latestVersion)) {
           _showUpdateDialog(context);
@@ -52,39 +47,7 @@ class VersionCheck {
     return packageInfo.version;
   }
 
-  // Get device information
-  static Future<String> getDeviceInfo() async {
-    DeviceInfoPlugin deviceInfoPlugin = DeviceInfoPlugin();
-    String deviceDetails = "";
-
-    try {
-      if (Platform.isAndroid) {
-        final androidInfo = await deviceInfoPlugin.androidInfo;
-        deviceDetails =
-        'Device: ${androidInfo.device}, Model: ${androidInfo.model}, '
-            'Brand: ${androidInfo.brand}, Manufacturer: ${androidInfo.manufacturer}, '
-            'Version: ${androidInfo.version.release}, '
-            'SDK Int: ${androidInfo.version.sdkInt}, '
-            'Fingerprint: ${androidInfo.fingerprint}';
-      } else if (Platform.isIOS) {
-        final iosInfo = await deviceInfoPlugin.iosInfo;
-        deviceDetails =
-        'Device: ${iosInfo.name}, Model: ${iosInfo.model}, '
-            'Identifier For Vendor: ${iosInfo.identifierForVendor}, '
-            'System Name: ${iosInfo.systemName}, '
-            'System Version: ${iosInfo.systemVersion}, '
-            'Is Physical Device: ${iosInfo.isPhysicalDevice}';
-      } else {
-        deviceDetails = 'Unsupported platform';
-      }
-    } catch (e) {
-      deviceDetails = 'Failed to get device info: $e';
-    }
-
-    return deviceDetails;
-  }
-
-  // Compare two version strings (major.minor.patch)//
+  // Compare two version strings (major.minor.patch)
   static bool _isUpdateRequired(String currentVersion, String latestVersion) {
     return currentVersion != latestVersion;
   }
