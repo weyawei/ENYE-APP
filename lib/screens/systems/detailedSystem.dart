@@ -489,7 +489,7 @@ class _detailedSysPageState extends State<detailedSysPage> {
                                         List<String> images1 = SystemsDetail.image.split(',');
 
                                         // Assuming you want to pass the second image
-                                        String? secondImage = images1.length > 1 ? images1[1].trim() : null;
+                                        String? secondImage = images1.length > 0 ? images1[0].trim() : null;
 
                                         if (secondImage != null) {
                                           Navigator.push(
@@ -520,6 +520,7 @@ class _detailedSysPageState extends State<detailedSysPage> {
                                               width: screenWidth * 0.9,  // Adjust width if you want the images to fit side by side
                                               child: CachedNetworkImage(
                                                 imageUrl: "${API.sysDetailsImg  + image.trim()}",
+                                                fit: BoxFit.fill,
                                                 placeholder: (context, url) => Center(
                                                   child: CircularProgressIndicator(),
                                                 ),
@@ -598,8 +599,8 @@ class _detailedSysPageState extends State<detailedSysPage> {
                                 ),
                               ),
                               children: [
-                                SystemsTechSpecs.product_pdf == null || SystemsTechSpecs.product_pdf.isEmpty
-                                    ? Container(
+                                /*SystemsTechSpecs.product_pdf == null || SystemsTechSpecs.product_pdf.isEmpty
+                                    ?*/ Container(
                                   decoration: BoxDecoration(
                                     image: DecorationImage(image: NetworkImage("${API.sysTechImg + SystemsTechSpecs.image}", scale: fontNormalSize == 14.0 ? 2.5 : fontNormalSize == 18.0 ? 1.75 : 1.5,), alignment: Alignment.topRight),
                                   ),
@@ -621,18 +622,67 @@ class _detailedSysPageState extends State<detailedSysPage> {
                                           colors: [Colors.deepOrange.shade300, Colors.deepOrange.withOpacity(0.1)],
                                         ),
                                       ),
-                                      child: Container(
-                                        padding: EdgeInsets.only(right: 70.0),
-                                        child: Text(
-                                          "${SystemsTechSpecs.features}",
-                                          style: TextStyle(height: 1.5, fontSize: fontNormalSize * 0.95, color: Colors.white, fontWeight: FontWeight.w900, letterSpacing: 1.2),
-                                          textAlign: TextAlign.left,
-                                        ),
+                                      child: Column(
+                                        children: [
+                                          Container(
+                                            padding: EdgeInsets.only(right: 70.0),
+                                            child: Text(
+                                              "${SystemsTechSpecs.features}",
+                                              style: TextStyle(height: 1.5, fontSize: fontNormalSize, color: Colors.white),
+                                              textAlign: TextAlign.left,
+                                            ),
+                                          ),
+                                          Container(
+                                            child: Column(
+                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              children: <Widget>[
+                                                ...SystemsTechSpecs.product_pdf.map((product) {
+                                                  return TextButton(
+                                                    onPressed: () => openFile(
+                                                      url: "${API.prodPdf + product['catalogs_pdf']}",
+                                                      filename: "${product['catalogs_pdf']}",
+                                                    ),
+                                                    child: Row(
+                                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                                      mainAxisSize: MainAxisSize.min,  // Use min to prevent the Row from occupying more space than its children need.
+                                                      children: <Widget>[
+                                                        Icon(
+                                                          Icons.download_for_offline_rounded,
+                                                          color: Colors.greenAccent,
+                                                          size: (screenHeight + screenWidth) / 40,
+                                                        ),// Example icon
+                                                        SizedBox(width: 8),  // Space between icon and text
+                                                        Expanded(
+                                                          child: Text(
+                                                           "${product['prod_name']} ${product['type']}",
+                                                            style: TextStyle(
+                                                              height: 1.5,
+                                                              fontSize: fontSmallSize,
+                                                              fontFamily: 'Rowdies',
+                                                              color: Colors.white,
+                                                              fontWeight: FontWeight.w700,
+                                                              letterSpacing: 1.2,
+                                                            ),
+                                                            overflow: TextOverflow.ellipsis,  // Ensure the text truncates with an ellipsis
+                                                            maxLines: 1,
+                                                            textAlign: TextAlign.left,
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  );
+                                                }).toList(),
+                                                if (SystemsTechSpecs.product_pdf.length < 3)
+                                                  SizedBox(height: screenHeight * 0.015),
+                                              ],
+                                            ),
+                                          ),
+                                        ],
                                       ),
                                     ),
                                   ),
                                 )
-                                    : Container(
+                                  /*  : Container(
                                   decoration: BoxDecoration(
                                     image: DecorationImage(image: NetworkImage("${API.sysTechImg + SystemsTechSpecs.image}", scale: fontNormalSize == 14.0 ? 2.5 : fontNormalSize == 18.0 ? 1.75 : 1.5,), alignment: Alignment.topRight),
                                   ),
@@ -701,7 +751,7 @@ class _detailedSysPageState extends State<detailedSysPage> {
                                       ),
                                     ),
                                   ),
-                                ),
+                                ),*/
                               ],
                             )).toList(),
                           ),

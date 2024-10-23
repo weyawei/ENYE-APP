@@ -134,7 +134,7 @@ class _WaterSystemPageState extends State<WaterSystemPage> with TickerProviderSt
                 ),
               ),
               Text(
-                "\n Features \n\n• 40, 20 or 14 Point (UI/O) models with the ability to use any point  as an input or output, allowing greater flexibility \n• UI/O update rates up to 500Hz (2ms) \n• Individual UI/O LEDs for status indication and fault diagnostics \n• Ethernet, RS-485 and USB communications \n• Battery backed Real Time Clock for memory 5 years. \n• Feature rich multi -platform Web-server \n• Polarity independent AC or DC Power Supply \n• User replaceable log data memory via MicroSD \n• Reporting of controller and programmable point self -diagnostics \n• Click and drag programming \n• Easily accessible USB ports offer a fast localised configuration interface and access to logged data.",
+                "\n Features \n\n• 40, 20 or 14 Point (UI/O) models with the ability to use any point  as an input or output, allowing greater flexibility. \n• UI/O update rates up to 500Hz (2ms). \n• Individual UI/O LEDs for status indication and fault diagnostics. \n• Ethernet, RS-485 and USB communications. \n• Battery backed Real Time Clock for memory 5 years. \n• Feature rich multi -platform Web-server. \n• Polarity independent AC or DC Power Supply. \n• User replaceable log data memory via MicroSD. \n• Reporting of controller and programmable point self -diagnostics. \n• Click and drag programming. \n• Easily accessible USB ports offer a fast localised configuration interface and access to logged data.",
                 style: TextStyle(
                   fontSize: MediaQuery.of(context).size.width * 0.036,
                   letterSpacing: 0.8,
@@ -200,7 +200,7 @@ class _WaterSystemPageState extends State<WaterSystemPage> with TickerProviderSt
                 ),
               ),
               Text(
-                "\n Features \n\n• Sturdy and reliable aluminum enclosure \n• Hydrophobic tape does not absorb any liquid allowing for faster drying time and faster return to service after water leak \n• Multiple tapes can be connected together to extend the coverage area.",
+                "\n Features \n\n• Sturdy and reliable aluminum enclosure. \n• Hydrophobic tape does not absorb any liquid allowing for faster drying time and faster return to service after water leak. \n• Multiple tapes can be connected together to extend the coverage area.",
                 style: TextStyle(
                   fontSize: MediaQuery.of(context).size.width * 0.036,
                   letterSpacing: 0.8,
@@ -266,7 +266,7 @@ class _WaterSystemPageState extends State<WaterSystemPage> with TickerProviderSt
                 ),
               ),
               Text(
-                "\n Features \n\n• Designed to detect leaking diesel fuel in dry, indoor locations. \n• The sensor is positioned on a concrete floor or in shallow drip pan below day tanks, beneath flex coupling hoses and fuel filters, on pump pads and below valve manifolds. \n• Reaction time to diesel fuel is less than 10 seconds after contact. \n• Fuel sensor is resettable and the sensor element can be removed and replace in a matter of seconds. \n• Detection and alarm occurs when the puddle of leaking fuel reaches the base of the sensor. \n• Missing or damaged sensor element or damaged/ disconnected jumper wire generates an alarm condition. This is a fail safe design approach because the sensor cannot signal normal conditions while unable to detect a leak. \n• No moving parts • Sensor will typically reset once the fuel evaporates.",
+                "\n Features \n\n• Sturdy and reliable aluminum enclosure. \n• Hydrophobic tape does not absorb any liquid allowing for faster drying time and faster return to service after water leak. \n• Multiple tapes can be connected together to extend the coverage area.",
                 style: TextStyle(
                   fontSize: MediaQuery.of(context).size.width * 0.036,
                   letterSpacing: 0.8,
@@ -368,12 +368,26 @@ class _WaterSystemPageState extends State<WaterSystemPage> with TickerProviderSt
                       Positioned(
                         left: MediaQuery.of(context).size.width * 0.62,
                         top: MediaQuery.of(context).size.height * 0.2, // Adjusted for relative positioning
-                        child: Text(
-                          'OMNI', // Replace with the actual product name or identifier
-                          style: TextStyle(
-                            fontSize: MediaQuery.of(context).size.width * 0.03, // Adjust the font size accordingly
-                            color: Colors.black, // Adjust the color if needed
-                          ),
+                        child: Stack(
+                          children: [
+                            Text(
+                              'OMNI',
+                              style: TextStyle(
+                                fontSize: MediaQuery.of(context).size.width * 0.03, // Adjust the font size
+                                foreground: Paint()
+                                  ..style = PaintingStyle.stroke
+                                  ..strokeWidth = 1 // Outline thickness
+                                  ..color = Colors.deepOrange,  // Outline color
+                              ),
+                            ),
+                            Text(
+                              'OMNI', // Replace with the actual product name or identifier
+                              style: TextStyle(
+                                fontSize: MediaQuery.of(context).size.width * 0.03, // Adjust the font size accordingly
+                                color: Colors.black, // Adjust the color if needed
+                              ),
+                            ),
+                          ],
                         ),
                       ),
 
@@ -430,12 +444,26 @@ class _WaterSystemPageState extends State<WaterSystemPage> with TickerProviderSt
                       Positioned(
                         left: MediaQuery.of(context).size.width * 0.69,
                         top: MediaQuery.of(context).size.height * 0.41, // Adjusted for relative positioning
-                        child: Text(
-                          'LEAK SENSOR', // Replace with the actual product name or identifier
-                          style: TextStyle(
-                            fontSize: MediaQuery.of(context).size.width * 0.03, // Adjust the font size accordingly
-                            color: Colors.black, // Adjust the color if needed
-                          ),
+                        child: Stack(
+                          children: [
+                            Text(
+                              'LEAK SENSOR',
+                              style: TextStyle(
+                                fontSize: MediaQuery.of(context).size.width * 0.03, // Adjust the font size
+                                foreground: Paint()
+                                  ..style = PaintingStyle.stroke
+                                  ..strokeWidth = 1 // Outline thickness
+                                  ..color = Colors.deepOrange,  // Outline color
+                              ),
+                            ),
+                            Text(
+                              'LEAK SENSOR', // Replace with the actual product name or identifier
+                              style: TextStyle(
+                                fontSize: MediaQuery.of(context).size.width * 0.03, // Adjust the font size accordingly
+                                color: Colors.black, // Adjust the color if needed
+                              ),
+                            ),
+                          ],
                         ),
                       ),
 
@@ -491,12 +519,26 @@ class _WaterSystemPageState extends State<WaterSystemPage> with TickerProviderSt
                       Positioned(
                         left: MediaQuery.of(context).size.width * 0.18,
                         top: MediaQuery.of(context).size.height * 0.45, // Adjusted for relative positioning
-                        child: Text(
-                          'SENSOR TAPE', // Replace with the actual product name or identifier
-                          style: TextStyle(
-                            fontSize: MediaQuery.of(context).size.width * 0.03, // Adjust the font size accordingly
-                            color: Colors.black, // Adjust the color if needed
-                          ),
+                        child: Stack(
+                          children: [
+                            Text(
+                              'SENSOR TAPE',
+                              style: TextStyle(
+                                fontSize: MediaQuery.of(context).size.width * 0.03, // Adjust the font size
+                                foreground: Paint()
+                                  ..style = PaintingStyle.stroke
+                                  ..strokeWidth = 1 // Outline thickness
+                                  ..color = Colors.deepOrange,  // Outline color
+                              ),
+                            ),
+                            Text(
+                              'SENSOR TAPE', // Replace with the actual product name or identifier
+                              style: TextStyle(
+                                fontSize: MediaQuery.of(context).size.width * 0.03, // Adjust the font size accordingly
+                                color: Colors.black, // Adjust the color if needed
+                              ),
+                            ),
+                          ],
                         ),
                       ),
 

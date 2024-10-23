@@ -164,7 +164,7 @@ class _StairwellPageState extends State<StairwellPage> with TickerProviderStateM
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: Text(" Variable Frequency Drive (VFD)"),
+        title: Text("Variable Frequency Drive (VFD)"),
         content: SingleChildScrollView(
           child: Column(
             children: [
@@ -429,12 +429,26 @@ class _StairwellPageState extends State<StairwellPage> with TickerProviderStateM
                       Positioned(
                         left: MediaQuery.of(context).size.width * 0.32,
                         top: MediaQuery.of(context).size.height * 0.13, // Adjusted for relative positioning
-                        child: Text(
-                          'OMNI', // Replace with the actual product name or identifier
-                          style: TextStyle(
-                            fontSize: MediaQuery.of(context).size.width * 0.03, // Adjust the font size accordingly
-                            color: Colors.white, // Adjust the color if needed
-                          ),
+                        child: Stack(
+                          children: [
+                            Text(
+                              'OMNI',
+                              style: TextStyle(
+                                fontSize: MediaQuery.of(context).size.width * 0.03, // Adjust the font size
+                                foreground: Paint()
+                                  ..style = PaintingStyle.stroke
+                                  ..strokeWidth = 1 // Outline thickness
+                                  ..color = Colors.deepOrange,  // Outline color
+                              ),
+                            ),
+                            Text(
+                              'OMNI', // Replace with the actual product name or identifier
+                              style: TextStyle(
+                                fontSize: MediaQuery.of(context).size.width * 0.03, // Adjust the font size accordingly
+                                color: Colors.white, // Adjust the color if needed
+                              ),
+                            ),
+                          ],
                         ),
                       ),
 
@@ -491,12 +505,26 @@ class _StairwellPageState extends State<StairwellPage> with TickerProviderStateM
                       Positioned(
                         left: MediaQuery.of(context).size.width * 0.33,
                         top: MediaQuery.of(context).size.height * 0.17, // Adjusted for relative positioning
-                        child: Text(
-                          'VFD', // Replace with the actual product name or identifier
-                          style: TextStyle(
-                            fontSize: MediaQuery.of(context).size.width * 0.03, // Adjust the font size accordingly
-                            color: Colors.white, // Adjust the color if needed
-                          ),
+                        child: Stack(
+                          children: [
+                            Text(
+                              'VFD',
+                              style: TextStyle(
+                                fontSize: MediaQuery.of(context).size.width * 0.03, // Adjust the font size
+                                foreground: Paint()
+                                  ..style = PaintingStyle.stroke
+                                  ..strokeWidth = 1 // Outline thickness
+                                  ..color = Colors.deepOrange,  // Outline color
+                              ),
+                            ),
+                            Text(
+                              'VFD', // Replace with the actual product name or identifier
+                              style: TextStyle(
+                                fontSize: MediaQuery.of(context).size.width * 0.03, // Adjust the font size accordingly
+                                color: Colors.white, // Adjust the color if needed
+                              ),
+                            ),
+                          ],
                         ),
                       ),
 
@@ -552,12 +580,26 @@ class _StairwellPageState extends State<StairwellPage> with TickerProviderStateM
                       Positioned(
                         left: MediaQuery.of(context).size.width * 0.63,
                         top: MediaQuery.of(context).size.height * 0.12, // Adjusted for relative positioning
-                        child: Text(
-                          'Smoke Detector', // Replace with the actual product name or identifier
-                          style: TextStyle(
-                            fontSize: MediaQuery.of(context).size.width * 0.03, // Adjust the font size accordingly
-                            color: Colors.white, // Adjust the color if needed
-                          ),
+                        child: Stack(
+                          children: [
+                            Text(
+                              'Smoke Detector',
+                              style: TextStyle(
+                                fontSize: MediaQuery.of(context).size.width * 0.03, // Adjust the font size
+                                foreground: Paint()
+                                  ..style = PaintingStyle.stroke
+                                  ..strokeWidth = 1 // Outline thickness
+                                  ..color = Colors.deepOrange,  // Outline color
+                              ),
+                            ),
+                            Text(
+                              'Smoke Detector', // Replace with the actual product name or identifier
+                              style: TextStyle(
+                                fontSize: MediaQuery.of(context).size.width * 0.03, // Adjust the font size accordingly
+                                color: Colors.white, // Adjust the color if needed
+                              ),
+                            ),
+                          ],
                         ),
                       ),
 
@@ -613,12 +655,26 @@ class _StairwellPageState extends State<StairwellPage> with TickerProviderStateM
                       Positioned(
                         left: MediaQuery.of(context).size.width * 0.41,
                         top: MediaQuery.of(context).size.height * 0.3, // Adjusted for relative positioning
-                        child: Text(
-                          'Differential Pressure', // Replace with the actual product name or identifier
-                          style: TextStyle(
-                            fontSize: MediaQuery.of(context).size.width * 0.03, // Adjust the font size accordingly
-                            color: Colors.white, // Adjust the color if needed
-                          ),
+                        child: Stack(
+                          children: [
+                            Text(
+                              'Differential Pressure',
+                              style: TextStyle(
+                                fontSize: MediaQuery.of(context).size.width * 0.03, // Adjust the font size
+                                foreground: Paint()
+                                  ..style = PaintingStyle.stroke
+                                  ..strokeWidth = 1 // Outline thickness
+                                  ..color = Colors.deepOrange,  // Outline color
+                              ),
+                            ),
+                            Text(
+                              'Differential Pressure', // Replace with the actual product name or identifier
+                              style: TextStyle(
+                                fontSize: MediaQuery.of(context).size.width * 0.03, // Adjust the font size accordingly
+                                color: Colors.white, // Adjust the color if needed
+                              ),
+                            ),
+                          ],
                         ),
                       ),
 

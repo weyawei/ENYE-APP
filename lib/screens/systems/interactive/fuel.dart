@@ -368,12 +368,26 @@ class _FuelPageState extends State<FuelPage> with TickerProviderStateMixin {
                       Positioned(
                         left: MediaQuery.of(context).size.width * 0.51,
                         top: MediaQuery.of(context).size.height * 0.205, // Adjusted for relative positioning
-                        child: Text(
-                          'OMNI', // Replace with the actual product name or identifier
-                          style: TextStyle(
-                            fontSize: MediaQuery.of(context).size.width * 0.03, // Adjust the font size accordingly
-                            color: Colors.black, // Adjust the color if needed
-                          ),
+                        child: Stack(
+                          children: [
+                            Text(
+                              'OMNI',
+                              style: TextStyle(
+                                fontSize: MediaQuery.of(context).size.width * 0.03, // Adjust the font size
+                                foreground: Paint()
+                                  ..style = PaintingStyle.stroke
+                                  ..strokeWidth = 1 // Outline thickness
+                                  ..color = Colors.deepOrange,  // Outline color
+                              ),
+                            ),
+                            Text(
+                              'OMNI', // Replace with the actual product name or identifier
+                              style: TextStyle(
+                                fontSize: MediaQuery.of(context).size.width * 0.03, // Adjust the font size accordingly
+                                color: Colors.black, // Adjust the color if needed
+                              ),
+                            ),
+                          ],
                         ),
                       ),
 
@@ -430,12 +444,26 @@ class _FuelPageState extends State<FuelPage> with TickerProviderStateMixin {
                       Positioned(
                         left: MediaQuery.of(context).size.width * 0.51,
                         top: MediaQuery.of(context).size.height * 0.175, // Adjusted for relative positioning
-                        child: Text(
-                          'RELAY', // Replace with the actual product name or identifier
-                          style: TextStyle(
-                            fontSize: MediaQuery.of(context).size.width * 0.03, // Adjust the font size accordingly
-                            color: Colors.black, // Adjust the color if needed
-                          ),
+                        child: Stack(
+                          children: [
+                            Text(
+                              'RELAY',
+                              style: TextStyle(
+                                fontSize: MediaQuery.of(context).size.width * 0.03, // Adjust the font size
+                                foreground: Paint()
+                                  ..style = PaintingStyle.stroke
+                                  ..strokeWidth = 1 // Outline thickness
+                                  ..color = Colors.deepOrange,  // Outline color
+                              ),
+                            ),
+                            Text(
+                              'RELAY', // Replace with the actual product name or identifier
+                              style: TextStyle(
+                                fontSize: MediaQuery.of(context).size.width * 0.03, // Adjust the font size accordingly
+                                color: Colors.black, // Adjust the color if needed
+                              ),
+                            ),
+                          ],
                         ),
                       ),
 
@@ -491,12 +519,26 @@ class _FuelPageState extends State<FuelPage> with TickerProviderStateMixin {
                       Positioned(
                         left: MediaQuery.of(context).size.width * 0.12,
                         top: MediaQuery.of(context).size.height * 0.38, // Adjusted for relative positioning
-                        child: Text(
-                          'FUEL SENSOR', // Replace with the actual product name or identifier
-                          style: TextStyle(
-                            fontSize: MediaQuery.of(context).size.width * 0.03, // Adjust the font size accordingly
-                            color: Colors.black, // Adjust the color if needed
-                          ),
+                        child: Stack(
+                          children: [
+                            Text(
+                              'FUEL SENSOR',
+                              style: TextStyle(
+                                fontSize: MediaQuery.of(context).size.width * 0.03, // Adjust the font size
+                                foreground: Paint()
+                                  ..style = PaintingStyle.stroke
+                                  ..strokeWidth = 1 // Outline thickness
+                                  ..color = Colors.deepOrange,  // Outline color
+                              ),
+                            ),
+                            Text(
+                              'FUEL SENSOR', // Replace with the actual product name or identifier
+                              style: TextStyle(
+                                fontSize: MediaQuery.of(context).size.width * 0.03, // Adjust the font size accordingly
+                                color: Colors.black, // Adjust the color if needed
+                              ),
+                            ),
+                          ],
                         ),
                       ),
 

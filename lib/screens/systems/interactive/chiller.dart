@@ -294,7 +294,7 @@ class _ChillerPageState extends State<ChillerPage> with TickerProviderStateMixin
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: Text(" Wet/Wet Differential Pressure Transmitter"),
+        title: Text("Wet/Wet Differential Pressure Transmitter"),
         content: SingleChildScrollView(
           child: Column(
             children: [
