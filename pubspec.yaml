@@ -95,6 +95,7 @@ dependencies:
   syncfusion_flutter_datepicker: ^20.2.0
   timeline_tile:
   package_info_plus:
+  device_info_plus:
 
 #    this is for 3d purposes
   model_viewer_plus:

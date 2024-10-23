@@ -1,3 +1,4 @@
+import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter_session_manager/flutter_session_manager.dart';
 
 import '../screens/screens.dart';
@@ -23,4 +24,35 @@ class checkSession {
     return token.toString();
   }
 
+  // Method to get the device model; accept BuildContext as a parameter
+  Future<Map<String, String?>> getDeviceDetails() async {
+    DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
+    String? deviceModel;
+    String? deviceBrand;
+    String? deviceManufacturer;
+    String? deviceId;
+
+    try {
+      if (await deviceInfo.androidInfo != null) {
+        AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
+        deviceModel = "${androidInfo.model} (${androidInfo.brand})";
+        deviceId = androidInfo.id;
+      } else if (await deviceInfo.iosInfo != null) {
+        IosDeviceInfo iosInfo = await deviceInfo.iosInfo;
+        deviceModel = iosInfo.model;
+        deviceId = iosInfo.identifierForVendor;
+      } else {
+        deviceModel = "Unknown Device";
+        deviceId = "Unknown ID";
+      }
+    } catch (e) {
+      deviceModel = "Error retrieving device model";
+      deviceId = "Error retrieving device Id";
+    }
+
+    return {
+      "model": deviceModel,
+      "id": deviceId,
+    };
+  }
 }

@@ -55,9 +55,9 @@ class _MainAccPage2State extends State<MainAccPage2> {
 
     await SessionManager().remove("client_data");
     await FirebaseServices().signOut();
-
+    Map<String, String?> deviceDetails = await checkSession().getDeviceDetails();
     //clear the client_id in a token
-    TokenServices.updateToken(token.toString(), "", "", ApiPlatform.getPlatform()).then((result) {
+    TokenServices.updateToken(token.toString(), "", "", ApiPlatform.getPlatform(), deviceDetails['model'].toString(), deviceDetails['id'].toString()).then((result) {
       if('success' == result){
         print("Updated token successfully");
       } else {
