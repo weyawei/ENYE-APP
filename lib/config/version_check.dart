@@ -84,7 +84,7 @@ class VersionCheck {
     return deviceDetails;
   }
 
-  // Compare two version strings (major.minor.patch)
+  // Compare two version strings (major.minor.patch)//
   static bool _isUpdateRequired(String currentVersion, String latestVersion) {
     return currentVersion != latestVersion;
   }
