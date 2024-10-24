@@ -403,7 +403,7 @@ class _SmartVavPageState extends State<SmartVavPage> with TickerProviderStateMix
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: Text(" Temperature Sensor"),
+        title: Text("Temperature Sensor"),
         content: SingleChildScrollView(
           child: Column(
             children: [
@@ -739,12 +739,26 @@ class _SmartVavPageState extends State<SmartVavPage> with TickerProviderStateMix
                       Positioned(
                         left: MediaQuery.of(context).size.width * 0.37,
                         top: MediaQuery.of(context).size.height * 0.32, // Adjusted for relative positioning
-                        child: Text(
-                          'OMNI', // Replace with the actual product name or identifier
-                          style: TextStyle(
-                            fontSize: MediaQuery.of(context).size.width * 0.02, // Adjust the font size accordingly
-                            color: Colors.white, // Adjust the color if needed
-                          ),
+                        child: Stack(
+                          children: [
+                            Text(
+                              'OMNI',
+                              style: TextStyle(
+                                fontSize: MediaQuery.of(context).size.width * 0.02, // Adjust the font size
+                                foreground: Paint()
+                                  ..style = PaintingStyle.stroke
+                                  ..strokeWidth = 1 // Outline thickness
+                                  ..color = Colors.deepOrange,  // Outline color
+                              ),
+                            ),
+                            Text(
+                              'OMNI', // Replace with the actual product name or identifier
+                              style: TextStyle(
+                                fontSize: MediaQuery.of(context).size.width * 0.02, // Adjust the font size accordingly
+                                color: Colors.white, // Adjust the color if needed
+                              ),
+                            ),
+                          ],
                         ),
                       ),
 
@@ -801,12 +815,26 @@ class _SmartVavPageState extends State<SmartVavPage> with TickerProviderStateMix
                       Positioned(
                         left: MediaQuery.of(context).size.width * 0.29,
                         top: MediaQuery.of(context).size.height * 0.34, // Adjusted for relative positioning
-                        child: Text(
-                          'VFD', // Replace with the actual product name or identifier
-                          style: TextStyle(
-                            fontSize: MediaQuery.of(context).size.width * 0.02, // Adjust the font size accordingly
-                            color: Colors.white, // Adjust the color if needed
-                          ),
+                        child: Stack(
+                          children: [
+                            Text(
+                              'VFD',
+                              style: TextStyle(
+                                fontSize: MediaQuery.of(context).size.width * 0.02, // Adjust the font size
+                                foreground: Paint()
+                                  ..style = PaintingStyle.stroke
+                                  ..strokeWidth = 1 // Outline thickness
+                                  ..color = Colors.deepOrange,  // Outline color
+                              ),
+                            ),
+                            Text(
+                              'VFD', // Replace with the actual product name or identifier
+                              style: TextStyle(
+                                fontSize: MediaQuery.of(context).size.width * 0.02, // Adjust the font size accordingly
+                                color: Colors.white, // Adjust the color if needed
+                              ),
+                            ),
+                          ],
                         ),
                       ),
 
@@ -862,12 +890,26 @@ class _SmartVavPageState extends State<SmartVavPage> with TickerProviderStateMix
                       Positioned(
                         left: MediaQuery.of(context).size.width * 0.25,
                         top: MediaQuery.of(context).size.height * 0.45, // Adjusted for relative positioning
-                        child: Text(
-                          'Airflow Switch', // Replace with the actual product name or identifier
-                          style: TextStyle(
-                            fontSize: MediaQuery.of(context).size.width * 0.02, // Adjust the font size accordingly
-                            color: Colors.white, // Adjust the color if needed
-                          ),
+                        child: Stack(
+                          children: [
+                            Text(
+                              'Airflow Switch',
+                              style: TextStyle(
+                                fontSize: MediaQuery.of(context).size.width * 0.02, // Adjust the font size
+                                foreground: Paint()
+                                  ..style = PaintingStyle.stroke
+                                  ..strokeWidth = 1 // Outline thickness
+                                  ..color = Colors.deepOrange,  // Outline color
+                              ),
+                            ),
+                            Text(
+                              'Airflow Switch', // Replace with the actual product name or identifier
+                              style: TextStyle(
+                                fontSize: MediaQuery.of(context).size.width * 0.02, // Adjust the font size accordingly
+                                color: Colors.white, // Adjust the color if needed
+                              ),
+                            ),
+                          ],
                         ),
                       ),
 
@@ -923,12 +965,26 @@ class _SmartVavPageState extends State<SmartVavPage> with TickerProviderStateMix
                       Positioned(
                         left: MediaQuery.of(context).size.width * 0.22,
                         top: MediaQuery.of(context).size.height * 0.50, // Adjusted for relative positioning
-                        child: Text(
-                          'PIBCV', // Replace with the actual product name or identifier
-                          style: TextStyle(
-                            fontSize: MediaQuery.of(context).size.width * 0.02, // Adjust the font size accordingly
-                            color: Colors.white, // Adjust the color if needed
-                          ),
+                        child: Stack(
+                          children: [
+                            Text(
+                              'PIBCV',
+                              style: TextStyle(
+                                fontSize: MediaQuery.of(context).size.width * 0.02, // Adjust the font size
+                                foreground: Paint()
+                                  ..style = PaintingStyle.stroke
+                                  ..strokeWidth = 1 // Outline thickness
+                                  ..color = Colors.deepOrange,  // Outline color
+                              ),
+                            ),
+                            Text(
+                              'PIBCV', // Replace with the actual product name or identifier
+                              style: TextStyle(
+                                fontSize: MediaQuery.of(context).size.width * 0.02, // Adjust the font size accordingly
+                                color: Colors.white, // Adjust the color if needed
+                              ),
+                            ),
+                          ],
                         ),
                       ),
 
@@ -984,12 +1040,26 @@ class _SmartVavPageState extends State<SmartVavPage> with TickerProviderStateMix
                       Positioned(
                         left: MediaQuery.of(context).size.width * 0.42,
                         top: MediaQuery.of(context).size.height * 0.37, // Adjusted for relative positioning
-                        child: Text(
-                          'Temperature Sensor', // Replace with the actual product name or identifier
-                          style: TextStyle(
-                            fontSize: MediaQuery.of(context).size.width * 0.02, // Adjust the font size accordingly
-                            color: Colors.white, // Adjust the color if needed
-                          ),
+                        child: Stack(
+                          children: [
+                            Text(
+                              'Temperature Sensor',
+                              style: TextStyle(
+                                fontSize: MediaQuery.of(context).size.width * 0.02, // Adjust the font size
+                                foreground: Paint()
+                                  ..style = PaintingStyle.stroke
+                                  ..strokeWidth = 1 // Outline thickness
+                                  ..color = Colors.deepOrange,  // Outline color
+                              ),
+                            ),
+                            Text(
+                              'Temperature Sensor', // Replace with the actual product name or identifier
+                              style: TextStyle(
+                                fontSize: MediaQuery.of(context).size.width * 0.02, // Adjust the font size accordingly
+                                color: Colors.white, // Adjust the color if needed
+                              ),
+                            ),
+                          ],
                         ),
                       ),
 
@@ -1045,12 +1115,26 @@ class _SmartVavPageState extends State<SmartVavPage> with TickerProviderStateMix
                       Positioned(
                         left: MediaQuery.of(context).size.width * 0.25,
                         top: MediaQuery.of(context).size.height * 0.37, // Adjusted for relative positioning
-                        child: Text(
-                          'Airflow Switch', // Replace with the actual product name or identifier
-                          style: TextStyle(
-                            fontSize: MediaQuery.of(context).size.width * 0.02, // Adjust the font size accordingly
-                            color: Colors.white, // Adjust the color if needed
-                          ),
+                        child: Stack(
+                          children: [
+                            Text(
+                              'Airflow Switch',
+                              style: TextStyle(
+                                fontSize: MediaQuery.of(context).size.width * 0.02, // Adjust the font size
+                                foreground: Paint()
+                                  ..style = PaintingStyle.stroke
+                                  ..strokeWidth = 1 // Outline thickness
+                                  ..color = Colors.deepOrange,  // Outline color
+                              ),
+                            ),
+                            Text(
+                              'Airflow Switch', // Replace with the actual product name or identifier
+                              style: TextStyle(
+                                fontSize: MediaQuery.of(context).size.width * 0.02, // Adjust the font size accordingly
+                                color: Colors.white, // Adjust the color if needed
+                              ),
+                            ),
+                          ],
                         ),
                       ),
 
@@ -1106,12 +1190,26 @@ class _SmartVavPageState extends State<SmartVavPage> with TickerProviderStateMix
                       Positioned(
                         left: MediaQuery.of(context).size.width * 0.29,
                         top: MediaQuery.of(context).size.height * 0.40, // Adjusted for relative positioning
-                        child: Text(
-                          'Air Velocity', // Replace with the actual product name or identifier
-                          style: TextStyle(
-                            fontSize: MediaQuery.of(context).size.width * 0.02, // Adjust the font size accordingly
-                            color: Colors.white, // Adjust the color if needed
-                          ),
+                        child: Stack(
+                          children: [
+                            Text(
+                              'Air Velocity',
+                              style: TextStyle(
+                                fontSize: MediaQuery.of(context).size.width * 0.02, // Adjust the font size
+                                foreground: Paint()
+                                  ..style = PaintingStyle.stroke
+                                  ..strokeWidth = 1 // Outline thickness
+                                  ..color = Colors.deepOrange,  // Outline color
+                              ),
+                            ),
+                            Text(
+                              'Air Velocity', // Replace with the actual product name or identifier
+                              style: TextStyle(
+                                fontSize: MediaQuery.of(context).size.width * 0.02, // Adjust the font size accordingly
+                                color: Colors.white, // Adjust the color if needed
+                              ),
+                            ),
+                          ],
                         ),
                       ),
 
@@ -1167,12 +1265,26 @@ class _SmartVavPageState extends State<SmartVavPage> with TickerProviderStateMix
                       Positioned(
                         left: MediaQuery.of(context).size.width * 0.44,
                         top: MediaQuery.of(context).size.height * 0.39, // Adjusted for relative positioning
-                        child: Text(
-                          'Airflow Switch', // Replace with the actual product name or identifier
-                          style: TextStyle(
-                            fontSize: MediaQuery.of(context).size.width * 0.02, // Adjust the font size accordingly
-                            color: Colors.white, // Adjust the color if needed
-                          ),
+                        child: Stack(
+                          children: [
+                            Text(
+                              'Airflow Switch',
+                              style: TextStyle(
+                                fontSize: MediaQuery.of(context).size.width * 0.02, // Adjust the font size
+                                foreground: Paint()
+                                  ..style = PaintingStyle.stroke
+                                  ..strokeWidth = 1 // Outline thickness
+                                  ..color = Colors.deepOrange,  // Outline color
+                              ),
+                            ),
+                            Text(
+                              'Airflow Switch', // Replace with the actual product name or identifier
+                              style: TextStyle(
+                                fontSize: MediaQuery.of(context).size.width * 0.02, // Adjust the font size accordingly
+                                color: Colors.white, // Adjust the color if needed
+                              ),
+                            ),
+                          ],
                         ),
                       ),
 
@@ -1228,12 +1340,26 @@ class _SmartVavPageState extends State<SmartVavPage> with TickerProviderStateMix
                       Positioned(
                         left: MediaQuery.of(context).size.width * 0.55,
                         top: MediaQuery.of(context).size.height * 0.14, // Adjusted for relative positioning
-                        child: Text(
-                          'Actuator', // Replace with the actual product name or identifier
-                          style: TextStyle(
-                            fontSize: MediaQuery.of(context).size.width * 0.02, // Adjust the font size accordingly
-                            color: Colors.white, // Adjust the color if needed
-                          ),
+                        child: Stack(
+                          children: [
+                            Text(
+                              'Actuator',
+                              style: TextStyle(
+                                fontSize: MediaQuery.of(context).size.width * 0.02, // Adjust the font size
+                                foreground: Paint()
+                                  ..style = PaintingStyle.stroke
+                                  ..strokeWidth = 1 // Outline thickness
+                                  ..color = Colors.deepOrange,  // Outline color
+                              ),
+                            ),
+                            Text(
+                              'Actuator', // Replace with the actual product name or identifier
+                              style: TextStyle(
+                                fontSize: MediaQuery.of(context).size.width * 0.02, // Adjust the font size accordingly
+                                color: Colors.white, // Adjust the color if needed
+                              ),
+                            ),
+                          ],
                         ),
                       ),
 
@@ -1289,12 +1415,26 @@ class _SmartVavPageState extends State<SmartVavPage> with TickerProviderStateMix
                       Positioned(
                         left: MediaQuery.of(context).size.width * 0.55,
                         top: MediaQuery.of(context).size.height * 0.30, // Adjusted for relative positioning
-                        child: Text(
-                          'Actuator', // Replace with the actual product name or identifier
-                          style: TextStyle(
-                            fontSize: MediaQuery.of(context).size.width * 0.02, // Adjust the font size accordingly
-                            color: Colors.white, // Adjust the color if needed
-                          ),
+                        child: Stack(
+                          children: [
+                            Text(
+                              'Actuator',
+                              style: TextStyle(
+                                fontSize: MediaQuery.of(context).size.width * 0.02, // Adjust the font size
+                                foreground: Paint()
+                                  ..style = PaintingStyle.stroke
+                                  ..strokeWidth = 1 // Outline thickness
+                                  ..color = Colors.deepOrange,  // Outline color
+                              ),
+                            ),
+                            Text(
+                              'Actuator', // Replace with the actual product name or identifier
+                              style: TextStyle(
+                                fontSize: MediaQuery.of(context).size.width * 0.02, // Adjust the font size accordingly
+                                color: Colors.white, // Adjust the color if needed
+                              ),
+                            ),
+                          ],
                         ),
                       ),
 
@@ -1350,12 +1490,26 @@ class _SmartVavPageState extends State<SmartVavPage> with TickerProviderStateMix
                       Positioned(
                         left: MediaQuery.of(context).size.width * 0.62,
                         top: MediaQuery.of(context).size.height * 0.18, // Adjusted for relative positioning
-                        child: Text(
-                          'Thermostat', // Replace with the actual product name or identifier
-                          style: TextStyle(
-                            fontSize: MediaQuery.of(context).size.width * 0.02, // Adjust the font size accordingly
-                            color: Colors.white, // Adjust the color if needed
-                          ),
+                        child: Stack(
+                          children: [
+                            Text(
+                              'Thermostat',
+                              style: TextStyle(
+                                fontSize: MediaQuery.of(context).size.width * 0.02, // Adjust the font size
+                                foreground: Paint()
+                                  ..style = PaintingStyle.stroke
+                                  ..strokeWidth = 1 // Outline thickness
+                                  ..color = Colors.deepOrange,  // Outline color
+                              ),
+                            ),
+                            Text(
+                              'Thermostat', // Replace with the actual product name or identifier
+                              style: TextStyle(
+                                fontSize: MediaQuery.of(context).size.width * 0.02, // Adjust the font size accordingly
+                                color: Colors.white, // Adjust the color if needed
+                              ),
+                            ),
+                          ],
                         ),
                       ),
 
@@ -1411,12 +1565,26 @@ class _SmartVavPageState extends State<SmartVavPage> with TickerProviderStateMix
                       Positioned(
                         left: MediaQuery.of(context).size.width * 0.62,
                         top: MediaQuery.of(context).size.height * 0.35, // Adjusted for relative positioning
-                        child: Text(
-                          'Thermostat', // Replace with the actual product name or identifier
-                          style: TextStyle(
-                            fontSize: MediaQuery.of(context).size.width * 0.02, // Adjust the font size accordingly
-                            color: Colors.white, // Adjust the color if needed
-                          ),
+                        child: Stack(
+                          children: [
+                            Text(
+                              'Thermostat',
+                              style: TextStyle(
+                                fontSize: MediaQuery.of(context).size.width * 0.02, // Adjust the font size
+                                foreground: Paint()
+                                  ..style = PaintingStyle.stroke
+                                  ..strokeWidth = 1 // Outline thickness
+                                  ..color = Colors.deepOrange,  // Outline color
+                              ),
+                            ),
+                            Text(
+                              'Thermostat', // Replace with the actual product name or identifier
+                              style: TextStyle(
+                                fontSize: MediaQuery.of(context).size.width * 0.02, // Adjust the font size accordingly
+                                color: Colors.white, // Adjust the color if needed
+                              ),
+                            ),
+                          ],
                         ),
                       ),
 
@@ -1472,12 +1640,26 @@ class _SmartVavPageState extends State<SmartVavPage> with TickerProviderStateMix
                       Positioned(
                         left: MediaQuery.of(context).size.width * 0.86,
                         top: MediaQuery.of(context).size.height * 0.15, // Adjusted for relative positioning
-                        child: Text(
-                          'Thermostat', // Replace with the actual product name or identifier
-                          style: TextStyle(
-                            fontSize: MediaQuery.of(context).size.width * 0.02, // Adjust the font size accordingly
-                            color: Colors.white, // Adjust the color if needed
-                          ),
+                        child: Stack(
+                          children: [
+                            Text(
+                              'Thermostat',
+                              style: TextStyle(
+                                fontSize: MediaQuery.of(context).size.width * 0.02, // Adjust the font size
+                                foreground: Paint()
+                                  ..style = PaintingStyle.stroke
+                                  ..strokeWidth = 1 // Outline thickness
+                                  ..color = Colors.deepOrange,  // Outline color
+                              ),
+                            ),
+                            Text(
+                              'Thermostat', // Replace with the actual product name or identifier
+                              style: TextStyle(
+                                fontSize: MediaQuery.of(context).size.width * 0.02, // Adjust the font size accordingly
+                                color: Colors.white, // Adjust the color if needed
+                              ),
+                            ),
+                          ],
                         ),
                       ),
 
@@ -1533,12 +1715,26 @@ class _SmartVavPageState extends State<SmartVavPage> with TickerProviderStateMix
                       Positioned(
                         left: MediaQuery.of(context).size.width * 0.86,
                         top: MediaQuery.of(context).size.height * 0.32, // Adjusted for relative positioning
-                        child: Text(
-                          'Thermostat', // Replace with the actual product name or identifier
-                          style: TextStyle(
-                            fontSize: MediaQuery.of(context).size.width * 0.02, // Adjust the font size accordingly
-                            color: Colors.white, // Adjust the color if needed
-                          ),
+                        child: Stack(
+                          children: [
+                            Text(
+                              'Thermostat',
+                              style: TextStyle(
+                                fontSize: MediaQuery.of(context).size.width * 0.02, // Adjust the font size
+                                foreground: Paint()
+                                  ..style = PaintingStyle.stroke
+                                  ..strokeWidth = 1 // Outline thickness
+                                  ..color = Colors.deepOrange,  // Outline color
+                              ),
+                            ),
+                            Text(
+                              'Thermostat', // Replace with the actual product name or identifier
+                              style: TextStyle(
+                                fontSize: MediaQuery.of(context).size.width * 0.02, // Adjust the font size accordingly
+                                color: Colors.white, // Adjust the color if needed
+                              ),
+                            ),
+                          ],
                         ),
                       ),
 
@@ -1594,12 +1790,26 @@ class _SmartVavPageState extends State<SmartVavPage> with TickerProviderStateMix
                       Positioned(
                         left: MediaQuery.of(context).size.width * 0.75,
                         top: MediaQuery.of(context).size.height * 0.035, // Adjusted for relative positioning
-                        child: Text(
-                          'Differential Pressure', // Replace with the actual product name or identifier
-                          style: TextStyle(
-                            fontSize: MediaQuery.of(context).size.width * 0.02, // Adjust the font size accordingly
-                            color: Colors.white, // Adjust the color if needed
-                          ),
+                        child: Stack(
+                          children: [
+                            Text(
+                              'Differential Pressure',
+                              style: TextStyle(
+                                fontSize: MediaQuery.of(context).size.width * 0.02, // Adjust the font size
+                                foreground: Paint()
+                                  ..style = PaintingStyle.stroke
+                                  ..strokeWidth = 1 // Outline thickness
+                                  ..color = Colors.deepOrange,  // Outline color
+                              ),
+                            ),
+                            Text(
+                              'Differential Pressure', // Replace with the actual product name or identifier
+                              style: TextStyle(
+                                fontSize: MediaQuery.of(context).size.width * 0.02, // Adjust the font size accordingly
+                                color: Colors.white, // Adjust the color if needed
+                              ),
+                            ),
+                          ],
                         ),
                       ),
 
@@ -1655,12 +1865,26 @@ class _SmartVavPageState extends State<SmartVavPage> with TickerProviderStateMix
                       Positioned(
                         left: MediaQuery.of(context).size.width * 0.75,
                         top: MediaQuery.of(context).size.height * 0.21, // Adjusted for relative positioning
-                        child: Text(
-                          'Differential Pressure', // Replace with the actual product name or identifier
-                          style: TextStyle(
-                            fontSize: MediaQuery.of(context).size.width * 0.02, // Adjust the font size accordingly
-                            color: Colors.white, // Adjust the color if needed
-                          ),
+                        child: Stack(
+                          children: [
+                            Text(
+                              'Differential Pressure',
+                              style: TextStyle(
+                                fontSize: MediaQuery.of(context).size.width * 0.02, // Adjust the font size
+                                foreground: Paint()
+                                  ..style = PaintingStyle.stroke
+                                  ..strokeWidth = 1 // Outline thickness
+                                  ..color = Colors.deepOrange,  // Outline color
+                              ),
+                            ),
+                            Text(
+                              'Differential Pressure', // Replace with the actual product name or identifier
+                              style: TextStyle(
+                                fontSize: MediaQuery.of(context).size.width * 0.02, // Adjust the font size accordingly
+                                color: Colors.white, // Adjust the color if needed
+                              ),
+                            ),
+                          ],
                         ),
                       ),
 

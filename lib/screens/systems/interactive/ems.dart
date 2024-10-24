@@ -439,12 +439,26 @@ class _EMSPageState extends State<EMSPage> with TickerProviderStateMixin {
                       Positioned(
                         left: MediaQuery.of(context).size.width * 0.41,
                         top: MediaQuery.of(context).size.height * 0.235, // Adjusted for relative positioning
-                        child: Text(
-                          'OMNI', // Replace with the actual product name or identifier
-                          style: TextStyle(
-                            fontSize: MediaQuery.of(context).size.width * 0.02, // Adjust the font size accordingly
-                            color: Colors.white, // Adjust the color if needed
-                          ),
+                        child: Stack(
+                          children: [
+                            Text(
+                              'OMNI',
+                              style: TextStyle(
+                                fontSize: MediaQuery.of(context).size.width * 0.02, // Adjust the font size
+                                foreground: Paint()
+                                  ..style = PaintingStyle.stroke
+                                  ..strokeWidth = 1 // Outline thickness
+                                  ..color = Colors.deepOrange,  // Outline color
+                              ),
+                            ),
+                            Text(
+                              'OMNI', // Replace with the actual product name or identifier
+                              style: TextStyle(
+                                fontSize: MediaQuery.of(context).size.width * 0.02, // Adjust the font size accordingly
+                                color: Colors.white, // Adjust the color if needed
+                              ),
+                            ),
+                          ],
                         ),
                       ),
 
@@ -501,12 +515,26 @@ class _EMSPageState extends State<EMSPage> with TickerProviderStateMixin {
                       Positioned(
                         left: MediaQuery.of(context).size.width * 0.31,
                         top: MediaQuery.of(context).size.height * 0.32, // Adjusted for relative positioning
-                        child: Text(
-                          'POWER METER', // Replace with the actual product name or identifier
-                          style: TextStyle(
-                            fontSize: MediaQuery.of(context).size.width * 0.02, // Adjust the font size accordingly
-                            color: Colors.white, // Adjust the color if needed
-                          ),
+                        child: Stack(
+                          children: [
+                            Text(
+                              'POWER METER',
+                              style: TextStyle(
+                                fontSize: MediaQuery.of(context).size.width * 0.02, // Adjust the font size
+                                foreground: Paint()
+                                  ..style = PaintingStyle.stroke
+                                  ..strokeWidth = 1 // Outline thickness
+                                  ..color = Colors.deepOrange,  // Outline color
+                              ),
+                            ),
+                            Text(
+                              'POWER METER', // Replace with the actual product name or identifier
+                              style: TextStyle(
+                                fontSize: MediaQuery.of(context).size.width * 0.02, // Adjust the font size accordingly
+                                color: Colors.white, // Adjust the color if needed
+                              ),
+                            ),
+                          ],
                         ),
                       ),
                       // GestureDetector for Product 3
@@ -562,12 +590,26 @@ class _EMSPageState extends State<EMSPage> with TickerProviderStateMixin {
                       Positioned(
                         left: MediaQuery.of(context).size.width * 0.19,
                         top: MediaQuery.of(context).size.height * 0.255, // Adjusted for relative positioning
-                        child: Text(
-                          'WATER METER', // Replace with the actual product name or identifier
-                          style: TextStyle(
-                            fontSize: MediaQuery.of(context).size.width * 0.02, // Adjust the font size accordingly
-                            color: Colors.white, // Adjust the color if needed
-                          ),
+                        child: Stack(
+                          children: [
+                            Text(
+                              'WATER METER',
+                              style: TextStyle(
+                                fontSize: MediaQuery.of(context).size.width * 0.02, // Adjust the font size
+                                foreground: Paint()
+                                  ..style = PaintingStyle.stroke
+                                  ..strokeWidth = 1 // Outline thickness
+                                  ..color = Colors.deepOrange,  // Outline color
+                              ),
+                            ),
+                            Text(
+                              'WATER METER', // Replace with the actual product name or identifier
+                              style: TextStyle(
+                                fontSize: MediaQuery.of(context).size.width * 0.02, // Adjust the font size accordingly
+                                color: Colors.white, // Adjust the color if needed
+                              ),
+                            ),
+                          ],
                         ),
                       ),
                       // GestureDetector for Product 4
@@ -623,12 +665,26 @@ class _EMSPageState extends State<EMSPage> with TickerProviderStateMixin {
                       Positioned(
                         left: MediaQuery.of(context).size.width * 0.19,
                         top: MediaQuery.of(context).size.height * 0.36, // Adjusted for relative positioning
-                        child: Text(
-                          'BTU METER', // Replace with the actual product name or identifier
-                          style: TextStyle(
-                            fontSize: MediaQuery.of(context).size.width * 0.02, // Adjust the font size accordingly
-                            color: Colors.white, // Adjust the color if needed
-                          ),
+                        child: Stack(
+                          children: [
+                            Text(
+                              'BTU METER',
+                              style: TextStyle(
+                                fontSize: MediaQuery.of(context).size.width * 0.02, // Adjust the font size
+                                foreground: Paint()
+                                  ..style = PaintingStyle.stroke
+                                  ..strokeWidth = 1 // Outline thickness
+                                  ..color = Colors.deepOrange,  // Outline color
+                              ),
+                            ),
+                            Text(
+                              'BTU METER', // Replace with the actual product name or identifier
+                              style: TextStyle(
+                                fontSize: MediaQuery.of(context).size.width * 0.02, // Adjust the font size accordingly
+                                color: Colors.white, // Adjust the color if needed
+                              ),
+                            ),
+                          ],
                         ),
                       ),
 

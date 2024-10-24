@@ -282,12 +282,26 @@ class _SmokeExtractPageState extends State<SmokeExtractPage> with TickerProvider
                       Positioned(
                         left: MediaQuery.of(context).size.width * 0.59,
                         top: MediaQuery.of(context).size.height * 0.11, // Adjusted for relative positioning
-                        child: Text(
-                          'OMNI', // Replace with the actual product name or identifier
-                          style: TextStyle(
-                            fontSize: MediaQuery.of(context).size.width * 0.02, // Adjust the font size accordingly
-                            color: Colors.white, // Adjust the color if needed
-                          ),
+                        child: Stack(
+                          children: [
+                            Text(
+                              'OMNI',
+                              style: TextStyle(
+                                fontSize: MediaQuery.of(context).size.width * 0.02, // Adjust the font size
+                                foreground: Paint()
+                                  ..style = PaintingStyle.stroke
+                                  ..strokeWidth = 1 // Outline thickness
+                                  ..color = Colors.deepOrange,  // Outline color
+                              ),
+                            ),
+                            Text(
+                              'OMNI', // Replace with the actual product name or identifier
+                              style: TextStyle(
+                                fontSize: MediaQuery.of(context).size.width * 0.02, // Adjust the font size accordingly
+                                color: Colors.white, // Adjust the color if needed
+                              ),
+                            ),
+                          ],
                         ),
                       ),
                       // GestureDetector for Product 2
@@ -337,12 +351,26 @@ class _SmokeExtractPageState extends State<SmokeExtractPage> with TickerProvider
                       Positioned(
                         left: MediaQuery.of(context).size.width * 0.545,
                         top: MediaQuery.of(context).size.height * 0.25, // Adjusted for relative positioning
-                        child: Text(
-                          'Damper Actuator', // Replace with the actual product name or identifier
-                          style: TextStyle(
-                            fontSize: MediaQuery.of(context).size.width * 0.02, // Adjust the font size accordingly
-                            color: Colors.white, // Adjust the color if needed
-                          ),
+                        child: Stack(
+                          children: [
+                            Text(
+                              'Damper Actuator',
+                              style: TextStyle(
+                                fontSize: MediaQuery.of(context).size.width * 0.02, // Adjust the font size
+                                foreground: Paint()
+                                  ..style = PaintingStyle.stroke
+                                  ..strokeWidth = 1 // Outline thickness
+                                  ..color = Colors.deepOrange,  // Outline color
+                              ),
+                            ),
+                            Text(
+                              'Damper Actuator', // Replace with the actual product name or identifier
+                              style: TextStyle(
+                                fontSize: MediaQuery.of(context).size.width * 0.02, // Adjust the font size accordingly
+                                color: Colors.white, // Adjust the color if needed
+                              ),
+                            ),
+                          ],
                         ),
                       ),
 
@@ -392,12 +420,26 @@ class _SmokeExtractPageState extends State<SmokeExtractPage> with TickerProvider
                       Positioned(
                         left: MediaQuery.of(context).size.width * 0.545,
                         top: MediaQuery.of(context).size.height * 0.42, // Adjusted for relative positioning
-                        child: Text(
-                          'Damper Actuator', // Replace with the actual product name or identifier
-                          style: TextStyle(
-                            fontSize: MediaQuery.of(context).size.width * 0.02, // Adjust the font size accordingly
-                            color: Colors.white, // Adjust the color if needed
-                          ),
+                        child: Stack(
+                          children: [
+                            Text(
+                              'Damper Actuator',
+                              style: TextStyle(
+                                fontSize: MediaQuery.of(context).size.width * 0.02, // Adjust the font size
+                                foreground: Paint()
+                                  ..style = PaintingStyle.stroke
+                                  ..strokeWidth = 1 // Outline thickness
+                                  ..color = Colors.deepOrange,  // Outline color
+                              ),
+                            ),
+                            Text(
+                              'Damper Actuator', // Replace with the actual product name or identifier
+                              style: TextStyle(
+                                fontSize: MediaQuery.of(context).size.width * 0.02, // Adjust the font size accordingly
+                                color: Colors.white, // Adjust the color if needed
+                              ),
+                            ),
+                          ],
                         ),
                       ),
 

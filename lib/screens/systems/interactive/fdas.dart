@@ -238,12 +238,26 @@ class _FiremanControlPageState extends State<FiremanControlPage> with TickerProv
                       Positioned(
                         left: MediaQuery.of(context).size.width * 0.19,
                         top: MediaQuery.of(context).size.height * 0.18, // Adjusted for relative positioning
-                        child: Text(
-                          'OMNI', // Replace with the actual product name or identifier
-                          style: TextStyle(
-                            fontSize: MediaQuery.of(context).size.width * 0.03, // Adjust the font size accordingly
-                            color: Colors.white, // Adjust the color if needed
-                          ),
+                        child: Stack(
+                          children: [
+                            Text(
+                              'OMNI',
+                              style: TextStyle(
+                                fontSize: MediaQuery.of(context).size.width * 0.03, // Adjust the font size
+                                foreground: Paint()
+                                  ..style = PaintingStyle.stroke
+                                  ..strokeWidth = 1 // Outline thickness
+                                  ..color = Colors.deepOrange,  // Outline color
+                              ),
+                            ),
+                            Text(
+                              'OMNI', // Replace with the actual product name or identifier
+                              style: TextStyle(
+                                fontSize: MediaQuery.of(context).size.width * 0.03, // Adjust the font size accordingly
+                                color: Colors.white, // Adjust the color if needed
+                              ),
+                            ),
+                          ],
                         ),
                       ),
 

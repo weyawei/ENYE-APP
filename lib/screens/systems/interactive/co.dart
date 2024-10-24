@@ -374,12 +374,26 @@ class _COPageState extends State<COPage> with TickerProviderStateMixin {
                       Positioned(
                         left: MediaQuery.of(context).size.width * 0.83,
                         top: MediaQuery.of(context).size.height * 0.19, // Adjusted for relative positioning
-                        child: Text(
-                          'OMNI', // Replace with the actual product name or identifier
-                          style: TextStyle(
-                            fontSize: MediaQuery.of(context).size.width * 0.02, // Adjust the font size accordingly
-                            color: Colors.white, // Adjust the color if needed
-                          ),
+                        child: Stack(
+                          children: [
+                            Text(
+                              'OMNI',
+                              style: TextStyle(
+                                fontSize: MediaQuery.of(context).size.width * 0.02, // Adjust the font size
+                                foreground: Paint()
+                                  ..style = PaintingStyle.stroke
+                                  ..strokeWidth = 1 // Outline thickness
+                                  ..color = Colors.deepOrange,  // Outline color
+                              ),
+                            ),
+                            Text(
+                              'OMNI', // Replace with the actual product name or identifier
+                              style: TextStyle(
+                                fontSize: MediaQuery.of(context).size.width * 0.02, // Adjust the font size accordingly
+                                color: Colors.white, // Adjust the color if needed
+                              ),
+                            ),
+                          ],
                         ),
                       ),
 
@@ -436,12 +450,26 @@ class _COPageState extends State<COPage> with TickerProviderStateMixin {
                       Positioned(
                         left: MediaQuery.of(context).size.width * 0.64,
                         top: MediaQuery.of(context).size.height * 0.285, // Adjusted for relative positioning
-                        child: Text(
-                          'Temp Sensor', // Replace with the actual product name or identifier
-                          style: TextStyle(
-                            fontSize: MediaQuery.of(context).size.width * 0.02, // Adjust the font size accordingly
-                            color: Colors.white, // Adjust the color if needed
-                          ),
+                        child: Stack(
+                          children: [
+                            Text(
+                              'Temp Sensor',
+                              style: TextStyle(
+                                fontSize: MediaQuery.of(context).size.width * 0.02, // Adjust the font size
+                                foreground: Paint()
+                                  ..style = PaintingStyle.stroke
+                                  ..strokeWidth = 1 // Outline thickness
+                                  ..color = Colors.deepOrange,  // Outline color
+                              ),
+                            ),
+                            Text(
+                              'Temp Sensor', // Replace with the actual product name or identifier
+                              style: TextStyle(
+                                fontSize: MediaQuery.of(context).size.width * 0.02, // Adjust the font size accordingly
+                                color: Colors.white, // Adjust the color if needed
+                              ),
+                            ),
+                          ],
                         ),
                       ),
                       // GestureDetector for Product 3
@@ -497,12 +525,26 @@ class _COPageState extends State<COPage> with TickerProviderStateMixin {
                       Positioned(
                         left: MediaQuery.of(context).size.width * 0.48,
                         top: MediaQuery.of(context).size.height * 0.27, // Adjusted for relative positioning
-                        child: Text(
-                          'CO Sensor', // Replace with the actual product name or identifier
-                          style: TextStyle(
-                            fontSize: MediaQuery.of(context).size.width * 0.02, // Adjust the font size accordingly
-                            color: Colors.white, // Adjust the color if needed
-                          ),
+                        child: Stack(
+                          children: [
+                            Text(
+                              'CO Sensor',
+                              style: TextStyle(
+                                fontSize: MediaQuery.of(context).size.width * 0.02, // Adjust the font size
+                                foreground: Paint()
+                                  ..style = PaintingStyle.stroke
+                                  ..strokeWidth = 1 // Outline thickness
+                                  ..color = Colors.deepOrange,  // Outline color
+                              ),
+                            ),
+                            Text(
+                              'CO Sensor', // Replace with the actual product name or identifier
+                              style: TextStyle(
+                                fontSize: MediaQuery.of(context).size.width * 0.02, // Adjust the font size accordingly
+                                color: Colors.white, // Adjust the color if needed
+                              ),
+                            ),
+                          ],
                         ),
                       ),
 

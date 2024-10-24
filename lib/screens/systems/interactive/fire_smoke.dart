@@ -359,12 +359,26 @@ class _FireSmokePageState extends State<FireSmokePage> with TickerProviderStateM
                       Positioned(
                         left: MediaQuery.of(context).size.width * 0.60,
                         top: MediaQuery.of(context).size.height * 0.11, // Adjusted for relative positioning
-                        child: Text(
-                          'OMNI', // Replace with the actual product name or identifier
-                          style: TextStyle(
-                            fontSize: MediaQuery.of(context).size.width * 0.02, // Adjust the font size accordingly
-                            color: Colors.white, // Adjust the color if needed
-                          ),
+                        child: Stack(
+                          children: [
+                            Text(
+                              'OMNI',
+                              style: TextStyle(
+                                fontSize: MediaQuery.of(context).size.width * 0.02, // Adjust the font size
+                                foreground: Paint()
+                                  ..style = PaintingStyle.stroke
+                                  ..strokeWidth = 1 // Outline thickness
+                                  ..color = Colors.deepOrange,  // Outline color
+                              ),
+                            ),
+                            Text(
+                              'OMNI', // Replace with the actual product name or identifier
+                              style: TextStyle(
+                                fontSize: MediaQuery.of(context).size.width * 0.02, // Adjust the font size accordingly
+                                color: Colors.white, // Adjust the color if needed
+                              ),
+                            ),
+                          ],
                         ),
                       ),
 
@@ -415,12 +429,26 @@ class _FireSmokePageState extends State<FireSmokePage> with TickerProviderStateM
                       Positioned(
                         left: MediaQuery.of(context).size.width * 0.56,
                         top: MediaQuery.of(context).size.height * 0.28, // Adjusted for relative positioning
-                        child: Text(
-                          'Damper Actuator', // Replace with the actual product name or identifier
-                          style: TextStyle(
-                            fontSize: MediaQuery.of(context).size.width * 0.02, // Adjust the font size accordingly
-                            color: Colors.white, // Adjust the color if needed
-                          ),
+                        child: Stack(
+                          children: [
+                            Text(
+                              'Damper Actuator',
+                              style: TextStyle(
+                                fontSize: MediaQuery.of(context).size.width * 0.02, // Adjust the font size
+                                foreground: Paint()
+                                  ..style = PaintingStyle.stroke
+                                  ..strokeWidth = 1 // Outline thickness
+                                  ..color = Colors.deepOrange,  // Outline color
+                              ),
+                            ),
+                            Text(
+                              'Damper Actuator', // Replace with the actual product name or identifier
+                              style: TextStyle(
+                                fontSize: MediaQuery.of(context).size.width * 0.02, // Adjust the font size accordingly
+                                color: Colors.white, // Adjust the color if needed
+                              ),
+                            ),
+                          ],
                         ),
                       ),
 
@@ -470,12 +498,26 @@ class _FireSmokePageState extends State<FireSmokePage> with TickerProviderStateM
                       Positioned(
                         left: MediaQuery.of(context).size.width * 0.545,
                         top: MediaQuery.of(context).size.height * 0.46, // Adjusted for relative positioning
-                        child: Text(
-                          'Damper Actuator', // Replace with the actual product name or identifier
-                          style: TextStyle(
-                            fontSize: MediaQuery.of(context).size.width * 0.02, // Adjust the font size accordingly
-                            color: Colors.white, // Adjust the color if needed
-                          ),
+                        child: Stack(
+                          children: [
+                            Text(
+                              'Damper Actuator',
+                              style: TextStyle(
+                                fontSize: MediaQuery.of(context).size.width * 0.02, // Adjust the font size
+                                foreground: Paint()
+                                  ..style = PaintingStyle.stroke
+                                  ..strokeWidth = 1 // Outline thickness
+                                  ..color = Colors.deepOrange,  // Outline color
+                              ),
+                            ),
+                            Text(
+                              'Damper Actuator', // Replace with the actual product name or identifier
+                              style: TextStyle(
+                                fontSize: MediaQuery.of(context).size.width * 0.02, // Adjust the font size accordingly
+                                color: Colors.white, // Adjust the color if needed
+                              ),
+                            ),
+                          ],
                         ),
                       ),
 
@@ -531,12 +573,26 @@ class _FireSmokePageState extends State<FireSmokePage> with TickerProviderStateM
                       Positioned(
                         left: MediaQuery.of(context).size.width * 0.39,
                         top: MediaQuery.of(context).size.height * 0.26, // Adjusted for relative positioning
-                        child: Text(
-                          'Smoke Detector', // Replace with the actual product name or identifier
-                          style: TextStyle(
-                            fontSize: MediaQuery.of(context).size.width * 0.02, // Adjust the font size accordingly
-                            color: Colors.white, // Adjust the color if needed
-                          ),
+                        child: Stack(
+                          children: [
+                            Text(
+                              'Smoke Detector',
+                              style: TextStyle(
+                                fontSize: MediaQuery.of(context).size.width * 0.02, // Adjust the font size
+                                foreground: Paint()
+                                  ..style = PaintingStyle.stroke
+                                  ..strokeWidth = 1 // Outline thickness
+                                  ..color = Colors.deepOrange,  // Outline color
+                              ),
+                            ),
+                            Text(
+                              'Smoke Detector', // Replace with the actual product name or identifier
+                              style: TextStyle(
+                                fontSize: MediaQuery.of(context).size.width * 0.02, // Adjust the font size accordingly
+                                color: Colors.white, // Adjust the color if needed
+                              ),
+                            ),
+                          ],
                         ),
                       ),
 
@@ -592,12 +648,26 @@ class _FireSmokePageState extends State<FireSmokePage> with TickerProviderStateM
                       Positioned(
                         left: MediaQuery.of(context).size.width * 0.39,
                         top: MediaQuery.of(context).size.height * 0.44, // Adjusted for relative positioning
-                        child: Text(
-                          'Smoke Detector', // Replace with the actual product name or identifier
-                          style: TextStyle(
-                            fontSize: MediaQuery.of(context).size.width * 0.02, // Adjust the font size accordingly
-                            color: Colors.white, // Adjust the color if needed
-                          ),
+                        child: Stack(
+                          children: [
+                            Text(
+                              'Smoke Detector',
+                              style: TextStyle(
+                                fontSize: MediaQuery.of(context).size.width * 0.02, // Adjust the font size
+                                foreground: Paint()
+                                  ..style = PaintingStyle.stroke
+                                  ..strokeWidth = 1 // Outline thickness
+                                  ..color = Colors.deepOrange,  // Outline color
+                              ),
+                            ),
+                            Text(
+                              'Smoke Detector', // Replace with the actual product name or identifier
+                              style: TextStyle(
+                                fontSize: MediaQuery.of(context).size.width * 0.02, // Adjust the font size accordingly
+                                color: Colors.white, // Adjust the color if needed
+                              ),
+                            ),
+                          ],
                         ),
                       ),
 
