@@ -101,7 +101,7 @@ class ContactsHome extends StatelessWidget {
                               ),
                             ),
                             TextSpan(
-                              text: '  LOFICE I, #82 Scout Ojeda St., Brgy. Obrero Diliman, Quezon City. 1103 Philippines',
+                              text: '  LOFICE I, #82 Scout Ojeda St., Brgy. Obrero Diliman, Quezon City 1103 Philippines',
                               style: TextStyle(color: Colors.black54, fontSize: fontNormalSize, fontWeight: FontWeight.bold, letterSpacing: 1.2, overflow: TextOverflow.visible,),
                             ),
                           ],
@@ -175,13 +175,13 @@ class ContactsHome extends StatelessWidget {
 
                       TextButton(
                         onPressed: (){
-                          final phoneNumber  = '7616-5949';
+                          final phoneNumber  = '(02) 7616 5949';
                           final url = 'tel:$phoneNumber';
 
                           _launchURL(url);
                     },
                         child: Text(
-                          '7616-5949',
+                          '(02) 7616-5949',
                           style: TextStyle(
                             color: Colors.black54,
                             fontSize: fontNormalSize,
@@ -447,6 +447,126 @@ class ContactsHome extends StatelessWidget {
                       },
                       icon: Icon(Icons.call, size: (screenHeight + screenWidth) / 55,),
                       label: Text('+63 917 634 5225',
+                        style: TextStyle(
+                          color: Colors.black54,
+                          fontSize: fontNormalSize,
+                          letterSpacing: 1.2,
+                          fontWeight: FontWeight.bold,
+                          overflow: TextOverflow.visible,),
+                      ),
+                    ),
+                  ),
+                ),
+
+              ],
+            ),
+          ),
+
+          //WAREHOUSE
+          Container(
+            child: Column(
+              children: [
+
+                //OFFICE LOCATED
+                Align(
+                  alignment: Alignment.center,
+                  child: Container(
+                    margin: EdgeInsets.only(top: 25.0),
+                    child: Text(
+                      'WAREHOUSE',
+                      style: TextStyle(
+                          fontSize: fontXXSize,
+                          fontFamily: 'Rowdies',
+                          fontWeight: FontWeight.bold,
+                          letterSpacing: 1.2,
+                          color: Colors.deepOrange.shade600
+                      ),
+                    ),
+                  ),
+                ),
+
+                SizedBox(height: 20,),
+                //MAPS LOCATION OF OFFICE
+                Container(
+                  height: screenHeight * 0.3,
+                  width: screenWidth * 0.9,
+                  decoration: const BoxDecoration(
+                    image: DecorationImage(image: AssetImage("assets/backgrounds/mapwarehouse.png"), fit: BoxFit.fill),
+                  ),
+                  child: GestureDetector(
+                    onTap: () async {
+                      _launchURL("https://www.google.com/maps/place/14%C2%B037'18.6%22N+121%C2%B008'06.5%22E/@14.621404,121.1344085,19z/data=!4m4!3m3!8m2!3d14.621834!4d121.135147?entry=ttu&g_ep=EgoyMDI0MTAyMi4wIKXMDSoASAFQAw%3D%3D");
+                    },
+                  ),
+                ),
+                Align(
+                  alignment: Alignment.center,
+                  child: Container(
+                    margin: EdgeInsets.only(top: 5.0, left: 20.0),
+                    child: TextButton(
+                      child: Text.rich(
+                        TextSpan(
+                          children: [
+                            WidgetSpan(child: Icon(Icons.location_on, size: (screenHeight + screenWidth) / 55, )),
+                            WidgetSpan(
+                              child: Padding(
+                                padding: EdgeInsets.only(left: 12.0),
+                              ),
+                            ),
+                            TextSpan(
+                              text: '  Blk 4 Lot 10 Agnes Ville Subd. Brgy. Mambugan Antipolo, Rizal 1870 Philippines',
+                              style: TextStyle(color: Colors.black54, fontWeight: FontWeight.bold, fontSize: fontNormalSize, letterSpacing: 1.2, overflow: TextOverflow.visible,),
+                            ),
+                          ],
+                        ),
+                      ),
+                      onPressed: () async {
+                        _launchURL("https://www.google.com/maps/place/14%C2%B037'18.6%22N+121%C2%B008'06.5%22E/@14.621404,121.1344085,19z/data=!4m4!3m3!8m2!3d14.621834!4d121.135147?entry=ttu&g_ep=EgoyMDI0MTAyMi4wIKXMDSoASAFQAw%3D%3D");
+                      },
+                    ),
+                  ),
+                ),
+
+                //EMAIL ME
+                Align(
+                  alignment: Alignment.topLeft,
+                  child: Container(
+                    margin: EdgeInsets.only(left: 20.0),
+                    padding: EdgeInsets.only(top: 5.0),
+                    child: TextButton.icon(
+                      onPressed: (){
+                        final toEmail  = 'enyecontrols@enyecontrols.com';
+                        final url = 'mailto:$toEmail';
+
+                        _launchURL(url);
+                      },
+                      icon: Icon(Icons.mail, size: (screenHeight + screenWidth) / 55,),
+                      label: Text('enyecontrols@enyecontrols.com',
+                        style: TextStyle(
+                          color: Colors.black54,
+                          fontSize: fontNormalSize,
+                          letterSpacing: 1.2,
+                          fontWeight: FontWeight.bold,
+                          overflow: TextOverflow.visible,),
+                      ),
+                    ),
+                  ),
+                ),
+
+                //Contact
+                Align(
+                  alignment: Alignment.topLeft,
+                  child: Container(
+                    margin: EdgeInsets.only(left: 20.0),
+                    child: TextButton.icon(
+                      onPressed: (){
+                        final phoneNumber  = '(02) 7005 9675';
+                        final url = 'tel:$phoneNumber';
+
+                        _launchURL(url);
+                      },
+                      icon: Icon(Icons.call, size: (screenHeight + screenWidth) / 55,),
+                      label: Text('(02) 7005-9675',
                         style: TextStyle(
                           color: Colors.black54,
                           fontSize: fontNormalSize,

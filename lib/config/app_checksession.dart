@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter_session_manager/flutter_session_manager.dart';
 
@@ -33,13 +34,13 @@ class checkSession {
     String? deviceId;
 
     try {
-      if (await deviceInfo.androidInfo != null) {
+      if (Platform.isAndroid) {
         AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
         deviceModel = "${androidInfo.model} (${androidInfo.brand})";
         deviceId = androidInfo.id;
-      } else if (await deviceInfo.iosInfo != null) {
+      } else if (Platform.isIOS) {
         IosDeviceInfo iosInfo = await deviceInfo.iosInfo;
-        deviceModel = iosInfo.model;
+        deviceModel = iosInfo.name;
         deviceId = iosInfo.identifierForVendor;
       } else {
         deviceModel = "Unknown Device";
