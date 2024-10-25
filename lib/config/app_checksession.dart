@@ -40,7 +40,7 @@ class checkSession {
         deviceId = androidInfo.id;
       } else if (Platform.isIOS) {
         IosDeviceInfo iosInfo = await deviceInfo.iosInfo;
-        deviceModel = iosInfo.name;
+        deviceModel = iosInfo.utsname.machine;
         deviceId = iosInfo.identifierForVendor;
       } else {
         deviceModel = "Unknown Device";
