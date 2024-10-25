@@ -201,7 +201,7 @@ class _EMSPageState extends State<EMSPage> with TickerProviderStateMixin {
                 ),
               ),
               Text(
-                "\n Features \n\n• High performance with ease of integration to provide a cost-effective power and energy monitoring solution with 400 metering parameters. \n• Integrates three-phase energy measuring and displaying, energy accumulating, power quality analysis, malfunction alarming, data logging and network communication. \n• The meter measures bidirectional, four quadrants kWh and kvarh. \n• It provides maximum/minimum records for power usage and power demand parameters. \n• Provides demand forecasting as well as the peak demand. Meters can record the time and event regarding important parameter events such as the run time of the meter and alarm functions.",
+                "\n Features \n\n• High performance with ease of integration to provide a cost-effective power and energy monitoring solution with 400 metering parameters. \n• Integrates three-phase energy measuring and displaying, energy accumulating, power quality analysis, malfunction alarming, data logging and network communication. \n• The meter measures bidirectional, four quadrants kWh and kVARh. \n• It provides maximum/minimum records for power usage and power demand parameters. \n• Provides demand forecasting as well as the peak demand. Meters can record the time and event regarding important parameter events such as the run time of the meter and alarm functions.",
                 style: TextStyle(
                   fontSize: MediaQuery.of(context).size.width * 0.036,
                   letterSpacing: 0.8,
@@ -269,7 +269,7 @@ class _EMSPageState extends State<EMSPage> with TickerProviderStateMixin {
                 ),
               ),
               Text(
-                "\n Features \n\n• Direct reading LCD e-register \n• Robust construction • Build-in 10 years battery lifespan. \n• Gear-free with magnet -free sensing technology. \n• Measuring range-R160/R200 • Wired/wireless communications. \n• Highly sensitive to low flow. \n• Tamper proof & Leak detect smart functions. \n• AMR: Remote meter reading. \n• DMA: Leakage detection. \n• Outstanding measuring performance for cold clean water. \n• Best choice for commercial billing, submetering and smart building.",
+                "\n Features \n\n• Direct reading LCD e-register \n• Robust construction • Build-in 10 years battery lifespan. \n• Gear-free with magnet -free sensing technology. \n• Measuring range-R160/R200. \n• Wired/wireless communications. \n• Highly sensitive to low flow. \n• Tamper proof & Leak detect smart functions. \n• AMR: Remote meter reading. \n• DMA: Leakage detection. \n• Outstanding measuring performance for cold clean water. \n• Best choice for commercial billing, submetering and smart building.",
                 style: TextStyle(
                   fontSize: MediaQuery.of(context).size.width * 0.036,
                   letterSpacing: 0.8,
@@ -442,7 +442,7 @@ class _EMSPageState extends State<EMSPage> with TickerProviderStateMixin {
                         child: Stack(
                           children: [
                             Text(
-                              'OMNI',
+                              'OMNI Controller',
                               style: TextStyle(
                                 fontSize: MediaQuery.of(context).size.width * 0.02, // Adjust the font size
                                 foreground: Paint()
@@ -452,7 +452,7 @@ class _EMSPageState extends State<EMSPage> with TickerProviderStateMixin {
                               ),
                             ),
                             Text(
-                              'OMNI', // Replace with the actual product name or identifier
+                              'OMNI Controller', // Replace with the actual product name or identifier
                               style: TextStyle(
                                 fontSize: MediaQuery.of(context).size.width * 0.02, // Adjust the font size accordingly
                                 color: Colors.white, // Adjust the color if needed
@@ -668,7 +668,7 @@ class _EMSPageState extends State<EMSPage> with TickerProviderStateMixin {
                         child: Stack(
                           children: [
                             Text(
-                              'BTU METER',
+                              'Energy Meter/BTU METER',
                               style: TextStyle(
                                 fontSize: MediaQuery.of(context).size.width * 0.02, // Adjust the font size
                                 foreground: Paint()
@@ -678,7 +678,7 @@ class _EMSPageState extends State<EMSPage> with TickerProviderStateMixin {
                               ),
                             ),
                             Text(
-                              'BTU METER', // Replace with the actual product name or identifier
+                              'Energy Meter/BTU METER', // Replace with the actual product name or identifier
                               style: TextStyle(
                                 fontSize: MediaQuery.of(context).size.width * 0.02, // Adjust the font size accordingly
                                 color: Colors.white, // Adjust the color if needed
@@ -851,7 +851,7 @@ class _EMSPageState extends State<EMSPage> with TickerProviderStateMixin {
                           },
                         ),
                         Text(
-                          'BTU Meter',
+                          ' Energy Meter/BTU Meter',
                           style: TextStyle(
                             fontSize: MediaQuery.of(context).size.width * 0.025,
                             fontWeight: FontWeight.bold,

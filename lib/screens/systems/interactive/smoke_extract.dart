@@ -285,7 +285,7 @@ class _SmokeExtractPageState extends State<SmokeExtractPage> with TickerProvider
                         child: Stack(
                           children: [
                             Text(
-                              'OMNI',
+                              'OMNI Controller',
                               style: TextStyle(
                                 fontSize: MediaQuery.of(context).size.width * 0.02, // Adjust the font size
                                 foreground: Paint()
@@ -295,7 +295,7 @@ class _SmokeExtractPageState extends State<SmokeExtractPage> with TickerProvider
                               ),
                             ),
                             Text(
-                              'OMNI', // Replace with the actual product name or identifier
+                              'OMNI Controller', // Replace with the actual product name or identifier
                               style: TextStyle(
                                 fontSize: MediaQuery.of(context).size.width * 0.02, // Adjust the font size accordingly
                                 color: Colors.white, // Adjust the color if needed
@@ -477,7 +477,7 @@ class _SmokeExtractPageState extends State<SmokeExtractPage> with TickerProvider
                           },
                         ),
                         Text(
-                          'OMNI',
+                          'OMNI Controller',
                           style: TextStyle(
                             fontSize: MediaQuery.of(context).size.width * 0.025,
                             fontWeight: FontWeight.bold,

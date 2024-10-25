@@ -1,4 +1,5 @@
 // lib/interactive_image_page.dart
+import 'package:enye_app/screens/systems/interactive/bms.dart';
 import 'package:enye_app/screens/systems/interactive/chiller.dart';
 import 'package:enye_app/screens/systems/interactive/co.dart';
 import 'package:enye_app/screens/systems/interactive/ec_bills.dart';
@@ -63,6 +64,9 @@ class InteractiveImagePage extends StatelessWidget {
         break;
       case '20':
         interactiveImage = WaterSystemPage();
+        break;
+      case '21':
+        interactiveImage = BMSPage();
         break;
     // Add more cases as needed
       default:

@@ -225,7 +225,7 @@ class _SmartVavPageState extends State<SmartVavPage> with TickerProviderStateMix
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: Text("Airflow Switch",
+        title: Text("Air Flow Switch",
           style: TextStyle(
               fontSize: MediaQuery.of(context).size.width * 0.045,
               letterSpacing: 0.8,
@@ -247,7 +247,7 @@ class _SmartVavPageState extends State<SmartVavPage> with TickerProviderStateMix
                 ),
               ),
               Text(
-                "Airflow Switch",
+                "Air Flow Switch",
                 style: TextStyle(
                     fontSize: MediaQuery.of(context).size.width * 0.035,
                     letterSpacing: 0.8,
@@ -319,7 +319,17 @@ class _SmartVavPageState extends State<SmartVavPage> with TickerProviderStateMix
               ),
               //   SizedBox(height: 10,),
               Text(
-                "\n Features \n\n• Measurement of flow and minimum differential pressure due to valve design with 3 P/T plugs. \n• The presetting function has no impact on the stroke; Full stroke modulation at all times, regardless the preset flow. \n• Regulation characteristic remains unchanged regardless of preset flow. \n• The constant differential pressure across the modulating control component guarantees 100% authority. \n• Automatic balancing eliminates overflows, regardless of fluctuating pressure conditions in the system. \n• Minimal required differential pressure due to advanced design of the valve. \n• Higher presetting precision due to stepless analogue scale. \n• Rangeability > 100:1.",
+                "\n Features (Valve) \n\n• Measurement of flow and minimum differential pressure due to valve design with 3 P/T plugs. \n• The presetting function has no impact on the stroke; Full stroke modulation at all times, regardless the preset flow. \n• Regulation characteristic remains unchanged regardless of preset flow. \n• The constant differential pressure across the modulating control component guarantees 100% authority. \n• Automatic balancing eliminates overflows, regardless of fluctuating pressure conditions in the system. \n• Minimal required differential pressure due to advanced design of the valve. \n• Higher presetting precision due to stepless analogue scale. \n• Rangeability > 100:1.",
+                style: TextStyle(
+                    fontSize: MediaQuery.of(context).size.width * 0.036,
+                    letterSpacing: 0.8,
+                    fontWeight: FontWeight.normal,
+                    color: Color(0xFF2E3E5C)
+                ),
+              ),
+              SizedBox(height: 10,),
+              Text(
+                "\n Features (Actuator) \n\n• High comfort for the end-users due to high precision temperature control. \n• Longer life due to less movements of the actuator. \n• No minimum straight pipe lengths required before or after the valve. \n• Total number of valves minimized due to the 3-in-1 design. \• Minimized commissioning time due to automatic balancing of the system.",
                 style: TextStyle(
                     fontSize: MediaQuery.of(context).size.width * 0.036,
                     letterSpacing: 0.8,
@@ -348,7 +358,7 @@ class _SmartVavPageState extends State<SmartVavPage> with TickerProviderStateMix
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: Text("Actuator"),
+        title: Text("Damper Actuator"),
         content: SingleChildScrollView(
           child: Column(
             children: [
@@ -363,7 +373,7 @@ class _SmartVavPageState extends State<SmartVavPage> with TickerProviderStateMix
                 ),
               ),
               Text(
-                "ACTUATOR",
+                "Damper Actuator",
                 style: TextStyle(
                     fontSize: MediaQuery.of(context).size.width * 0.045,
                     letterSpacing: 0.8,
@@ -374,7 +384,7 @@ class _SmartVavPageState extends State<SmartVavPage> with TickerProviderStateMix
               ),
               //   SizedBox(height: 10,),
               Text(
-                "\n Features \n\n• BACnet MS/TP for Building Automation system. \n• 128 Binary value (BV), 128 Analog value (AV). \n• Compact with Actuator +Controller +Communication+ Flow. \n• Actuator with Pluggable terminal & RJ11 connection. \n• Selectable direction of rotation of reversing actuator. \n• Adjustable angle of rotation (Mechanical). \n• Selectable direction of rotation by switch. \n• Selectable baud rate • Maintenance Free.",
+                "\n Features \n\n• Adjustable angle of rotation. \n• Selectable direction of rotation of reversing actuator. \n• Manual Over-ride push button when required. \n• Optional 2 adjustable SPDT auxiliary switches. \n• Maintenance free.",
                 style: TextStyle(
                     fontSize: MediaQuery.of(context).size.width * 0.036,
                     letterSpacing: 0.8,
@@ -424,7 +434,7 @@ class _SmartVavPageState extends State<SmartVavPage> with TickerProviderStateMix
                 fit: BoxFit.fill,
               ),*/
               Text(
-                "Duct Temperature Sensor",
+                "Temperature Sensor",
                 style: TextStyle(
                     fontSize: MediaQuery.of(context).size.width * 0.045,
                     letterSpacing: 0.8,
@@ -496,7 +506,7 @@ class _SmartVavPageState extends State<SmartVavPage> with TickerProviderStateMix
               ),
               //   SizedBox(height: 10,),
               Text(
-                "\n Features \n\n • Minimal preventative maintenance as sensing element is covered with an engineered protective coating. \n• Easy field setup via the on board dip switches for range and units. \n• Display (Optional): 5 digit LCD.",
+                "\n Features \n\n• Sensing elements have been coated with an engineered conformal coating to ensure durability and longevity. \n• Field selectable ranges can be quickly configured without power to the unit. \n• Display (Optional): 5 digit LCD.",
                 style: TextStyle(
                     fontSize: MediaQuery.of(context).size.width * 0.036,
                     letterSpacing: 0.8,
@@ -633,7 +643,7 @@ class _SmartVavPageState extends State<SmartVavPage> with TickerProviderStateMix
               ),
               //   SizedBox(height: 10,),
               Text(
-                "\n Features \n\n· Simple calibration push button sets back zero and span, saving time installing and over the service life. \n· Cost effective and compact device suitable for OEM applications where space, simplicity, and value are key. \n· Ranges and accuracy selection cover a wide range of applications minimizing components and determining standardizing on design. \n· with metal barbed fittings or compression fittings for use with metal tubing. \n· Plenum rated units meeting UL Standard 2043.",
+                "\n Features \n\n· Simple calibration push-button sets back zero and span, saving time installing and over the service life. \n· Cost effective and compact device suitable for OEM applications where space, simplicity, and value are key. \n· Ranges and accuracy selection cover a wide range of applications minimizing components and determining standardizing on design. \n· with metal barbed fittings or compression fittings for use with metal tubing. \n· Plenum rated units meeting UL Standard 2043.",
                 style: TextStyle(
                     fontSize: MediaQuery.of(context).size.width * 0.036,
                     letterSpacing: 0.8,
@@ -681,7 +691,7 @@ class _SmartVavPageState extends State<SmartVavPage> with TickerProviderStateMix
                       Padding(
                         padding: EdgeInsets.fromLTRB(MediaQuery.of(context).size.height * 0.005,0,MediaQuery.of(context).size.height * 0.005,0),
                         child: Image.asset(
-                          'assets/systems/smart/smarts.png',
+                          'assets/systems/smart/smart.png',
                           height: MediaQuery.of(context).size.height * 0.52,
                           fit: BoxFit.fill,
                         ),
@@ -742,7 +752,7 @@ class _SmartVavPageState extends State<SmartVavPage> with TickerProviderStateMix
                         child: Stack(
                           children: [
                             Text(
-                              'OMNI',
+                              'OMNI Controller',
                               style: TextStyle(
                                 fontSize: MediaQuery.of(context).size.width * 0.02, // Adjust the font size
                                 foreground: Paint()
@@ -752,7 +762,7 @@ class _SmartVavPageState extends State<SmartVavPage> with TickerProviderStateMix
                               ),
                             ),
                             Text(
-                              'OMNI', // Replace with the actual product name or identifier
+                              'OMNI Controller', // Replace with the actual product name or identifier
                               style: TextStyle(
                                 fontSize: MediaQuery.of(context).size.width * 0.02, // Adjust the font size accordingly
                                 color: Colors.white, // Adjust the color if needed
@@ -893,7 +903,7 @@ class _SmartVavPageState extends State<SmartVavPage> with TickerProviderStateMix
                         child: Stack(
                           children: [
                             Text(
-                              'Airflow Switch',
+                              'Air Flow Switch',
                               style: TextStyle(
                                 fontSize: MediaQuery.of(context).size.width * 0.02, // Adjust the font size
                                 foreground: Paint()
@@ -903,7 +913,7 @@ class _SmartVavPageState extends State<SmartVavPage> with TickerProviderStateMix
                               ),
                             ),
                             Text(
-                              'Airflow Switch', // Replace with the actual product name or identifier
+                              'Air Flow Switch', // Replace with the actual product name or identifier
                               style: TextStyle(
                                 fontSize: MediaQuery.of(context).size.width * 0.02, // Adjust the font size accordingly
                                 color: Colors.white, // Adjust the color if needed
@@ -1118,7 +1128,7 @@ class _SmartVavPageState extends State<SmartVavPage> with TickerProviderStateMix
                         child: Stack(
                           children: [
                             Text(
-                              'Airflow Switch',
+                              'Air Flow Switch',
                               style: TextStyle(
                                 fontSize: MediaQuery.of(context).size.width * 0.02, // Adjust the font size
                                 foreground: Paint()
@@ -1128,7 +1138,7 @@ class _SmartVavPageState extends State<SmartVavPage> with TickerProviderStateMix
                               ),
                             ),
                             Text(
-                              'Airflow Switch', // Replace with the actual product name or identifier
+                              'Air Flow Switch', // Replace with the actual product name or identifier
                               style: TextStyle(
                                 fontSize: MediaQuery.of(context).size.width * 0.02, // Adjust the font size accordingly
                                 color: Colors.white, // Adjust the color if needed
@@ -1268,7 +1278,7 @@ class _SmartVavPageState extends State<SmartVavPage> with TickerProviderStateMix
                         child: Stack(
                           children: [
                             Text(
-                              'Airflow Switch',
+                              'Air Flow Switch',
                               style: TextStyle(
                                 fontSize: MediaQuery.of(context).size.width * 0.02, // Adjust the font size
                                 foreground: Paint()
@@ -1278,7 +1288,7 @@ class _SmartVavPageState extends State<SmartVavPage> with TickerProviderStateMix
                               ),
                             ),
                             Text(
-                              'Airflow Switch', // Replace with the actual product name or identifier
+                              'Air Flow Switch', // Replace with the actual product name or identifier
                               style: TextStyle(
                                 fontSize: MediaQuery.of(context).size.width * 0.02, // Adjust the font size accordingly
                                 color: Colors.white, // Adjust the color if needed
@@ -1343,7 +1353,7 @@ class _SmartVavPageState extends State<SmartVavPage> with TickerProviderStateMix
                         child: Stack(
                           children: [
                             Text(
-                              'Actuator',
+                              'Damper Actuator',
                               style: TextStyle(
                                 fontSize: MediaQuery.of(context).size.width * 0.02, // Adjust the font size
                                 foreground: Paint()
@@ -1353,7 +1363,7 @@ class _SmartVavPageState extends State<SmartVavPage> with TickerProviderStateMix
                               ),
                             ),
                             Text(
-                              'Actuator', // Replace with the actual product name or identifier
+                              'Damper Actuator', // Replace with the actual product name or identifier
                               style: TextStyle(
                                 fontSize: MediaQuery.of(context).size.width * 0.02, // Adjust the font size accordingly
                                 color: Colors.white, // Adjust the color if needed
@@ -1418,7 +1428,7 @@ class _SmartVavPageState extends State<SmartVavPage> with TickerProviderStateMix
                         child: Stack(
                           children: [
                             Text(
-                              'Actuator',
+                              'Damper Actuator',
                               style: TextStyle(
                                 fontSize: MediaQuery.of(context).size.width * 0.02, // Adjust the font size
                                 foreground: Paint()
@@ -1428,7 +1438,7 @@ class _SmartVavPageState extends State<SmartVavPage> with TickerProviderStateMix
                               ),
                             ),
                             Text(
-                              'Actuator', // Replace with the actual product name or identifier
+                              'Damper Actuator', // Replace with the actual product name or identifier
                               style: TextStyle(
                                 fontSize: MediaQuery.of(context).size.width * 0.02, // Adjust the font size accordingly
                                 color: Colors.white, // Adjust the color if needed
@@ -1493,7 +1503,7 @@ class _SmartVavPageState extends State<SmartVavPage> with TickerProviderStateMix
                         child: Stack(
                           children: [
                             Text(
-                              'Thermostat',
+                              'VAV Thermostat',
                               style: TextStyle(
                                 fontSize: MediaQuery.of(context).size.width * 0.02, // Adjust the font size
                                 foreground: Paint()
@@ -1503,7 +1513,7 @@ class _SmartVavPageState extends State<SmartVavPage> with TickerProviderStateMix
                               ),
                             ),
                             Text(
-                              'Thermostat', // Replace with the actual product name or identifier
+                              'VAV Thermostat', // Replace with the actual product name or identifier
                               style: TextStyle(
                                 fontSize: MediaQuery.of(context).size.width * 0.02, // Adjust the font size accordingly
                                 color: Colors.white, // Adjust the color if needed
@@ -1568,7 +1578,7 @@ class _SmartVavPageState extends State<SmartVavPage> with TickerProviderStateMix
                         child: Stack(
                           children: [
                             Text(
-                              'Thermostat',
+                              'VAV Thermostat',
                               style: TextStyle(
                                 fontSize: MediaQuery.of(context).size.width * 0.02, // Adjust the font size
                                 foreground: Paint()
@@ -1578,7 +1588,7 @@ class _SmartVavPageState extends State<SmartVavPage> with TickerProviderStateMix
                               ),
                             ),
                             Text(
-                              'Thermostat', // Replace with the actual product name or identifier
+                              'VAV Thermostat', // Replace with the actual product name or identifier
                               style: TextStyle(
                                 fontSize: MediaQuery.of(context).size.width * 0.02, // Adjust the font size accordingly
                                 color: Colors.white, // Adjust the color if needed
@@ -1643,7 +1653,7 @@ class _SmartVavPageState extends State<SmartVavPage> with TickerProviderStateMix
                         child: Stack(
                           children: [
                             Text(
-                              'Thermostat',
+                              'VAV Thermostat',
                               style: TextStyle(
                                 fontSize: MediaQuery.of(context).size.width * 0.02, // Adjust the font size
                                 foreground: Paint()
@@ -1653,7 +1663,7 @@ class _SmartVavPageState extends State<SmartVavPage> with TickerProviderStateMix
                               ),
                             ),
                             Text(
-                              'Thermostat', // Replace with the actual product name or identifier
+                              'VAV Thermostat', // Replace with the actual product name or identifier
                               style: TextStyle(
                                 fontSize: MediaQuery.of(context).size.width * 0.02, // Adjust the font size accordingly
                                 color: Colors.white, // Adjust the color if needed
@@ -1718,7 +1728,7 @@ class _SmartVavPageState extends State<SmartVavPage> with TickerProviderStateMix
                         child: Stack(
                           children: [
                             Text(
-                              'Thermostat',
+                              'VAV Thermostat',
                               style: TextStyle(
                                 fontSize: MediaQuery.of(context).size.width * 0.02, // Adjust the font size
                                 foreground: Paint()
@@ -1728,7 +1738,7 @@ class _SmartVavPageState extends State<SmartVavPage> with TickerProviderStateMix
                               ),
                             ),
                             Text(
-                              'Thermostat', // Replace with the actual product name or identifier
+                              ' VAV Thermostat', // Replace with the actual product name or identifier
                               style: TextStyle(
                                 fontSize: MediaQuery.of(context).size.width * 0.02, // Adjust the font size accordingly
                                 color: Colors.white, // Adjust the color if needed
@@ -1929,7 +1939,7 @@ class _SmartVavPageState extends State<SmartVavPage> with TickerProviderStateMix
                           },
                         ),
                         Text(
-                          'OMNI',
+                          'OMNI Controller',
                           style: TextStyle(
                             fontSize: MediaQuery.of(context).size.width * 0.025,
                             fontWeight: FontWeight.bold,
@@ -2009,7 +2019,7 @@ class _SmartVavPageState extends State<SmartVavPage> with TickerProviderStateMix
                           },
                         ),
                         Text(
-                          'AIRFLOW SWITCH',
+                          'AIR FLOW SWITCH',
                           style: TextStyle(
                             fontSize: MediaQuery.of(context).size.width * 0.025,
                             fontWeight: FontWeight.bold,
@@ -2129,7 +2139,7 @@ class _SmartVavPageState extends State<SmartVavPage> with TickerProviderStateMix
                           },
                         ),
                         Text(
-                          'AIR VELOCITY',
+                          'Air Velocity Transmitter',
                           style: TextStyle(
                             fontSize: MediaQuery.of(context).size.width * 0.025,
                             fontWeight: FontWeight.bold,
@@ -2169,7 +2179,7 @@ class _SmartVavPageState extends State<SmartVavPage> with TickerProviderStateMix
                           },
                         ),
                         Text(
-                          'Actuator',
+                          'Damper Actuator',
                           style: TextStyle(
                             fontSize: MediaQuery.of(context).size.width * 0.025,
                             fontWeight: FontWeight.bold,
@@ -2209,7 +2219,7 @@ class _SmartVavPageState extends State<SmartVavPage> with TickerProviderStateMix
                           },
                         ),
                         Text(
-                          'Thermostat',
+                          'VAV Thermostat',
                           style: TextStyle(
                             fontSize: MediaQuery.of(context).size.width * 0.025,
                             fontWeight: FontWeight.bold,

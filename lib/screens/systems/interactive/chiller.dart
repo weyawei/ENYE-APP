@@ -97,7 +97,7 @@ class _ChillerPageState extends State<ChillerPage> with TickerProviderStateMixin
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: Text("OMNI",
+        title: Text("OMNI CONTROLLER",
           style: TextStyle(
               fontSize: MediaQuery.of(context).size.width * 0.045,
               letterSpacing: 0.8,
@@ -165,7 +165,7 @@ class _ChillerPageState extends State<ChillerPage> with TickerProviderStateMixin
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: Text("VFD"),
+        title: Text("Variable Frequency Drive (VFD)"),
         content: SingleChildScrollView(
           child: Column(
             children: [
@@ -510,7 +510,17 @@ class _ChillerPageState extends State<ChillerPage> with TickerProviderStateMixin
               ),
               //   SizedBox(height: 10,),
               Text(
-                "\n Features \n\n• Measurement of flow and minimum differential pressure due to valve design with 3 P/T plugs \n• The presetting function has no impact on the stroke; Full stroke modulation at all times, regardless the preset flow \n• Regulation characteristic remains unchanged regardless of preset flow \n• The constant differential pressure across the modulating control component guarantees 100% authority \n• Automatic balancing eliminates overflows, regardless of fluctuating pressure conditions in the system \n• Minimal required differential pressure due to advanced design of the valve \n• Higher presetting precision due to stepless analogue scale \n• Rangeability > 100:1",
+                "\n Features (Valve) \n\n• Measurement of flow and minimum differential pressure due to valve design with 3 P/T plugs \n• The presetting function has no impact on the stroke; Full stroke modulation at all times, regardless the preset flow \n• Regulation characteristic remains unchanged regardless of preset flow \n• The constant differential pressure across the modulating control component guarantees 100% authority \n• Automatic balancing eliminates overflows, regardless of fluctuating pressure conditions in the system \n• Minimal required differential pressure due to advanced design of the valve \n• Higher presetting precision due to stepless analogue scale \n• Rangeability > 100:1",
+                style: TextStyle(
+                    fontSize: MediaQuery.of(context).size.width * 0.036,
+                    letterSpacing: 0.8,
+                    fontWeight: FontWeight.normal,
+                    color: Color(0xFF2E3E5C)
+                ),
+              ),
+              SizedBox(height: 10,),
+              Text(
+                "\n Features (Actuator) \n\n• High comfort for the end-users due to high precision temperature control. \n• Longer life due to less movements of the actuator. \n• No minimum straight pipe lengths required before or after the valve. \n• Total number of valves minimized due to the 3-in-1 design. \• Minimized commissioning time due to automatic balancing of the system.",
                 style: TextStyle(
                     fontSize: MediaQuery.of(context).size.width * 0.036,
                     letterSpacing: 0.8,
@@ -571,8 +581,8 @@ class _ChillerPageState extends State<ChillerPage> with TickerProviderStateMixin
               ),
               //   SizedBox(height: 10,),
               Text(
-                "\n Features \n\n• 1/4 turn housing cover with chain to prevent dropping \n• Multiple conduit knockouts for easy installation positioning \n• Integral 1/2 NPSM connection for direct mounting to a thermowell \n• General purpose or weatherproof enclosure options \n• Terminal connection eliminates need for wire nuts",
-                style: TextStyle(
+                "\n Features \n\n • Easy to mount external tab housing and flange options for duct applications \n• 1/4 turn housing cover with a chain to prevent dropping \n• Multiple conduit knockouts for easy installation positioning \n• 8´ plenum rated cable option \n• Terminal connector eliminates need for wire nuts.",
+              style: TextStyle(
                     fontSize: MediaQuery.of(context).size.width * 0.036,
                     letterSpacing: 0.8,
                     fontWeight: FontWeight.normal,
@@ -621,7 +631,7 @@ class _ChillerPageState extends State<ChillerPage> with TickerProviderStateMixin
                 fit: BoxFit.contain,
               ),*/
               Text(
-                "Butterfly Valve",
+                "Butterfly Valve and Actuator",
                 style: TextStyle(
                     fontSize: MediaQuery.of(context).size.width * 0.045,
                     letterSpacing: 0.8,
@@ -632,7 +642,7 @@ class _ChillerPageState extends State<ChillerPage> with TickerProviderStateMixin
               ),
               //   SizedBox(height: 10,),
               Text(
-                "\n Features \n\n• High quality. \n• Longer server life, greater reliability, ease of parts replacement and interchangeability of components. \n• Features a high strength double-D split stem design produces the close tolerance. \n• Provide quick and proper alignment during installation. \n• Equipped with non-corrosive bushing and self - adjusting stem seal. \n• Stem seal is designed to self -adjusting, to prevent the external substances the stem bore and the line media from coming in contact with the stem and body.\n• Bi-directional and tested to 110% of full rating.",
+                "\n Features (Butterfly Valve) \n\n• High quality. \n• Longer server life, greater reliability, ease of parts replacement and interchangeability of components. \n• Features a high strength double-D split stem design produces the close tolerance. \n• Provide quick and proper alignment during installation. \n• Equipped with non-corrosive bushing and self - adjusting stem seal. \n• Stem seal is designed to self -adjusting, to prevent the external substances the stem bore and the line media from coming in contact with the stem and body.\n• Bi-directional and tested to 110% of full rating.",
                 style: TextStyle(
                     fontSize: MediaQuery.of(context).size.width * 0.036,
                     letterSpacing: 0.8,
@@ -641,14 +651,14 @@ class _ChillerPageState extends State<ChillerPage> with TickerProviderStateMixin
                 ),
               ),
 
-            SizedBox(height: 15,),
-              Image.asset(
+            SizedBox(height: 10,),
+             /* Image.asset(
                 'assets/systems/chiller/ECY.png',
                 width: MediaQuery.of(context).size.width * 1,
                 height: MediaQuery.of(context).size.width * 0.5,
                 fit: BoxFit.contain,
-              ),
-              Text(
+              ),*/
+             /* Text(
                 "Actuator",
                 style: TextStyle(
                     fontSize: MediaQuery.of(context).size.width * 0.045,
@@ -657,10 +667,10 @@ class _ChillerPageState extends State<ChillerPage> with TickerProviderStateMixin
                     color: Color(0xFF2E3E5C)
                 ),
 
-              ),
+              ),*/
               //   SizedBox(height: 10,),
               Text(
-                "\n Features \n\n• High close-off pressure satisfies demanding requirements of high-rise buildings and high-pressure pumping systems \n• Manual Handwheel \n• On/Off or Modulating \n• 0-10VDC or 4-20mA Control Signal Selectable \n• Control Modulating DC 0(2)...10V",
+                "\nFeatures (Actuator)\n\n• High close-off pressure satisfies demanding requirements of high-rise buildings and high-pressure pumping systems \n• Manual Handwheel \n• On/Off or Modulating \n• 0-10VDC or 4-20mA Control Signal Selectable \n• Control Modulating DC 0(2)...10V",
                 style: TextStyle(
                     fontSize: MediaQuery.of(context).size.width * 0.036,
                     letterSpacing: 0.8,
@@ -764,12 +774,26 @@ class _ChillerPageState extends State<ChillerPage> with TickerProviderStateMixin
                       Positioned(
                         left: MediaQuery.of(context).size.width * 0.75,
                         top: MediaQuery.of(context).size.height * 0.21, // Adjusted for relative positioning
-                        child: Text(
-                          'OMNI Controller', // Replace with the actual product name or identifier
-                          style: TextStyle(
-                            fontSize: MediaQuery.of(context).size.width * 0.02, // Adjust the font size accordingly
-                            color: Colors.white, // Adjust the color if needed
-                          ),
+                        child: Stack(
+                          children: [
+                            Text(
+                              'OMNI Controller',
+                              style: TextStyle(
+                                fontSize: MediaQuery.of(context).size.width * 0.02, // Adjust the font size
+                                foreground: Paint()
+                                  ..style = PaintingStyle.stroke
+                                  ..strokeWidth = 1 // Outline thickness
+                                  ..color = Colors.deepOrange,  // Outline color
+                              ),
+                            ),
+                            Text(
+                              'OMNI Controller', // Replace with the actual product name or identifier
+                              style: TextStyle(
+                                fontSize: MediaQuery.of(context).size.width * 0.02, // Adjust the font size accordingly
+                                color: Colors.white, // Adjust the color if needed
+                              ),
+                            ),
+                          ],
                         ),
                       ),
 
@@ -826,12 +850,26 @@ class _ChillerPageState extends State<ChillerPage> with TickerProviderStateMixin
                       Positioned(
                         left: MediaQuery.of(context).size.width * 0.78,
                         top: MediaQuery.of(context).size.height * 0.29, // Adjusted for relative positioning
-                        child: Text(
-                          'VFD', // Replace with the actual product name or identifier
-                          style: TextStyle(
-                            fontSize: MediaQuery.of(context).size.width * 0.02, // Adjust the font size accordingly
-                            color: Colors.white, // Adjust the color if needed
-                          ),
+                        child: Stack(
+                          children: [
+                            Text(
+                              'VFD',
+                              style: TextStyle(
+                                fontSize: MediaQuery.of(context).size.width * 0.02, // Adjust the font size
+                                foreground: Paint()
+                                  ..style = PaintingStyle.stroke
+                                  ..strokeWidth = 1 // Outline thickness
+                                  ..color = Colors.deepOrange,  // Outline color
+                              ),
+                            ),
+                            Text(
+                              'VFD', // Replace with the actual product name or identifier
+                              style: TextStyle(
+                                fontSize: MediaQuery.of(context).size.width * 0.02, // Adjust the font size accordingly
+                                color: Colors.white, // Adjust the color if needed
+                              ),
+                            ),
+                          ],
                         ),
                       ),
 
@@ -887,12 +925,26 @@ class _ChillerPageState extends State<ChillerPage> with TickerProviderStateMixin
                       Positioned(
                         left: MediaQuery.of(context).size.width * 0.75,
                         top: MediaQuery.of(context).size.height * 0.23, // Adjusted for relative positioning
-                        child: Text(
-                          'Power Meter', // Replace with the actual product name or identifier
-                          style: TextStyle(
-                            fontSize: MediaQuery.of(context).size.width * 0.02, // Adjust the font size accordingly
-                            color: Colors.white, // Adjust the color if needed
-                          ),
+                        child: Stack(
+                          children: [
+                            Text(
+                              'Power Meter',
+                              style: TextStyle(
+                                fontSize: MediaQuery.of(context).size.width * 0.02, // Adjust the font size
+                                foreground: Paint()
+                                  ..style = PaintingStyle.stroke
+                                  ..strokeWidth = 1 // Outline thickness
+                                  ..color = Colors.deepOrange,  // Outline color
+                              ),
+                            ),
+                            Text(
+                              'Power Meter', // Replace with the actual product name or identifier
+                              style: TextStyle(
+                                fontSize: MediaQuery.of(context).size.width * 0.02, // Adjust the font size accordingly
+                                color: Colors.white, // Adjust the color if needed
+                              ),
+                            ),
+                          ],
                         ),
                       ),
 
@@ -948,12 +1000,26 @@ class _ChillerPageState extends State<ChillerPage> with TickerProviderStateMixin
                       Positioned(
                         left: MediaQuery.of(context).size.width * 0.63,
                         top: MediaQuery.of(context).size.height * 0.32, // Adjusted for relative positioning
-                        child: Text(
-                          'Differential Pressure', // Replace with the actual product name or identifier
-                          style: TextStyle(
-                            fontSize: MediaQuery.of(context).size.width * 0.02, // Adjust the font size accordingly
-                            color: Colors.white, // Adjust the color if needed
-                          ),
+                        child: Stack(
+                          children: [
+                            Text(
+                              'Differential Pressure',
+                              style: TextStyle(
+                                fontSize: MediaQuery.of(context).size.width * 0.02, // Adjust the font size
+                                foreground: Paint()
+                                  ..style = PaintingStyle.stroke
+                                  ..strokeWidth = 1 // Outline thickness
+                                  ..color = Colors.deepOrange,  // Outline color
+                              ),
+                            ),
+                            Text(
+                              'Differential Pressure', // Replace with the actual product name or identifier
+                              style: TextStyle(
+                                fontSize: MediaQuery.of(context).size.width * 0.02, // Adjust the font size accordingly
+                                color: Colors.white, // Adjust the color if needed
+                              ),
+                            ),
+                          ],
                         ),
                       ),
 
@@ -1009,12 +1075,26 @@ class _ChillerPageState extends State<ChillerPage> with TickerProviderStateMixin
                       Positioned(
                         left: MediaQuery.of(context).size.width * 0.63,
                         top: MediaQuery.of(context).size.height * 0.35, // Adjusted for relative positioning
-                        child: Text(
-                          'Flow Switch', // Replace with the actual product name or identifier
-                          style: TextStyle(
-                            fontSize: MediaQuery.of(context).size.width * 0.02, // Adjust the font size accordingly
-                            color: Colors.white, // Adjust the color if needed
-                          ),
+                        child: Stack(
+                          children: [
+                            Text(
+                              'Flow Switch',
+                              style: TextStyle(
+                                fontSize: MediaQuery.of(context).size.width * 0.02, // Adjust the font size
+                                foreground: Paint()
+                                  ..style = PaintingStyle.stroke
+                                  ..strokeWidth = 1 // Outline thickness
+                                  ..color = Colors.deepOrange,  // Outline color
+                              ),
+                            ),
+                            Text(
+                              'Flow Switch', // Replace with the actual product name or identifier
+                              style: TextStyle(
+                                fontSize: MediaQuery.of(context).size.width * 0.02, // Adjust the font size accordingly
+                                color: Colors.white, // Adjust the color if needed
+                              ),
+                            ),
+                          ],
                         ),
                       ),
 
@@ -1070,12 +1150,26 @@ class _ChillerPageState extends State<ChillerPage> with TickerProviderStateMixin
                       Positioned(
                         left: MediaQuery.of(context).size.width * 0.59,
                         top: MediaQuery.of(context).size.height * 0.285, // Adjusted for relative positioning
-                        child: Text(
-                          'BTU Meter', // Replace with the actual product name or identifier
-                          style: TextStyle(
-                            fontSize: MediaQuery.of(context).size.width * 0.02, // Adjust the font size accordingly
-                            color: Colors.white, // Adjust the color if needed
-                          ),
+                        child: Stack(
+                          children: [
+                            Text(
+                              'ENERGY Meter/BTU Meter',
+                              style: TextStyle(
+                                fontSize: MediaQuery.of(context).size.width * 0.02, // Adjust the font size
+                                foreground: Paint()
+                                  ..style = PaintingStyle.stroke
+                                  ..strokeWidth = 1 // Outline thickness
+                                  ..color = Colors.deepOrange,  // Outline color
+                              ),
+                            ),
+                            Text(
+                              'ENERGY Meter/BTU Meter', // Replace with the actual product name or identifier
+                              style: TextStyle(
+                                fontSize: MediaQuery.of(context).size.width * 0.02, // Adjust the font size accordingly
+                                color: Colors.white, // Adjust the color if needed
+                              ),
+                            ),
+                          ],
                         ),
                       ),
 
@@ -1131,12 +1225,26 @@ class _ChillerPageState extends State<ChillerPage> with TickerProviderStateMixin
                       Positioned(
                         left: MediaQuery.of(context).size.width * 0.55,
                         top: MediaQuery.of(context).size.height * 0.37, // Adjusted for relative positioning
-                        child: Text(
-                          'PIBCV', // Replace with the actual product name or identifier
-                          style: TextStyle(
-                            fontSize: MediaQuery.of(context).size.width * 0.02, // Adjust the font size accordingly
-                            color: Colors.white, // Adjust the color if needed
-                          ),
+                        child: Stack(
+                          children: [
+                            Text(
+                              'PIBCV',
+                              style: TextStyle(
+                                fontSize: MediaQuery.of(context).size.width * 0.02, // Adjust the font size
+                                foreground: Paint()
+                                  ..style = PaintingStyle.stroke
+                                  ..strokeWidth = 1 // Outline thickness
+                                  ..color = Colors.deepOrange,  // Outline color
+                              ),
+                            ),
+                            Text(
+                              'PIBCV', // Replace with the actual product name or identifier
+                              style: TextStyle(
+                                fontSize: MediaQuery.of(context).size.width * 0.02, // Adjust the font size accordingly
+                                color: Colors.white, // Adjust the color if needed
+                              ),
+                            ),
+                          ],
                         ),
                       ),
 
@@ -1192,12 +1300,26 @@ class _ChillerPageState extends State<ChillerPage> with TickerProviderStateMixin
                       Positioned(
                         left: MediaQuery.of(context).size.width * 0.33,
                         top: MediaQuery.of(context).size.height * 0.285, // Adjusted for relative positioning
-                        child: Text(
-                          'Temp Sensor', // Replace with the actual product name or identifier
-                          style: TextStyle(
-                            fontSize: MediaQuery.of(context).size.width * 0.02, // Adjust the font size accordingly
-                            color: Colors.white, // Adjust the color if needed
-                          ),
+                        child: Stack(
+                          children: [
+                            Text(
+                              'Temperature Sensor',
+                              style: TextStyle(
+                                fontSize: MediaQuery.of(context).size.width * 0.02, // Adjust the font size
+                                foreground: Paint()
+                                  ..style = PaintingStyle.stroke
+                                  ..strokeWidth = 1 // Outline thickness
+                                  ..color = Colors.deepOrange,  // Outline color
+                              ),
+                            ),
+                            Text(
+                              'Temperature Sensor', // Replace with the actual product name or identifier
+                              style: TextStyle(
+                                fontSize: MediaQuery.of(context).size.width * 0.02, // Adjust the font size accordingly
+                                color: Colors.white, // Adjust the color if needed
+                              ),
+                            ),
+                          ],
                         ),
                       ),
 
@@ -1253,12 +1375,26 @@ class _ChillerPageState extends State<ChillerPage> with TickerProviderStateMixin
                       Positioned(
                         left: MediaQuery.of(context).size.width * 0.5,
                         top: MediaQuery.of(context).size.height * 0.32, // Adjusted for relative positioning
-                        child: Text(
-                          'Flow Switch', // Replace with the actual product name or identifier
-                          style: TextStyle(
-                            fontSize: MediaQuery.of(context).size.width * 0.02, // Adjust the font size accordingly
-                            color: Colors.white, // Adjust the color if needed
-                          ),
+                        child: Stack(
+                          children: [
+                            Text(
+                              'Flow Switch',
+                              style: TextStyle(
+                                fontSize: MediaQuery.of(context).size.width * 0.02, // Adjust the font size
+                                foreground: Paint()
+                                  ..style = PaintingStyle.stroke
+                                  ..strokeWidth = 1 // Outline thickness
+                                  ..color = Colors.deepOrange,  // Outline color
+                              ),
+                            ),
+                            Text(
+                              'Flow Switch', // Replace with the actual product name or identifier
+                              style: TextStyle(
+                                fontSize: MediaQuery.of(context).size.width * 0.02, // Adjust the font size accordingly
+                                color: Colors.white, // Adjust the color if needed
+                              ),
+                            ),
+                          ],
                         ),
                       ),
 
@@ -1314,12 +1450,26 @@ class _ChillerPageState extends State<ChillerPage> with TickerProviderStateMixin
                       Positioned(
                         left: MediaQuery.of(context).size.width * 0.16,
                         top: MediaQuery.of(context).size.height * 0.385, // Adjusted for relative positioning
-                        child: Text(
-                          'Temp Sensor', // Replace with the actual product name or identifier
-                          style: TextStyle(
-                            fontSize: MediaQuery.of(context).size.width * 0.02, // Adjust the font size accordingly
-                            color: Colors.white, // Adjust the color if needed
-                          ),
+                        child: Stack(
+                          children: [
+                            Text(
+                              'Temperature Sensor',
+                              style: TextStyle(
+                                fontSize: MediaQuery.of(context).size.width * 0.02, // Adjust the font size
+                                foreground: Paint()
+                                  ..style = PaintingStyle.stroke
+                                  ..strokeWidth = 1 // Outline thickness
+                                  ..color = Colors.deepOrange,  // Outline color
+                              ),
+                            ),
+                            Text(
+                              'Temperature Sensor', // Replace with the actual product name or identifier
+                              style: TextStyle(
+                                fontSize: MediaQuery.of(context).size.width * 0.02, // Adjust the font size accordingly
+                                color: Colors.white, // Adjust the color if needed
+                              ),
+                            ),
+                          ],
                         ),
                       ),
 
@@ -1375,12 +1525,26 @@ class _ChillerPageState extends State<ChillerPage> with TickerProviderStateMixin
                       Positioned(
                         left: MediaQuery.of(context).size.width * 0.29,
                         top: MediaQuery.of(context).size.height * 0.37, // Adjusted for relative positioning
-                        child: Text(
-                          'PIBCV', // Replace with the actual product name or identifier
-                          style: TextStyle(
-                            fontSize: MediaQuery.of(context).size.width * 0.02, // Adjust the font size accordingly
-                            color: Colors.white, // Adjust the color if needed
-                          ),
+                        child: Stack(
+                          children: [
+                            Text(
+                              'PIBCV',
+                              style: TextStyle(
+                                fontSize: MediaQuery.of(context).size.width * 0.02, // Adjust the font size
+                                foreground: Paint()
+                                  ..style = PaintingStyle.stroke
+                                  ..strokeWidth = 1 // Outline thickness
+                                  ..color = Colors.deepOrange,  // Outline color
+                              ),
+                            ),
+                            Text(
+                              'PIBCV', // Replace with the actual product name or identifier
+                              style: TextStyle(
+                                fontSize: MediaQuery.of(context).size.width * 0.02, // Adjust the font size accordingly
+                                color: Colors.white, // Adjust the color if needed
+                              ),
+                            ),
+                          ],
                         ),
                       ),
 
@@ -1436,12 +1600,26 @@ class _ChillerPageState extends State<ChillerPage> with TickerProviderStateMixin
                       Positioned(
                         left: MediaQuery.of(context).size.width * 0.24,
                         top: MediaQuery.of(context).size.height * 0.22, // Adjusted for relative positioning
-                        child: Text(
-                          'Butterfly Valve', // Replace with the actual product name or identifier
-                          style: TextStyle(
-                            fontSize: MediaQuery.of(context).size.width * 0.02, // Adjust the font size accordingly
-                            color: Colors.white, // Adjust the color if needed
-                          ),
+                        child: Stack(
+                          children: [
+                            Text(
+                              'Butterfly Valve and Actuator',
+                              style: TextStyle(
+                                fontSize: MediaQuery.of(context).size.width * 0.02, // Adjust the font size
+                                foreground: Paint()
+                                  ..style = PaintingStyle.stroke
+                                  ..strokeWidth = 1 // Outline thickness
+                                  ..color = Colors.deepOrange,  // Outline color
+                              ),
+                            ),
+                            Text(
+                              'Butterfly Valve and Actuator', // Replace with the actual product name or identifier
+                              style: TextStyle(
+                                fontSize: MediaQuery.of(context).size.width * 0.02, // Adjust the font size accordingly
+                                color: Colors.white, // Adjust the color if needed
+                              ),
+                            ),
+                          ],
                         ),
                       ),
 
@@ -1497,12 +1675,26 @@ class _ChillerPageState extends State<ChillerPage> with TickerProviderStateMixin
                       Positioned(
                         left: MediaQuery.of(context).size.width * 0.14,
                         top: MediaQuery.of(context).size.height * 0.2, // Adjusted for relative positioning
-                        child: Text(
-                          'Butterfly Valve', // Replace with the actual product name or identifier
-                          style: TextStyle(
-                            fontSize: MediaQuery.of(context).size.width * 0.02, // Adjust the font size accordingly
-                            color: Colors.white, // Adjust the color if needed
-                          ),
+                        child: Stack(
+                          children: [
+                            Text(
+                              'Butterfly Valve and Actuator',
+                              style: TextStyle(
+                                fontSize: MediaQuery.of(context).size.width * 0.02, // Adjust the font size
+                                foreground: Paint()
+                                  ..style = PaintingStyle.stroke
+                                  ..strokeWidth = 1 // Outline thickness
+                                  ..color = Colors.deepOrange,  // Outline color
+                              ),
+                            ),
+                            Text(
+                              'Butterfly Valve and Actuator', // Replace with the actual product name or identifier
+                              style: TextStyle(
+                                fontSize: MediaQuery.of(context).size.width * 0.02, // Adjust the font size accordingly
+                                color: Colors.white, // Adjust the color if needed
+                              ),
+                            ),
+                          ],
                         ),
                       ),
 
@@ -1541,7 +1733,7 @@ class _ChillerPageState extends State<ChillerPage> with TickerProviderStateMixin
                           },
                         ),
                         Text(
-                          'OMNI',
+                          'OMNI Controller',
                           style: TextStyle(
                             fontSize: MediaQuery.of(context).size.width * 0.025,
                             fontWeight: FontWeight.bold,
@@ -1711,7 +1903,7 @@ class _ChillerPageState extends State<ChillerPage> with TickerProviderStateMixin
                           },
                         ),
                         Text(
-                          'BTU Meter',
+                          'Energy Meter/BTU Meter',
                           style: TextStyle(
                             fontSize: MediaQuery.of(context).size.width * 0.025,
                             fontWeight: FontWeight.bold,
@@ -1779,7 +1971,7 @@ class _ChillerPageState extends State<ChillerPage> with TickerProviderStateMixin
                           },
                         ),
                         Text(
-                          'Temp Sensor',
+                          'Temperature Sensor',
                           style: TextStyle(
                             fontSize: MediaQuery.of(context).size.width * 0.025,
                             fontWeight: FontWeight.bold,
@@ -1814,7 +2006,7 @@ class _ChillerPageState extends State<ChillerPage> with TickerProviderStateMixin
                           },
                         ),
                         Text(
-                          'Butterfly Valve',
+                          'Butterfly Valve and Actuators',
                           style: TextStyle(
                             fontSize: MediaQuery.of(context).size.width * 0.025,
                             fontWeight: FontWeight.bold,

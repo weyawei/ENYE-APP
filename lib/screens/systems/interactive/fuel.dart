@@ -97,7 +97,7 @@ class _FuelPageState extends State<FuelPage> with TickerProviderStateMixin {
       context: context,
       builder: (context) => AlertDialog(
         title: Text(
-          "OMNI",
+          "OMNI Controller",
           style: TextStyle(
             fontSize: MediaQuery.of(context).size.width * 0.045,
             letterSpacing: 0.8,
@@ -125,7 +125,7 @@ class _FuelPageState extends State<FuelPage> with TickerProviderStateMixin {
                 fit: BoxFit.contain,
               ),*/
               Text(
-                "OMNI",
+                "OMNI Controller",
                 style: TextStyle(
                   fontSize: MediaQuery.of(context).size.width * 0.035,
                   letterSpacing: 0.8,
@@ -191,7 +191,7 @@ class _FuelPageState extends State<FuelPage> with TickerProviderStateMixin {
                 fit: BoxFit.contain,
               ),*/
               Text(
-                "Relay",
+                "Leak Detection Monitor Relay",
                 style: TextStyle(
                   fontSize: MediaQuery.of(context).size.width * 0.035,
                   letterSpacing: 0.8,
@@ -266,7 +266,7 @@ class _FuelPageState extends State<FuelPage> with TickerProviderStateMixin {
                 ),
               ),
               Text(
-                "\n Features \n\n• Designed to detect leaking diesel fuel in dry, indoor locations. \n• The sensor is positioned on a concrete floor or in shallow drip pan below day tanks, beneath flex coupling hoses and fuel filters, on pump pads and below valve manifolds. \n• Reaction time to diesel fuel is less than 10 seconds after contact. \n• Fuel sensor is resettable and the sensor element can be removed and replace in a matter of seconds. \n• Detection and alarm occurs when the puddle of leaking fuel reaches the base of the sensor. \n• Missing or damaged sensor element or damaged/ disconnected jumper wire generates an alarm condition. This is a fail safe design approach because the sensor cannot signal normal conditions while unable to detect a leak. \n• No moving parts • Sensor will typically reset once the fuel evaporates.",
+                "\n Features \n\n• Designed to detect leaking diesel fuel in dry, indoor locations. \n• The sensor is positioned on a concrete floor or in shallow drip pan below day tanks, beneath flex coupling hoses and fuel filters, on pump pads and below valve manifolds. \n• Reaction time to diesel fuel is less than 10 seconds after contact. \n• Fuel sensor is resettable and the sensor element can be removed and replace in a matter of seconds. \n• Detection and alarm occurs when the puddle of leaking fuel reaches the base of the sensor. \n• Missing or damaged sensor element or damaged/ disconnected jumper wire generates an alarm condition. This is a fail safe design approach because the sensor cannot signal normal conditions while unable to detect a leak. \n• No moving parts. \n• Sensor will typically reset once the fuel evaporates.",
                 style: TextStyle(
                   fontSize: MediaQuery.of(context).size.width * 0.036,
                   letterSpacing: 0.8,
@@ -371,7 +371,7 @@ class _FuelPageState extends State<FuelPage> with TickerProviderStateMixin {
                         child: Stack(
                           children: [
                             Text(
-                              'OMNI',
+                              'OMNI Controller',
                               style: TextStyle(
                                 fontSize: MediaQuery.of(context).size.width * 0.03, // Adjust the font size
                                 foreground: Paint()
@@ -381,7 +381,7 @@ class _FuelPageState extends State<FuelPage> with TickerProviderStateMixin {
                               ),
                             ),
                             Text(
-                              'OMNI', // Replace with the actual product name or identifier
+                              'OMNI Controller', // Replace with the actual product name or identifier
                               style: TextStyle(
                                 fontSize: MediaQuery.of(context).size.width * 0.03, // Adjust the font size accordingly
                                 color: Colors.black, // Adjust the color if needed
@@ -447,7 +447,7 @@ class _FuelPageState extends State<FuelPage> with TickerProviderStateMixin {
                         child: Stack(
                           children: [
                             Text(
-                              'RELAY',
+                              'Leak Detection Monitor Relay',
                               style: TextStyle(
                                 fontSize: MediaQuery.of(context).size.width * 0.03, // Adjust the font size
                                 foreground: Paint()
@@ -457,7 +457,7 @@ class _FuelPageState extends State<FuelPage> with TickerProviderStateMixin {
                               ),
                             ),
                             Text(
-                              'RELAY', // Replace with the actual product name or identifier
+                              'Leak Detection Monitor Relay', // Replace with the actual product name or identifier
                               style: TextStyle(
                                 fontSize: MediaQuery.of(context).size.width * 0.03, // Adjust the font size accordingly
                                 color: Colors.black, // Adjust the color if needed
@@ -582,7 +582,7 @@ class _FuelPageState extends State<FuelPage> with TickerProviderStateMixin {
                           },
                         ),
                         Text(
-                          'OMNI',
+                          'OMNI Controller',
                           style: TextStyle(
                             fontSize: MediaQuery.of(context).size.width * 0.025,
                             fontWeight: FontWeight.bold,
@@ -623,7 +623,7 @@ class _FuelPageState extends State<FuelPage> with TickerProviderStateMixin {
                           },
                         ),
                         Text(
-                          'Relay',
+                          'Leak Detection Monitor Relay',
                           style: TextStyle(
                             fontSize: MediaQuery.of(context).size.width * 0.025,
                             fontWeight: FontWeight.bold,

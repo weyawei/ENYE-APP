@@ -362,7 +362,7 @@ class _FireSmokePageState extends State<FireSmokePage> with TickerProviderStateM
                         child: Stack(
                           children: [
                             Text(
-                              'OMNI',
+                              'OMNI Controller',
                               style: TextStyle(
                                 fontSize: MediaQuery.of(context).size.width * 0.02, // Adjust the font size
                                 foreground: Paint()
@@ -372,7 +372,7 @@ class _FireSmokePageState extends State<FireSmokePage> with TickerProviderStateM
                               ),
                             ),
                             Text(
-                              'OMNI', // Replace with the actual product name or identifier
+                              'OMNI Controller', // Replace with the actual product name or identifier
                               style: TextStyle(
                                 fontSize: MediaQuery.of(context).size.width * 0.02, // Adjust the font size accordingly
                                 color: Colors.white, // Adjust the color if needed
@@ -712,7 +712,7 @@ class _FireSmokePageState extends State<FireSmokePage> with TickerProviderStateM
                           },
                         ),
                         Text(
-                          'OMNI',
+                          'OMNI Controller',
                           style: TextStyle(
                             fontSize: MediaQuery.of(context).size.width * 0.025,
                             fontWeight: FontWeight.bold,

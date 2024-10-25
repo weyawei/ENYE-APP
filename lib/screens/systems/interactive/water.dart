@@ -125,7 +125,7 @@ class _WaterSystemPageState extends State<WaterSystemPage> with TickerProviderSt
                 fit: BoxFit.contain,
               ),*/
               Text(
-                "OMNI ",
+                "OMNI Controller",
                 style: TextStyle(
                   fontSize: MediaQuery.of(context).size.width * 0.035,
                   letterSpacing: 0.8,
@@ -371,7 +371,7 @@ class _WaterSystemPageState extends State<WaterSystemPage> with TickerProviderSt
                         child: Stack(
                           children: [
                             Text(
-                              'OMNI',
+                              'OMNI Controller',
                               style: TextStyle(
                                 fontSize: MediaQuery.of(context).size.width * 0.03, // Adjust the font size
                                 foreground: Paint()
@@ -381,7 +381,7 @@ class _WaterSystemPageState extends State<WaterSystemPage> with TickerProviderSt
                               ),
                             ),
                             Text(
-                              'OMNI', // Replace with the actual product name or identifier
+                              'OMNI Controller', // Replace with the actual product name or identifier
                               style: TextStyle(
                                 fontSize: MediaQuery.of(context).size.width * 0.03, // Adjust the font size accordingly
                                 color: Colors.black, // Adjust the color if needed
@@ -447,7 +447,7 @@ class _WaterSystemPageState extends State<WaterSystemPage> with TickerProviderSt
                         child: Stack(
                           children: [
                             Text(
-                              'LEAK SENSOR',
+                              'WATER LEAK SENSOR',
                               style: TextStyle(
                                 fontSize: MediaQuery.of(context).size.width * 0.03, // Adjust the font size
                                 foreground: Paint()
@@ -457,7 +457,7 @@ class _WaterSystemPageState extends State<WaterSystemPage> with TickerProviderSt
                               ),
                             ),
                             Text(
-                              'LEAK SENSOR', // Replace with the actual product name or identifier
+                              'WATER LEAK SENSOR', // Replace with the actual product name or identifier
                               style: TextStyle(
                                 fontSize: MediaQuery.of(context).size.width * 0.03, // Adjust the font size accordingly
                                 color: Colors.black, // Adjust the color if needed
@@ -582,7 +582,7 @@ class _WaterSystemPageState extends State<WaterSystemPage> with TickerProviderSt
                           },
                         ),
                         Text(
-                          'OMNI',
+                          'OMNI Caontroller',
                           style: TextStyle(
                             fontSize: MediaQuery.of(context).size.width * 0.025,
                             fontWeight: FontWeight.bold,
