@@ -201,7 +201,7 @@ class _ECBillsPageState extends State<ECBillsPage> with TickerProviderStateMixin
                 ),
               ),
               Text(
-                "\n Features \n\n• High performance with ease of integration to provide a cost-effective power and energy monitoring solution with 400 metering parameters. \n• Integrates three-phase energy measuring and displaying, energy accumulating, power quality analysis, malfunction alarming, data logging and network communication. \n• The meter measures bidirectional, four quadrants kWh and kvarh. \n• It provides maximum/minimum records for power usage and power demand parameters. \n• Provides demand forecasting as well as the peak demand. Meters can record the time and event regarding important parameter events such as the run time of the meter and alarm functions.",
+                "\n Features \n\n• High performance with ease of integration to provide a cost-effective power and energy monitoring solution with 400 metering parameters. \n• Integrates three-phase energy measuring and displaying, energy accumulating, power quality analysis, malfunction alarming, data logging and network communication. \n• The meter measures bidirectional, four quadrants kWh and kVARh. \n• It provides maximum/minimum records for power usage and power demand parameters. \n• Provides demand forecasting as well as the peak demand. Meters can record the time and event regarding important parameter events such as the run time of the meter and alarm functions.",
                 style: TextStyle(
                   fontSize: MediaQuery.of(context).size.width * 0.036,
                   letterSpacing: 0.8,
@@ -508,7 +508,7 @@ class _ECBillsPageState extends State<ECBillsPage> with TickerProviderStateMixin
                         child: Stack(
                           children: [
                             Text(
-                              'OMNI',
+                              'OMNI Controller',
                               style: TextStyle(
                                 fontSize: MediaQuery.of(context).size.width * 0.02, // Adjust the font size
                                 foreground: Paint()
@@ -518,7 +518,7 @@ class _ECBillsPageState extends State<ECBillsPage> with TickerProviderStateMixin
                               ),
                             ),
                             Text(
-                              'OMNI', // Replace with the actual product name or identifier
+                              'OMNI Controller', // Replace with the actual product name or identifier
                               style: TextStyle(
                                 fontSize: MediaQuery.of(context).size.width * 0.02, // Adjust the font size accordingly
                                 color: Colors.white, // Adjust the color if needed

@@ -195,7 +195,7 @@ class _ProductZoomPageState extends State<ProductZoomPage> with TickerProviderSt
               ),
               //   SizedBox(height: 10,),
               Text(
-                "\n Features \n\n• Adjustable angle of rotation. \n• Selectable direction of rotation of reversing actuator. \n• Manual Over-ride push button when required. \n• Optional 2 adjustable SPDT auxiliary switches. \n• Maintenance free.",
+                "\n Features \n\n• Adjustable angle of rotation. \n• Selectable direction of rotation of reversing actuator. \n• Manual Over-ride push button when required. \n• Optional 2 adjustable SPDT auxiliary switches. \n• Manual over-ride push-button when required.",
                 style: TextStyle(
                     fontSize: MediaQuery.of(context).size.width * 0.036,
                     letterSpacing: 0.8,
@@ -263,7 +263,7 @@ class _ProductZoomPageState extends State<ProductZoomPage> with TickerProviderSt
               ),
               //   SizedBox(height: 10,),
               Text(
-                "\n Features \n• Single beam dual wavelength NDIR sensor eliminates draft due to light source aging. \n• Integral passive temperature outputs reduce number of devices mounted in the space. \n• Service display tool available for models without an integral LED. \n• Optional integral display and relay output. ",
+                "\n Features \n\n• Single beam dual wavelength NDIR sensor eliminates draft due to light source aging. \n• Integral passive temperature outputs reduce number of devices mounted in the space. \n• Service display tool available for models without an integral LED. \n• Optional integral display and relay output. ",
                 style: TextStyle(
                     fontSize: MediaQuery.of(context).size.width * 0.036,
                     letterSpacing: 0.8,
@@ -474,7 +474,7 @@ class _ProductZoomPageState extends State<ProductZoomPage> with TickerProviderSt
               ),
               //   SizedBox(height: 10,),
               Text(
-                "\n Features \n\n• Minimal preventative maintenance as sensing element is covered with an engineered protective coating. \n• Easy field setup via the on board dip switches for range and units. \n• Display (Optional): 5 digit LCD. ",
+                "\n Features \n\n• Sensing elements have been coated with an engineered conformal coating to ensure durability and longevity. \n• Field selectable ranges can be quickly configured without power to the unit.",
                 style: TextStyle(
                     fontSize: MediaQuery.of(context).size.width * 0.036,
                     letterSpacing: 0.8,
@@ -703,7 +703,7 @@ class _ProductZoomPageState extends State<ProductZoomPage> with TickerProviderSt
                         child: Stack(
                           children: [
                             Text(
-                              'Temp Sensor',
+                              'Temperature Sensor',
                               style: TextStyle(
                                 fontSize: MediaQuery.of(context).size.width * 0.02, // Adjust the font size
                                 foreground: Paint()
@@ -713,7 +713,7 @@ class _ProductZoomPageState extends State<ProductZoomPage> with TickerProviderSt
                               ),
                             ),
                             Text(
-                              'Temp Sensor', // Replace with the actual product name or identifier
+                              'Temperature Sensor', // Replace with the actual product name or identifier
                               style: TextStyle(
                                 fontSize: MediaQuery.of(context).size.width * 0.02, // Adjust the font size accordingly
                                 color: Colors.white, // Adjust the color if needed
@@ -1004,7 +1004,7 @@ class _ProductZoomPageState extends State<ProductZoomPage> with TickerProviderSt
                         child: Stack(
                           children: [
                             Text(
-                              'Differential Pressure',
+                              'Differential Pressure Transmitter',
                               style: TextStyle(
                                 fontSize: MediaQuery.of(context).size.width * 0.02, // Adjust the font size
                                 foreground: Paint()
@@ -1014,7 +1014,7 @@ class _ProductZoomPageState extends State<ProductZoomPage> with TickerProviderSt
                               ),
                             ),
                             Text(
-                              'Differential Pressure', // Replace with the actual product name or identifier
+                              'Differential Pressure Transmitter', // Replace with the actual product name or identifier
                               style: TextStyle(
                                 fontSize: MediaQuery.of(context).size.width * 0.02, // Adjust the font size accordingly
                                 color: Colors.white, // Adjust the color if needed
@@ -1154,7 +1154,7 @@ class _ProductZoomPageState extends State<ProductZoomPage> with TickerProviderSt
                         child: Stack(
                           children: [
                             Text(
-                              'Air Velocity',
+                              'Air Velocity Transmitter',
                               style: TextStyle(
                                 fontSize: MediaQuery.of(context).size.width * 0.02, // Adjust the font size
                                 foreground: Paint()
@@ -1164,7 +1164,7 @@ class _ProductZoomPageState extends State<ProductZoomPage> with TickerProviderSt
                               ),
                             ),
                             Text(
-                              'Air Velocity', // Replace with the actual product name or identifier
+                              'Air Velocity Transmitter', // Replace with the actual product name or identifier
                               style: TextStyle(
                                 fontSize: MediaQuery.of(context).size.width * 0.02, // Adjust the font size accordingly
                                 color: Colors.white, // Adjust the color if needed
@@ -1304,7 +1304,7 @@ class _ProductZoomPageState extends State<ProductZoomPage> with TickerProviderSt
                         child: Stack(
                           children: [
                             Text(
-                              'OMNI',
+                              'OMNI Controller',
                               style: TextStyle(
                                 fontSize: MediaQuery.of(context).size.width * 0.02, // Adjust the font size
                                 foreground: Paint()
@@ -1314,7 +1314,7 @@ class _ProductZoomPageState extends State<ProductZoomPage> with TickerProviderSt
                               ),
                             ),
                             Text(
-                              'OMNI', // Replace with the actual product name or identifier
+                              'OMNI Controller', // Replace with the actual product name or identifier
                               style: TextStyle(
                                 fontSize: MediaQuery.of(context).size.width * 0.02, // Adjust the font size accordingly
                                 color: Colors.white, // Adjust the color if needed
@@ -1364,7 +1364,7 @@ class _ProductZoomPageState extends State<ProductZoomPage> with TickerProviderSt
                           },
                         ),
                         Text(
-                          'TEMP SENSOR',
+                          'TEMPERATURE SENSOR',
                           style: TextStyle(
                             fontSize: MediaQuery.of(context).size.width * 0.025,
                             fontWeight: FontWeight.bold,
@@ -1444,7 +1444,7 @@ class _ProductZoomPageState extends State<ProductZoomPage> with TickerProviderSt
                           },
                         ),
                         Text(
-                          'DUCT CO2',
+                          'DUCT CO2 TRANSMITTER',
                           style: TextStyle(
                             fontSize: MediaQuery.of(context).size.width * 0.025,
                             fontWeight: FontWeight.bold,
@@ -1484,7 +1484,7 @@ class _ProductZoomPageState extends State<ProductZoomPage> with TickerProviderSt
                           },
                         ),
                         Text(
-                          'DIFFERENTIAL PRESSURE',
+                          'DIFFERENTIAL PRESSURE TRANSMITTER',
                           style: TextStyle(
                             fontSize: MediaQuery.of(context).size.width * 0.025,
                             fontWeight: FontWeight.bold,
@@ -1564,7 +1564,7 @@ class _ProductZoomPageState extends State<ProductZoomPage> with TickerProviderSt
                           },
                         ),
                         Text(
-                          'AIR VELOCITY',
+                          'AIR VELOCITY TRANSMITTER',
                           style: TextStyle(
                             fontSize: MediaQuery.of(context).size.width * 0.025,
                             fontWeight: FontWeight.bold,
@@ -1644,7 +1644,7 @@ class _ProductZoomPageState extends State<ProductZoomPage> with TickerProviderSt
                           },
                         ),
                         Text(
-                          'OMNI',
+                          'OMNI CONTROLLER',
                           style: TextStyle(
                             fontSize: MediaQuery.of(context).size.width * 0.025,
                             fontWeight: FontWeight.bold,

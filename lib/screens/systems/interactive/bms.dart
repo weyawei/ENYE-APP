@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:model_viewer_plus/model_viewer_plus.dart'; // Import ModelViewer
 
-class FiremanControlPage extends StatefulWidget {
+class BMSPage extends StatefulWidget {
   @override
-  _FiremanControlPageState createState() => _FiremanControlPageState();
+  _BMSPageState createState() => _BMSPageState();
 }
 
-class _FiremanControlPageState extends State<FiremanControlPage> with TickerProviderStateMixin {
+class _BMSPageState extends State<BMSPage> with TickerProviderStateMixin {
   final TransformationController _transformationController = TransformationController();
   Offset? _arrowPosition;
   Offset? _floatingButtonPosition;
@@ -163,7 +163,7 @@ class _FiremanControlPageState extends State<FiremanControlPage> with TickerProv
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Fireman's Control Panel"),
+      appBar: AppBar(title: Text("BUILDING MANAGEMENT SYSTEM"),
         backgroundColor: Colors.transparent,
       ),
       backgroundColor: Colors.white,
@@ -181,24 +181,24 @@ class _FiremanControlPageState extends State<FiremanControlPage> with TickerProv
                   child: Stack(
                     children: [
                       Image.asset(
-                        'assets/systems/fdas/firemans.png',
+                        'assets/systems/bms/BMS_SCHEMATIC.png',
                         height: MediaQuery.of(context).size.height * 0.52, // Relative height
                         fit: BoxFit.fill,
                       ),
                       // GestureDetector for Product 1
-                      Positioned(
+                     /* Positioned(
                         left: MediaQuery.of(context).size.width * 0.16,
                         top: MediaQuery.of(context).size.height * 0.09, // Adjusted for relative positioning
                         width: MediaQuery.of(context).size.width * 0.15, // Relative size
                         height: MediaQuery.of(context).size.height * 0.09, // Relative size
                         child: GestureDetector(
                           onTap: () {
-                            /* _zoomToProduct(
+                            *//* _zoomToProduct(
                               Rect.fromLTWH(55, 70, 100, 100),
                               Offset(-30, -30),
                               Offset(-40, 50),
                                   () => _showProduct1Details(context),
-                            );*/
+                            );*//*
                             _showProduct1Details(context);
                           },
                           child: Stack(
@@ -240,7 +240,7 @@ class _FiremanControlPageState extends State<FiremanControlPage> with TickerProv
                         top: MediaQuery.of(context).size.height * 0.18, // Adjusted for relative positioning
                         child: Stack(
                           children: [
-                            Text(
+                            *//*Text(
                               'OMNI Controller',
                               style: TextStyle(
                                 fontSize: MediaQuery.of(context).size.width * 0.03, // Adjust the font size
@@ -256,10 +256,10 @@ class _FiremanControlPageState extends State<FiremanControlPage> with TickerProv
                                 fontSize: MediaQuery.of(context).size.width * 0.03, // Adjust the font size accordingly
                                 color: Colors.white, // Adjust the color if needed
                               ),
-                            ),
+                            ),*//*
                           ],
                         ),
-                      ),
+                      ),*/
 
                       // GestureDetector for Product 2
 
@@ -273,7 +273,7 @@ class _FiremanControlPageState extends State<FiremanControlPage> with TickerProv
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Column(
+                    /*Column(
                       children: [
                         IconButton(
                           icon: Image.asset(
@@ -294,12 +294,12 @@ class _FiremanControlPageState extends State<FiremanControlPage> with TickerProv
                               Offset(MediaQuery.of(context).size.width * -0.01, MediaQuery.of(context).size.height * 0.07),
                                   () => _showProduct1Details(context),
                             );
-                          /*  _zoomToProduct(
+                            *//*  _zoomToProduct(
                               Rect.fromLTWH(55, 50, 100, 100),
                               Offset(55, 185),
                               Offset(-40, 50),
                                   () => _showProduct1Details(context),
-                            );*/
+                            );*//*
                           },
                         ),
                         Text(
@@ -312,7 +312,7 @@ class _FiremanControlPageState extends State<FiremanControlPage> with TickerProv
                           textAlign: TextAlign.center,
                         ),
                       ],
-                    ),
+                    ),*/
 
                   ],
                 ),
