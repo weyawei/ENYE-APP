@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:chewie/chewie.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:video_player/video_player.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
@@ -51,6 +52,8 @@ class _videoPlayerViewState extends State<videoPlayerView> {
       showControls: true,
       videoPlayerController: _videoPlayerController,
       aspectRatio: 16/9,
+      // Add this property to control device orientation after exiting fullscreen
+      deviceOrientationsAfterFullScreen: [DeviceOrientation.portraitUp],
     );
   }
 
