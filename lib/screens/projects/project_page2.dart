@@ -1,13 +1,11 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:enye_app/screens/projects/projectsvc.dart';
 import 'package:flutter/material.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 
 import '../../config/api_connection.dart';
 import '../../widget/widgets.dart';
-import 'detailed_projects.dart';
-import 'list_projects.dart';
+import '../screens.dart';
 
 class ProjectPage2 extends StatefulWidget {
   const ProjectPage2({super.key});
@@ -17,12 +15,14 @@ class ProjectPage2 extends StatefulWidget {
 }
 
 class _ProjectPage2State extends State<ProjectPage2> {
+  late List<projCategories> _projCategory;
   late List<Projects> _projects;
   late List<Projects> _filteredProjects;
   late List<Projects> _projectsTop;
 
   bool _isLoading = true;
   bool _isLoadingTop = true;
+  bool _isLoadingCategory = true;
   int _current = 0;
 
   final ScrollController _scrollController = ScrollController();
@@ -40,7 +40,15 @@ class _ProjectPage2State extends State<ProjectPage2> {
         _filteredProjects = Projects;
       });
       _isLoading = false;
-  //    print("Length ${Projects.length}");
+    });
+  }
+
+  _getProjectCategory() {
+    projectSVC.getProjCategory().then((projCategory) {
+      setState(() {
+        _projCategory = projCategory;
+      });
+      _isLoadingCategory = false;
     });
   }
 
@@ -62,20 +70,12 @@ class _ProjectPage2State extends State<ProjectPage2> {
     _getProjects();
     _projectsTop = [];
     _getProjectsTop();
+    _projCategory = [];
+    _getProjectCategory();
   }
 
   String selectedCategory = "Active";
   String selectedLabel = "All";
-
-  final List<Map<String, String>> categories = [
-    {"name": "All", "icon": "assets/icons/proj_condo.png"},
-    {"name": "Malls", "icon": "assets/icons/proj_mall.png"},
-    {"name": "Resorts", "icon": "assets/icons/proj_resort.png"},
-    {"name": "Schools", "icon": "assets/icons/proj_school.png"},
-    {"name": "Buildings", "icon": "assets/icons/proj_buildings.png"},
-    {"name": "Manufacturing", "icon": "assets/icons/proj_manufacturing.png"},
-  ];
-
 
   void _scrollLeft() {
     _scrollController.animateTo(
@@ -101,7 +101,7 @@ class _ProjectPage2State extends State<ProjectPage2> {
     } else {
       setState(() {
         _filteredProjects = _projects.where((projects) =>
-        projects.category.toLowerCase().contains(query.toLowerCase())).toList();
+        projects.category.toLowerCase() == query.toLowerCase()).toList();
       });
     }
   }
@@ -116,10 +116,9 @@ class _ProjectPage2State extends State<ProjectPage2> {
     var fontNormalSize = ResponsiveTextUtils.getNormalFontSize(screenWidth);
     var fontExtraSize = ResponsiveTextUtils.getExtraFontSize(screenWidth);
     var fontXSize = ResponsiveTextUtils.getXFontSize(screenWidth);
-    var fontXXSize = ResponsiveTextUtils.getXXFontSize(screenWidth);
 
     return Scaffold(
-      body: _isLoading || _isLoadingTop
+      body: _isLoading || _isLoadingTop || _isLoadingCategory
       ? Center(child: CircularProgressIndicator(),)
       : RefreshIndicator(
         onRefresh: () async {
@@ -127,6 +126,7 @@ class _ProjectPage2State extends State<ProjectPage2> {
           setState(() {
             _getProjects();
             _getProjectsTop();
+            _getProjectCategory();
           });
         },
         child: ListView(
@@ -297,83 +297,18 @@ class _ProjectPage2State extends State<ProjectPage2> {
                     children: [
                       SizedBox(width: 20),
                       _buildCategoryIcon('assets/icons/select-all.png', "All", "Active"),
-                      /*SizedBox(width: 10),
-                      _buildCategoryIcon('assets/icons/proj_condo.png', "BMS", "11"),*/
-
-                      _projects
-                        .where((project) => project.category == "1")
-                        .length == 0
-                      ? SizedBox.shrink()
-                      : Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 10),
-                          child: _buildCategoryIcon('assets/icons/proj_school.png', "Schools", "1"),
-                        ),
-
-                      _projects
-                        .where((project) => project.category == "5")
-                        .length == 0
-                      ? SizedBox.shrink()
-                      : Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 10),
-                          child: _buildCategoryIcon('assets/icons/proj_buildings.png', "Buildings", "5"),
-                        ),
-
-                      _projects
-                        .where((project) => project.category == "6")
-                        .length == 0
-                      ? SizedBox.shrink()
-                      : Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 10),
-                          child: _buildCategoryIcon('assets/icons/proj_hospital.png', "Hospitals", "6"),
-                        ),
-
-                      _projects
-                        .where((project) => project.category == "7")
-                        .length == 0
-                      ? SizedBox.shrink()
-                      : Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 10),
-                          child: _buildCategoryIcon('assets/icons/proj_condo.png', "Condominium", "7"),
-                        ),
-
-                      _projects
-                        .where((project) => project.category == "8")
-                        .length == 0
-                      ? SizedBox.shrink()
-                      : Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 10),
-                          child: _buildCategoryIcon('assets/icons/proj_resort.png', "Hotels", "8"),
-                        ),
-
-                      _projects
-                          .where((project) => project.category == "9")
+                      ..._projCategory.map((projCategory) {
+                        return _projects
+                          .where((project) => project.category == projCategory.category)
                           .length == 0
-                      ? SizedBox.shrink()
-                      : Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 10),
-                          child: _buildCategoryIcon('assets/icons/proj_airport.png', "Industries", "9"),
-                        ),
+                          ? SizedBox.shrink()
+                          : Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 10),
+                              child: _buildCategoryIcon(projCategory.images, projCategory.title, projCategory.category),
+                            );
 
-                      _projects
-                        .where((project) => project.category == "10")
-                        .length == 0
-                      ? SizedBox.shrink()
-                      : Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 10),
-                        child: _buildCategoryIcon('assets/icons/proj_mall.png', "Malls", "10"),
-                      ),
+                      }).toList(),
                       SizedBox(width: 10),
-
-                      _projects
-                          .where((project) => project.category == "15")
-                          .length == 0
-                      ? SizedBox.shrink()
-                      : Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 10),
-                        child: _buildCategoryIcon('assets/icons/proj_manufacturing.png', "Manufacturing", "15"),
-                      ),
-                      SizedBox(width: 10),
-
                       // Add more icons as needed
                     ],
                   ),
@@ -569,15 +504,6 @@ class _ProjectPage2State extends State<ProjectPage2> {
                 ],
               ),
             ),
-
-            // Additional Content Below
-           /* Padding(
-              padding: EdgeInsets.all(16.0),
-              child: Text(
-                'List of Projects',
-                style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
-              ),
-            ),*/
           ],
         ),
       ),
@@ -602,28 +528,41 @@ class _ProjectPage2State extends State<ProjectPage2> {
         });
       },
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Image.asset(
-            imagePath,
-            width: fontExtraSize * 3,
-            height: fontExtraSize * 3,
-            color: selectedCategory == category ? Colors.deepOrange : Colors.black,
-          ),
-          SizedBox(height: 8.0),
+
+          label == "All"
+          ? Image.asset(
+              imagePath,
+              width: fontExtraSize * 3,
+              height: fontExtraSize * 3,
+              color: selectedCategory == category ? Colors.deepOrange : Colors.black,
+            )
+          : CachedNetworkImage(
+              imageUrl: API.projCategImage + imagePath,
+              width: fontExtraSize * 3,
+              height: fontExtraSize * 3,
+              color: selectedCategory == category ? Colors.deepOrange : Colors.black,
+              placeholder: (context, url) => Center(
+                child: CircularProgressIndicator(),
+              ),
+              errorWidget: (context, url, error) => Container(
+                color: Colors.black, // Fallback color if image fails to load
+              ),
+            ),
+
+          SizedBox(height: 5.0),
           Container(
             width: screenWidth * 0.2,
-            child: Column(
-              children: [
-                Text(
-                  label,
-                  style: TextStyle(
-                    color: selectedCategory == category ? Colors.deepOrange : Colors.black,
-                    fontWeight: FontWeight.bold,
-                    fontSize: fontNormalSize,
-                      overflow: TextOverflow.ellipsis
-                  ),
-                ),
-              ],
+            child: Text(
+              label,
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                color: selectedCategory == category ? Colors.deepOrange : Colors.black,
+                fontWeight: FontWeight.bold,
+                fontSize: fontNormalSize * 0.9,
+                overflow: TextOverflow.ellipsis
+              ),
             ),
           ),
         ],
