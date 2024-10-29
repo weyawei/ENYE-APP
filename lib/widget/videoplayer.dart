@@ -70,7 +70,7 @@ class _videoPlayerViewState extends State<videoPlayerView> {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 20.0),
       child: VisibilityDetector(
-        key: Key('video-visibility-key'),
+        key: Key('corporate-video-visibility-key'),
         onVisibilityChanged: (visibilityInfo) {
           if (visibilityInfo.visibleFraction == 0.0) {
             _videoPlayerController.pause();

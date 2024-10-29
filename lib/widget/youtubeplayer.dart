@@ -120,50 +120,40 @@ class _youtubePlayerViewState extends State<youtubePlayerView> {
 
   @override
   Widget build(BuildContext context) {
-    return YoutubePlayerBuilder(
-      player: YoutubePlayer(
-        controller: _controller,
-        showVideoProgressIndicator: true,
-        progressIndicatorColor: Colors.amber,
-        progressColors: ProgressBarColors(
-          playedColor: Colors.amber,
-          handleColor: Colors.amberAccent,
-        ),
-        bottomActions: [
-          CurrentPosition(),
-          ProgressBar(isExpanded: true),
-          RemainingDuration(),
-          IconButton(
-            icon: Icon(Icons.fullscreen, color: Colors.white),
-            onPressed: () {
+    return Container(
+      padding: EdgeInsets.symmetric(vertical: 10.0),
+      height: MediaQuery.of(context).size.height * 0.3,
+      child: FittedBox(
+        fit: BoxFit.fill,
+        child: _isInFullscreen
+            ? YoutubePlayer(controller: _controller)
+            : VisibilityDetector(
+          key: Key('system-video-visibility-key'),
+          onVisibilityChanged: (visibilityInfo) {
+            if (visibilityInfo.visibleFraction == 0.0) {
               _controller.pause();
-              _showFullScreenDialog(context, _controller.value.position); // Show the fullscreen dialog
-            },
-          ),
-        ],
-      ),
-      builder: (BuildContext context, player) {
-        return Container(
-          padding: EdgeInsets.symmetric(vertical: 10.0),
-          height: MediaQuery.of(context).size.height * 0.3,
-          child: FittedBox(
-            fit: BoxFit.fill,
-            child: _isInFullscreen
-                ? player
-                : VisibilityDetector(
-              key: Key('video-visibility-key'),
-              onVisibilityChanged: (visibilityInfo) {
-                if (visibilityInfo.visibleFraction < 1) {
+            } else if (!_isInFullscreen) {
+              _controller.play();
+            }
+          },
+          child: YoutubePlayer(
+            controller: _controller,
+            showVideoProgressIndicator: true,
+            bottomActions: [
+              CurrentPosition(),
+              ProgressBar(isExpanded: true),
+              RemainingDuration(),
+              IconButton(
+                icon: Icon(Icons.fullscreen, color: Colors.white),
+                onPressed: () {
                   _controller.pause();
-                } else {
-                  _controller.play();
-                }
-              },
-              child: player,
-            ),
+                  _showFullScreenDialog(context, _controller.value.position);
+                },
+              ),
+            ],
           ),
-        );
-      },
+        ),
+      ),
     );
   }
 }
