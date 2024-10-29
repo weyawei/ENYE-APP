@@ -458,18 +458,18 @@ class _homePageState extends State<homePage> with TickerProviderStateMixin{
 
                     SizedBox(height: 30,),
                     Container(
-                      padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.075),
+                      padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.1),
                       child: RichText(
                         textAlign: TextAlign.justify,
                         softWrap: true,
                         text: TextSpan(children: <TextSpan>
                         [
-                          TextSpan(text: '  Enyecontrols',
-                            style: TextStyle(fontSize: fontNormalSize, fontWeight: FontWeight.bold, color: Colors.grey, letterSpacing: 0.8, height: 1.6 ),),
+                          TextSpan(text: '\t\tEnyecontrols',
+                            style: TextStyle(fontSize: fontNormalSize, fontWeight: FontWeight.bold, color: Colors.grey, letterSpacing: 0.6, height: 1.6 ),),
                           TextSpan(text: " is a controls company which is actively involved in more than 90% of all major projects nationwide. Our wide range of clients includes commercial buildings, data centers, hotels, semiconductors, hospitals, and manufacturing plants, retail buildings, residential including fit-outs and retrofits.",
-                            style: TextStyle(fontSize: fontNormalSize, color: Colors.grey, letterSpacing: 0.8, height: 1.6),),
-                          TextSpan(text: " We are known for project design, conceptualization, supply, installation of controls systems and devices but most importantly preventive maintenance and after-sales technical support.",
-                            style: TextStyle(fontSize: fontNormalSize, fontWeight: FontWeight.bold, color: Colors.grey, letterSpacing: 0.8, height: 1.6),),
+                            style: TextStyle(fontSize: fontNormalSize, color: Colors.grey, letterSpacing: 0.6, height: 1.6),),
+                          TextSpan(text: "\n\t\tWe are known for project design, supply, conceptualization, installation of controls systems and devices but most importantly preventive maintenance and after-sales technical support.",
+                            style: TextStyle(fontSize: fontNormalSize, fontWeight: FontWeight.bold, color: Colors.grey, letterSpacing: 0.6, height: 1.6),),
                         ]
                         ),
                       ),
