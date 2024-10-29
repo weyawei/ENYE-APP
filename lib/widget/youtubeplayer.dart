@@ -32,6 +32,9 @@ class _youtubePlayerViewState extends State<youtubePlayerView> {
         forceHD: true,
       ),
     );
+
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: SystemUiOverlay.values);
+
   }
 
   @override
