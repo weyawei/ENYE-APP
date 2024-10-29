@@ -7,7 +7,7 @@ import 'package:url_launcher/url_launcher.dart';
 
 class VersionCheck {
   static Future<void> checkForUpdate(BuildContext context) async {
-    final String apiUrl = 'https://enye.com.ph/enyecontrols_app_test/enye/check_version_sample.php'; // Replace with your API URL
+    final String apiUrl = 'https://enye.com.ph/enyecontrols_app_test/enye/check_version.php'; // Replace with your API URL
 
     try {
       final response = await http.get(Uri.parse(apiUrl));
