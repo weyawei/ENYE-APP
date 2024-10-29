@@ -96,6 +96,7 @@ dependencies:
   timeline_tile:
   package_info_plus:
   device_info_plus:
+  youtube_player_iframe:
 
 #    this is for 3d purposes
   model_viewer_plus:
