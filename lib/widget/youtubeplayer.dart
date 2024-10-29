@@ -96,6 +96,7 @@ class _youtubePlayerViewState extends State<youtubePlayerView> {
                   onPressed: () {
                     dialogController.pause();
                     _controller.seekTo(dialogController.value.position);
+                    _controller.play();
                     Navigator.of(context).pop();
                   },
                 ),
@@ -113,7 +114,7 @@ class _youtubePlayerViewState extends State<youtubePlayerView> {
         DeviceOrientation.portraitDown,
       ]);
 
-      _controller.pause();
+      _controller.play();
       dialogController.dispose();
     });
   }
@@ -125,9 +126,7 @@ class _youtubePlayerViewState extends State<youtubePlayerView> {
       height: MediaQuery.of(context).size.height * 0.3,
       child: FittedBox(
         fit: BoxFit.fill,
-        child: _isInFullscreen
-            ? YoutubePlayer(controller: _controller)
-            : VisibilityDetector(
+        child: VisibilityDetector(
           key: Key('system-video-visibility-key'),
           onVisibilityChanged: (visibilityInfo) {
             if (visibilityInfo.visibleFraction == 0.0) {
