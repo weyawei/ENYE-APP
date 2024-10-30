@@ -362,120 +362,126 @@ class _OrderDetailsPageState extends State<OrderDetailsPage> {
 
                   SizedBox(height: screenHeight * 0.02),
                   _items.isNotEmpty
-                  ? Table(
-                    border: TableBorder.all(color: Colors.deepOrange.shade500),
-                    columnWidths: <int, TableColumnWidth>{
-                      0: FixedColumnWidth(screenWidth * 0.1),
-                      1: FlexColumnWidth(),
-                    },
-                    defaultVerticalAlignment: TableCellVerticalAlignment.middle,
-                    children: <TableRow>[
-                      TableRow(
-                        decoration: BoxDecoration(
-                            color: Colors.deepOrange.shade300
-                        ),
-                        children: <Widget>[
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Text(
-                                'QTY',
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: fontSmallSize,
-                                    letterSpacing: 0.8,
-                                    color: Colors.white
-                                )
-                            ),
+                  ? InteractiveViewer(
+                    minScale: 0.5,
+                    maxScale: 2.0,
+                    child: Table(
+                      border: TableBorder.all(color: Colors.deepOrange.shade500),
+                      columnWidths: <int, TableColumnWidth>{
+                        0: FixedColumnWidth(screenWidth * 0.115),
+                        1: FlexColumnWidth(),
+                      },
+                      defaultVerticalAlignment: TableCellVerticalAlignment.middle,
+                      children: <TableRow>[
+                        TableRow(
+                          decoration: BoxDecoration(
+                              color: Colors.deepOrange.shade300
                           ),
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Text(
-                                'ITEM NAME',
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: fontSmallSize,
-                                    letterSpacing: 0.8,
-                                    color: Colors.white
-                                )
-                            ),
-                          ),
-                        ],
-                      ),
-
-                      ..._items.map((item) {
-
-                        return TableRow(
                           children: <Widget>[
                             Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: Text(
-                                  item.qty,
+                                  'QTY',
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
+                                      fontWeight: FontWeight.bold,
                                       fontSize: fontSmallSize,
-                                      letterSpacing: 0.8
+                                      letterSpacing: 0.8,
+                                      color: Colors.white
                                   )
                               ),
                             ),
                             Padding(
                               padding: const EdgeInsets.all(8.0),
-                              child: Column(
-                                children: [
-                                  Text(
-                                    item.item_name.toUpperCase(),
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: fontSmallSize,
-                                        letterSpacing: 0.8
-                                    )
-                                  ),
-                                  Text(
-                                    item.item_desc,
-                                    style: TextStyle(
-                                      color: Colors.black54,
-                                      fontSize: fontXSmallSize,
-                                      letterSpacing: 0.8
-                                    )
-                                  ),
-
-                                  SizedBox(height: 6,),
-                                  item.status_remarks == ''
-                                  ? SizedBox.shrink()
-                                  : Row(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        "Status : \t",
-                                        textAlign: TextAlign.left,
-                                        style: TextStyle(
-                                          color: Colors.green.shade700,
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: fontXSmallSize * 0.9,
-                                          letterSpacing: 0.8
-                                        )
-                                      ),
-                                      Expanded(
-                                        child: Text(
-                                          item.status_remarks,
-                                          textAlign: TextAlign.left,
-                                          style: TextStyle(
-                                            fontStyle: FontStyle.italic,
-                                            fontSize: fontXSmallSize * 0.9,
-                                            letterSpacing: 0.8
-                                          )
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ],
+                              child: Text(
+                                  'ITEM NAME',
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: fontSmallSize,
+                                      letterSpacing: 0.8,
+                                      color: Colors.white
+                                  )
                               ),
                             ),
                           ],
-                        );
-                      }).toList(),
-                    ],
+                        ),
+
+                        ..._items.map((item) {
+
+                          return TableRow(
+                            children: <Widget>[
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Text(
+                                    item.qty,
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                        fontSize: fontSmallSize,
+                                        letterSpacing: 0.8
+                                    )
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Column(
+                                  children: [
+                                    Text(
+                                      item.item_name.toUpperCase(),
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: fontSmallSize,
+                                          letterSpacing: 0.8
+                                      )
+                                    ),
+                                    SizedBox(height: 2,),
+                                    Text(
+                                      item.item_desc,
+                                      style: TextStyle(
+                                        color: Colors.black54,
+                                        fontSize: fontXSmallSize,
+                                        letterSpacing: 0.8
+                                      )
+                                    ),
+
+                                    SizedBox(height: 6,),
+                                    item.status_remarks == ''
+                                    ? SizedBox.shrink()
+                                    : Row(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          "Status : \t",
+                                          textAlign: TextAlign.left,
+                                          style: TextStyle(
+                                            color: Colors.green.shade700,
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: fontSmallSize * 0.95,
+                                            letterSpacing: 0.8
+                                          )
+                                        ),
+                                        Expanded(
+                                          child: Text(
+                                            item.status_remarks,
+                                            textAlign: TextAlign.left,
+                                            style: TextStyle(
+                                              fontStyle: FontStyle.italic,
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: fontSmallSize * 0.95,
+                                              letterSpacing: 0.8
+                                            )
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          );
+                        }).toList(),
+                      ],
+                    ),
                   )
                   : Center(
                     child: Padding(

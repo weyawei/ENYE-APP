@@ -363,7 +363,7 @@ class _OrderTracking2PageState extends State<OrderTracking2Page> {
                                               "Order Summary",
                                               style: TextStyle(
                                                 fontWeight: FontWeight.bold,
-                                                fontSize: fontSmallSize * 0.9,
+                                                fontSize: fontSmallSize * 0.8,
                                                 letterSpacing: 0.8,
                                                 color: Colors.grey.shade800, // Text color
                                               ),
