@@ -10,7 +10,8 @@ class checkSession {
     // Check if the key exists and is not empty
     if (await SessionManager().containsKey("client_data")) {
       var clientData = await SessionManager().get("client_data");
-      return clientData != null && clientData.isNotEmpty;
+      // return clientData != null || clientData.isNotEmpty;
+      return clientData != null || clientData['name'] != null || clientData['name'].isNotEmpty || clientData.isNotEmpty;
     }
     return false;
   }
