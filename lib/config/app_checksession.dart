@@ -11,7 +11,10 @@ class checkSession {
     if (await SessionManager().containsKey("client_data")) {
       var clientData = await SessionManager().get("client_data");
       // return clientData != null || clientData.isNotEmpty;
-      return clientData != null || clientData['name'] != null || clientData['name'].isNotEmpty || clientData.isNotEmpty;
+      return clientData != null &&
+          clientData.isNotEmpty &&
+          clientData['name'] != null &&
+          clientData['name'].isNotEmpty;
     }
     return false;
   }
